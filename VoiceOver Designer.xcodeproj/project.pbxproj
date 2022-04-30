@@ -1,0 +1,584 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1E1D7FF1281D5CBE00B64954 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1D7FF0281D5CBE00B64954 /* AppDelegate.swift */; };
+		1E1D7FF3281D5CBE00B64954 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1D7FF2281D5CBE00B64954 /* ViewController.swift */; };
+		1E1D7FF5281D5CBF00B64954 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E1D7FF4281D5CBF00B64954 /* Assets.xcassets */; };
+		1E1D7FF8281D5CBF00B64954 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E1D7FF6281D5CBF00B64954 /* Main.storyboard */; };
+		1E1D8003281D5CC000B64954 /* VoiceOver_DesignerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1D8002281D5CC000B64954 /* VoiceOver_DesignerTests.swift */; };
+		1E1D800D281D5CC000B64954 /* VoiceOver_DesignerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1D800C281D5CC000B64954 /* VoiceOver_DesignerUITests.swift */; };
+		1E1D800F281D5CC000B64954 /* VoiceOver_DesignerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1D800E281D5CC000B64954 /* VoiceOver_DesignerUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1E1D7FFF281D5CC000B64954 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1E1D7FE5281D5CBE00B64954 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1E1D7FEC281D5CBE00B64954;
+			remoteInfo = "VoiceOver Designer";
+		};
+		1E1D8009281D5CC000B64954 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1E1D7FE5281D5CBE00B64954 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1E1D7FEC281D5CBE00B64954;
+			remoteInfo = "VoiceOver Designer";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1E1D7FED281D5CBE00B64954 /* VoiceOver Designer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VoiceOver Designer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1E1D7FF0281D5CBE00B64954 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		1E1D7FF2281D5CBE00B64954 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1E1D7FF4281D5CBF00B64954 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1E1D7FF7281D5CBF00B64954 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1E1D7FF9281D5CBF00B64954 /* VoiceOver_Designer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VoiceOver_Designer.entitlements; sourceTree = "<group>"; };
+		1E1D7FFE281D5CC000B64954 /* VoiceOver DesignerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VoiceOver DesignerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1E1D8002281D5CC000B64954 /* VoiceOver_DesignerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceOver_DesignerTests.swift; sourceTree = "<group>"; };
+		1E1D8008281D5CC000B64954 /* VoiceOver DesignerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VoiceOver DesignerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1E1D800C281D5CC000B64954 /* VoiceOver_DesignerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceOver_DesignerUITests.swift; sourceTree = "<group>"; };
+		1E1D800E281D5CC000B64954 /* VoiceOver_DesignerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceOver_DesignerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1E1D7FEA281D5CBE00B64954 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1E1D7FFB281D5CC000B64954 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1E1D8005281D5CC000B64954 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1E1D7FE4281D5CBE00B64954 = {
+			isa = PBXGroup;
+			children = (
+				1E1D7FEF281D5CBE00B64954 /* VoiceOver Designer */,
+				1E1D8001281D5CC000B64954 /* VoiceOver DesignerTests */,
+				1E1D800B281D5CC000B64954 /* VoiceOver DesignerUITests */,
+				1E1D7FEE281D5CBE00B64954 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1E1D7FEE281D5CBE00B64954 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1E1D7FED281D5CBE00B64954 /* VoiceOver Designer.app */,
+				1E1D7FFE281D5CC000B64954 /* VoiceOver DesignerTests.xctest */,
+				1E1D8008281D5CC000B64954 /* VoiceOver DesignerUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1E1D7FEF281D5CBE00B64954 /* VoiceOver Designer */ = {
+			isa = PBXGroup;
+			children = (
+				1E1D7FF0281D5CBE00B64954 /* AppDelegate.swift */,
+				1E1D7FF2281D5CBE00B64954 /* ViewController.swift */,
+				1E1D7FF4281D5CBF00B64954 /* Assets.xcassets */,
+				1E1D7FF6281D5CBF00B64954 /* Main.storyboard */,
+				1E1D7FF9281D5CBF00B64954 /* VoiceOver_Designer.entitlements */,
+			);
+			path = "VoiceOver Designer";
+			sourceTree = "<group>";
+		};
+		1E1D8001281D5CC000B64954 /* VoiceOver DesignerTests */ = {
+			isa = PBXGroup;
+			children = (
+				1E1D8002281D5CC000B64954 /* VoiceOver_DesignerTests.swift */,
+			);
+			path = "VoiceOver DesignerTests";
+			sourceTree = "<group>";
+		};
+		1E1D800B281D5CC000B64954 /* VoiceOver DesignerUITests */ = {
+			isa = PBXGroup;
+			children = (
+				1E1D800C281D5CC000B64954 /* VoiceOver_DesignerUITests.swift */,
+				1E1D800E281D5CC000B64954 /* VoiceOver_DesignerUITestsLaunchTests.swift */,
+			);
+			path = "VoiceOver DesignerUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1E1D7FEC281D5CBE00B64954 /* VoiceOver Designer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1E1D8012281D5CC000B64954 /* Build configuration list for PBXNativeTarget "VoiceOver Designer" */;
+			buildPhases = (
+				1E1D7FE9281D5CBE00B64954 /* Sources */,
+				1E1D7FEA281D5CBE00B64954 /* Frameworks */,
+				1E1D7FEB281D5CBE00B64954 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "VoiceOver Designer";
+			productName = "VoiceOver Designer";
+			productReference = 1E1D7FED281D5CBE00B64954 /* VoiceOver Designer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1E1D7FFD281D5CC000B64954 /* VoiceOver DesignerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1E1D8015281D5CC000B64954 /* Build configuration list for PBXNativeTarget "VoiceOver DesignerTests" */;
+			buildPhases = (
+				1E1D7FFA281D5CC000B64954 /* Sources */,
+				1E1D7FFB281D5CC000B64954 /* Frameworks */,
+				1E1D7FFC281D5CC000B64954 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1E1D8000281D5CC000B64954 /* PBXTargetDependency */,
+			);
+			name = "VoiceOver DesignerTests";
+			productName = "VoiceOver DesignerTests";
+			productReference = 1E1D7FFE281D5CC000B64954 /* VoiceOver DesignerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		1E1D8007281D5CC000B64954 /* VoiceOver DesignerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1E1D8018281D5CC000B64954 /* Build configuration list for PBXNativeTarget "VoiceOver DesignerUITests" */;
+			buildPhases = (
+				1E1D8004281D5CC000B64954 /* Sources */,
+				1E1D8005281D5CC000B64954 /* Frameworks */,
+				1E1D8006281D5CC000B64954 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1E1D800A281D5CC000B64954 /* PBXTargetDependency */,
+			);
+			name = "VoiceOver DesignerUITests";
+			productName = "VoiceOver DesignerUITests";
+			productReference = 1E1D8008281D5CC000B64954 /* VoiceOver DesignerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1E1D7FE5281D5CBE00B64954 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1330;
+				LastUpgradeCheck = 1330;
+				TargetAttributes = {
+					1E1D7FEC281D5CBE00B64954 = {
+						CreatedOnToolsVersion = 13.3;
+					};
+					1E1D7FFD281D5CC000B64954 = {
+						CreatedOnToolsVersion = 13.3;
+						TestTargetID = 1E1D7FEC281D5CBE00B64954;
+					};
+					1E1D8007281D5CC000B64954 = {
+						CreatedOnToolsVersion = 13.3;
+						TestTargetID = 1E1D7FEC281D5CBE00B64954;
+					};
+				};
+			};
+			buildConfigurationList = 1E1D7FE8281D5CBE00B64954 /* Build configuration list for PBXProject "VoiceOver Designer" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1E1D7FE4281D5CBE00B64954;
+			productRefGroup = 1E1D7FEE281D5CBE00B64954 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1E1D7FEC281D5CBE00B64954 /* VoiceOver Designer */,
+				1E1D7FFD281D5CC000B64954 /* VoiceOver DesignerTests */,
+				1E1D8007281D5CC000B64954 /* VoiceOver DesignerUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1E1D7FEB281D5CBE00B64954 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E1D7FF5281D5CBF00B64954 /* Assets.xcassets in Resources */,
+				1E1D7FF8281D5CBF00B64954 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1E1D7FFC281D5CC000B64954 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1E1D8006281D5CC000B64954 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1E1D7FE9281D5CBE00B64954 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E1D7FF3281D5CBE00B64954 /* ViewController.swift in Sources */,
+				1E1D7FF1281D5CBE00B64954 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1E1D7FFA281D5CC000B64954 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E1D8003281D5CC000B64954 /* VoiceOver_DesignerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1E1D8004281D5CC000B64954 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E1D800F281D5CC000B64954 /* VoiceOver_DesignerUITestsLaunchTests.swift in Sources */,
+				1E1D800D281D5CC000B64954 /* VoiceOver_DesignerUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1E1D8000281D5CC000B64954 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1E1D7FEC281D5CBE00B64954 /* VoiceOver Designer */;
+			targetProxy = 1E1D7FFF281D5CC000B64954 /* PBXContainerItemProxy */;
+		};
+		1E1D800A281D5CC000B64954 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1E1D7FEC281D5CBE00B64954 /* VoiceOver Designer */;
+			targetProxy = 1E1D8009281D5CC000B64954 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1E1D7FF6281D5CBF00B64954 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E1D7FF7281D5CBF00B64954 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1E1D8010281D5CC000B64954 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		1E1D8011281D5CC000B64954 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		1E1D8013281D5CC000B64954 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "VoiceOver Designer/VoiceOver_Designer.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.akaDuality.VoiceOver-Designer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		1E1D8014281D5CC000B64954 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "VoiceOver Designer/VoiceOver_Designer.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.akaDuality.VoiceOver-Designer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		1E1D8016281D5CC000B64954 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.akaDuality.VoiceOver-DesignerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VoiceOver Designer.app/Contents/MacOS/VoiceOver Designer";
+			};
+			name = Debug;
+		};
+		1E1D8017281D5CC000B64954 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.akaDuality.VoiceOver-DesignerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VoiceOver Designer.app/Contents/MacOS/VoiceOver Designer";
+			};
+			name = Release;
+		};
+		1E1D8019281D5CC000B64954 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.akaDuality.VoiceOver-DesignerUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "VoiceOver Designer";
+			};
+			name = Debug;
+		};
+		1E1D801A281D5CC000B64954 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.akaDuality.VoiceOver-DesignerUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "VoiceOver Designer";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1E1D7FE8281D5CBE00B64954 /* Build configuration list for PBXProject "VoiceOver Designer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1E1D8010281D5CC000B64954 /* Debug */,
+				1E1D8011281D5CC000B64954 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1E1D8012281D5CC000B64954 /* Build configuration list for PBXNativeTarget "VoiceOver Designer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1E1D8013281D5CC000B64954 /* Debug */,
+				1E1D8014281D5CC000B64954 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1E1D8015281D5CC000B64954 /* Build configuration list for PBXNativeTarget "VoiceOver DesignerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1E1D8016281D5CC000B64954 /* Debug */,
+				1E1D8017281D5CC000B64954 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1E1D8018281D5CC000B64954 /* Build configuration list for PBXNativeTarget "VoiceOver DesignerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1E1D8019281D5CC000B64954 /* Debug */,
+				1E1D801A281D5CC000B64954 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1E1D7FE5281D5CBE00B64954 /* Project object */;
+}
