@@ -8,6 +8,7 @@
 import XCTest
 import Document
 
+#if os(macOS)
 class VODesignDocumentTests: XCTestCase {
 
     let path = FileManager.default.urls(
@@ -40,3 +41,4 @@ class VODesignDocumentTests: XCTestCase {
         XCTAssertEqual(document2.controls.count, 2)
     }
 }
+#endif
