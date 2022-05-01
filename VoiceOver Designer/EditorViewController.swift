@@ -6,6 +6,7 @@
 //
 
 import Cocoa
+import Document
 
 class EditorViewController: NSViewController {
 
@@ -108,16 +109,7 @@ extension EditorViewController: SettingsDelegate {
     }
 }
 
-extension CALayer {
-    public func updateWithoutAnimation(_ block: () -> Void) {
-        CATransaction.begin()
-        CATransaction.setAnimationDuration(0)
-        block()
-        CATransaction.commit()
-    }
-}
-
-class EditorView: NSView {
+class EditorView: FlippedView {
     @IBOutlet weak var scrollView: NSScrollView!
     
     override func awakeFromNib() {
@@ -126,4 +118,13 @@ class EditorView: NSView {
         scrollView.magnification = 3
     }
 }
+
+class FlippedView: NSView {
+    override var isFlipped: Bool {
+        get {
+            true
+        }
+    }
+}
+
 

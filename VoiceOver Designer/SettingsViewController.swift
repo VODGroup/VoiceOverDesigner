@@ -6,6 +6,7 @@
 //
 
 import AppKit
+import Document
 
 protocol SettingsDelegate: AnyObject {
     func didUpdateValue()

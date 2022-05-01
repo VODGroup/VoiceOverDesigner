@@ -8,6 +8,6 @@
       location = "group:VoiceOver Designer.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Document/Document.xcodeproj">
+      location = "group:Document">
    </FileRef>
 </Workspace>

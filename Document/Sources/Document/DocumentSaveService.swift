@@ -7,14 +7,20 @@
 
 import Foundation
 
-class DocumentSaveService {
+public class DocumentSaveService {
     
-    var fileURL = FileManager.default
+    public init(fileURL: URL = DocumentSaveService.iCloudSample) {
+        self.fileURL = fileURL
+    }
+    
+    private let fileURL: URL
+    
+    public static let iCloudSample = FileManager.default
         .url(forUbiquityContainerIdentifier: nil)!
         .appendingPathComponent("Documents")
-        .appendingPathComponent("A11yControls.txt")
+        .appendingPathComponent("A11yControls.json")
     
-    func save(controls: [A11yControl]) {
+    public func save(controls: [A11yControl]) {
         let descriptions = controls.map { control in
             control.a11yDescription
         }
@@ -26,7 +32,7 @@ class DocumentSaveService {
         try! data.write(to: fileURL)
     }
     
-    func loadControls() throws -> [A11yDescription] {
+    public func loadControls() throws -> [A11yDescription] {
         let data = try Data(contentsOf: fileURL)
         let controls = try JSONDecoder().decode([A11yDescription].self, from: data)
         return controls

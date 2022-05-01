@@ -5,32 +5,49 @@
 //  Created by Mikhail Rubanov on 30.04.2022.
 //
 
+#if canImport(UIKit)
+import UIKit
+public typealias View = UIView
+extension View {
+    func addSublayer(_ layer: CALayer) {
+        self.layer.addSublayer(layer)
+    }
+}
+#else
 import AppKit
+public typealias View = NSView
 
-class DrawingService {
-    init(view: NSView) {
+extension View {
+    func addSublayer(_ layer: CALayer) {
+        self.layer!.addSublayer(layer)
+    }
+}
+#endif
+
+public class DrawingService {
+    public init(view: View) {
         self.view = view
     }
     
-    private let view: NSView
+    private let view: View
     
     var origin: CGPoint?
     var control: A11yControl?
     
     // MARK: Drawn from existed controls
     
-    func drawControl(from description: A11yDescription) {
+    public func drawControl(from description: A11yDescription) {
         let control = A11yControl()
         control.a11yDescription = description
         control.frame = description.frame
         control.backgroundColor = description.color.cgColor
         
-        view.layer!.addSublayer(control)
+        view.addSublayer(control)
         drawnControls.append(control)
     }
     
     // MARK: New drawing
-    func start(coordinate: CGPoint) {
+    public func start(coordinate: CGPoint) {
         self.origin = coordinate
         
         control = A11yControl()
@@ -39,10 +56,10 @@ class DrawingService {
         
         drawnControls.append(control!)
         
-        view.layer?.addSublayer(control!)
+        view.addSublayer(control!)
     }
     
-    func drag(to coordinate: CGPoint) {
+    public func drag(to coordinate: CGPoint) {
         guard let origin = origin else { return }
         
         control?.updateWithoutAnimation {
@@ -53,20 +70,20 @@ class DrawingService {
         }
     }
     
-    func end(coordinate: CGPoint) {
+    public func end(coordinate: CGPoint) {
         drag(to: coordinate)
         
         self.control = nil
     }
     
     // MARK: Existed
-    func control(at coordinate: CGPoint) -> A11yControl? {
+    public func control(at coordinate: CGPoint) -> A11yControl? {
         drawnControls.first { control in
             control.frame.contains(coordinate)
         }
     }
     
-    func delete(control: A11yControl) {
+    public func delete(control: A11yControl) {
         control.removeFromSuperlayer()
         
         if let index = drawnControls.firstIndex(of: control) {
@@ -74,5 +91,14 @@ class DrawingService {
         }
     }
     
-    var drawnControls: [A11yControl] = []
+    public private(set) var drawnControls: [A11yControl] = []
+}
+
+extension CALayer {
+    public func updateWithoutAnimation(_ block: () -> Void) {
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0)
+        block()
+        CATransaction.commit()
+    }
 }

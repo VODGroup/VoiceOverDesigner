@@ -10,10 +10,10 @@ import CoreGraphics
 
 #if canImport(UIKit)
     import UIKit
-    typealias Color = UIColor
+    public typealias Color = UIColor
 #else
     import AppKit
-    typealias Color = NSColor
+    public typealias Color = NSColor
 #endif
 
 public struct A11yDescription: Codable {
@@ -30,14 +30,14 @@ public struct A11yDescription: Codable {
             self.frame = frame
         }
     
-    var label: String
-    var value: String
-    var hint: String
-    var trait: A11yTraits
+    public var label: String
+    public var value: String
+    public var hint: String
+    public var trait: A11yTraits
     
-    var frame: CGRect
+    public var frame: CGRect
     
-    static func empty(frame: CGRect) -> Self {
+    public static func empty(frame: CGRect) -> Self {
         A11yDescription(label: "", value: "", hint: "", trait: .none, frame: frame)
     }
     
@@ -45,7 +45,7 @@ public struct A11yDescription: Codable {
         !label.isEmpty
     }
     
-    var color: Color {
+    public var color: Color {
         (isValid ? Self.validColor: Self.notValidColor).withAlphaComponent(0.3)
     }
     
