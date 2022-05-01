@@ -8,6 +8,14 @@ public class VODesignDocument: Document {
     
     lazy var saveService: DocumentSaveService = DocumentSaveService(fileURL: fileURL)
     
+    public func save() {
+        
+    }
+    
+    public func read() throws {
+        controls = try saveService.loadControls()
+    }
+    
     public override func save(to url: URL, for saveOperation: Document.SaveOperation) async -> Bool {
         
         do {

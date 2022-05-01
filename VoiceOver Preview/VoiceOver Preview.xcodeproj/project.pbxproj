@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1E0338FF281E732600EE373E /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E0338FE281E732600EE373E /* Document */; };
-		1E033903281E75E300EE373E /* A11yControls.json in Resources */ = {isa = PBXBuildFile; fileRef = 1EEB1C02281E706B00615EA9 /* A11yControls.json */; };
+		1E033903281E75E300EE373E /* controls.json in Resources */ = {isa = PBXBuildFile; fileRef = 1EEB1C02281E706B00615EA9 /* controls.json */; };
 		1EEB1BCF281E3DA000615EA9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB1BCE281E3DA000615EA9 /* AppDelegate.swift */; };
 		1EEB1BD1281E3DA000615EA9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB1BD0281E3DA000615EA9 /* SceneDelegate.swift */; };
 		1EEB1BD3281E3DA000615EA9 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB1BD2281E3DA000615EA9 /* PreviewViewController.swift */; };
@@ -38,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1E033904281EB0A900EE373E /* VoiceOver Preview.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "VoiceOver Preview.entitlements"; sourceTree = "<group>"; };
 		1EEB1BCB281E3DA000615EA9 /* VoiceOver Preview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VoiceOver Preview.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EEB1BCE281E3DA000615EA9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1EEB1BD0281E3DA000615EA9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -51,7 +52,7 @@
 		1EEB1BEF281E3DA200615EA9 /* VoiceOver_PreviewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceOver_PreviewUITests.swift; sourceTree = "<group>"; };
 		1EEB1BF1281E3DA200615EA9 /* VoiceOver_PreviewUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceOver_PreviewUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		1EEB1BFE281E3EF600615EA9 /* VoiceOver_PreviewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceOver_PreviewTests.swift; sourceTree = "<group>"; };
-		1EEB1C02281E706B00615EA9 /* A11yControls.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = A11yControls.json; sourceTree = "<group>"; };
+		1EEB1C02281E706B00615EA9 /* controls.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = controls.json; sourceTree = "<group>"; };
 		1EEB1C08281E718700615EA9 /* Document.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Document.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -105,12 +106,13 @@
 		1EEB1BCD281E3DA000615EA9 /* VoiceOver Preview */ = {
 			isa = PBXGroup;
 			children = (
+				1E033904281EB0A900EE373E /* VoiceOver Preview.entitlements */,
 				1EEB1BCE281E3DA000615EA9 /* AppDelegate.swift */,
 				1EEB1BD0281E3DA000615EA9 /* SceneDelegate.swift */,
 				1EEB1BD2281E3DA000615EA9 /* PreviewViewController.swift */,
 				1EEB1BD4281E3DA000615EA9 /* Main.storyboard */,
 				1EEB1BD7281E3DA100615EA9 /* Assets.xcassets */,
-				1EEB1C02281E706B00615EA9 /* A11yControls.json */,
+				1EEB1C02281E706B00615EA9 /* controls.json */,
 				1EEB1BD9281E3DA100615EA9 /* LaunchScreen.storyboard */,
 				1EEB1BDC281E3DA100615EA9 /* Info.plist */,
 			);
@@ -251,7 +253,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1EEB1BDB281E3DA100615EA9 /* LaunchScreen.storyboard in Resources */,
-				1E033903281E75E300EE373E /* A11yControls.json in Resources */,
+				1E033903281E75E300EE373E /* controls.json in Resources */,
 				1EEB1BD8281E3DA100615EA9 /* Assets.xcassets in Resources */,
 				1EEB1BD6281E3DA000615EA9 /* Main.storyboard in Resources */,
 			);
@@ -455,6 +457,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "VoiceOver Preview/VoiceOver Preview.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = P67Q4Q7HA9;
@@ -483,6 +486,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "VoiceOver Preview/VoiceOver Preview.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = P67Q4Q7HA9;

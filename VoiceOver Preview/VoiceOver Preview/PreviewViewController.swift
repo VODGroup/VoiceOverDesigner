@@ -16,12 +16,11 @@ final class PreviewViewController: UIViewController {
         loadAndDraw()
     }
     
-    
-    
     private lazy var drawingService = DrawingService(view: view)
-    private lazy var documentSaveService: DocumentSaveService = {
-        let url = Bundle.main.url(forResource: "A11yControls", withExtension: "json")!
-        return DocumentSaveService(fileURL: url)
+    private lazy var document: VODesignDocument = {
+        let url = Bundle.main.url(forResource: "controls",
+                                  withExtension: "json")!
+        return VODesignDocument(fileURL: url.deletingLastPathComponent())
     }()
     
     func view() -> PreviewView {
@@ -30,9 +29,9 @@ final class PreviewViewController: UIViewController {
     
     private func loadAndDraw() {
         do {
-            let controls = try documentSaveService.loadControls()
-            controls.forEach(drawingService.drawControl(from:))
-            view().layout = VoiceOverLayout(controls: controls, container: view)
+            try document.read()
+            document.controls.forEach(drawingService.drawControl(from:))
+            view().layout = VoiceOverLayout(controls: document.controls, container: view)
         } catch let error {
             print(error)
         }
