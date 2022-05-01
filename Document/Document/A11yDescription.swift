@@ -6,7 +6,15 @@
 //
 
 import Foundation
-import AppKit
+import CoreGraphics
+
+#if canImport(UIKit)
+    import UIKit
+    typealias Color = UIColor
+#else
+    import AppKit
+    typealias Color = NSColor
+#endif
 
 public struct A11yDescription: Codable {
     public init(
@@ -37,16 +45,16 @@ public struct A11yDescription: Codable {
         !label.isEmpty
     }
     
-    var color: NSColor {
+    var color: Color {
         (isValid ? Self.validColor: Self.notValidColor).withAlphaComponent(0.3)
     }
     
-    static var notValidColor: NSColor {
-        NSColor.systemOrange
+    static var notValidColor: Color {
+        Color.systemOrange
     }
     
-    static var validColor: NSColor {
-        NSColor.systemGreen
+    static var validColor: Color {
+        Color.systemGreen
     }
     
     public var voiceOverText: String {

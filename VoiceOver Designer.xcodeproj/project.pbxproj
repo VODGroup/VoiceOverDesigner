@@ -46,14 +46,14 @@
 		1E1D7FF7281D5CBF00B64954 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1E1D7FF9281D5CBF00B64954 /* VoiceOver_Designer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VoiceOver_Designer.entitlements; sourceTree = "<group>"; };
 		1E1D7FFE281D5CC000B64954 /* VoiceOver DesignerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VoiceOver DesignerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1E1D8002281D5CC000B64954 /* VoiceOver_DesignerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceOver_DesignerTests.swift; sourceTree = "<group>"; };
+		1E1D8002281D5CC000B64954 /* VoiceOver_DesignerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VoiceOver_DesignerTests.swift; path = ../Document/DocumentTests/VoiceOver_DesignerTests.swift; sourceTree = "<group>"; };
 		1E1D8008281D5CC000B64954 /* VoiceOver DesignerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VoiceOver DesignerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E1D800C281D5CC000B64954 /* VoiceOver_DesignerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceOver_DesignerUITests.swift; sourceTree = "<group>"; };
 		1E1D800E281D5CC000B64954 /* VoiceOver_DesignerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceOver_DesignerUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		1E1D801B281D68D400B64954 /* A11yDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = A11yDescription.swift; sourceTree = "<group>"; };
+		1E1D801B281D68D400B64954 /* A11yDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = A11yDescription.swift; path = ../Document/Document/A11yDescription.swift; sourceTree = "<group>"; };
 		1E1D801D281D71D200B64954 /* DocumentSaveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentSaveService.swift; sourceTree = "<group>"; };
 		1E1D801F281D71E000B64954 /* DrawingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingService.swift; sourceTree = "<group>"; };
-		1E1D8021281D71F600B64954 /* A11yControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = A11yControl.swift; sourceTree = "<group>"; };
+		1E1D8021281D71F600B64954 /* A11yControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = A11yControl.swift; path = ../Document/Document/A11yControl.swift; sourceTree = "<group>"; };
 		1E1D8023281D720600B64954 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 

@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import VoiceOver_Designer
+@testable import Document
 
 class A11yDescriptionTests: XCTestCase {
 
