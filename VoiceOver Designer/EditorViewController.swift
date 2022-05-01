@@ -67,21 +67,21 @@ class EditorViewController: NSViewController {
     
     // MARK:
     override func mouseDown(with event: NSEvent) {
-        if let existedControl = drawingService.control(at: event.locationInWindow) {
+        if let existedControl = drawingService.control(at: event.locationInWindowFlipped) {
             showSettings(for: existedControl)
         } else {
-            drawingService.start(coordinate: event.locationInWindow)
+            drawingService.start(coordinate: event.locationInWindowFlipped)
             
         }
     }
     
     override func mouseDragged(with event: NSEvent) {
-        drawingService.drag(to: event.locationInWindow)
+        drawingService.drag(to: event.locationInWindowFlipped)
     }
     
     override func mouseUp(with event: NSEvent) {
         drawingService
-            .end(coordinate: event.locationInWindow)
+            .end(coordinate: event.locationInWindowFlipped)
         
         save()
     }
@@ -91,6 +91,16 @@ class EditorViewController: NSViewController {
     
     func view() -> EditorView {
         view as! EditorView
+    }
+}
+
+extension NSEvent {
+    var locationInWindowFlipped: CGPoint {
+        return CGPoint(x: locationInWindow.x,
+                       y: window!.frame.height
+                       - locationInWindow.y
+                       - 28 // TODO: Remove toolbar's height
+        )
     }
 }
 

@@ -20,6 +20,7 @@ final class PreviewViewController: UIViewController {
         do {
             let controls = try documentSaveService.loadControls()
             controls.forEach(drawingService.drawControl(from:))
+            view().layout = VoiceOverLayout(controls: controls, container: view)
         } catch let error {
             print(error)
         }
@@ -30,5 +31,42 @@ final class PreviewViewController: UIViewController {
         let url = Bundle.main.url(forResource: "A11yControls", withExtension: "json")!
         return DocumentSaveService(fileURL: url)
     }()
+    
+    func view() -> PreviewView {
+        view as! PreviewView
+    }
+}
+
+class PreviewView: UIView {
+    var layout: VoiceOverLayout? {
+        didSet {
+            accessibilityElements = layout?.accessibilityElements
+        }
+    }
+}
+
+class VoiceOverLayout {
+    private let controls: [A11yDescription]
+    private let container: UIView
+    
+    init(controls: [A11yDescription], container: UIView) {
+        self.controls = controls
+        self.container = container
+    }
+    
+    private func accessibilityElement(from control: A11yDescription) -> UIAccessibilityElement {
+        let element = UIAccessibilityElement(accessibilityContainer: container)
+        element.isAccessibilityElement = true
+        element.accessibilityLabel = control.label
+        element.accessibilityValue = control.value
+        element.accessibilityHint = control.hint
+        element.accessibilityFrame = control.frame
+        element.accessibilityTraits = .button
+        return element
+    }
+    
+    var accessibilityElements: [UIAccessibilityElement] {
+        controls.map(accessibilityElement(from:))
+    }
 }
 
