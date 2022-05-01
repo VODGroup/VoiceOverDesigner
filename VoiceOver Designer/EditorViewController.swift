@@ -39,8 +39,8 @@ class EditorViewController: NSViewController {
     
     private func loadAndDraw() {
         do {
-            let controls = try documentSaveService.loadControls()
-            controls.forEach(drawingService.drawControl(from:))
+            document.read()
+            document.controls.forEach(drawingService.drawControl(from:))
         } catch let error {
             print(error)
         }
@@ -87,7 +87,7 @@ class EditorViewController: NSViewController {
     }
     
     lazy var drawingService = DrawingService(view: view)
-    let documentSaveService = DocumentSaveService()
+    let document = VODesignDocument(fileName: "Test")
     
     func view() -> EditorView {
         view as! EditorView
@@ -119,7 +119,8 @@ extension EditorViewController: SettingsDelegate {
             control.a11yDescription
         }
         
-        documentSaveService.save(controls: descriptions)
+        document.controls = descriptions
+        document.save()
     }
 }
 
