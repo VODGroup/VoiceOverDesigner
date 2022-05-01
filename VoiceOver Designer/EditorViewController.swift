@@ -115,7 +115,11 @@ extension EditorViewController: SettingsDelegate {
     }
     
     fileprivate func save() {
-        documentSaveService.save(controls: drawingService.drawnControls)
+        let descriptions = drawingService.drawnControls.compactMap { control in
+            control.a11yDescription
+        }
+        
+        documentSaveService.save(controls: descriptions)
     }
 }
 

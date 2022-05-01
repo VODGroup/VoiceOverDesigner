@@ -16,15 +16,7 @@ final class PreviewViewController: UIViewController {
         loadAndDraw()
     }
     
-    private func loadAndDraw() {
-        do {
-            let controls = try documentSaveService.loadControls()
-            controls.forEach(drawingService.drawControl(from:))
-            view().layout = VoiceOverLayout(controls: controls, container: view)
-        } catch let error {
-            print(error)
-        }
-    }
+    
     
     private lazy var drawingService = DrawingService(view: view)
     private lazy var documentSaveService: DocumentSaveService = {
@@ -34,6 +26,16 @@ final class PreviewViewController: UIViewController {
     
     func view() -> PreviewView {
         view as! PreviewView
+    }
+    
+    private func loadAndDraw() {
+        do {
+            let controls = try documentSaveService.loadControls()
+            controls.forEach(drawingService.drawControl(from:))
+            view().layout = VoiceOverLayout(controls: controls, container: view)
+        } catch let error {
+            print(error)
+        }
     }
 }
 

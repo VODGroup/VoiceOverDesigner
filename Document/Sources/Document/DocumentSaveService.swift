@@ -20,12 +20,8 @@ public class DocumentSaveService {
         .appendingPathComponent("Documents")
         .appendingPathComponent("A11yControls.json")
     
-    public func save(controls: [A11yControl]) {
-        let descriptions = controls.map { control in
-            control.a11yDescription
-        }
-        
-        let data = try! JSONEncoder().encode(descriptions)
+    public func save(controls: [A11yDescription]) {
+        let data = try! JSONEncoder().encode(controls)
         
         print("Save to \(fileURL)")
         
