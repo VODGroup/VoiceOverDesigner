@@ -36,6 +36,13 @@ public class VODesignDocument: Document {
 import AppKit
 public typealias Document = NSDocument
 
+public var rootPath: URL {
+    FileManager.default
+        .url(forUbiquityContainerIdentifier: nil)!
+        .appendingPathComponent("Documents")
+    
+}
+
 public class VODesignDocument: Document {
     var image: NSImage?
     public var controls: [A11yDescription] = []
@@ -43,12 +50,9 @@ public class VODesignDocument: Document {
     
     static var fileExtension = "vodesign"
     
-    public convenience init(fileName: String) {
-        let url = FileManager.default
-            .url(forUbiquityContainerIdentifier: nil)!
-            .appendingPathComponent("Documents")
-        
-        let file = url.appendingPathComponent(fileName)
+    public convenience init(fileName: String,
+                            rootPath: URL = rootPath) {
+        let file = rootPath.appendingPathComponent(fileName)
         
         do {
             try self.init(contentsOf: file,
