@@ -61,7 +61,7 @@ class VoiceOverLayout {
         element.accessibilityValue = control.value
         element.accessibilityHint = control.hint
         element.accessibilityFrame = control.frame
-        element.accessibilityTraits = .button
+        element.accessibilityTraits = control.trait.accessibilityTrait
         return element
     }
     
@@ -69,4 +69,3 @@ class VoiceOverLayout {
         controls.map(accessibilityElement(from:))
     }
 }
-
