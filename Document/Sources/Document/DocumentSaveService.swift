@@ -10,7 +10,7 @@ import Foundation
 class DocumentSaveService {
     
     init(fileURL: URL) {
-        self.fileURL = fileURL.appendingPathComponent("controls.json")
+        self.fileURL = fileURL
     }
     
     private let fileURL: URL

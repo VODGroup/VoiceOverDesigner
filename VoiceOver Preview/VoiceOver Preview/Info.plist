@@ -21,5 +21,14 @@
 			</array>
 		</dict>
 	</dict>
+	<key>iCloud.com.akaDuality.VoiceOver-Designer</key>
+	<dict>
+		<key>NSUbiquitousContainerIsDocumentScopePublic</key>
+		<true/>
+		<key>NSUbiquitousContainerName</key>
+		<string>Voice Over Designer</string>
+		<key>NSUbiquitousContainerSupportedFolderLevels</key>
+		<string>ANY</string>
+	</dict>
 </dict>
 </plist>

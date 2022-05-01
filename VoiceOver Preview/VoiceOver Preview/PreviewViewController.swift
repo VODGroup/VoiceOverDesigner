@@ -14,13 +14,32 @@ final class PreviewViewController: UIViewController {
         super.viewDidLoad()
         
         loadAndDraw()
+        
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(Self.documentStateChanged(_:)),
+            name: UIDocument.stateChangedNotification, object: document)
+    }
+    
+    @objc
+    func documentStateChanged(_ notification: Notification) {
+        document.printState()
+        
+        if document.documentState == .progressAvailable {
+            loadAndDraw()
+        }
     }
     
     private lazy var drawingService = DrawingService(view: view)
+    
     private lazy var document: VODesignDocument = {
+        #if targetEnvironment(simulator)
         let url = Bundle.main.url(forResource: "controls",
                                   withExtension: "json")!
         return VODesignDocument(fileURL: url.deletingLastPathComponent())
+        #else
+        // Device
+        return VODesignDocument(fileName: "Test")
+        #endif
     }()
     
     func view() -> PreviewView {
@@ -28,12 +47,13 @@ final class PreviewViewController: UIViewController {
     }
     
     private func loadAndDraw() {
-        do {
-            try document.read()
-            document.controls.forEach(drawingService.drawControl(from:))
-            view().layout = VoiceOverLayout(controls: document.controls, container: view)
-        } catch let error {
-            print(error)
+        self.drawingService.removeAll()
+        document.close()
+        
+        document.open { isSuccess in
+            
+            self.document.controls.forEach(self.drawingService.drawControl(from:))
+            self.view().layout = VoiceOverLayout(controls: self.document.controls, container: self.view)
         }
     }
 }

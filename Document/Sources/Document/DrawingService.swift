@@ -36,6 +36,12 @@ public class DrawingService {
     
     // MARK: Drawn from existed controls
     
+    public func removeAll() {
+        for contol in drawnControls {
+            contol.removeFromSuperlayer()
+        }
+    }
+    
     public func drawControl(from description: A11yDescription) {
         let control = A11yControl()
         control.a11yDescription = description
