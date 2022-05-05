@@ -9,7 +9,7 @@
         <scene sceneID="hvb-8y-8hU">
             <objects>
                 <viewController id="1cH-4u-OfJ" customClass="ScreenReceiverViewController" customModule="VoiceOver_Designer" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="47C-NL-yrv">
+                    <view key="view" id="47C-NL-yrv" customClass="ScreenReceiverView" customModule="VoiceOver_Designer" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
@@ -22,7 +22,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3gB-Wt-lLI">
-                                <rect key="frame" x="41" y="58" width="68" height="32"/>
+                                <rect key="frame" x="13" y="253" width="68" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Menu" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6hs-hd-m89">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -33,7 +33,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2CW-W2-de3">
-                                <rect key="frame" x="209" y="58" width="82" height="32"/>
+                                <rect key="frame" x="79" y="253" width="82" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Product" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qMs-dI-QdR">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -43,11 +43,24 @@
                                     <action selector="selectProductCard" target="1cH-4u-OfJ" id="5ff-eB-J0C"/>
                                 </connections>
                             </button>
+                            <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="o4G-qi-gwy">
+                                <rect key="frame" x="103" y="50" width="244" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="JZF-od-ydZ"/>
+                                </constraints>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="A11y-man" id="C0f-rx-Ccy"/>
+                            </imageView>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="o4G-qi-gwy" firstAttribute="centerY" secondItem="47C-NL-yrv" secondAttribute="centerY" id="64i-ev-Bs2"/>
                             <constraint firstItem="2HH-gl-Qxp" firstAttribute="centerY" secondItem="47C-NL-yrv" secondAttribute="centerY" id="8ak-eo-kwc"/>
+                            <constraint firstItem="o4G-qi-gwy" firstAttribute="centerX" secondItem="47C-NL-yrv" secondAttribute="centerX" id="VfL-7z-Gtv"/>
                             <constraint firstItem="2HH-gl-Qxp" firstAttribute="centerX" secondItem="47C-NL-yrv" secondAttribute="centerX" id="d2g-Fl-6KF"/>
                         </constraints>
+                        <connections>
+                            <outlet property="dragHereLabel" destination="2HH-gl-Qxp" id="yAs-oz-fRY"/>
+                            <outlet property="dragHereView" destination="o4G-qi-gwy" id="Zp1-uW-Ocu"/>
+                        </connections>
                     </view>
                 </viewController>
                 <customObject id="iEz-Z2-HTh" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -1196,4 +1209,7 @@ DQ
             <point key="canvasLocation" x="225.5" y="731.5"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="A11y-man" width="244" height="306"/>
+    </resources>
 </document>
