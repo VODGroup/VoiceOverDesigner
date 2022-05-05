@@ -61,17 +61,9 @@ public class EditorPresenter {
         case .new(let control, let origin):
              break
         case .translate(let control, let startLocation, let offset):
-            if offset == .zero,
-               let existedControl = drawingService.control(at: location) {
-                router.showSettings(for: existedControl, delegate: self)
-                
-                // Reset frame
-                existedControl.frame = control.frame.offsetBy(dx: -offset.x,
-                                                              dy: -offset.y)
-            } else {
-                // Already translated
-            }
-            
+            break
+        case .click(let control):
+            router.showSettings(for: control, delegate: self)
         case .none:
             break
         }

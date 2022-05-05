@@ -55,6 +55,7 @@ public class DrawingService {
     public enum Action {
         case new(control: A11yControl, origin: CGPoint)
         case translate(control: A11yControl, startLocation: CGPoint, offset: CGPoint)
+        case click(control: A11yControl)
     }
     
     // MARK: New drawing
@@ -95,16 +96,27 @@ public class DrawingService {
             
             action = .translate(control: control, startLocation: startLocation, offset: offset) // Reset translation
             
+        case .click:
+            break
         case .none:
             break
         }
     }
     
     public func end(coordinate: CGPoint) -> Action? {
-        drag(to: coordinate)
-        
         defer {
             self.action = nil
+        }
+        
+        drag(to: coordinate)
+        
+        if case let .translate(control, _, offset) = action {
+            if offset == .zero {
+                // Reset frame
+                control.frame = control.frame.offsetBy(dx: -offset.x,
+                                                       dy: -offset.y)
+               return .click(control: control)
+            }
         }
         
         return action
