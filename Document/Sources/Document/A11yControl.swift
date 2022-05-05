@@ -19,4 +19,10 @@ public class A11yControl: CALayer {
             a11yDescription?.frame = frame
         }
     }
+    
+    public var isHiglighted: Bool = false {
+        didSet {
+            backgroundColor = backgroundColor?.copy(alpha: isHiglighted ? 0.75: 0.5) 
+        }
+    }
 }

@@ -55,6 +55,33 @@ public class EditorViewController: NSViewController {
         }
     }
     
+    var highlightedControl: A11yControl? {
+        didSet {
+            if let highlightedControl = highlightedControl {
+                NSCursor.openHand.push()
+            } else {
+                NSCursor.openHand.pop()
+            }
+        }
+    }
+    public override func mouseMoved(with event: NSEvent) {
+        highlightedControl?.isHiglighted = false
+        highlightedControl = nil
+        
+        guard let control = presenter.drawingService.control(at: event.locationInWindowFlipped) else {
+            return
+        }
+        
+        self.highlightedControl = control
+        
+        control.isHiglighted = true
+        
+        
+//        NSCursor.current.set = NSImage(
+//            systemSymbolName: "arrow.up.and.down.and.arrow.left.and.right",
+//            accessibilityDescription: nil)!
+    }
+    
     // MARK:
     public override func mouseDown(with event: NSEvent) {
         presenter.mouseDown(on: event.locationInWindowFlipped)

@@ -6,7 +6,8 @@
 //
 
 import XCTest
-@testable import VoiceOver_Designer
+@testable import Editor
+import Document
 
 class EditorPresenterTests: XCTestCase {
 
@@ -14,6 +15,8 @@ class EditorPresenterTests: XCTestCase {
         let controller = EmptyViewController()
         
         let sut = EditorPresenter()
+        sut.document = VODesignDocument(fileName: "Test",
+                                        rootPath: URL(fileURLWithPath: ""))
         sut.didLoad(ui: controller.view, controller: controller)
         
         sut.mouseDown(on: CGPoint(x: 10, y: 10))

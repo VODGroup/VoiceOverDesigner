@@ -18,6 +18,7 @@
 		1E579B5C28244B7400B13565 /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E579B5B28244B7400B13565 /* Document */; };
 		1E579B8C28244E3E00B13565 /* Settings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E579B8B28244E3E00B13565 /* Settings.framework */; };
 		1E579B8D28244E3E00B13565 /* Settings.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1E579B8B28244E3E00B13565 /* Settings.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1E579B90282454BE00B13565 /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E579B8F282454BE00B13565 /* Document */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E579B3C28244AF500B13565 /* Editor.framework in Frameworks */,
+				1E579B90282454BE00B13565 /* Document in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,6 +178,9 @@
 				1E579B3E28244AF500B13565 /* PBXTargetDependency */,
 			);
 			name = EditorTests;
+			packageProductDependencies = (
+				1E579B8F282454BE00B13565 /* Document */,
+			);
 			productName = EditorTests;
 			productReference = 1E579B3B28244AF500B13565 /* EditorTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -507,6 +512,10 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		1E579B5B28244B7400B13565 /* Document */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Document;
+		};
+		1E579B8F282454BE00B13565 /* Document */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Document;
 		};

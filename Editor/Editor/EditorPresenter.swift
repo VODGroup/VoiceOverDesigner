@@ -40,9 +40,11 @@ public class EditorPresenter {
         document.save()
     }
     
+    // MARK: Mouse
+    private var mouseDownControl: A11yControl?
     func mouseDown(on location: CGPoint) {
         if let existedControl = drawingService.control(at: location) {
-            router.showSettings(for: existedControl, delegate: self)
+            self.mouseDownControl = existedControl
         } else {
             drawingService.start(coordinate: location)
         }
@@ -53,6 +55,12 @@ public class EditorPresenter {
     }
     
     func mouseUp(on location: CGPoint) {
+        if let existedControl = drawingService.control(at: location),
+           let mouseDownControl = mouseDownControl,
+           mouseDownControl == existedControl {
+            router.showSettings(for: existedControl, delegate: self)
+        }
+        
         drawingService.end(coordinate: location)
         
         save()
