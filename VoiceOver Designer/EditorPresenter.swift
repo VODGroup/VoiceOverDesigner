@@ -10,7 +10,7 @@ import AppKit
 
 class EditorPresenter {
     
-    let document = VODesignDocument(fileName: "Test")
+    var document: VODesignDocument!// (fileName: "Test")
     var drawingService: DrawingService!
     var router: Router!
     
@@ -23,7 +23,7 @@ class EditorPresenter {
     
     func loadAndDraw() {
         do {
-            document.read()
+//            document.read()
             document.controls.forEach(drawingService.drawControl(from:))
         } catch let error {
             print(error)

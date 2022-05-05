@@ -18,6 +18,7 @@
 		1E579AE32823E32F00B13565 /* EditorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579AE22823E32F00B13565 /* EditorPresenter.swift */; };
 		1E579AE52823E34600B13565 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579AE42823E34600B13565 /* Router.swift */; };
 		1E579AE72823E3D500B13565 /* EditorPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579AE62823E3D500B13565 /* EditorPresenterTests.swift */; };
+		1E579AE92824024F00B13565 /* ScreenReceiverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579AE82824024F00B13565 /* ScreenReceiverViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		1E579AE22823E32F00B13565 /* EditorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorPresenter.swift; sourceTree = "<group>"; };
 		1E579AE42823E34600B13565 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		1E579AE62823E3D500B13565 /* EditorPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorPresenterTests.swift; sourceTree = "<group>"; };
+		1E579AE82824024F00B13565 /* ScreenReceiverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenReceiverViewController.swift; sourceTree = "<group>"; };
 		1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "VoiceOver-Designer-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -116,6 +118,7 @@
 				1E1D7FF0281D5CBE00B64954 /* AppDelegate.swift */,
 				1E1D7FF2281D5CBE00B64954 /* EditorViewController.swift */,
 				1E579AE42823E34600B13565 /* Router.swift */,
+				1E579AE82824024F00B13565 /* ScreenReceiverViewController.swift */,
 				1E579AE22823E32F00B13565 /* EditorPresenter.swift */,
 				1E1D8023281D720600B64954 /* SettingsViewController.swift */,
 				1E1D7FF4281D5CBF00B64954 /* Assets.xcassets */,
@@ -281,6 +284,7 @@
 				1E579AE52823E34600B13565 /* Router.swift in Sources */,
 				1E1D7FF1281D5CBE00B64954 /* AppDelegate.swift in Sources */,
 				1E579AE32823E32F00B13565 /* EditorPresenter.swift in Sources */,
+				1E579AE92824024F00B13565 /* ScreenReceiverViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

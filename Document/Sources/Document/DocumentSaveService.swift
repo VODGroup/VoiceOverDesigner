@@ -16,14 +16,11 @@ class DocumentSaveService {
     private let fileURL: URL
     
     func save(controls: [A11yDescription]) {
-        print("Save to \(fileURL)")
-        
         let data = try! JSONEncoder().encode(controls)
         try! data.write(to: fileURL)
     }
     
     func loadControls() throws -> [A11yDescription] {
-        print("Read from \(fileURL)")
         let data = try Data(contentsOf: fileURL)
         let controls = try JSONDecoder().decode([A11yDescription].self, from: data)
         return controls

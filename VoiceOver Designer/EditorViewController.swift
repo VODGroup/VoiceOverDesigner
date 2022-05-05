@@ -37,17 +37,15 @@ class EditorViewController: NSViewController {
             self.presenter.didLoad(
                 ui: self.view().controlsView,
                 controller: self)
-//            self.presenter.document.image = self.view().backgroundImageView.image
-            self.loadImage()
+            self.setImage()
         }
     }
     
-    func loadImage() {
+    func setImage() {
         let image = presenter.document.image
         view().backgroundImageView.frame = CGRect(x: 0, y: 0, width: 375, height: 1000)
         view().backgroundImageView.image = image
         view().backgroundImageView.layer?.zPosition = 0
-//        view().scrollView.documentView = view().backgroundImageView
         view.window?.contentMinSize = CGSize(width: 320, height: 762)
     }
     

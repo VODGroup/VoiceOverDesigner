@@ -37,43 +37,59 @@ public class VODesignDocument: Document {
         try? read(from: fileURL!, ofType: Self.vodesign)
     }
     
-    public override func save(to url: URL, ofType typeName: String, for saveOperation: NSDocument.SaveOperationType, completionHandler: @escaping (Error?) -> Void) {
+    public override func write(to url: URL, ofType typeName: String) throws {
+        Swift.print("Save to \(url)")
         
-        os_log("start saving")
-        performAsynchronousFileAccess { completion in
-            let fileCoordinator = NSFileCoordinator(filePresenter: self)
-            fileCoordinator.coordinate(
-                writingItemAt: url.appendingPathComponent("controls.json"),
-                options: .forReplacing,
-                error: nil
-            ) { url in
-                os_log("got access")
-                do {
-                    self.fileModificationDate = Date()
-                    //                    try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
-                    DocumentSaveService(fileURL: url).save(controls: self.controls)
-                    
-                    if let image = self.image {
-                        try ImageSaveService().save(image: image, to: url.deletingLastPathComponent())
-                    }
-                    
-                    completionHandler(nil)
-                    completion()
-                    os_log("save")
-                } catch let error {
-                    completionHandler(error)
-                    os_log("fail saving")
-                    completion()
-                }
-            }
+        try FileManager.default.createDirectory(at: url,
+                                                withIntermediateDirectories: true)
+        DocumentSaveService(fileURL: url.appendingPathComponent("controls.json"))
+            .save(controls: self.controls)
+
+        if let image = self.image {
+            try ImageSaveService().save(image: image, to: url.deletingLastPathComponent())
         }
     }
     
     public override func read(from url: URL, ofType typeName: String) throws {
+        Swift.print("Read from \(fileURL)")
+        
         controls = try DocumentSaveService(fileURL: url.appendingPathComponent("controls.json")).loadControls()
         
         image = try? imageSaveService.load(from: url)
     }
+    
+//    public override func save(to url: URL, ofType typeName: String, for saveOperation: NSDocument.SaveOperationType, completionHandler: @escaping (Error?) -> Void) {
+//
+//        os_log("start saving")
+//        performAsynchronousFileAccess { completion in
+//            let fileCoordinator = NSFileCoordinator(filePresenter: self)
+//            fileCoordinator.coordinate(
+//                writingItemAt: url.appendingPathComponent("controls.json"),
+//                options: .forReplacing,
+//                error: nil
+//            ) { url in
+//                os_log("got access")
+//                do {
+//                    self.fileModificationDate = Date()
+//                    try FileManager.default.createDirectory(at: url.deletingLastPathComponent(),
+//                                                            withIntermediateDirectories: true)
+//                    DocumentSaveService(fileURL: url).save(controls: self.controls)
+//
+//                    if let image = self.image {
+//                        try ImageSaveService().save(image: image, to: url.deletingLastPathComponent())
+//                    }
+//
+//                    completionHandler(nil)
+//                    completion()
+//                    os_log("save")
+//                } catch let error {
+//                    completionHandler(error)
+//                    os_log("fail saving")
+//                    completion()
+//                }
+//            }
+//        }
+//    }
     
     private let imageSaveService = ImageSaveService()
 }
