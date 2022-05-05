@@ -7,6 +7,7 @@
 
 import AppKit
 import Document
+import Settings
 
 class Router {
     init(rootController: NSViewController) {

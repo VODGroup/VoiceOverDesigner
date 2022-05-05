@@ -11,6 +11,9 @@
       location = "group:Editor/Editor.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:Settings/Settings.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Projects/Projects.xcodeproj">
    </FileRef>
    <FileRef

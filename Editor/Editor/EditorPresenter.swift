@@ -7,6 +7,7 @@
 
 import Document
 import AppKit
+import Settings
 
 public class EditorPresenter {
     
@@ -59,11 +60,11 @@ public class EditorPresenter {
 }
 
 extension EditorPresenter: SettingsDelegate {
-    func didUpdateValue() {
+    public func didUpdateValue() {
         save()
     }
     
-    func delete(control: A11yControl) {
+    public func delete(control: A11yControl) {
         drawingService.delete(control: control)
         save()
     }

@@ -65,6 +65,7 @@
 		1E579B1B2824473600B13565 /* Projects.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Projects.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E579B1F282447D900B13565 /* WindowContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowContoller.swift; sourceTree = "<group>"; };
 		1E579B5728244B6F00B13565 /* Editor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Editor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1E579B8528244D9300B13565 /* Settings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Settings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "VoiceOver-Designer-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -99,6 +100,7 @@
 		1E033900281E737000EE373E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1E579B8528244D9300B13565 /* Settings.framework */,
 				1E579B5728244B6F00B13565 /* Editor.framework */,
 				1E579B1B2824473600B13565 /* Projects.framework */,
 			);

@@ -8,7 +8,7 @@
 import AppKit
 import Document
 
-protocol SettingsDelegate: AnyObject {
+public protocol SettingsDelegate: AnyObject {
     func didUpdateValue()
     func delete(control: A11yControl)
 }
@@ -17,10 +17,10 @@ class TraitCheckBox: NSButton {
     var trait: A11yTraits!
 }
 
-class SettingsViewController: NSViewController {
+public class SettingsViewController: NSViewController {
     
-    weak var delegate: SettingsDelegate?
-    var control: A11yControl!
+    public weak var delegate: SettingsDelegate?
+    public var control: A11yControl!
     
     var descr: A11yDescription {
         control.a11yDescription!
@@ -45,7 +45,7 @@ class SettingsViewController: NSViewController {
     // MARK: behaviourTrait
     // TODO: Add
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         label.stringValue = descr.label
@@ -120,13 +120,13 @@ class SettingsViewController: NSViewController {
         dismiss(self)
     }
     
-    override func viewWillDisappear() {
+    public override func viewWillDisappear() {
         super.viewWillDisappear()
         delegate?.didUpdateValue()
     }
     
     public static func fromStoryboard() -> SettingsViewController {
-        let storyboard = NSStoryboard(name: "Editor", bundle: Bundle(for: SettingsViewController.self))
+        let storyboard = NSStoryboard(name: "Settings", bundle: Bundle(for: SettingsViewController.self))
         return storyboard.instantiateController(withIdentifier: "settings") as! SettingsViewController
     }
 }
