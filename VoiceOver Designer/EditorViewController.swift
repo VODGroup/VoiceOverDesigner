@@ -8,88 +8,6 @@
 import Cocoa
 import Document
 
-class Router {
-    init(rootController: NSViewController) {
-        self.rootController = rootController
-    }
-    
-    let rootController: NSViewController
-     
-    func showSettings(for control: A11yControl, delegate: SettingsDelegate) {
-        let storyboard = NSStoryboard(name: "Main", bundle: Bundle(for: SettingsViewController.self))
-        let settings = storyboard.instantiateController(withIdentifier: .init("settings")) as! SettingsViewController
-        settings.control = control
-        settings.delegate = delegate
-        
-        rootController.present(settings,
-                               asPopoverRelativeTo: control.frame,
-                               of: rootController.view,
-                               preferredEdge: .maxX,
-                               behavior: .semitransient)
-    }
-}
-
-class EditorPresenter {
-    
-    let document = VODesignDocument(fileName: "Test")
-    var drawingService: DrawingService!
-    var router: Router!
-    
-    func didLoad(ui: NSView, controller: NSViewController) {
-        drawingService = DrawingService(view: ui)
-        router = Router(rootController: controller)
-        
-        loadAndDraw()
-    }
-    
-    func loadAndDraw() {
-        do {
-            document.read()
-            document.controls.forEach(drawingService.drawControl(from:))
-        } catch let error {
-            print(error)
-        }
-    }
-    
-    func save() {
-        let descriptions = drawingService.drawnControls.compactMap { control in
-            control.a11yDescription
-        }
-        
-        document.controls = descriptions
-        document.save()
-    }
-    
-    func mouseDown(on location: CGPoint) {
-        if let existedControl = drawingService.control(at: location) {
-            router.showSettings(for: existedControl, delegate: self)
-        } else {
-            drawingService.start(coordinate: location)
-        }
-    }
-    
-    func mouseDragged(on location: CGPoint) {
-        drawingService.drag(to: location)
-    }
-    
-    func mouseUp(on location: CGPoint) {
-        drawingService.end(coordinate: location)
-        
-        save()
-    }
-}
-
-extension EditorPresenter: SettingsDelegate {
-    func didUpdateValue() {
-        save()
-    }
-    
-    func delete(control: A11yControl) {
-        drawingService.delete(control: control)
-        save()
-    }
-}
-
 class EditorViewController: NSViewController {
 
     let presenter = EditorPresenter()
@@ -136,7 +54,7 @@ class EditorViewController: NSViewController {
     }
     
     override func mouseUp(with event: NSEvent) {
-        presenter.mouseDragged(on: event.locationInWindowFlipped)
+        presenter.mouseUp(on: event.locationInWindowFlipped)
     }
     
     func view() -> EditorView {
