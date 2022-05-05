@@ -54,6 +54,11 @@ public class DrawingService {
         drawnControls.append(control)
     }
     
+//    enum Action {
+//        case new
+//        case 
+//    }
+    
     // MARK: New drawing
     public func start(coordinate: CGPoint) {
         self.origin = coordinate

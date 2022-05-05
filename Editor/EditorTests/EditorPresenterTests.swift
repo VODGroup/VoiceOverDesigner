@@ -14,10 +14,12 @@ class EditorPresenterTests: XCTestCase {
     var sut: EditorPresenter!
     var router: RouterMock!
     
+    var controller: NSViewController!
+    
     override func setUp() {
         super.setUp()
         
-        let controller = EmptyViewController()
+        controller = EmptyViewController()
         
         sut = EditorPresenter()
         sut.document = VODesignDocument(fileName: "Test",
@@ -25,6 +27,11 @@ class EditorPresenterTests: XCTestCase {
         
         router = RouterMock()
         sut.didLoad(ui: controller.view, router: router)
+    }
+    
+    override func tearDown() {
+        try? FileManager.default.removeItem(at: sut.document.fileURL!)
+        super.tearDown()
     }
     
     private let start = CGPoint(x: 10, y: 10)
@@ -35,8 +42,10 @@ class EditorPresenterTests: XCTestCase {
         sut.mouseDown(on: start)
         sut.mouseDragged(on: end)
         
-        XCTAssertEqual(sut.document.controls.first?.frame,
-                       CGRect(x: 10, y: 10, width: 20, height: 20))
+        XCTAssertEqual(controller.view.layer?.sublayers?.first?.frame,
+                       CGRect(x: 10, y: 10, width: 20, height: 20), "Draw")
+        
+        XCTAssertNil(sut.document.controls.first, "but not saved yet")
     }
     
     func test_drawRectangle_onMouseUp() {
@@ -55,12 +64,35 @@ class EditorPresenterTests: XCTestCase {
                        CGRect(x: 10, y: 10, width: 20, height: 20))
     }
     
+    // MARK: Editing
+//    func test_movementFor5px_shouldTranslateRect() {
+//        drawRect()
+//        
+//        // Move
+//        sut.mouseDown(on: CGPoint(x: 15, y: 15))
+//        sut.mouseDragged(on: CGPoint(x: 20, y: 20))
+//        
+//        XCTAssertEqual(sut.document.controls.count, 1)
+//        XCTAssertEqual(sut.document.controls.first?.frame,
+//                       CGRect(x: 15, y: 15, width: 20, height: 20))
+//    }
+    
     // MARK: Routing
     func test_openSettings() {
+        drawRect()
+        
         sut.mouseDown(on: CGPoint(x: 10, y: 10))
+        XCTAssertNil(router.didShowSettingsForControl)
+        
         sut.mouseUp(on: CGPoint(x: 12, y: 12))
         
         XCTAssertNotNil(router.didShowSettingsForControl)
+    }
+    
+    // MARK: - DSL
+    func drawRect() {
+        sut.mouseDown(on: start)
+        sut.mouseUp(on: end)
     }
 }
 
