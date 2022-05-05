@@ -29,8 +29,71 @@ class Router {
     }
 }
 
+class EditorPresenter {
+    
+    let document = VODesignDocument(fileName: "Test")
+    var drawingService: DrawingService!
+    var router: Router!
+    
+    func didLoad(ui: NSView, controller: NSViewController) {
+        drawingService = DrawingService(view: ui)
+        router = Router(rootController: controller)
+        
+        loadAndDraw()
+    }
+    
+    func loadAndDraw() {
+        do {
+            document.read()
+            document.controls.forEach(drawingService.drawControl(from:))
+        } catch let error {
+            print(error)
+        }
+    }
+    
+    func save() {
+        let descriptions = drawingService.drawnControls.compactMap { control in
+            control.a11yDescription
+        }
+        
+        document.controls = descriptions
+        document.save()
+    }
+    
+    func mouseDown(on location: CGPoint) {
+        if let existedControl = drawingService.control(at: location) {
+            router.showSettings(for: existedControl, delegate: self)
+        } else {
+            drawingService.start(coordinate: location)
+        }
+    }
+    
+    func mouseDragged(on location: CGPoint) {
+        drawingService.drag(to: location)
+    }
+    
+    func mouseUp(on location: CGPoint) {
+        drawingService.end(coordinate: location)
+        
+        save()
+    }
+}
+
+extension EditorPresenter: SettingsDelegate {
+    func didUpdateValue() {
+        save()
+    }
+    
+    func delete(control: A11yControl) {
+        drawingService.delete(control: control)
+        save()
+    }
+}
+
 class EditorViewController: NSViewController {
 
+    let presenter = EditorPresenter()
+    
     var trackingArea: NSTrackingArea!
     
     override func viewDidLoad() {
@@ -53,17 +116,7 @@ class EditorViewController: NSViewController {
         super.viewDidAppear()
         
         DispatchQueue.main.async {
-            self.loadAndDraw()
-        }
-        
-    }
-    
-    private func loadAndDraw() {
-        do {
-            document.read()
-            document.controls.forEach(drawingService.drawControl(from:))
-        } catch let error {
-            print(error)
+            self.presenter.didLoad(ui: self.view, controller: self)
         }
     }
     
@@ -75,27 +128,16 @@ class EditorViewController: NSViewController {
     
     // MARK:
     override func mouseDown(with event: NSEvent) {
-        if let existedControl = drawingService.control(at: event.locationInWindowFlipped) {
-            router.showSettings(for: existedControl, delegate: self)
-        } else {
-            drawingService.start(coordinate: event.locationInWindowFlipped)
-        }
+        presenter.mouseDown(on: event.locationInWindowFlipped)
     }
     
     override func mouseDragged(with event: NSEvent) {
-        drawingService.drag(to: event.locationInWindowFlipped)
+        presenter.mouseDragged(on: event.locationInWindowFlipped)
     }
     
     override func mouseUp(with event: NSEvent) {
-        drawingService
-            .end(coordinate: event.locationInWindowFlipped)
-        
-        save()
+        presenter.mouseDragged(on: event.locationInWindowFlipped)
     }
-    
-    lazy var router = Router(rootController: self)
-    lazy var drawingService = DrawingService(view: view)
-    let document = VODesignDocument(fileName: "Test")
     
     func view() -> EditorView {
         view as! EditorView
@@ -109,26 +151,6 @@ extension NSEvent {
                        - locationInWindow.y
                        - 28 // TODO: Remove toolbar's height
         )
-    }
-}
-
-extension EditorViewController: SettingsDelegate {
-    func didUpdateValue() {
-        save()
-    }
-    
-    func delete(control: A11yControl) {
-        drawingService.delete(control: control)
-        save()
-    }
-    
-    fileprivate func save() {
-        let descriptions = drawingService.drawnControls.compactMap { control in
-            control.a11yDescription
-        }
-        
-        document.controls = descriptions
-        document.save()
     }
 }
 
