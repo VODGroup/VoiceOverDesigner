@@ -32,20 +32,20 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1E1D7FFD281D5CC000B64954"
-               BuildableName = "VoiceOver DesignerTests.xctest"
-               BlueprintName = "VoiceOver DesignerTests"
-               ReferencedContainer = "container:VoiceOver Designer.xcodeproj">
+               BlueprintIdentifier = "1E579B3A28244AF500B13565"
+               BuildableName = "EditorTests.xctest"
+               BlueprintName = "EditorTests"
+               ReferencedContainer = "container:Editor/Editor.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
-            skipped = "YES">
+            skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1E1D8007281D5CC000B64954"
-               BuildableName = "VoiceOver DesignerUITests.xctest"
-               BlueprintName = "VoiceOver DesignerUITests"
-               ReferencedContainer = "container:VoiceOver Designer.xcodeproj">
+               BlueprintIdentifier = "DocumentTests"
+               BuildableName = "DocumentTests"
+               BlueprintName = "DocumentTests"
+               ReferencedContainer = "container:Document">
             </BuildableReference>
          </TestableReference>
       </Testables>

@@ -36,6 +36,7 @@ class EditorPresenterTests: XCTestCase {
     
     private let start = CGPoint(x: 10, y: 10)
     private let end   = CGPoint(x: 30, y: 30)
+    private let rect  = CGRect(x: 10, y: 10, width: 20, height: 20)
     
     // MARK: Drawning
     func test_rectangleDrawnOnTheFly() {
@@ -43,7 +44,7 @@ class EditorPresenterTests: XCTestCase {
         sut.mouseDragged(on: end)
         
         XCTAssertEqual(controller.view.layer?.sublayers?.first?.frame,
-                       CGRect(x: 10, y: 10, width: 20, height: 20), "Draw")
+                       rect, "Draw")
         
         XCTAssertNil(sut.document.controls.first, "but not saved yet")
     }
@@ -53,7 +54,7 @@ class EditorPresenterTests: XCTestCase {
         sut.mouseUp(on: end)
         
         XCTAssertEqual(sut.document.controls.first?.frame,
-                       CGRect(x: 10, y: 10, width: 20, height: 20))
+                       rect)
     }
     
     func test_drawInReverseDirection() {
@@ -61,21 +62,25 @@ class EditorPresenterTests: XCTestCase {
         sut.mouseUp(on: start)
         
         XCTAssertEqual(sut.document.controls.first?.frame,
-                       CGRect(x: 10, y: 10, width: 20, height: 20))
+                       rect)
     }
     
     // MARK: Editing
-//    func test_movementFor5px_shouldTranslateRect() {
-//        drawRect()
-//        
-//        // Move
-//        sut.mouseDown(on: CGPoint(x: 15, y: 15))
-//        sut.mouseDragged(on: CGPoint(x: 20, y: 20))
-//        
-//        XCTAssertEqual(sut.document.controls.count, 1)
-//        XCTAssertEqual(sut.document.controls.first?.frame,
-//                       CGRect(x: 15, y: 15, width: 20, height: 20))
-//    }
+    func test_movementFor5px_shouldTranslateRect() {
+        drawRect()
+        
+        // Move
+        sut.mouseDown(on: CGPoint(x: 15, y: 15))
+        sut.mouseDragged(on: CGPoint(x: 17, y: 17))
+        sut.mouseDragged(on: CGPoint(x: 18, y: 18))
+        sut.mouseDragged(on: CGPoint(x: 20, y: 20)) // 5px from start
+        
+        XCTAssertEqual(sut.document.controls.count, 1)
+        XCTAssertEqual(sut.document.controls.first?.frame,
+                       rect.offsetBy(dx: 5, dy: 5))
+        
+        XCTAssertNil(router.didShowSettingsForControl, "Not open settings at the end of translation")
+    }
     
     // MARK: Routing
     func test_openSettings() {
@@ -84,9 +89,12 @@ class EditorPresenterTests: XCTestCase {
         sut.mouseDown(on: CGPoint(x: 10, y: 10))
         XCTAssertNil(router.didShowSettingsForControl)
         
-        sut.mouseUp(on: CGPoint(x: 12, y: 12))
+        sut.mouseUp(on: CGPoint(x: 10, y: 10)) // Slightly move is restricted
+//        sut.mouseUp(on: CGPoint(x: 12, y: 12)) // Slightly move is possible
         
         XCTAssertNotNil(router.didShowSettingsForControl)
+        XCTAssertEqual(sut.document.controls.first?.frame,
+                       rect, "Keep frame")
     }
     
     // MARK: - DSL

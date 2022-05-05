@@ -33,11 +33,9 @@ public class DrawingService {
     
     private let view: View
     
-    var origin: CGPoint?
-    var control: A11yControl?
-    
+    private var action: Action?
+
     // MARK: Drawn from existed controls
-    
     public func removeAll() {
         for contol in drawnControls {
             contol.removeFromSuperlayer()
@@ -54,39 +52,62 @@ public class DrawingService {
         drawnControls.append(control)
     }
     
-//    enum Action {
-//        case new
-//        case 
-//    }
+    public enum Action {
+        case new(control: A11yControl, origin: CGPoint)
+        case translate(control: A11yControl, startLocation: CGPoint, offset: CGPoint)
+    }
     
     // MARK: New drawing
-    public func start(coordinate: CGPoint) {
-        self.origin = coordinate
+    public func startTranslating(control: A11yControl, startLocation: CGPoint) {
+        self.action = .translate(control: control, startLocation: startLocation, offset: .zero)
+    }
+    
+    public func startDrawing(coordinate: CGPoint) {
+        let control = A11yControl()
+        control.backgroundColor = A11yDescription.notValidColor.cgColor
+        control.a11yDescription = .empty(frame: .zero)
         
-        control = A11yControl()
-        control!.backgroundColor = A11yDescription.notValidColor.cgColor
-        control!.a11yDescription = .empty(frame: .zero)
+        drawnControls.append(control)
         
-        drawnControls.append(control!)
+        view.addSublayer(control)
         
-        view.addSublayer(control!)
+        self.action = .new(control: control, origin: coordinate)
     }
     
     public func drag(to coordinate: CGPoint) {
-        guard let origin = origin else { return }
-        
-        control?.updateWithoutAnimation {
-            control?.frame = CGRect(x: origin.x,
-                                    y: origin.y,
-                                    width: coordinate.x - origin.x,
-                                    height: coordinate.y - origin.y)
+        switch action {
+        case .new(let control, let origin):
+            control.updateWithoutAnimation {
+                control.frame = CGRect(x: origin.x,
+                                       y: origin.y,
+                                       width: coordinate.x - origin.x,
+                                       height: coordinate.y - origin.y)
+            }
+        case .translate(let control, let startLocation, let offsetOld):
+            let offset = CGPoint(x: coordinate.x - startLocation.x,
+                                 y: coordinate.y - startLocation.y)
+            
+            control.updateWithoutAnimation {
+                control.frame = control.frame
+                    .offsetBy(dx: offset.x - offsetOld.x,
+                              dy: offset.y - offsetOld.y)
+            }
+            
+            action = .translate(control: control, startLocation: startLocation, offset: offset) // Reset translation
+            
+        case .none:
+            break
         }
     }
     
-    public func end(coordinate: CGPoint) {
+    public func end(coordinate: CGPoint) -> Action? {
         drag(to: coordinate)
         
-        self.control = nil
+        defer {
+            self.action = nil
+        }
+        
+        return action
     }
     
     // MARK: Existed

@@ -41,12 +41,12 @@ public class EditorPresenter {
     }
     
     // MARK: Mouse
-    private var mouseDownControl: A11yControl?
     func mouseDown(on location: CGPoint) {
         if let existedControl = drawingService.control(at: location) {
-            self.mouseDownControl = existedControl
+            drawingService.startTranslating(control: existedControl,
+                                            startLocation: location)
         } else {
-            drawingService.start(coordinate: location)
+            drawingService.startDrawing(coordinate: location)
         }
     }
     
@@ -55,13 +55,26 @@ public class EditorPresenter {
     }
     
     func mouseUp(on location: CGPoint) {
-        if let existedControl = drawingService.control(at: location),
-           let mouseDownControl = mouseDownControl,
-           mouseDownControl == existedControl {
-            router.showSettings(for: existedControl, delegate: self)
-        }
+        let action = drawingService.end(coordinate: location)
         
-        drawingService.end(coordinate: location)
+        switch action {
+        case .new(let control, let origin):
+             break
+        case .translate(let control, let startLocation, let offset):
+            if offset == .zero,
+               let existedControl = drawingService.control(at: location) {
+                router.showSettings(for: existedControl, delegate: self)
+                
+                // Reset frame
+                existedControl.frame = control.frame.offsetBy(dx: -offset.x,
+                                                              dy: -offset.y)
+            } else {
+                // Already translated
+            }
+            
+        case .none:
+            break
+        }
         
         save()
     }

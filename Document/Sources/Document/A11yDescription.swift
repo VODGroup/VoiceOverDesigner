@@ -16,7 +16,7 @@ import CoreGraphics
     public typealias Color = NSColor
 #endif
 
-public struct A11yDescription: Codable {
+public class A11yDescription: Codable {
     public init(
         label: String,
         value: String,
@@ -37,7 +37,7 @@ public struct A11yDescription: Codable {
     
     public var frame: CGRect
     
-    public static func empty(frame: CGRect) -> Self {
+    public static func empty(frame: CGRect) -> A11yDescription {
         A11yDescription(label: "", value: "", hint: "", trait: .none, frame: frame)
     }
     
