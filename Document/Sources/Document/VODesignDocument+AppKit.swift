@@ -9,7 +9,7 @@ public class VODesignDocument: Document {
     public var controls: [A11yDescription] = []
     let name = "Test"
     
-    static var fileExtension = "vodesign"
+    public static var vodesign = "vodesign"
     
     public convenience init(fileName: String,
                             rootPath: URL = iCloudContainer) {
@@ -17,12 +17,24 @@ public class VODesignDocument: Document {
         
         do {
             try self.init(contentsOf: file,
-                          ofType: Self.fileExtension)
+                          ofType: Self.vodesign)
         } catch let error {
             // TODO: Is it ok?
-            try! self.init(type: Self.fileExtension)
+            try! self.init(type: Self.vodesign)
             self.fileURL = file
         }
+    }
+    
+    public func save() {
+        save(to: fileURL!, ofType: "", for: .saveOperation) { error in
+            Swift.print(error)
+            // TODO: Handle
+        }
+    }
+    
+    public func read() {
+        // TODO: Try
+        try? read(from: fileURL!, ofType: Self.vodesign)
     }
     
     public override func save(to url: URL, ofType typeName: String, for saveOperation: NSDocument.SaveOperationType, completionHandler: @escaping (Error?) -> Void) {

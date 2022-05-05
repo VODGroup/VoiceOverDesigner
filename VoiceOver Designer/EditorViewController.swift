@@ -8,6 +8,27 @@
 import Cocoa
 import Document
 
+class Router {
+    init(rootController: NSViewController) {
+        self.rootController = rootController
+    }
+    
+    let rootController: NSViewController
+     
+    func showSettings(for control: A11yControl, delegate: SettingsDelegate) {
+        let storyboard = NSStoryboard(name: "Main", bundle: Bundle(for: SettingsViewController.self))
+        let settings = storyboard.instantiateController(withIdentifier: .init("settings")) as! SettingsViewController
+        settings.control = control
+        settings.delegate = delegate
+        
+        rootController.present(settings,
+                               asPopoverRelativeTo: control.frame,
+                               of: rootController.view,
+                               preferredEdge: .maxX,
+                               behavior: .semitransient)
+    }
+}
+
 class EditorViewController: NSViewController {
 
     var trackingArea: NSTrackingArea!
@@ -52,26 +73,12 @@ class EditorViewController: NSViewController {
         }
     }
     
-    func showSettings(for control: A11yControl) {
-        let storyboard = NSStoryboard(name: "Main", bundle: Bundle(for: SettingsViewController.self))
-        let settings = storyboard.instantiateController(withIdentifier: .init("settings")) as! SettingsViewController
-        settings.control = control
-        settings.delegate = self
-        
-        present(settings,
-                asPopoverRelativeTo: control.frame,
-                of: view,
-                preferredEdge: .maxX,
-                behavior: .semitransient)
-    }
-    
     // MARK:
     override func mouseDown(with event: NSEvent) {
         if let existedControl = drawingService.control(at: event.locationInWindowFlipped) {
-            showSettings(for: existedControl)
+            router.showSettings(for: existedControl, delegate: self)
         } else {
             drawingService.start(coordinate: event.locationInWindowFlipped)
-            
         }
     }
     
@@ -86,6 +93,7 @@ class EditorViewController: NSViewController {
         save()
     }
     
+    lazy var router = Router(rootController: self)
     lazy var drawingService = DrawingService(view: view)
     let document = VODesignDocument(fileName: "Test")
     
