@@ -705,40 +705,51 @@
         <scene sceneID="hIz-AP-VOD">
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="EditorViewController" customModule="VoiceOver_Designer" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="m2S-Jp-Qdl" customClass="EditorView" customModule="VoiceOver_Designer" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="872"/>
+                    <view key="view" misplaced="YES" id="m2S-Jp-Qdl" customClass="EditorView" customModule="VoiceOver_Designer" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0qR-lB-KC6">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="872"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <clipView key="contentView" id="HWi-YU-IXh">
-                                    <rect key="frame" x="1" y="1" width="373" height="870"/>
+                                    <rect key="frame" x="1" y="1" width="373" height="810"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <view id="dOJ-gd-s1P">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="872"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1EY-bD-n4V">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="872"/>
-                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="Sample_menu" id="UFG-Lf-38w"/>
+                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="UFG-Lf-38w"/>
                                                 </imageView>
+                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="KHH-Ez-IDm">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="872"/>
+                                                </customView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="1EY-bD-n4V" firstAttribute="leading" secondItem="dOJ-gd-s1P" secondAttribute="leading" id="2vi-6Q-Z4N"/>
+                                                <constraint firstItem="KHH-Ez-IDm" firstAttribute="top" secondItem="dOJ-gd-s1P" secondAttribute="top" id="8Bu-FK-lep"/>
+                                                <constraint firstItem="KHH-Ez-IDm" firstAttribute="leading" secondItem="dOJ-gd-s1P" secondAttribute="leading" id="Bxq-C1-2vX"/>
+                                                <constraint firstAttribute="bottom" secondItem="KHH-Ez-IDm" secondAttribute="bottom" id="DcR-dV-cwD"/>
                                                 <constraint firstItem="1EY-bD-n4V" firstAttribute="top" secondItem="dOJ-gd-s1P" secondAttribute="top" id="XuO-80-860"/>
+                                                <constraint firstAttribute="trailing" secondItem="KHH-Ez-IDm" secondAttribute="trailing" id="ep0-NL-bpE"/>
                                                 <constraint firstAttribute="trailing" secondItem="1EY-bD-n4V" secondAttribute="trailing" id="h2S-U4-RlU"/>
                                                 <constraint firstAttribute="bottom" secondItem="1EY-bD-n4V" secondAttribute="bottom" id="t0m-A0-Hbd"/>
                                             </constraints>
                                         </view>
                                     </subviews>
                                 </clipView>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="812" id="0oA-2g-AYa"/>
+                                    <constraint firstAttribute="width" constant="375" id="cQy-sZ-mzw"/>
+                                </constraints>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="9wn-9L-tvt">
-                                    <rect key="frame" x="1" y="855" width="373" height="16"/>
+                                    <rect key="frame" x="1" y="795" width="373" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="PeS-Nj-X1d">
-                                    <rect key="frame" x="358" y="1" width="16" height="870"/>
+                                    <rect key="frame" x="358" y="1" width="16" height="810"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
@@ -750,6 +761,8 @@
                             <constraint firstAttribute="trailing" secondItem="0qR-lB-KC6" secondAttribute="trailing" id="pnD-ps-Qp1"/>
                         </constraints>
                         <connections>
+                            <outlet property="backgroundImageView" destination="1EY-bD-n4V" id="VCT-hX-JwO"/>
+                            <outlet property="controlsView" destination="KHH-Ez-IDm" id="9oN-OX-IEq"/>
                             <outlet property="scrollView" destination="0qR-lB-KC6" id="HcY-u1-GH7"/>
                         </connections>
                     </view>
@@ -1134,7 +1147,4 @@ DQ
             <point key="canvasLocation" x="225.5" y="731.5"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="Sample_menu" width="1170" height="2532"/>
-    </resources>
 </document>

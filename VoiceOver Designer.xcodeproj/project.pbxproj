@@ -17,6 +17,7 @@
 		1E1D8024281D720600B64954 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1D8023281D720600B64954 /* SettingsViewController.swift */; };
 		1E579AE32823E32F00B13565 /* EditorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579AE22823E32F00B13565 /* EditorPresenter.swift */; };
 		1E579AE52823E34600B13565 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579AE42823E34600B13565 /* Router.swift */; };
+		1E579AE72823E3D500B13565 /* EditorPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579AE62823E3D500B13565 /* EditorPresenterTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		1E1D8023281D720600B64954 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1E579AE22823E32F00B13565 /* EditorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorPresenter.swift; sourceTree = "<group>"; };
 		1E579AE42823E34600B13565 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		1E579AE62823E3D500B13565 /* EditorPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorPresenterTests.swift; sourceTree = "<group>"; };
 		1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "VoiceOver-Designer-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -126,6 +128,7 @@
 		1E1D8001281D5CC000B64954 /* VoiceOver DesignerTests */ = {
 			isa = PBXGroup;
 			children = (
+				1E579AE62823E3D500B13565 /* EditorPresenterTests.swift */,
 			);
 			path = "VoiceOver DesignerTests";
 			sourceTree = "<group>";
@@ -213,6 +216,7 @@
 					};
 					1E1D7FFD281D5CC000B64954 = {
 						CreatedOnToolsVersion = 13.3;
+						LastSwiftMigration = 1330;
 						TestTargetID = 1E1D7FEC281D5CBE00B64954;
 					};
 					1E1D8007281D5CC000B64954 = {
@@ -284,6 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E579AE72823E3D500B13565 /* EditorPresenterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -497,15 +502,22 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = P67Q4Q7HA9;
 				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.akaDuality.VoiceOver-DesignerTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VoiceOver Designer.app/Contents/MacOS/VoiceOver Designer";
 			};
@@ -516,10 +528,16 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = P67Q4Q7HA9;
 				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.akaDuality.VoiceOver-DesignerTests";

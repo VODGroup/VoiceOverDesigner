@@ -35,18 +35,21 @@ class DocumentSaveService {
 #elseif os(macOS)
 import AppKit
 class ImageSaveService {
-    init(image: NSImage) {
-        self.image = image
-    }
     
-    private let image: NSImage
-    
-    func save(to path: URL) throws {
+    func save(image: NSImage, to path: URL) throws {
         if let data = UIImagePNGRepresentation(image) {
             try data.write(to: path.appendingPathComponent("screen.png"))
         } else {
             // TODO: Handle errors
         }
+    }
+    
+    func load(from path: URL) throws -> NSImage? {
+        let imageURL = path.appendingPathComponent("screen.png")
+        guard let data = try? Data(contentsOf: imageURL) else {
+            return nil
+        }
+        return NSImage(data: data)
     }
     
     func UIImagePNGRepresentation(_ image: NSImage) -> Data? {

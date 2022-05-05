@@ -27,6 +27,8 @@ extension View {
 public class DrawingService {
     public init(view: View) {
         self.view = view
+        
+        view.wantsLayer = true
     }
     
     private let view: View

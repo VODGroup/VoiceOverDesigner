@@ -5,7 +5,7 @@ public typealias Document = NSDocument
 import os
 
 public class VODesignDocument: Document {
-    var image: NSImage?
+    public var image: NSImage?
     public var controls: [A11yDescription] = []
     let name = "Test"
     
@@ -54,7 +54,7 @@ public class VODesignDocument: Document {
                     DocumentSaveService(fileURL: url).save(controls: self.controls)
                     
                     if let image = self.image {
-                        try ImageSaveService(image: image).save(to: url)
+                        try ImageSaveService().save(image: image, to: url.deletingLastPathComponent())
                     }
                     
                     completionHandler(nil)
@@ -71,7 +71,11 @@ public class VODesignDocument: Document {
     
     public override func read(from url: URL, ofType typeName: String) throws {
         controls = try DocumentSaveService(fileURL: url.appendingPathComponent("controls.json")).loadControls()
+        
+        image = try? imageSaveService.load(from: url)
     }
+    
+    private let imageSaveService = ImageSaveService()
 }
 #endif
 

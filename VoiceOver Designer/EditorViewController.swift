@@ -34,8 +34,21 @@ class EditorViewController: NSViewController {
         super.viewDidAppear()
         
         DispatchQueue.main.async {
-            self.presenter.didLoad(ui: self.view, controller: self)
+            self.presenter.didLoad(
+                ui: self.view().controlsView,
+                controller: self)
+//            self.presenter.document.image = self.view().backgroundImageView.image
+            self.loadImage()
         }
+    }
+    
+    func loadImage() {
+        let image = presenter.document.image
+        view().backgroundImageView.frame = CGRect(x: 0, y: 0, width: 375, height: 1000)
+        view().backgroundImageView.image = image
+        view().backgroundImageView.layer?.zPosition = 0
+//        view().scrollView.documentView = view().backgroundImageView
+        view.window?.contentMinSize = CGSize(width: 320, height: 762)
     }
     
     override var representedObject: Any? {
@@ -75,10 +88,14 @@ extension NSEvent {
 class EditorView: FlippedView {
     @IBOutlet weak var scrollView: NSScrollView!
     
+    @IBOutlet weak var backgroundImageView: NSImageView!
+    
+    @IBOutlet weak var controlsView: NSView!
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        scrollView.magnification = 3
+        scrollView.verticalScrollElasticity = .none
+        scrollView.horizontalScrollElasticity = .none
     }
 }
 
