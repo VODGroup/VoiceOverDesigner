@@ -8,9 +8,9 @@
 import Document
 import AppKit
 
-class EditorPresenter {
+public class EditorPresenter {
     
-    var document: VODesignDocument!// (fileName: "Test")
+    public var document: VODesignDocument!// (fileName: "Test")
     var drawingService: DrawingService!
     var router: Router!
     

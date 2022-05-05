@@ -8,13 +8,13 @@
 import Cocoa
 import Document
 
-class EditorViewController: NSViewController {
+public class EditorViewController: NSViewController {
 
-    let presenter = EditorPresenter()
+    public let presenter = EditorPresenter()
     
     var trackingArea: NSTrackingArea!
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         trackingArea = NSTrackingArea(
@@ -30,7 +30,7 @@ class EditorViewController: NSViewController {
         view.window?.makeFirstResponder(self)
     }
     
-    override func viewDidAppear() {
+    public override func viewDidAppear() {
         super.viewDidAppear()
         
         DispatchQueue.main.async {
@@ -49,27 +49,32 @@ class EditorViewController: NSViewController {
         view.window?.contentMinSize = CGSize(width: 320, height: 762)
     }
     
-    override var representedObject: Any? {
+    public override var representedObject: Any? {
         didSet {
         // Update the view, if already loaded.
         }
     }
     
     // MARK:
-    override func mouseDown(with event: NSEvent) {
+    public override func mouseDown(with event: NSEvent) {
         presenter.mouseDown(on: event.locationInWindowFlipped)
     }
     
-    override func mouseDragged(with event: NSEvent) {
+    public override func mouseDragged(with event: NSEvent) {
         presenter.mouseDragged(on: event.locationInWindowFlipped)
     }
     
-    override func mouseUp(with event: NSEvent) {
+    public override func mouseUp(with event: NSEvent) {
         presenter.mouseUp(on: event.locationInWindowFlipped)
     }
     
     func view() -> EditorView {
         view as! EditorView
+    }
+    
+    public static func fromStoryboard() -> EditorViewController {
+        let storyboard = NSStoryboard(name: "Editor", bundle: Bundle(for: EditorViewController.self))
+        return storyboard.instantiateInitialController() as! EditorViewController
     }
 }
 

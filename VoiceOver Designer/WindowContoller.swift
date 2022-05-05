@@ -8,6 +8,7 @@
 import AppKit
 import Projects
 import Document
+import Editor
 
 class WindowContoller: NSWindowController {
     
@@ -22,9 +23,7 @@ class WindowContoller: NSWindowController {
 
 extension WindowContoller: ProjectsRouter {
     func show(with image: NSImage) {
-        let storyboard = NSStoryboard(name: "Main", bundle: nil)
-        let controller = storyboard.instantiateController(withIdentifier: "editor") as! EditorViewController
-        
+        let controller = EditorViewController.fromStoryboard()
         controller.presenter.document = VODesignDocument(image: image)
         
         // VODesignDocument(fileName: "Test")

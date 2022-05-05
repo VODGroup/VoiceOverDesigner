@@ -124,4 +124,9 @@ class SettingsViewController: NSViewController {
         super.viewWillDisappear()
         delegate?.didUpdateValue()
     }
+    
+    public static func fromStoryboard() -> SettingsViewController {
+        let storyboard = NSStoryboard(name: "Editor", bundle: Bundle(for: SettingsViewController.self))
+        return storyboard.instantiateController(withIdentifier: "settings") as! SettingsViewController
+    }
 }

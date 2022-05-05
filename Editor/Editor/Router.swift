@@ -16,8 +16,7 @@ class Router {
     let rootController: NSViewController
     
     func showSettings(for control: A11yControl, delegate: SettingsDelegate) {
-        let storyboard = NSStoryboard(name: "Main", bundle: Bundle(for: SettingsViewController.self))
-        let settings = storyboard.instantiateController(withIdentifier: .init("settings")) as! SettingsViewController
+        let settings = SettingsViewController.fromStoryboard()
         settings.control = control
         settings.delegate = delegate
         
