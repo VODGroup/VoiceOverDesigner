@@ -25,6 +25,11 @@ public class VODesignDocument: Document {
         }
     }
     
+    public convenience init(image: NSImage) {
+        self.init(fileName: image.name() ?? Date().description)
+        self.image = image
+    }
+    
     public func save() {
         save(to: fileURL!, ofType: "", for: .saveOperation) { error in
             Swift.print(error)

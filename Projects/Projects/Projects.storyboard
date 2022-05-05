@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="KyR-Ji-qI4">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Projects View Controller-->
+        <scene sceneID="m6j-7H-VRt">
+            <objects>
+                <viewController id="KyR-Ji-qI4" customClass="ProjectsViewController" customModule="Projects" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="riM-Xx-dn2" customClass="ProjectsView" customModule="Projects" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qyy-Gj-Eqz">
+                                <rect key="frame" x="168" y="134" width="114" height="31"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Drag here" id="3Sz-Hc-JpK">
+                                    <font key="font" textStyle="largeTitle" name=".SFNS-Regular"/>
+                                    <color key="textColor" name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I3D-TU-WYr">
+                                <rect key="frame" x="13" y="253" width="68" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Menu" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dI0-na-bRZ">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="selectMenu" target="KyR-Ji-qI4" id="kuW-zM-ZTu"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ab3-qf-JkQ">
+                                <rect key="frame" x="79" y="253" width="82" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Product" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="V28-4Z-ASf">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="selectProductCard" target="KyR-Ji-qI4" id="aZu-oc-Ztm"/>
+                                </connections>
+                            </button>
+                            <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PY1-w3-hFn">
+                                <rect key="frame" x="103" y="50" width="244" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="NL9-qr-R62"/>
+                                </constraints>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="A11y-man" id="Ktk-Yw-lPr"/>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="qyy-Gj-Eqz" firstAttribute="centerY" secondItem="riM-Xx-dn2" secondAttribute="centerY" id="HwI-Yc-ODv"/>
+                            <constraint firstItem="qyy-Gj-Eqz" firstAttribute="centerX" secondItem="riM-Xx-dn2" secondAttribute="centerX" id="SlS-cl-X5f"/>
+                            <constraint firstItem="PY1-w3-hFn" firstAttribute="centerX" secondItem="riM-Xx-dn2" secondAttribute="centerX" id="pqP-by-q7p"/>
+                            <constraint firstItem="PY1-w3-hFn" firstAttribute="centerY" secondItem="riM-Xx-dn2" secondAttribute="centerY" id="yaL-tN-h99"/>
+                        </constraints>
+                        <connections>
+                            <outlet property="dragHereLabel" destination="qyy-Gj-Eqz" id="hyf-By-KBP"/>
+                            <outlet property="dragHereView" destination="PY1-w3-hFn" id="53J-fM-6GJ"/>
+                        </connections>
+                    </view>
+                </viewController>
+                <customObject id="Kn0-bV-vA7" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-20" y="54"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="A11y-man" width="244" height="306"/>
+    </resources>
+</document>

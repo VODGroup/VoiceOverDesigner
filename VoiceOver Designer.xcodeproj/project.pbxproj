@@ -18,7 +18,9 @@
 		1E579AE32823E32F00B13565 /* EditorPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579AE22823E32F00B13565 /* EditorPresenter.swift */; };
 		1E579AE52823E34600B13565 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579AE42823E34600B13565 /* Router.swift */; };
 		1E579AE72823E3D500B13565 /* EditorPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579AE62823E3D500B13565 /* EditorPresenterTests.swift */; };
-		1E579AE92824024F00B13565 /* ScreenReceiverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579AE82824024F00B13565 /* ScreenReceiverViewController.swift */; };
+		1E579B1C2824473600B13565 /* Projects.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E579B1B2824473600B13565 /* Projects.framework */; };
+		1E579B1D2824473600B13565 /* Projects.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1E579B1B2824473600B13565 /* Projects.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1E579B20282447D900B13565 /* WindowContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579B1F282447D900B13565 /* WindowContoller.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +40,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		1E579B1E2824473600B13565 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1E579B1D2824473600B13565 /* Projects.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		1E1D7FED281D5CBE00B64954 /* VoiceOver Designer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VoiceOver Designer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E1D7FF0281D5CBE00B64954 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -53,7 +69,8 @@
 		1E579AE22823E32F00B13565 /* EditorPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorPresenter.swift; sourceTree = "<group>"; };
 		1E579AE42823E34600B13565 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		1E579AE62823E3D500B13565 /* EditorPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorPresenterTests.swift; sourceTree = "<group>"; };
-		1E579AE82824024F00B13565 /* ScreenReceiverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenReceiverViewController.swift; sourceTree = "<group>"; };
+		1E579B1B2824473600B13565 /* Projects.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Projects.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1E579B1F282447D900B13565 /* WindowContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowContoller.swift; sourceTree = "<group>"; };
 		1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "VoiceOver-Designer-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -62,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E579B1C2824473600B13565 /* Projects.framework in Frameworks */,
 				1E033902281E737000EE373E /* Document in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -86,6 +104,7 @@
 		1E033900281E737000EE373E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1E579B1B2824473600B13565 /* Projects.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -116,9 +135,9 @@
 			children = (
 				1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */,
 				1E1D7FF0281D5CBE00B64954 /* AppDelegate.swift */,
+				1E579B1F282447D900B13565 /* WindowContoller.swift */,
 				1E1D7FF2281D5CBE00B64954 /* EditorViewController.swift */,
 				1E579AE42823E34600B13565 /* Router.swift */,
-				1E579AE82824024F00B13565 /* ScreenReceiverViewController.swift */,
 				1E579AE22823E32F00B13565 /* EditorPresenter.swift */,
 				1E1D8023281D720600B64954 /* SettingsViewController.swift */,
 				1E1D7FF4281D5CBF00B64954 /* Assets.xcassets */,
@@ -155,6 +174,7 @@
 				1E1D7FE9281D5CBE00B64954 /* Sources */,
 				1E1D7FEA281D5CBE00B64954 /* Frameworks */,
 				1E1D7FEB281D5CBE00B64954 /* Resources */,
+				1E579B1E2824473600B13565 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -279,12 +299,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E579B20282447D900B13565 /* WindowContoller.swift in Sources */,
 				1E1D7FF3281D5CBE00B64954 /* EditorViewController.swift in Sources */,
 				1E1D8024281D720600B64954 /* SettingsViewController.swift in Sources */,
 				1E579AE52823E34600B13565 /* Router.swift in Sources */,
 				1E1D7FF1281D5CBE00B64954 /* AppDelegate.swift in Sources */,
 				1E579AE32823E32F00B13565 /* EditorPresenter.swift in Sources */,
-				1E579AE92824024F00B13565 /* ScreenReceiverViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

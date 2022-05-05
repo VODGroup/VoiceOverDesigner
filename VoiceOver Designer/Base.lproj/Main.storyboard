@@ -5,68 +5,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Screen Receiver View Controller-->
-        <scene sceneID="hvb-8y-8hU">
-            <objects>
-                <viewController id="1cH-4u-OfJ" customClass="ScreenReceiverViewController" customModule="VoiceOver_Designer" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="47C-NL-yrv" customClass="ScreenReceiverView" customModule="VoiceOver_Designer" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2HH-gl-Qxp">
-                                <rect key="frame" x="168" y="134" width="114" height="31"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Drag here" id="aU0-jd-uOI">
-                                    <font key="font" textStyle="largeTitle" name=".SFNS-Regular"/>
-                                    <color key="textColor" name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3gB-Wt-lLI">
-                                <rect key="frame" x="13" y="253" width="68" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Menu" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6hs-hd-m89">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="selectMenu" target="1cH-4u-OfJ" id="p0z-gO-JEL"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2CW-W2-de3">
-                                <rect key="frame" x="79" y="253" width="82" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Product" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="qMs-dI-QdR">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="selectProductCard" target="1cH-4u-OfJ" id="5ff-eB-J0C"/>
-                                </connections>
-                            </button>
-                            <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="o4G-qi-gwy">
-                                <rect key="frame" x="103" y="50" width="244" height="200"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="JZF-od-ydZ"/>
-                                </constraints>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="A11y-man" id="C0f-rx-Ccy"/>
-                            </imageView>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="o4G-qi-gwy" firstAttribute="centerY" secondItem="47C-NL-yrv" secondAttribute="centerY" id="64i-ev-Bs2"/>
-                            <constraint firstItem="2HH-gl-Qxp" firstAttribute="centerY" secondItem="47C-NL-yrv" secondAttribute="centerY" id="8ak-eo-kwc"/>
-                            <constraint firstItem="o4G-qi-gwy" firstAttribute="centerX" secondItem="47C-NL-yrv" secondAttribute="centerX" id="VfL-7z-Gtv"/>
-                            <constraint firstItem="2HH-gl-Qxp" firstAttribute="centerX" secondItem="47C-NL-yrv" secondAttribute="centerX" id="d2g-Fl-6KF"/>
-                        </constraints>
-                        <connections>
-                            <outlet property="dragHereLabel" destination="2HH-gl-Qxp" id="yAs-oz-fRY"/>
-                            <outlet property="dragHereView" destination="o4G-qi-gwy" id="Zp1-uW-Ocu"/>
-                        </connections>
-                    </view>
-                </viewController>
-                <customObject id="iEz-Z2-HTh" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-299" y="28"/>
-        </scene>
         <!--Application-->
         <scene sceneID="JPo-4y-FX3">
             <objects>
@@ -745,7 +683,7 @@
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
+                <windowController id="B8D-0N-5wS" customClass="WindowContoller" customModule="VoiceOver_Designer" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="VoiceOver Designer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" titlebarAppearsTransparent="YES" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -755,9 +693,6 @@
                             <outlet property="delegate" destination="B8D-0N-5wS" id="98r-iN-zZc"/>
                         </connections>
                     </window>
-                    <connections>
-                        <segue destination="1cH-4u-OfJ" kind="relationship" relationship="window.shadowedContentViewController" id="rn4-Ft-D4c"/>
-                    </connections>
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1206,10 +1141,7 @@ DQ
                 </viewController>
                 <customObject id="75y-TY-Pa7" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="225.5" y="731.5"/>
+            <point key="canvasLocation" x="184" y="651"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="A11y-man" width="244" height="306"/>
-    </resources>
 </document>
