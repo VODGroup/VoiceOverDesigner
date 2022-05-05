@@ -18,6 +18,7 @@
 		1E579B20282447D900B13565 /* WindowContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579B1F282447D900B13565 /* WindowContoller.swift */; };
 		1E579B5828244B6F00B13565 /* Editor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E579B5728244B6F00B13565 /* Editor.framework */; };
 		1E579B5928244B6F00B13565 /* Editor.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1E579B5728244B6F00B13565 /* Editor.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1E579B922824587B00B13565 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579B912824587B00B13565 /* Tests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		1E579B1F282447D900B13565 /* WindowContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowContoller.swift; sourceTree = "<group>"; };
 		1E579B5728244B6F00B13565 /* Editor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Editor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E579B8528244D9300B13565 /* Settings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Settings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1E579B912824587B00B13565 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "VoiceOver-Designer-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -144,6 +146,7 @@
 		1E1D8001281D5CC000B64954 /* VoiceOver DesignerTests */ = {
 			isa = PBXGroup;
 			children = (
+				1E579B912824587B00B13565 /* Tests.swift */,
 			);
 			path = "VoiceOver DesignerTests";
 			sourceTree = "<group>";
@@ -301,6 +304,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E579B922824587B00B13565 /* Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

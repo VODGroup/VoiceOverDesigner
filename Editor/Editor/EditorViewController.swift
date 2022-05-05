@@ -36,7 +36,7 @@ public class EditorViewController: NSViewController {
         DispatchQueue.main.async {
             self.presenter.didLoad(
                 ui: self.view().controlsView,
-                controller: self)
+                router: Router(rootController: self))
             self.setImage()
         }
     }

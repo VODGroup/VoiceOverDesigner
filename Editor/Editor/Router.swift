@@ -9,7 +9,11 @@ import AppKit
 import Document
 import Settings
 
-class Router {
+protocol RouterProtocol {
+    func showSettings(for control: A11yControl, delegate: SettingsDelegate)
+}
+
+class Router: RouterProtocol {
     init(rootController: NSViewController) {
         self.rootController = rootController
     }

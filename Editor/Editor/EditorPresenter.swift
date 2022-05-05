@@ -13,11 +13,11 @@ public class EditorPresenter {
     
     public var document: VODesignDocument!// (fileName: "Test")
     var drawingService: DrawingService!
-    var router: Router!
+    var router: RouterProtocol!
     
-    func didLoad(ui: NSView, controller: NSViewController) {
+    func didLoad(ui: NSView, router: RouterProtocol) {
         drawingService = DrawingService(view: ui)
-        router = Router(rootController: controller)
+        self.router = router
         
         loadAndDraw()
     }
