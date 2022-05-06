@@ -27,7 +27,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="vuC-bS-HZw"/>
                                                 </imageView>
-                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="L7U-F0-kOc" customClass="FlippedView" customModule="VoiceOver_Designer" customModuleProvider="target">
+                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="L7U-F0-kOc" customClass="FlippedView" customModule="Editor" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                                 </customView>
                                             </subviews>
@@ -52,21 +52,29 @@
                                     <rect key="frame" x="1" y="795" width="373" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="96e-u8-vjE">
+                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="96e-u8-vjE">
                                     <rect key="frame" x="358" y="1" width="16" height="810"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="4cN-cs-t43" customClass="DragNDropImageView" customModule="CommonUI">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                            </customView>
                         </subviews>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="4cN-cs-t43" secondAttribute="trailing" id="9ge-cr-jcg"/>
                             <constraint firstAttribute="trailing" secondItem="JHg-wh-ieX" secondAttribute="trailing" id="SwQ-dg-9fH"/>
+                            <constraint firstItem="4cN-cs-t43" firstAttribute="leading" secondItem="ndy-hA-WOO" secondAttribute="leading" id="imA-ca-blj"/>
                             <constraint firstItem="JHg-wh-ieX" firstAttribute="top" secondItem="ndy-hA-WOO" secondAttribute="top" id="nM5-li-hss"/>
                             <constraint firstAttribute="bottom" secondItem="JHg-wh-ieX" secondAttribute="bottom" id="osd-jY-8o2"/>
+                            <constraint firstAttribute="bottom" secondItem="4cN-cs-t43" secondAttribute="bottom" id="q5n-mn-4x8"/>
+                            <constraint firstItem="4cN-cs-t43" firstAttribute="top" secondItem="ndy-hA-WOO" secondAttribute="top" id="rID-hz-0k6"/>
                             <constraint firstItem="JHg-wh-ieX" firstAttribute="leading" secondItem="ndy-hA-WOO" secondAttribute="leading" id="xpf-jL-Dqa"/>
                         </constraints>
                         <connections>
                             <outlet property="backgroundImageView" destination="kiH-h5-aG4" id="7f8-09-iTJ"/>
                             <outlet property="controlsView" destination="L7U-F0-kOc" id="nWG-y5-Tqd"/>
+                            <outlet property="dragnDropView" destination="4cN-cs-t43" id="5pO-tT-x64"/>
                             <outlet property="scrollView" destination="JHg-wh-ieX" id="oB8-ia-UPa"/>
                         </connections>
                     </view>

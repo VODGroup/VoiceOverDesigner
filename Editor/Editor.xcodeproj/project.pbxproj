@@ -19,6 +19,7 @@
 		1E579B8C28244E3E00B13565 /* Settings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E579B8B28244E3E00B13565 /* Settings.framework */; };
 		1E579B8D28244E3E00B13565 /* Settings.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1E579B8B28244E3E00B13565 /* Settings.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1E579B90282454BE00B13565 /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E579B8F282454BE00B13565 /* Document */; };
+		1E579BCA28255FB700B13565 /* CommonUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E579BC928255FB700B13565 /* CommonUI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		1E579B5328244B3100B13565 /* Editor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Editor.storyboard; sourceTree = "<group>"; };
 		1E579B5528244B5000B13565 /* EditorPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorPresenterTests.swift; sourceTree = "<group>"; };
 		1E579B8B28244E3E00B13565 /* Settings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Settings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1E579BC928255FB700B13565 /* CommonUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CommonUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E579BCA28255FB700B13565 /* CommonUI.framework in Frameworks */,
 				1E579B3C28244AF500B13565 /* Editor.framework in Frameworks */,
 				1E579B90282454BE00B13565 /* Document in Frameworks */,
 			);
@@ -123,6 +126,7 @@
 		1E579B5A28244B7400B13565 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1E579BC928255FB700B13565 /* CommonUI.framework */,
 				1E579B8B28244E3E00B13565 /* Settings.framework */,
 			);
 			name = Frameworks;

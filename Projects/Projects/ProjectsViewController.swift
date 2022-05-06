@@ -7,6 +7,7 @@
 
 import AppKit
 import Document
+import CommonUI
 
 public protocol ProjectsRouter: AnyObject {
     func show(document: VODesignDocument) -> Void
@@ -41,12 +42,12 @@ public class ProjectsViewController: NSViewController {
 }
 
 extension ProjectsViewController: DragNDropDelegate {
-    func didDrag(path: URL) {
+    public func didDrag(path: URL) {
         let document = VODesignDocument(fileName: path.lastPathComponent, rootPath: path.deletingLastPathComponent())
         router?.show(document: document)
     }
     
-    func didDrag(image: NSImage) {
+    public func didDrag(image: NSImage) {
         show(image: image)
     }
     

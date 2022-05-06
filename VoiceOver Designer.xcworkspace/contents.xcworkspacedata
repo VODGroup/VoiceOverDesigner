@@ -17,6 +17,9 @@
       location = "group:Projects/Projects.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:CommonUI/CommonUI.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Document">
    </FileRef>
 </Workspace>

@@ -28,6 +28,8 @@ public class EditorViewController: NSViewController {
         view.addTrackingArea(trackingArea)
         
         view.window?.makeFirstResponder(self)
+        
+        view().dragnDropView.delegate = self
     }
     
     public override func viewDidAppear() {
@@ -57,7 +59,7 @@ public class EditorViewController: NSViewController {
     
     var highlightedControl: A11yControl? {
         didSet {
-            if let highlightedControl = highlightedControl {
+            if highlightedControl != nil {
                 NSCursor.openHand.push()
             } else {
                 NSCursor.openHand.pop()
@@ -68,6 +70,7 @@ public class EditorViewController: NSViewController {
         highlightedControl?.isHiglighted = false
         highlightedControl = nil
         
+        // TODO: Can crash if happend before document loading
         guard let control = presenter.drawingService.control(at: event.locationInWindowFlipped) else {
             return
         }
@@ -105,6 +108,18 @@ public class EditorViewController: NSViewController {
     }
 }
 
+extension EditorViewController: DragNDropDelegate {
+    public func didDrag(image: NSImage) {
+        presenter.document.image = image
+        view().backgroundImageView.image = image
+        presenter.save()
+    }
+    
+    public func didDrag(path: URL) {
+        // TODO: Add support. Or decline this files
+    }
+}
+
 extension NSEvent {
     var locationInWindowFlipped: CGPoint {
         return CGPoint(x: locationInWindow.x,
@@ -115,6 +130,7 @@ extension NSEvent {
     }
 }
 
+import CommonUI
 class EditorView: FlippedView {
     @IBOutlet weak var scrollView: NSScrollView!
     
@@ -127,6 +143,8 @@ class EditorView: FlippedView {
         scrollView.verticalScrollElasticity = .none
         scrollView.horizontalScrollElasticity = .none
     }
+    
+    @IBOutlet weak var dragnDropView: DragNDropImageView!
 }
 
 class FlippedView: NSView {
