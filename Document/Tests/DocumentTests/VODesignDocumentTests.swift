@@ -41,4 +41,17 @@ class VODesignDocumentTests: XCTestCase {
         XCTAssertEqual(document2.controls.count, 2)
     }
 }
+
+extension VODesignDocument {
+    public func save() {
+        save(to: fileURL!, ofType: Self.vodesign, for: .saveOperation) { error in
+            Swift.print(error)
+            // TODO: Handle
+        }
+    }
+    
+    public func read() throws {
+        try read(from: fileURL!, ofType: Self.vodesign)
+    }
+}
 #endif

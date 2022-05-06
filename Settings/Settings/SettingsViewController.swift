@@ -134,7 +134,6 @@ public class SettingsViewController: NSViewController {
     }
     
     @IBAction func doneDidPressed(_ sender: Any) {
-        presenter.delegate?.didUpdateValue()
         dismiss(self)
     }
     

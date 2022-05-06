@@ -11,7 +11,7 @@ import Settings
 
 public class EditorPresenter {
     
-    public var document: VODesignDocument!// (fileName: "Test")
+    public var document: VODesignDocument!
     var drawingService: DrawingService!
     var router: RouterProtocol!
     
@@ -19,16 +19,11 @@ public class EditorPresenter {
         drawingService = DrawingService(view: ui)
         self.router = router
         
-        loadAndDraw()
+        draw()
     }
     
-    func loadAndDraw() {
-        do {
-//            document.read()
-            document.controls.forEach(drawingService.drawControl(from:))
-        } catch let error {
-            print(error)
-        }
+    func draw() {
+        document.controls.forEach(drawingService.drawControl(from:))
     }
     
     func save() {
@@ -37,8 +32,6 @@ public class EditorPresenter {
         }
         
         document.controls = descriptions
-//        document.save()
-        document.updateChangeCount(.changeDone)
     }
     
     // MARK: Mouse
@@ -60,16 +53,20 @@ public class EditorPresenter {
         
         switch action {
         case .new(let control, let origin):
-             break
+            document.undoManager?.registerUndo(withTarget: self, handler: { target in
+                target.delete(control: control)
+            })
+            
+            save()
         case .translate(let control, let startLocation, let offset):
-            break
+            save()
         case .click(let control):
             router.showSettings(for: control, delegate: self)
         case .none:
             break
         }
         
-        save()
+        
     }
 }
 

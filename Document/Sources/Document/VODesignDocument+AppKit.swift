@@ -5,12 +5,19 @@ public typealias Document = NSDocument
 import os
 
 public class VODesignDocument: Document {
-    public var image: NSImage?
-    public var controls: [A11yDescription] = []
-    let name = "Test"
-    
     public static var vodesign = "vodesign"
     
+    // MARK: - Data
+    public var image: NSImage?
+    public var controls: [A11yDescription] = [] {
+        didSet {
+            undoManager?.registerUndo(withTarget: self, handler: { document in
+                document.controls = oldValue
+            })
+        }
+    }
+
+    // MARK: - Constructors
     public convenience init(fileName: String,
                             rootPath: URL = iCloudContainer) {
         let file = rootPath.appendingPathComponent(fileName).appendingPathExtension(Self.vodesign)
@@ -35,39 +42,39 @@ public class VODesignDocument: Document {
         self.image = image
     }
     
-    public func save() {
-        save(to: fileURL!, ofType: Self.vodesign, for: .saveOperation) { error in
-            Swift.print(error)
-            // TODO: Handle
-        }
-    }
+    // MARK: - File managment
     
-    public func read() throws {
-        try read(from: fileURL!, ofType: Self.vodesign)
+    public override class var autosavesInPlace: Bool {
+        return true
     }
     
     public override func fileWrapper(ofType typeName: String) throws -> FileWrapper {
-        let package = FileWrapper(
-            directoryWithFileWrappers:
-                ["controls.json" : FileWrapper(
-                    regularFileWithContents: try JSONEncoder().encode(controls)),
-                ]
-        )
+        let package = FileWrapper(directoryWithFileWrappers: [:])
         
-        if let image = image,
-            let imageData = ImageSaveService().UIImagePNGRepresentation(image)
-        {
-            let imageWrapper = FileWrapper(regularFileWithContents: imageData)
-            imageWrapper.preferredFilename = "screen.png"
-                                           
+        package.addFileWrapper(try controlsWrapper())
+        
+        if let imageWrapper = imageWrapper() {
             package.addFileWrapper(imageWrapper)
         }
      
         return package
     }
     
-    public override class var autosavesInPlace: Bool {
-        return true
+    private func controlsWrapper() throws -> FileWrapper {
+        let wrapper = FileWrapper(regularFileWithContents: try JSONEncoder().encode(controls))
+        wrapper.preferredFilename = "controls.json"
+        return wrapper
+    }
+    
+    private func imageWrapper() -> FileWrapper? {
+        guard let image = image,
+           let imageData = ImageSaveService().UIImagePNGRepresentation(image)
+        else { return nil }
+        
+        let imageWrapper = FileWrapper(regularFileWithContents: imageData)
+        imageWrapper.preferredFilename = "screen.png"
+            
+        return imageWrapper
     }
     
     public override func read(from url: URL, ofType typeName: String) throws {
@@ -75,10 +82,7 @@ public class VODesignDocument: Document {
         
         controls = try DocumentSaveService(fileURL: url.appendingPathComponent("controls.json")).loadControls()
         
-        image = try? imageSaveService.load(from: url)
+        image = try? ImageSaveService().load(from: url)
     }
-    
-    private let imageSaveService = ImageSaveService()
 }
 #endif
-

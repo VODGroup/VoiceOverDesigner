@@ -26,10 +26,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func application(_ sender: NSApplication, openFile filename: String) -> Bool {
         let url = URL(fileURLWithPath: filename)
         let document = VODesignDocument(file: url)
-        let storyboard = NSStoryboard(name: "Main", bundle: nil)
-        let window = storyboard.instantiateInitialController() as! WindowContoller
-        window.document = document
+        
+        let window = WindowContoller.fromStoryboard()
         window.show(document: document)
+        
         window.showWindow(self)
         
         return true

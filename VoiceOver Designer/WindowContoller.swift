@@ -12,6 +12,12 @@ import Editor
 
 class WindowContoller: NSWindowController {
     
+    static func fromStoryboard() -> WindowContoller {
+        let storyboard = NSStoryboard(name: "Main", bundle: nil)
+        let window = storyboard.instantiateInitialController() as! WindowContoller
+        return window
+    }
+    
     override func windowDidLoad() {
         super.windowDidLoad()
         
@@ -23,6 +29,9 @@ class WindowContoller: NSWindowController {
 
 extension WindowContoller: ProjectsRouter {
     func show(document: VODesignDocument) {
+//        self.document = document
+        document.addWindowController(self)
+        
         let controller = EditorViewController.fromStoryboard()
         controller.presenter.document = document
         
