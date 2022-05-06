@@ -9,6 +9,7 @@ import AppKit
 
 protocol DragNDropDelegate: AnyObject {
     func didDrag(image: NSImage)
+    func didDrag(path: URL)
 }
 
 class ProjectsView: NSView {
@@ -28,7 +29,7 @@ class ProjectsView: NSView {
         super.awakeFromNib()
         
         // TODO: Add another files
-        registerForDraggedTypes([.png, .fileURL, .fileContents])
+        registerForDraggedTypes([.png, .fileURL, .fileContents, .URL])
     }
     
     override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
@@ -36,17 +37,25 @@ class ProjectsView: NSView {
         return .copy
     }
     
-    override func draggingEnded(_ sender: NSDraggingInfo) {
+    override func draggingExited(_ sender: NSDraggingInfo?) {
         isWaitingForFile = false
     }
     
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
         let pasteboard = sender.draggingPasteboard
         
-        guard let image = NSImage(pasteboard: pasteboard) else { return false }
+        if let image = NSImage(pasteboard: pasteboard) {
+            delegate?.didDrag(image: image)
+            return true
+        }
         
-        delegate?.didDrag(image: image)
+        if let item = pasteboard.pasteboardItems?.first,
+           let data = item.data(forType: .fileURL),
+           let string = String(data: data, encoding: .utf8) {
+            let url = URL(fileURLWithPath: string)
+            delegate?.didDrag(path: url)
+        }
         
-        return true
+        return false
     }
 }

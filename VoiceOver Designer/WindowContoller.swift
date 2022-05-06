@@ -22,14 +22,12 @@ class WindowContoller: NSWindowController {
 }
 
 extension WindowContoller: ProjectsRouter {
-    func show(with image: NSImage) {
+    func show(document: VODesignDocument) {
         let controller = EditorViewController.fromStoryboard()
-        controller.presenter.document = VODesignDocument(image: image)
+        controller.presenter.document = document
         
         // VODesignDocument(fileName: "Test")
         
         window?.contentViewController = controller
     }
 }
-
-

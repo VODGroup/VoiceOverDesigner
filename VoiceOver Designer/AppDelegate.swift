@@ -6,6 +6,7 @@
 //
 
 import Cocoa
+import Document
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -19,6 +20,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
+        return true
+    }
+    
+    func application(_ sender: NSApplication, openFile filename: String) -> Bool {
+        let url = URL(fileURLWithPath: filename)
+        let document = VODesignDocument(file: url)
+        let storyboard = NSStoryboard(name: "Main", bundle: nil)
+        let window = storyboard.instantiateInitialController() as! WindowContoller
+        window.document = document
+        window.show(document: document)
+        window.showWindow(self)
+        
         return true
     }
 }

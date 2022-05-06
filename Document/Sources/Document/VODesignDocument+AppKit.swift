@@ -15,10 +15,15 @@ public class VODesignDocument: Document {
                             rootPath: URL = iCloudContainer) {
         let file = rootPath.appendingPathComponent(fileName).appendingPathExtension(Self.vodesign)
         
+        self.init(file: file)
+    }
+    
+    public convenience init(file: URL) {
         do {
             try self.init(contentsOf: file,
                           ofType: Self.vodesign)
         } catch let error {
+            Swift.print(error)
             // TODO: Is it ok?
             try! self.init(type: Self.vodesign)
             self.fileURL = file
@@ -37,9 +42,8 @@ public class VODesignDocument: Document {
         }
     }
     
-    public func read() {
-        // TODO: Try
-        try? read(from: fileURL!, ofType: Self.vodesign)
+    public func read() throws {
+        try read(from: fileURL!, ofType: Self.vodesign)
     }
     
     public override func write(to url: URL, ofType typeName: String) throws {
@@ -51,7 +55,7 @@ public class VODesignDocument: Document {
             .save(controls: self.controls)
 
         if let image = self.image {
-            try ImageSaveService().save(image: image, to: url.deletingLastPathComponent())
+            try ImageSaveService().save(image: image, to: url)
         }
     }
     

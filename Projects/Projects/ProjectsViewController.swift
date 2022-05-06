@@ -9,7 +9,7 @@ import AppKit
 import Document
 
 public protocol ProjectsRouter: AnyObject {
-    func show(with image: NSImage) -> Void
+    func show(document: VODesignDocument) -> Void
 }
 
 public class ProjectsViewController: NSViewController {
@@ -17,11 +17,11 @@ public class ProjectsViewController: NSViewController {
     public weak var router: ProjectsRouter?
     
     @IBAction func selectMenu(_ sender: Any) {
-        router?.show(with: NSImage(named: "Sample_menu")!)
+        show(image: NSImage(named: "Sample_menu")!)
     }
     
     @IBAction func selectProductCard(_ sender: Any) {
-        router?.show(with: NSImage(named: "Sample_product")!)
+        show(image: NSImage(named: "Sample_product")!)
     }
     
     public override func viewDidLoad() {
@@ -41,8 +41,18 @@ public class ProjectsViewController: NSViewController {
 }
 
 extension ProjectsViewController: DragNDropDelegate {
+    func didDrag(path: URL) {
+        let document = VODesignDocument(fileName: path.lastPathComponent, rootPath: path.deletingLastPathComponent())
+        router?.show(document: document)
+    }
+    
     func didDrag(image: NSImage) {
-        router?.show(with: image)
+        show(image: image)
+    }
+    
+    func show(image: NSImage) {
+        let document = VODesignDocument(image: image)
+        router?.show(document: document)
     }
 }
 
