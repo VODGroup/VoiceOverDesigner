@@ -19,6 +19,7 @@
 		1E579B5828244B6F00B13565 /* Editor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E579B5728244B6F00B13565 /* Editor.framework */; };
 		1E579B5928244B6F00B13565 /* Editor.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1E579B5728244B6F00B13565 /* Editor.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1E579B922824587B00B13565 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579B912824587B00B13565 /* Tests.swift */; };
+		1E579B9C2825485300B13565 /* VODocumentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579B9B2825485300B13565 /* VODocumentController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		1E579B5728244B6F00B13565 /* Editor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Editor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E579B8528244D9300B13565 /* Settings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Settings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E579B912824587B00B13565 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		1E579B9B2825485300B13565 /* VODocumentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VODocumentController.swift; sourceTree = "<group>"; };
 		1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "VoiceOver-Designer-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -136,6 +138,7 @@
 				1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */,
 				1E1D7FF0281D5CBE00B64954 /* AppDelegate.swift */,
 				1E579B1F282447D900B13565 /* WindowContoller.swift */,
+				1E579B9B2825485300B13565 /* VODocumentController.swift */,
 				1E1D7FF4281D5CBF00B64954 /* Assets.xcassets */,
 				1E1D7FF6281D5CBF00B64954 /* Main.storyboard */,
 				1E1D7FF9281D5CBF00B64954 /* VoiceOver_Designer.entitlements */,
@@ -297,6 +300,7 @@
 			files = (
 				1E579B20282447D900B13565 /* WindowContoller.swift in Sources */,
 				1E1D7FF1281D5CBE00B64954 /* AppDelegate.swift in Sources */,
+				1E579B9C2825485300B13565 /* VODocumentController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

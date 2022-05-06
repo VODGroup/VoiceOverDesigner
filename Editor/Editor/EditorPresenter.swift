@@ -37,7 +37,8 @@ public class EditorPresenter {
         }
         
         document.controls = descriptions
-        document.save()
+//        document.save()
+        document.updateChangeCount(.changeDone)
     }
     
     // MARK: Mouse
