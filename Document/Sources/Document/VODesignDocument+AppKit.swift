@@ -36,7 +36,7 @@ public class VODesignDocument: Document {
     }
     
     public func save() {
-        save(to: fileURL!, ofType: "", for: .saveOperation) { error in
+        save(to: fileURL!, ofType: Self.vodesign, for: .saveOperation) { error in
             Swift.print(error)
             // TODO: Handle
         }
@@ -46,59 +46,37 @@ public class VODesignDocument: Document {
         try read(from: fileURL!, ofType: Self.vodesign)
     }
     
-    public override func write(to url: URL, ofType typeName: String) throws {
-        Swift.print("Save to \(url)")
+    public override func fileWrapper(ofType typeName: String) throws -> FileWrapper {
+        let package = FileWrapper(
+            directoryWithFileWrappers:
+                ["controls.json" : FileWrapper(
+                    regularFileWithContents: try JSONEncoder().encode(controls)),
+                ]
+        )
         
-        try FileManager.default.createDirectory(at: url,
-                                                withIntermediateDirectories: true)
-        DocumentSaveService(fileURL: url.appendingPathComponent("controls.json"))
-            .save(controls: self.controls)
-
-        if let image = self.image {
-            try ImageSaveService().save(image: image, to: url)
+        if let image = image,
+            let imageData = ImageSaveService().UIImagePNGRepresentation(image)
+        {
+            let imageWrapper = FileWrapper(regularFileWithContents: imageData)
+            imageWrapper.preferredFilename = "screen.png"
+                                           
+            package.addFileWrapper(imageWrapper)
         }
+     
+        return package
+    }
+    
+    public override class var autosavesInPlace: Bool {
+        return true
     }
     
     public override func read(from url: URL, ofType typeName: String) throws {
-        Swift.print("Read from \(fileURL)")
+        Swift.print("Read from \(url)")
         
         controls = try DocumentSaveService(fileURL: url.appendingPathComponent("controls.json")).loadControls()
         
         image = try? imageSaveService.load(from: url)
     }
-    
-//    public override func save(to url: URL, ofType typeName: String, for saveOperation: NSDocument.SaveOperationType, completionHandler: @escaping (Error?) -> Void) {
-//
-//        os_log("start saving")
-//        performAsynchronousFileAccess { completion in
-//            let fileCoordinator = NSFileCoordinator(filePresenter: self)
-//            fileCoordinator.coordinate(
-//                writingItemAt: url.appendingPathComponent("controls.json"),
-//                options: .forReplacing,
-//                error: nil
-//            ) { url in
-//                os_log("got access")
-//                do {
-//                    self.fileModificationDate = Date()
-//                    try FileManager.default.createDirectory(at: url.deletingLastPathComponent(),
-//                                                            withIntermediateDirectories: true)
-//                    DocumentSaveService(fileURL: url).save(controls: self.controls)
-//
-//                    if let image = self.image {
-//                        try ImageSaveService().save(image: image, to: url.deletingLastPathComponent())
-//                    }
-//
-//                    completionHandler(nil)
-//                    completion()
-//                    os_log("save")
-//                } catch let error {
-//                    completionHandler(error)
-//                    os_log("fail saving")
-//                    completion()
-//                }
-//            }
-//        }
-//    }
     
     private let imageSaveService = ImageSaveService()
 }
