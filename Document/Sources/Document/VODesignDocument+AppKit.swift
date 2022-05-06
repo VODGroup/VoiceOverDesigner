@@ -13,7 +13,7 @@ public class VODesignDocument: Document {
     
     public convenience init(fileName: String,
                             rootPath: URL = iCloudContainer) {
-        let file = rootPath.appendingPathComponent(fileName)
+        let file = rootPath.appendingPathComponent(fileName).appendingPathExtension(Self.vodesign)
         
         do {
             try self.init(contentsOf: file,
