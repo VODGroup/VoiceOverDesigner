@@ -92,7 +92,9 @@ public class SettingsViewController: NSViewController {
     
     // MARK: Description
     @IBAction func labelDidChange(_ sender: NSTextField) {
+        // TODO: if you forgot to call updateColor, the label wouldn't be revalidated
         control.a11yDescription?.label = sender.stringValue
+        control.updateColor()
         updateText()
     }
     
