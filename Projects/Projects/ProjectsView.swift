@@ -12,24 +12,16 @@ protocol DragNDropDelegate: AnyObject {
     func didDrag(path: URL)
 }
 
-class ProjectsView: NSView {
+class DragNDropImageView: NSView {
+    var isWaitingForFile: Bool = false
     
     weak var delegate: DragNDropDelegate?
     
-    @IBOutlet weak var dragHereView: NSImageView!
-    @IBOutlet weak var dragHereLabel: NSTextField!
-    
-    private var isWaitingForFile: Bool = false {
-        didSet {
-            dragHereView.isHidden = !isWaitingForFile
-            dragHereLabel.isHidden = isWaitingForFile
-        }
-    }
     override func awakeFromNib() {
         super.awakeFromNib()
         
         // TODO: Add another files
-        registerForDraggedTypes([.png, .fileURL, .fileContents, .URL])
+        registerForDraggedTypes([.png, .fileURL])
     }
     
     override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
@@ -57,5 +49,18 @@ class ProjectsView: NSView {
         }
         
         return false
+    }
+}
+
+class ProjectsView: DragNDropImageView {
+    
+    @IBOutlet weak var dragHereView: NSImageView!
+    @IBOutlet weak var dragHereLabel: NSTextField!
+    
+    override var isWaitingForFile: Bool {
+        didSet {
+            dragHereView.isHidden = !isWaitingForFile
+            dragHereLabel.isHidden = isWaitingForFile
+        }
     }
 }
