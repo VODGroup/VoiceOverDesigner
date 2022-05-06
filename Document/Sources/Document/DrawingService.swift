@@ -65,7 +65,7 @@ public class DrawingService {
     
     public func startDrawing(coordinate: CGPoint) {
         let control = A11yControl()
-        control.backgroundColor = A11yDescription.notValidColor.cgColor
+        control.backgroundColor = A11yDescription.invalidColor.cgColor
         control.a11yDescription = .empty(frame: .zero)
         
         drawnControls.append(control)

@@ -18,7 +18,7 @@ class VODesignDocumentTests: XCTestCase {
     let fileName = "TestFile"
     
     override func tearDownWithError() throws {
-        try FileManager.default
+        try? FileManager.default
             .removeItem(at: path.appendingPathComponent(fileName))
     }
 

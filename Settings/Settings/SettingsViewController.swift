@@ -17,13 +17,30 @@ class TraitCheckBox: NSButton {
     var trait: A11yTraits!
 }
 
-public class SettingsViewController: NSViewController {
+public class SettingsPresenter {
+    public init(
+        control: A11yControl,
+        delegate: SettingsDelegate
+    ) {
+        self.control = control
+        self.delegate = delegate
+    }
     
+    public var control: A11yControl
     public weak var delegate: SettingsDelegate?
-    public var control: A11yControl!
+    
+    func updateLabel(to newValue: String) {
+        control.a11yDescription?.label = newValue
+        control.updateColor()
+    }
+}
+
+public class SettingsViewController: NSViewController {
+
+    public var presenter: SettingsPresenter!
     
     var descr: A11yDescription {
-        control.a11yDescription!
+        presenter.control.a11yDescription!
     }
     
     @IBOutlet weak var resultLabel: NSTextField!
@@ -83,9 +100,9 @@ public class SettingsViewController: NSViewController {
         let isOn = sender.state == .on
         
         if isOn {
-            control.a11yDescription?.trait.formUnion(sender.trait)
+            descr.trait.formUnion(sender.trait)
         } else {
-            control.a11yDescription?.trait.subtract(sender.trait)
+            descr.trait.subtract(sender.trait)
         }
         updateText()
     }
@@ -93,38 +110,37 @@ public class SettingsViewController: NSViewController {
     // MARK: Description
     @IBAction func labelDidChange(_ sender: NSTextField) {
         // TODO: if you forgot to call updateColor, the label wouldn't be revalidated
-        control.a11yDescription?.label = sender.stringValue
-        control.updateColor()
+        presenter.updateLabel(to: sender.stringValue)
         updateText()
     }
     
     @IBAction func valueDidChange(_ sender: NSTextField) {
-        control.a11yDescription?.value = sender.stringValue
+        descr.value = sender.stringValue
         updateText()
     }
     
     @IBAction func hintDidChange(_ sender: NSTextField) {
-        control.a11yDescription?.hint = sender.stringValue
+        descr.hint = sender.stringValue
         updateText()
     }
     
     private func updateText() {
-        resultLabel.stringValue = control.a11yDescription?.voiceOverText ?? ""
+        resultLabel.stringValue = descr.voiceOverText ?? ""
     }
     
     @IBAction func delete(_ sender: Any) {
-        delegate?.delete(control: control)
+        presenter.delegate?.delete(control: presenter.control)
         dismiss(self)
     }
     
     @IBAction func doneDidPressed(_ sender: Any) {
-        delegate?.didUpdateValue()
+        presenter.delegate?.didUpdateValue()
         dismiss(self)
     }
     
     public override func viewWillDisappear() {
         super.viewWillDisappear()
-        delegate?.didUpdateValue()
+        presenter.delegate?.didUpdateValue()
     }
     
     public static func fromStoryboard() -> SettingsViewController {

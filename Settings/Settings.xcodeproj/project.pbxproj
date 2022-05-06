@@ -14,6 +14,7 @@
 		1E579B8228244D5700B13565 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579B8128244D5600B13565 /* SettingsViewController.swift */; };
 		1E579B8428244D6700B13565 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E579B8328244D6700B13565 /* Settings.storyboard */; };
 		1E579B8A28244DA200B13565 /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E579B8928244DA200B13565 /* Document */; };
+		1E579B9A2825396000B13565 /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E579B992825396000B13565 /* Document */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E579B7228244D4E00B13565 /* Settings.framework in Frameworks */,
+				1E579B9A2825396000B13565 /* Document in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,6 +152,9 @@
 				1E579B7428244D4E00B13565 /* PBXTargetDependency */,
 			);
 			name = SettingsTests;
+			packageProductDependencies = (
+				1E579B992825396000B13565 /* Document */,
+			);
 			productName = SettingsTests;
 			productReference = 1E579B7128244D4E00B13565 /* SettingsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -479,6 +484,10 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		1E579B8928244DA200B13565 /* Document */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Document;
+		};
+		1E579B992825396000B13565 /* Document */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Document;
 		};

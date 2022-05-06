@@ -22,8 +22,7 @@ class Router: RouterProtocol {
     
     func showSettings(for control: A11yControl, delegate: SettingsDelegate) {
         let settings = SettingsViewController.fromStoryboard()
-        settings.control = control
-        settings.delegate = delegate
+        settings.presenter = SettingsPresenter(control: control, delegate: delegate)
         
         rootController.present(settings,
                                asPopoverRelativeTo: control.frame,

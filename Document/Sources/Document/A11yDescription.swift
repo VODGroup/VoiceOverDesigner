@@ -46,10 +46,10 @@ public class A11yDescription: Codable {
     }
     
     public var color: Color {
-        (isValid ? Self.validColor: Self.notValidColor).withAlphaComponent(0.3)
+        (isValid ? Self.validColor: Self.invalidColor).withAlphaComponent(0.3)
     }
     
-    static var notValidColor: Color {
+    static var invalidColor: Color {
         Color.systemOrange
     }
     

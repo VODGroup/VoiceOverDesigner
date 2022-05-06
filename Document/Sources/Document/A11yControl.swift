@@ -8,6 +8,7 @@
 import QuartzCore
 
 public class A11yControl: CALayer {
+    
     public var a11yDescription: A11yDescription?
     
     public func updateColor() {

@@ -48,6 +48,16 @@
                ReferencedContainer = "container:Document">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1E579B7028244D4E00B13565"
+               BuildableName = "SettingsTests.xctest"
+               BlueprintName = "SettingsTests"
+               ReferencedContainer = "container:Settings/Settings.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
