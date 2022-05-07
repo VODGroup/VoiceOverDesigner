@@ -109,13 +109,23 @@ public class DrawingService {
         
         drag(to: coordinate)
         
-        if case let .translate(control, _, offset) = action {
+        switch action {
+        case .new(let control, let origin):
+            let minimalTapSize: CGFloat = 44
+            control.frame = control.frame.increase(to: CGSize(width: minimalTapSize, height: minimalTapSize))
+            
+        case .translate(let control, let startLocation, let offset):
             if offset == .zero {
                 // Reset frame
                 control.frame = control.frame.offsetBy(dx: -offset.x,
                                                        dy: -offset.y)
-               return .click(control: control)
+                return .click(control: control)
             }
+        case .click(let control):
+            break // impossible state at this moment
+            
+        case .none:
+            break
         }
         
         return action
@@ -145,5 +155,18 @@ extension CALayer {
         CATransaction.setAnimationDuration(0)
         block()
         CATransaction.commit()
+    }
+}
+
+extension CGRect {
+    func increase(to minimalSize: CGSize) -> Self {
+        if size.width < minimalSize.width {
+            let origin = CGPoint(x: midX - minimalSize.width / 2,
+                                 y: midY - minimalSize.height / 2)
+            return CGRect(origin: origin,
+                          size: CGSize(width: minimalSize.width, height: minimalSize.height))
+        }
+        
+        return self
     }
 }

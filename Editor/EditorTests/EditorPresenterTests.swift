@@ -57,6 +57,16 @@ class EditorPresenterTests: XCTestCase {
                        rect)
     }
     
+    func test_drawSmallerThanMinimalSize_shouldIncreaseSizeToMinimal_andKeepCenter() {
+        sut.mouseDown(on: start)
+        sut.mouseUp(on: start.offset(x: 10, y: 10))
+        
+        XCTAssertEqual(sut.document.controls.first?.frame,
+                       CGRect(origin: CGPoint(x: 15 - 44/2,
+                                              y: 15 - 44/2),
+                              size: CGSize(width: 44, height: 44)))
+    }
+    
     func test_drawInReverseDirection() {
         sut.mouseDown(on: end)
         sut.mouseUp(on: start)
@@ -128,5 +138,12 @@ class RouterMock: RouterProtocol {
     var didShowSettingsForControl: A11yControl?
     func showSettings(for control: A11yControl, delegate: SettingsDelegate) {
         didShowSettingsForControl = control
+    }
+}
+
+extension CGPoint {
+    func offset(x: CGFloat, y: CGFloat) -> Self {
+        return CGPoint(x: self.x + x,
+                       y: self.y + y)
     }
 }
