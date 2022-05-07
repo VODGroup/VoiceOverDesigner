@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E0AF7C02826C5FD0025734B /* AdjustableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0AF7BF2826C5FD0025734B /* AdjustableViewController.swift */; };
 		1E579B6C28244D4E00B13565 /* Settings.docc in Sources */ = {isa = PBXBuildFile; fileRef = 1E579B6B28244D4E00B13565 /* Settings.docc */; };
 		1E579B7228244D4E00B13565 /* Settings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E579B6728244D4E00B13565 /* Settings.framework */; };
 		1E579B7728244D4E00B13565 /* SettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579B7628244D4E00B13565 /* SettingsTests.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1E0AF7BF2826C5FD0025734B /* AdjustableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustableViewController.swift; sourceTree = "<group>"; };
 		1E579B6728244D4E00B13565 /* Settings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Settings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E579B6A28244D4E00B13565 /* Settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
 		1E579B6B28244D4E00B13565 /* Settings.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Settings.docc; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 			children = (
 				1E579B6A28244D4E00B13565 /* Settings.h */,
 				1E579B8128244D5600B13565 /* SettingsViewController.swift */,
+				1E0AF7BF2826C5FD0025734B /* AdjustableViewController.swift */,
 				1E579B8328244D6700B13565 /* Settings.storyboard */,
 				1E579B6B28244D4E00B13565 /* Settings.docc */,
 			);
@@ -219,6 +222,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E0AF7C02826C5FD0025734B /* AdjustableViewController.swift in Sources */,
 				1E579B6C28244D4E00B13565 /* Settings.docc in Sources */,
 				1E579B8228244D5700B13565 /* SettingsViewController.swift in Sources */,
 			);

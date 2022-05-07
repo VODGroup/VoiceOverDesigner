@@ -405,11 +405,11 @@ DQ
             </objects>
             <point key="canvasLocation" x="183.5" y="902"/>
         </scene>
-        <!--View Controller-->
+        <!--Adjustable View Controller-->
         <scene sceneID="JXB-Z0-sFY">
             <objects>
-                <viewController id="nUI-yQ-51I" sceneMemberID="viewController">
-                    <view key="view" id="v5N-K6-UkN">
+                <viewController id="nUI-yQ-51I" customClass="AdjustableViewController" customModule="Settings" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="v5N-K6-UkN" customClass="AdjustableView" customModule="Settings" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="383" height="145"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
@@ -457,7 +457,7 @@ DQ
                 </viewController>
                 <customObject id="kwx-qD-79g" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="674" y="811"/>
+            <point key="canvasLocation" x="673.5" y="810.5"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="cal-DF-ORE">
