@@ -32,6 +32,24 @@ class A11yDescriptionTests: XCTestCase {
         
         XCTAssertEqual(descr.voiceOverText, "Город: Екатеринбург. Кнопка")
     }
+    
+    func test_selectedButton() {
+        let descr = A11yDescription.testMake(
+            label: "Город",
+            value: "Екатеринбург",
+            trait: [.button, .selected])
+        
+        XCTAssertEqual(descr.voiceOverText, "Выбрано. Город: Екатеринбург. Кнопка")
+    }
+    
+    func test_notEnabledButton() {
+        let descr = A11yDescription.testMake(
+            label: "Город",
+            value: "Екатеринбург",
+            trait: [.button, .notEnabled])
+        
+        XCTAssertEqual(descr.voiceOverText, "Город: Екатеринбург. Недоступно. Кнопка")
+    }
 }
 
 extension A11yDescription {

@@ -183,7 +183,7 @@ extension CGRect {
 
 extension CGPoint {
     var isSmallOffset: Bool {
-        if abs(x) < 2 || abs(y) < 2 {
+        if abs(x) < 2 && abs(y) < 2 {
             return true
         }
         

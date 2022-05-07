@@ -10,11 +10,11 @@
             <objects>
                 <viewController storyboardIdentifier="settings" id="U2f-R7-Q2a" customClass="SettingsViewController" customModule="Settings" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="cLK-md-r8c">
-                        <rect key="frame" x="0.0" y="0.0" width="385" height="741"/>
+                        <rect key="frame" x="0.0" y="0.0" width="385" height="807"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fAf-ES-vjT">
-                                <rect key="frame" x="24" y="663" width="37" height="16"/>
+                                <rect key="frame" x="24" y="729" width="37" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="Nlv-IC-RPW">
                                     <font key="font" textStyle="body" name=".SFNS-Regular"/>
@@ -23,7 +23,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zdU-ju-cY8">
-                                <rect key="frame" x="24" y="628" width="38" height="16"/>
+                                <rect key="frame" x="24" y="694" width="38" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Value" id="s6b-df-joB">
                                     <font key="font" textStyle="body" name=".SFNS-Regular"/>
@@ -32,7 +32,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Ci-CL-WW4">
-                                <rect key="frame" x="33" y="207" width="29" height="16"/>
+                                <rect key="frame" x="33" y="245" width="29" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Hint" id="6v7-js-tss">
                                     <font key="font" textStyle="body" name=".SFNS-Regular"/>
@@ -41,7 +41,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vcT-3u-akc">
-                                <rect key="frame" x="68" y="625" width="297" height="21"/>
+                                <rect key="frame" x="68" y="691" width="297" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="BYJ-o9-EA7">
                                     <font key="font" metaFont="system"/>
@@ -53,7 +53,7 @@
                                 </connections>
                             </textField>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9A8-ed-t5M">
-                                <rect key="frame" x="69" y="168" width="296" height="57"/>
+                                <rect key="frame" x="69" y="206" width="296" height="57"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="fDS-jY-sEx">
                                     <font key="font" metaFont="system"/>
@@ -65,7 +65,7 @@
                                 </connections>
                             </textField>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oEr-KQ-HrL">
-                                <rect key="frame" x="67" y="660" width="298" height="21"/>
+                                <rect key="frame" x="67" y="726" width="298" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="w3a-a1-67E">
                                     <font key="font" metaFont="system"/>
@@ -76,8 +76,8 @@
                                     <action selector="labelDidChange:" target="U2f-R7-Q2a" id="HyC-ZJ-Ks6"/>
                                 </connections>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JZg-MT-gb1">
-                                <rect key="frame" x="20" y="705" width="347" height="16"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="500" translatesAutoresizingMaskIntoConstraints="NO" id="JZg-MT-gb1">
+                                <rect key="frame" x="18" y="771" width="111" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" selectable="YES" title="Москва, кнопка" id="egg-Nz-KWw">
                                     <font key="font" textStyle="headline" name=".SFNS-Bold"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -113,13 +113,13 @@ DQ
                                 </connections>
                             </button>
                             <box fixedFrame="YES" title="Behavour" translatesAutoresizingMaskIntoConstraints="NO" id="X9x-Tf-0Jm">
-                                <rect key="frame" x="19" y="240" width="349" height="194"/>
+                                <rect key="frame" x="19" y="278" width="349" height="194"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <view key="contentView" id="0gq-OC-PyL">
                                     <rect key="frame" x="3" y="3" width="343" height="176"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="33y-Kh-ndo" customClass="TraitCheckBox" customModule="VoiceOver_Designer" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="33y-Kh-ndo" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
                                             <rect key="frame" x="7" y="84" width="99" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Plays sound" bezelStyle="regularSquare" imagePosition="left" inset="2" id="T1E-0I-KZ7">
@@ -130,7 +130,7 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="JCP-l1-h45"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7UK-ta-ChB" customClass="TraitCheckBox" customModule="VoiceOver_Designer" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7UK-ta-ChB" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
                                             <rect key="frame" x="185" y="51" width="108" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Keyboard key" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Rw4-VK-3ti">
@@ -141,7 +141,7 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="FAa-v7-gGA"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="47B-J9-pib" customClass="TraitCheckBox" customModule="VoiceOver_Designer" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="47B-J9-pib" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
                                             <rect key="frame" x="7" y="116" width="136" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Summary element" bezelStyle="regularSquare" imagePosition="left" inset="2" id="iVu-ph-hdt">
@@ -152,7 +152,7 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="bjr-sC-eZR"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3xZ-rC-ndN" customClass="TraitCheckBox" customModule="VoiceOver_Designer" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3xZ-rC-ndN" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
                                             <rect key="frame" x="185" y="84" width="133" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Causes page turn" bezelStyle="regularSquare" imagePosition="left" inset="2" id="qzq-4Y-YzN">
@@ -163,7 +163,7 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="1GD-TI-2r5"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QzB-6e-Xd4" customClass="TraitCheckBox" customModule="VoiceOver_Designer" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QzB-6e-Xd4" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
                                             <rect key="frame" x="7" y="51" width="172" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Allows direct interaction" bezelStyle="regularSquare" imagePosition="left" inset="2" id="YTl-g4-brJ">
@@ -174,7 +174,7 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="TRv-N3-Xgx"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zXC-HH-nlF" customClass="TraitCheckBox" customModule="VoiceOver_Designer" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zXC-HH-nlF" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
                                             <rect key="frame" x="7" y="21" width="152" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Starts media session" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Wkd-fe-f9u">
@@ -185,7 +185,7 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="LRi-AH-2dg"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vNT-s9-2Ik" customClass="TraitCheckBox" customModule="VoiceOver_Designer" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vNT-s9-2Ik" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
                                             <rect key="frame" x="185" y="116" width="143" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Updates frequently" bezelStyle="regularSquare" imagePosition="left" inset="2" id="sav-QE-xQt">
@@ -196,7 +196,7 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="VMv-tc-4Y7"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X40-02-0FX" customClass="TraitCheckBox" customModule="VoiceOver_Designer" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X40-02-0FX" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
                                             <rect key="frame" x="7" y="147" width="80" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Selected" bezelStyle="regularSquare" imagePosition="left" inset="2" id="FDi-Xy-TcB">
@@ -207,7 +207,7 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="8jb-b2-jVm"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xFh-Kd-0Sr" customClass="TraitCheckBox" customModule="VoiceOver_Designer" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xFh-Kd-0Sr" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
                                             <rect key="frame" x="185" y="147" width="79" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Disabled" bezelStyle="regularSquare" imagePosition="left" inset="2" id="I4q-KO-u9h">
@@ -222,7 +222,7 @@ DQ
                                 </view>
                             </box>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BnF-0d-mLB">
-                                <rect key="frame" x="13" y="113" width="190" height="32"/>
+                                <rect key="frame" x="13" y="151" width="190" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="+ Add custom action" bezelStyle="rounded" alignment="left" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TQc-yK-ttB">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -230,7 +230,7 @@ DQ
                                 </buttonCell>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V5U-CH-tnf">
-                                <rect key="frame" x="13" y="75" width="190" height="32"/>
+                                <rect key="frame" x="13" y="113" width="190" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="+ Add custom description" bezelStyle="rounded" alignment="left" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Xsn-WV-Xui">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -238,13 +238,13 @@ DQ
                                 </buttonCell>
                             </button>
                             <box fixedFrame="YES" title="Type" translatesAutoresizingMaskIntoConstraints="NO" id="UuZ-Ye-28d">
-                                <rect key="frame" x="19" y="444" width="351" height="153"/>
+                                <rect key="frame" x="19" y="482" width="351" height="153"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <view key="contentView" id="yiu-tQ-QTm">
                                     <rect key="frame" x="3" y="3" width="345" height="135"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="llv-Ig-GA1" customClass="TraitCheckBox" customModule="VoiceOver_Designer" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="llv-Ig-GA1" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
                                             <rect key="frame" x="186" y="107" width="88" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Static text" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ZG2-IJ-hrj">
@@ -257,7 +257,7 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="0fY-MA-OmX"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aYo-qI-qNV" customClass="TraitCheckBox" customModule="VoiceOver_Designer" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aYo-qI-qNV" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
                                             <rect key="frame" x="8" y="107" width="67" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Button" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ncd-cz-aLg">
@@ -270,7 +270,7 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="Bil-Ok-7Eb"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XDN-qp-Yki" customClass="TraitCheckBox" customModule="VoiceOver_Designer" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XDN-qp-Yki" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
                                             <rect key="frame" x="186" y="78" width="63" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Image" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jDG-BW-o3A">
@@ -283,7 +283,7 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="nL8-lL-Kdf"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2zF-Vg-XdC" customClass="TraitCheckBox" customModule="VoiceOver_Designer" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2zF-Vg-XdC" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
                                             <rect key="frame" x="8" y="78" width="71" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Header" bezelStyle="regularSquare" imagePosition="left" inset="2" id="cr6-jA-6Q9">
@@ -296,7 +296,7 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="Qpp-9v-jZC"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6n0-ds-xIu" customClass="TraitCheckBox" customModule="VoiceOver_Designer" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6n0-ds-xIu" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
                                             <rect key="frame" x="186" y="46" width="101" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Search Field" bezelStyle="regularSquare" imagePosition="left" inset="2" id="GID-75-oJI">
@@ -309,7 +309,7 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="Kb3-pz-VRu"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wTS-KN-K2v" customClass="TraitCheckBox" customModule="VoiceOver_Designer" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wTS-KN-K2v" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
                                             <rect key="frame" x="8" y="46" width="90" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Adjustable" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ndG-wf-QuK">
@@ -322,7 +322,7 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="iMQ-Me-hdk"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9jL-IX-KOe" customClass="TraitCheckBox" customModule="VoiceOver_Designer" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9jL-IX-KOe" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
                                             <rect key="frame" x="186" y="12" width="48" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Tab" bezelStyle="regularSquare" imagePosition="left" inset="2" id="gyz-00-tTT">
@@ -334,7 +334,7 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="tRc-ad-K7Q"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EMU-qW-ZhR" customClass="TraitCheckBox" customModule="VoiceOver_Designer" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EMU-qW-ZhR" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
                                             <rect key="frame" x="8" y="12" width="51" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Link" bezelStyle="regularSquare" imagePosition="left" inset="2" id="rr0-RT-NMg">
@@ -350,35 +350,58 @@ DQ
                                     </subviews>
                                 </view>
                             </box>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I0u-MB-fxF">
+                                <rect key="frame" x="67" y="666" width="156" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="is accessible element" bezelStyle="regularSquare" imagePosition="left" inset="2" id="mZL-5y-qIU">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent">s</string>
+                                    <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="isAccessibleElementDidChanged:" target="U2f-R7-Q2a" id="IFz-ZF-iQd"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="uUB-Yq-rXb" secondAttribute="trailing" constant="20" symbolic="YES" id="21r-an-Jmb"/>
                             <constraint firstItem="SZT-24-i1X" firstAttribute="leading" secondItem="cLK-md-r8c" secondAttribute="leading" constant="16" id="37h-mN-nlo"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="JZg-MT-gb1" secondAttribute="trailing" constant="20" id="SJO-7a-TK4"/>
                             <constraint firstItem="uUB-Yq-rXb" firstAttribute="firstBaseline" secondItem="SZT-24-i1X" secondAttribute="firstBaseline" id="azM-yf-eZL"/>
-                            <constraint firstItem="JZg-MT-gb1" firstAttribute="leading" secondItem="cLK-md-r8c" secondAttribute="leading" constant="22" id="hRY-LL-3Ie"/>
+                            <constraint firstItem="JZg-MT-gb1" firstAttribute="leading" secondItem="cLK-md-r8c" secondAttribute="leading" constant="20" id="hRY-LL-3Ie"/>
                             <constraint firstItem="JZg-MT-gb1" firstAttribute="top" secondItem="cLK-md-r8c" secondAttribute="top" constant="20" symbolic="YES" id="iRr-TZ-hcv"/>
-                            <constraint firstItem="JZg-MT-gb1" firstAttribute="centerX" secondItem="cLK-md-r8c" secondAttribute="centerX" id="kEc-lP-kJb"/>
                             <constraint firstAttribute="bottom" secondItem="SZT-24-i1X" secondAttribute="bottom" constant="20" symbolic="YES" id="nub-eY-qeS"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="adjustableTrait" destination="wTS-KN-K2v" id="8Gr-iv-fh4"/>
+                        <outlet property="allowsDirectInteraction" destination="QzB-6e-Xd4" id="s1n-RE-RAb"/>
                         <outlet property="buttonTrait" destination="aYo-qI-qNV" id="UIh-dj-Qp5"/>
+                        <outlet property="causesPageTurn" destination="3xZ-rC-ndN" id="QVk-We-lYB"/>
+                        <outlet property="disabledTrait" destination="xFh-Kd-0Sr" id="I7W-zA-JdM"/>
                         <outlet property="headerTrait" destination="2zF-Vg-XdC" id="wSQ-hd-Qb5"/>
                         <outlet property="hint" destination="9A8-ed-t5M" id="MTU-MO-eFF"/>
                         <outlet property="imageTrait" destination="XDN-qp-Yki" id="Y4h-nt-pPZ"/>
+                        <outlet property="isAccessibilityElement" destination="I0u-MB-fxF" id="dG8-2w-zbl"/>
+                        <outlet property="keyboardKey" destination="7UK-ta-ChB" id="W2a-WC-CIz"/>
                         <outlet property="label" destination="oEr-KQ-HrL" id="HEp-p9-smA"/>
                         <outlet property="linkTrait" destination="EMU-qW-ZhR" id="Dqf-4c-z9W"/>
+                        <outlet property="playSoundTrait" destination="33y-Kh-ndo" id="7vi-9R-Nq6"/>
                         <outlet property="resultLabel" destination="JZg-MT-gb1" id="u6v-RW-s8t"/>
                         <outlet property="searchFieldTrait" destination="6n0-ds-xIu" id="JaD-8B-Fsw"/>
+                        <outlet property="selectedTrait" destination="X40-02-0FX" id="gyf-er-aGU"/>
+                        <outlet property="startMediaSession" destination="zXC-HH-nlF" id="TZD-eQ-gAb"/>
                         <outlet property="staticTextTrait" destination="llv-Ig-GA1" id="GJv-eF-ebD"/>
+                        <outlet property="summaryElementTrait" destination="47B-J9-pib" id="PdQ-KQ-6hd"/>
                         <outlet property="tabTrait" destination="9jL-IX-KOe" id="AU8-tA-CyX"/>
+                        <outlet property="updatesFrequently" destination="vNT-s9-2Ik" id="Wxy-R1-Yqp"/>
                         <outlet property="value" destination="vcT-3u-akc" id="ocK-oZ-scJ"/>
                     </connections>
                 </viewController>
                 <customObject id="o9l-1z-44d" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="183.5" y="676.5"/>
+            <point key="canvasLocation" x="183.5" y="709.5"/>
         </scene>
     </scenes>
 </document>

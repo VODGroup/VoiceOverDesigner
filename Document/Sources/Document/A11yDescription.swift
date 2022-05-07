@@ -18,11 +18,13 @@ import CoreGraphics
 
 public class A11yDescription: Codable {
     public init(
+        isAccessibilityElement: Bool = true,
         label: String,
         value: String,
         hint: String,
         trait: A11yTraits,
         frame: CGRect) {
+            self.isAccessibilityElement = isAccessibilityElement
             self.label = label
             self.value = value
             self.hint = hint
@@ -30,6 +32,7 @@ public class A11yDescription: Codable {
             self.frame = frame
         }
     
+    public var isAccessibilityElement: Bool
     public var label: String
     public var value: String
     public var hint: String
@@ -45,8 +48,14 @@ public class A11yDescription: Codable {
         !label.isEmpty
     }
     
+    private let alphaColor: CGFloat = 0.3
+    
     public var color: Color {
-        (isValid ? Self.validColor: Self.invalidColor).withAlphaComponent(0.3)
+        guard isAccessibilityElement else {
+            return Self.ignoreColor.withAlphaComponent(alphaColor)
+        }
+        
+        return (isValid ? Self.validColor: Self.invalidColor).withAlphaComponent(alphaColor)
     }
     
     static var invalidColor: Color {
@@ -57,8 +66,16 @@ public class A11yDescription: Codable {
         Color.systemGreen
     }
     
+    static var ignoreColor: Color {
+        Color.systemGray
+    }
+    
     public var voiceOverText: String {
         var descr = [String]()
+        
+        if trait.contains(.selected) {
+            descr.append("Выбрано. ")
+        }
         
         if !label.isEmpty {
             descr.append(label)
@@ -66,6 +83,10 @@ public class A11yDescription: Codable {
         
         if !value.isEmpty {
             descr.append(": \(value)")
+        }
+        
+        if trait.contains(.notEnabled) {
+            descr.append(". Недоступно")
         }
         
         // TODO: Add more traits

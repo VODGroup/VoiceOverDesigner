@@ -59,6 +59,18 @@ public class SettingsViewController: NSViewController {
     @IBOutlet weak var searchFieldTrait: TraitCheckBox!
     @IBOutlet weak var tabTrait: TraitCheckBox!
     
+    @IBOutlet weak var selectedTrait: TraitCheckBox!
+    @IBOutlet weak var summaryElementTrait: TraitCheckBox!
+    @IBOutlet weak var playSoundTrait: TraitCheckBox!
+    @IBOutlet weak var allowsDirectInteraction: TraitCheckBox!
+    @IBOutlet weak var startMediaSession: TraitCheckBox!
+    @IBOutlet weak var disabledTrait: TraitCheckBox!
+    @IBOutlet weak var updatesFrequently: TraitCheckBox!
+    @IBOutlet weak var causesPageTurn: TraitCheckBox!
+    @IBOutlet weak var keyboardKey: TraitCheckBox!
+    
+    @IBOutlet weak var isAccessibilityElement: NSButton!
+    
     // MARK: behaviourTrait
     // TODO: Add
     
@@ -68,6 +80,7 @@ public class SettingsViewController: NSViewController {
         label.stringValue = descr.label
         value.stringValue = descr.value
         hint.stringValue  = descr.hint
+        isAccessibilityElement.state = descr.isAccessibilityElement ? .on: .off
         
         updateText()
         
@@ -80,6 +93,16 @@ public class SettingsViewController: NSViewController {
         searchFieldTrait.trait = .searchField
         tabTrait.trait = .tab
         
+        selectedTrait.trait = .selected
+        summaryElementTrait.trait = .summaryElement
+        playSoundTrait.trait = .playsSound
+        allowsDirectInteraction.trait = .allowsDirectInteraction
+        startMediaSession.trait = .startsMediaSession
+        disabledTrait.trait = .notEnabled
+        updatesFrequently.trait = .updatesFrequently
+        causesPageTurn.trait = .causesPageTurn
+        keyboardKey.trait = .keyboardKey
+        
         let allTraitsButtons: [TraitCheckBox] = [
             buttonTrait,
             headerTrait,
@@ -88,7 +111,17 @@ public class SettingsViewController: NSViewController {
             staticTextTrait,
             imageTrait,
             searchFieldTrait,
-            tabTrait
+            tabTrait,
+            
+            selectedTrait,
+            summaryElementTrait,
+            playSoundTrait,
+            allowsDirectInteraction,
+            startMediaSession,
+            disabledTrait,
+            updatesFrequently,
+            causesPageTurn,
+            keyboardKey,
         ]
         
         for traitButton in allTraitsButtons {
@@ -135,6 +168,10 @@ public class SettingsViewController: NSViewController {
     
     @IBAction func doneDidPressed(_ sender: Any) {
         dismiss(self)
+    }
+    
+    @IBAction func isAccessibleElementDidChanged(_ sender: NSButton) {
+        descr.isAccessibilityElement = sender.state == .on
     }
     
     public override func viewWillDisappear() {
