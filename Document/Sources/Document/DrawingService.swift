@@ -113,6 +113,11 @@ public class DrawingService {
         
         switch action {
         case .new(let control, let origin):
+            if control.frame.size.width < 5 || control.frame.size.height < 5 {
+                delete(control: control)
+                return .none
+            }
+            
             let minimalTapSize: CGFloat = 44
             control.frame = control.frame.increase(to: CGSize(width: minimalTapSize, height: minimalTapSize))
             

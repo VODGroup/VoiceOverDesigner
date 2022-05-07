@@ -77,6 +77,13 @@ class EditorPresenterTests: XCTestCase {
                               size: CGSize(width: 50, height: 44)))
     }
     
+    func test_notDrawIfSizeIsSmallerThan5px() {
+        sut.mouseDown(on: start)
+        sut.mouseUp(on: start.offset(x: 4, y: 4))
+        
+        XCTAssertNil(sut.document.controls.first)
+    }
+    
     func test_drawInReverseDirection() {
         sut.mouseDown(on: end)
         sut.mouseUp(on: start)
