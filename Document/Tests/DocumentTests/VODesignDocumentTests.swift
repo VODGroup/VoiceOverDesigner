@@ -17,17 +17,20 @@ class VODesignDocumentTests: XCTestCase {
     
     let fileName = "TestFile"
     
+    var fileURL: URL!
+    
+    override func setUp() {
+        super.setUp()
+        fileURL = path.appendingPathComponent("TestFile.vodesign", isDirectory: false)
+    }
+    
     override func tearDownWithError() throws {
-        try? FileManager.default
-            .removeItem(at: path.appendingPathComponent(fileName))
+        try FileManager.default
+            .removeItem(at: fileURL)
     }
 
     func testWhenSaveOneDocument_andReadAnotherWithSameName_shouldKeepObjects() throws {
-        
-        
-        var document: VODesignDocument? = VODesignDocument(
-            fileName: fileName, rootPath: path)
-        
+        var document: VODesignDocument? = VODesignDocument(file: fileURL)
         document!.controls = [A11yDescription.testMake(label: "Label1"),
                              A11yDescription.testMake(label: "Label2")]
         document!.save()
