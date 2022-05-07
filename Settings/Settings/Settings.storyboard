@@ -10,76 +10,13 @@
             <objects>
                 <viewController storyboardIdentifier="settings" id="U2f-R7-Q2a" customClass="SettingsViewController" customModule="Settings" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="cLK-md-r8c">
-                        <rect key="frame" x="0.0" y="0.0" width="385" height="807"/>
+                        <rect key="frame" x="0.0" y="0.0" width="385" height="1192"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fAf-ES-vjT">
-                                <rect key="frame" x="24" y="729" width="37" height="16"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="Nlv-IC-RPW">
-                                    <font key="font" textStyle="body" name=".SFNS-Regular"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zdU-ju-cY8">
-                                <rect key="frame" x="24" y="694" width="38" height="16"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Value" id="s6b-df-joB">
-                                    <font key="font" textStyle="body" name=".SFNS-Regular"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Ci-CL-WW4">
-                                <rect key="frame" x="33" y="245" width="29" height="16"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Hint" id="6v7-js-tss">
-                                    <font key="font" textStyle="body" name=".SFNS-Regular"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vcT-3u-akc">
-                                <rect key="frame" x="68" y="691" width="297" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="BYJ-o9-EA7">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                                <connections>
-                                    <action selector="valueDidChange:" target="U2f-R7-Q2a" id="hyi-3K-Asx"/>
-                                </connections>
-                            </textField>
-                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9A8-ed-t5M">
-                                <rect key="frame" x="69" y="206" width="296" height="57"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="fDS-jY-sEx">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                                <connections>
-                                    <action selector="hintDidChange:" target="U2f-R7-Q2a" id="zOO-q4-ak0"/>
-                                </connections>
-                            </textField>
-                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oEr-KQ-HrL">
-                                <rect key="frame" x="67" y="726" width="298" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="w3a-a1-67E">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                                <connections>
-                                    <action selector="labelDidChange:" target="U2f-R7-Q2a" id="HyC-ZJ-Ks6"/>
-                                </connections>
-                            </textField>
                             <textField horizontalHuggingPriority="251" horizontalCompressionResistancePriority="500" translatesAutoresizingMaskIntoConstraints="NO" id="JZg-MT-gb1">
-                                <rect key="frame" x="18" y="771" width="349" height="16"/>
+                                <rect key="frame" x="18" y="1141" width="349" height="31"/>
                                 <textFieldCell key="cell" selectable="YES" title="Москва, кнопка" id="egg-Nz-KWw">
-                                    <font key="font" textStyle="headline" name=".SFNS-Bold"/>
+                                    <font key="font" textStyle="largeTitle" name=".SFNS-Regular"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -112,133 +49,50 @@ DQ
                                     <action selector="doneDidPressed:" target="U2f-R7-Q2a" id="teS-fP-qdx"/>
                                 </connections>
                             </button>
-                            <box fixedFrame="YES" title="Behavour" translatesAutoresizingMaskIntoConstraints="NO" id="X9x-Tf-0Jm">
-                                <rect key="frame" x="19" y="278" width="349" height="194"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fAf-ES-vjT">
+                                <rect key="frame" x="20" y="1073" width="44" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <view key="contentView" id="0gq-OC-PyL">
-                                    <rect key="frame" x="3" y="3" width="343" height="176"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="33y-Kh-ndo" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
-                                            <rect key="frame" x="7" y="84" width="99" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Plays sound" bezelStyle="regularSquare" imagePosition="left" inset="2" id="T1E-0I-KZ7">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="JCP-l1-h45"/>
-                                            </connections>
-                                        </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7UK-ta-ChB" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
-                                            <rect key="frame" x="185" y="51" width="108" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Keyboard key" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Rw4-VK-3ti">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="FAa-v7-gGA"/>
-                                            </connections>
-                                        </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="47B-J9-pib" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
-                                            <rect key="frame" x="7" y="116" width="136" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Summary element" bezelStyle="regularSquare" imagePosition="left" inset="2" id="iVu-ph-hdt">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="bjr-sC-eZR"/>
-                                            </connections>
-                                        </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3xZ-rC-ndN" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
-                                            <rect key="frame" x="185" y="84" width="133" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Causes page turn" bezelStyle="regularSquare" imagePosition="left" inset="2" id="qzq-4Y-YzN">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="1GD-TI-2r5"/>
-                                            </connections>
-                                        </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QzB-6e-Xd4" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
-                                            <rect key="frame" x="7" y="51" width="172" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Allows direct interaction" bezelStyle="regularSquare" imagePosition="left" inset="2" id="YTl-g4-brJ">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="TRv-N3-Xgx"/>
-                                            </connections>
-                                        </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zXC-HH-nlF" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
-                                            <rect key="frame" x="7" y="21" width="152" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Starts media session" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Wkd-fe-f9u">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="LRi-AH-2dg"/>
-                                            </connections>
-                                        </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vNT-s9-2Ik" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
-                                            <rect key="frame" x="185" y="116" width="143" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Updates frequently" bezelStyle="regularSquare" imagePosition="left" inset="2" id="sav-QE-xQt">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="VMv-tc-4Y7"/>
-                                            </connections>
-                                        </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X40-02-0FX" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
-                                            <rect key="frame" x="7" y="147" width="80" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Selected" bezelStyle="regularSquare" imagePosition="left" inset="2" id="FDi-Xy-TcB">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="8jb-b2-jVm"/>
-                                            </connections>
-                                        </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xFh-Kd-0Sr" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
-                                            <rect key="frame" x="185" y="147" width="79" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Disabled" bezelStyle="regularSquare" imagePosition="left" inset="2" id="I4q-KO-u9h">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="7Zm-7A-afT"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                </view>
-                            </box>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BnF-0d-mLB">
-                                <rect key="frame" x="13" y="151" width="190" height="32"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Label:" id="Nlv-IC-RPW">
+                                    <font key="font" textStyle="headline" name=".SFNS-Bold"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zdU-ju-cY8">
+                                <rect key="frame" x="21" y="731" width="45" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="+ Add custom action" bezelStyle="rounded" alignment="left" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TQc-yK-ttB">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Value:" id="s6b-df-joB">
+                                    <font key="font" textStyle="headline" name=".SFNS-Bold"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vcT-3u-akc">
+                                <rect key="frame" x="63" y="728" width="297" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="BYJ-o9-EA7">
                                     <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V5U-CH-tnf">
-                                <rect key="frame" x="13" y="113" width="190" height="32"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <action selector="valueDidChange:" target="U2f-R7-Q2a" id="hyi-3K-Asx"/>
+                                </connections>
+                            </textField>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oEr-KQ-HrL">
+                                <rect key="frame" x="63" y="1070" width="298" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="+ Add custom description" bezelStyle="rounded" alignment="left" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Xsn-WV-Xui">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="w3a-a1-67E">
                                     <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </button>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <action selector="labelDidChange:" target="U2f-R7-Q2a" id="HyC-ZJ-Ks6"/>
+                                </connections>
+                            </textField>
                             <box fixedFrame="YES" title="Type" translatesAutoresizingMaskIntoConstraints="NO" id="UuZ-Ye-28d">
-                                <rect key="frame" x="19" y="482" width="351" height="153"/>
+                                <rect key="frame" x="15" y="888" width="351" height="153"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <view key="contentView" id="yiu-tQ-QTm">
                                     <rect key="frame" x="3" y="3" width="345" height="135"/>
@@ -271,7 +125,7 @@ DQ
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XDN-qp-Yki" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
-                                            <rect key="frame" x="186" y="78" width="63" height="18"/>
+                                            <rect key="frame" x="8" y="46" width="63" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Image" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jDG-BW-o3A">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -297,7 +151,7 @@ DQ
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6n0-ds-xIu" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
-                                            <rect key="frame" x="186" y="46" width="101" height="18"/>
+                                            <rect key="frame" x="186" y="78" width="101" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Search Field" bezelStyle="regularSquare" imagePosition="left" inset="2" id="GID-75-oJI">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -307,31 +161,6 @@ DQ
                                             </buttonCell>
                                             <connections>
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="Kb3-pz-VRu"/>
-                                            </connections>
-                                        </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wTS-KN-K2v" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
-                                            <rect key="frame" x="8" y="46" width="90" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Adjustable" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ndG-wf-QuK">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                                <string key="keyEquivalent">d</string>
-                                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="iMQ-Me-hdk"/>
-                                            </connections>
-                                        </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9jL-IX-KOe" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
-                                            <rect key="frame" x="186" y="12" width="48" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Tab" bezelStyle="regularSquare" imagePosition="left" inset="2" id="gyz-00-tTT">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                                <string key="keyEquivalent">t</string>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="tRc-ad-K7Q"/>
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EMU-qW-ZhR" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
@@ -347,13 +176,36 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="CLQ-D4-mRm"/>
                                             </connections>
                                         </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9jL-IX-KOe" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                            <rect key="frame" x="186" y="46" width="48" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Tab" bezelStyle="regularSquare" imagePosition="left" inset="2" id="gyz-00-tTT">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                                <string key="keyEquivalent">t</string>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="tRc-ad-K7Q"/>
+                                            </connections>
+                                        </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7UK-ta-ChB" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                            <rect key="frame" x="186" y="12" width="108" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Keyboard key" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Rw4-VK-3ti">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="FAa-v7-gGA"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                 </view>
                             </box>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I0u-MB-fxF">
-                                <rect key="frame" x="67" y="666" width="156" height="18"/>
+                                <rect key="frame" x="205" y="1048" width="156" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="is accessible element" bezelStyle="regularSquare" imagePosition="left" inset="2" id="mZL-5y-qIU">
+                                <buttonCell key="cell" type="check" title="is accessible element" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="mZL-5y-qIU">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                     <string key="keyEquivalent">s</string>
@@ -363,6 +215,156 @@ DQ
                                     <action selector="isAccessibleElementDidChanged:" target="U2f-R7-Q2a" id="IFz-ZF-iQd"/>
                                 </connections>
                             </button>
+                            <box fixedFrame="YES" title="Behavour" translatesAutoresizingMaskIntoConstraints="NO" id="X9x-Tf-0Jm">
+                                <rect key="frame" x="16" y="773" width="349" height="102"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <view key="contentView" id="0gq-OC-PyL">
+                                    <rect key="frame" x="3" y="3" width="343" height="84"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="47B-J9-pib" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                            <rect key="frame" x="7" y="24" width="136" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Summary element" bezelStyle="regularSquare" imagePosition="left" inset="2" id="iVu-ph-hdt">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="bjr-sC-eZR"/>
+                                            </connections>
+                                        </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vNT-s9-2Ik" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                            <rect key="frame" x="185" y="24" width="143" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Updates frequently" bezelStyle="regularSquare" imagePosition="left" inset="2" id="sav-QE-xQt">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="VMv-tc-4Y7"/>
+                                            </connections>
+                                        </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X40-02-0FX" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                            <rect key="frame" x="7" y="55" width="80" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Selected" bezelStyle="regularSquare" imagePosition="left" inset="2" id="FDi-Xy-TcB">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="8jb-b2-jVm"/>
+                                            </connections>
+                                        </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xFh-Kd-0Sr" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                            <rect key="frame" x="185" y="55" width="79" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Disabled" bezelStyle="regularSquare" imagePosition="left" inset="2" id="I4q-KO-u9h">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="7Zm-7A-afT"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </view>
+                            </box>
+                            <containerView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cWG-yH-GJd">
+                                <rect key="frame" x="0.0" y="574" width="385" height="146"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <connections>
+                                    <segue destination="nUI-yQ-51I" kind="embed" id="kLG-Op-F0k"/>
+                                </connections>
+                            </containerView>
+                            <containerView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EHT-fv-nfZ">
+                                <rect key="frame" x="0.0" y="470" width="386" height="104"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <connections>
+                                    <segue destination="vVH-fd-Q2N" kind="embed" id="mRf-G9-LLn"/>
+                                </connections>
+                            </containerView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Ci-CL-WW4">
+                                <rect key="frame" x="16" y="262" width="29" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Hint" id="6v7-js-tss">
+                                    <font key="font" textStyle="body" name=".SFNS-Regular"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9A8-ed-t5M">
+                                <rect key="frame" x="18" y="202" width="342" height="57"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="fDS-jY-sEx">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <action selector="hintDidChange:" target="U2f-R7-Q2a" id="zOO-q4-ak0"/>
+                                </connections>
+                            </textField>
+                            <box fixedFrame="YES" title="Media" translatesAutoresizingMaskIntoConstraints="NO" id="h43-WO-P0P">
+                                <rect key="frame" x="15" y="68" width="349" height="109"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <view key="contentView" id="Nnm-wP-dpa">
+                                    <rect key="frame" x="3" y="3" width="343" height="91"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FNW-91-Vci" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                            <rect key="frame" x="6" y="54" width="99" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Plays sound" bezelStyle="regularSquare" imagePosition="left" inset="2" id="1SM-XQ-AxR">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="31X-WC-S9r"/>
+                                            </connections>
+                                        </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CCG-Bz-5xi" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                            <rect key="frame" x="164" y="55" width="172" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Allows direct interaction" bezelStyle="regularSquare" imagePosition="left" inset="2" id="16j-Yi-cnk">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="FYi-J7-xX8"/>
+                                            </connections>
+                                        </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Eda-Du-doD" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                            <rect key="frame" x="6" y="19" width="152" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Starts media session" bezelStyle="regularSquare" imagePosition="left" inset="2" id="iC7-b2-SaW">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="F1q-KK-dU1"/>
+                                            </connections>
+                                        </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="69m-by-VKr" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                            <rect key="frame" x="164" y="19" width="133" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Causes page turn" bezelStyle="regularSquare" imagePosition="left" inset="2" id="our-SC-Bnu">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="GKr-gN-16P"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </view>
+                            </box>
+                            <containerView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y4n-qq-kEj">
+                                <rect key="frame" x="0.0" y="286" width="386" height="187"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <connections>
+                                    <segue destination="gct-T4-ax1" kind="embed" id="NFn-Vr-wgT"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="uUB-Yq-rXb" secondAttribute="trailing" constant="20" symbolic="YES" id="21r-an-Jmb"/>
@@ -376,9 +378,9 @@ DQ
                     </view>
                     <connections>
                         <outlet property="adjustableTrait" destination="wTS-KN-K2v" id="8Gr-iv-fh4"/>
-                        <outlet property="allowsDirectInteraction" destination="QzB-6e-Xd4" id="s1n-RE-RAb"/>
+                        <outlet property="allowsDirectInteraction" destination="CCG-Bz-5xi" id="p7t-ZW-fMA"/>
                         <outlet property="buttonTrait" destination="aYo-qI-qNV" id="UIh-dj-Qp5"/>
-                        <outlet property="causesPageTurn" destination="3xZ-rC-ndN" id="QVk-We-lYB"/>
+                        <outlet property="causesPageTurn" destination="69m-by-VKr" id="ntl-sP-gsf"/>
                         <outlet property="disabledTrait" destination="xFh-Kd-0Sr" id="I7W-zA-JdM"/>
                         <outlet property="headerTrait" destination="2zF-Vg-XdC" id="wSQ-hd-Qb5"/>
                         <outlet property="hint" destination="9A8-ed-t5M" id="MTU-MO-eFF"/>
@@ -387,11 +389,11 @@ DQ
                         <outlet property="keyboardKey" destination="7UK-ta-ChB" id="W2a-WC-CIz"/>
                         <outlet property="label" destination="oEr-KQ-HrL" id="HEp-p9-smA"/>
                         <outlet property="linkTrait" destination="EMU-qW-ZhR" id="Dqf-4c-z9W"/>
-                        <outlet property="playSoundTrait" destination="33y-Kh-ndo" id="7vi-9R-Nq6"/>
+                        <outlet property="playSoundTrait" destination="FNW-91-Vci" id="zRz-iI-WU5"/>
                         <outlet property="resultLabel" destination="JZg-MT-gb1" id="u6v-RW-s8t"/>
                         <outlet property="searchFieldTrait" destination="6n0-ds-xIu" id="JaD-8B-Fsw"/>
                         <outlet property="selectedTrait" destination="X40-02-0FX" id="gyf-er-aGU"/>
-                        <outlet property="startMediaSession" destination="zXC-HH-nlF" id="TZD-eQ-gAb"/>
+                        <outlet property="startMediaSession" destination="Eda-Du-doD" id="AbA-eI-PQB"/>
                         <outlet property="staticTextTrait" destination="llv-Ig-GA1" id="GJv-eF-ebD"/>
                         <outlet property="summaryElementTrait" destination="47B-J9-pib" id="PdQ-KQ-6hd"/>
                         <outlet property="tabTrait" destination="9jL-IX-KOe" id="AU8-tA-CyX"/>
@@ -401,7 +403,196 @@ DQ
                 </viewController>
                 <customObject id="o9l-1z-44d" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="183.5" y="709.5"/>
+            <point key="canvasLocation" x="183.5" y="902"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="JXB-Z0-sFY">
+            <objects>
+                <viewController id="nUI-yQ-51I" sceneMemberID="viewController">
+                    <view key="view" id="v5N-K6-UkN">
+                        <rect key="frame" x="0.0" y="0.0" width="383" height="145"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <box fixedFrame="YES" title="Adjustable" translatesAutoresizingMaskIntoConstraints="NO" id="JRU-ID-Lb0">
+                                <rect key="frame" x="17" y="16" width="349" height="118"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <view key="contentView" id="ipW-Al-Hp3">
+                                    <rect key="frame" x="3" y="3" width="343" height="100"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wTS-KN-K2v" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                            <rect key="frame" x="6" y="72" width="90" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Adjustable" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ndG-wf-QuK">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                                <string key="keyEquivalent">d</string>
+                                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="iMQ-Me-hdk"/>
+                                            </connections>
+                                        </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g4q-lc-9CO">
+                                            <rect key="frame" x="6" y="44" width="178" height="22"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="radio" title="Value 1" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="QmC-Nk-84h">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                        </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H1h-59-VFe">
+                                            <rect key="frame" x="1" y="9" width="190" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="push" title="+ Add value" bezelStyle="rounded" alignment="left" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LZx-72-weY">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                        </button>
+                                    </subviews>
+                                </view>
+                            </box>
+                        </subviews>
+                    </view>
+                </viewController>
+                <customObject id="kwx-qD-79g" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="674" y="811"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="cal-DF-ORE">
+            <objects>
+                <viewController id="vVH-fd-Q2N" sceneMemberID="viewController">
+                    <view key="view" id="B29-ec-Okc">
+                        <rect key="frame" x="0.0" y="0.0" width="383" height="103"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BnF-0d-mLB">
+                                <rect key="frame" x="13" y="13" width="190" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="+ Add custom action" bezelStyle="rounded" alignment="left" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TQc-yK-ttB">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZfY-2L-Kyw">
+                                <rect key="frame" x="288" y="49" width="75" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="inline" title="Remove" bezelStyle="inline" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="RR1-Qw-nhU">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="smallSystemBold"/>
+                                </buttonCell>
+                            </button>
+                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hri-hJ-ZaV">
+                                <rect key="frame" x="20" y="48" width="274" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="5rR-yr-EIq">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lez-ed-JGY">
+                                <rect key="frame" x="18" y="77" width="107" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Custom Actions" id="aK7-Qp-cIp">
+                                    <font key="font" textStyle="headline" name=".SFNS-Bold"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                    </view>
+                </viewController>
+                <customObject id="KEG-Ld-Vg3" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="674" y="1021"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Fcl-km-twg">
+            <objects>
+                <viewController id="gct-T4-ax1" sceneMemberID="viewController">
+                    <view key="view" id="UCg-oh-qL9">
+                        <rect key="frame" x="0.0" y="0.0" width="383" height="217"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RJP-q1-rP0">
+                                <rect key="frame" x="288" y="162" width="75" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="inline" title="Remove" bezelStyle="inline" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bZi-HK-cti">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="smallSystemBold"/>
+                                </buttonCell>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dxQ-Ba-nMW">
+                                <rect key="frame" x="18" y="181" width="133" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Custom Description" id="HhH-EK-C94">
+                                    <font key="font" textStyle="headline" name=".SFNS-Bold"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <box fixedFrame="YES" title="Description 1" translatesAutoresizingMaskIntoConstraints="NO" id="qOg-yc-Nmr">
+                                <rect key="frame" x="17" y="68" width="349" height="102"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <view key="contentView" id="Vfq-hn-0PR">
+                                    <rect key="frame" x="3" y="3" width="343" height="84"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HVj-KN-nB4">
+                                            <rect key="frame" x="66" y="52" width="257" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="Yij-I2-o0D">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5zO-oS-twP">
+                                            <rect key="frame" x="66" y="12" width="257" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="QWJ-fW-1aH">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tvX-pL-vXz">
+                                            <rect key="frame" x="8" y="55" width="41" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Label:" id="4NX-7J-Taf">
+                                                <font key="font" textStyle="body" name=".SFNS-Regular"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hIk-4a-hok">
+                                            <rect key="frame" x="8" y="15" width="42" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Value:" id="wLC-NH-e6H">
+                                                <font key="font" textStyle="body" name=".SFNS-Regular"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </subviews>
+                                </view>
+                            </box>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OZ9-dL-2Sk">
+                                <rect key="frame" x="13" y="32" width="190" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="+ Add custom description" bezelStyle="rounded" alignment="left" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="NDa-oa-L6W">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                        </subviews>
+                    </view>
+                </viewController>
+                <customObject id="hv7-8B-bTl" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="674" y="1249"/>
         </scene>
     </scenes>
 </document>
