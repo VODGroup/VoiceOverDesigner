@@ -35,8 +35,8 @@ class EditorPresenterTests: XCTestCase {
     }
     
     private let start = CGPoint(x: 10, y: 10)
-    private let end   = CGPoint(x: 30, y: 30)
-    private let rect  = CGRect(x: 10, y: 10, width: 20, height: 20)
+    private let end   = CGPoint(x: 60, y: 60)
+    private let rect  = CGRect(x: 10, y: 10, width: 50, height: 50)
     
     // MARK: Drawning
     func test_rectangleDrawnOnTheFly() {
