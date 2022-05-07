@@ -11,7 +11,9 @@ import Document
 import Editor
 
 class VODocumentController: NSDocumentController {
-    
+    override func documentClass(forType typeName: String) -> AnyClass? {
+        return VODesignDocument.self
+    }
 }
 
 extension VODesignDocument {
