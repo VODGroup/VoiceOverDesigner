@@ -76,9 +76,9 @@
                                     <action selector="labelDidChange:" target="U2f-R7-Q2a" id="HyC-ZJ-Ks6"/>
                                 </connections>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="500" translatesAutoresizingMaskIntoConstraints="NO" id="JZg-MT-gb1">
-                                <rect key="frame" x="18" y="771" width="111" height="16"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" selectable="YES" title="Москва, кнопка" id="egg-Nz-KWw">
+                            <textField horizontalHuggingPriority="251" horizontalCompressionResistancePriority="500" translatesAutoresizingMaskIntoConstraints="NO" id="JZg-MT-gb1">
+                                <rect key="frame" x="18" y="771" width="349" height="16"/>
+                                <textFieldCell key="cell" selectable="YES" title="Москва, кнопка" id="egg-Nz-KWw">
                                     <font key="font" textStyle="headline" name=".SFNS-Bold"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -224,7 +224,7 @@ DQ
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BnF-0d-mLB">
                                 <rect key="frame" x="13" y="151" width="190" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="+ Add custom action" bezelStyle="rounded" alignment="left" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TQc-yK-ttB">
+                                <buttonCell key="cell" type="push" title="+ Add custom action" bezelStyle="rounded" alignment="left" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TQc-yK-ttB">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -232,7 +232,7 @@ DQ
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V5U-CH-tnf">
                                 <rect key="frame" x="13" y="113" width="190" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="+ Add custom description" bezelStyle="rounded" alignment="left" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Xsn-WV-Xui">
+                                <buttonCell key="cell" type="push" title="+ Add custom description" bezelStyle="rounded" alignment="left" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Xsn-WV-Xui">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -367,8 +367,8 @@ DQ
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="uUB-Yq-rXb" secondAttribute="trailing" constant="20" symbolic="YES" id="21r-an-Jmb"/>
                             <constraint firstItem="SZT-24-i1X" firstAttribute="leading" secondItem="cLK-md-r8c" secondAttribute="leading" constant="16" id="37h-mN-nlo"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="JZg-MT-gb1" secondAttribute="trailing" constant="20" id="SJO-7a-TK4"/>
                             <constraint firstItem="uUB-Yq-rXb" firstAttribute="firstBaseline" secondItem="SZT-24-i1X" secondAttribute="firstBaseline" id="azM-yf-eZL"/>
+                            <constraint firstItem="JZg-MT-gb1" firstAttribute="centerX" secondItem="cLK-md-r8c" secondAttribute="centerX" id="gg4-lz-ppD"/>
                             <constraint firstItem="JZg-MT-gb1" firstAttribute="leading" secondItem="cLK-md-r8c" secondAttribute="leading" constant="20" id="hRY-LL-3Ie"/>
                             <constraint firstItem="JZg-MT-gb1" firstAttribute="top" secondItem="cLK-md-r8c" secondAttribute="top" constant="20" symbolic="YES" id="iRr-TZ-hcv"/>
                             <constraint firstAttribute="bottom" secondItem="SZT-24-i1X" secondAttribute="bottom" constant="20" symbolic="YES" id="nub-eY-qeS"/>
