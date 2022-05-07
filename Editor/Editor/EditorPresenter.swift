@@ -65,8 +65,6 @@ public class EditorPresenter {
         case .none:
             break
         }
-        
-        
     }
 }
 

@@ -50,8 +50,4 @@ open class DragNDropImageView: NSView {
         
         return false
     }
-    
-    open override func hitTest(_ point: NSPoint) -> NSView? {
-        return nil // Translucent
-    }
 }

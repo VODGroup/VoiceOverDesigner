@@ -109,6 +109,19 @@ class EditorPresenterTests: XCTestCase {
         XCTAssertNil(router.didShowSettingsForControl, "Not open settings at the end of translation")
     }
     
+    func test_translateToNegativeCoordinates_shouldTranslate() {
+        drawRect()
+        
+        // Move
+        sut.mouseDown(on: CGPoint(x: 15, y: 15))
+        sut.mouseUp(on: CGPoint(x: 5, y: 5))
+        
+        XCTAssertEqual(sut.document.controls.first?.frame,
+                       rect.offsetBy(dx: -10, dy: -10))
+        
+        XCTAssertNil(router.didShowSettingsForControl, "Not open settings at the end of translation")
+    }
+    
     // MARK: Routing
     func test_openSettings() {
         drawRect()
@@ -116,8 +129,7 @@ class EditorPresenterTests: XCTestCase {
         sut.mouseDown(on: CGPoint(x: 10, y: 10))
         XCTAssertNil(router.didShowSettingsForControl)
         
-        sut.mouseUp(on: CGPoint(x: 10, y: 10)) // Slightly move is restricted
-//        sut.mouseUp(on: CGPoint(x: 12, y: 12)) // Slightly move is possible
+        sut.mouseUp(on: CGPoint(x: 11, y: 11)) // Slightly move is possible
         
         XCTAssertNotNil(router.didShowSettingsForControl)
         XCTAssertEqual(sut.document.controls.first?.frame,

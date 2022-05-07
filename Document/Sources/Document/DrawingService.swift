@@ -122,7 +122,7 @@ public class DrawingService {
             control.frame = control.frame.increase(to: CGSize(width: minimalTapSize, height: minimalTapSize))
             
         case .translate(let control, let startLocation, let offset):
-            if offset == .zero {
+            if offset.isSmallOffset {
                 // Reset frame
                 control.frame = control.frame.offsetBy(dx: -offset.x,
                                                        dy: -offset.y)
@@ -178,5 +178,15 @@ extension CGRect {
         }
         
         return rect
+    }
+}
+
+extension CGPoint {
+    var isSmallOffset: Bool {
+        if abs(x) < 2 || abs(y) < 2 {
+            return true
+        }
+        
+        return false
     }
 }
