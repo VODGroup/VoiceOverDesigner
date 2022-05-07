@@ -28,7 +28,9 @@ public class DrawingService {
     public init(view: View) {
         self.view = view
         
+#if os(macOS)
         view.wantsLayer = true
+#endif
     }
     
     private let view: View
