@@ -57,14 +57,24 @@ class EditorPresenterTests: XCTestCase {
                        rect)
     }
     
-    func test_drawSmallerThanMinimalSize_shouldIncreaseSizeToMinimal_andKeepCenter() {
+    func test_drawSmallerThanMinimalWidth_shouldIncreaseSizeToMinimal_andKeepCenter() {
         sut.mouseDown(on: start)
-        sut.mouseUp(on: start.offset(x: 10, y: 10))
+        sut.mouseUp(on: start.offset(x: 10, y: 50))
         
         XCTAssertEqual(sut.document.controls.first?.frame,
-                       CGRect(origin: CGPoint(x: 15 - 44/2,
-                                              y: 15 - 44/2),
-                              size: CGSize(width: 44, height: 44)))
+                       CGRect(origin: CGPoint(x: 10 + 5 - 44/2,
+                                              y: 10),
+                              size: CGSize(width: 44, height: 50)))
+    }
+    
+    func test_drawSmallerThanMinimalHeight_shouldIncreaseSizeToMinimal_andKeepCenter() {
+        sut.mouseDown(on: start)
+        sut.mouseUp(on: start.offset(x: 50, y: 10))
+        
+        XCTAssertEqual(sut.document.controls.first?.frame,
+                       CGRect(origin: CGPoint(x: 10,
+                                              y: 10 +  5 - 44/2),
+                              size: CGSize(width: 50, height: 44)))
     }
     
     func test_drawInReverseDirection() {

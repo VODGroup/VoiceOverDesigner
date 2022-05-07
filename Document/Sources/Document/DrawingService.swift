@@ -162,13 +162,16 @@ extension CALayer {
 
 extension CGRect {
     func increase(to minimalSize: CGSize) -> Self {
+        var rect = self
+        
         if size.width < minimalSize.width {
-            let origin = CGPoint(x: midX - minimalSize.width / 2,
-                                 y: midY - minimalSize.height / 2)
-            return CGRect(origin: origin,
-                          size: CGSize(width: minimalSize.width, height: minimalSize.height))
+            rect = rect.insetBy(dx: (size.width - minimalSize.width)/2, dy: 0)
         }
         
-        return self
+        if size.height < minimalSize.height {
+            rect = rect.insetBy(dx: 0, dy: (size.height - minimalSize.height)/2)
+        }
+        
+        return rect
     }
 }
