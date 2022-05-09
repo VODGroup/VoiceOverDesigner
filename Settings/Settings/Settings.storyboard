@@ -420,9 +420,8 @@ DQ
                                     <rect key="frame" x="3" y="3" width="343" height="100"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wTS-KN-K2v" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wTS-KN-K2v" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
                                             <rect key="frame" x="6" y="72" width="90" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Adjustable" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ndG-wf-QuK">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -433,26 +432,36 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="iMQ-Me-hdk"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g4q-lc-9CO">
-                                            <rect key="frame" x="6" y="44" width="178" height="22"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="radio" title="Value 1" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="QmC-Nk-84h">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                        </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H1h-59-VFe">
-                                            <rect key="frame" x="1" y="9" width="190" height="32"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="push" title="+ Add value" bezelStyle="rounded" alignment="left" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LZx-72-weY">
+                                        <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LY2-US-qwu">
+                                            <rect key="frame" x="8" y="65" width="327" height="0.0"/>
+                                        </stackView>
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="H1h-59-VFe">
+                                            <rect key="frame" x="1" y="30" width="106" height="32"/>
+                                            <buttonCell key="cell" type="push" title="+ Add value" bezelStyle="rounded" alignment="left" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LZx-72-weY">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <connections>
+                                                <action selector="addAdjustable:" target="nUI-yQ-51I" id="0rw-ht-z5X"/>
+                                            </connections>
                                         </button>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="wTS-KN-K2v" firstAttribute="top" secondItem="ipW-Al-Hp3" secondAttribute="top" constant="11" id="6D2-oq-mHQ"/>
+                                        <constraint firstItem="H1h-59-VFe" firstAttribute="leading" secondItem="LY2-US-qwu" secondAttribute="leading" id="7s2-ig-laz"/>
+                                        <constraint firstItem="wTS-KN-K2v" firstAttribute="bottom" secondItem="LY2-US-qwu" secondAttribute="top" constant="-8" id="83i-yb-swB"/>
+                                        <constraint firstItem="H1h-59-VFe" firstAttribute="top" secondItem="LY2-US-qwu" secondAttribute="bottom" constant="8" id="Bc4-Dk-zFf"/>
+                                        <constraint firstItem="LY2-US-qwu" firstAttribute="leading" secondItem="wTS-KN-K2v" secondAttribute="leading" id="IMx-QM-66T"/>
+                                        <constraint firstAttribute="trailing" secondItem="LY2-US-qwu" secondAttribute="trailing" constant="8" id="K4A-gj-GU0"/>
+                                        <constraint firstItem="wTS-KN-K2v" firstAttribute="leading" secondItem="ipW-Al-Hp3" secondAttribute="leading" constant="8" id="c0z-jq-e7Y"/>
+                                    </constraints>
                                 </view>
                             </box>
                         </subviews>
+                        <connections>
+                            <outlet property="isAdjustableTrait" destination="wTS-KN-K2v" id="7Jm-uZ-cgG"/>
+                            <outlet property="optionsStack" destination="LY2-US-qwu" id="6hK-V0-Dai"/>
+                        </connections>
                     </view>
                 </viewController>
                 <customObject id="kwx-qD-79g" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
