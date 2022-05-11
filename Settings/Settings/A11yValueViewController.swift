@@ -84,6 +84,9 @@ extension A11yValueViewController: AdjustableOptionDelegate {
             }.forEach { anOption in
                 anOption.radioButton.state = .off
             }
+        
+        descr.value = option.value
+        delegate?.updateText()
     }
 }
 
@@ -99,6 +102,7 @@ class A11yValueView: NSView {
         super.awakeFromNib()
         adjustableOptionsBox.isHidden = true
     }
+    
     override var intrinsicContentSize: NSSize {
         get {
             return CGSize(width: NSView.noIntrinsicMetric, height: 300)
