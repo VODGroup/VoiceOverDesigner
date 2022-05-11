@@ -107,6 +107,7 @@ public class A11yDescription: Codable {
             descr.append(". Вкладка")
         }
         
+        // TODO: Test order when all enabled
         if trait.contains(.image) {
             descr.append(". Изображение")
         }

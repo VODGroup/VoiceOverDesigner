@@ -1,13 +1,36 @@
 //
-//  AdjustableViewController.swift
+//  A11yValueViewController.swift
 //  Settings
 //
 //  Created by Mikhail Rubanov on 07.05.2022.
 //
 
 import AppKit
+import Document
 
-class AdjustableViewController: NSViewController {
+protocol A11yValueDelegate: AnyObject {
+    func updateText()
+}
+
+class A11yValueViewController: NSViewController {
+    
+    var presenter: SettingsPresenter!
+    weak var delegate: A11yValueDelegate?
+    
+    var descr: A11yDescription {
+        presenter.control.a11yDescription!
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view().value.stringValue = descr.value
+    }
+    
+    @IBAction func valueDidChange(_ sender: NSTextField) {
+        descr.value = sender.stringValue
+        delegate?.updateText()
+    }
     
     @IBAction func addAdjustable(_ sender: Any) {
         view().isAdjustableTrait.state = .on
@@ -37,16 +60,17 @@ class AdjustableViewController: NSViewController {
         }
     }
     
-    func view() -> AdjustableView {
-        view as! AdjustableView
+    func view() -> A11yValueView {
+        view as! A11yValueView
     }
 }
 
-class AdjustableView: NSView {
+class A11yValueView: NSView {
     
     @IBOutlet weak var isAdjustableTrait: TraitCheckBox!
     @IBOutlet weak var optionsStack: NSStackView!
     
+    @IBOutlet weak var value: NSTextField!
     @IBOutlet weak var adjustableOptionsBox: NSBox!
     
     override func awakeFromNib() {

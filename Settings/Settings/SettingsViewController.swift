@@ -8,31 +8,8 @@
 import AppKit
 import Document
 
-public protocol SettingsDelegate: AnyObject {
-    func didUpdateValue()
-    func delete(control: A11yControl)
-}
-
 class TraitCheckBox: NSButton {
     var trait: A11yTraits!
-}
-
-public class SettingsPresenter {
-    public init(
-        control: A11yControl,
-        delegate: SettingsDelegate
-    ) {
-        self.control = control
-        self.delegate = delegate
-    }
-    
-    public var control: A11yControl
-    public weak var delegate: SettingsDelegate?
-    
-    func updateLabel(to newValue: String) {
-        control.a11yDescription?.label = newValue
-        control.updateColor()
-    }
 }
 
 public class SettingsViewController: NSViewController {
@@ -78,7 +55,6 @@ public class SettingsViewController: NSViewController {
         super.viewDidLoad()
         
         label.stringValue = descr.label
-//        value.stringValue = descr.value
         hint.stringValue  = descr.hint
         isAccessibilityElement.state = descr.isAccessibilityElement ? .on: .off
         
@@ -129,6 +105,13 @@ public class SettingsViewController: NSViewController {
         }
     }
     
+    public override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
+        if let value = segue.destinationController as? A11yValueViewController {
+            value.presenter = presenter
+            value.delegate = self
+        }
+    }
+    
     @IBAction func traitDidChange(_ sender: TraitCheckBox) {
         let isOn = sender.state == .on
         
@@ -147,17 +130,12 @@ public class SettingsViewController: NSViewController {
         updateText()
     }
     
-    @IBAction func valueDidChange(_ sender: NSTextField) {
-        descr.value = sender.stringValue
-        updateText()
-    }
-    
     @IBAction func hintDidChange(_ sender: NSTextField) {
         descr.hint = sender.stringValue
         updateText()
     }
     
-    private func updateText() {
+    internal func updateText() {
         resultLabel.stringValue = descr.voiceOverText ?? ""
     }
     
@@ -184,3 +162,5 @@ public class SettingsViewController: NSViewController {
         return storyboard.instantiateController(withIdentifier: "settings") as! SettingsViewController
     }
 }
+
+extension SettingsViewController: A11yValueDelegate {}
