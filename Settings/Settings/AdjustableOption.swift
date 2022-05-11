@@ -9,6 +9,7 @@ import AppKit
 
 protocol AdjustableOptionDelegate: AnyObject {
     func delete(option: AdjustableOption)
+    func select(option: AdjustableOption)
 }
 
 class AdjustableOption: NSView {
@@ -42,6 +43,9 @@ class AdjustableOption: NSView {
         
         super.init(frame: .zero)
         
+        radioButton.target = self
+        radioButton.action = #selector(select)
+        
         removeButton.target = self
         removeButton.action = #selector(deleteSelf)
         
@@ -50,6 +54,10 @@ class AdjustableOption: NSView {
     
     @objc func deleteSelf() {
         delegate?.delete(option: self)
+    }
+    
+    @objc func select() {
+        delegate?.select(option: self)
     }
     
     override var intrinsicContentSize: NSSize {

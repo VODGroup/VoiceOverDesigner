@@ -74,6 +74,17 @@ extension A11yValueViewController: AdjustableOptionDelegate {
         
         view().optionsStack.removeView(option)
     }
+    
+    func select(option: AdjustableOption) {
+        view().optionsStack.arrangedSubviews
+            .compactMap { view in
+                view as? AdjustableOption
+            }.filter { anOption in
+                anOption != option
+            }.forEach { anOption in
+                anOption.radioButton.state = .off
+            }
+    }
 }
 
 class A11yValueView: NSView {
