@@ -36,6 +36,7 @@ class A11yValueViewController: NSViewController {
         view().isAdjustableTrait.state = .on
         
         let option = AdjustableOption()
+        option.delegate = self
         view().optionsStack.insertArrangedSubview(
             option,
             at: instertIndex)
@@ -62,6 +63,16 @@ class A11yValueViewController: NSViewController {
     
     func view() -> A11yValueView {
         view as! A11yValueView
+    }
+}
+
+extension A11yValueViewController: AdjustableOptionDelegate {
+    func delete(option: AdjustableOption) {
+        let index = view().optionsStack.arrangedSubviews.firstIndex(of: option)
+        
+        // - 1 // remove create button
+        
+        view().optionsStack.removeView(option)
     }
 }
 

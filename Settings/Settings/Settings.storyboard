@@ -521,7 +521,7 @@ DQ
                             </stackView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="msB-Np-TQu" secondAttribute="bottom" constant="8" id="60N-XN-dfc"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="msB-Np-TQu" secondAttribute="bottom" id="60N-XN-dfc"/>
                             <constraint firstAttribute="trailing" secondItem="msB-Np-TQu" secondAttribute="trailing" constant="20" id="CDW-E8-zaJ"/>
                             <constraint firstItem="vcT-3u-akc" firstAttribute="leading" secondItem="zdU-ju-cY8" secondAttribute="trailing" constant="4" id="DQB-vS-0GI"/>
                             <constraint firstItem="vcT-3u-akc" firstAttribute="top" secondItem="v5N-K6-UkN" secondAttribute="top" constant="8" id="NYy-71-P9x"/>
