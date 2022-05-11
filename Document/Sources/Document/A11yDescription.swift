@@ -102,8 +102,17 @@ public class A11yDescription: Codable {
             descr.append(". Заголовок")
         }
         
+        // TODO: Это иначе работает, .tab это свойство контейнера
         if trait.contains(.tab) {
             descr.append(". Вкладка")
+        }
+        
+        if trait.contains(.image) {
+            descr.append(". Изображение")
+        }
+        
+        if trait.contains(.link) {
+            descr.append(". Ссылка")
         }
         
         if !hint.isEmpty {

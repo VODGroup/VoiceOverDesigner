@@ -13,13 +13,28 @@ class AdjustableViewController: NSViewController {
         view().isAdjustableTrait.state = .on
         
         let option = AdjustableOption()
+        view().optionsStack.insertArrangedSubview(
+            option,
+            at: instertIndex)
+        
         view().optionsStack.addArrangedSubview(option)
         
-        // Enable
-        option.radioButton.state = .on // TODO: Only first
+        if view().optionsStack.arrangedSubviews.count == 2 { // New one and add button
+            option.radioButton.state = .on
+        }
         option.textView.becomeFirstResponder()
-        
-//        preferredContentSizeDidChange(for: self)
+    }
+    
+    @IBAction func isAdjustableDidChange(_ sender: NSButton) {
+        view().adjustableOptionsBox.isHidden = sender.state == .off
+    }
+    
+    private var instertIndex: Int {
+        if view().optionsStack.arrangedSubviews.count == 1 { // Add button
+            return 0
+        } else {
+            return view().optionsStack.arrangedSubviews.count - 2 // Before add button
+        }
     }
     
     func view() -> AdjustableView {
@@ -27,52 +42,22 @@ class AdjustableViewController: NSViewController {
     }
 }
 
-class AdjustableOption: NSView {
-    
-    let radioButton: NSButton
-    let textView: NSTextField
-    let removeButton: NSButton
-    
-    let stackView: NSStackView
-    
-    init() {
-        self.radioButton = NSButton(radioButtonWithTitle: "",
-                                    target: nil, action: nil)
-        self.textView = NSTextField()
-        
-        self.removeButton = NSButton(title: "Remove", target: nil, action: nil)
-        removeButton.bezelStyle = .inline
-        
-        self.stackView = NSStackView(views: [radioButton, textView, removeButton])
-    
-        super.init(frame: .zero)
-        
-        addSubview(stackView)
-    }
-    
-    override func layout() {
-        super.layout()
-        stackView.frame = bounds
-    }
-    
-    override var intrinsicContentSize: NSSize {
-        get {
-            CGSize(width: NSView.noIntrinsicMetric, height: 24)
-        }
-        
-        set {
-            
-        }
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
 class AdjustableView: NSView {
     
     @IBOutlet weak var isAdjustableTrait: TraitCheckBox!
     @IBOutlet weak var optionsStack: NSStackView!
+    
+    @IBOutlet weak var adjustableOptionsBox: NSBox!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        adjustableOptionsBox.isHidden = true
+    }
+    override var intrinsicContentSize: NSSize {
+        get {
+            return CGSize(width: NSView.noIntrinsicMetric, height: 300)
+        }
+        
+        set {}
+    }
 }
-

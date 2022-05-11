@@ -78,7 +78,7 @@ public class SettingsViewController: NSViewController {
         super.viewDidLoad()
         
         label.stringValue = descr.label
-        value.stringValue = descr.value
+//        value.stringValue = descr.value
         hint.stringValue  = descr.hint
         isAccessibilityElement.state = descr.isAccessibilityElement ? .on: .off
         

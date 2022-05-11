@@ -16,6 +16,7 @@
 		1E579B8428244D6700B13565 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E579B8328244D6700B13565 /* Settings.storyboard */; };
 		1E579B8A28244DA200B13565 /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E579B8928244DA200B13565 /* Document */; };
 		1E579B9A2825396000B13565 /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E579B992825396000B13565 /* Document */; };
+		1ECFDDB3282C2D56009649C7 /* AdjustableOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECFDDB2282C2D56009649C7 /* AdjustableOption.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +38,7 @@
 		1E579B7628244D4E00B13565 /* SettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTests.swift; sourceTree = "<group>"; };
 		1E579B8128244D5600B13565 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1E579B8328244D6700B13565 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		1ECFDDB2282C2D56009649C7 /* AdjustableOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustableOption.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 				1E579B8128244D5600B13565 /* SettingsViewController.swift */,
 				1E0AF7BF2826C5FD0025734B /* AdjustableViewController.swift */,
 				1E579B8328244D6700B13565 /* Settings.storyboard */,
+				1ECFDDB2282C2D56009649C7 /* AdjustableOption.swift */,
 				1E579B6B28244D4E00B13565 /* Settings.docc */,
 			);
 			path = Settings;
@@ -223,6 +226,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E0AF7C02826C5FD0025734B /* AdjustableViewController.swift in Sources */,
+				1ECFDDB3282C2D56009649C7 /* AdjustableOption.swift in Sources */,
 				1E579B6C28244D4E00B13565 /* Settings.docc in Sources */,
 				1E579B8228244D5700B13565 /* SettingsViewController.swift in Sources */,
 			);
