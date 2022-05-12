@@ -73,6 +73,10 @@ extension A11yValueViewController: AdjustableOptionDelegate {
         // - 1 // remove create button
         
         view().optionsStack.removeView(option)
+        
+        if option.radioButton.state == .on {
+            // TODO: Select another one
+        }
     }
     
     func select(option: AdjustableOption) {
