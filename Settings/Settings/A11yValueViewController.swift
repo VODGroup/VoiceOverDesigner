@@ -14,6 +14,17 @@ protocol A11yValueDelegate: AnyObject {
 
 class A11yValueViewController: NSViewController {
     
+    static func fromStoryboard() -> A11yValueViewController {
+        let storyboard = NSStoryboard(
+            name: "Settings",
+            bundle: Bundle(for: A11yValueViewController.self))
+        
+        let controller = storyboard
+            .instantiateController(withIdentifier: "value") as! A11yValueViewController
+        
+        return controller
+    }
+    
     var presenter: SettingsPresenter!
     weak var delegate: A11yValueDelegate?
     

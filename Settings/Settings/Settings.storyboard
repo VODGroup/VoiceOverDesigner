@@ -9,7 +9,7 @@
         <scene sceneID="XOO-ii-QJZ">
             <objects>
                 <viewController storyboardIdentifier="settings" id="U2f-R7-Q2a" customClass="SettingsViewController" customModule="Settings" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" misplaced="YES" id="cLK-md-r8c">
+                    <view key="view" id="cLK-md-r8c">
                         <rect key="frame" x="0.0" y="0.0" width="385" height="785"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
@@ -428,7 +428,7 @@ DQ
         <!--1y Value View Controller-->
         <scene sceneID="JXB-Z0-sFY">
             <objects>
-                <viewController id="nUI-yQ-51I" customClass="A11yValueViewController" customModule="Settings" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="value" id="nUI-yQ-51I" customClass="A11yValueViewController" customModule="Settings" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="v5N-K6-UkN" customClass="A11yValueView" customModule="Settings" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="383" height="156"/>
                         <autoresizingMask key="autoresizingMask"/>

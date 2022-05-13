@@ -149,7 +149,10 @@ public class A11yDescription: Codable {
 }
 
 public struct AdjustableOptions: Codable {
-    init(options: [String], currentIndex: Int? = nil) {
+    public init(
+        options: [String],
+        currentIndex: Int? = nil
+    ) {
         self.options = options
         self.currentIndex = currentIndex
     }
