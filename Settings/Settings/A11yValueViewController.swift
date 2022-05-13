@@ -45,6 +45,13 @@ class A11yValueViewController: NSViewController {
         let isAdjustable = sender.state == .on
         descr.isAdjustable = isAdjustable
         
+        if isAdjustable {
+            let currentValue = view().value.stringValue
+            if !currentValue.isEmpty {
+                descr.adjustableOptions.append(currentValue)
+            }
+        }
+        
         renderDescription()
     }
     

@@ -32,6 +32,7 @@ class A11yValueView: NSView {
     func render(descr: A11yDescription, delegate: AdjustableOptionDelegate) {
         value.stringValue = descr.value
         
+        value.isEnabled = !descr.isAdjustable
         isAdjustableTrait.state = descr.isAdjustable ? .on: .off
         adjustableOptionsBox.isHidden = !descr.isAdjustable
         
