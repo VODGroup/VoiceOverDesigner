@@ -71,7 +71,7 @@ extension A11yValueViewController: AdjustableOptionDelegate {
             descr.adjustableOptions.options.remove(at: index)
         }
         
-        view().remove(option: option)
+        renderDescription()
     }
     
     func select(option: AdjustableOption) {

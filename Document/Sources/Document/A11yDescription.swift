@@ -149,9 +149,18 @@ public class A11yDescription: Codable {
 }
 
 public struct AdjustableOptions: Codable {
+    init(options: [String], currentIndex: Int? = nil) {
+        self.options = options
+        self.currentIndex = currentIndex
+    }
+    
     public var options: [String] {
         didSet {
-            // TODO: Revalidate currentIndex
+            if let currentIndex = currentIndex,
+                options.count <= currentIndex
+            {
+                self.currentIndex = options.count - 1
+            }
         }
     }
     public var currentIndex: Int?

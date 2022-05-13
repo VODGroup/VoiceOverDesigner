@@ -57,11 +57,22 @@ extension A11yDescription {
                          value: String = "",
                          hint: String = "",
                          trait: A11yTraits = .none,
-                         frame: CGRect = .zero) -> A11yDescription {
+                         frame: CGRect = .zero,
+                         adjustableOption: AdjustableOptions = .testMake()) -> A11yDescription {
         A11yDescription(label: label,
                         value: value,
                         hint: hint,
                         trait: trait,
-                        frame: frame)
+                        frame: frame,
+                        adjustableOptions: adjustableOption)
+    }
+}
+
+extension AdjustableOptions {
+    static func testMake(
+        options: [String] = [],
+        currentIndex: Int? = nil
+    ) -> AdjustableOptions {
+        AdjustableOptions(options: options, currentIndex: currentIndex)
     }
 }
