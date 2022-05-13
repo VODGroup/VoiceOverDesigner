@@ -24,7 +24,7 @@ class A11yValueViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view().value.stringValue = descr.value
+        renderDescription()
     }
     
     @IBAction func valueDidChange(_ sender: NSTextField) {
@@ -33,31 +33,35 @@ class A11yValueViewController: NSViewController {
     }
     
     @IBAction func addAdjustable(_ sender: Any) {
-        view().isAdjustableTrait.state = .on
+        // TODO: Finish current editing, otherwise current text can be lost
+        descr.trait.formUnion(.adjustable)
         
-        let option = AdjustableOption()
-        option.delegate = self
-        view().optionsStack.insertArrangedSubview(
-            option,
-            at: instertIndex)
+        descr.adjustableOptions.append("")
         
-        view().optionsStack.addArrangedSubview(option)
-        
-        if view().optionsStack.arrangedSubviews.count == 2 { // New one and add button
-            option.radioButton.state = .on
-        }
-        option.textView.becomeFirstResponder()
+        renderDescription()
     }
     
     @IBAction func isAdjustableDidChange(_ sender: NSButton) {
-        view().adjustableOptionsBox.isHidden = sender.state == .off
+        let isAdjustable = sender.state == .on
+        descr.isAdjustable = isAdjustable
+        
+        renderDescription()
     }
     
-    private var instertIndex: Int {
-        if view().optionsStack.arrangedSubviews.count == 1 { // Add button
-            return 0
-        } else {
-            return view().optionsStack.arrangedSubviews.count - 2 // Before add button
+    func renderDescription() {
+        render(desrc: descr)
+    }
+    
+    func render(desrc: A11yDescription) {
+        view().value.stringValue = descr.value
+        
+        view().isAdjustableTrait.state = descr.isAdjustable ? .on: .off
+        view().adjustableOptionsBox.isHidden = !descr.isAdjustable
+    
+        // TODO: It looks unoptimal to remove all and draw again. Some cache can help
+        view().removeAllOptions()
+        for text in descr.adjustableOptions {
+            view().addNewAdjustableOption(delegate: self, text: text)
         }
     }
     
@@ -68,15 +72,11 @@ class A11yValueViewController: NSViewController {
 
 extension A11yValueViewController: AdjustableOptionDelegate {
     func delete(option: AdjustableOption) {
-        let index = view().optionsStack.arrangedSubviews.firstIndex(of: option)
-        
-        // - 1 // remove create button
-        
-        view().optionsStack.removeView(option)
-        
-        if option.radioButton.state == .on {
-            // TODO: Select another one
+        if let index = view().index(of: option) {
+            descr.adjustableOptions.remove(at: index)
         }
+        
+        view().remove(option: option)
     }
     
     func select(option: AdjustableOption) {
@@ -91,6 +91,12 @@ extension A11yValueViewController: AdjustableOptionDelegate {
         
         descr.value = option.value
         delegate?.updateText()
+    }
+    
+    func update(option: AdjustableOption) {
+        if let index = view().index(of: option) {
+            descr.adjustableOptions[index] = option.text
+        }
     }
 }
 
@@ -113,5 +119,60 @@ class A11yValueView: NSView {
         }
         
         set {}
+    }
+    
+    func remove(option: AdjustableOption) {
+        optionsStack.removeView(option)
+        
+        if option.isOn {
+            selectFirstOption()
+        }
+    }
+    
+    func selectFirstOption() {
+        // TODO: Select another one
+    }
+    
+    func index(of option: AdjustableOption) -> Int? {
+        guard let index = optionsStack.arrangedSubviews.firstIndex(of: option) // Remove first button
+        else { return  nil }
+            
+        return index - 1
+    }
+    
+    func addNewAdjustableOption(
+        delegate: AdjustableOptionDelegate,
+        text: String
+    ) {
+        let option = AdjustableOption()
+        option.delegate = delegate
+        option.text = text
+        optionsStack.insertArrangedSubview(
+            option,
+            at: instertIndex)
+        
+        optionsStack.addArrangedSubview(option)
+        
+        if optionsStack.arrangedSubviews.count == 2 { // New one and add button
+            option.radioButton.state = .on
+        }
+        option.textView.becomeFirstResponder()
+    }
+    
+    
+    private var instertIndex: Int {
+        if optionsStack.arrangedSubviews.count == 1 { // Add button
+            return 0
+        } else {
+            return optionsStack.arrangedSubviews.count - 2 // Before add button
+        }
+    }
+    
+    func removeAllOptions() {
+        optionsStack
+            .arrangedSubviews
+            .dropFirst()
+            .reversed()
+            .forEach { $0.removeFromSuperview() }
     }
 }

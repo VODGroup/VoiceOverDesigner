@@ -23,25 +23,43 @@ public class A11yDescription: Codable {
         value: String,
         hint: String,
         trait: A11yTraits,
-        frame: CGRect) {
-            self.isAccessibilityElement = isAccessibilityElement
-            self.label = label
-            self.value = value
-            self.hint = hint
-            self.trait = trait
-            self.frame = frame
-        }
+        frame: CGRect,
+        adjustableOptions: [String]
+    ) {
+        self.isAccessibilityElement = isAccessibilityElement
+        self.label = label
+        self.value = value
+        self.hint = hint
+        self.trait = trait
+        self.frame = frame
+        self.adjustableOptions = adjustableOptions
+    }
     
     public var isAccessibilityElement: Bool
     public var label: String
     public var value: String
     public var hint: String
     public var trait: A11yTraits
-    
     public var frame: CGRect
     
+    // MARK: - Adjustable
+    public var adjustableOptions: [String]
+//    public var adjustableIndex: Int // TODO: Wrap in one object with list
+    public var isAdjustable: Bool {
+        get {
+            trait.contains(.adjustable)
+        }
+        set {
+            if newValue {
+                trait.formUnion(.adjustable)
+            } else {
+                trait.remove(.adjustable)
+            }
+        }
+    }
+    
     public static func empty(frame: CGRect) -> A11yDescription {
-        A11yDescription(label: "", value: "", hint: "", trait: .none, frame: frame)
+        A11yDescription(label: "", value: "", hint: "", trait: .none, frame: frame, adjustableOptions: [])
     }
     
     var isValid: Bool {

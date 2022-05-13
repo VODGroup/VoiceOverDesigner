@@ -10,6 +10,7 @@ import AppKit
 protocol AdjustableOptionDelegate: AnyObject {
     func delete(option: AdjustableOption)
     func select(option: AdjustableOption)
+    func update(option: AdjustableOption)
 }
 
 class AdjustableOption: NSView {
@@ -22,11 +23,23 @@ class AdjustableOption: NSView {
     
     weak var delegate: AdjustableOptionDelegate?
     
+    var isOn: Bool {
+        radioButton.state == .on
+    }
+    
+    var text: String {
+        get {
+            textView.stringValue
+        }
+        set {
+            textView.stringValue = newValue
+        }
+    }
+    
     init() {
         self.radioButton = NSButton(radioButtonWithTitle: "",
                                     target: nil, action: nil)
         self.textView = NSTextField()
-        
         NSLayoutConstraint.activate([
             textView.widthAnchor.constraint(equalToConstant: 240)
         ])
@@ -35,16 +48,18 @@ class AdjustableOption: NSView {
         self.removeButton = NSButton(title: "Remove", target: nil, action: nil)
         removeButton.bezelStyle = .inline
         
-        
-        
         self.stackView = NSStackView(views: [radioButton, textView, removeButton])
         stackView.orientation = .horizontal
         stackView.distribution = .fill
         
         super.init(frame: .zero)
         
+        radioButton.isEnabled = false // TODO: Should be enabled
         radioButton.target = self
         radioButton.action = #selector(select)
+        
+        textView.target = self
+        textView.action = #selector(updateText)
         
         removeButton.target = self
         removeButton.action = #selector(deleteSelf)
@@ -58,6 +73,10 @@ class AdjustableOption: NSView {
     
     @objc func select() {
         delegate?.select(option: self)
+    }
+    
+    @objc func updateText() {
+        delegate?.update(option: self)
     }
     
     override var intrinsicContentSize: NSSize {
