@@ -24,7 +24,7 @@ public class A11yDescription: Codable {
         hint: String,
         trait: A11yTraits,
         frame: CGRect,
-        adjustableOptions: [String]
+        adjustableOptions: AdjustableOptions
     ) {
         self.isAccessibilityElement = isAccessibilityElement
         self.label = label
@@ -43,8 +43,8 @@ public class A11yDescription: Codable {
     public var frame: CGRect
     
     // MARK: - Adjustable
-    public var adjustableOptions: [String]
-//    public var adjustableIndex: Int // TODO: Wrap in one object with list
+    public var adjustableOptions: AdjustableOptions // Not optional because user can input values, disable adjustable, but reenable after time. The app will keep data :-)
+    
     public var isAdjustable: Bool {
         get {
             trait.contains(.adjustable)
@@ -59,7 +59,13 @@ public class A11yDescription: Codable {
     }
     
     public static func empty(frame: CGRect) -> A11yDescription {
-        A11yDescription(label: "", value: "", hint: "", trait: .none, frame: frame, adjustableOptions: [])
+        A11yDescription(
+            label: "",
+            value: "",
+            hint: "",
+            trait: .none,
+            frame: frame,
+            adjustableOptions: AdjustableOptions(options: []))
     }
     
     var isValid: Bool {
@@ -140,4 +146,13 @@ public class A11yDescription: Codable {
         
         return descr.joined()
     }
+}
+
+public struct AdjustableOptions: Codable {
+    public var options: [String] {
+        didSet {
+            // TODO: Revalidate currentIndex
+        }
+    }
+    public var currentIndex: Int?
 }

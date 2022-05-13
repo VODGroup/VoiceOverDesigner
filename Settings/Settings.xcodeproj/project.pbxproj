@@ -93,8 +93,8 @@
 				1ECFDDB4282C3B4E009649C7 /* SettingsPresenter.swift */,
 				1E0AF7BF2826C5FD0025734B /* A11yValueViewController.swift */,
 				1EADE910282EFA8000AB8A24 /* A11yValueView.swift */,
-				1E579B8328244D6700B13565 /* Settings.storyboard */,
 				1ECFDDB2282C2D56009649C7 /* AdjustableOption.swift */,
+				1E579B8328244D6700B13565 /* Settings.storyboard */,
 				1E579B6B28244D4E00B13565 /* Settings.docc */,
 			);
 			path = Settings;

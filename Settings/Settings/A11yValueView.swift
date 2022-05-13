@@ -38,8 +38,12 @@ class A11yValueView: NSView {
         
         // TODO: It looks unoptimal to remove all and draw again. Some cache can help
         removeAllOptions()
-        for text in descr.adjustableOptions {
-            addNewAdjustableOption(delegate: delegate, text: text)
+        for (index, text) in descr.adjustableOptions.options.enumerated() {
+            let option = addNewAdjustableOption(delegate: delegate, text: text)
+            
+            if index == descr.adjustableOptions.currentIndex {
+                option.isOn = true
+            }
         }
     }
     
@@ -65,7 +69,7 @@ class A11yValueView: NSView {
     func addNewAdjustableOption(
         delegate: AdjustableOptionDelegate,
         text: String
-    ) {
+    ) -> AdjustableOption {
         let option = AdjustableOption()
         option.delegate = delegate
         option.text = text
@@ -75,10 +79,8 @@ class A11yValueView: NSView {
         
         optionsStack.addArrangedSubview(option)
         
-        if optionsStack.arrangedSubviews.count == 2 { // New one and add button
-            option.radioButton.state = .on
-        }
         option.textView.becomeFirstResponder()
+        return option
     }
     
     

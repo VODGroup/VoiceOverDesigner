@@ -24,7 +24,12 @@ class AdjustableOption: NSView {
     weak var delegate: AdjustableOptionDelegate?
     
     var isOn: Bool {
-        radioButton.state == .on
+        get {
+            radioButton.state == .on
+        }
+        set {
+            radioButton.state = newValue ? .on: .off
+        }
     }
     
     var text: String {
@@ -54,7 +59,6 @@ class AdjustableOption: NSView {
         
         super.init(frame: .zero)
         
-        radioButton.isEnabled = false // TODO: Should be enabled
         radioButton.target = self
         radioButton.action = #selector(select)
         
