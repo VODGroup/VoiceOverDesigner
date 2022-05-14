@@ -9,6 +9,7 @@ public class VODesignDocument: Document {
     
     // MARK: - Data
     public var image: NSImage?
+    
     public var controls: [A11yDescription] = [] {
         didSet {
             undoManager?.registerUndo(withTarget: self, handler: { document in

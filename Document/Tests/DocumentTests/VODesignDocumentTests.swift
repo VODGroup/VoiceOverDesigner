@@ -23,16 +23,18 @@ class VODesignDocumentTests: XCTestCase {
         super.setUp()
         fileURL = path.appendingPathComponent("TestFile.vodesign", isDirectory: false)
     }
-    
+}
+
+class VODesignDocumentPersistanceTests: VODesignDocumentTests {
     override func tearDownWithError() throws {
         try FileManager.default
             .removeItem(at: fileURL)
     }
-
+    
     func testWhenSaveOneDocument_andReadAnotherWithSameName_shouldKeepObjects() throws {
         var document: VODesignDocument? = VODesignDocument(file: fileURL)
         document!.controls = [A11yDescription.testMake(label: "Label1"),
-                             A11yDescription.testMake(label: "Label2")]
+                              A11yDescription.testMake(label: "Label2")]
         document!.save()
         document = nil
         
@@ -40,8 +42,22 @@ class VODesignDocumentTests: XCTestCase {
             fileName: fileName,
             rootPath: path)
         try document2.read()
-    
+        
         XCTAssertEqual(document2.controls.count, 2)
+    }
+}
+
+class VODesignDocumentUndoTests: VODesignDocumentTests {
+    func test_undoForArray() {
+        let document = VODesignDocument(file: fileURL)
+        document.controls = [A11yDescription.testMake(label: "Label1"),
+                             A11yDescription.testMake(label: "Label2")]
+        
+        document.undoManager?.undo()
+        XCTAssertTrue(document.controls.isEmpty)
+        
+        document.undoManager?.redo()
+        XCTAssertEqual(document.controls.count, 2)
     }
 }
 

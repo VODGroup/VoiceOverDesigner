@@ -77,6 +77,9 @@ class AdjustableViewControllerSnapshotTests: XCTestCase {
         
         sut.presenter = .init(control: control,
                               delegate: SettingsDelegateMock())
+        
+        sut.view.wantsLayer = true
+        sut.view.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
         return sut
     }
 }
