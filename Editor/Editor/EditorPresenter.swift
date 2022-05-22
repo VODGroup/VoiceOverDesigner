@@ -61,7 +61,7 @@ public class EditorPresenter {
         case .translate(let control, let startLocation, let offset):
             save()
         case .click(let control):
-            router.showSettings(for: control, delegate: self)
+            router.showSettings(for: control, controlSuperview: drawingService.view, delegate: self)
         case .none:
             break
         }

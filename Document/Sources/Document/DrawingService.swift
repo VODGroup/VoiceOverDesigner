@@ -33,7 +33,7 @@ public class DrawingService {
 #endif
     }
     
-    private let view: View
+    public let view: View
     
     private var action: Action?
 

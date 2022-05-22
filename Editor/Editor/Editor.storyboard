@@ -10,13 +10,13 @@
             <objects>
                 <viewController storyboardIdentifier="editor" id="LVp-Pr-lAJ" customClass="EditorViewController" customModule="Editor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="ndy-hA-WOO" customClass="EditorView" customModule="Editor" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="812"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHg-wh-ieX">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="812"/>
                                 <clipView key="contentView" id="lki-H1-X1O">
-                                    <rect key="frame" x="1" y="1" width="373" height="810"/>
+                                    <rect key="frame" x="1" y="1" width="388" height="810"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <view id="JlK-Oy-LgO">
@@ -25,6 +25,10 @@
                                             <subviews>
                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kiH-h5-aG4">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="375" id="cX1-ar-rKx"/>
+                                                        <constraint firstAttribute="height" constant="812" id="xHB-ca-Zjv"/>
+                                                    </constraints>
                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="vuC-bS-HZw"/>
                                                 </imageView>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="L7U-F0-kOc" customClass="FlippedView" customModule="Editor" customModuleProvider="target">
@@ -32,11 +36,15 @@
                                                 </customView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="kiH-h5-aG4" firstAttribute="leading" secondItem="JlK-Oy-LgO" secondAttribute="leading" id="30x-54-sy6"/>
+                                                <constraint firstAttribute="bottom" secondItem="kiH-h5-aG4" secondAttribute="bottom" id="6lv-I0-VOw"/>
                                                 <constraint firstItem="L7U-F0-kOc" firstAttribute="top" secondItem="JlK-Oy-LgO" secondAttribute="top" id="BD8-6t-yPo"/>
                                                 <constraint firstAttribute="bottom" secondItem="kiH-h5-aG4" secondAttribute="bottom" id="BGc-d2-Nn0"/>
+                                                <constraint firstItem="kiH-h5-aG4" firstAttribute="top" secondItem="JlK-Oy-LgO" secondAttribute="top" id="BXZ-nT-0um"/>
                                                 <constraint firstAttribute="bottom" secondItem="L7U-F0-kOc" secondAttribute="bottom" id="H7N-3R-s7c"/>
                                                 <constraint firstAttribute="trailing" secondItem="kiH-h5-aG4" secondAttribute="trailing" id="Kkg-Z5-LEn"/>
                                                 <constraint firstAttribute="trailing" secondItem="L7U-F0-kOc" secondAttribute="trailing" id="Og3-AW-BEB"/>
+                                                <constraint firstAttribute="trailing" secondItem="kiH-h5-aG4" secondAttribute="trailing" id="U59-Xs-4rI"/>
                                                 <constraint firstItem="kiH-h5-aG4" firstAttribute="top" secondItem="JlK-Oy-LgO" secondAttribute="top" id="e4i-oa-Bvl"/>
                                                 <constraint firstItem="kiH-h5-aG4" firstAttribute="leading" secondItem="JlK-Oy-LgO" secondAttribute="leading" id="tjl-gY-yaf"/>
                                                 <constraint firstItem="L7U-F0-kOc" firstAttribute="leading" secondItem="JlK-Oy-LgO" secondAttribute="leading" id="wlb-BM-4pM"/>
@@ -45,20 +53,19 @@
                                     </subviews>
                                 </clipView>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="375" id="eTS-Ih-zYt"/>
-                                    <constraint firstAttribute="height" constant="812" id="fha-WW-NwN"/>
+                                    <constraint firstAttribute="width" constant="390" id="eTS-Ih-zYt"/>
                                 </constraints>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="RkM-Hh-eZx">
-                                    <rect key="frame" x="1" y="795" width="373" height="16"/>
+                                    <rect key="frame" x="1" y="795" width="388" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="96e-u8-vjE">
-                                    <rect key="frame" x="358" y="1" width="16" height="810"/>
+                                    <rect key="frame" x="373" y="1" width="16" height="810"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="4cN-cs-t43" customClass="DragNDropImageView" customModule="CommonUI">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="812"/>
                             </customView>
                         </subviews>
                         <constraints>
@@ -73,8 +80,12 @@
                         </constraints>
                         <connections>
                             <outlet property="backgroundImageView" destination="kiH-h5-aG4" id="7f8-09-iTJ"/>
+                            <outlet property="clipView" destination="lki-H1-X1O" id="yfA-nS-Iqj"/>
+                            <outlet property="contentView" destination="JlK-Oy-LgO" id="6NV-jp-qGf"/>
                             <outlet property="controlsView" destination="L7U-F0-kOc" id="nWG-y5-Tqd"/>
                             <outlet property="dragnDropView" destination="4cN-cs-t43" id="5pO-tT-x64"/>
+                            <outlet property="imageHeight" destination="xHB-ca-Zjv" id="gtV-cy-dfw"/>
+                            <outlet property="imageWidth" destination="cX1-ar-rKx" id="pgx-b5-Mwq"/>
                             <outlet property="scrollView" destination="JHg-wh-ieX" id="oB8-ia-UPa"/>
                         </connections>
                     </view>

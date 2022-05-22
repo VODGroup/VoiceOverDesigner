@@ -7,6 +7,7 @@
 
 import Cocoa
 import Document
+import CommonUI
 
 public class EditorViewController: NSViewController {
 
@@ -17,6 +18,12 @@ public class EditorViewController: NSViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.window?.makeFirstResponder(self)
+        
+        view().dragnDropView.delegate = self
+    }
+    
+    private func addMouseTracking() {
         trackingArea = NSTrackingArea(
             rect: view.bounds,
             options: [.activeAlways,
@@ -26,10 +33,6 @@ public class EditorViewController: NSViewController {
             owner: self,
             userInfo: nil)
         view.addTrackingArea(trackingArea)
-        
-        view.window?.makeFirstResponder(self)
-        
-        view().dragnDropView.delegate = self
     }
     
     public override func viewDidAppear() {
@@ -40,15 +43,14 @@ public class EditorViewController: NSViewController {
                 ui: self.view().controlsView,
                 router: Router(rootController: self))
             self.setImage()
+            self.addMouseTracking()
         }
     }
     
     func setImage() {
-        let image = presenter.document.image
-        view().backgroundImageView.frame = CGRect(x: 0, y: 0, width: 375, height: 1000)
-        view().backgroundImageView.image = image
-        view().backgroundImageView.layer?.zPosition = 0
-        view.window?.contentMinSize = CGSize(width: 320, height: 762)
+        guard let image = presenter.document.image else { return }
+        
+        view().setImage(image)
     }
     
     public override var representedObject: Any? {
@@ -71,7 +73,7 @@ public class EditorViewController: NSViewController {
         highlightedControl = nil
         
         // TODO: Can crash if happend before document loading
-        guard let control = presenter.drawingService.control(at: event.locationInWindowFlipped) else {
+        guard let control = presenter.drawingService.control(at: location(from: event)) else {
             return
         }
         
@@ -85,17 +87,25 @@ public class EditorViewController: NSViewController {
 //            accessibilityDescription: nil)!
     }
     
+    func location(from event: NSEvent) -> CGPoint {
+        let inWindow = event.locationInWindow
+        let flipped = inWindow.flippendVertical(in: view)
+        let inView = view().backgroundImageView.convert(flipped, from: view)
+        return inView.flippendVertical(in: view().backgroundImageView)
+    }
+    
+    
     // MARK:
     public override func mouseDown(with event: NSEvent) {
-        presenter.mouseDown(on: event.locationInWindowFlipped)
+        presenter.mouseDown(on: location(from: event))
     }
     
     public override func mouseDragged(with event: NSEvent) {
-        presenter.mouseDragged(on: event.locationInWindowFlipped)
+        presenter.mouseDragged(on: location(from: event))
     }
     
     public override func mouseUp(with event: NSEvent) {
-        presenter.mouseUp(on: event.locationInWindowFlipped)
+        presenter.mouseUp(on: location(from: event))
     }
     
     func view() -> EditorView {
@@ -130,29 +140,10 @@ extension NSEvent {
     }
 }
 
-import CommonUI
-class EditorView: FlippedView {
-    @IBOutlet weak var scrollView: NSScrollView!
-    
-    @IBOutlet weak var backgroundImageView: NSImageView!
-    
-    @IBOutlet weak var controlsView: NSView!
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        scrollView.verticalScrollElasticity = .none
-        scrollView.horizontalScrollElasticity = .none
-    }
-    
-    @IBOutlet weak var dragnDropView: DragNDropImageView!
-}
-
-class FlippedView: NSView {
-    override var isFlipped: Bool {
-        get {
-            true
-        }
+extension CGPoint {
+    func flippendVertical(in view: NSView) -> CGPoint {
+        CGPoint(x: x,
+                y: view.frame.height - y
+        )
     }
 }
-
-

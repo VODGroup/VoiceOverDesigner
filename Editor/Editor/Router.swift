@@ -10,7 +10,7 @@ import Document
 import Settings
 
 protocol RouterProtocol {
-    func showSettings(for control: A11yControl, delegate: SettingsDelegate)
+    func showSettings(for control: A11yControl, controlSuperview: NSView, delegate: SettingsDelegate)
 }
 
 class Router: RouterProtocol {
@@ -20,12 +20,13 @@ class Router: RouterProtocol {
     
     let rootController: NSViewController
     
-    func showSettings(for control: A11yControl, delegate: SettingsDelegate) {
+    func showSettings(for control: A11yControl, controlSuperview: NSView, delegate: SettingsDelegate) {
         let settings = SettingsViewController.fromStoryboard()
         settings.presenter = SettingsPresenter(control: control, delegate: delegate)
         
+        let windowCoordinates = controlSuperview.convert(control.frame, to: rootController.view)
         rootController.present(settings,
-                               asPopoverRelativeTo: control.frame,
+                               asPopoverRelativeTo: windowCoordinates,
                                of: rootController.view,
                                preferredEdge: .maxX,
                                behavior: .semitransient)
