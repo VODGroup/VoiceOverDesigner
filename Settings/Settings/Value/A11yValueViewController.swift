@@ -16,11 +16,11 @@ class A11yValueViewController: NSViewController {
     
     static func fromStoryboard() -> A11yValueViewController {
         let storyboard = NSStoryboard(
-            name: "Settings",
+            name: "A11yValueViewController",
             bundle: Bundle(for: A11yValueViewController.self))
         
         let controller = storyboard
-            .instantiateController(withIdentifier: "value") as! A11yValueViewController
+            .instantiateInitialController() as! A11yValueViewController
         
         return controller
     }
@@ -47,7 +47,7 @@ class A11yValueViewController: NSViewController {
         // TODO: Finish current editing, otherwise current text can be lost
         descr.trait.formUnion(.adjustable)
         
-        descr.adjustableOptions.options.append("")
+        descr.adjustableOptions.add()
         
         renderDescription()
     }
@@ -59,7 +59,7 @@ class A11yValueViewController: NSViewController {
         if isAdjustable {
             let currentValue = view().value.stringValue
             if !currentValue.isEmpty {
-                descr.adjustableOptions.options.append(currentValue)
+                descr.adjustableOptions.add(defaultValue: currentValue)
             }
         }
         
@@ -79,7 +79,7 @@ class A11yValueViewController: NSViewController {
 extension A11yValueViewController: AdjustableOptionDelegate {
     func delete(option: AdjustableOption) {
         if let index = view().index(of: option) {
-            descr.adjustableOptions.options.remove(at: index)
+            descr.adjustableOptions.remove(at: index)
         }
         
         renderDescription()
@@ -107,7 +107,8 @@ extension A11yValueViewController: AdjustableOptionDelegate {
     
     func update(option: AdjustableOption) {
         if let index = view().index(of: option) {
-            descr.adjustableOptions.options[index] = option.text
+            descr.adjustableOptions.update(at: index,
+                                           text: option.text)
         }
     }
 }
