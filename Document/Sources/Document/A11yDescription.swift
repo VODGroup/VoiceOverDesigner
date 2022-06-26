@@ -147,24 +147,3 @@ public class A11yDescription: Codable {
         return descr.joined()
     }
 }
-
-public struct AdjustableOptions: Codable {
-    public init(
-        options: [String],
-        currentIndex: Int? = nil
-    ) {
-        self.options = options
-        self.currentIndex = currentIndex
-    }
-    
-    public var options: [String] {
-        didSet {
-            if let currentIndex = currentIndex,
-                options.count <= currentIndex
-            {
-                self.currentIndex = options.count - 1
-            }
-        }
-    }
-    public var currentIndex: Int?
-}

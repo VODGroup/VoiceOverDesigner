@@ -164,8 +164,13 @@ class EmptyViewController: NSViewController {
 
 import Settings
 class RouterMock: RouterProtocol {
+    
     var didShowSettingsForControl: A11yControl?
-    func showSettings(for control: A11yControl, delegate: SettingsDelegate) {
+    func showSettings(
+        for control: A11yControl,
+        controlSuperview: NSView,
+        delegate: SettingsDelegate
+    ) {
         didShowSettingsForControl = control
     }
 }

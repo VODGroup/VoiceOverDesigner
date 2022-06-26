@@ -29,7 +29,7 @@ public class SettingsViewController: NSViewController {
     // MARK: Type trait
     @IBOutlet weak var buttonTrait: TraitCheckBox!
     @IBOutlet weak var headerTrait: TraitCheckBox!
-//    @IBOutlet weak var adjustableTrait: TraitCheckBox!
+
     @IBOutlet weak var linkTrait: TraitCheckBox!
     @IBOutlet weak var staticTextTrait: TraitCheckBox!
     @IBOutlet weak var imageTrait: TraitCheckBox!
