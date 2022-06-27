@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
-   <FileRef
-      location = "group:VoiceOver Preview/VoiceOver Preview.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:VoiceOver Designer.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Editor/Editor.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Settings/Settings.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Projects/Projects.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:CommonUI/CommonUI.xcodeproj">
-   </FileRef>
+   <Group
+      location = "container:"
+      name = "Designer">
+      <FileRef
+         location = "group:VoiceOver Designer.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Editor/Editor.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Settings/Settings.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Projects/Projects.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:CommonUI/CommonUI.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "Preview">
+      <FileRef
+         location = "group:VoiceOver Preview/VoiceOver Preview.xcodeproj">
+      </FileRef>
+   </Group>
    <FileRef
       location = "group:Document">
    </FileRef>
