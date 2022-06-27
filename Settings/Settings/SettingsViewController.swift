@@ -62,7 +62,6 @@ public class SettingsViewController: NSViewController {
         
         buttonTrait.trait = .button
         headerTrait.trait = .header
-//        adjustableTrait.trait = .adjustable
         linkTrait.trait = .link
         staticTextTrait.trait = .staticText
         imageTrait.trait = .image
@@ -82,7 +81,6 @@ public class SettingsViewController: NSViewController {
         let allTraitsButtons: [TraitCheckBox] = [
             buttonTrait,
             headerTrait,
-//            adjustableTrait,
             linkTrait,
             staticTextTrait,
             imageTrait,
@@ -136,7 +134,7 @@ public class SettingsViewController: NSViewController {
     }
     
     internal func updateText() {
-        resultLabel.stringValue = descr.voiceOverText ?? ""
+        resultLabel.stringValue = descr.voiceOverText
     }
     
     @IBAction func delete(_ sender: Any) {

@@ -116,7 +116,7 @@
                             <outlet property="adjustableOptionsBox" destination="wvl-Qv-rQo" id="acd-WF-pAf"/>
                             <outlet property="isAdjustableTrait" destination="ecy-07-j5w" id="28o-NW-ikX"/>
                             <outlet property="optionsStack" destination="Y8O-yf-X3v" id="GZr-dD-6DA"/>
-                            <outlet property="value" destination="8dJ-cU-P1q" id="iLS-4X-9HO"/>
+                            <outlet property="valueTextField" destination="8dJ-cU-P1q" id="iCc-RK-HPk"/>
                         </connections>
                     </view>
                 </viewController>

@@ -7,13 +7,13 @@
 
 import AppKit
 
-protocol AdjustableOptionDelegate: AnyObject {
-    func delete(option: AdjustableOption)
-    func select(option: AdjustableOption)
-    func update(option: AdjustableOption)
+protocol AdjustableOptionViewDelegate: AnyObject {
+    func delete(option: AdjustableOptionView)
+    func select(option: AdjustableOptionView)
+    func update(option: AdjustableOptionView)
 }
 
-class AdjustableOption: NSView {
+class AdjustableOptionView: NSView {
     
     let radioButton: NSButton
     let textView: NSTextField
@@ -21,7 +21,7 @@ class AdjustableOption: NSView {
     
     let stackView: NSStackView
     
-    weak var delegate: AdjustableOptionDelegate?
+    weak var delegate: AdjustableOptionViewDelegate?
     
     var isOn: Bool {
         get {
