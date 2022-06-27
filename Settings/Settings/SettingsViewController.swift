@@ -103,10 +103,12 @@ public class SettingsViewController: NSViewController {
         }
     }
     
+    weak var valueViewController: A11yValueViewController?
     public override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
-        if let value = segue.destinationController as? A11yValueViewController {
-            value.presenter = presenter
-            value.delegate = self
+        if let valueViewController = segue.destinationController as? A11yValueViewController {
+            self.valueViewController = valueViewController
+            valueViewController.presenter = presenter
+            valueViewController.delegate = self
         }
     }
     
@@ -143,6 +145,7 @@ public class SettingsViewController: NSViewController {
     }
     
     @IBAction func doneDidPressed(_ sender: Any) {
+        valueViewController?.saveCurrentChanges()
         dismiss(self)
     }
     

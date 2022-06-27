@@ -44,12 +44,19 @@ class A11yValueViewController: NSViewController {
     }
     
     @IBAction func addAdjustable(_ sender: Any) {
-        // TODO: Finish current editing, otherwise current text can be lost
+        saveCurrentChanges()
+        
         descr.trait.formUnion(.adjustable)
         
         descr.adjustableOptions.add()
         
         renderDescription()
+    }
+    
+    func saveCurrentChanges() {
+        if let currentOption = view().currentInputOption() {
+            update(option: currentOption)
+        }
     }
     
     @IBAction func isAdjustableDidChange(_ sender: NSButton) {

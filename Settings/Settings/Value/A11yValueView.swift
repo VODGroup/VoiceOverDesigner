@@ -63,6 +63,17 @@ class A11yValueView: NSView {
         optionsStack.arrangedSubviews.firstIndex(of: option)
     }
     
+    func currentInputOption() -> AdjustableOptionView? {
+        optionsStack
+            .arrangedSubviews
+            .compactMap { view in
+                view as? AdjustableOptionView
+            }
+            .first { option in
+                option.textView.currentEditor() != nil
+            }
+    }
+    
     func addNewAdjustableOption(
         delegate: AdjustableOptionViewDelegate,
         text: String
