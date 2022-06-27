@@ -60,10 +60,7 @@ class A11yValueView: NSView {
     }
     
     func index(of option: AdjustableOptionView) -> Int? {
-        guard let index = optionsStack.arrangedSubviews.firstIndex(of: option) // Remove first button
-        else { return  nil }
-        
-        return index - 1
+        optionsStack.arrangedSubviews.firstIndex(of: option)
     }
     
     func addNewAdjustableOption(
@@ -77,8 +74,6 @@ class A11yValueView: NSView {
             option,
             at: instertIndex)
         
-        optionsStack.addArrangedSubview(option)
-        
         option.textView.becomeFirstResponder()
         return option
     }
@@ -88,14 +83,14 @@ class A11yValueView: NSView {
         if optionsStack.arrangedSubviews.count == 1 { // Add button
             return 0
         } else {
-            return optionsStack.arrangedSubviews.count - 2 // Before add button
+            return optionsStack.arrangedSubviews.count - 1 // Before add button
         }
     }
     
     func removeAllOptions() {
         optionsStack
             .arrangedSubviews
-            .dropFirst()
+            .dropLast() // Remove Add button
             .reversed()
             .forEach { $0.removeFromSuperview() }
     }
