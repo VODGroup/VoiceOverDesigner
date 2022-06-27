@@ -13,7 +13,7 @@ class A11yValueView: NSView {
     @IBOutlet weak var isAdjustableTrait: TraitCheckBox!
     @IBOutlet weak var optionsStack: NSStackView!
     
-    @IBOutlet weak var value: NSTextField!
+    @IBOutlet weak var valueTextField: NSTextField!
     @IBOutlet weak var adjustableOptionsBox: NSBox!
     
     override func awakeFromNib() {
@@ -29,10 +29,10 @@ class A11yValueView: NSView {
         set {}
     }
     
-    func render(descr: A11yDescription, delegate: AdjustableOptionDelegate) {
-        value.stringValue = descr.value
+    func render(descr: A11yDescription, delegate: AdjustableOptionViewDelegate) {
+        valueTextField.stringValue = descr.value
         
-        value.isEnabled = !descr.isAdjustable
+        valueTextField.isEnabled = !descr.isAdjustable
         isAdjustableTrait.state = descr.isAdjustable ? .on: .off
         adjustableOptionsBox.isHidden = !descr.isAdjustable
         
@@ -47,7 +47,7 @@ class A11yValueView: NSView {
         }
     }
     
-    func remove(option: AdjustableOption) {
+    func remove(option: AdjustableOptionView) {
         optionsStack.removeView(option)
         
         if option.isOn {
@@ -59,25 +59,20 @@ class A11yValueView: NSView {
         // TODO: Select another one
     }
     
-    func index(of option: AdjustableOption) -> Int? {
-        guard let index = optionsStack.arrangedSubviews.firstIndex(of: option) // Remove first button
-        else { return  nil }
-        
-        return index - 1
+    func index(of option: AdjustableOptionView) -> Int? {
+        optionsStack.arrangedSubviews.firstIndex(of: option)
     }
     
     func addNewAdjustableOption(
-        delegate: AdjustableOptionDelegate,
+        delegate: AdjustableOptionViewDelegate,
         text: String
-    ) -> AdjustableOption {
-        let option = AdjustableOption()
+    ) -> AdjustableOptionView {
+        let option = AdjustableOptionView()
         option.delegate = delegate
         option.text = text
         optionsStack.insertArrangedSubview(
             option,
             at: instertIndex)
-        
-        optionsStack.addArrangedSubview(option)
         
         option.textView.becomeFirstResponder()
         return option
@@ -88,14 +83,14 @@ class A11yValueView: NSView {
         if optionsStack.arrangedSubviews.count == 1 { // Add button
             return 0
         } else {
-            return optionsStack.arrangedSubviews.count - 2 // Before add button
+            return optionsStack.arrangedSubviews.count - 1 // Before add button
         }
     }
     
     func removeAllOptions() {
         optionsStack
             .arrangedSubviews
-            .dropFirst()
+            .dropLast() // Remove Add button
             .reversed()
             .forEach { $0.removeFromSuperview() }
     }

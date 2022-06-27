@@ -84,7 +84,6 @@ class AdjustableViewControllerSnapshotTests: XCTestCase {
     }
 }
 
-
 // TODO: Remove duplicate
 extension A11yDescription {
     public static func testMake(

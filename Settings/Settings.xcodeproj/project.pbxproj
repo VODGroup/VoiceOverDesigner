@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E04B7452868A3C300957518 /* A11yValueViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E04B7442868A3C300957518 /* A11yValueViewController.storyboard */; };
 		1E0AF7C02826C5FD0025734B /* A11yValueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0AF7BF2826C5FD0025734B /* A11yValueViewController.swift */; };
 		1E579B6C28244D4E00B13565 /* Settings.docc in Sources */ = {isa = PBXBuildFile; fileRef = 1E579B6B28244D4E00B13565 /* Settings.docc */; };
 		1E579B7228244D4E00B13565 /* Settings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E579B6728244D4E00B13565 /* Settings.framework */; };
@@ -19,7 +20,7 @@
 		1EADE911282EFA8000AB8A24 /* A11yValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EADE910282EFA8000AB8A24 /* A11yValueView.swift */; };
 		1EADE914282F03C600AB8A24 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 1EADE913282F03C600AB8A24 /* SnapshotTesting */; };
 		1EADE916282F03E800AB8A24 /* AdjustableViewControllerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EADE915282F03E800AB8A24 /* AdjustableViewControllerSnapshotTests.swift */; };
-		1ECFDDB3282C2D56009649C7 /* AdjustableOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECFDDB2282C2D56009649C7 /* AdjustableOption.swift */; };
+		1ECFDDB3282C2D56009649C7 /* AdjustableOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECFDDB2282C2D56009649C7 /* AdjustableOptionView.swift */; };
 		1ECFDDB5282C3B4E009649C7 /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECFDDB4282C3B4E009649C7 /* SettingsPresenter.swift */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1E04B7442868A3C300957518 /* A11yValueViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = A11yValueViewController.storyboard; sourceTree = "<group>"; };
 		1E0AF7BF2826C5FD0025734B /* A11yValueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = A11yValueViewController.swift; sourceTree = "<group>"; };
 		1E579B6728244D4E00B13565 /* Settings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Settings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E579B6A28244D4E00B13565 /* Settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
@@ -44,7 +46,7 @@
 		1E579B8328244D6700B13565 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		1EADE910282EFA8000AB8A24 /* A11yValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = A11yValueView.swift; sourceTree = "<group>"; };
 		1EADE915282F03E800AB8A24 /* AdjustableViewControllerSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustableViewControllerSnapshotTests.swift; sourceTree = "<group>"; };
-		1ECFDDB2282C2D56009649C7 /* AdjustableOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustableOption.swift; sourceTree = "<group>"; };
+		1ECFDDB2282C2D56009649C7 /* AdjustableOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustableOptionView.swift; sourceTree = "<group>"; };
 		1ECFDDB4282C3B4E009649C7 /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -70,6 +72,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E04B7462868A5BF00957518 /* Value */ = {
+			isa = PBXGroup;
+			children = (
+				1E04B7442868A3C300957518 /* A11yValueViewController.storyboard */,
+				1E0AF7BF2826C5FD0025734B /* A11yValueViewController.swift */,
+				1EADE910282EFA8000AB8A24 /* A11yValueView.swift */,
+				1ECFDDB2282C2D56009649C7 /* AdjustableOptionView.swift */,
+			);
+			path = Value;
+			sourceTree = "<group>";
+		};
 		1E579B5D28244D4E00B13565 = {
 			isa = PBXGroup;
 			children = (
@@ -95,10 +108,8 @@
 				1E579B6A28244D4E00B13565 /* Settings.h */,
 				1E579B8128244D5600B13565 /* SettingsViewController.swift */,
 				1ECFDDB4282C3B4E009649C7 /* SettingsPresenter.swift */,
-				1E0AF7BF2826C5FD0025734B /* A11yValueViewController.swift */,
-				1EADE910282EFA8000AB8A24 /* A11yValueView.swift */,
-				1ECFDDB2282C2D56009649C7 /* AdjustableOption.swift */,
 				1E579B8328244D6700B13565 /* Settings.storyboard */,
+				1E04B7462868A5BF00957518 /* Value */,
 				1E579B6B28244D4E00B13565 /* Settings.docc */,
 			);
 			path = Settings;
@@ -223,6 +234,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E579B8428244D6700B13565 /* Settings.storyboard in Resources */,
+				1E04B7452868A3C300957518 /* A11yValueViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,7 +253,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E0AF7C02826C5FD0025734B /* A11yValueViewController.swift in Sources */,
-				1ECFDDB3282C2D56009649C7 /* AdjustableOption.swift in Sources */,
+				1ECFDDB3282C2D56009649C7 /* AdjustableOptionView.swift in Sources */,
 				1E579B6C28244D4E00B13565 /* Settings.docc in Sources */,
 				1E579B8228244D5700B13565 /* SettingsViewController.swift in Sources */,
 				1EADE911282EFA8000AB8A24 /* A11yValueView.swift in Sources */,

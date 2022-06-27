@@ -16,11 +16,11 @@ class A11yValueViewController: NSViewController {
     
     static func fromStoryboard() -> A11yValueViewController {
         let storyboard = NSStoryboard(
-            name: "Settings",
+            name: "A11yValueViewController",
             bundle: Bundle(for: A11yValueViewController.self))
         
         let controller = storyboard
-            .instantiateController(withIdentifier: "value") as! A11yValueViewController
+            .instantiateInitialController() as! A11yValueViewController
         
         return controller
     }
@@ -47,7 +47,7 @@ class A11yValueViewController: NSViewController {
         // TODO: Finish current editing, otherwise current text can be lost
         descr.trait.formUnion(.adjustable)
         
-        descr.adjustableOptions.options.append("")
+        descr.adjustableOptions.add()
         
         renderDescription()
     }
@@ -57,9 +57,9 @@ class A11yValueViewController: NSViewController {
         descr.isAdjustable = isAdjustable
         
         if isAdjustable {
-            let currentValue = view().value.stringValue
+            let currentValue = view().valueTextField.stringValue
             if !currentValue.isEmpty {
-                descr.adjustableOptions.options.append(currentValue)
+                descr.adjustableOptions.add(defaultValue: currentValue)
             }
         }
         
@@ -76,16 +76,16 @@ class A11yValueViewController: NSViewController {
 }
 
 // MARK: - AdjustableOptionDelegate
-extension A11yValueViewController: AdjustableOptionDelegate {
-    func delete(option: AdjustableOption) {
+extension A11yValueViewController: AdjustableOptionViewDelegate {
+    func delete(option: AdjustableOptionView) {
         if let index = view().index(of: option) {
-            descr.adjustableOptions.options.remove(at: index)
+            descr.adjustableOptions.remove(at: index)
         }
         
         renderDescription()
     }
     
-    func select(option: AdjustableOption) {
+    func select(option: AdjustableOptionView) {
         if let index = view().index(of: option) {
             descr.adjustableOptions.currentIndex = index
         }
@@ -95,7 +95,7 @@ extension A11yValueViewController: AdjustableOptionDelegate {
         // TODO: Move to render
         view().optionsStack.arrangedSubviews
             .compactMap { view in
-                view as? AdjustableOption
+                view as? AdjustableOptionView
             }.filter { anOption in
                 anOption != option
             }.forEach { anOption in
@@ -105,9 +105,10 @@ extension A11yValueViewController: AdjustableOptionDelegate {
         delegate?.updateText()
     }
     
-    func update(option: AdjustableOption) {
+    func update(option: AdjustableOptionView) {
         if let index = view().index(of: option) {
-            descr.adjustableOptions.options[index] = option.text
+            descr.adjustableOptions.update(at: index,
+                                           text: option.text)
         }
     }
 }
