@@ -65,9 +65,7 @@ class A11yValueViewController: NSViewController {
         
         if isAdjustable {
             let currentValue = view().valueTextField.stringValue
-            if !currentValue.isEmpty {
-                descr.adjustableOptions.add(defaultValue: currentValue)
-            }
+            descr.adjustableOptions.add(defaultValue: currentValue)
         }
         
         renderDescription()
