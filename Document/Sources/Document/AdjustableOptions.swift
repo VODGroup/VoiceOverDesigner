@@ -44,4 +44,8 @@ public struct AdjustableOptions: Codable {
             self.currentIndex = 0
         }
     }
+    
+    public var isEmpty: Bool {
+        options.isEmpty
+    }
 }

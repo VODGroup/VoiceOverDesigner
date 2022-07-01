@@ -87,6 +87,9 @@ extension A11yValueViewController: AdjustableOptionViewDelegate {
     func delete(option: AdjustableOptionView) {
         if let index = view().index(of: option) {
             descr.adjustableOptions.remove(at: index)
+            if descr.adjustableOptions.isEmpty {
+                descr.trait.remove(.adjustable)
+            }
         }
         
         renderDescription()
