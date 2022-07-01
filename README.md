@@ -1,6 +1,8 @@
 # VoiceOverDesigner
 
-VoiceOver Designer helps to design accessible apps.
+<img width="500" alt="Screen Shot 2022-07-01 at 20 38 11" src="https://user-images.githubusercontent.com/3120680/176926458-f46bad3b-4235-47ca-ab18-fa203ddb61d2.png">
+
+MacOS app's that helps to design accessible apps.
 
 The process will have 3 stages:
 
