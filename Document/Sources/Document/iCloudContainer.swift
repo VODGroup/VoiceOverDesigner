@@ -9,6 +9,7 @@ import Foundation
 
 let containerId = "iCloud.com.akaDuality.VoiceOver-Designer"
 
-public let iCloudContainer = FileManager.default
-    .url(forUbiquityContainerIdentifier: containerId)!
+public let iCloudContainer = //(   FileManager.default.url(forUbiquityContainerIdentifier: containerId)
+//                              ??
+                                 FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first! // When iCloud is disabled
 .appendingPathComponent("Documents")
