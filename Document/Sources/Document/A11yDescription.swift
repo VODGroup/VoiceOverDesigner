@@ -43,7 +43,7 @@ public class A11yDescription: Codable {
     public var frame: CGRect
     
     // MARK: - Adjustable
-    public var adjustableOptions: AdjustableOptions // Not optional because user can input values, disable adjustable, but reenable after time. The app will keep data :-)
+    public private(set) var adjustableOptions: AdjustableOptions // Not optional because user can input values, disable adjustable, but reenable after time. The app will keep data :-)
     
     public var isAdjustable: Bool {
         get {
@@ -145,5 +145,25 @@ public class A11yDescription: Codable {
         }
         
         return descr.joined()
+    }
+    
+    public func addAdjustable(defaultValue: String = "") {
+        trait.formUnion(.adjustable)
+        adjustableOptions.add(defaultValue: defaultValue)
+    }
+    
+    public func updateAdustable(at index: Int, text: String) {
+        adjustableOptions.update(at: index, text: text)
+    }
+    
+    public func removeAdjustable(at index: Int) {
+        adjustableOptions.remove(at: index)
+        if adjustableOptions.isEmpty {
+            trait.remove(.adjustable)
+        }
+    }
+    
+    public func selectAdjustable(index: Int) {
+        adjustableOptions.currentIndex = index
     }
 }
