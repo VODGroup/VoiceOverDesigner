@@ -147,23 +147,24 @@ public class A11yDescription: Codable {
         return descr.joined()
     }
     
-    public func addAdjustable(defaultValue: String = "") {
+    public func addAdjustableOption(defaultValue: String = "") {
         trait.formUnion(.adjustable)
         adjustableOptions.add(defaultValue: defaultValue)
     }
     
-    public func updateAdustable(at index: Int, text: String) {
+    public func updateAdjustableOption(at index: Int, with text: String) {
         adjustableOptions.update(at: index, text: text)
     }
     
-    public func removeAdjustable(at index: Int) {
+    public func removeAdjustableOption(at index: Int) {
         adjustableOptions.remove(at: index)
         if adjustableOptions.isEmpty {
             trait.remove(.adjustable)
         }
     }
     
-    public func selectAdjustable(index: Int) {
+    public func selectAdjustableOption(at index: Int) {
         adjustableOptions.currentIndex = index
+        value = adjustableOptions.options[index]
     }
 }
