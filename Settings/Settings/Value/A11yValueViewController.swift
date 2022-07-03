@@ -45,11 +45,7 @@ class A11yValueViewController: NSViewController {
     
     @IBAction func addAdjustable(_ sender: Any) {
         saveCurrentChanges()
-        
-        descr.trait.formUnion(.adjustable)
-        
-        descr.adjustableOptions.add()
-        
+        descr.addAdjustableOption()
         renderDescription()
     }
     
@@ -65,9 +61,7 @@ class A11yValueViewController: NSViewController {
         
         if isAdjustable {
             let currentValue = view().valueTextField.stringValue
-            if !currentValue.isEmpty {
-                descr.adjustableOptions.add(defaultValue: currentValue)
-            }
+            descr.addAdjustableOption(defaultValue: currentValue)
         }
         
         renderDescription()
@@ -86,19 +80,15 @@ class A11yValueViewController: NSViewController {
 extension A11yValueViewController: AdjustableOptionViewDelegate {
     func delete(option: AdjustableOptionView) {
         if let index = view().index(of: option) {
-            descr.adjustableOptions.remove(at: index)
+            descr.removeAdjustableOption(at: index)
         }
-        
         renderDescription()
     }
     
     func select(option: AdjustableOptionView) {
         if let index = view().index(of: option) {
-            descr.adjustableOptions.currentIndex = index
+            descr.selectAdjustableOption(at: index)
         }
-        
-        descr.value = option.value // TODO: Should be on data's level
-        
         // TODO: Move to render
         view().optionsStack.arrangedSubviews
             .compactMap { view in
@@ -114,8 +104,8 @@ extension A11yValueViewController: AdjustableOptionViewDelegate {
     
     func update(option: AdjustableOptionView) {
         if let index = view().index(of: option) {
-            descr.adjustableOptions.update(at: index,
-                                           text: option.text)
+            descr.updateAdjustableOption(at: index,
+                                           with: option.text)
         }
     }
 }

@@ -50,6 +50,51 @@ class A11yDescriptionTests: XCTestCase {
         
         XCTAssertEqual(descr.voiceOverText, "Город: Екатеринбург. Недоступно. Кнопка")
     }
+    
+    
+    func test_whenRemoveLastAdjustableOption_shouldRemoveAdjustableTrait() {
+        let descr = A11yDescription.testMake(
+            value: "",
+            trait: .adjustable,
+            adjustableOption: .testMake(options: ["Маленькая", "Средняя", "Большая"],
+                                        currentIndex: 0)
+        )
+        
+        for option in descr.adjustableOptions.options {
+            if let index = descr.adjustableOptions.options.firstIndex(of: option) {
+                descr.removeAdjustableOption(at: index)
+            }
+        }
+        XCTAssertFalse(descr.trait.contains(.adjustable))
+        XCTAssertEqual(descr.adjustableOptions.isEmpty, true)
+    }
+    
+    func test_addingAdjustableOption_withSample() {
+        let descr = A11yDescription.testMake()
+        
+        let options = ["Маленькая", "Средняя", "Большая"]
+        
+        for option in options {
+            descr.addAdjustableOption(defaultValue: option)
+        }
+        XCTAssertTrue(descr.trait.contains(.adjustable))
+        XCTAssertEqual(descr.adjustableOptions.isEmpty, false)
+        XCTAssertEqual(descr.adjustableOptions.options.count, 3)
+    }
+    
+    func test_selectingAdjustableOption_shouldSetValue() {
+        let descr = A11yDescription.testMake(
+            label: "Пицца",
+            value: "Маленькая",
+            trait: .adjustable,
+            adjustableOption: .testMake(options: ["Маленькая", "Средняя"],
+                                        currentIndex: 0)
+        )
+        
+        descr.addAdjustableOption(defaultValue: "Большая")
+        descr.selectAdjustableOption(at: 2)
+        XCTAssertEqual(descr.voiceOverText, "Пицца: Большая. Элемент регулировки")
+    }
 }
 
 extension A11yDescription {
