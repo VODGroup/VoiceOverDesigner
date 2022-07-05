@@ -49,8 +49,10 @@ public class DrawingService {
         control.a11yDescription = description
         control.frame = description.frame
         control.backgroundColor = description.color.cgColor
-        
         view.addSublayer(control)
+        if let label = control.label {
+            control.addSublayer(label)
+        }
         drawnControls.append(control)
     }
     
