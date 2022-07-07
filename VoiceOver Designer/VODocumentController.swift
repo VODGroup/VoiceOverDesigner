@@ -26,6 +26,7 @@ extension VODesignDocument {
         
         let wc = NSWindowController(window: window)
         wc.contentViewController = controller
+        wc.window?.toolbar = controller.toolbar
         addWindowController(wc)
         
         window.setFrameAutosaveName("windowFrame")

@@ -66,6 +66,14 @@ public class EditorPresenter {
             break
         }
     }
+    
+    func showLabels() {
+        drawingService.addLabels()
+    }
+    
+    func hideLabels() {
+        drawingService.removeLabels()
+    }
 }
 
 extension EditorPresenter: SettingsDelegate {

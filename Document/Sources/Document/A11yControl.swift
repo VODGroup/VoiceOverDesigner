@@ -43,4 +43,14 @@ public class A11yControl: CALayer {
             backgroundColor = backgroundColor?.copy(alpha: isHiglighted ? 0.75: 0.5) 
         }
     }
+    
+    public func addLabel() {
+        if let label = label {
+            addSublayer(label)
+        }
+    }
+    
+    public func removeLabel() {
+        label?.removeFromSuperlayer()
+    }
 }
