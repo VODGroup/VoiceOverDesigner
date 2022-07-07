@@ -27,6 +27,24 @@ class SettingsTests: XCTestCase {
             A11yDescription.validColor.withAlphaComponent(0.3).cgColor
         )
     }
+    
+    func test_whenSettingsUpdateLabel_shouldUpdateLayerLabel() throws {
+        let control = A11yControl()
+        control.a11yDescription = .empty(frame: .zero)
+        
+        let sut = SettingsPresenter(
+            control: control,
+            delegate: SettingsDelegateMock())
+        
+        sut.updateLabel(to: "Test")
+        
+        let labelString = control.label?.string as? String
+        
+        XCTAssertEqual(
+            labelString,
+            "Test"
+        )
+    }
 }
 
 class SettingsDelegateMock: SettingsDelegate {
