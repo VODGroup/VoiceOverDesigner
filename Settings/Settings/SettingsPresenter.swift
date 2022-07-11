@@ -28,5 +28,6 @@ public class SettingsPresenter {
     func updateLabel(to newValue: String) {
         control.a11yDescription?.label = newValue
         control.updateColor()
+        control.label?.string = newValue
     }
 }

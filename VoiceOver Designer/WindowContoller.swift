@@ -38,5 +38,6 @@ extension WindowContoller: ProjectsRouter {
         // VODesignDocument(fileName: "Test")
         
         window?.contentViewController = controller
+        window?.toolbar = controller.toolbar
     }
 }

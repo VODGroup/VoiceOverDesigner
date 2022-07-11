@@ -49,7 +49,6 @@ public class DrawingService {
         control.a11yDescription = description
         control.frame = description.frame
         control.backgroundColor = description.color.cgColor
-        
         view.addSublayer(control)
         drawnControls.append(control)
     }
@@ -150,6 +149,17 @@ public class DrawingService {
         
         if let index = drawnControls.firstIndex(of: control) {
             drawnControls.remove(at: index)
+        }
+    }
+    
+    public func removeLabels() {
+        for control in drawnControls {
+            control.removeLabel()
+        }
+    }
+    public func addLabels() {
+        for control in drawnControls {
+            control.addLabel()
         }
     }
     
