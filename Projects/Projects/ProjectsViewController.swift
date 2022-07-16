@@ -15,24 +15,32 @@ public protocol ProjectsRouter: AnyObject {
 
 public class ProjectsViewController: NSViewController {
     
+    var recentProjectsPaths: [String] = UserDefaults.standard.array(forKey: "recentProjectsPaths") as? [String] ?? []
+    
     public weak var router: ProjectsRouter?
     
-    @IBAction func selectMenu(_ sender: Any) {
-        show(image: NSImage(named: "Sample_menu")!)
-    }
+    public var toolbar = ProjectsToolbar()
     
-    @IBAction func selectProductCard(_ sender: Any) {
-        show(image: NSImage(named: "Sample_product")!)
-    }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view().delegate = self
+        toolbar.addButton.action = #selector(createNewProject)
+        view().collectionView.dataSource = self
+        view().collectionView.delegate = self
+    }
+    
+    override public func loadView() {
+        view = ProjectsView(frame: CGRect(origin: .zero, size: CGSize(width: 800, height: 400)))
     }
     
     func view() -> ProjectsView {
         view as! ProjectsView
+    }
+    
+    @objc func createNewProject() {
+        let document = VODesignDocument()
+        router?.show(document: document)
+        
     }
     
     public static func fromStoryboard() -> ProjectsViewController {
@@ -58,3 +66,33 @@ extension ProjectsViewController: DragNDropDelegate {
 }
 
 
+extension ProjectsViewController : NSCollectionViewDataSource {
+    public func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
+        recentProjectsPaths.count
+    }
+    
+    public func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
+        let item = ProjectCollectionViewItem()
+        let path = recentProjectsPaths[indexPath.item]
+        let url = URL(string: "file://\(path)")
+        item.configure(image: VODesignDocument.image(from: url!), fileName: url?.lastPathComponent ?? "")
+        return item
+    }
+    
+    public func numberOfSections(in collectionView: NSCollectionView) -> Int {
+        1
+    }
+    
+    
+}
+
+extension ProjectsViewController: NSCollectionViewDelegate {
+    public func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
+        for indexPath in indexPaths {
+            let path = recentProjectsPaths[indexPath.item]
+            let url = URL(string: "file://\(path)")
+            let document = VODesignDocument(file: url!)
+            router?.show(document: document)
+        }
+    }
+}
