@@ -22,6 +22,7 @@ class ProjectCellView: NSView {
       let view = NSTextField()
         view.isEditable = false
         view.isBordered = false
+        view.alignment = .center
         return view
     }()
     

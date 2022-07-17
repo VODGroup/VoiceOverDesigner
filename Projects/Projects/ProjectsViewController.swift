@@ -27,6 +27,12 @@ public class ProjectsViewController: NSViewController {
         toolbar.addButton.action = #selector(createNewProject)
         view().collectionView.dataSource = self
         view().collectionView.delegate = self
+        
+        DispatchQueue.main.async(execute: {
+            // Don't know why but configuring collectionView doesn't work, as it can't access document to retrieve image
+            self.view().collectionView.reloadData()
+        })
+        updateRecentPaths()
     }
     
     override public func loadView() {
@@ -41,6 +47,17 @@ public class ProjectsViewController: NSViewController {
         let document = VODesignDocument()
         router?.show(document: document)
         
+    }
+    
+    func updateRecentPaths() {
+        recentProjectsPaths = (UserDefaults.standard.array(forKey: "recentProjectsPaths") as? [String] ?? []).filter({
+            FileManager.default.fileExists(atPath: $0)
+        })
+        UserDefaults.standard.set(recentProjectsPaths, forKey: "recentProjectsPaths")
+        view().collectionView.reloadData()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10, execute: { [weak self] in
+            self?.updateRecentPaths()
+        })
     }
     
     public static func fromStoryboard() -> ProjectsViewController {
@@ -74,8 +91,10 @@ extension ProjectsViewController : NSCollectionViewDataSource {
     public func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
         let item = ProjectCollectionViewItem()
         let path = recentProjectsPaths[indexPath.item]
-        let url = URL(string: "file://\(path)")
-        item.configure(image: VODesignDocument.image(from: url!), fileName: url?.lastPathComponent ?? "")
+        if let url = URL(string: "file://\(path)") {
+            item.configure(image: VODesignDocument.image(from: url), fileName: url.deletingPathExtension().lastPathComponent)
+        }
+        
         return item
     }
     

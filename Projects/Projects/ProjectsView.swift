@@ -53,8 +53,8 @@ class ProjectsView: NSView {
         scrollViewCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             scrollViewCollectionView.topAnchor.constraint(equalTo: scrollViewCollectionView.superview!.topAnchor, constant: -10),
-            scrollViewCollectionView.leadingAnchor.constraint(equalTo: scrollViewCollectionView.superview!.leadingAnchor, constant: 10),
-            scrollViewCollectionView.trailingAnchor.constraint(equalTo: scrollViewCollectionView.superview!.trailingAnchor, constant: -10),
+            scrollViewCollectionView.leadingAnchor.constraint(equalTo: scrollViewCollectionView.superview!.leadingAnchor),
+            scrollViewCollectionView.trailingAnchor.constraint(equalTo: scrollViewCollectionView.superview!.trailingAnchor),
             scrollViewCollectionView.bottomAnchor.constraint(equalTo: scrollViewCollectionView.superview!.bottomAnchor, constant: 10)
         ])
     }
