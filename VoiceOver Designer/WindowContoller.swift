@@ -22,6 +22,7 @@ class WindowContoller: NSWindowController {
         super.windowDidLoad()
         
         let projects = ProjectsViewController.fromStoryboard()
+        projects.documentController = VODocumentController.shared
         window?.toolbar = projects.toolbar
         contentViewController = projects
         projects.router = self
@@ -32,7 +33,6 @@ extension WindowContoller: ProjectsRouter {
     func show(document: VODesignDocument) {
 //        self.document = document
         document.addWindowController(self)
-        document.updateRecent()
         
         let controller = EditorViewController.fromStoryboard()
         controller.presenter.document = document

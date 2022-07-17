@@ -8,6 +8,7 @@
 import AppKit
 import Document
 import CommonUI
+import Combine
 
 public protocol ProjectsRouter: AnyObject {
     func show(document: VODesignDocument) -> Void
@@ -15,24 +16,20 @@ public protocol ProjectsRouter: AnyObject {
 
 public class ProjectsViewController: NSViewController {
     
-    var recentProjectsPaths: [String] = UserDefaults.standard.array(forKey: "recentProjectsPaths") as? [String] ?? []
+    public weak var documentController: NSDocumentController?
     
     public weak var router: ProjectsRouter?
     
     public var toolbar = ProjectsToolbar()
     
     
+    var cancellables: Set<AnyCancellable> = []
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         toolbar.addButton.action = #selector(createNewProject)
         view().collectionView.dataSource = self
         view().collectionView.delegate = self
-        
-        DispatchQueue.main.async(execute: {
-            // Don't know why but configuring collectionView doesn't work, as it can't access document to retrieve image
-            self.view().collectionView.reloadData()
-        })
-        updateRecentPaths()
     }
     
     override public func loadView() {
@@ -48,17 +45,7 @@ public class ProjectsViewController: NSViewController {
         router?.show(document: document)
         
     }
-    
-    func updateRecentPaths() {
-        recentProjectsPaths = (UserDefaults.standard.array(forKey: "recentProjectsPaths") as? [String] ?? []).filter({
-            FileManager.default.fileExists(atPath: $0)
-        })
-        UserDefaults.standard.set(recentProjectsPaths, forKey: "recentProjectsPaths")
-        view().collectionView.reloadData()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 10, execute: { [weak self] in
-            self?.updateRecentPaths()
-        })
-    }
+
     
     public static func fromStoryboard() -> ProjectsViewController {
         let storyboard = NSStoryboard(name: "Projects", bundle: Bundle(for: ProjectsViewController.self))
@@ -85,16 +72,14 @@ extension ProjectsViewController: DragNDropDelegate {
 
 extension ProjectsViewController : NSCollectionViewDataSource {
     public func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
-        recentProjectsPaths.count
+        documentController?.recentDocumentURLs.count ?? 0
     }
     
     public func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
         let item = ProjectCollectionViewItem()
-        let path = recentProjectsPaths[indexPath.item]
-        if let url = URL(string: "file://\(path)") {
-            item.configure(image: VODesignDocument.image(from: url), fileName: url.deletingPathExtension().lastPathComponent)
+        if let url = documentController?.recentDocumentURLs[indexPath.item] {
+        item.configure(image: VODesignDocument.image(from: url), fileName: url.deletingPathExtension().lastPathComponent)
         }
-        
         return item
     }
     
@@ -108,10 +93,10 @@ extension ProjectsViewController : NSCollectionViewDataSource {
 extension ProjectsViewController: NSCollectionViewDelegate {
     public func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
         for indexPath in indexPaths {
-            let path = recentProjectsPaths[indexPath.item]
-            let url = URL(string: "file://\(path)")
-            let document = VODesignDocument(file: url!)
-            router?.show(document: document)
+            if let url = documentController?.recentDocumentURLs[indexPath.item] {
+                let document = VODesignDocument(file: url)
+                router?.show(document: document)
+            }
         }
     }
 }
