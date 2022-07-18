@@ -16,6 +16,7 @@ class ProjectsView: NSView {
         let flowLayout = NSCollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
         flowLayout.itemSize = CGSize(width: 100, height: 250)
+        flowLayout.sectionInset = .init(top: 16, left: 16, bottom: 0, right: 16)
         let collection = NSCollectionView()
         collection.collectionViewLayout = flowLayout
         collection.isSelectable = true
@@ -52,10 +53,10 @@ class ProjectsView: NSView {
     func addConstraints() {
         scrollViewCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            scrollViewCollectionView.topAnchor.constraint(equalTo: scrollViewCollectionView.superview!.topAnchor, constant: -10),
+            scrollViewCollectionView.topAnchor.constraint(equalTo: scrollViewCollectionView.superview!.topAnchor),
             scrollViewCollectionView.leadingAnchor.constraint(equalTo: scrollViewCollectionView.superview!.leadingAnchor),
             scrollViewCollectionView.trailingAnchor.constraint(equalTo: scrollViewCollectionView.superview!.trailingAnchor),
-            scrollViewCollectionView.bottomAnchor.constraint(equalTo: scrollViewCollectionView.superview!.bottomAnchor, constant: 10)
+            scrollViewCollectionView.bottomAnchor.constraint(equalTo: scrollViewCollectionView.superview!.bottomAnchor)
         ])
     }
 }

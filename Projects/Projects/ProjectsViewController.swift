@@ -8,7 +8,6 @@
 import AppKit
 import Document
 import CommonUI
-import Combine
 
 public protocol ProjectsRouter: AnyObject {
     func show(document: VODesignDocument) -> Void
@@ -21,9 +20,6 @@ public class ProjectsViewController: NSViewController {
     public weak var router: ProjectsRouter?
     
     public var toolbar = ProjectsToolbar()
-    
-    
-    var cancellables: Set<AnyCancellable> = []
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +39,6 @@ public class ProjectsViewController: NSViewController {
     @objc func createNewProject() {
         let document = VODesignDocument()
         router?.show(document: document)
-        
     }
 
     
@@ -78,7 +73,7 @@ extension ProjectsViewController : NSCollectionViewDataSource {
     public func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
         let item = ProjectCollectionViewItem()
         if let url = documentController?.recentDocumentURLs[indexPath.item] {
-        item.configure(image: VODesignDocument.image(from: url), fileName: url.deletingPathExtension().lastPathComponent)
+            item.configure(image: VODesignDocument.image(from: url), fileName: url.deletingPathExtension().lastPathComponent)
         }
         return item
     }
