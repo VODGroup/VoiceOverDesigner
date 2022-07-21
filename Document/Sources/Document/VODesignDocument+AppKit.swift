@@ -85,5 +85,9 @@ public class VODesignDocument: Document {
         
         image = try? ImageSaveService().load(from: url)
     }
+    
+    public static func image(from url: URL) -> NSImage? {
+        try? ImageSaveService().load(from: url)
+    }
 }
 #endif

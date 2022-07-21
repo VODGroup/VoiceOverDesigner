@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 import AppKit
 import Document
 import Editor
@@ -20,7 +21,6 @@ extension VODesignDocument {
     public override func makeWindowControllers() {
         let controller = EditorViewController.fromStoryboard()
         controller.presenter.document = self
-    
         let window = NSWindow(contentViewController: controller)
         window.setContentSize(NSSize(width: 800, height: 600))
         

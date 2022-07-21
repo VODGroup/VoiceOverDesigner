@@ -22,6 +22,8 @@ class WindowContoller: NSWindowController {
         super.windowDidLoad()
         
         let projects = ProjectsViewController.fromStoryboard()
+        projects.documentController = VODocumentController.shared
+        window?.toolbar = projects.toolbar
         contentViewController = projects
         projects.router = self
     }

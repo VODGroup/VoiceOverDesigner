@@ -17,6 +17,9 @@
 		1E579B2628244A6B00B13565 /* ProjectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579B2528244A6B00B13565 /* ProjectsView.swift */; };
 		1E579BC628255FAC00B13565 /* CommonUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E579BC528255FAC00B13565 /* CommonUI.framework */; };
 		1E579BC728255FAC00B13565 /* CommonUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1E579BC528255FAC00B13565 /* CommonUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6B673FAD288357AA0067B171 /* ProjectsToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B673FAC288357AA0067B171 /* ProjectsToolbar.swift */; };
+		6B77F58D28820FE80035C064 /* ProjectCollectionViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B77F58C28820FE80035C064 /* ProjectCollectionViewItem.swift */; };
+		6B77F58F2882105D0035C064 /* ProjectCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B77F58E2882105D0035C064 /* ProjectCellView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +56,9 @@
 		1E579B19282446FE00B13565 /* Projects.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Projects.storyboard; sourceTree = "<group>"; };
 		1E579B2528244A6B00B13565 /* ProjectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsView.swift; sourceTree = "<group>"; };
 		1E579BC528255FAC00B13565 /* CommonUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CommonUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B673FAC288357AA0067B171 /* ProjectsToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsToolbar.swift; sourceTree = "<group>"; };
+		6B77F58C28820FE80035C064 /* ProjectCollectionViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectCollectionViewItem.swift; sourceTree = "<group>"; };
+		6B77F58E2882105D0035C064 /* ProjectCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectCellView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,11 +104,13 @@
 		1E579AF6282446D200B13565 /* Projects */ = {
 			isa = PBXGroup;
 			children = (
+				6B673FAE28835C0B0067B171 /* Collection */,
 				1E579AF7282446D200B13565 /* Projects.h */,
 				1E579B17282446E900B13565 /* ProjectsViewController.swift */,
 				1E579B2528244A6B00B13565 /* ProjectsView.swift */,
 				1E579B19282446FE00B13565 /* Projects.storyboard */,
 				1E579AF8282446D200B13565 /* Projects.docc */,
+				6B673FAC288357AA0067B171 /* ProjectsToolbar.swift */,
 			);
 			path = Projects;
 			sourceTree = "<group>";
@@ -121,6 +129,15 @@
 				1E579BC528255FAC00B13565 /* CommonUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6B673FAE28835C0B0067B171 /* Collection */ = {
+			isa = PBXGroup;
+			children = (
+				6B77F58C28820FE80035C064 /* ProjectCollectionViewItem.swift */,
+				6B77F58E2882105D0035C064 /* ProjectCellView.swift */,
+			);
+			path = Collection;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -239,7 +256,10 @@
 			files = (
 				1E579B2628244A6B00B13565 /* ProjectsView.swift in Sources */,
 				1E579AF9282446D200B13565 /* Projects.docc in Sources */,
+				6B77F58F2882105D0035C064 /* ProjectCellView.swift in Sources */,
 				1E579B18282446E900B13565 /* ProjectsViewController.swift in Sources */,
+				6B77F58D28820FE80035C064 /* ProjectCollectionViewItem.swift in Sources */,
+				6B673FAD288357AA0067B171 /* ProjectsToolbar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
