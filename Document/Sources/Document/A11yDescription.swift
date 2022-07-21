@@ -169,12 +169,12 @@ public class A11yDescription: Codable {
     }
     
     public func accessibilityIncrement() {
-        adjustableOptions.accesibilityIncrement()
+        adjustableOptions.accessibilityIncrement()
         value = adjustableOptions.currentValue ?? ""
     }
     
-    public func accesibilityDecrement() {
-        adjustableOptions.accesibilityDecrement()
+    public func accessibilityDecrement() {
+        adjustableOptions.accessibilityDecrement()
         value = adjustableOptions.currentValue ?? ""
     }
 }

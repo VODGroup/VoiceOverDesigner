@@ -55,14 +55,14 @@ public struct AdjustableOptions: Codable {
         options.isEmpty
     }
     
-    public mutating func accesibilityIncrement() {
+    public mutating func accessibilityIncrement() {
         guard let currentIndex = currentIndex, currentIndex < options.count - 1 else {
             return
         }
         self.currentIndex = currentIndex + 1
     }
     
-    public mutating func accesibilityDecrement() {
+    public mutating func accessibilityDecrement() {
         guard let currentIndex = currentIndex, currentIndex > 0 else {
             return
         }
