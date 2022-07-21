@@ -18,6 +18,12 @@ public struct AdjustableOptions: Codable {
     
     public private(set) var options: [String]
     public var currentIndex: Int?
+    public var currentValue: String? {
+        guard let currentIndex = currentIndex else {
+            return nil
+        }
+        return options[currentIndex]
+    }
     
     public mutating func remove(at index: Int) {
         options.remove(at: index)
@@ -47,5 +53,19 @@ public struct AdjustableOptions: Codable {
     
     public var isEmpty: Bool {
         options.isEmpty
+    }
+    
+    public mutating func accesibilityIncrement() {
+        guard let currentIndex = currentIndex, currentIndex < options.count - 1 else {
+            return
+        }
+        self.currentIndex = currentIndex + 1
+    }
+    
+    public mutating func accesibilityDecrement() {
+        guard let currentIndex = currentIndex, currentIndex > 0 else {
+            return
+        }
+        self.currentIndex = currentIndex - 1
     }
 }
