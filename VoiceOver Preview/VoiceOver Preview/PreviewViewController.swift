@@ -50,6 +50,10 @@ final class PreviewViewController: UIViewController {
         #endif
     }()
     
+    override func loadView() {
+        view = PreviewView(frame: .zero)
+    }
+    
     func view() -> PreviewView {
         view as! PreviewView
     }
@@ -62,6 +66,7 @@ final class PreviewViewController: UIViewController {
             if isSuccess {
                 self.document.controls.forEach(self.drawingService.drawControl(from:))
                 self.view().layout = VoiceOverLayout(controls: self.document.controls, container: self.view)
+                self.view().imageView.image = self.document.image
             } else {
                 self.present(self.documentBrowser, animated: true)
             }
@@ -70,13 +75,7 @@ final class PreviewViewController: UIViewController {
     }
 }
 
-class PreviewView: UIView {
-    var layout: VoiceOverLayout? {
-        didSet {
-            accessibilityElements = layout?.accessibilityElements
-        }
-    }
-}
+
 
 extension PreviewViewController: UIDocumentBrowserViewControllerDelegate {
     func documentBrowser(_ controller: UIDocumentBrowserViewController, didPickDocumentsAt documentURLs: [URL]) {
