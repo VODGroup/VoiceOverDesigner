@@ -27,11 +27,23 @@ class DocumentSaveService {
     }
 }
 
+
+class ImageSaveService {
+    func load(from path: URL) throws -> Image? {
+        let imageURL = path.appendingPathComponent("screen.png")
+        let data = try Data(contentsOf: imageURL)
+        return Image(data: data)
+    }
+}
+
 #if os(iOS)
+import UIKit
+public typealias Image = UIImage
 
 #elseif os(macOS)
 import AppKit
-class ImageSaveService {
+public typealias Image = NSImage
+extension ImageSaveService {
     
     func save(image: NSImage, to path: URL) throws {
         if let data = UIImagePNGRepresentation(image) {
@@ -41,15 +53,7 @@ class ImageSaveService {
         }
     }
     
-    func load(from path: URL) throws -> NSImage? {
-        let imageURL = path.appendingPathComponent("screen.png")
-        guard let data = try? Data(contentsOf: imageURL) else {
-            return nil
-        }
-        return NSImage(data: data)
-    }
-    
-    func UIImagePNGRepresentation(_ image: NSImage) -> Data? {
+    func UIImagePNGRepresentation(_ image: Image) -> Data? {
         guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)
         else { return nil }
         let imageRep = NSBitmapImageRep(cgImage: cgImage)

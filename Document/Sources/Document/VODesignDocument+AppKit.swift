@@ -2,13 +2,14 @@
 // MARK: - AppKit
 import AppKit
 public typealias Document = NSDocument
+
 import os
 
 public class VODesignDocument: Document {
     public static var vodesign = "vodesign"
     
     // MARK: - Data
-    public var image: NSImage?
+    public var image: Image?
     
     public var controls: [A11yDescription] = [] {
         didSet {
@@ -86,7 +87,7 @@ public class VODesignDocument: Document {
         image = try? ImageSaveService().load(from: url)
     }
     
-    public static func image(from url: URL) -> NSImage? {
+    public static func image(from url: URL) -> Image? {
         try? ImageSaveService().load(from: url)
     }
 }

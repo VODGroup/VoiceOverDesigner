@@ -167,4 +167,14 @@ public class A11yDescription: Codable {
         adjustableOptions.currentIndex = index
         value = adjustableOptions.options[index]
     }
+    
+    public func accessibilityIncrement() {
+        adjustableOptions.accessibilityIncrement()
+        value = adjustableOptions.currentValue ?? ""
+    }
+    
+    public func accessibilityDecrement() {
+        adjustableOptions.accessibilityDecrement()
+        value = adjustableOptions.currentValue ?? ""
+    }
 }
