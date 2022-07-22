@@ -76,18 +76,6 @@ class PreviewView: UIView {
             accessibilityElements = layout?.accessibilityElements
         }
     }
-    
-    override func accessibilityIncrement() {
-        super.accessibilityIncrement()
-        layout?.focusedElement?.accessibilityIncrement()
-    }
-    
-    override func accessibilityDecrement() {
-        super.accessibilityDecrement()
-        layout?.focusedElement?.accessibilityDecrement()
-    }
-    
-    
 }
 
 extension PreviewViewController: UIDocumentBrowserViewControllerDelegate {
@@ -127,11 +115,6 @@ class VoiceOverLayout {
     
     var accessibilityElements: [UIAccessibilityElement] {
         controls.map(accessibilityElement(from:))
-    }
-    
-    /// A11y element that currently focused by VoiceOver
-    var focusedElement: UIAccessibilityElement? {
-        accessibilityElements.first(where: {$0.accessibilityElementIsFocused()})
     }
     
 }
