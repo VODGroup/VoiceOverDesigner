@@ -4,6 +4,7 @@ import AppKit
 public typealias Document = NSDocument
 
 import os
+import Foundation
 
 public class VODesignDocument: Document {
     public static var vodesign = "vodesign"
@@ -54,9 +55,14 @@ public class VODesignDocument: Document {
         let package = FileWrapper(directoryWithFileWrappers: [:])
         
         package.addFileWrapper(try controlsWrapper())
+
         
         if let imageWrapper = imageWrapper() {
             package.addFileWrapper(imageWrapper)
+        }
+        
+        if let previewWrapper = previewWrapper() {
+            package.addFileWrapper(previewWrapper)
         }
      
         return package
@@ -77,6 +83,17 @@ public class VODesignDocument: Document {
         imageWrapper.preferredFilename = "screen.png"
             
         return imageWrapper
+    }
+    
+    private func previewWrapper() -> FileWrapper? {
+        guard let image = image,
+            let imageData = ImageSaveService().UIImagePNGRepresentation(image)
+        else { return nil }
+        let imageWrapper = FileWrapper(regularFileWithContents: imageData)
+        imageWrapper.preferredFilename = "Preview.png"
+        let quicklookWrapper = FileWrapper(directoryWithFileWrappers: ["QuickLook": imageWrapper])
+        quicklookWrapper.preferredFilename = "QuickLook"
+        return quicklookWrapper
     }
     
     public override func read(from url: URL, ofType typeName: String) throws {
