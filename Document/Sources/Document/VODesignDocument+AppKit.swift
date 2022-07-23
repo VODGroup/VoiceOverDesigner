@@ -24,6 +24,8 @@ public class VODesignDocument: Document {
         let file = rootPath.appendingPathComponent(fileName).appendingPathExtension(Self.vodesign)
         
         self.init(file: file)
+        
+        fileType = Self.vodesign
     }
     
     public convenience init(file: URL) {
