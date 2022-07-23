@@ -27,4 +27,4 @@ The app generates test-case for automatic testing of accessibility. In general w
 # What's next
 
 - Join to [discussions](https://github.com/VODGroup/VoiceOverDesigner/discussions)
-- Check the [Wiki](https://github.com/akaDuality/VoiceOverDesigner/wiki)
+- Check the [Wiki](https://github.com/VODGroup/VoiceOverDesigner/wiki)
