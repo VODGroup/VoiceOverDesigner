@@ -81,5 +81,7 @@
 		<key>NSUbiquitousContainerSupportedFolderLevels</key>
 		<string>ANY</string>
 	</dict>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.developer-tools</string>
 </dict>
 </plist>
