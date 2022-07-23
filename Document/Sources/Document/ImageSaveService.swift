@@ -24,7 +24,7 @@ import AppKit
 public typealias Image = NSImage
 extension ImageSaveService {
     
-    func save(image: NSImage, to path: URL) throws {
+    func save(image: Image, to path: URL) throws {
         if let data = UIImagePNGRepresentation(image) {
             try data.write(to: path.appendingPathComponent("screen.png"))
         } else {
