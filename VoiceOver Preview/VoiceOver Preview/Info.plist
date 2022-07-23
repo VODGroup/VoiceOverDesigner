@@ -69,5 +69,7 @@
 		<key>NSUbiquitousContainerSupportedFolderLevels</key>
 		<string>ANY</string>
 	</dict>
+	<key>UISupportsDocumentBrowser</key>
+	<true/>
 </dict>
 </plist>
