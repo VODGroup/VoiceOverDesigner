@@ -221,36 +221,39 @@ extension DrawingService {
     private func alignToAny(_ sourceControl: A11yControl, frame: CGRect) -> CGRect {
         for control in drawnControls {
             guard control != sourceControl else { continue }
-            return aligned(frame: frame, with: control)
+            guard let aligned = aligned(frame: frame, with: control) else {
+                continue
+            }
+            
+            return aligned
         }
         
-        return frame
+        return frame // No frames to align, return original
     }
 
     func aligned(
         frame: CGRect,
         with control: A11yControl
-    ) -> CGRect {
-        let threeshold: CGFloat = 5
-        
+    ) -> CGRect? {
         for edge in NSRectEdge.allCases {
-            let isNear = abs(control.frame.value(for: edge) - frame.value(for: edge)) < threeshold
+            let isNear = control.frame.isNear(to: frame, edge: edge)
+            
             if isNear {
                 switch edge {
                 case .minX, .maxX:
                     return frame.offsetBy(dx: control.frame.value(for: edge) - frame.value(for: edge),
-                                   dy: 0)
+                                          dy: 0)
                 case .minY, .maxY:
                     return frame.offsetBy(dx: 0,
-                                   dy: control.frame.value(for: edge) - frame.value(for: edge))
+                                          dy: control.frame.value(for: edge) - frame.value(for: edge))
                 @unknown default:
-                    return frame
+                    return nil
                 }
                 
             }
         }
         
-        return frame
+        return nil
     }
 }
 
@@ -263,6 +266,11 @@ extension CGRect {
         case .maxY: return maxY
         @unknown default: return 0
         }
+    }
+    
+    func isNear(to frame: CGRect, edge: NSRectEdge) -> Bool {
+        let threeshold: CGFloat = 5
+        return abs(self.value(for: edge) - frame.value(for: edge)) < threeshold
     }
 }
 

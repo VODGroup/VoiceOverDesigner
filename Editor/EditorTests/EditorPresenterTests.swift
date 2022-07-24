@@ -135,6 +135,10 @@ class EditorPresenterTests: XCTestCase {
                        CGRect(x: 10, y: 10, width: 50, height: 50))
     }
     
+    // TODO:
+    // - aligned vertically
+    // - aligned to 3rd element
+    
     // MARK: Routing
     func test_openSettings() {
         drawRect()
