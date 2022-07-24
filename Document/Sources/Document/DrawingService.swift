@@ -215,13 +215,14 @@ extension CGPoint {
     }
 }
 
+
 // MARK: Alignment
 
 extension DrawingService {
     private func alignToAny(_ sourceControl: A11yControl, frame: CGRect) -> CGRect {
         for control in drawnControls {
             guard control != sourceControl else { continue }
-            guard let aligned = aligned(frame: frame, with: control) else {
+            guard let aligned = frame.aligned(to: control.frame) else {
                 continue
             }
             
@@ -230,50 +231,4 @@ extension DrawingService {
         
         return frame // No frames to align, return original
     }
-
-    func aligned(
-        frame: CGRect,
-        with control: A11yControl
-    ) -> CGRect? {
-        for edge in NSRectEdge.allCases {
-            let isNear = control.frame.isNear(to: frame, edge: edge)
-            
-            if isNear {
-                switch edge {
-                case .minX, .maxX:
-                    return frame.offsetBy(dx: control.frame.value(for: edge) - frame.value(for: edge),
-                                          dy: 0)
-                case .minY, .maxY:
-                    return frame.offsetBy(dx: 0,
-                                          dy: control.frame.value(for: edge) - frame.value(for: edge))
-                @unknown default:
-                    return nil
-                }
-                
-            }
-        }
-        
-        return nil
-    }
-}
-
-extension CGRect {
-    func value(for edge: NSRectEdge) -> CGFloat {
-        switch edge {
-        case .minX: return minX
-        case .minY: return minY
-        case .maxX: return maxX
-        case .maxY: return maxY
-        @unknown default: return 0
-        }
-    }
-    
-    func isNear(to frame: CGRect, edge: NSRectEdge) -> Bool {
-        let threeshold: CGFloat = 5
-        return abs(self.value(for: edge) - frame.value(for: edge)) < threeshold
-    }
-}
-
-extension NSRectEdge {
-    static var allCases: [Self] = [.minX, .maxX, .minY, .maxY]
 }
