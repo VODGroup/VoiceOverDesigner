@@ -55,13 +55,14 @@ public class DrawingService {
     
     public enum Action {
         case new(control: A11yControl, origin: CGPoint)
-        case translate(control: A11yControl, startLocation: CGPoint, offset: CGPoint)
+        case translate(control: A11yControl, startLocation: CGPoint, offset: CGPoint, initialFrame: CGRect)
         case click(control: A11yControl)
     }
     
     // MARK: New drawing
     public func startTranslating(control: A11yControl, startLocation: CGPoint) {
-        self.action = .translate(control: control, startLocation: startLocation, offset: .zero)
+        self.action = .translate(control: control, startLocation: startLocation,
+                                 offset: .zero, initialFrame: control.frame)
     }
     
     public func startDrawing(coordinate: CGPoint) {
@@ -84,17 +85,19 @@ public class DrawingService {
                                        width: coordinate.x - origin.x,
                                        height: coordinate.y - origin.y)
             }
-        case .translate(let control, let startLocation, let offsetOld):
-            let offset = CGPoint(x: coordinate.x - startLocation.x,
-                                 y: coordinate.y - startLocation.y)
+        case .translate(let control, let startLocation, let offsetOld, let initialFrame):
+            let offset = coordinate - startLocation
             
             control.updateWithoutAnimation {
-                control.frame = control.frame
-                    .offsetBy(dx: offset.x - offsetOld.x,
-                              dy: offset.y - offsetOld.y)
+                control.frame = initialFrame
+                    .offsetBy(dx: offset.x,
+                              dy: offset.y)
             }
             
-            action = .translate(control: control, startLocation: startLocation, offset: offset) // Reset translation
+            action = .translate(control: control,
+                                startLocation: startLocation,
+                                offset: offset,
+                                initialFrame: initialFrame)
             
         case .click:
             break
@@ -198,5 +201,12 @@ extension CGPoint {
         }
         
         return false
+    }
+}
+
+extension CGPoint {
+    static func -(lhs: Self, rhs: Self) -> Self {
+        Self(x: lhs.x - rhs.x,
+             y: lhs.y - rhs.y)
     }
 }
