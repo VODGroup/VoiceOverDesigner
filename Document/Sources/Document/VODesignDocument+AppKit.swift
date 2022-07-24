@@ -2,13 +2,15 @@
 // MARK: - AppKit
 import AppKit
 public typealias Document = NSDocument
+
 import os
+import Foundation
 
 public class VODesignDocument: Document {
     public static var vodesign = "vodesign"
     
     // MARK: - Data
-    public var image: NSImage?
+    public var image: Image?
     
     public var controls: [A11yDescription] = [] {
         didSet {
@@ -55,9 +57,14 @@ public class VODesignDocument: Document {
         let package = FileWrapper(directoryWithFileWrappers: [:])
         
         package.addFileWrapper(try controlsWrapper())
+
         
         if let imageWrapper = imageWrapper() {
             package.addFileWrapper(imageWrapper)
+        }
+        
+        if let previewWrapper = previewWrapper() {
+            package.addFileWrapper(previewWrapper)
         }
      
         return package
@@ -80,6 +87,17 @@ public class VODesignDocument: Document {
         return imageWrapper
     }
     
+    private func previewWrapper() -> FileWrapper? {
+        guard let image = image,
+            let imageData = ImageSaveService().UIImagePNGRepresentation(image)
+        else { return nil }
+        let imageWrapper = FileWrapper(regularFileWithContents: imageData)
+        imageWrapper.preferredFilename = "Preview.png"
+        let quicklookWrapper = FileWrapper(directoryWithFileWrappers: ["QuickLook": imageWrapper])
+        quicklookWrapper.preferredFilename = "QuickLook"
+        return quicklookWrapper
+    }
+    
     public override func read(from url: URL, ofType typeName: String) throws {
         Swift.print("Read from \(url)")
         
@@ -88,7 +106,7 @@ public class VODesignDocument: Document {
         image = try? ImageSaveService().load(from: url)
     }
     
-    public static func image(from url: URL) -> NSImage? {
+    public static func image(from url: URL) -> Image? {
         try? ImageSaveService().load(from: url)
     }
 }

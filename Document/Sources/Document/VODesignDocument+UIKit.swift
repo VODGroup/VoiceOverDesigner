@@ -3,6 +3,7 @@ import UIKit
 public typealias Document = UIDocument
 
 
+
 public class VODesignDocument: Document {
     public convenience init(fileName: String,
                             rootPath: URL = iCloudContainer) {
@@ -20,6 +21,7 @@ public class VODesignDocument: Document {
     }
     
     public var controls: [A11yDescription] = []
+    public var image: Image?
     
     lazy var saveService: DocumentSaveService = DocumentSaveService(fileURL: fileURL
         .appendingPathComponent("controls.json"))
@@ -51,6 +53,7 @@ public class VODesignDocument: Document {
     
     public override func read(from url: URL) throws {
         controls = try DocumentSaveService(fileURL: url.appendingPathComponent("controls.json")).loadControls()
+        image = try? ImageSaveService().load(from: url)
     }
 }
 

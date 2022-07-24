@@ -46,4 +46,32 @@ class AdjustableOptionsTests: XCTestCase {
         
         XCTAssertNil(sut.currentIndex)
     }
+    
+    func test_accessibillityIncrement_shouldChangeValueAndIndex() {
+        var sut = AdjustableOptions(options: ["First", "Second"], currentIndex: 0)
+        sut.accessibilityIncrement()
+        XCTAssertEqual(sut.currentIndex, 1)
+        XCTAssertEqual(sut.currentValue, "Second")
+    }
+    
+    func test_accessibillityIncrement_shouldnotChangeValueAndIndex() {
+        var sut = AdjustableOptions(options: ["First"], currentIndex: 0)
+        sut.accessibilityIncrement()
+        XCTAssertEqual(sut.currentIndex, 0)
+        XCTAssertEqual(sut.currentValue, "First")
+    }
+    
+    func test_accessibillityDecrement_shouldChangeValueAndIndex() {
+        var sut = AdjustableOptions(options: ["First", "Second"], currentIndex: 1)
+        sut.accessibilityDecrement()
+        XCTAssertEqual(sut.currentIndex, 0)
+        XCTAssertEqual(sut.currentValue, "First")
+    }
+    
+    func test_accessibillityDecrement_shouldnotChangeValueAndIndex() {
+        var sut = AdjustableOptions(options: ["First"], currentIndex: 0)
+        sut.accessibilityDecrement()
+        XCTAssertEqual(sut.currentIndex, 0)
+        XCTAssertEqual(sut.currentValue, "First")
+    }
 }

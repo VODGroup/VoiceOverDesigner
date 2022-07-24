@@ -9,10 +9,18 @@ import UIKit
 import Document
 
 final class PreviewViewController: UIViewController {
+    
+    lazy var documentBrowser: UIDocumentBrowserViewController = {
+        let controller = UIDocumentBrowserViewController()
+        controller.allowsPickingMultipleItems = false
+        controller.allowsDocumentCreation = false
+      return controller
+    }()
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        documentBrowser.delegate = self
         loadAndDraw()
         
         NotificationCenter.default.addObserver(
@@ -42,6 +50,10 @@ final class PreviewViewController: UIViewController {
         #endif
     }()
     
+    override func loadView() {
+        view = PreviewView(frame: .zero)
+    }
+    
     func view() -> PreviewView {
         view as! PreviewView
     }
@@ -51,19 +63,31 @@ final class PreviewViewController: UIViewController {
         document.close()
         
         document.open { isSuccess in
+            if isSuccess {
+                self.document.controls.forEach(self.drawingService.drawControl(from:))
+                self.view().layout = VoiceOverLayout(controls: self.document.controls, container: self.view)
+                self.view().imageView.image = self.document.image
+            } else {
+                self.present(self.documentBrowser, animated: true)
+            }
             
-            self.document.controls.forEach(self.drawingService.drawControl(from:))
-            self.view().layout = VoiceOverLayout(controls: self.document.controls, container: self.view)
         }
     }
 }
 
-class PreviewView: UIView {
-    var layout: VoiceOverLayout? {
-        didSet {
-            accessibilityElements = layout?.accessibilityElements
+
+
+extension PreviewViewController: UIDocumentBrowserViewControllerDelegate {
+    func documentBrowser(_ controller: UIDocumentBrowserViewController, didPickDocumentsAt documentURLs: [URL]) {
+        if let url = documentURLs.first {
+            let document = VODesignDocument(fileURL: url)
+            self.document = document
+            loadAndDraw()
+            documentBrowser.dismiss(animated: true)
         }
     }
+    
+    
 }
 
 class VoiceOverLayout {
@@ -76,17 +100,13 @@ class VoiceOverLayout {
     }
     
     private func accessibilityElement(from control: A11yDescription) -> UIAccessibilityElement {
-        let element = UIAccessibilityElement(accessibilityContainer: container)
-        element.isAccessibilityElement = true
-        element.accessibilityLabel = control.label
-        element.accessibilityValue = control.value
-        element.accessibilityHint = control.hint
-        element.accessibilityFrame = control.frame
-        element.accessibilityTraits = control.trait.accessibilityTrait
-        return element
+        VoiceOverElement(control: control, accessibilityContainer: container) 
     }
     
     var accessibilityElements: [UIAccessibilityElement] {
         controls.map(accessibilityElement(from:))
     }
+    
 }
+
+
