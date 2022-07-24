@@ -100,16 +100,7 @@ class VoiceOverLayout {
     }
     
     private func accessibilityElement(from control: A11yDescription) -> UIAccessibilityElement {
-        let element = VoiceOverElement(accessibilityContainer: container)
-        element.control = control
-        element.isAccessibilityElement = true
-        element.accessibilityLabel = control.label
-        element.accessibilityValue = control.value
-        element.accessibilityHint = control.hint
-        element.accessibilityFrame = control.frame
-        element.accessibilityTraits = control.trait.accessibilityTrait
-        
-        return element
+        VoiceOverElement(control: control, accessibilityContainer: container) 
     }
     
     var accessibilityElements: [UIAccessibilityElement] {

@@ -18,7 +18,6 @@
 		1EEB1BF0281E3DA200615EA9 /* VoiceOver_PreviewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB1BEF281E3DA200615EA9 /* VoiceOver_PreviewUITests.swift */; };
 		1EEB1BF2281E3DA200615EA9 /* VoiceOver_PreviewUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB1BF1281E3DA200615EA9 /* VoiceOver_PreviewUITestsLaunchTests.swift */; };
 		1EEB1BFF281E3EF600615EA9 /* VoiceOver_PreviewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB1BFE281E3EF600615EA9 /* VoiceOver_PreviewTests.swift */; };
-		6BABB3552889BC5400FF259E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BABB3542889BC5400FF259E /* CloudKit.framework */; };
 		6BF087492889DB6600055C78 /* VoiceOverElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF087482889DB6600055C78 /* VoiceOverElement.swift */; };
 		6BF0874B288AAB4B00055C78 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF0874A288AAB4B00055C78 /* PreviewView.swift */; };
 /* End PBXBuildFile section */
@@ -68,7 +67,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E0338FF281E732600EE373E /* Document in Frameworks */,
-				6BABB3552889BC5400FF259E /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

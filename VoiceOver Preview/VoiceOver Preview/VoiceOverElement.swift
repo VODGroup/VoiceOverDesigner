@@ -10,10 +10,16 @@ import Document
 import UIKit
 
 class VoiceOverElement: UIAccessibilityElement {
-    var control: A11yDescription! {
+    var control: A11yDescription {
         didSet {
             setup(from: control)
         }
+    }
+    
+    init(control: A11yDescription, accessibilityContainer: Any) {
+        self.control = control
+        super.init(accessibilityContainer: accessibilityContainer)
+        setup(from: control)
     }
     
     private func setup(from model: A11yDescription) {
