@@ -55,11 +55,3 @@ class EditorView: NSView {
     
     @IBOutlet weak var dragnDropView: DragNDropImageView!
 }
-
-class FlippedView: NSView {
-    override var isFlipped: Bool {
-        get {
-            true
-        }
-    }
-}
