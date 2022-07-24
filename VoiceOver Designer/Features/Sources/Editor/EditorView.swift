@@ -8,7 +8,7 @@
 import AppKit
 
 import CommonUI
-class EditorView: NSView {
+class EditorView: FlippedView {
     @IBOutlet weak var scrollView: NSScrollView!
     
     @IBOutlet weak var backgroundImageView: NSImageView!
@@ -17,7 +17,7 @@ class EditorView: NSView {
     @IBOutlet weak var scrollViewHeight: NSLayoutConstraint!
     
     @IBOutlet weak var contentView: NSView!
-    @IBOutlet weak var controlsView: NSView!
+    @IBOutlet weak var controlsView: FlippedView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -54,4 +54,10 @@ class EditorView: NSView {
     @IBOutlet weak var imageHeight: NSLayoutConstraint!
     
     @IBOutlet weak var dragnDropView: DragNDropImageView!
+}
+
+class FlippedView: NSView {
+    override var isFlipped: Bool {
+        true
+    }
 }
