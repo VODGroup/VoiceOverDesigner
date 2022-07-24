@@ -64,7 +64,8 @@ let package = Package(
                 "Settings",
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
                 .product(name: "Document", package: "Document")
-            ]
+            ],
+            exclude: ["__Snapshots__"]
         ),
         .testTarget(
             name: "ProjectsTests",
