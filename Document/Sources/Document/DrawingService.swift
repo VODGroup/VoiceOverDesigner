@@ -85,13 +85,17 @@ public class DrawingService {
                                        width: coordinate.x - origin.x,
                                        height: coordinate.y - origin.y)
             }
-        case .translate(let control, let startLocation, let offsetOld, let initialFrame):
+        case .translate(let control, let startLocation, _, let initialFrame):
             let offset = coordinate - startLocation
             
+            let frame = initialFrame
+                .offsetBy(dx: offset.x,
+                          dy: offset.y)
+            
+            let aligned = alignToAny(control, frame: frame)
+            
             control.updateWithoutAnimation {
-                control.frame = initialFrame
-                    .offsetBy(dx: offset.x,
-                              dy: offset.y)
+                control.frame = aligned
             }
             
             action = .translate(control: control,
@@ -106,6 +110,20 @@ public class DrawingService {
         }
     }
     
+    private func alignToAny(_ sourceControl: A11yControl, frame: CGRect) -> CGRect {
+        
+        guard let aligned = drawnControls.first(where: { control in
+            sourceControl != control
+            && abs(control.frame.minX - frame.minX) < 5
+        }) else {
+            return frame
+        }
+        
+        aligned.backgroundColor = NSColor.red.cgColor
+        
+        return frame.offsetBy(dx: aligned.frame.minX - frame.minX, dy: 0)
+    }
+    
     public func end(coordinate: CGPoint) -> Action? {
         defer {
             self.action = nil
@@ -114,7 +132,7 @@ public class DrawingService {
         drag(to: coordinate)
         
         switch action {
-        case .new(let control, let origin):
+        case .new(let control, _):
             if control.frame.size.width < 5 || control.frame.size.height < 5 {
                 delete(control: control)
                 return .none
@@ -123,14 +141,14 @@ public class DrawingService {
             let minimalTapSize: CGFloat = 44
             control.frame = control.frame.increase(to: CGSize(width: minimalTapSize, height: minimalTapSize))
             
-        case .translate(let control, let startLocation, let offset):
+        case .translate(let control, _, let offset, _):
             if offset.isSmallOffset {
                 // Reset frame
                 control.frame = control.frame.offsetBy(dx: -offset.x,
                                                        dy: -offset.y)
                 return .click(control: control)
             }
-        case .click(let control):
+        case .click(_):
             break // impossible state at this moment
             
         case .none:

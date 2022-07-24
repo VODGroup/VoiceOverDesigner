@@ -58,7 +58,8 @@ public class EditorPresenter {
             })
             
             save()
-        case .translate(let control, let startLocation, let offset):
+        case .translate:
+            // TODO: Add Undo
             save()
         case .click(let control):
             router.showSettings(for: control, controlSuperview: drawingService.view, delegate: self)
