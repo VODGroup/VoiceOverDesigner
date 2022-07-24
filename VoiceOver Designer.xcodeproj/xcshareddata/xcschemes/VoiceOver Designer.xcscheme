@@ -58,6 +58,26 @@
                ReferencedContainer = "container:Settings/Settings.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1E579BB228255F8E00B13565"
+               BuildableName = "CommonUITests.xctest"
+               BlueprintName = "CommonUITests"
+               ReferencedContainer = "container:CommonUI/CommonUI.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1E579AFD282446D200B13565"
+               BuildableName = "ProjectsTests.xctest"
+               BlueprintName = "ProjectsTests"
+               ReferencedContainer = "container:Projects/Projects.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
