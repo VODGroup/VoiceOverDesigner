@@ -8,7 +8,7 @@
 import AppKit
 
 import CommonUI
-class EditorView: FlippedView {
+class EditorView: NSView {
     @IBOutlet weak var scrollView: NSScrollView!
     
     @IBOutlet weak var backgroundImageView: NSImageView!

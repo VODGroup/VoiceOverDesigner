@@ -17,7 +17,7 @@ class A11yValueViewController: NSViewController {
     static func fromStoryboard() -> A11yValueViewController {
         let storyboard = NSStoryboard(
             name: "A11yValueViewController",
-            bundle: Bundle(for: A11yValueViewController.self))
+            bundle: .module)
         
         let controller = storyboard
             .instantiateInitialController() as! A11yValueViewController

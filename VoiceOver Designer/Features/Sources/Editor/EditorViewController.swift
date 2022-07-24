@@ -122,7 +122,7 @@ public class EditorViewController: NSViewController {
     }
     
     public static func fromStoryboard() -> EditorViewController {
-        let storyboard = NSStoryboard(name: "Editor", bundle: Bundle(for: EditorViewController.self))
+        let storyboard = NSStoryboard(name: "Editor", bundle: .module)
         return storyboard.instantiateInitialController() as! EditorViewController
     }
 }

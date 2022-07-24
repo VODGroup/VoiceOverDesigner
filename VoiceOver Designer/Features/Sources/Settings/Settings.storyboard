@@ -8,7 +8,7 @@
         <!--Settings View Controller-->
         <scene sceneID="XOO-ii-QJZ">
             <objects>
-                <viewController storyboardIdentifier="settings" id="U2f-R7-Q2a" customClass="SettingsViewController" customModule="Settings" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="U2f-R7-Q2a" customClass="SettingsViewController" customModule="Settings" sceneMemberID="viewController">
                     <view key="view" id="cLK-md-r8c">
                         <rect key="frame" x="0.0" y="0.0" width="385" height="785"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -80,7 +80,7 @@ DQ
                                         <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="15" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GOv-Dv-yOD">
                                             <rect key="frame" x="188" y="15" width="106" height="109"/>
                                             <subviews>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="llv-Ig-GA1" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="llv-Ig-GA1" customClass="TraitCheckBox" customModule="Settings">
                                                     <rect key="frame" x="-2" y="92" width="88" height="18"/>
                                                     <buttonCell key="cell" type="check" title="Static text" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ZG2-IJ-hrj">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -92,7 +92,7 @@ DQ
                                                         <action selector="traitDidChange:" target="U2f-R7-Q2a" id="0fY-MA-OmX"/>
                                                     </connections>
                                                 </button>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6n0-ds-xIu" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6n0-ds-xIu" customClass="TraitCheckBox" customModule="Settings">
                                                     <rect key="frame" x="-2" y="61" width="101" height="18"/>
                                                     <buttonCell key="cell" type="check" title="Search Field" bezelStyle="regularSquare" imagePosition="left" inset="2" id="GID-75-oJI">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -104,7 +104,7 @@ DQ
                                                         <action selector="traitDidChange:" target="U2f-R7-Q2a" id="Kb3-pz-VRu"/>
                                                     </connections>
                                                 </button>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9jL-IX-KOe" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9jL-IX-KOe" customClass="TraitCheckBox" customModule="Settings">
                                                     <rect key="frame" x="-2" y="30" width="48" height="18"/>
                                                     <buttonCell key="cell" type="check" title="Tab" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="gyz-00-tTT">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -115,7 +115,7 @@ DQ
                                                         <action selector="traitDidChange:" target="U2f-R7-Q2a" id="tRc-ad-K7Q"/>
                                                     </connections>
                                                 </button>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7UK-ta-ChB" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7UK-ta-ChB" customClass="TraitCheckBox" customModule="Settings">
                                                     <rect key="frame" x="-2" y="-1" width="108" height="18"/>
                                                     <buttonCell key="cell" type="check" title="Keyboard key" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Rw4-VK-3ti">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -142,7 +142,7 @@ DQ
                                         <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="15" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kgm-HT-WD5">
                                             <rect key="frame" x="10" y="15" width="69" height="109"/>
                                             <subviews>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aYo-qI-qNV" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aYo-qI-qNV" customClass="TraitCheckBox" customModule="Settings">
                                                     <rect key="frame" x="-2" y="92" width="67" height="18"/>
                                                     <buttonCell key="cell" type="check" title="Button" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ncd-cz-aLg">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -154,7 +154,7 @@ DQ
                                                         <action selector="traitDidChange:" target="U2f-R7-Q2a" id="Bil-Ok-7Eb"/>
                                                     </connections>
                                                 </button>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2zF-Vg-XdC" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2zF-Vg-XdC" customClass="TraitCheckBox" customModule="Settings">
                                                     <rect key="frame" x="-2" y="61" width="71" height="18"/>
                                                     <buttonCell key="cell" type="check" title="Header" bezelStyle="regularSquare" imagePosition="left" inset="2" id="cr6-jA-6Q9">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -166,7 +166,7 @@ DQ
                                                         <action selector="traitDidChange:" target="U2f-R7-Q2a" id="Qpp-9v-jZC"/>
                                                     </connections>
                                                 </button>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XDN-qp-Yki" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XDN-qp-Yki" customClass="TraitCheckBox" customModule="Settings">
                                                     <rect key="frame" x="-2" y="30" width="63" height="18"/>
                                                     <buttonCell key="cell" type="check" title="Image" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jDG-BW-o3A">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -178,7 +178,7 @@ DQ
                                                         <action selector="traitDidChange:" target="U2f-R7-Q2a" id="nL8-lL-Kdf"/>
                                                     </connections>
                                                 </button>
-                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EMU-qW-ZhR" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EMU-qW-ZhR" customClass="TraitCheckBox" customModule="Settings">
                                                     <rect key="frame" x="-2" y="-1" width="51" height="18"/>
                                                     <buttonCell key="cell" type="check" title="Link" bezelStyle="regularSquare" imagePosition="left" inset="2" id="rr0-RT-NMg">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -230,7 +230,7 @@ DQ
                                     <rect key="frame" x="3" y="3" width="345" height="84"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vNT-s9-2Ik" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vNT-s9-2Ik" customClass="TraitCheckBox" customModule="Settings">
                                             <rect key="frame" x="187" y="55" width="143" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Updates frequently" bezelStyle="regularSquare" imagePosition="left" inset="2" id="sav-QE-xQt">
@@ -241,7 +241,7 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="VMv-tc-4Y7"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X40-02-0FX" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X40-02-0FX" customClass="TraitCheckBox" customModule="Settings">
                                             <rect key="frame" x="7" y="55" width="80" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Selected" bezelStyle="regularSquare" imagePosition="left" inset="2" id="FDi-Xy-TcB">
@@ -252,7 +252,7 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="8jb-b2-jVm"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xFh-Kd-0Sr" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xFh-Kd-0Sr" customClass="TraitCheckBox" customModule="Settings">
                                             <rect key="frame" x="8" y="24" width="79" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Disabled" bezelStyle="regularSquare" imagePosition="left" inset="2" id="I4q-KO-u9h">
@@ -263,7 +263,7 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="7Zm-7A-afT"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="47B-J9-pib" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="47B-J9-pib" customClass="TraitCheckBox" customModule="Settings">
                                             <rect key="frame" x="187" y="24" width="136" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Summary element" bezelStyle="regularSquare" imagePosition="left" inset="2" id="iVu-ph-hdt">
@@ -311,7 +311,7 @@ DQ
                                     <rect key="frame" x="3" y="3" width="345" height="91"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FNW-91-Vci" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FNW-91-Vci" customClass="TraitCheckBox" customModule="Settings">
                                             <rect key="frame" x="6" y="54" width="99" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Plays sound" bezelStyle="regularSquare" imagePosition="left" inset="2" id="1SM-XQ-AxR">
@@ -322,7 +322,7 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="31X-WC-S9r"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CCG-Bz-5xi" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CCG-Bz-5xi" customClass="TraitCheckBox" customModule="Settings">
                                             <rect key="frame" x="164" y="55" width="172" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Allows direct interaction" bezelStyle="regularSquare" imagePosition="left" inset="2" id="16j-Yi-cnk">
@@ -333,7 +333,7 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="FYi-J7-xX8"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Eda-Du-doD" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Eda-Du-doD" customClass="TraitCheckBox" customModule="Settings">
                                             <rect key="frame" x="6" y="19" width="152" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Starts media session" bezelStyle="regularSquare" imagePosition="left" inset="2" id="iC7-b2-SaW">
@@ -344,7 +344,7 @@ DQ
                                                 <action selector="traitDidChange:" target="U2f-R7-Q2a" id="F1q-KK-dU1"/>
                                             </connections>
                                         </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="69m-by-VKr" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="69m-by-VKr" customClass="TraitCheckBox" customModule="Settings">
                                             <rect key="frame" x="164" y="19" width="133" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Causes page turn" bezelStyle="regularSquare" imagePosition="left" inset="2" id="our-SC-Bnu">

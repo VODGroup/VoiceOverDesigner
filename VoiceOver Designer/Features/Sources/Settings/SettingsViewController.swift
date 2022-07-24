@@ -159,8 +159,8 @@ public class SettingsViewController: NSViewController {
     }
     
     public static func fromStoryboard() -> SettingsViewController {
-        let storyboard = NSStoryboard(name: "Settings", bundle: Bundle(for: SettingsViewController.self))
-        return storyboard.instantiateController(withIdentifier: "settings") as! SettingsViewController
+        let storyboard = NSStoryboard(name: "Settings", bundle: .module)
+        return storyboard.instantiateInitialController() as! SettingsViewController
     }
 }
 

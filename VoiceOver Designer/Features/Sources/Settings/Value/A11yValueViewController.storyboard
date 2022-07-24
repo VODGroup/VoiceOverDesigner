@@ -8,8 +8,8 @@
         <!--1y Value View Controller-->
         <scene sceneID="EMZ-Na-XNY">
             <objects>
-                <viewController storyboardIdentifier="value" id="fEp-Em-BFf" customClass="A11yValueViewController" customModule="Settings" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="oRf-1I-4R3" customClass="A11yValueView" customModule="Settings" customModuleProvider="target">
+                <viewController storyboardIdentifier="value" id="fEp-Em-BFf" customClass="A11yValueViewController" customModule="Settings" sceneMemberID="viewController">
+                    <view key="view" id="oRf-1I-4R3" customClass="A11yValueView" customModule="Settings">
                         <rect key="frame" x="0.0" y="0.0" width="383" height="156"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
@@ -38,7 +38,7 @@
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="12" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mXM-5i-JW0">
                                 <rect key="frame" x="20" y="37" width="343" height="82"/>
                                 <subviews>
-                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ecy-07-j5w" customClass="TraitCheckBox" customModule="Settings" customModuleProvider="target">
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ecy-07-j5w" customClass="TraitCheckBox" customModule="Settings">
                                         <rect key="frame" x="44" y="65" width="90" height="18"/>
                                         <buttonCell key="cell" type="check" title="Adjustable" bezelStyle="regularSquare" imagePosition="left" inset="2" id="AkL-hm-OBG">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>

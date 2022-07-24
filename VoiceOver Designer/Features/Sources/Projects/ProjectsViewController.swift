@@ -43,7 +43,7 @@ public class ProjectsViewController: NSViewController {
 
     
     public static func fromStoryboard() -> ProjectsViewController {
-        let storyboard = NSStoryboard(name: "Projects", bundle: Bundle(for: ProjectsViewController.self))
+        let storyboard = NSStoryboard(name: "Projects", bundle: .module)
         return storyboard.instantiateInitialController() as! ProjectsViewController
     }
 }

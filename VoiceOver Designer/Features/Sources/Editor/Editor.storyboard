@@ -8,8 +8,8 @@
         <!--Editor View Controller-->
         <scene sceneID="cJT-1T-ftV">
             <objects>
-                <viewController storyboardIdentifier="editor" id="LVp-Pr-lAJ" customClass="EditorViewController" customModule="Editor" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="ndy-hA-WOO" customClass="EditorView" customModule="Editor" customModuleProvider="target">
+                <viewController storyboardIdentifier="editor" id="LVp-Pr-lAJ" customClass="EditorViewController" customModule="Editor" sceneMemberID="viewController">
+                    <view key="view" id="ndy-hA-WOO" customClass="EditorView" customModule="Editor">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="812"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
