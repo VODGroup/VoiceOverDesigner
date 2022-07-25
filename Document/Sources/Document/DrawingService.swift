@@ -177,6 +177,24 @@ public class DrawingService {
     }
     
     public private(set) var drawnControls: [A11yControl] = []
+    
+    private var alignedControl: A11yControl? {
+        didSet {
+            if alignedControl != oldValue {
+                NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .default)
+                print("hap")
+            }
+        }
+    }
+    
+    private var alignedEdge: NSRectEdge? {
+        didSet {
+            if alignedEdge != oldValue {
+                NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .default)
+                print("hap")
+            }
+        }
+    }
 }
 
 extension CALayer {
@@ -233,11 +251,15 @@ extension DrawingService {
                 continue
             }
             
+            self.alignedControl = control
+            self.alignedEdge = edge
+            
             drawAligningLine(from: control.frame, to: CGRect(origin: aligned, size: .zero), edge: edge)
             
             return aligned
         }
         
+        hideAligningLine()
         return point
     }
     
@@ -248,6 +270,8 @@ extension DrawingService {
                 continue
             }
                 
+            self.alignedControl = control
+            self.alignedEdge = edge
             drawAligningLine(from: control.frame, to: sourceControl.frame, edge: edge)
             return aligned
         }
