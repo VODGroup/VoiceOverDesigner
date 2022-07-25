@@ -1,6 +1,6 @@
 import AppKit
 
-class AlingmentOverlay {
+class AlingmentOverlay: AlingmentOverlayProtocol {
     init(view: View) {
         self.view = view
     }
@@ -32,7 +32,6 @@ class AlingmentOverlay {
     
     private func vibrate() {
         NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .default)
-        print("hap")
     }
     
     func alignToAny(_ sourceControl: A11yControl, point: CGPoint, drawnControls: [A11yControl]) -> CGPoint {

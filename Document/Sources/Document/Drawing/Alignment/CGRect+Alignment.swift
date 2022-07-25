@@ -37,7 +37,7 @@ extension CGRect {
         }
     }
     
-    fileprivate func value(_ edge: NSRectEdge) -> CGFloat {
+    func value(_ edge: NSRectEdge) -> CGFloat {
         switch edge {
         case .minX: return minX
         case .minY: return minY

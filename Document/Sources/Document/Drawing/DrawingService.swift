@@ -36,7 +36,9 @@ public class DrawingService {
     public let view: View
     private var action: Action?
     
-    private lazy var alingmentOverlay = AlingmentOverlay(view: view)
+    private lazy var alingmentOverlay = AlingmentCommandModifier(
+        alingmentOverlay: AlingmentOverlay(view: view),
+        noAlingmentOverlay: NoAlignmentOverlay())
 
     // MARK: Drawn from existed controls
     public func removeAll() {
