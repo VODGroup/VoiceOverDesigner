@@ -44,13 +44,15 @@ public class DrawingService {
         }
     }
     
-    public func drawControl(from description: A11yDescription) {
+    @discardableResult
+    public func drawControl(from description: A11yDescription) -> A11yControl {
         let control = A11yControl()
         control.a11yDescription = description
         control.frame = description.frame
         control.backgroundColor = description.color.cgColor
         view.addSublayer(control)
         drawnControls.append(control)
+        return control
     }
     
     public enum Action {
@@ -66,12 +68,7 @@ public class DrawingService {
     }
     
     public func startDrawing(coordinate: CGPoint) {
-        let control = A11yControl()
-        control.a11yDescription = .empty(frame: .zero)
-        control.updateColor()
-        drawnControls.append(control)
-        
-        view.addSublayer(control)
+        let control = drawControl(from: .empty(frame: .zero))
         
         self.action = .new(control: control, origin: coordinate)
     }

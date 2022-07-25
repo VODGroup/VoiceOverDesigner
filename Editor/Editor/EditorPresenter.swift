@@ -23,7 +23,9 @@ public class EditorPresenter {
     }
     
     func draw() {
-        document.controls.forEach(drawingService.drawControl(from:))
+        document.controls.forEach { control in
+            drawingService.drawControl(from: control)
+        }
     }
     
     func save() {
