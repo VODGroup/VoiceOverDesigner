@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="fEp-Em-BFf">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--1y Value View Controller-->
+        <scene sceneID="EMZ-Na-XNY">
+            <objects>
+                <viewController storyboardIdentifier="value" id="fEp-Em-BFf" customClass="A11yValueViewController" customModule="Settings" sceneMemberID="viewController">
+                    <view key="view" id="oRf-1I-4R3" customClass="A11yValueView" customModule="Settings">
+                        <rect key="frame" x="0.0" y="0.0" width="383" height="156"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qzS-CE-2HZ">
+                                <rect key="frame" x="19" y="130" width="45" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Value:" id="RlP-o3-uyw">
+                                    <font key="font" textStyle="headline" name=".SFNS-Bold"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8dJ-cU-P1q">
+                                <rect key="frame" x="66" y="127" width="297" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="297" id="rCA-Ah-hcb"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="Dfp-AP-TqR">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <action selector="valueDidChange:" target="fEp-Em-BFf" id="3Vp-wJ-JLx"/>
+                                </connections>
+                            </textField>
+                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="12" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mXM-5i-JW0">
+                                <rect key="frame" x="20" y="37" width="343" height="82"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ecy-07-j5w" customClass="TraitCheckBox" customModule="Settings">
+                                        <rect key="frame" x="44" y="65" width="90" height="18"/>
+                                        <buttonCell key="cell" type="check" title="Adjustable" bezelStyle="regularSquare" imagePosition="left" inset="2" id="AkL-hm-OBG">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                            <string key="keyEquivalent">d</string>
+                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="isAdjustableDidChange:" target="fEp-Em-BFf" id="OUU-TS-xZ9"/>
+                                        </connections>
+                                    </button>
+                                    <box title="Adjustable values for prototype" translatesAutoresizingMaskIntoConstraints="NO" id="wvl-Qv-rQo">
+                                        <rect key="frame" x="-3" y="-4" width="349" height="58"/>
+                                        <view key="contentView" id="daA-4f-RTO">
+                                            <rect key="frame" x="3" y="3" width="343" height="40"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y8O-yf-X3v">
+                                                    <rect key="frame" x="8" y="12" width="327" height="20"/>
+                                                    <subviews>
+                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3n3-bj-V2L">
+                                                            <rect key="frame" x="-7" y="-7" width="106" height="32"/>
+                                                            <buttonCell key="cell" type="push" title="+ Add value" bezelStyle="rounded" alignment="left" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="u7P-J9-xHY">
+                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <action selector="addAdjustable:" target="fEp-Em-BFf" id="TPv-Gr-sQF"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                    <visibilityPriorities>
+                                                        <integer value="1000"/>
+                                                    </visibilityPriorities>
+                                                    <customSpacing>
+                                                        <real value="3.4028234663852886e+38"/>
+                                                    </customSpacing>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Y8O-yf-X3v" firstAttribute="leading" secondItem="daA-4f-RTO" secondAttribute="leading" constant="8" id="3Dy-qC-2cd"/>
+                                                <constraint firstItem="Y8O-yf-X3v" firstAttribute="top" secondItem="daA-4f-RTO" secondAttribute="top" constant="8" id="6WH-Vi-CmE"/>
+                                                <constraint firstAttribute="bottom" secondItem="Y8O-yf-X3v" secondAttribute="bottom" constant="12" id="o9H-Bv-dqY"/>
+                                                <constraint firstAttribute="trailing" secondItem="Y8O-yf-X3v" secondAttribute="trailing" constant="8" id="yUm-d2-gVC"/>
+                                            </constraints>
+                                        </view>
+                                    </box>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="wvl-Qv-rQo" firstAttribute="width" secondItem="mXM-5i-JW0" secondAttribute="width" id="OqB-zM-K8E"/>
+                                </constraints>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="qzS-CE-2HZ" firstAttribute="firstBaseline" secondItem="8dJ-cU-P1q" secondAttribute="firstBaseline" id="4KG-qz-hzG"/>
+                            <constraint firstAttribute="trailing" secondItem="8dJ-cU-P1q" secondAttribute="trailing" constant="20" symbolic="YES" id="CNh-sQ-E4h"/>
+                            <constraint firstItem="mXM-5i-JW0" firstAttribute="top" secondItem="8dJ-cU-P1q" secondAttribute="bottom" constant="8" id="EnN-Ln-bSr"/>
+                            <constraint firstItem="mXM-5i-JW0" firstAttribute="leading" secondItem="oRf-1I-4R3" secondAttribute="leading" constant="20" id="Hrf-3P-nUW"/>
+                            <constraint firstItem="ecy-07-j5w" firstAttribute="leading" secondItem="8dJ-cU-P1q" secondAttribute="leading" id="Ikc-pK-d9x"/>
+                            <constraint firstItem="8dJ-cU-P1q" firstAttribute="top" secondItem="oRf-1I-4R3" secondAttribute="top" constant="8" id="OQ8-H5-O1x"/>
+                            <constraint firstItem="mXM-5i-JW0" firstAttribute="centerY" secondItem="oRf-1I-4R3" secondAttribute="centerY" id="Syj-i7-IE0"/>
+                            <constraint firstItem="8dJ-cU-P1q" firstAttribute="leading" secondItem="qzS-CE-2HZ" secondAttribute="trailing" constant="4" id="btV-DQ-PEx"/>
+                            <constraint firstAttribute="trailing" secondItem="mXM-5i-JW0" secondAttribute="trailing" constant="20" id="dXW-Li-34U"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="mXM-5i-JW0" secondAttribute="bottom" id="oKP-WT-x8G"/>
+                        </constraints>
+                        <connections>
+                            <outlet property="adjustableOptionsBox" destination="wvl-Qv-rQo" id="acd-WF-pAf"/>
+                            <outlet property="isAdjustableTrait" destination="ecy-07-j5w" id="28o-NW-ikX"/>
+                            <outlet property="optionsStack" destination="Y8O-yf-X3v" id="GZr-dD-6DA"/>
+                            <outlet property="valueTextField" destination="8dJ-cU-P1q" id="iCc-RK-HPk"/>
+                        </connections>
+                    </view>
+                </viewController>
+                <customObject id="5d6-eZ-Hth" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="673.5" y="774"/>
+        </scene>
+    </scenes>
+</document>
