@@ -34,13 +34,9 @@ public class DrawingService {
     }
     
     public let view: View
-    private lazy var alignmentLine: CAShapeLayer = {
-        let layer = CAShapeLayer()
-        layer.backgroundColor = NSColor.lightGray.cgColor
-        view.addSublayer(layer)
-        return layer
-    }()
     private var action: Action?
+    
+    private lazy var alingmentOverlay = AlingmentOverlay(view: view)
 
     // MARK: Drawn from existed controls
     public func removeAll() {
@@ -75,14 +71,14 @@ public class DrawingService {
     public func startDrawing(coordinate: CGPoint) {
         let control = drawControl(from: .empty(frame: .zero))
         
-        let point = alignToAny(control, point: coordinate)
+        let point = alingmentOverlay.alignToAny(control, point: coordinate, drawnControls: drawnControls)
         self.action = .new(control: control, origin: point)
     }
     
     public func drag(to coordinate: CGPoint) {
         switch action {
         case .new(let control, let origin):
-            let alignedCoordinate = alignToAny(control, point: coordinate)
+            let alignedCoordinate = alingmentOverlay.alignToAny(control, point: coordinate, drawnControls: drawnControls)
             control.updateWithoutAnimation {
                 control.frame = CGRect(x: origin.x,
                                        y: origin.y,
@@ -96,7 +92,7 @@ public class DrawingService {
                 .offsetBy(dx: offset.x,
                           dy: offset.y)
             
-            let aligned = alignToAny(control, frame: frame)
+            let aligned = alingmentOverlay.alignToAny(control, frame: frame, drawnControls: drawnControls)
             
             control.updateWithoutAnimation {
                 control.frame = aligned
@@ -145,7 +141,7 @@ public class DrawingService {
             break
         }
         
-        hideAligningLine()
+        alingmentOverlay.hideAligningLine()
         
         return action
     }
@@ -177,24 +173,6 @@ public class DrawingService {
     }
     
     public private(set) var drawnControls: [A11yControl] = []
-    
-    private var alignedControl: A11yControl? {
-        didSet {
-            if alignedControl != oldValue {
-                NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .default)
-                print("hap")
-            }
-        }
-    }
-    
-    private var alignedEdge: NSRectEdge? {
-        didSet {
-            if alignedEdge != oldValue {
-                NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .default)
-                print("hap")
-            }
-        }
-    }
 }
 
 extension CALayer {
@@ -236,90 +214,5 @@ extension CGPoint {
     static func -(lhs: Self, rhs: Self) -> Self {
         Self(x: lhs.x - rhs.x,
              y: lhs.y - rhs.y)
-    }
-}
-
-
-// MARK: Alignment
-
-extension DrawingService {
-    
-    private func alignToAny(_ sourceControl: A11yControl, point: CGPoint) -> CGPoint {
-        for control in drawnControls {
-            guard control != sourceControl else { continue }
-            guard let (aligned, edge) = point.aligned(to: control.frame) else {
-                continue
-            }
-            
-            self.alignedControl = control
-            self.alignedEdge = edge
-            
-            drawAligningLine(from: control.frame, to: CGRect(origin: aligned, size: .zero), edge: edge)
-            
-            return aligned
-        }
-        
-        hideAligningLine()
-        return point
-    }
-    
-    private func alignToAny(_ sourceControl: A11yControl, frame: CGRect) -> CGRect {
-        for control in drawnControls {
-            guard control != sourceControl else { continue }
-            guard let (aligned, edge) = frame.aligned(to: control.frame) else {
-                continue
-            }
-                
-            self.alignedControl = control
-            self.alignedEdge = edge
-            drawAligningLine(from: control.frame, to: sourceControl.frame, edge: edge)
-            return aligned
-        }
-        
-        hideAligningLine()
-        return frame // No frames to align, return original
-    }
-    
-    private func drawAligningLine(from: CGRect, to: CGRect, edge: NSRectEdge) {
-        alignmentLine.updateWithoutAnimation {
-            alignmentLine.isHidden = false
-            alignmentLine.frame = alignmentFrame(from: from, to: to, edge: edge)
-        }
-    }
-    
-    private func alignmentFrame(from: CGRect, to: CGRect, edge: NSRectEdge) -> CGRect {
-        let unionRect = from.union(to).insetBy(dx: -5, dy: -5)
-        
-        switch edge {
-        case .minX:
-            return CGRect(
-                x: unionRect.minX,
-                y: unionRect.maxY,
-                width: 1,
-                height: unionRect.minY - unionRect.maxY)
-        case .maxX:
-            return CGRect(
-                x: unionRect.maxX,
-                y: unionRect.maxY,
-                width: 1,
-                height: unionRect.minY - unionRect.maxY)
-        case .minY:
-            return CGRect(
-                x: unionRect.minX,
-                y: unionRect.minY,
-                width: unionRect.maxX - unionRect.minX,
-                height: 1)
-        case .maxY:
-            return CGRect(
-                x: unionRect.minX,
-                y: unionRect.maxY,
-                width: unionRect.maxX - unionRect.minX,
-                height: 1)
-        @unknown default: return .zero
-        }
-    }
-    
-    func hideAligningLine() {
-        alignmentLine.isHidden = true
     }
 }
