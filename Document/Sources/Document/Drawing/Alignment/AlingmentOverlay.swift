@@ -109,5 +109,7 @@ class AlingmentOverlay {
     
     func hideAligningLine() {
         alignmentLine.isHidden = true
+        alignedControl = nil
+        alignedEdge = nil
     }
 }
