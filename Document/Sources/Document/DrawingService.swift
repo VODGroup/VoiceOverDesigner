@@ -34,7 +34,12 @@ public class DrawingService {
     }
     
     public let view: View
-    
+    private lazy var alignmentLine: CAShapeLayer = {
+        let layer = CAShapeLayer()
+        layer.backgroundColor = NSColor.lightGray.cgColor
+        view.addSublayer(layer)
+        return layer
+    }()
     private var action: Action?
 
     // MARK: Drawn from existed controls
@@ -138,6 +143,8 @@ public class DrawingService {
             break
         }
         
+        hideAligningLine()
+        
         return action
     }
     
@@ -219,13 +226,58 @@ extension DrawingService {
     private func alignToAny(_ sourceControl: A11yControl, frame: CGRect) -> CGRect {
         for control in drawnControls {
             guard control != sourceControl else { continue }
-            guard let aligned = frame.aligned(to: control.frame) else {
+            guard let (aligned, edge) = frame.aligned(to: control.frame) else {
                 continue
             }
-            
+                
+            drawAligningLine(from: control, to: sourceControl, edge: edge)
             return aligned
         }
         
+        hideAligningLine()
         return frame // No frames to align, return original
+    }
+    
+    func drawAligningLine(from: A11yControl, to: A11yControl, edge: NSRectEdge) {
+        alignmentLine.updateWithoutAnimation {
+            alignmentLine.isHidden = false
+            alignmentLine.frame = alignmentFrame(from: from.frame, to: to.frame, edge: edge)
+        }
+    }
+    
+    private func alignmentFrame(from: CGRect, to: CGRect, edge: NSRectEdge) -> CGRect {
+        let unionRect = from.union(to).insetBy(dx: -5, dy: -5)
+        
+        switch edge {
+        case .minX:
+            return CGRect(
+                x: unionRect.minX,
+                y: unionRect.maxY,
+                width: 1,
+                height: unionRect.minY - unionRect.maxY)
+        case .maxX:
+            return CGRect(
+                x: unionRect.maxX,
+                y: unionRect.maxY,
+                width: 1,
+                height: unionRect.minY - unionRect.maxY)
+        case .minY:
+            return CGRect(
+                x: unionRect.minX,
+                y: unionRect.minY,
+                width: unionRect.maxX - unionRect.minX,
+                height: 1)
+        case .maxY:
+            return CGRect(
+                x: unionRect.minX,
+                y: unionRect.maxY,
+                width: unionRect.maxX - unionRect.minX,
+                height: 1)
+        @unknown default: return .zero
+        }
+    }
+    
+    func hideAligningLine() {
+        alignmentLine.isHidden = true
     }
 }

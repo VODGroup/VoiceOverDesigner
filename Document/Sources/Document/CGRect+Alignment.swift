@@ -4,12 +4,15 @@ extension CGRect {
     
     func aligned(
         to frame: CGRect
-    ) -> CGRect? {
+    ) -> (CGRect, NSRectEdge)?  {
         for edge in NSRectEdge.allCases {
             let isNear = isNear(to: frame, edge: edge)
             
             if isNear {
-                return offset(edge: edge, alignedFrame: frame)
+                guard let offset = offset(edge: edge, alignedFrame: frame) else {
+                    continue
+                }
+                return (offset, edge)
             }
         }
         
