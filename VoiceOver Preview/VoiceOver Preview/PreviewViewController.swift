@@ -37,7 +37,7 @@ final class PreviewViewController: UIViewController {
         }
     }
     
-    private lazy var drawingService = DrawingService(view: view)
+    private lazy var drawingController = DrawingController(view: view)
     
     private lazy var document: VODesignDocument = {
         #if targetEnvironment(simulator)
@@ -59,12 +59,12 @@ final class PreviewViewController: UIViewController {
     }
     
     private func loadAndDraw() {
-        self.drawingService.removeAll()
+        self.drawingController.removeAll()
         document.close()
         
         document.open { isSuccess in
             if isSuccess {
-                self.document.controls.forEach(self.drawingService.drawControl(from:))
+                self.document.controls.forEach(self.drawingController.drawControl(from:))
                 self.view().layout = VoiceOverLayout(controls: self.document.controls, container: self.view)
                 self.view().imageView.image = self.document.image
             } else {

@@ -1,10 +1,3 @@
-//
-//  DrawingService.swift
-//  VoiceOver Designer
-//
-//  Created by Mikhail Rubanov on 30.04.2022.
-//
-
 #if canImport(UIKit)
 import UIKit
 public typealias View = UIView
@@ -24,7 +17,7 @@ extension View {
 }
 #endif
 
-public class DrawingService {
+public class DrawingController {
     public init(view: View) {
         self.view = view
         

@@ -12,11 +12,11 @@ import Settings
 public class EditorPresenter {
     
     public var document: VODesignDocument!
-    var drawingService: DrawingService!
+    var drawingController: DrawingController!
     var router: RouterProtocol!
     
     func didLoad(ui: NSView, router: RouterProtocol) {
-        drawingService = DrawingService(view: ui)
+        drawingController = DrawingController(view: ui)
         self.router = router
         
         draw()
@@ -24,12 +24,12 @@ public class EditorPresenter {
     
     func draw() {
         document.controls.forEach { control in
-            drawingService.drawControl(from: control)
+            drawingController.drawControl(from: control)
         }
     }
     
     func save() {
-        let descriptions = drawingService.drawnControls.compactMap { control in
+        let descriptions = drawingController.drawnControls.compactMap { control in
             control.a11yDescription
         }
         
@@ -38,20 +38,20 @@ public class EditorPresenter {
     
     // MARK: Mouse
     func mouseDown(on location: CGPoint) {
-        if let existedControl = drawingService.control(at: location) {
-            drawingService.startTranslating(control: existedControl,
+        if let existedControl = drawingController.control(at: location) {
+            drawingController.startTranslating(control: existedControl,
                                             startLocation: location)
         } else {
-            drawingService.startDrawing(coordinate: location)
+            drawingController.startDrawing(coordinate: location)
         }
     }
     
     func mouseDragged(on location: CGPoint) {
-        drawingService.drag(to: location)
+        drawingController.drag(to: location)
     }
     
     func mouseUp(on location: CGPoint) {
-        let action = drawingService.end(coordinate: location)
+        let action = drawingController.end(coordinate: location)
         
         switch action {
         case .new(let control, let origin):
@@ -64,18 +64,18 @@ public class EditorPresenter {
             // TODO: Add Undo
             save()
         case .click(let control):
-            router.showSettings(for: control, controlSuperview: drawingService.view, delegate: self)
+            router.showSettings(for: control, controlSuperview: drawingController.view, delegate: self)
         case .none:
             break
         }
     }
     
     func showLabels() {
-        drawingService.addLabels()
+        drawingController.addLabels()
     }
     
     func hideLabels() {
-        drawingService.removeLabels()
+        drawingController.removeLabels()
     }
 }
 
@@ -85,7 +85,7 @@ extension EditorPresenter: SettingsDelegate {
     }
     
     public func delete(control: A11yControl) {
-        drawingService.delete(control: control)
+        drawingController.delete(control: control)
         save()
     }
 }

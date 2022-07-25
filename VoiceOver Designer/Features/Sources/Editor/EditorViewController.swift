@@ -82,7 +82,7 @@ public class EditorViewController: NSViewController {
         highlightedControl = nil
         
         // TODO: Can crash if happend before document loading
-        guard let control = presenter.drawingService.control(at: location(from: event)) else {
+        guard let control = presenter.drawingController.control(at: location(from: event)) else {
             return
         }
         
