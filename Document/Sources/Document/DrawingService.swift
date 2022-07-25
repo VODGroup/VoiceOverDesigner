@@ -75,17 +75,19 @@ public class DrawingService {
     public func startDrawing(coordinate: CGPoint) {
         let control = drawControl(from: .empty(frame: .zero))
         
-        self.action = .new(control: control, origin: coordinate)
+        let point = alignToAny(control, point: coordinate)
+        self.action = .new(control: control, origin: point)
     }
     
     public func drag(to coordinate: CGPoint) {
         switch action {
         case .new(let control, let origin):
+            let alignedCoordinate = alignToAny(control, point: coordinate)
             control.updateWithoutAnimation {
                 control.frame = CGRect(x: origin.x,
                                        y: origin.y,
-                                       width: coordinate.x - origin.x,
-                                       height: coordinate.y - origin.y)
+                                       width: alignedCoordinate.x - origin.x,
+                                       height: alignedCoordinate.y - origin.y)
             }
         case .translate(let control, let startLocation, _, let initialFrame):
             let offset = coordinate - startLocation
@@ -223,6 +225,22 @@ extension CGPoint {
 // MARK: Alignment
 
 extension DrawingService {
+    
+    private func alignToAny(_ sourceControl: A11yControl, point: CGPoint) -> CGPoint {
+        for control in drawnControls {
+            guard control != sourceControl else { continue }
+            guard let (aligned, edge) = point.aligned(to: control.frame) else {
+                continue
+            }
+            
+            drawAligningLine(from: control.frame, to: CGRect(origin: aligned, size: .zero), edge: edge)
+            
+            return aligned
+        }
+        
+        return point
+    }
+    
     private func alignToAny(_ sourceControl: A11yControl, frame: CGRect) -> CGRect {
         for control in drawnControls {
             guard control != sourceControl else { continue }
@@ -230,7 +248,7 @@ extension DrawingService {
                 continue
             }
                 
-            drawAligningLine(from: control, to: sourceControl, edge: edge)
+            drawAligningLine(from: control.frame, to: sourceControl.frame, edge: edge)
             return aligned
         }
         
@@ -238,10 +256,10 @@ extension DrawingService {
         return frame // No frames to align, return original
     }
     
-    func drawAligningLine(from: A11yControl, to: A11yControl, edge: NSRectEdge) {
+    private func drawAligningLine(from: CGRect, to: CGRect, edge: NSRectEdge) {
         alignmentLine.updateWithoutAnimation {
             alignmentLine.isHidden = false
-            alignmentLine.frame = alignmentFrame(from: from.frame, to: to.frame, edge: edge)
+            alignmentLine.frame = alignmentFrame(from: from, to: to, edge: edge)
         }
     }
     
