@@ -17,8 +17,7 @@ class AlingmentOverlay {
     private var alignedControl: A11yControl? {
         didSet {
             if alignedControl != oldValue {
-                NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .default)
-                print("hap")
+                vibrate()
             }
         }
     }
@@ -26,13 +25,18 @@ class AlingmentOverlay {
     private var alignedEdge: NSRectEdge? {
         didSet {
             if alignedEdge != oldValue {
-                NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .default)
-                print("hap")
+                vibrate()
             }
         }
     }
     
+    private func vibrate() {
+        NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .default)
+        print("hap")
+    }
+    
     func alignToAny(_ sourceControl: A11yControl, point: CGPoint, drawnControls: [A11yControl]) -> CGPoint {
+        
         for control in drawnControls {
             guard control != sourceControl else { continue }
             guard let (aligned, edge) = point.aligned(to: control.frame) else {
@@ -71,39 +75,7 @@ class AlingmentOverlay {
     private func drawAligningLine(from: CGRect, to: CGRect, edge: NSRectEdge) {
         alignmentLine.updateWithoutAnimation {
             alignmentLine.isHidden = false
-            alignmentLine.frame = alignmentFrame(from: from, to: to, edge: edge)
-        }
-    }
-    
-    private func alignmentFrame(from: CGRect, to: CGRect, edge: NSRectEdge) -> CGRect {
-        let unionRect = from.union(to).insetBy(dx: -5, dy: -5)
-        
-        switch edge {
-        case .minX:
-            return CGRect(
-                x: unionRect.minX,
-                y: unionRect.maxY,
-                width: 1,
-                height: unionRect.minY - unionRect.maxY)
-        case .maxX:
-            return CGRect(
-                x: unionRect.maxX,
-                y: unionRect.maxY,
-                width: 1,
-                height: unionRect.minY - unionRect.maxY)
-        case .minY:
-            return CGRect(
-                x: unionRect.minX,
-                y: unionRect.minY,
-                width: unionRect.maxX - unionRect.minX,
-                height: 1)
-        case .maxY:
-            return CGRect(
-                x: unionRect.minX,
-                y: unionRect.maxY,
-                width: unionRect.maxX - unionRect.minX,
-                height: 1)
-        @unknown default: return .zero
+            alignmentLine.frame = from.frameForAlignmentLine(with: to, edge: edge)
         }
     }
     

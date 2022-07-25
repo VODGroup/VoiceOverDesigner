@@ -1,10 +1,16 @@
-import Foundation
+//
+//  File.swift
+//  
+//
+//  Created by Mikhail Rubanov on 25.07.2022.
+//
 
-extension CGRect {
-    
+import AppKit
+
+extension CGPoint {
     func aligned(
         to frame: CGRect
-    ) -> (CGRect, NSRectEdge)?  {
+    ) -> (CGPoint, NSRectEdge)?  {
         for edge in NSRectEdge.allCases {
             let isNear = isNear(to: frame, edge: edge)
             
@@ -24,30 +30,27 @@ extension CGRect {
         return abs(self.value(edge) - frame.value(edge)) < threeshold
     }
     
-    private func offset(edge: NSRectEdge, alignedFrame: CGRect) -> CGRect? {
+    private func offset(edge: NSRectEdge, alignedFrame: CGRect) -> CGPoint? {
         switch edge {
         case .minX, .maxX:
-            return self.offsetBy(dx: alignedFrame.value(edge) - self.value(edge),
-                                 dy: 0)
+            return CGPoint(x: alignedFrame.value(edge),
+                           y: y)
         case .minY, .maxY:
-            return self.offsetBy(dx: 0,
-                                 dy: alignedFrame.value(edge) - self.value(edge))
+            return CGPoint(x: x,
+                           y: alignedFrame.value(edge))
         @unknown default:
             return nil
         }
     }
     
-    fileprivate func value(_ edge: NSRectEdge) -> CGFloat {
+    private func value(_ edge: NSRectEdge) -> CGFloat {
         switch edge {
-        case .minX: return minX
-        case .minY: return minY
-        case .maxX: return maxX
-        case .maxY: return maxY
+        case .minX: return x
+        case .maxX: return x
+        case .minY: return y
+        case .maxY: return y
         @unknown default: return 0
         }
     }
-}
-
-extension NSRectEdge {
-    static var allCases: [Self] = [.minX, .maxX, .minY, .maxY]
+    
 }
