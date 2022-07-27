@@ -13,10 +13,12 @@ public class EditorPresenter {
     
     public var document: VODesignDocument!
     var drawingController: DrawingController!
+    var ui: DrawingView!
     var router: RouterProtocol!
     
-    func didLoad(ui: NSView, router: RouterProtocol) {
-        drawingController = DrawingController(view: ui)
+    func didLoad(ui: DrawingView, router: RouterProtocol) {
+        self.ui = ui
+        self.drawingController = DrawingController(view: ui)
         self.router = router
         
         draw()
@@ -29,7 +31,7 @@ public class EditorPresenter {
     }
     
     func save() {
-        let descriptions = drawingController.drawnControls.compactMap { control in
+        let descriptions = ui.drawnControls.compactMap { control in
             control.a11yDescription
         }
         
@@ -38,7 +40,7 @@ public class EditorPresenter {
     
     // MARK: Mouse
     func mouseDown(on location: CGPoint) {
-        if let existedControl = drawingController.control(at: location) {
+        if let existedControl = ui.control(at: location) {
             drawingController.startTranslating(control: existedControl,
                                             startLocation: location)
         } else {
@@ -71,11 +73,11 @@ public class EditorPresenter {
     }
     
     func showLabels() {
-        drawingController.addLabels()
+        ui.addLabels()
     }
     
     func hideLabels() {
-        drawingController.removeLabels()
+        ui.removeLabels()
     }
 }
 
@@ -85,7 +87,7 @@ extension EditorPresenter: SettingsDelegate {
     }
     
     public func delete(control: A11yControl) {
-        drawingController.delete(control: control)
+        ui.delete(control: control)
         save()
     }
 }

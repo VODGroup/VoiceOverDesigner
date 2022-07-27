@@ -8,7 +8,14 @@
 import AppKit
 
 import CommonUI
+import Document
+
+class ControlsView: FlippedView, DrawingView {
+    var drawnControls: [A11yControl] = []
+}
+
 class EditorView: FlippedView {
+    
     @IBOutlet weak var scrollView: NSScrollView!
     
     @IBOutlet weak var backgroundImageView: NSImageView!
@@ -17,7 +24,7 @@ class EditorView: FlippedView {
     @IBOutlet weak var scrollViewHeight: NSLayoutConstraint!
     
     @IBOutlet weak var contentView: NSView!
-    @IBOutlet weak var controlsView: FlippedView!
+    @IBOutlet weak var controlsView: ControlsView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
