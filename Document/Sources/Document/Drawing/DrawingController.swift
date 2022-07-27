@@ -41,12 +41,21 @@ public class DrawingController {
     }
     
     // MARK: New drawing
-    public func startTranslating(control: A11yControl, startLocation: CGPoint) {
+    public func mouseDown(on location: CGPoint) {
+        if let existedControl = view.control(at: location) {
+            startTranslating(control: existedControl,
+                             startLocation: location)
+        } else {
+            startDrawing(coordinate: location)
+        }
+    }
+    
+    private func startTranslating(control: A11yControl, startLocation: CGPoint) {
         self.action = .translate(control: control, startLocation: startLocation,
                                  offset: .zero, initialFrame: control.frame)
     }
     
-    public func startDrawing(coordinate: CGPoint) {
+    private func startDrawing(coordinate: CGPoint) {
         let control = drawControl(from: .empty(frame: .zero))
         
         let point = alingmentOverlay.alignToAny(control, point: coordinate, drawnControls: view.drawnControls)

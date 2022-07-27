@@ -40,12 +40,7 @@ public class EditorPresenter {
     
     // MARK: Mouse
     func mouseDown(on location: CGPoint) {
-        if let existedControl = ui.control(at: location) {
-            drawingController.startTranslating(control: existedControl,
-                                            startLocation: location)
-        } else {
-            drawingController.startDrawing(coordinate: location)
-        }
+        drawingController.mouseDown(on: location)
     }
     
     func mouseDragged(on location: CGPoint) {
