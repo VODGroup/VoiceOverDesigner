@@ -1,10 +1,13 @@
-import AppKit
+import CoreGraphics
 
 protocol AlingmentOverlayProtocol {
     func alignToAny(_ sourceControl: A11yControl, point: CGPoint, drawnControls: [A11yControl]) -> CGPoint
     func alignToAny(_ sourceControl: A11yControl, frame: CGRect, drawnControls: [A11yControl]) -> CGRect
     func hideAligningLine()
 }
+
+#if canImport(AppKit)
+import AppKit
 
 class AlingmentCommandModifier: AlingmentOverlayProtocol {
     init(alingmentOverlay: AlingmentOverlay,
@@ -55,3 +58,4 @@ class AlingmentCommandModifier: AlingmentOverlayProtocol {
         }
     }
 }
+#endif

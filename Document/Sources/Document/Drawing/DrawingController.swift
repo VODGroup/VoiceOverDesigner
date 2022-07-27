@@ -29,10 +29,14 @@ public class DrawingController {
     public let view: View
     private var action: Action?
     
+#if canImport(UIKit)
+    private lazy var alingmentOverlay = NoAlignmentOverlay()
+#else
     private lazy var alingmentOverlay = AlingmentCommandModifier(
         alingmentOverlay: AlingmentOverlay(view: view),
         noAlingmentOverlay: NoAlignmentOverlay())
-
+#endif
+    
     // MARK: Drawn from existed controls
     public func removeAll() {
         for contol in drawnControls {

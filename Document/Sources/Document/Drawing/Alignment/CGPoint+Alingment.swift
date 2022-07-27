@@ -1,10 +1,4 @@
-//
-//  File.swift
-//  
-//
-//  Created by Mikhail Rubanov on 25.07.2022.
-//
-
+#if canImport(AppKit)
 import AppKit
 
 extension CGPoint {
@@ -52,5 +46,5 @@ extension CGPoint {
         @unknown default: return 0
         }
     }
-    
 }
+#endif

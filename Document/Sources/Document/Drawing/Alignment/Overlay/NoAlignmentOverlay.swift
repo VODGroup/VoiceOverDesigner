@@ -1,4 +1,4 @@
-import AppKit
+import CoreGraphics
 
 class NoAlignmentOverlay: AlingmentOverlayProtocol {
     func alignToAny(_ sourceControl: A11yControl, point: CGPoint, drawnControls: [A11yControl]) -> CGPoint {

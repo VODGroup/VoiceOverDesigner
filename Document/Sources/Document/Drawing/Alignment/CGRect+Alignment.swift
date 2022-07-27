@@ -1,4 +1,7 @@
-import Foundation
+import CoreGraphics
+
+#if canImport(AppKit)
+import AppKit
 
 extension CGRect {
     
@@ -51,3 +54,4 @@ extension CGRect {
 extension NSRectEdge {
     static var allCases: [Self] = [.minX, .maxX, .minY, .maxY]
 }
+#endif

@@ -64,7 +64,10 @@ final class PreviewViewController: UIViewController {
         
         document.open { isSuccess in
             if isSuccess {
-                self.document.controls.forEach(self.drawingController.drawControl(from:))
+                for control in self.document.controls {
+                    self.drawingController.drawControl(from: control)
+                }
+                
                 self.view().layout = VoiceOverLayout(controls: self.document.controls, container: self.view)
                 self.view().imageView.image = self.document.image
             } else {

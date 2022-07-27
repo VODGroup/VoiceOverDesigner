@@ -1,3 +1,4 @@
+#if canImport(AppKit)
 import AppKit
 
 extension CGRect {
@@ -33,3 +34,5 @@ extension CGRect {
         }
     }
 }
+
+#endif

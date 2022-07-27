@@ -1,3 +1,4 @@
+#if canImport(AppKit)
 import AppKit
 
 class AlingmentOverlay: AlingmentOverlayProtocol {
@@ -84,3 +85,4 @@ class AlingmentOverlay: AlingmentOverlayProtocol {
         alignedEdge = nil
     }
 }
+#endif
