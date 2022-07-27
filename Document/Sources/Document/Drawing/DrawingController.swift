@@ -112,6 +112,7 @@ public class DrawingController {
     public func end(coordinate: CGPoint) -> Action? {
         defer {
             self.action = nil
+            alingmentOverlay.hideAligningLine()
         }
         
         drag(to: coordinate)
@@ -139,8 +140,6 @@ public class DrawingController {
         case .none:
             break
         }
-        
-        alingmentOverlay.hideAligningLine()
         
         return action
     }
