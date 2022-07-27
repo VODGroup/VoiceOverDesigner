@@ -25,21 +25,22 @@ class WindowContoller: NSWindowController {
         projects.documentController = VODocumentController.shared
         window?.toolbar = projects.toolbar
         contentViewController = projects
-        projects.router = self
+//        projects.router = self
     }
 }
 
 extension WindowContoller: ProjectsRouter {
     func show(document: VODesignDocument) {
 //        self.document = document
-        document.addWindowController(self)
-        
         let controller = EditorViewController.fromStoryboard()
         controller.presenter.document = document
-        
-        // VODesignDocument(fileName: "Test")
-        
-        window?.contentViewController = controller
-        window?.toolbar = controller.toolbar
+        let window = NSWindow(contentViewController: controller)
+        window.toolbar = controller.toolbar
+        let wc = NSWindowController(window: window)
+        document.addWindowController(wc)
+        window.setFrameAutosaveName("windowFrame")
+        window.makeKeyAndOrderFront(self)
+        self.close()
     }
 }
+

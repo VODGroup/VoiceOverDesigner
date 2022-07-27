@@ -8,6 +8,7 @@
 import AppKit
 import Document
 import CommonUI
+import Editor
 
 public protocol ProjectsRouter: AnyObject {
     func show(document: VODesignDocument) -> Void
@@ -38,7 +39,8 @@ public class ProjectsViewController: NSViewController {
     
     @objc func createNewProject() {
         let document = VODesignDocument()
-        router?.show(document: document)
+        EditorViewController.makeWindow(for: document)
+        view.window?.close()
     }
 
     
@@ -51,7 +53,8 @@ public class ProjectsViewController: NSViewController {
 extension ProjectsViewController: DragNDropDelegate {
     public func didDrag(path: URL) {
         let document = VODesignDocument(fileName: path.lastPathComponent, rootPath: path.deletingLastPathComponent())
-        router?.show(document: document)
+        EditorViewController.makeWindow(for: document)
+        view.window?.close()
     }
     
     public func didDrag(image: NSImage) {
@@ -60,7 +63,8 @@ extension ProjectsViewController: DragNDropDelegate {
     
     func show(image: NSImage) {
         let document = VODesignDocument(image: image)
-        router?.show(document: document)
+        EditorViewController.makeWindow(for: document)
+        view.window?.close()
     }
 }
 
@@ -90,7 +94,8 @@ extension ProjectsViewController: NSCollectionViewDelegate {
         for indexPath in indexPaths {
             if let url = documentController?.recentDocumentURLs[indexPath.item] {
                 let document = VODesignDocument(file: url)
-                router?.show(document: document)
+                EditorViewController.makeWindow(for: document)
+                view.window?.close()
             }
         }
     }

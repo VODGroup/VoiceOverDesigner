@@ -42,7 +42,9 @@ let package = Package(
         .target(
             name: "Projects",
             dependencies: [
-                "CommonUI"
+                .product(name: "Document", package: "Document"),
+                "CommonUI",
+                "Editor"
             ]
         ),
         .target(
