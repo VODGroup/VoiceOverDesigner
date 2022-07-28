@@ -54,6 +54,10 @@ public class SettingsViewController: NSViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        setup(from: descr)
+    }
+    
+    private func setup(from descr: A11yDescription) {
         label.stringValue = descr.label
         hint.stringValue  = descr.hint
         isAccessibilityElement.state = descr.isAccessibilityElement ? .on: .off
