@@ -36,7 +36,7 @@ class EditorPresenterTests: XCTestCase {
     
     private let start10 = CGPoint.coord(10)
     private let end60   = CGPoint.coord(60)
-    private let rect10to50  = CGRect(x: 10, y: 10, width: 50, height: 50)
+    private let rect10to50  = CGRect(origin: .coord(10), size: .side(50))
     
     // MARK: Drawning
     func test_rectangleDrawnOnTheFly() {
@@ -97,10 +97,10 @@ class EditorPresenterTests: XCTestCase {
         drawRect()
         
         // Move
-        sut.mouseDown(on: CGPoint.coord(15))
-        sut.mouseDragged(on: CGPoint.coord(17))
-        sut.mouseDragged(on: CGPoint.coord(18))
-        sut.mouseDragged(on: CGPoint.coord(20)) // 5px from start
+        sut.mouseDown(on: .coord(15))
+        sut.mouseDragged(on: .coord(17))
+        sut.mouseDragged(on: .coord(18))
+        sut.mouseDragged(on: .coord(20)) // 5px from start
         
         XCTAssertEqual(sut.document.controls.count, 1)
         XCTAssertEqual(sut.document.controls.first?.frame,
@@ -113,8 +113,8 @@ class EditorPresenterTests: XCTestCase {
         drawRect()
         
         // Move
-        sut.mouseDown(on: CGPoint.coord(15))
-        sut.mouseUp(on: CGPoint.coord(5))
+        sut.mouseDown(on: .coord(15))
+        sut.mouseUp(on: .coord(5))
         
         XCTAssertEqual(sut.document.controls.first?.frame,
                        rect10to50.offsetBy(dx: -10, dy: -10))
@@ -124,15 +124,15 @@ class EditorPresenterTests: XCTestCase {
     
     func test_whenMoveNearLeftEdgeOnAnyElement_shouldPinToLeftEdge() {
         drawRect(from: start10, to: end60)
-        drawRect(from: CGPoint.coord(100),
-                 to: CGPoint.coord(150))
+        drawRect(from: .coord(100),
+                 to: .coord(150))
         XCTAssertEqual(sut.document.controls.count, 2)
         
-        sut.mouseDown(on: CGPoint.coord(101)) // 2nd rect
-        sut.mouseDragged(on: CGPoint.coord(11))
+        sut.mouseDown(on: .coord(101)) // 2nd rect
+        sut.mouseDragged(on: .coord(11))
         
         XCTAssertEqual(sut.document.controls[1].frame,
-                       CGRect(x: 10, y: 10, width: 50, height: 50))
+                       CGRect(origin: .coord(10), size: .side(50)))
     }
     
     // TODO:
@@ -143,10 +143,10 @@ class EditorPresenterTests: XCTestCase {
     func test_openSettings() {
         drawRect()
         
-        sut.mouseDown(on: CGPoint.coord(10))
+        sut.mouseDown(on: .coord(10))
         XCTAssertNil(router.didShowSettingsForControl)
         
-        sut.mouseUp(on: CGPoint.coord(11)) // Slightly move is possible
+        sut.mouseUp(on: .coord(11)) // Slightly move is possible
         
         XCTAssertNotNil(router.didShowSettingsForControl)
         XCTAssertEqual(sut.document.controls.first?.frame,
