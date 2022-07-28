@@ -23,6 +23,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return true
     }
     
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        true
+    }
+    
     func application(_ sender: NSApplication, openFile filename: String) -> Bool {
         let url = URL(fileURLWithPath: filename)
         let document = VODesignDocument(file: url)
