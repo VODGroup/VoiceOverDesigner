@@ -14,7 +14,7 @@ class EditorPresenterTests: XCTestCase {
     var sut: EditorPresenter!
     var router: RouterMock!
     
-    var controller: NSViewController!
+    var controller: EmptyViewController!
     
     override func setUp() {
         super.setUp()
@@ -26,7 +26,7 @@ class EditorPresenterTests: XCTestCase {
                                         rootPath: URL(fileURLWithPath: ""))
         
         router = RouterMock()
-        sut.didLoad(ui: controller.view, router: router)
+        sut.didLoad(ui: controller.controlsView, router: router)
     }
     
     override func tearDown() {
@@ -34,17 +34,17 @@ class EditorPresenterTests: XCTestCase {
         super.tearDown()
     }
     
-    private let start10 = CGPoint(x: 10, y: 10)
-    private let end60   = CGPoint(x: 60, y: 60)
-    private let rect  = CGRect(x: 10, y: 10, width: 50, height: 50)
+    private let start10 = CGPoint.coord(10)
+    private let end60   = CGPoint.coord(60)
+    private let rect10to50  = CGRect(x: 10, y: 10, width: 50, height: 50)
     
     // MARK: Drawning
     func test_rectangleDrawnOnTheFly() {
         sut.mouseDown(on: start10)
         sut.mouseDragged(on: end60)
         
-        XCTAssertEqual(controller.view.layer?.sublayers?.first?.frame,
-                       rect, "Draw")
+        XCTAssertEqual(controller.controlsView.layer?.sublayers?.first?.frame,
+                       rect10to50, "Draw")
         
         XCTAssertNil(sut.document.controls.first, "but not saved yet")
     }
@@ -54,7 +54,7 @@ class EditorPresenterTests: XCTestCase {
         sut.mouseUp(on: end60)
         
         XCTAssertEqual(sut.document.controls.first?.frame,
-                       rect)
+                       rect10to50)
     }
     
     func test_drawSmallerThanMinimalWidth_shouldIncreaseSizeToMinimal_andKeepCenter() {
@@ -89,7 +89,7 @@ class EditorPresenterTests: XCTestCase {
         sut.mouseUp(on: start10)
         
         XCTAssertEqual(sut.document.controls.first?.frame,
-                       rect)
+                       rect10to50)
     }
     
     // MARK: Editing
@@ -97,14 +97,14 @@ class EditorPresenterTests: XCTestCase {
         drawRect()
         
         // Move
-        sut.mouseDown(on: CGPoint(x: 15, y: 15))
-        sut.mouseDragged(on: CGPoint(x: 17, y: 17))
-        sut.mouseDragged(on: CGPoint(x: 18, y: 18))
-        sut.mouseDragged(on: CGPoint(x: 20, y: 20)) // 5px from start
+        sut.mouseDown(on: CGPoint.coord(15))
+        sut.mouseDragged(on: CGPoint.coord(17))
+        sut.mouseDragged(on: CGPoint.coord(18))
+        sut.mouseDragged(on: CGPoint.coord(20)) // 5px from start
         
         XCTAssertEqual(sut.document.controls.count, 1)
         XCTAssertEqual(sut.document.controls.first?.frame,
-                       rect.offsetBy(dx: 5, dy: 5))
+                       rect10to50.offsetBy(dx: 5, dy: 5))
         
         XCTAssertNil(router.didShowSettingsForControl, "Not open settings at the end of translation")
     }
@@ -113,23 +113,23 @@ class EditorPresenterTests: XCTestCase {
         drawRect()
         
         // Move
-        sut.mouseDown(on: CGPoint(x: 15, y: 15))
-        sut.mouseUp(on: CGPoint(x: 5, y: 5))
+        sut.mouseDown(on: CGPoint.coord(15))
+        sut.mouseUp(on: CGPoint.coord(5))
         
         XCTAssertEqual(sut.document.controls.first?.frame,
-                       rect.offsetBy(dx: -10, dy: -10))
+                       rect10to50.offsetBy(dx: -10, dy: -10))
         
         XCTAssertNil(router.didShowSettingsForControl, "Not open settings at the end of translation")
     }
     
     func test_whenMoveNearLeftEdgeOnAnyElement_shouldPinToLeftEdge() {
         drawRect(from: start10, to: end60)
-        drawRect(from: CGPoint(x: 100, y: 100),
-                 to: CGPoint(x: 150, y: 150))
+        drawRect(from: CGPoint.coord(100),
+                 to: CGPoint.coord(150))
         XCTAssertEqual(sut.document.controls.count, 2)
         
-        sut.mouseDown(on: CGPoint(x: 101, y: 101)) // 2nd rect
-        sut.mouseDragged(on: CGPoint(x: 11, y: 11))
+        sut.mouseDown(on: CGPoint.coord(101)) // 2nd rect
+        sut.mouseDragged(on: CGPoint.coord(11))
         
         XCTAssertEqual(sut.document.controls[1].frame,
                        CGRect(x: 10, y: 10, width: 50, height: 50))
@@ -143,14 +143,14 @@ class EditorPresenterTests: XCTestCase {
     func test_openSettings() {
         drawRect()
         
-        sut.mouseDown(on: CGPoint(x: 10, y: 10))
+        sut.mouseDown(on: CGPoint.coord(10))
         XCTAssertNil(router.didShowSettingsForControl)
         
-        sut.mouseUp(on: CGPoint(x: 11, y: 11)) // Slightly move is possible
+        sut.mouseUp(on: CGPoint.coord(11)) // Slightly move is possible
         
         XCTAssertNotNil(router.didShowSettingsForControl)
         XCTAssertEqual(sut.document.controls.first?.frame,
-                       rect, "Keep frame")
+                       rect10to50, "Keep frame")
     }
     
     // MARK: - DSL
@@ -169,6 +169,8 @@ class EditorPresenterTests: XCTestCase {
 class EmptyViewController: NSViewController {
     
     private lazy var contentView = NSView()
+    
+    let controlsView = ControlsView()
     
     override func loadView() {
         view = contentView

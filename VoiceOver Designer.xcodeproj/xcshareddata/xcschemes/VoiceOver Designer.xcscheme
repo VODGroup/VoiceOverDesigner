@@ -26,18 +26,9 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1E579B3A28244AF500B13565"
-               BuildableName = "EditorTests.xctest"
-               BlueprintName = "EditorTests"
-               ReferencedContainer = "container:Editor/Editor.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
          <TestableReference
             skipped = "NO">
             <BuildableReference
@@ -52,30 +43,40 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1E579B7028244D4E00B13565"
-               BuildableName = "SettingsTests.xctest"
-               BlueprintName = "SettingsTests"
-               ReferencedContainer = "container:Settings/Settings.xcodeproj">
+               BlueprintIdentifier = "EditorTests"
+               BuildableName = "EditorTests"
+               BlueprintName = "EditorTests"
+               ReferencedContainer = "container:VoiceOver Designer/Features">
             </BuildableReference>
          </TestableReference>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1E579BB228255F8E00B13565"
-               BuildableName = "CommonUITests.xctest"
-               BlueprintName = "CommonUITests"
-               ReferencedContainer = "container:CommonUI/CommonUI.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1E579AFD282446D200B13565"
-               BuildableName = "ProjectsTests.xctest"
+               BlueprintIdentifier = "ProjectsTests"
+               BuildableName = "ProjectsTests"
                BlueprintName = "ProjectsTests"
-               ReferencedContainer = "container:Projects/Projects.xcodeproj">
+               ReferencedContainer = "container:VoiceOver Designer/Features">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "SettingsTests"
+               BuildableName = "SettingsTests"
+               BlueprintName = "SettingsTests"
+               ReferencedContainer = "container:VoiceOver Designer/Features">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1E1D7FFD281D5CC000B64954"
+               BuildableName = "VoiceOver DesignerTests.xctest"
+               BlueprintName = "VoiceOver DesignerTests"
+               ReferencedContainer = "container:VoiceOver Designer.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

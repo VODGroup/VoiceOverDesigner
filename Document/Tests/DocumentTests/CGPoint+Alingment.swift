@@ -69,15 +69,3 @@ extension NSRectEdge: CustomDebugStringConvertible {
         }
     }
 }
-
-extension CGPoint {
-    static func coord(_ coord: CGFloat) -> Self {
-        CGPoint(x: coord, y: coord)
-    }
-}
-
-extension CGSize {
-    static func side(_ side: CGFloat) -> Self {
-        CGSize(width: 10, height: 10)
-    }
-}
