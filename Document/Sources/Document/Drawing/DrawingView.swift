@@ -28,6 +28,8 @@ extension CALayer {
 
 public protocol DrawingView: View {
     var drawnControls: [A11yControl] { get set }
+    
+    var alingmentOverlay: AlingmentOverlayProtocol { get }
 }
 
 public extension DrawingView {

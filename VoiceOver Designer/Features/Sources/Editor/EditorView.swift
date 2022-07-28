@@ -12,6 +12,8 @@ import Document
 
 class ControlsView: FlippedView, DrawingView {
     var drawnControls: [A11yControl] = []
+    
+    lazy var alingmentOverlay = AlingmentOverlayFactory().overlay(for: self)
 }
 
 class EditorView: FlippedView {
