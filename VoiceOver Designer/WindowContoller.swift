@@ -27,8 +27,6 @@ class WindowContoller: NSWindowController {
         contentViewController = projects
         projects.router = self
     }
-    
-   
 }
 
 extension WindowContoller: ProjectsRouter {
@@ -55,6 +53,6 @@ class ProjectController: NSSplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        addSplitViewItem(NSSplitViewItem(sidebarWithViewController: editor))
+        addSplitViewItem(NSSplitViewItem(viewController: editor))
     }
 }
