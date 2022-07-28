@@ -14,9 +14,9 @@ public class EditorPresenter {
     public var document: VODesignDocument!
     var drawingController: DrawingController!
     var ui: DrawingView!
-    var router: RouterProtocol!
+    var router: EditorRouterProtocol!
     
-    func didLoad(ui: DrawingView, router: RouterProtocol) {
+    func didLoad(ui: DrawingView, router: EditorRouterProtocol) {
         self.ui = ui
         self.drawingController = DrawingController(view: ui)
         self.router = router
