@@ -94,7 +94,7 @@ class EditorPresenterTests: XCTestCase {
     
     // MARK: Editing
     func test_movementFor5px_shouldTranslateRect() {
-        drawRect()
+        drawRect_10_60()
         
         // Move
         sut.mouseDown(on: .coord(15))
@@ -110,7 +110,7 @@ class EditorPresenterTests: XCTestCase {
     }
     
     func test_translateToNegativeCoordinates_shouldTranslate() {
-        drawRect()
+        drawRect_10_60()
         
         // Move
         sut.mouseDown(on: .coord(15))
@@ -141,7 +141,6 @@ class EditorPresenterTests: XCTestCase {
     
     // MARK: Routing
     func test_openSettings() {
-        drawRect()
         
         sut.mouseDown(on: .coord(10))
         XCTAssertNil(router.didShowSettingsForControl)
@@ -151,10 +150,11 @@ class EditorPresenterTests: XCTestCase {
         XCTAssertNotNil(router.didShowSettingsForControl)
         XCTAssertEqual(sut.document.controls.first?.frame,
                        rect10to50, "Keep frame")
+        drawRect_10_60()
     }
     
     // MARK: - DSL
-    func drawRect() {
+    func drawRect_10_60() {
         sut.mouseDown(on: start10)
         sut.mouseUp(on: end60)
     }
@@ -165,6 +165,12 @@ class EditorPresenterTests: XCTestCase {
     }
 }
 
+extension EditorPresenter {
+    func click(coordinate: CGPoint) {
+        mouseDown(on: coordinate)
+        mouseUp(on: coordinate)
+    }
+}
 
 class EmptyViewController: NSViewController {
     
@@ -186,8 +192,9 @@ class EmptyViewController: NSViewController {
     }
 }
 
+import Editor
 import Settings
-class RouterMock: RouterProtocol {
+class RouterMock: EditorRouterProtocol {
     
     var didShowSettingsForControl: A11yControl?
     func showSettings(
