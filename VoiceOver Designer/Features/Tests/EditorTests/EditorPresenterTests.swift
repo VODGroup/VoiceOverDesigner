@@ -168,7 +168,7 @@ class EditorPresenterTests: XCTestCase {
         }
         
         XCTContext.runActivity(named: "click outside") { _ in
-            sut.click(coordinate: .coord(10))
+            sut.click(coordinate: .coord(0))
             
             XCTAssertNil(sut.selectedControl, "should deselect iten")
         }
