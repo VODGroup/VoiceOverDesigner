@@ -25,8 +25,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         if !flag {
-            let wc = WindowContoller.fromStoryboard()
-            wc.showWindow(self)
+            #warning("TODO: After window is created it doesn't have strong references to window and deallocates which breaks ProjectsRouter")
+            // TODO: After window is created it doesn't have strong references to window and deallocates which breaks ProjectsRouter
+            let window = WindowContoller.fromStoryboard()
+            window.window?.setFrameAutosaveName("Projects")
+            window.showWindow(self)
         }
         return flag
     }

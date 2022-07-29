@@ -25,7 +25,7 @@ class WindowContoller: NSWindowController {
         projects.documentController = VODocumentController.shared
         window?.toolbar = projects.toolbar
         contentViewController = projects
-//        projects.router = self
+        projects.router = self
     }
 }
 
