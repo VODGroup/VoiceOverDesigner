@@ -53,7 +53,7 @@ public class EditorPresenter {
         switch action {
         case let new as NewControlAction:
             document.undoManager?.registerUndo(withTarget: self, handler: { target in
-                target.delete(control: new.control)
+                target.delete(control: new.control, isUndoAvailable: false)
             })
             
             save()
@@ -107,7 +107,16 @@ extension EditorPresenter: SettingsDelegate {
         save()
     }
     
-    public func delete(control: A11yControl) {
+    public func delete(control: A11yControl, isUndoAvailable: Bool) {
+        if isUndoAvailable {
+            document.undoManager?.registerUndo(withTarget: self, handler: { target in
+                guard let a11yDescription = control.a11yDescription else {
+                    return
+                }
+                target.drawingController.drawControl(from: a11yDescription)
+            })
+        }
+        
         ui.delete(control: control)
         save()
     }

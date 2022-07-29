@@ -10,7 +10,7 @@ import Document
 
 public protocol SettingsDelegate: AnyObject {
     func didUpdateValue()
-    func delete(control: A11yControl)
+    func delete(control: A11yControl, isUndoAvailable: Bool)
 }
 
 public class SettingsPresenter {

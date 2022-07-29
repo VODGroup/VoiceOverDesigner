@@ -150,7 +150,7 @@ public class SettingsViewController: NSViewController {
     }
     
     @IBAction func delete(_ sender: Any) {
-        presenter.delegate?.delete(control: presenter.control)
+        presenter.delegate?.delete(control: presenter.control, isUndoAvailable: true)
         
         // TODO: Dismiss in popover presentation
 //        dismiss(self)
