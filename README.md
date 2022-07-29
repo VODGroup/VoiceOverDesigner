@@ -25,6 +25,6 @@ A developer got the layout from the designer, can read it and understand what ac
 The app generates test-case for automatic testing of accessibility. In general we can start from AccessibilitySnapshot, but use it in different way: generate only readable text, we don't need a visual part of screenshot. I'll describe the idea In details at different topic, it's not goal of first release.
 
 # What's next
+- [How to launch](https://github.com/VODGroup/VoiceOverDesigner/wiki)
+- [Join to discussions](https://github.com/VODGroup/VoiceOverDesigner/discussions)
 
-- Join to [discussions](https://github.com/VODGroup/VoiceOverDesigner/discussions)
-- Check the [Wiki](https://github.com/VODGroup/VoiceOverDesigner/wiki)
