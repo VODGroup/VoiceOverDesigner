@@ -52,4 +52,10 @@ class Router: EditorRouterProtocol {
                      preferredEdge: .maxX,
                      behavior: .semitransient)
     }
+    
+    func hideSettings() {
+        guard let sidebar = sidebar else { return }
+        root.removeSplitViewItem(sidebar)
+        self.sidebar = nil
+    }
 }

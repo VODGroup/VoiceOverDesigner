@@ -171,6 +171,7 @@ class EditorPresenterTests: XCTestCase {
             sut.click(coordinate: .coord(0))
             
             XCTAssertNil(sut.selectedControl, "should deselect iten")
+            XCTAssertTrue(router.didHideSettings)
         }
     }
     
@@ -224,6 +225,11 @@ class RouterMock: EditorRouterProtocol {
         delegate: SettingsDelegate
     ) {
         didShowSettingsForControl = control
+    }
+
+    var didHideSettings = false
+    func hideSettings() {
+        didHideSettings = true
     }
 }
 

@@ -69,6 +69,7 @@ public class EditorPresenter {
             
         case .none:
             selectedControl = nil
+            router.hideSettings()
         default:
             assert(false, "Handle new type here")
             break
