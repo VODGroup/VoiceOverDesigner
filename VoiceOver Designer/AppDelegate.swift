@@ -10,6 +10,15 @@ import Document
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
+    
+    #warning("TODO: probably migrate from Storyboard ???")
+    // TODO: probably migrate from Storyboard ???
+    lazy var windowController: WindowContoller = {
+        let windowController = WindowContoller.fromStoryboard()
+        windowController.window?.setFrameAutosaveName("Projects")
+        windowController.showWindow(self)
+        return windowController
+    }()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
@@ -25,11 +34,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         if !flag {
-            #warning("TODO: After window is created it doesn't have strong references to window and deallocates which breaks ProjectsRouter")
-            // TODO: After window is created it doesn't have strong references to window and deallocates which breaks ProjectsRouter
-            let window = WindowContoller.fromStoryboard()
-            window.window?.setFrameAutosaveName("Projects")
-            window.showWindow(self)
+
+            windowController = WindowContoller.fromStoryboard()
+            windowController.window?.setFrameAutosaveName("Projects")
+            windowController.showWindow(self)
+            
         }
         return flag
     }
