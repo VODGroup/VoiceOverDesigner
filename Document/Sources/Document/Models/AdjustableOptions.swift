@@ -44,6 +44,7 @@ public struct AdjustableOptions: Codable {
     }
     
     public mutating func add(defaultValue: String = "") {
+        guard !options.contains(defaultValue) else { return }
         options.append(defaultValue)
         
         if currentIndex == nil, options.count > 0 {
