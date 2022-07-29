@@ -23,8 +23,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return true
     }
     
-    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        true
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if !flag {
+            let wc = WindowContoller.fromStoryboard()
+            wc.showWindow(self)
+        }
+        return flag
     }
     
     func application(_ sender: NSApplication, openFile filename: String) -> Bool {

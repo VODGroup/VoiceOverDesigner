@@ -44,7 +44,6 @@ let package = Package(
             dependencies: [
                 .product(name: "Document", package: "Document"),
                 "CommonUI",
-                "Editor"
             ]
         ),
         .target(

@@ -21,12 +21,7 @@ class VODocumentController: NSDocumentController {
         super.removeDocument(document)
         
         if VODocumentController.shared.documents.isEmpty {
-            let controller = ProjectsViewController.fromStoryboard()
-            let wc = WindowContoller.fromStoryboard()
-            wc.window?.setContentSize(.init(width: 800, height: 400))
-            wc.window?.toolbar = controller.toolbar
-            wc.window?.setFrameAutosaveName("windowFrame")
-            wc.showWindow(self)
+            NSApplication.shared.delegate?.applicationShouldHandleReopen?(NSApplication.shared, hasVisibleWindows: false)
         }
     }
 }

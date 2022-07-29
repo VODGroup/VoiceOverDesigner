@@ -39,7 +39,7 @@ public class ProjectsViewController: NSViewController {
     
     @objc func createNewProject() {
         let document = VODesignDocument()
-        EditorViewController.makeWindow(for: document)
+        router?.show(document: document)
         view.window?.close()
     }
 
@@ -53,7 +53,7 @@ public class ProjectsViewController: NSViewController {
 extension ProjectsViewController: DragNDropDelegate {
     public func didDrag(path: URL) {
         let document = VODesignDocument(fileName: path.lastPathComponent, rootPath: path.deletingLastPathComponent())
-        EditorViewController.makeWindow(for: document)
+        router?.show(document: document)
         view.window?.close()
     }
     
@@ -63,7 +63,7 @@ extension ProjectsViewController: DragNDropDelegate {
     
     func show(image: NSImage) {
         let document = VODesignDocument(image: image)
-        EditorViewController.makeWindow(for: document)
+        router?.show(document: document)
         view.window?.close()
     }
 }
@@ -94,7 +94,7 @@ extension ProjectsViewController: NSCollectionViewDelegate {
         for indexPath in indexPaths {
             if let url = documentController?.recentDocumentURLs[indexPath.item] {
                 let document = VODesignDocument(file: url)
-                EditorViewController.makeWindow(for: document)
+                router?.show(document: document)
                 view.window?.close()
             }
         }
