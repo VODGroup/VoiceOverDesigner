@@ -22,15 +22,15 @@ class EditorPresenterTests: XCTestCase {
         controller = EmptyViewController()
         
         sut = EditorPresenter()
-        sut.document = VODesignDocument(fileName: "Test",
-                                        rootPath: URL(fileURLWithPath: ""))
+        sut.document = VODesignDocument.testDocument(name: "Test",
+                                                     saveImmediately: true)
         
         router = RouterMock()
         sut.didLoad(ui: controller.controlsView, router: router)
     }
     
     override func tearDown() {
-        try? FileManager.default.removeItem(at: sut.document.fileURL!)
+        try? VODesignDocument.removeTestDocument(name: "Test")
         super.tearDown()
     }
     
