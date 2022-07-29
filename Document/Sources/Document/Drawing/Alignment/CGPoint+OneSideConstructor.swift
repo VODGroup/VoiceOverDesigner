@@ -8,6 +8,6 @@ public extension CGPoint {
 
 public extension CGSize {
     static func side(_ side: CGFloat) -> Self {
-        CGSize(width: 10, height: 10)
+        CGSize(width: side, height: side)
     }
 }
