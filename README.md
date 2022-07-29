@@ -8,7 +8,7 @@ A MacOS app that helps to design accessible apps in 3 stages:
 
 Designer uses VoiceOver Designer for macOS to layout accessibility over an app's screenshots. The designer can use VoiceOver Preview app for iPhone to hear the result.
 
-VoiceOver Designer presents all possible instruments to designer and teachs them what a develop can and can't do with accessibility.
+VoiceOver Designer presents all possible instruments to designer and teaches them what a developer can and can't do with accessibility.
 
 At the end the designer passes the document to developer.
 
