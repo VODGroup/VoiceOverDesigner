@@ -30,17 +30,30 @@ class WindowContoller: NSWindowController {
 }
 
 extension WindowContoller: ProjectsRouter {
+    
     func show(document: VODesignDocument) {
-//        self.document = document
-        let controller = EditorViewController.fromStoryboard()
-        controller.presenter.document = document
-        let window = NSWindow(contentViewController: controller)
-        window.toolbar = controller.toolbar
-        let wc = NSWindowController(window: window)
-        document.addWindowController(wc)
-        window.setFrameAutosaveName("windowFrame")
-        window.makeKeyAndOrderFront(self)
-        self.close()
+        document.addWindowController(self)
+        
+        let editor = EditorViewController.fromStoryboard()
+        
+        let split = ProjectController()
+        editor.inject(router: split.router, document: document)
+        split.editor = editor
+        
+        window?.contentViewController = split
+        window?.toolbar = editor.toolbar
+    }
+}
+
+class ProjectController: NSSplitViewController {
+    
+    var editor: EditorViewController!
+    lazy var router = Router(rootController: self)
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        addSplitViewItem(NSSplitViewItem(viewController: editor))
     }
 }
 

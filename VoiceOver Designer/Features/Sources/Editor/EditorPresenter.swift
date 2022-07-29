@@ -12,22 +12,26 @@ import Settings
 public class EditorPresenter {
     
     public var document: VODesignDocument!
-    var drawingService: DrawingService!
-    var router: RouterProtocol!
+    var drawingController: DrawingController!
+    var ui: DrawingView!
+    var router: EditorRouterProtocol!
     
-    func didLoad(ui: NSView, router: RouterProtocol) {
-        drawingService = DrawingService(view: ui)
+    func didLoad(ui: DrawingView, router: EditorRouterProtocol) {
+        self.ui = ui
+        self.drawingController = DrawingController(view: ui)
         self.router = router
         
         draw()
     }
     
     func draw() {
-        document.controls.forEach(drawingService.drawControl(from:))
+        document.controls.forEach { control in
+            drawingController.drawControl(from: control)
+        }
     }
     
     func save() {
-        let descriptions = drawingService.drawnControls.compactMap { control in
+        let descriptions = ui.drawnControls.compactMap { control in
             control.a11yDescription
         }
         
@@ -36,43 +40,44 @@ public class EditorPresenter {
     
     // MARK: Mouse
     func mouseDown(on location: CGPoint) {
-        if let existedControl = drawingService.control(at: location) {
-            drawingService.startTranslating(control: existedControl,
-                                            startLocation: location)
-        } else {
-            drawingService.startDrawing(coordinate: location)
-        }
+        drawingController.mouseDown(on: location)
     }
     
     func mouseDragged(on location: CGPoint) {
-        drawingService.drag(to: location)
+        drawingController.drag(to: location)
     }
     
     func mouseUp(on location: CGPoint) {
-        let action = drawingService.end(coordinate: location)
+        guard let action = drawingController.end(coordinate: location) else { return }
         
         switch action {
-        case .new(let control, let origin):
+        case let new as NewControlAction:
             document.undoManager?.registerUndo(withTarget: self, handler: { target in
-                target.delete(control: control)
+                target.delete(control: new.control)
             })
             
             save()
-        case .translate(let control, let startLocation, let offset):
+            
+        case let translate as TranslateAction:
+            document.undoManager?.registerUndo(withTarget: self, handler: { target in
+                translate.undo()
+            })
             save()
-        case .click(let control):
-            router.showSettings(for: control, controlSuperview: drawingService.view, delegate: self)
-        case .none:
+        case let click as ClickAction:
+            router.showSettings(for: click.control, controlSuperview: drawingController.view, delegate: self)
+            
+        default:
+            assert(false, "Handle new type here")
             break
         }
     }
     
     func showLabels() {
-        drawingService.addLabels()
+        ui.addLabels()
     }
     
     func hideLabels() {
-        drawingService.removeLabels()
+        ui.removeLabels()
     }
 }
 
@@ -82,7 +87,7 @@ extension EditorPresenter: SettingsDelegate {
     }
     
     public func delete(control: A11yControl) {
-        drawingService.delete(control: control)
+        ui.delete(control: control)
         save()
     }
 }

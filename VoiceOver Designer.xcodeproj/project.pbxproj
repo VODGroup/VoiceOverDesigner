@@ -13,6 +13,7 @@
 		1E1D7FF8281D5CBF00B64954 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E1D7FF6281D5CBF00B64954 /* Main.storyboard */; };
 		1E1D800D281D5CC000B64954 /* VoiceOver_DesignerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1D800C281D5CC000B64954 /* VoiceOver_DesignerUITests.swift */; };
 		1E1D800F281D5CC000B64954 /* VoiceOver_DesignerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1D800E281D5CC000B64954 /* VoiceOver_DesignerUITestsLaunchTests.swift */; };
+		1E31DBCC2893146F007EBFC7 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E31DBCB2893146F007EBFC7 /* Router.swift */; };
 		1E579B20282447D900B13565 /* WindowContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579B1F282447D900B13565 /* WindowContoller.swift */; };
 		1E579B922824587B00B13565 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579B912824587B00B13565 /* Tests.swift */; };
 		1E579B9C2825485300B13565 /* VODocumentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579B9B2825485300B13565 /* VODocumentController.swift */; };
@@ -47,6 +48,7 @@
 		1E1D8008281D5CC000B64954 /* VoiceOver DesignerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "VoiceOver DesignerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E1D800C281D5CC000B64954 /* VoiceOver_DesignerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceOver_DesignerUITests.swift; sourceTree = "<group>"; };
 		1E1D800E281D5CC000B64954 /* VoiceOver_DesignerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceOver_DesignerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1E31DBCB2893146F007EBFC7 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		1E579B1B2824473600B13565 /* Projects.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Projects.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E579B1F282447D900B13565 /* WindowContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowContoller.swift; sourceTree = "<group>"; };
 		1E579B5728244B6F00B13565 /* Editor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Editor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,6 +126,7 @@
 				1E1D7FF0281D5CBE00B64954 /* AppDelegate.swift */,
 				1E579B1F282447D900B13565 /* WindowContoller.swift */,
 				1E579B9B2825485300B13565 /* VODocumentController.swift */,
+				1E31DBCB2893146F007EBFC7 /* Router.swift */,
 				1E1D7FF4281D5CBF00B64954 /* Assets.xcassets */,
 				1E1D7FF6281D5CBF00B64954 /* Main.storyboard */,
 				1E1D7FF9281D5CBF00B64954 /* VoiceOver_Designer.entitlements */,
@@ -284,6 +287,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E31DBCC2893146F007EBFC7 /* Router.swift in Sources */,
 				1E579B20282447D900B13565 /* WindowContoller.swift in Sources */,
 				1E1D7FF1281D5CBE00B64954 /* AppDelegate.swift in Sources */,
 				1E579B9C2825485300B13565 /* VODocumentController.swift in Sources */,
@@ -513,7 +517,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4QRMN23QQB;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -539,7 +543,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4QRMN23QQB;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

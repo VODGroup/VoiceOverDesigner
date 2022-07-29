@@ -1,14 +1,14 @@
 //
-//  VoiceOver_PreviewTests.swift
-//  VoiceOver PreviewTests
+//  CommonUITests.swift
+//  CommonUITests
 //
-//  Created by Mikhail Rubanov on 01.05.2022.
+//  Created by Mikhail Rubanov on 06.05.2022.
 //
 
 import XCTest
-@testable import VoiceOver_Preview
+@testable import CommonUI
 
-class VoiceOver_PreviewTests: XCTestCase {
+class CommonUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

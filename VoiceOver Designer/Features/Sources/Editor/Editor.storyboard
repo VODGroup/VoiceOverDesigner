@@ -31,7 +31,7 @@
                                                     </constraints>
                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="vuC-bS-HZw"/>
                                                 </imageView>
-                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="L7U-F0-kOc" customClass="FlippedView" customModule="Editor">
+                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="L7U-F0-kOc" customClass="ControlsView" customModule="Editor">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                                 </customView>
                                             </subviews>
