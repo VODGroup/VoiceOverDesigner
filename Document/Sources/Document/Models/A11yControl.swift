@@ -44,6 +44,17 @@ public class A11yControl: CALayer {
         }
     }
     
+    public var isSelected: Bool = false {
+        didSet {
+            borderWidth = isSelected ? 4 : 0
+            borderColor = backgroundColor?.copy(alpha: 1)
+            cornerRadius = isSelected ? 10 : 0
+            if #available(macOS 10.15, *) {
+                cornerCurve = .continuous
+            }
+        }
+    }
+    
     public func addLabel() {
         if let label = label {
             addSublayer(label)
