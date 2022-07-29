@@ -131,22 +131,6 @@ public class EditorViewController: NSViewController {
         let storyboard = NSStoryboard(name: "Editor", bundle: .module)
         return storyboard.instantiateInitialController() as! EditorViewController
     }
-    
-    public static func makeWindow(for document: VODesignDocument) {
-        let controller = EditorViewController.fromStoryboard()
-        controller.presenter.document = document
-        let window = NSWindow(contentViewController: controller)
-        window.setContentSize(NSSize(width: 800, height: 600))
-        
-        let wc = NSWindowController(window: window)
-        wc.contentViewController = controller
-        wc.window?.toolbar = controller.toolbar
-        document.addWindowController(wc)
-        
-        window.setFrameAutosaveName("windowFrame")
-        window.makeKeyAndOrderFront(self)
-    }
-    
 }
 
 extension EditorViewController: DragNDropDelegate {
