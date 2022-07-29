@@ -13,7 +13,13 @@ public class EditorViewController: NSViewController {
     
     public let toolbar: NSToolbar = NSToolbar()
     
-    public let presenter = EditorPresenter()
+    public func inject(router: EditorRouterProtocol, document: VODesignDocument) {
+        self.router = router
+        self.presenter.document = document
+    }
+    
+    private weak var router: EditorRouterProtocol!
+    private let presenter = EditorPresenter()
     
     var trackingArea: NSTrackingArea!
     
@@ -50,7 +56,7 @@ public class EditorViewController: NSViewController {
         DispatchQueue.main.async {
             self.presenter.didLoad(
                 ui: self.view().controlsView,
-                router: Router(rootController: self))
+                router: self.router)
             self.setImage()
             self.addMouseTracking()
         }

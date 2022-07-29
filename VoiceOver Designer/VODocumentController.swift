@@ -19,17 +19,11 @@ class VODocumentController: NSDocumentController {
 
 extension VODesignDocument {
     public override func makeWindowControllers() {
-        let controller = EditorViewController.fromStoryboard()
-        controller.presenter.document = self
-        let window = NSWindow(contentViewController: controller)
-        window.setContentSize(NSSize(width: 800, height: 600))
+        let window = WindowContoller.fromStoryboard()
+        window.show(document: self)
         
-        let wc = NSWindowController(window: window)
-        wc.contentViewController = controller
-        wc.window?.toolbar = controller.toolbar
-        addWindowController(wc)
-        
-        window.setFrameAutosaveName("windowFrame")
-        window.makeKeyAndOrderFront(self)
+        // TODO: Is it needed?
+        window.window?.setFrameAutosaveName("windowFrame")
+        window.window?.makeKeyAndOrderFront(self)
     }
 }

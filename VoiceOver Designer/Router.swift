@@ -8,12 +8,9 @@
 import AppKit
 import Document
 import Settings
+import Editor
 
-protocol RouterProtocol {
-    func showSettings(for control: A11yControl, controlSuperview: NSView, delegate: SettingsDelegate)
-}
-
-class Router: RouterProtocol {
+class Router: EditorRouterProtocol {
     init(rootController: NSViewController) {
         self.rootController = rootController
     }
