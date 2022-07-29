@@ -35,22 +35,8 @@ CA
                                     <action selector="delete:" target="U2f-R7-Q2a" id="Tb8-Y5-Fbf"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uUB-Yq-rXb">
-                                <rect key="frame" x="307" y="9" width="64" height="40"/>
-                                <buttonCell key="cell" type="push" title="Done" bezelStyle="rounded" alignment="center" controlSize="large" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="9Y7-Bs-lOp">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                    <string key="keyEquivalent" base64-UTF8="YES">
-DQ
-</string>
-                                    <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="doneDidPressed:" target="U2f-R7-Q2a" id="teS-fP-qdx"/>
-                                </connections>
-                            </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fAf-ES-vjT">
-                                <rect key="frame" x="24" y="692" width="44" height="16"/>
+                                <rect key="frame" x="18" y="692" width="50" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Label:" id="Nlv-IC-RPW">
                                     <font key="font" textStyle="headline" name=".SFNS-Bold"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -363,12 +349,11 @@ DQ
                             </box>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="uUB-Yq-rXb" secondAttribute="trailing" constant="20" symbolic="YES" id="21r-an-Jmb"/>
                             <constraint firstItem="cWG-yH-GJd" firstAttribute="top" secondItem="0gq-OC-PyL" secondAttribute="bottom" constant="8" id="2mN-rP-E4b"/>
                             <constraint firstItem="SZT-24-i1X" firstAttribute="leading" secondItem="cLK-md-r8c" secondAttribute="leading" constant="16" id="37h-mN-nlo"/>
                             <constraint firstItem="oEr-KQ-HrL" firstAttribute="trailing" secondItem="JZg-MT-gb1" secondAttribute="trailing" id="4FL-G6-blV"/>
-                            <constraint firstItem="uUB-Yq-rXb" firstAttribute="top" secondItem="Nnm-wP-dpa" secondAttribute="bottom" constant="24" id="EZ4-Ej-6yP"/>
                             <constraint firstItem="oEr-KQ-HrL" firstAttribute="leading" secondItem="fAf-ES-vjT" secondAttribute="trailing" constant="1" id="Gok-qd-4gK"/>
+                            <constraint firstItem="fAf-ES-vjT" firstAttribute="leading" secondItem="JZg-MT-gb1" secondAttribute="leading" id="HVs-Kw-FfJ"/>
                             <constraint firstItem="UuZ-Ye-28d" firstAttribute="trailing" secondItem="oEr-KQ-HrL" secondAttribute="trailing" id="KRU-5V-68M"/>
                             <constraint firstItem="X9x-Tf-0Jm" firstAttribute="leading" secondItem="yiu-tQ-QTm" secondAttribute="leading" id="M51-dn-n1i"/>
                             <constraint firstItem="UuZ-Ye-28d" firstAttribute="leading" secondItem="JZg-MT-gb1" secondAttribute="leading" id="MJS-Rk-Em4"/>
@@ -377,17 +362,17 @@ DQ
                             <constraint firstItem="X9x-Tf-0Jm" firstAttribute="top" secondItem="yiu-tQ-QTm" secondAttribute="bottom" constant="16" id="Pfv-kw-YRY"/>
                             <constraint firstItem="h43-WO-P0P" firstAttribute="trailing" secondItem="9A8-ed-t5M" secondAttribute="trailing" id="T9Z-z9-tuM"/>
                             <constraint firstItem="8Ci-CL-WW4" firstAttribute="leading" secondItem="9A8-ed-t5M" secondAttribute="leading" id="X1s-xU-2q2"/>
-                            <constraint firstItem="uUB-Yq-rXb" firstAttribute="firstBaseline" secondItem="SZT-24-i1X" secondAttribute="firstBaseline" id="azM-yf-eZL"/>
                             <constraint firstItem="9A8-ed-t5M" firstAttribute="trailing" secondItem="oEr-KQ-HrL" secondAttribute="trailing" id="ckR-sg-Mg9"/>
                             <constraint firstItem="I0u-MB-fxF" firstAttribute="top" secondItem="oEr-KQ-HrL" secondAttribute="bottom" constant="12" id="efS-vZ-Q2M"/>
                             <constraint firstItem="cWG-yH-GJd" firstAttribute="centerX" secondItem="cLK-md-r8c" secondAttribute="centerX" id="g3x-Dd-O27"/>
                             <constraint firstItem="JZg-MT-gb1" firstAttribute="centerX" secondItem="cLK-md-r8c" secondAttribute="centerX" id="gg4-lz-ppD"/>
+                            <constraint firstItem="SZT-24-i1X" firstAttribute="top" secondItem="Nnm-wP-dpa" secondAttribute="bottom" constant="29" id="hOj-S2-dLJ"/>
                             <constraint firstItem="JZg-MT-gb1" firstAttribute="leading" secondItem="cLK-md-r8c" secondAttribute="leading" constant="20" id="hRY-LL-3Ie"/>
                             <constraint firstItem="fAf-ES-vjT" firstAttribute="firstBaseline" secondItem="oEr-KQ-HrL" secondAttribute="firstBaseline" id="hzb-MY-ih7"/>
                             <constraint firstItem="JZg-MT-gb1" firstAttribute="top" secondItem="cLK-md-r8c" secondAttribute="top" constant="20" symbolic="YES" id="iRr-TZ-hcv"/>
                             <constraint firstItem="X9x-Tf-0Jm" firstAttribute="trailing" secondItem="yiu-tQ-QTm" secondAttribute="trailing" id="n20-xw-XFF"/>
                             <constraint firstItem="h43-WO-P0P" firstAttribute="leading" secondItem="9A8-ed-t5M" secondAttribute="leading" id="nn1-eK-bxL"/>
-                            <constraint firstAttribute="bottom" secondItem="SZT-24-i1X" secondAttribute="bottom" constant="20" symbolic="YES" id="nub-eY-qeS"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="SZT-24-i1X" secondAttribute="bottom" constant="20" symbolic="YES" id="nub-eY-qeS"/>
                             <constraint firstItem="UuZ-Ye-28d" firstAttribute="top" secondItem="I0u-MB-fxF" secondAttribute="bottom" constant="8" symbolic="YES" id="pNf-14-ilS"/>
                             <constraint firstItem="oEr-KQ-HrL" firstAttribute="top" secondItem="JZg-MT-gb1" secondAttribute="bottom" constant="24" id="qqK-iZ-LWm"/>
                             <constraint firstItem="I0u-MB-fxF" firstAttribute="trailing" secondItem="oEr-KQ-HrL" secondAttribute="trailing" id="qvl-ot-gYX"/>
