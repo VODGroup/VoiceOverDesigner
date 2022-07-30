@@ -1,11 +1,10 @@
 //
 //  ThumbnailProvider.swift
-//  Thumbnali
+//  MacOSPreview
 //
 //  Created by Mikhail Rubanov on 30.07.2022.
 //
 
-import UIKit
 import QuickLookThumbnailing
 import Document
 
@@ -19,7 +18,7 @@ class ThumbnailProvider: QLThumbnailProvider {
         
         let quickLookURL = VODesignDocument.quickLook(documentURL: fileURL)
         let reply = QLThumbnailReply(imageFileURL: quickLookURL)
-                                     
+        
         handler(reply, nil)
     }
 }

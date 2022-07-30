@@ -93,10 +93,10 @@ public class VODesignDocument: Document {
         else { return nil }
         
         let imageWrapper = FileWrapper(regularFileWithContents: imageData)
-        imageWrapper.filename = previewFileName
+        imageWrapper.preferredFilename = QuickLookFileName
         
-        let quicklookFolder = FileWrapper(directoryWithFileWrappers: [previewFolderName: imageWrapper])
-        quicklookFolder.filename = previewFolderName
+        let quicklookFolder = FileWrapper(directoryWithFileWrappers: [QuickLookFolderName: imageWrapper])
+        quicklookFolder.preferredFilename = QuickLookFolderName
         return quicklookFolder
     }
     
