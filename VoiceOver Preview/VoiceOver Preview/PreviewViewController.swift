@@ -37,7 +37,7 @@ final class PreviewViewController: UIViewController {
         }
     }
     
-    private lazy var drawingController = DrawingController(view: view)
+    private lazy var drawingController = DrawingController(view: view())
     
     private lazy var document: VODesignDocument = {
         #if targetEnvironment(simulator)
@@ -59,7 +59,7 @@ final class PreviewViewController: UIViewController {
     }
     
     private func loadAndDraw() {
-        self.drawingController.removeAll()
+        self.view().removeAll()
         document.close()
         
         document.open { isSuccess in

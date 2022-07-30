@@ -7,8 +7,12 @@
 
 import Foundation
 import UIKit
+import Document
 
-class PreviewView: UIView {
+class PreviewView: UIView, DrawingView {
+    var drawnControls: [A11yControl] = []
+    
+    var alingmentOverlay: AlingmentOverlayProtocol = NoAlignmentOverlay()
     
     var layout: VoiceOverLayout? {
         didSet {

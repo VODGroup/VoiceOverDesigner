@@ -1,15 +1,17 @@
 import CoreGraphics
 
-class NoAlignmentOverlay: AlingmentOverlayProtocol {
-    func alignToAny(_ sourceControl: A11yControl, point: CGPoint, drawnControls: [A11yControl]) -> CGPoint {
+public class NoAlignmentOverlay: AlingmentOverlayProtocol {
+    public init() {}
+    
+    public func alignToAny(_ sourceControl: A11yControl, point: CGPoint, drawnControls: [A11yControl]) -> CGPoint {
         return point
     }
     
-    func alignToAny(_ sourceControl: A11yControl, frame: CGRect, drawnControls: [A11yControl]) -> CGRect {
+    public func alignToAny(_ sourceControl: A11yControl, frame: CGRect, drawnControls: [A11yControl]) -> CGRect {
         return frame
     }
     
-    func hideAligningLine() {
+    public func hideAligningLine() {
         // Do nothing
     }
 }
