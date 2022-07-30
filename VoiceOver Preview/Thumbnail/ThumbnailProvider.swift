@@ -1,6 +1,6 @@
 //
 //  ThumbnailProvider.swift
-//  Thumbnali
+//  Thumbnail
 //
 //  Created by Mikhail Rubanov on 30.07.2022.
 //

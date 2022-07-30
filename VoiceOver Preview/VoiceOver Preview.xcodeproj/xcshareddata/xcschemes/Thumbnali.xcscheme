@@ -17,7 +17,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1E7555AD289589F300024714"
                BuildableName = "Thumbnali.appex"
-               BlueprintName = "Thumbnali"
+               BlueprintName = "Thumbnail"
                ReferencedContainer = "container:VoiceOver Preview.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
