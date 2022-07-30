@@ -2,17 +2,14 @@
 import UIKit
 public typealias Document = UIDocument
 
-
-
 public class VODesignDocument: Document {
     public convenience init(fileName: String,
                             rootPath: URL = iCloudContainer) {
         let dir = rootPath.appendingPathComponent(fileName)
         do {
-            let content = try? FileManager.default
+            let content = try FileManager.default
                 .contentsOfDirectory(
                     atPath: dir.path)
-            print("Content: \(content)")
         } catch let error {
             print("Can't read \(rootPath), error: \(error)")
         }
