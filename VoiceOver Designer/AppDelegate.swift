@@ -32,15 +32,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return true
     }
     
-    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        if !flag {
-
-            windowController = WindowContoller.fromStoryboard()
-            windowController.window?.setFrameAutosaveName("Projects")
-            windowController.showWindow(self)
-            
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows: Bool) -> Bool {
+        guard !hasVisibleWindows else {
+            return false
         }
-        return flag
+
+        windowController = WindowContoller.fromStoryboard()
+        windowController.window?.setFrameAutosaveName("Projects")
+        windowController.showWindow(self)
+            
+        return true
     }
     
     func application(_ sender: NSApplication, openFile filename: String) -> Bool {
