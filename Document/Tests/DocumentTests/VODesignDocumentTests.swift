@@ -10,7 +10,20 @@ import Document
 
 #if os(macOS)
 class VODesignDocumentTests: XCTestCase {
+    override func tearDownWithError() throws {
+        try VODesignDocument.removeTestDocument(name: "TestFile")
 
+    }
+    
+    func testWhenSaveNewDocument_shouldHaveSameExtensions() throws {
+        var document: VODesignDocument? = VODesignDocument.testDocument(name: "TestFile")
+        document!.controls = [A11yDescription.testMake(label: "Label3"),
+                              A11yDescription.testMake(label: "Label4")]
+        document!.save()
+        
+        
+        XCTAssertEqual(document?.fileURL?.pathExtension, "vodesign")
+    }
 }
 
 class VODesignDocumentPersistanceTests: VODesignDocumentTests {
