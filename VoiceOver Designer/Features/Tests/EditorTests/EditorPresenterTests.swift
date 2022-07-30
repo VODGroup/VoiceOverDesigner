@@ -41,12 +41,21 @@ class EditorPresenterTests: XCTestCase {
     // MARK: Drawning
     func test_rectangleDrawnOnTheFly() {
         sut.mouseDown(on: start10)
-        sut.mouseDragged(on: end60)
         
-        XCTAssertEqual(controller.controlsView.layer?.sublayers?.first?.frame,
-                       rect10to50, "Draw")
+        XCTContext.runActivity(named: "draw on drag") { _ in
+            sut.mouseDragged(on: end60)
+            
+            XCTAssertEqual(controller.controlsView.layer?.sublayers?.first?.frame,
+                           rect10to50, "Draw")
+            
+            XCTAssertNil(sut.document.controls.first, "but not saved yet")
+        }
         
-        XCTAssertNil(sut.document.controls.first, "but not saved yet")
+        XCTContext.runActivity(named: "saved on release") { _ in
+            sut.mouseUp(on: end60)
+            XCTAssertEqual(sut.document.controls.first?.frame,
+                           rect10to50)
+        }
     }
     
     func test_drawRectangle_onMouseUp() {
@@ -141,16 +150,29 @@ class EditorPresenterTests: XCTestCase {
     
     // MARK: Routing
     func test_openSettings() {
-        
-        sut.mouseDown(on: .coord(10))
-        XCTAssertNil(router.didShowSettingsForControl)
-        
-        sut.mouseUp(on: .coord(11)) // Slightly move is possible
-        
-        XCTAssertNotNil(router.didShowSettingsForControl)
-        XCTAssertEqual(sut.document.controls.first?.frame,
-                       rect10to50, "Keep frame")
         drawRect_10_60()
+     
+        XCTContext.runActivity(named: "click on item") { _ in
+            XCTAssertNil(sut.selectedControl)
+            
+            sut.mouseDown(on: .coord(10))
+            XCTAssertNil(router.didShowSettingsForControl, "not show settings on touch down")
+            
+            sut.mouseUp(on: .coord(11)) // Slightly move is possible
+            XCTAssertNotNil(router.didShowSettingsForControl, "show settings on touch up")
+            
+            XCTAssertEqual(sut.document.controls.first?.frame,
+                           rect10to50, "Keep frame")
+            
+            XCTAssertNotNil(sut.selectedControl)
+        }
+        
+        XCTContext.runActivity(named: "click outside") { _ in
+            sut.click(coordinate: .coord(0))
+            
+            XCTAssertNil(sut.selectedControl, "should deselect iten")
+            XCTAssertTrue(router.didHideSettings)
+        }
     }
     
     // MARK: - DSL
@@ -203,6 +225,11 @@ class RouterMock: EditorRouterProtocol {
         delegate: SettingsDelegate
     ) {
         didShowSettingsForControl = control
+    }
+
+    var didHideSettings = false
+    func hideSettings() {
+        didHideSettings = true
     }
 }
 

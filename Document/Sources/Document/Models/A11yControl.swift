@@ -9,12 +9,24 @@ import QuartzCore
 
 public class A11yControl: CALayer {
     
+    struct Config {
+        let selectedBorderWidth: CGFloat = 4
+        let selectedCornerRadius: CGFloat = 10
+        
+        let highlightedAlpha: CGFloat = 0.75
+        let normalAlpha: CGFloat = 0.5
+        
+        let fontSize: CGFloat = 10
+    }
+    
+    private let config = Config()
+    
     public var a11yDescription: A11yDescription?
     
     public lazy var label: CATextLayer? = {
         let label = CATextLayer()
         label.string = a11yDescription?.label
-        label.fontSize = 10
+        label.fontSize = config.fontSize
         label.foregroundColor = Color.white.cgColor
         label.backgroundColor = Color.systemGray.withAlphaComponent(0.7).cgColor
         let size = label.preferredFrameSize()
@@ -24,7 +36,8 @@ public class A11yControl: CALayer {
     
     override public func layoutSublayers() {
         if let size = label?.preferredFrameSize() {
-            label?.frame = .init(origin: .zero, size: size).offsetBy(dx: 0, dy: -size.height - 1)
+            label?.frame = .init(origin: .zero, size: size)
+                .offsetBy(dx: 0, dy: -size.height - 1)
         }
     }
     
@@ -40,7 +53,22 @@ public class A11yControl: CALayer {
     
     public var isHiglighted: Bool = false {
         didSet {
-            backgroundColor = backgroundColor?.copy(alpha: isHiglighted ? 0.75: 0.5) 
+            let alpha = isHiglighted
+            ? config.highlightedAlpha
+            : config.normalAlpha
+            
+            backgroundColor = backgroundColor?.copy(alpha: alpha)
+        }
+    }
+    
+    public var isSelected: Bool = false {
+        didSet {
+            borderWidth = isSelected ? config.selectedBorderWidth : 0
+            borderColor = backgroundColor?.copy(alpha: 1)
+            cornerRadius = isSelected ? config.selectedCornerRadius : 0
+            if #available(macOS 10.15, *) {
+                cornerCurve = .continuous
+            }
         }
     }
     

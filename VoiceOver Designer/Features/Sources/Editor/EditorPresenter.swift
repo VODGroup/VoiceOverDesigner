@@ -48,7 +48,7 @@ public class EditorPresenter {
     }
     
     func mouseUp(on location: CGPoint) {
-        guard let action = drawingController.end(coordinate: location) else { return }
+        let action = drawingController.end(coordinate: location)
         
         switch action {
         case let new as NewControlAction:
@@ -64,11 +64,23 @@ public class EditorPresenter {
             })
             save()
         case let click as ClickAction:
+            selectedControl = click.control
             router.showSettings(for: click.control, controlSuperview: drawingController.view, delegate: self)
             
+        case .none:
+            selectedControl = nil
+            router.hideSettings()
         default:
             assert(false, "Handle new type here")
             break
+        }
+    }
+    
+    var selectedControl: A11yControl? {
+        didSet {
+            oldValue?.isSelected = false
+            
+            selectedControl?.isSelected = true
         }
     }
     
