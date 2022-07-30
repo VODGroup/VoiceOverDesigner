@@ -22,15 +22,18 @@ class EditorPresenterTests: XCTestCase {
         controller = EmptyViewController()
         
         sut = EditorPresenter()
-        sut.document = VODesignDocument(fileName: "Test",
-                                        rootPath: URL(fileURLWithPath: ""))
+        sut.document = VODesignDocument.testDocument(name: "Test",
+                                                     saveImmediately: true)
         
         router = RouterMock()
         sut.didLoad(ui: controller.controlsView, router: router)
     }
     
     override func tearDown() {
-        try? FileManager.default.removeItem(at: sut.document.fileURL!)
+        try? VODesignDocument.removeTestDocument(name: "Test")
+        sut = nil
+        router = nil
+        controller = nil
         super.tearDown()
     }
     
@@ -38,15 +41,25 @@ class EditorPresenterTests: XCTestCase {
     private let end60   = CGPoint.coord(60)
     private let rect10to50  = CGRect(origin: .coord(10), size: .side(50))
     
-    // MARK: Drawning
+    // MARK: - Drawning
+    // MARK: New
     func test_rectangleDrawnOnTheFly() {
         sut.mouseDown(on: start10)
-        sut.mouseDragged(on: end60)
         
-        XCTAssertEqual(controller.controlsView.layer?.sublayers?.first?.frame,
-                       rect10to50, "Draw")
+        XCTContext.runActivity(named: "draw on drag") { _ in
+            sut.mouseDragged(on: end60)
+            
+            XCTAssertEqual(controller.controlsView.layer?.sublayers?.first?.frame,
+                           rect10to50, "Draw")
+            
+            XCTAssertNil(sut.document.controls.first, "but not saved yet")
+        }
         
-        XCTAssertNil(sut.document.controls.first, "but not saved yet")
+        XCTContext.runActivity(named: "saved on release") { _ in
+            sut.mouseUp(on: end60)
+            XCTAssertEqual(sut.document.controls.first?.frame,
+                           rect10to50)
+        }
     }
     
     func test_drawRectangle_onMouseUp() {
@@ -94,7 +107,7 @@ class EditorPresenterTests: XCTestCase {
     
     // MARK: Editing
     func test_movementFor5px_shouldTranslateRect() {
-        drawRect()
+        drawRect_10_60()
         
         // Move
         sut.mouseDown(on: .coord(15))
@@ -106,11 +119,11 @@ class EditorPresenterTests: XCTestCase {
         XCTAssertEqual(sut.document.controls.first?.frame,
                        rect10to50.offsetBy(dx: 5, dy: 5))
         
-        XCTAssertNil(router.didShowSettingsForControl, "Not open settings at the end of translation")
+        XCTAssertFalse(router.isSettingsShown, "Not open settings at the end of translation")
     }
     
     func test_translateToNegativeCoordinates_shouldTranslate() {
-        drawRect()
+        drawRect_10_60()
         
         // Move
         sut.mouseDown(on: .coord(15))
@@ -119,7 +132,7 @@ class EditorPresenterTests: XCTestCase {
         XCTAssertEqual(sut.document.controls.first?.frame,
                        rect10to50.offsetBy(dx: -10, dy: -10))
         
-        XCTAssertNil(router.didShowSettingsForControl, "Not open settings at the end of translation")
+        XCTAssertFalse(router.isSettingsShown, "Not open settings at the end of translation")
     }
     
     func test_whenMoveNearLeftEdgeOnAnyElement_shouldPinToLeftEdge() {
@@ -141,22 +154,35 @@ class EditorPresenterTests: XCTestCase {
     
     // MARK: Routing
     func test_openSettings() {
-        drawRect()
+        drawRect_10_60()
         
-        sut.mouseDown(on: .coord(10))
-        XCTAssertNil(router.didShowSettingsForControl)
+        XCTContext.runActivity(named: "click outside") { _ in
+            sut.click(coordinate: .coord(0))
+            
+            XCTAssertNil(sut.selectedControl, "should deselect iten")
+            XCTAssertFalse(router.isSettingsShown)
+        }
         
-        sut.mouseUp(on: .coord(11)) // Slightly move is possible
-        
-        XCTAssertNotNil(router.didShowSettingsForControl)
-        XCTAssertEqual(sut.document.controls.first?.frame,
-                       rect10to50, "Keep frame")
+        XCTContext.runActivity(named: "open settings after click") { _ in
+            sut.mouseDown(on: .coord(10))
+            XCTAssertFalse(router.isSettingsShown, "not show settings on touch down")
+            
+            sut.mouseUp(on: .coord(11)) // Slightly move is possible
+            XCTAssertTrue(router.isSettingsShown, "show settings on touch up")
+            
+            XCTAssertEqual(sut.document.controls.first?.frame,
+                           rect10to50, "Keep frame")
+            
+            XCTAssertNotNil(sut.selectedControl)
+        }
     }
     
     // MARK: - DSL
-    func drawRect() {
+    func drawRect_10_60(deselect: Bool = true) {
         sut.mouseDown(on: start10)
         sut.mouseUp(on: end60)
+        
+        sut.deselect()
     }
     
     func drawRect(from: CGPoint, to: CGPoint) {
@@ -165,6 +191,12 @@ class EditorPresenterTests: XCTestCase {
     }
 }
 
+extension EditorPresenter {
+    func click(coordinate: CGPoint) {
+        mouseDown(on: coordinate)
+        mouseUp(on: coordinate)
+    }
+}
 
 class EmptyViewController: NSViewController {
     
@@ -186,8 +218,13 @@ class EmptyViewController: NSViewController {
     }
 }
 
+import Editor
 import Settings
-class RouterMock: RouterProtocol {
+class RouterMock: EditorRouterProtocol {
+    
+    var isSettingsShown: Bool {
+        didShowSettingsForControl != nil
+    }
     
     var didShowSettingsForControl: A11yControl?
     func showSettings(
@@ -196,6 +233,10 @@ class RouterMock: RouterProtocol {
         delegate: SettingsDelegate
     ) {
         didShowSettingsForControl = control
+    }
+    
+    func hideSettings() {
+        didShowSettingsForControl = nil
     }
 }
 

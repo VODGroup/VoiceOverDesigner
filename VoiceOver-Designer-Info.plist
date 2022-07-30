@@ -15,6 +15,12 @@
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
 			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.akaDuality.vodesign</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<true/>
 			<key>NSDocumentClass</key>
 			<string>VODesignDocument</string>
 		</dict>

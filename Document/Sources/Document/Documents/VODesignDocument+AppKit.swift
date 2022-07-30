@@ -6,8 +6,10 @@ public typealias Document = NSDocument
 import os
 import Foundation
 
+
 public class VODesignDocument: Document {
     public static var vodesign = "vodesign"
+    public static var uti = "com.akaDuality.vodesign"
     
     // MARK: - Data
     public var image: Image?
@@ -91,11 +93,13 @@ public class VODesignDocument: Document {
         guard let image = image,
             let imageData = ImageSaveService().UIImagePNGRepresentation(image)
         else { return nil }
+        
         let imageWrapper = FileWrapper(regularFileWithContents: imageData)
-        imageWrapper.preferredFilename = "Preview.png"
-        let quicklookWrapper = FileWrapper(directoryWithFileWrappers: ["QuickLook": imageWrapper])
-        quicklookWrapper.preferredFilename = "QuickLook"
-        return quicklookWrapper
+        imageWrapper.preferredFilename = QuickLookFileName
+        
+        let quicklookFolder = FileWrapper(directoryWithFileWrappers: [QuickLookFolderName: imageWrapper])
+        quicklookFolder.preferredFilename = QuickLookFolderName
+        return quicklookFolder
     }
     
     public override func read(from url: URL, ofType typeName: String) throws {
@@ -109,5 +113,22 @@ public class VODesignDocument: Document {
     public static func image(from url: URL) -> Image? {
         try? ImageSaveService().load(from: url)
     }
+    public override class var readableTypes: [String] {
+        [uti]
+    }
+    public override class var writableTypes: [String] {
+        [uti]
+    }
+    public override func writableTypes(for saveOperation: NSDocument.SaveOperationType) -> [String] {
+        fileType = Self.uti
+        return super.writableTypes(for: saveOperation)
+    }
+    public override func prepareSavePanel(_ savePanel: NSSavePanel) -> Bool {
+        
+        savePanel.isExtensionHidden = false
+        return true
+    }
+    
 }
 #endif
+

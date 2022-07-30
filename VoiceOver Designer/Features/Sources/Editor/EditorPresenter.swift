@@ -48,7 +48,7 @@ public class EditorPresenter {
     }
     
     func mouseUp(on location: CGPoint) {
-        guard let action = drawingController.end(coordinate: location) else { return }
+        let action = drawingController.end(coordinate: location)
         
         switch action {
         case let new as NewControlAction:
@@ -57,6 +57,7 @@ public class EditorPresenter {
             })
             
             save()
+            select(control: new.control)
             
         case let translate as TranslateAction:
             document.undoManager?.registerUndo(withTarget: self, handler: { target in
@@ -64,11 +65,31 @@ public class EditorPresenter {
             })
             save()
         case let click as ClickAction:
-            router.showSettings(for: click.control, controlSuperview: drawingController.view, delegate: self)
+            select(control: click.control)
             
+        case .none:
+            deselect()
         default:
             assert(false, "Handle new type here")
             break
+        }
+    }
+    
+    func select(control: A11yControl) {
+        selectedControl = control
+        router.showSettings(for: control, controlSuperview: drawingController.view, delegate: self)
+    }
+    
+    func deselect() {
+        selectedControl = nil
+        router.hideSettings()
+    }
+    
+    private(set) var selectedControl: A11yControl? {
+        didSet {
+            oldValue?.isSelected = false
+            
+            selectedControl?.isSelected = true
         }
     }
     

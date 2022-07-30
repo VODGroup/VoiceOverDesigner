@@ -10,37 +10,37 @@ import Document
 
 #if os(macOS)
 class VODesignDocumentTests: XCTestCase {
+    override func tearDownWithError() throws {
+        try VODesignDocument.removeTestDocument(name: "TestFile")
 
-    let path = FileManager.default.urls(
-        for: .cachesDirectory,
-        in: .userDomainMask).first!
+    }
     
-    let fileName = "TestFile"
-    
-    var fileURL: URL!
-    
-    override func setUp() {
-        super.setUp()
-        fileURL = path.appendingPathComponent("TestFile.vodesign", isDirectory: false)
+    func testWhenSaveNewDocument_shouldHaveSameExtensions() throws {
+        var document: VODesignDocument? = VODesignDocument.testDocument(name: "TestFile")
+        document!.controls = [A11yDescription.testMake(label: "Label3"),
+                              A11yDescription.testMake(label: "Label4")]
+        document!.save()
+        
+        
+        XCTAssertEqual(document?.fileURL?.pathExtension, "vodesign")
     }
 }
 
 class VODesignDocumentPersistanceTests: VODesignDocumentTests {
     override func tearDownWithError() throws {
-        try FileManager.default
-            .removeItem(at: fileURL)
+        try VODesignDocument.removeTestDocument(name: "TestFile")
     }
     
     func testWhenSaveOneDocument_andReadAnotherWithSameName_shouldKeepObjects() throws {
-        var document: VODesignDocument? = VODesignDocument(file: fileURL)
+        var document: VODesignDocument? = VODesignDocument.testDocument(name: "TestFile")
         document!.controls = [A11yDescription.testMake(label: "Label1"),
                               A11yDescription.testMake(label: "Label2")]
         document!.save()
         document = nil
         
         let document2 = VODesignDocument(
-            fileName: fileName,
-            rootPath: path)
+            fileName: "TestFile",
+            rootPath: VODesignDocument.path)
         try document2.read()
         
         XCTAssertEqual(document2.controls.count, 2)
@@ -48,8 +48,9 @@ class VODesignDocumentPersistanceTests: VODesignDocumentTests {
 }
 
 class VODesignDocumentUndoTests: VODesignDocumentTests {
+    
     func test_undoForArray() {
-        let document = VODesignDocument(file: fileURL)
+        let document = VODesignDocument.testDocument(name: "TestFile")
         document.controls = [A11yDescription.testMake(label: "Label1"),
                              A11yDescription.testMake(label: "Label2")]
         
@@ -58,19 +59,6 @@ class VODesignDocumentUndoTests: VODesignDocumentTests {
         
         document.undoManager?.redo()
         XCTAssertEqual(document.controls.count, 2)
-    }
-}
-
-extension VODesignDocument {
-    public func save() {
-        save(to: fileURL!, ofType: Self.vodesign, for: .saveOperation) { error in
-            Swift.print(error)
-            // TODO: Handle
-        }
-    }
-    
-    public func read() throws {
-        try read(from: fileURL!, ofType: Self.vodesign)
     }
 }
 #endif

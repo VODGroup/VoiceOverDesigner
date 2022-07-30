@@ -74,4 +74,21 @@ class AdjustableOptionsTests: XCTestCase {
         XCTAssertEqual(sut.currentIndex, 0)
         XCTAssertEqual(sut.currentValue, "First")
     }
+    
+    func test_addingExistingOption_shouldnotAddAdjustableOption() {
+        var sut = AdjustableOptions(options: ["First"], currentIndex: 0)
+        sut.add(defaultValue: "First")
+        XCTAssertEqual(sut.options.count, 1)
+        XCTAssertEqual(sut.currentIndex, 0)
+        XCTAssertEqual(sut.currentValue, "First")
+    }
+    
+    func test_addingMultipleEqualsOptions_shouldHaveUniqueOption() {
+        var sut = AdjustableOptions(options: [])
+        sut.add(defaultValue: "First")
+        sut.add(defaultValue: "First")
+        XCTAssertEqual(sut.options.count, 1)
+        XCTAssertEqual(sut.currentIndex, 0)
+        XCTAssertEqual(sut.currentValue, "First")
+    }
 }

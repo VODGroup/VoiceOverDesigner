@@ -27,7 +27,7 @@ class VoiceOverElement: UIAccessibilityElement {
         accessibilityLabel = model.label
         accessibilityValue = model.value
         accessibilityHint = model.hint
-        accessibilityFrame = model.frame
+        accessibilityFrameInContainerSpace = model.frame
         accessibilityTraits = model.trait.accessibilityTrait
     }
     

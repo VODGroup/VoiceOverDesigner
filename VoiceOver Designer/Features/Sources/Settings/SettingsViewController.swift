@@ -54,6 +54,16 @@ public class SettingsViewController: NSViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        setup(from: descr)
+    }
+    
+    public override func viewDidAppear() {
+        super.viewDidAppear()
+        
+        label.becomeFirstResponder()
+    }
+    
+    private func setup(from descr: A11yDescription) {
         label.stringValue = descr.label
         hint.stringValue  = descr.hint
         isAccessibilityElement.state = descr.isAccessibilityElement ? .on: .off
@@ -141,12 +151,9 @@ public class SettingsViewController: NSViewController {
     
     @IBAction func delete(_ sender: Any) {
         presenter.delegate?.delete(control: presenter.control)
-        dismiss(self)
-    }
-    
-    @IBAction func doneDidPressed(_ sender: Any) {
-        valueViewController?.saveCurrentChanges()
-        dismiss(self)
+        
+        // TODO: Dismiss in popover presentation
+//        dismiss(self)
     }
     
     @IBAction func isAccessibleElementDidChanged(_ sender: NSButton) {
