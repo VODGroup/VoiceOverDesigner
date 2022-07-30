@@ -20,38 +20,51 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         self.window = window
         
-        if let url = connectionOptions.urlContexts.first?.url {
-            makeDocumentRoot(url: url)
-        } else {
-            showDocumentBrowserAsRoot()
-        }
+        showDocumentBrowserAsRoot()
         
         window.makeKeyAndVisible()
+        
+        if let url = connectionOptions.urlContexts.first?.url {
+            presentDocumentModally(url: url)
+        }
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         guard let url = URLContexts.first?.url else { return }
         
-        makeDocumentRoot(url: url)
+        presentDocumentModally(url: url)
     }
 }
 
 import Document
 extension SceneDelegate: UIDocumentBrowserViewControllerDelegate {
     func documentBrowser(_ controller: UIDocumentBrowserViewController, didPickDocumentsAt documentURLs: [URL]) {
-        guard let url = documentURLs.first else {
-            return
-        }
+        guard let url = documentURLs.first else { return }
         
-        makeDocumentRoot(url: url)
+        presentDocumentModally(url: url)
     }
 }
 
 // MARK: Navigation
 extension SceneDelegate {
-    func makeDocumentRoot(url: URL) {
+    func presentDocumentModally(url: URL) {
+        closePresentedDocument()
+        
         let document = VODesignDocument(fileURL: url)
-        window?.rootViewController = VODesignPreviewViewController.controller(for: document)
+        let controller = VODesignPreviewViewController.controller(for: document)
+        controller.title = url.lastPathComponent
+        
+        let navController = UINavigationController(rootViewController: controller)
+        navController.modalPresentationStyle = .overFullScreen
+        
+        controller.navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Close document", comment: ""),
+                                                                      style: .done, target: self, action: #selector(closePresentedDocument))
+        
+        window?.rootViewController?.present(navController, animated: true)
+    }
+    
+    @objc private func closePresentedDocument() {
+        window?.rootViewController?.presentedViewController?.dismiss(animated: true)
     }
     
     private func showDocumentBrowserAsRoot() {
