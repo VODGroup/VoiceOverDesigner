@@ -80,6 +80,9 @@ class AdjustableViewControllerSnapshotTests: XCTestCase {
         
         sut.view.wantsLayer = true
         sut.view.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
+        
+//        SnapshotTesting.isRecording = true
+        
         return sut
     }
 }

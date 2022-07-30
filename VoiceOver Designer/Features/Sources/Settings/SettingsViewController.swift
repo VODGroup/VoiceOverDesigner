@@ -57,6 +57,12 @@ public class SettingsViewController: NSViewController {
         setup(from: descr)
     }
     
+    public override func viewDidAppear() {
+        super.viewDidAppear()
+        
+        label.becomeFirstResponder()
+    }
+    
     private func setup(from descr: A11yDescription) {
         label.stringValue = descr.label
         hint.stringValue  = descr.hint

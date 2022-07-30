@@ -31,6 +31,9 @@ class EditorPresenterTests: XCTestCase {
     
     override func tearDown() {
         try? VODesignDocument.removeTestDocument(name: "Test")
+        sut = nil
+        router = nil
+        controller = nil
         super.tearDown()
     }
     
@@ -38,7 +41,8 @@ class EditorPresenterTests: XCTestCase {
     private let end60   = CGPoint.coord(60)
     private let rect10to50  = CGRect(origin: .coord(10), size: .side(50))
     
-    // MARK: Drawning
+    // MARK: - Drawning
+    // MARK: New
     func test_rectangleDrawnOnTheFly() {
         sut.mouseDown(on: start10)
         
@@ -115,7 +119,7 @@ class EditorPresenterTests: XCTestCase {
         XCTAssertEqual(sut.document.controls.first?.frame,
                        rect10to50.offsetBy(dx: 5, dy: 5))
         
-        XCTAssertNil(router.didShowSettingsForControl, "Not open settings at the end of translation")
+        XCTAssertFalse(router.isSettingsShown, "Not open settings at the end of translation")
     }
     
     func test_translateToNegativeCoordinates_shouldTranslate() {
@@ -128,7 +132,7 @@ class EditorPresenterTests: XCTestCase {
         XCTAssertEqual(sut.document.controls.first?.frame,
                        rect10to50.offsetBy(dx: -10, dy: -10))
         
-        XCTAssertNil(router.didShowSettingsForControl, "Not open settings at the end of translation")
+        XCTAssertFalse(router.isSettingsShown, "Not open settings at the end of translation")
     }
     
     func test_whenMoveNearLeftEdgeOnAnyElement_shouldPinToLeftEdge() {
@@ -151,34 +155,34 @@ class EditorPresenterTests: XCTestCase {
     // MARK: Routing
     func test_openSettings() {
         drawRect_10_60()
-     
-        XCTContext.runActivity(named: "click on item") { _ in
-            XCTAssertNil(sut.selectedControl)
+        
+        XCTContext.runActivity(named: "click outside") { _ in
+            sut.click(coordinate: .coord(0))
             
+            XCTAssertNil(sut.selectedControl, "should deselect iten")
+            XCTAssertFalse(router.isSettingsShown)
+        }
+        
+        XCTContext.runActivity(named: "open settings after click") { _ in
             sut.mouseDown(on: .coord(10))
-            XCTAssertNil(router.didShowSettingsForControl, "not show settings on touch down")
+            XCTAssertFalse(router.isSettingsShown, "not show settings on touch down")
             
             sut.mouseUp(on: .coord(11)) // Slightly move is possible
-            XCTAssertNotNil(router.didShowSettingsForControl, "show settings on touch up")
+            XCTAssertTrue(router.isSettingsShown, "show settings on touch up")
             
             XCTAssertEqual(sut.document.controls.first?.frame,
                            rect10to50, "Keep frame")
             
             XCTAssertNotNil(sut.selectedControl)
         }
-        
-        XCTContext.runActivity(named: "click outside") { _ in
-            sut.click(coordinate: .coord(0))
-            
-            XCTAssertNil(sut.selectedControl, "should deselect iten")
-            XCTAssertTrue(router.didHideSettings)
-        }
     }
     
     // MARK: - DSL
-    func drawRect_10_60() {
+    func drawRect_10_60(deselect: Bool = true) {
         sut.mouseDown(on: start10)
         sut.mouseUp(on: end60)
+        
+        sut.deselect()
     }
     
     func drawRect(from: CGPoint, to: CGPoint) {
@@ -218,6 +222,10 @@ import Editor
 import Settings
 class RouterMock: EditorRouterProtocol {
     
+    var isSettingsShown: Bool {
+        didShowSettingsForControl != nil
+    }
+    
     var didShowSettingsForControl: A11yControl?
     func showSettings(
         for control: A11yControl,
@@ -226,10 +234,9 @@ class RouterMock: EditorRouterProtocol {
     ) {
         didShowSettingsForControl = control
     }
-
-    var didHideSettings = false
+    
     func hideSettings() {
-        didHideSettings = true
+        didShowSettingsForControl = nil
     }
 }
 
