@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Document
 
-class PreviewView: UIView, DrawingView {
+class VODesignPreviewView: UIView, DrawingView {
     var drawnControls: [A11yControl] = []
     
     var alingmentOverlay: AlingmentOverlayProtocol = NoAlignmentOverlay()

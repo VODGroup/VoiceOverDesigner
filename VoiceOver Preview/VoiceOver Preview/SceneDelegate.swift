@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import UIKitPreview
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -50,7 +51,7 @@ extension SceneDelegate: UIDocumentBrowserViewControllerDelegate {
 extension SceneDelegate {
     func makeDocumentRoot(url: URL) {
         let document = VODesignDocument(fileURL: url)
-        window?.rootViewController = PreviewViewController.controller(for: document)
+        window?.rootViewController = VODesignPreviewViewController.controller(for: document)
     }
     
     private func showDocumentBrowserAsRoot() {

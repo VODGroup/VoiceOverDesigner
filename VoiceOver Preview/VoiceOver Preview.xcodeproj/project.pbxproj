@@ -7,21 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1E0338FF281E732600EE373E /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E0338FE281E732600EE373E /* Document */; };
+		1E3DB0E2289581410035F229 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E3DB0E1289581410035F229 /* QuickLook.framework */; };
+		1E3DB0EA289581410035F229 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E3DB0E8289581410035F229 /* MainInterface.storyboard */; };
+		1E3DB0EE289581410035F229 /* QuickLookPreview.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1E3DB0E0289581410035F229 /* QuickLookPreview.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1E7555A12895866900024714 /* UIKitPreview in Frameworks */ = {isa = PBXBuildFile; productRef = 1E7555A02895866900024714 /* UIKitPreview */; };
+		1E7555A32895869200024714 /* UIKitPreview in Frameworks */ = {isa = PBXBuildFile; productRef = 1E7555A22895869200024714 /* UIKitPreview */; };
+		1E7555A6289586B100024714 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB1BD0281E3DA000615EA9 /* SceneDelegate.swift */; };
+		1E7555A82895879900024714 /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E7555A72895879900024714 /* Document */; };
+		1E7555A92895881B00024714 /* QuickPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3DB0E4289581410035F229 /* QuickPreviewViewController.swift */; };
 		1EEB1BCF281E3DA000615EA9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB1BCE281E3DA000615EA9 /* AppDelegate.swift */; };
-		1EEB1BD1281E3DA000615EA9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB1BD0281E3DA000615EA9 /* SceneDelegate.swift */; };
-		1EEB1BD3281E3DA000615EA9 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB1BD2281E3DA000615EA9 /* PreviewViewController.swift */; };
-		1EEB1BD6281E3DA000615EA9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EEB1BD4281E3DA000615EA9 /* Main.storyboard */; };
 		1EEB1BD8281E3DA100615EA9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1EEB1BD7281E3DA100615EA9 /* Assets.xcassets */; };
 		1EEB1BDB281E3DA100615EA9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EEB1BD9281E3DA100615EA9 /* LaunchScreen.storyboard */; };
 		1EEB1BF0281E3DA200615EA9 /* VoiceOver_PreviewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB1BEF281E3DA200615EA9 /* VoiceOver_PreviewUITests.swift */; };
 		1EEB1BF2281E3DA200615EA9 /* VoiceOver_PreviewUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB1BF1281E3DA200615EA9 /* VoiceOver_PreviewUITestsLaunchTests.swift */; };
 		1EEB1BFF281E3EF600615EA9 /* VoiceOver_PreviewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB1BFE281E3EF600615EA9 /* VoiceOver_PreviewTests.swift */; };
-		6BF087492889DB6600055C78 /* VoiceOverElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF087482889DB6600055C78 /* VoiceOverElement.swift */; };
-		6BF0874B288AAB4B00055C78 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF0874A288AAB4B00055C78 /* PreviewView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1E3DB0EC289581410035F229 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1EEB1BC3281E3DA000615EA9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1E3DB0DF289581410035F229;
+			remoteInfo = QuickLook;
+		};
 		1EEB1BE2281E3DA200615EA9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1EEB1BC3281E3DA000615EA9 /* Project object */;
@@ -38,13 +47,30 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		1E3DB0EF289581410035F229 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				1E3DB0EE289581410035F229 /* QuickLookPreview.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		1E033904281EB0A900EE373E /* VoiceOver Preview.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "VoiceOver Preview.entitlements"; sourceTree = "<group>"; };
+		1E3DB0E0289581410035F229 /* QuickLookPreview.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = QuickLookPreview.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		1E3DB0E1289581410035F229 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
+		1E3DB0E4289581410035F229 /* QuickPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickPreviewViewController.swift; sourceTree = "<group>"; };
+		1E3DB0E9289581410035F229 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		1E3DB0EB289581410035F229 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1EEB1BCB281E3DA000615EA9 /* VoiceOver Preview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VoiceOver Preview.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EEB1BCE281E3DA000615EA9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1EEB1BD0281E3DA000615EA9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		1EEB1BD2281E3DA000615EA9 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
-		1EEB1BD5281E3DA000615EA9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1EEB1BD7281E3DA100615EA9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1EEB1BDA281E3DA100615EA9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1EEB1BDC281E3DA100615EA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -55,16 +81,24 @@
 		1EEB1BFE281E3EF600615EA9 /* VoiceOver_PreviewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceOver_PreviewTests.swift; sourceTree = "<group>"; };
 		1EEB1C08281E718700615EA9 /* Document.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Document.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BABB3542889BC5400FF259E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
-		6BF087482889DB6600055C78 /* VoiceOverElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceOverElement.swift; sourceTree = "<group>"; };
-		6BF0874A288AAB4B00055C78 /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1E3DB0DD289581410035F229 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E7555A32895869200024714 /* UIKitPreview in Frameworks */,
+				1E7555A82895879900024714 /* Document in Frameworks */,
+				1E3DB0E2289581410035F229 /* QuickLook.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1EEB1BC8281E3DA000615EA9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1E0338FF281E732600EE373E /* Document in Frameworks */,
+				1E7555A12895866900024714 /* UIKitPreview in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,12 +119,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E3DB0E3289581410035F229 /* QuickLookPreview */ = {
+			isa = PBXGroup;
+			children = (
+				1E3DB0E4289581410035F229 /* QuickPreviewViewController.swift */,
+				1E3DB0E8289581410035F229 /* MainInterface.storyboard */,
+				1E3DB0EB289581410035F229 /* Info.plist */,
+			);
+			path = QuickLookPreview;
+			sourceTree = "<group>";
+		};
 		1EEB1BC2281E3DA000615EA9 = {
 			isa = PBXGroup;
 			children = (
 				1EEB1BCD281E3DA000615EA9 /* VoiceOver Preview */,
 				1EEB1BE4281E3DA200615EA9 /* VoiceOver PreviewTests */,
 				1EEB1BEE281E3DA200615EA9 /* VoiceOver PreviewUITests */,
+				1E3DB0E3289581410035F229 /* QuickLookPreview */,
 				1EEB1BCC281E3DA000615EA9 /* Products */,
 				1EEB1C07281E718700615EA9 /* Frameworks */,
 			);
@@ -102,6 +147,7 @@
 				1EEB1BCB281E3DA000615EA9 /* VoiceOver Preview.app */,
 				1EEB1BE1281E3DA200615EA9 /* VoiceOver PreviewTests.xctest */,
 				1EEB1BEB281E3DA200615EA9 /* VoiceOver PreviewUITests.xctest */,
+				1E3DB0E0289581410035F229 /* QuickLookPreview.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -112,13 +158,9 @@
 				1E033904281EB0A900EE373E /* VoiceOver Preview.entitlements */,
 				1EEB1BCE281E3DA000615EA9 /* AppDelegate.swift */,
 				1EEB1BD0281E3DA000615EA9 /* SceneDelegate.swift */,
-				1EEB1BD2281E3DA000615EA9 /* PreviewViewController.swift */,
-				1EEB1BD4281E3DA000615EA9 /* Main.storyboard */,
 				1EEB1BD7281E3DA100615EA9 /* Assets.xcassets */,
 				1EEB1BD9281E3DA100615EA9 /* LaunchScreen.storyboard */,
 				1EEB1BDC281E3DA100615EA9 /* Info.plist */,
-				6BF087482889DB6600055C78 /* VoiceOverElement.swift */,
-				6BF0874A288AAB4B00055C78 /* PreviewView.swift */,
 			);
 			path = "VoiceOver Preview";
 			sourceTree = "<group>";
@@ -145,6 +187,7 @@
 			children = (
 				6BABB3542889BC5400FF259E /* CloudKit.framework */,
 				1EEB1C08281E718700615EA9 /* Document.framework */,
+				1E3DB0E1289581410035F229 /* QuickLook.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -152,6 +195,27 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		1E3DB0DF289581410035F229 /* QuickLookPreview */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1E3DB0F2289581410035F229 /* Build configuration list for PBXNativeTarget "QuickLookPreview" */;
+			buildPhases = (
+				1E3DB0DC289581410035F229 /* Sources */,
+				1E3DB0DD289581410035F229 /* Frameworks */,
+				1E3DB0DE289581410035F229 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = QuickLookPreview;
+			packageProductDependencies = (
+				1E7555A22895869200024714 /* UIKitPreview */,
+				1E7555A72895879900024714 /* Document */,
+			);
+			productName = QuickLook;
+			productReference = 1E3DB0E0289581410035F229 /* QuickLookPreview.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		1EEB1BCA281E3DA000615EA9 /* VoiceOver Preview */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1EEB1BF5281E3DA200615EA9 /* Build configuration list for PBXNativeTarget "VoiceOver Preview" */;
@@ -159,14 +223,16 @@
 				1EEB1BC7281E3DA000615EA9 /* Sources */,
 				1EEB1BC8281E3DA000615EA9 /* Frameworks */,
 				1EEB1BC9281E3DA000615EA9 /* Resources */,
+				1E3DB0EF289581410035F229 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				1E3DB0ED289581410035F229 /* PBXTargetDependency */,
 			);
 			name = "VoiceOver Preview";
 			packageProductDependencies = (
-				1E0338FE281E732600EE373E /* Document */,
+				1E7555A02895866900024714 /* UIKitPreview */,
 			);
 			productName = "VoiceOver Preview";
 			productReference = 1EEB1BCB281E3DA000615EA9 /* VoiceOver Preview.app */;
@@ -215,9 +281,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1330;
+				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1330;
 				TargetAttributes = {
+					1E3DB0DF289581410035F229 = {
+						CreatedOnToolsVersion = 13.4;
+					};
 					1EEB1BCA281E3DA000615EA9 = {
 						CreatedOnToolsVersion = 13.3;
 					};
@@ -248,18 +317,26 @@
 				1EEB1BCA281E3DA000615EA9 /* VoiceOver Preview */,
 				1EEB1BE0281E3DA200615EA9 /* VoiceOver PreviewTests */,
 				1EEB1BEA281E3DA200615EA9 /* VoiceOver PreviewUITests */,
+				1E3DB0DF289581410035F229 /* QuickLookPreview */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1E3DB0DE289581410035F229 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E3DB0EA289581410035F229 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1EEB1BC9281E3DA000615EA9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				1EEB1BDB281E3DA100615EA9 /* LaunchScreen.storyboard in Resources */,
 				1EEB1BD8281E3DA100615EA9 /* Assets.xcassets in Resources */,
-				1EEB1BD6281E3DA000615EA9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,15 +357,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1E3DB0DC289581410035F229 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E7555A92895881B00024714 /* QuickPreviewViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1EEB1BC7281E3DA000615EA9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BF0874B288AAB4B00055C78 /* PreviewView.swift in Sources */,
-				1EEB1BD3281E3DA000615EA9 /* PreviewViewController.swift in Sources */,
-				6BF087492889DB6600055C78 /* VoiceOverElement.swift in Sources */,
 				1EEB1BCF281E3DA000615EA9 /* AppDelegate.swift in Sources */,
-				1EEB1BD1281E3DA000615EA9 /* SceneDelegate.swift in Sources */,
+				1E7555A6289586B100024714 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,6 +394,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1E3DB0ED289581410035F229 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1E3DB0DF289581410035F229 /* QuickLookPreview */;
+			targetProxy = 1E3DB0EC289581410035F229 /* PBXContainerItemProxy */;
+		};
 		1EEB1BE3281E3DA200615EA9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1EEB1BCA281E3DA000615EA9 /* VoiceOver Preview */;
@@ -325,12 +412,12 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		1EEB1BD4281E3DA000615EA9 /* Main.storyboard */ = {
+		1E3DB0E8289581410035F229 /* MainInterface.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1EEB1BD5281E3DA000615EA9 /* Base */,
+				1E3DB0E9289581410035F229 /* Base */,
 			);
-			name = Main.storyboard;
+			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 		1EEB1BD9281E3DA100615EA9 /* LaunchScreen.storyboard */ = {
@@ -344,6 +431,58 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1E3DB0F0289581410035F229 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = QuickLookPreview/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = QuickLookPreview;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.akaDuality.VoiceOver-Preview.QuickLookPreview";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1E3DB0F1289581410035F229 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = QuickLookPreview/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = QuickLookPreview;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.akaDuality.VoiceOver-Preview.QuickLookPreview";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		1EEB1BF3281E3DA200615EA9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -461,6 +600,7 @@
 		1EEB1BF6281E3DA200615EA9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "VoiceOver Preview/VoiceOver Preview.entitlements";
@@ -490,6 +630,7 @@
 		1EEB1BF7281E3DA200615EA9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "VoiceOver Preview/VoiceOver Preview.entitlements";
@@ -608,6 +749,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1E3DB0F2289581410035F229 /* Build configuration list for PBXNativeTarget "QuickLookPreview" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1E3DB0F0289581410035F229 /* Debug */,
+				1E3DB0F1289581410035F229 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		1EEB1BC6281E3DA000615EA9 /* Build configuration list for PBXProject "VoiceOver Preview" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -647,7 +797,15 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1E0338FE281E732600EE373E /* Document */ = {
+		1E7555A02895866900024714 /* UIKitPreview */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = UIKitPreview;
+		};
+		1E7555A22895869200024714 /* UIKitPreview */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = UIKitPreview;
+		};
+		1E7555A72895879900024714 /* Document */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Document;
 		};

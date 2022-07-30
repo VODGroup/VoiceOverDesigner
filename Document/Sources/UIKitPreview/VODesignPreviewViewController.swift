@@ -8,11 +8,11 @@
 import UIKit
 import Document
 
-final class PreviewViewController: UIViewController {
+public final class VODesignPreviewViewController: UIViewController {
     
-    static func controller(for document: VODesignDocument) -> UIViewController {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let preview = storyboard.instantiateInitialViewController() as! PreviewViewController
+    public static func controller(for document: VODesignDocument) -> UIViewController {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.module)
+        let preview = storyboard.instantiateInitialViewController() as! VODesignPreviewViewController
         preview.open(document: document)
         return preview
     }
@@ -21,18 +21,10 @@ final class PreviewViewController: UIViewController {
     func open(document: VODesignDocument) {
         self.document = document
     }
-    
-    lazy var documentBrowser: UIDocumentBrowserViewController = {
-        let controller = UIDocumentBrowserViewController()
-        controller.allowsPickingMultipleItems = false
-        controller.allowsDocumentCreation = false
-      return controller
-    }()
 
-
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
-        documentBrowser.delegate = self
+
         loadAndDraw()
         
         NotificationCenter.default.addObserver(
@@ -51,14 +43,12 @@ final class PreviewViewController: UIViewController {
     
     private lazy var drawingController = DrawingController(view: view())
     
-    
-    
-    override func loadView() {
-        view = PreviewView(frame: .zero)
+    public override func loadView() {
+        view = VODesignPreviewView(frame: .zero)
     }
     
-    func view() -> PreviewView {
-        view as! PreviewView
+    func view() -> VODesignPreviewView {
+        view as! VODesignPreviewView
     }
     
     private func loadAndDraw() {
@@ -74,22 +64,9 @@ final class PreviewViewController: UIViewController {
                 self.view().layout = VoiceOverLayout(controls: self.document.controls, container: self.view)
                 self.view().imageView.image = self.document.image
             } else {
-                self.present(self.documentBrowser, animated: true)
+                fatalError() // TODO: Present something to user
             }
             
-        }
-    }
-}
-
-
-
-extension PreviewViewController: UIDocumentBrowserViewControllerDelegate {
-    func documentBrowser(_ controller: UIDocumentBrowserViewController, didPickDocumentsAt documentURLs: [URL]) {
-        if let url = documentURLs.first {
-            let document = VODesignDocument(fileURL: url)
-            self.document = document
-            loadAndDraw()
-            documentBrowser.dismiss(animated: true)
         }
     }
 }
