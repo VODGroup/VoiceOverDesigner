@@ -10,6 +10,13 @@ import Document
 
 final class PreviewViewController: UIViewController {
     
+    static func controller(for document: VODesignDocument) -> UIViewController {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let preview = storyboard.instantiateInitialViewController() as! PreviewViewController
+        preview.open(document: document)
+        return preview
+    }
+    
     private var document: VODesignDocument!
     func open(document: VODesignDocument) {
         self.document = document

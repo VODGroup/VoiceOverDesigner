@@ -16,48 +16,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        documentBrowser.delegate = self
-        
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = documentBrowser
         self.window = window
+        
+        if let url = connectionOptions.urlContexts.first?.url {
+            makeDocumentRoot(url: url)
+        } else {
+            showDocumentBrowserAsRoot()
+        }
+        
         window.makeKeyAndVisible()
     }
-
-    func sceneDidDisconnect(_ scene: UIScene) {
-        // Called as the scene is being released by the system.
-        // This occurs shortly after the scene enters the background, or when its session is discarded.
-        // Release any resources associated with this scene that can be re-created the next time the scene connects.
-        // The scene may re-connect later, as its session was not necessarily discarded (see `application:didDiscardSceneSessions` instead).
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let url = URLContexts.first?.url else { return }
+        
+        makeDocumentRoot(url: url)
     }
-
-    func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
-    }
-
-    func sceneWillResignActive(_ scene: UIScene) {
-        // Called when the scene will move from an active state to an inactive state.
-        // This may occur due to temporary interruptions (ex. an incoming phone call).
-    }
-
-    func sceneWillEnterForeground(_ scene: UIScene) {
-        // Called as the scene transitions from the background to the foreground.
-        // Use this method to undo the changes made on entering the background.
-    }
-
-    func sceneDidEnterBackground(_ scene: UIScene) {
-        // Called as the scene transitions from the foreground to the background.
-        // Use this method to save data, release shared resources, and store enough scene-specific state information
-        // to restore the scene back to its current state.
-    }
-
-    lazy var documentBrowser: UIDocumentBrowserViewController = {
-        let controller = UIDocumentBrowserViewController()
-        controller.allowsPickingMultipleItems = false
-        controller.allowsDocumentCreation = false
-        return controller
-    }()
 }
 
 import Document
@@ -67,12 +42,23 @@ extension SceneDelegate: UIDocumentBrowserViewControllerDelegate {
             return
         }
         
+        makeDocumentRoot(url: url)
+    }
+}
+
+// MARK: Navigation
+extension SceneDelegate {
+    func makeDocumentRoot(url: URL) {
         let document = VODesignDocument(fileURL: url)
+        window?.rootViewController = PreviewViewController.controller(for: document)
+    }
+    
+    private func showDocumentBrowserAsRoot() {
+        let documentBrowser = UIDocumentBrowserViewController()
+        documentBrowser.allowsPickingMultipleItems = false
+        documentBrowser.allowsDocumentCreation = false
+        documentBrowser.delegate = self
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let preview = storyboard.instantiateInitialViewController() as! PreviewViewController
-        preview.open(document: document)
-            
-        window?.rootViewController = preview
+        window?.rootViewController = documentBrowser
     }
 }
