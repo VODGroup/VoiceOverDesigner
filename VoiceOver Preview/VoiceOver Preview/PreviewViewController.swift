@@ -10,6 +10,11 @@ import Document
 
 final class PreviewViewController: UIViewController {
     
+    private var document: VODesignDocument!
+    func open(document: VODesignDocument) {
+        self.document = document
+    }
+    
     lazy var documentBrowser: UIDocumentBrowserViewController = {
         let controller = UIDocumentBrowserViewController()
         controller.allowsPickingMultipleItems = false
@@ -39,16 +44,7 @@ final class PreviewViewController: UIViewController {
     
     private lazy var drawingController = DrawingController(view: view())
     
-    private lazy var document: VODesignDocument = {
-        #if targetEnvironment(simulator)
-        let url = Bundle.main.url(forResource: "controls",
-                                  withExtension: "json")!
-        return VODesignDocument(fileURL: url.deletingLastPathComponent())
-        #else
-        // Device
-        return VODesignDocument(fileName: "Test")
-        #endif
-    }()
+    
     
     override func loadView() {
         view = PreviewView(frame: .zero)
@@ -89,8 +85,6 @@ extension PreviewViewController: UIDocumentBrowserViewControllerDelegate {
             documentBrowser.dismiss(animated: true)
         }
     }
-    
-    
 }
 
 class VoiceOverLayout {
@@ -109,7 +103,6 @@ class VoiceOverLayout {
     var accessibilityElements: [UIAccessibilityElement] {
         controls.map(accessibilityElement(from:))
     }
-    
 }
 
 
