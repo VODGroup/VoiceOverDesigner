@@ -21,6 +21,10 @@ class WindowContoller: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
         
+        showProjectsController()
+    }
+    
+    private func showProjectsController() {
         let projects = ProjectsViewController.fromStoryboard()
         projects.documentController = VODocumentController.shared
         window?.toolbar = projects.toolbar
