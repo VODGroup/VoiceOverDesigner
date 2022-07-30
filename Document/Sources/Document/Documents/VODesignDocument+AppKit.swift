@@ -6,8 +6,10 @@ public typealias Document = NSDocument
 import os
 import Foundation
 
+
 public class VODesignDocument: Document {
     public static var vodesign = "vodesign"
+    public static var uti = "com.akaDuality.vodesign"
     
     // MARK: - Data
     public var image: Image?
@@ -111,5 +113,22 @@ public class VODesignDocument: Document {
     public static func image(from url: URL) -> Image? {
         try? ImageSaveService().load(from: url)
     }
+    public override class var readableTypes: [String] {
+        [uti]
+    }
+    public override class var writableTypes: [String] {
+        [uti]
+    }
+    public override func writableTypes(for saveOperation: NSDocument.SaveOperationType) -> [String] {
+        fileType = Self.uti
+        return super.writableTypes(for: saveOperation)
+    }
+    public override func prepareSavePanel(_ savePanel: NSSavePanel) -> Bool {
+        
+        savePanel.isExtensionHidden = false
+        return true
+    }
+    
 }
 #endif
+
