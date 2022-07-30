@@ -32,6 +32,8 @@ class WindowContoller: NSWindowController {
 extension WindowContoller: ProjectsRouter {
     
     func show(document: VODesignDocument) {
+        window?.close()
+        
         document.addWindowController(self)
         
         let editor = EditorViewController.fromStoryboard()
