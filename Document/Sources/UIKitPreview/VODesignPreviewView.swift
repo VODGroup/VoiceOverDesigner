@@ -9,7 +9,40 @@ import Foundation
 import UIKit
 import Document
 
-class VODesignPreviewView: UIView, DrawingView {
+class VODesignPreviewView: UIView {
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var backgroundImageView: UIImageView!
+    @IBOutlet weak var backgroundImageHeight: NSLayoutConstraint!
+    @IBOutlet weak var canvas: Canvas!
+    
+    var image: UIImage? {
+        didSet {
+            backgroundImageView.image = image
+            
+            guard let image = image else { return }
+ 
+            guard image.size.width != 0 else { return }
+            let aspectRatio = bounds.width / image.size.width
+            backgroundImageHeight.constant = image.size.height * aspectRatio
+        }
+    }
+    
+    var controls: [A11yDescription] = [] {
+        didSet {
+            for control in controls {
+                drawingController.drawControl(from: control)
+            }
+            
+            canvas.layout = VoiceOverLayout(
+                controls: controls,
+                container: scrollView)
+        }
+    }
+    
+    private lazy var drawingController = DrawingController(view: canvas)
+}
+
+class Canvas: UIView, DrawingView {
     var drawnControls: [A11yControl] = []
     
     var alingmentOverlay: AlingmentOverlayProtocol = NoAlignmentOverlay()
@@ -18,40 +51,5 @@ class VODesignPreviewView: UIView, DrawingView {
         didSet {
             accessibilityElements = layout?.accessibilityElements
         }
-    }
-    
-    lazy var imageView: UIImageView = {
-       let imageView = UIImageView(image: nil)
-        return imageView
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setup()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setup() {
-        addSubviews()
-        addConstraints()
-    }
-    
-    func addSubviews() {
-        [imageView].forEach(addSubview(_:))
-    }
-    
-    func addConstraints() {
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: topAnchor),
-            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
-        ])
     }
 }
