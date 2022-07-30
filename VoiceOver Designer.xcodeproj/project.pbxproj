@@ -17,6 +17,11 @@
 		1E579B20282447D900B13565 /* WindowContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579B1F282447D900B13565 /* WindowContoller.swift */; };
 		1E579B922824587B00B13565 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579B912824587B00B13565 /* Tests.swift */; };
 		1E579B9C2825485300B13565 /* VODocumentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579B9B2825485300B13565 /* VODocumentController.swift */; };
+		1E7555C32895918400024714 /* QuickLookThumbnailing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E7555C22895918400024714 /* QuickLookThumbnailing.framework */; };
+		1E7555C52895918400024714 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E7555C42895918400024714 /* Quartz.framework */; };
+		1E7555C82895918400024714 /* ThumbnailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7555C72895918400024714 /* ThumbnailProvider.swift */; };
+		1E7555CD2895918400024714 /* MacOSPreview.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1E7555C12895918400024714 /* MacOSPreview.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1E7555D3289591B900024714 /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E7555D2289591B900024714 /* Document */; };
 		6B628797288D3F60006F622A /* Projects in Frameworks */ = {isa = PBXBuildFile; productRef = 6B628796288D3F60006F622A /* Projects */; };
 		6B628799288D4039006F622A /* Editor in Frameworks */ = {isa = PBXBuildFile; productRef = 6B628798288D4039006F622A /* Editor */; };
 /* End PBXBuildFile section */
@@ -36,7 +41,28 @@
 			remoteGlobalIDString = 1E1D7FEC281D5CBE00B64954;
 			remoteInfo = "VoiceOver Designer";
 		};
+		1E7555CB2895918400024714 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1E1D7FE5281D5CBE00B64954 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1E7555C02895918400024714;
+			remoteInfo = MacOSPreview;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1E7555CE2895918400024714 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				1E7555CD2895918400024714 /* MacOSPreview.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1E1D7FED281D5CBE00B64954 /* VoiceOver Designer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VoiceOver Designer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,6 +81,12 @@
 		1E579B8528244D9300B13565 /* Settings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Settings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E579B912824587B00B13565 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		1E579B9B2825485300B13565 /* VODocumentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VODocumentController.swift; sourceTree = "<group>"; };
+		1E7555C12895918400024714 /* MacOSPreview.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MacOSPreview.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		1E7555C22895918400024714 /* QuickLookThumbnailing.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLookThumbnailing.framework; path = System/Library/Frameworks/QuickLookThumbnailing.framework; sourceTree = SDKROOT; };
+		1E7555C42895918400024714 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
+		1E7555C72895918400024714 /* ThumbnailProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailProvider.swift; sourceTree = "<group>"; };
+		1E7555C92895918400024714 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1E7555CA2895918400024714 /* MacOSPreview.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacOSPreview.entitlements; sourceTree = "<group>"; };
 		1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "VoiceOver-Designer-Info.plist"; sourceTree = SOURCE_ROOT; };
 		6B628795288D3A8D006F622A /* Features */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Features; path = "VoiceOver Designer/Features"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -84,6 +116,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1E7555BE2895918400024714 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E7555C32895918400024714 /* QuickLookThumbnailing.framework in Frameworks */,
+				1E7555D3289591B900024714 /* Document in Frameworks */,
+				1E7555C52895918400024714 /* Quartz.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -93,6 +135,8 @@
 				1E579B8528244D9300B13565 /* Settings.framework */,
 				1E579B5728244B6F00B13565 /* Editor.framework */,
 				1E579B1B2824473600B13565 /* Projects.framework */,
+				1E7555C22895918400024714 /* QuickLookThumbnailing.framework */,
+				1E7555C42895918400024714 /* Quartz.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -104,6 +148,7 @@
 				1E1D7FEF281D5CBE00B64954 /* VoiceOver Designer */,
 				1E1D8001281D5CC000B64954 /* VoiceOver DesignerTests */,
 				1E1D800B281D5CC000B64954 /* VoiceOver DesignerUITests */,
+				1E7555C62895918400024714 /* MacOSPreview */,
 				1E1D7FEE281D5CBE00B64954 /* Products */,
 				1E033900281E737000EE373E /* Frameworks */,
 			);
@@ -115,6 +160,7 @@
 				1E1D7FED281D5CBE00B64954 /* VoiceOver Designer.app */,
 				1E1D7FFE281D5CC000B64954 /* VoiceOver DesignerTests.xctest */,
 				1E1D8008281D5CC000B64954 /* VoiceOver DesignerUITests.xctest */,
+				1E7555C12895918400024714 /* MacOSPreview.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -151,6 +197,16 @@
 			path = "VoiceOver DesignerUITests";
 			sourceTree = "<group>";
 		};
+		1E7555C62895918400024714 /* MacOSPreview */ = {
+			isa = PBXGroup;
+			children = (
+				1E7555C72895918400024714 /* ThumbnailProvider.swift */,
+				1E7555C92895918400024714 /* Info.plist */,
+				1E7555CA2895918400024714 /* MacOSPreview.entitlements */,
+			);
+			path = MacOSPreview;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -161,10 +217,12 @@
 				1E1D7FE9281D5CBE00B64954 /* Sources */,
 				1E1D7FEA281D5CBE00B64954 /* Frameworks */,
 				1E1D7FEB281D5CBE00B64954 /* Resources */,
+				1E7555CE2895918400024714 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				1E7555CC2895918400024714 /* PBXTargetDependency */,
 			);
 			name = "VoiceOver Designer";
 			packageProductDependencies = (
@@ -212,6 +270,26 @@
 			productReference = 1E1D8008281D5CC000B64954 /* VoiceOver DesignerUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		1E7555C02895918400024714 /* MacOSPreview */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1E7555D12895918400024714 /* Build configuration list for PBXNativeTarget "MacOSPreview" */;
+			buildPhases = (
+				1E7555BD2895918400024714 /* Sources */,
+				1E7555BE2895918400024714 /* Frameworks */,
+				1E7555BF2895918400024714 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MacOSPreview;
+			packageProductDependencies = (
+				1E7555D2289591B900024714 /* Document */,
+			);
+			productName = MacOSPreview;
+			productReference = 1E7555C12895918400024714 /* MacOSPreview.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -219,7 +297,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1330;
+				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1330;
 				TargetAttributes = {
 					1E1D7FEC281D5CBE00B64954 = {
@@ -233,6 +311,9 @@
 					1E1D8007281D5CC000B64954 = {
 						CreatedOnToolsVersion = 13.3;
 						TestTargetID = 1E1D7FEC281D5CBE00B64954;
+					};
+					1E7555C02895918400024714 = {
+						CreatedOnToolsVersion = 13.4;
 					};
 				};
 			};
@@ -252,6 +333,7 @@
 				1E1D7FEC281D5CBE00B64954 /* VoiceOver Designer */,
 				1E1D7FFD281D5CC000B64954 /* VoiceOver DesignerTests */,
 				1E1D8007281D5CC000B64954 /* VoiceOver DesignerUITests */,
+				1E7555C02895918400024714 /* MacOSPreview */,
 			);
 		};
 /* End PBXProject section */
@@ -274,6 +356,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		1E1D8006281D5CC000B64954 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1E7555BF2895918400024714 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -311,6 +400,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1E7555BD2895918400024714 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E7555C82895918400024714 /* ThumbnailProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -323,6 +420,11 @@
 			isa = PBXTargetDependency;
 			target = 1E1D7FEC281D5CBE00B64954 /* VoiceOver Designer */;
 			targetProxy = 1E1D8009281D5CC000B64954 /* PBXContainerItemProxy */;
+		};
+		1E7555CC2895918400024714 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1E7555C02895918400024714 /* MacOSPreview */;
+			targetProxy = 1E7555CB2895918400024714 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -454,6 +556,7 @@
 		1E1D8013281D5CC000B64954 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "VoiceOver Designer/VoiceOver_Designer.entitlements";
@@ -483,6 +586,7 @@
 		1E1D8014281D5CC000B64954 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "VoiceOver Designer/VoiceOver_Designer.entitlements";
@@ -594,6 +698,60 @@
 			};
 			name = Release;
 		};
+		1E7555CF2895918400024714 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = MacOSPreview/MacOSPreview.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MacOSPreview/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MacOSPreview;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.akaDuality.VoiceOver-Designer.MacOSPreview";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		1E7555D02895918400024714 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = MacOSPreview/MacOSPreview.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MacOSPreview/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MacOSPreview;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.akaDuality.VoiceOver-Designer.MacOSPreview";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -633,10 +791,23 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		1E7555D12895918400024714 /* Build configuration list for PBXNativeTarget "MacOSPreview" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1E7555CF2895918400024714 /* Debug */,
+				1E7555D02895918400024714 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		1E033901281E737000EE373E /* Document */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Document;
+		};
+		1E7555D2289591B900024714 /* Document */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Document;
 		};

@@ -91,11 +91,13 @@ public class VODesignDocument: Document {
         guard let image = image,
             let imageData = ImageSaveService().UIImagePNGRepresentation(image)
         else { return nil }
+        
         let imageWrapper = FileWrapper(regularFileWithContents: imageData)
-        imageWrapper.preferredFilename = "Preview.png"
-        let quicklookWrapper = FileWrapper(directoryWithFileWrappers: ["QuickLook": imageWrapper])
-        quicklookWrapper.preferredFilename = "QuickLook"
-        return quicklookWrapper
+        imageWrapper.preferredFilename = QuickLookFileName
+        
+        let quicklookFolder = FileWrapper(directoryWithFileWrappers: [QuickLookFolderName: imageWrapper])
+        quicklookFolder.preferredFilename = QuickLookFolderName
+        return quicklookFolder
     }
     
     public override func read(from url: URL, ofType typeName: String) throws {
