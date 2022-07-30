@@ -44,16 +44,3 @@ extension WindowContoller: ProjectsRouter {
         window?.toolbar = editor.toolbar
     }
 }
-
-class ProjectController: NSSplitViewController {
-    
-    var editor: EditorViewController!
-    lazy var router = Router(rootController: self)
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        addSplitViewItem(NSSplitViewItem(viewController: editor))
-    }
-}
-
