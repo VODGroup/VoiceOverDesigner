@@ -8,7 +8,6 @@
 import AppKit
 import Document
 import CommonUI
-import Editor
 
 public protocol ProjectsRouter: AnyObject {
     func show(document: VODesignDocument) -> Void
