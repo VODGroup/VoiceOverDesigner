@@ -42,7 +42,8 @@ let package = Package(
         .target(
             name: "Projects",
             dependencies: [
-                "CommonUI"
+                "CommonUI",
+                "Document",
             ]
         ),
         .target(
