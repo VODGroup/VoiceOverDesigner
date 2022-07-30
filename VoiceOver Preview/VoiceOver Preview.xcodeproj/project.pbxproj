@@ -15,6 +15,10 @@
 		1E7555A6289586B100024714 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB1BD0281E3DA000615EA9 /* SceneDelegate.swift */; };
 		1E7555A82895879900024714 /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E7555A72895879900024714 /* Document */; };
 		1E7555A92895881B00024714 /* QuickPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3DB0E4289581410035F229 /* QuickPreviewViewController.swift */; };
+		1E7555B0289589F300024714 /* QuickLookThumbnailing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E7555AF289589F300024714 /* QuickLookThumbnailing.framework */; };
+		1E7555B3289589F300024714 /* ThumbnailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7555B2289589F300024714 /* ThumbnailProvider.swift */; };
+		1E7555B7289589F300024714 /* Thumbnali.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1E7555AE289589F300024714 /* Thumbnali.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1E7555BC28958DEE00024714 /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E7555BB28958DEE00024714 /* Document */; };
 		1EEB1BCF281E3DA000615EA9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB1BCE281E3DA000615EA9 /* AppDelegate.swift */; };
 		1EEB1BD8281E3DA100615EA9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1EEB1BD7281E3DA100615EA9 /* Assets.xcassets */; };
 		1EEB1BDB281E3DA100615EA9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EEB1BD9281E3DA100615EA9 /* LaunchScreen.storyboard */; };
@@ -30,6 +34,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 1E3DB0DF289581410035F229;
 			remoteInfo = QuickLook;
+		};
+		1E7555B5289589F300024714 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1EEB1BC3281E3DA000615EA9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1E7555AD289589F300024714;
+			remoteInfo = Thumbnali;
 		};
 		1EEB1BE2281E3DA200615EA9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -55,6 +66,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				1E3DB0EE289581410035F229 /* QuickLookPreview.appex in Embed App Extensions */,
+				1E7555B7289589F300024714 /* Thumbnali.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -68,6 +80,10 @@
 		1E3DB0E4289581410035F229 /* QuickPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickPreviewViewController.swift; sourceTree = "<group>"; };
 		1E3DB0E9289581410035F229 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		1E3DB0EB289581410035F229 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1E7555AE289589F300024714 /* Thumbnali.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Thumbnali.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		1E7555AF289589F300024714 /* QuickLookThumbnailing.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLookThumbnailing.framework; path = System/Library/Frameworks/QuickLookThumbnailing.framework; sourceTree = SDKROOT; };
+		1E7555B2289589F300024714 /* ThumbnailProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailProvider.swift; sourceTree = "<group>"; };
+		1E7555B4289589F300024714 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1EEB1BCB281E3DA000615EA9 /* VoiceOver Preview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VoiceOver Preview.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EEB1BCE281E3DA000615EA9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1EEB1BD0281E3DA000615EA9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -91,6 +107,15 @@
 				1E7555A32895869200024714 /* UIKitPreview in Frameworks */,
 				1E7555A82895879900024714 /* Document in Frameworks */,
 				1E3DB0E2289581410035F229 /* QuickLook.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1E7555AB289589F300024714 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E7555B0289589F300024714 /* QuickLookThumbnailing.framework in Frameworks */,
+				1E7555BC28958DEE00024714 /* Document in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,6 +154,15 @@
 			path = QuickLookPreview;
 			sourceTree = "<group>";
 		};
+		1E7555B1289589F300024714 /* Thumbnali */ = {
+			isa = PBXGroup;
+			children = (
+				1E7555B2289589F300024714 /* ThumbnailProvider.swift */,
+				1E7555B4289589F300024714 /* Info.plist */,
+			);
+			path = Thumbnali;
+			sourceTree = "<group>";
+		};
 		1EEB1BC2281E3DA000615EA9 = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +170,7 @@
 				1EEB1BE4281E3DA200615EA9 /* VoiceOver PreviewTests */,
 				1EEB1BEE281E3DA200615EA9 /* VoiceOver PreviewUITests */,
 				1E3DB0E3289581410035F229 /* QuickLookPreview */,
+				1E7555B1289589F300024714 /* Thumbnali */,
 				1EEB1BCC281E3DA000615EA9 /* Products */,
 				1EEB1C07281E718700615EA9 /* Frameworks */,
 			);
@@ -148,6 +183,7 @@
 				1EEB1BE1281E3DA200615EA9 /* VoiceOver PreviewTests.xctest */,
 				1EEB1BEB281E3DA200615EA9 /* VoiceOver PreviewUITests.xctest */,
 				1E3DB0E0289581410035F229 /* QuickLookPreview.appex */,
+				1E7555AE289589F300024714 /* Thumbnali.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -188,6 +224,7 @@
 				6BABB3542889BC5400FF259E /* CloudKit.framework */,
 				1EEB1C08281E718700615EA9 /* Document.framework */,
 				1E3DB0E1289581410035F229 /* QuickLook.framework */,
+				1E7555AF289589F300024714 /* QuickLookThumbnailing.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -216,6 +253,26 @@
 			productReference = 1E3DB0E0289581410035F229 /* QuickLookPreview.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		1E7555AD289589F300024714 /* Thumbnali */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1E7555B8289589F300024714 /* Build configuration list for PBXNativeTarget "Thumbnali" */;
+			buildPhases = (
+				1E7555AA289589F300024714 /* Sources */,
+				1E7555AB289589F300024714 /* Frameworks */,
+				1E7555AC289589F300024714 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Thumbnali;
+			packageProductDependencies = (
+				1E7555BB28958DEE00024714 /* Document */,
+			);
+			productName = Thumbnali;
+			productReference = 1E7555AE289589F300024714 /* Thumbnali.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		1EEB1BCA281E3DA000615EA9 /* VoiceOver Preview */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1EEB1BF5281E3DA200615EA9 /* Build configuration list for PBXNativeTarget "VoiceOver Preview" */;
@@ -229,6 +286,7 @@
 			);
 			dependencies = (
 				1E3DB0ED289581410035F229 /* PBXTargetDependency */,
+				1E7555B6289589F300024714 /* PBXTargetDependency */,
 			);
 			name = "VoiceOver Preview";
 			packageProductDependencies = (
@@ -287,6 +345,9 @@
 					1E3DB0DF289581410035F229 = {
 						CreatedOnToolsVersion = 13.4;
 					};
+					1E7555AD289589F300024714 = {
+						CreatedOnToolsVersion = 13.4;
+					};
 					1EEB1BCA281E3DA000615EA9 = {
 						CreatedOnToolsVersion = 13.3;
 					};
@@ -318,6 +379,7 @@
 				1EEB1BE0281E3DA200615EA9 /* VoiceOver PreviewTests */,
 				1EEB1BEA281E3DA200615EA9 /* VoiceOver PreviewUITests */,
 				1E3DB0DF289581410035F229 /* QuickLookPreview */,
+				1E7555AD289589F300024714 /* Thumbnali */,
 			);
 		};
 /* End PBXProject section */
@@ -328,6 +390,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E3DB0EA289581410035F229 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1E7555AC289589F300024714 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,6 +434,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1E7555AA289589F300024714 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E7555B3289589F300024714 /* ThumbnailProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1EEB1BC7281E3DA000615EA9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -398,6 +475,11 @@
 			isa = PBXTargetDependency;
 			target = 1E3DB0DF289581410035F229 /* QuickLookPreview */;
 			targetProxy = 1E3DB0EC289581410035F229 /* PBXContainerItemProxy */;
+		};
+		1E7555B6289589F300024714 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1E7555AD289589F300024714 /* Thumbnali */;
+			targetProxy = 1E7555B5289589F300024714 /* PBXContainerItemProxy */;
 		};
 		1EEB1BE3281E3DA200615EA9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -475,6 +557,58 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.akaDuality.VoiceOver-Preview.QuickLookPreview";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		1E7555B9289589F300024714 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Thumbnali/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Thumbnali;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.akaDuality.VoiceOver-Preview.Thumbnali";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1E7555BA289589F300024714 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Thumbnali/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Thumbnali;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.akaDuality.VoiceOver-Preview.Thumbnali";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -758,6 +892,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		1E7555B8289589F300024714 /* Build configuration list for PBXNativeTarget "Thumbnali" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1E7555B9289589F300024714 /* Debug */,
+				1E7555BA289589F300024714 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		1EEB1BC6281E3DA000615EA9 /* Build configuration list for PBXProject "VoiceOver Preview" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -806,6 +949,10 @@
 			productName = UIKitPreview;
 		};
 		1E7555A72895879900024714 /* Document */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Document;
+		};
+		1E7555BB28958DEE00024714 /* Document */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Document;
 		};
