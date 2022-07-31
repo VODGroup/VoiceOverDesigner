@@ -11,10 +11,6 @@ let package = Package(
         .library(
             name: "Document",
             targets: ["Document"]),
-        
-        .library(
-            name: "UIKitPreview",
-            targets: ["UIKitPreview"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -27,9 +23,5 @@ let package = Package(
         .testTarget(
             name: "DocumentTests",
             dependencies: ["Document"]),
-        
-            .target(
-                name: "UIKitPreview",
-                dependencies: ["Document"]),
     ]
 )
