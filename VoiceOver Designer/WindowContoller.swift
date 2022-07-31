@@ -34,16 +34,10 @@ extension WindowContoller: ProjectsRouter {
     func show(document: VODesignDocument) {
         document.addWindowController(self)
         
-        let editor = EditorViewController.fromStoryboard()
-        
         let split = ProjectController()
-        split.document = document
-        editor.inject(router: split.router,
-                      document: document,
-                      delegate: split)
-        split.editor = editor
+        split.inject(document: document)
         
         window?.contentViewController = split
-        window?.toolbar = editor.toolbar
+        window?.toolbar = split.editor.toolbar
     }
 }

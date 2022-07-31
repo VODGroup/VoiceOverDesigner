@@ -18,8 +18,20 @@ class ProjectController: NSSplitViewController {
             document: document,
             actionDelegate: self)
         
+        editor = EditorViewController.fromStoryboard()
+        
+        editor.inject(router: router,
+                      document: document,
+                      delegate: self)
+        
         addSplitViewItem(NSSplitViewItem(sidebarWithViewController: textContent))
         addSplitViewItem(NSSplitViewItem(viewController: editor))
+    }
+    
+    public func inject(
+        document: VODesignDocument
+    ) {
+        self.document = document
     }
 }
 
