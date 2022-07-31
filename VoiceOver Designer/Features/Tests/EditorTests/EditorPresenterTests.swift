@@ -222,8 +222,6 @@ class EmptyViewController: NSViewController {
     }
 }
 
-import Editor
-import Settings
 class RouterMock: EditorRouterProtocol {
     
     var isSettingsShown: Bool {
@@ -233,8 +231,7 @@ class RouterMock: EditorRouterProtocol {
     var didShowSettingsForControl: A11yControl?
     func showSettings(
         for control: A11yControl,
-        controlSuperview: NSView,
-        delegate: SettingsDelegate
+        controlSuperview: NSView
     ) {
         didShowSettingsForControl = control
     }

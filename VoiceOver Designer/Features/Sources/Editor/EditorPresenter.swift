@@ -7,7 +7,6 @@
 
 import Document
 import AppKit
-import Settings
 
 public class EditorPresenter {
     
@@ -32,7 +31,7 @@ public class EditorPresenter {
         }
     }
     
-    func save() {
+    public func save() {
         let descriptions = ui.drawnControls.compactMap { control in
             control.a11yDescription
         }
@@ -79,7 +78,7 @@ public class EditorPresenter {
     
     func select(control: A11yControl, tellToDelegate: Bool = true) {
         selectedControl = control
-        router.showSettings(for: control, controlSuperview: drawingController.view, delegate: self)
+        router.showSettings(for: control, controlSuperview: drawingController.view)
         
         if tellToDelegate {
             delegate.didSelect(control: selectedControl?.a11yDescription)
@@ -108,10 +107,7 @@ public class EditorPresenter {
     }
 }
 
-extension EditorPresenter: SettingsDelegate {
-    public func didUpdateValue() {
-        save()
-    }
+extension EditorPresenter {
     
     public func delete(control: A11yControl) {
         ui.delete(control: control)

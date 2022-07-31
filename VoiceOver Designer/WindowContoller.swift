@@ -9,7 +9,6 @@ import AppKit
 import Projects
 import Document
 import Editor
-import TextUI
 
 class WindowContoller: NSWindowController {
     
@@ -46,36 +45,5 @@ extension WindowContoller: ProjectsRouter {
         
         window?.contentViewController = split
         window?.toolbar = editor.toolbar
-    }
-}
-
-class ProjectController: NSSplitViewController {
-    
-    var editor: EditorViewController!
-    var textContent: TextRepresentationController!
-    lazy var router = Router(rootController: self)
-    var document: VODesignDocument!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        textContent = TextRepresentationController.fromStoryboard(
-            document: document,
-            actionDelegate: self)
-        
-        addSplitViewItem(NSSplitViewItem(sidebarWithViewController: textContent))
-        addSplitViewItem(NSSplitViewItem(viewController: editor))
-    }
-}
-
-extension ProjectController: TextRepresentationControllerDelegate {
-    func didSelect(_ model: A11yDescription) {
-        editor.select(model)
-    }
-}
-
-extension ProjectController: EditorDelegate {
-    func didSelect(control: A11yDescription?) {
-        textContent.select(control)
     }
 }

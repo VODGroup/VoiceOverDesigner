@@ -140,6 +140,15 @@ public class EditorViewController: NSViewController {
         
         presenter.select(control: control, tellToDelegate: false)
     }
+    
+    public func save() {
+        presenter.save()
+    }
+    
+    public func delete(control: A11yControl) {
+        presenter.delete(control: control)
+        presenter.save()
+    }
 }
 
 extension EditorViewController: DragNDropDelegate {
