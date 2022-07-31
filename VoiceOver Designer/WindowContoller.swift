@@ -9,6 +9,7 @@ import AppKit
 import Projects
 import Document
 import Editor
+import TextUI
 
 class WindowContoller: NSWindowController {
     

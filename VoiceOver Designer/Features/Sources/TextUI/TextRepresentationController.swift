@@ -1,11 +1,11 @@
 import AppKit
 import Document
 
-protocol TextRepresentationControllerDelegate: AnyObject {
+public protocol TextRepresentationControllerDelegate: AnyObject {
     func didSelect(_ model: A11yDescription)
 }
 
-class TextRepresentationController: NSViewController {
+public class TextRepresentationController: NSViewController {
     
     public static func fromStoryboard(
         document: VODesignDocument,
@@ -13,7 +13,7 @@ class TextRepresentationController: NSViewController {
     ) -> TextRepresentationController {
         let controller = NSStoryboard(
             name: "TextRepresentationController",
-            bundle: nil).instantiateInitialController() as! TextRepresentationController
+            bundle: Bundle.module).instantiateInitialController() as! TextRepresentationController
         
         controller.inject(
             document: document,
@@ -34,11 +34,11 @@ class TextRepresentationController: NSViewController {
 
 extension TextRepresentationController: NSOutlineViewDataSource {
     
-    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
+    public func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
         document.controls.count
     }
     
-    func outlineView(_ outlineView: NSOutlineView,
+    public func outlineView(_ outlineView: NSOutlineView,
                      child index: Int,
                      ofItem item: Any?
     ) -> Any {

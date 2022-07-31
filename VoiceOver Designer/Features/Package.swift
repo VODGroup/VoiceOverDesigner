@@ -12,11 +12,16 @@ let package = Package(
             name: "Editor",
             targets: ["Editor"]),
         .library(
-            name: "Projects",
-            targets: ["Projects"]),
+            name: "TextUI",
+            targets: ["TextUI"]),
         .library(
             name: "Settings",
             targets: ["Settings"]),
+        
+        .library(
+            name: "Projects",
+            targets: ["Projects"]),
+
         .library(
             name: "CommonUI",
             targets: ["CommonUI"]),
@@ -36,7 +41,13 @@ let package = Package(
             dependencies: [
                 .product(name: "Document", package: "Document"),
                 "CommonUI",
-                "Settings"
+            ]
+        ),
+        .target(
+            name: "TextUI",
+            dependencies: [
+                .product(name: "Document", package: "Document"),
+                "CommonUI",
             ]
         ),
         .target(
@@ -56,6 +67,7 @@ let package = Package(
             name: "CommonUI",
             dependencies: []
         ),
+        
         .testTarget(
             name: "EditorTests",
             dependencies: ["Editor"]),
