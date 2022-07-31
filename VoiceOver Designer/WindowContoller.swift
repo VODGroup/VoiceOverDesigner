@@ -39,7 +39,9 @@ extension WindowContoller: ProjectsRouter {
         
         let split = ProjectController()
         split.document = document
-        editor.inject(router: split.router, document: document)
+        editor.inject(router: split.router,
+                      document: document,
+                      delegate: split)
         split.editor = editor
         
         window?.contentViewController = split
@@ -50,15 +52,17 @@ extension WindowContoller: ProjectsRouter {
 class ProjectController: NSSplitViewController {
     
     var editor: EditorViewController!
+    var textContent: TextRepresentationController!
     lazy var router = Router(rootController: self)
     var document: VODesignDocument!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let textContent = TextRepresentationController.fromStoryboard(
+        textContent = TextRepresentationController.fromStoryboard(
             document: document,
             actionDelegate: self)
+        
         addSplitViewItem(NSSplitViewItem(sidebarWithViewController: textContent))
         addSplitViewItem(NSSplitViewItem(viewController: editor))
     }
@@ -67,5 +71,11 @@ class ProjectController: NSSplitViewController {
 extension ProjectController: TextRepresentationControllerDelegate {
     func didSelect(_ model: A11yDescription) {
         editor.select(model)
+    }
+}
+
+extension ProjectController: EditorDelegate {
+    func didSelect(control: A11yDescription?) {
+        textContent.select(control)
     }
 }

@@ -7,3 +7,7 @@ public protocol EditorRouterProtocol: AnyObject {
     
     func hideSettings()
 }
+
+public protocol EditorDelegate: AnyObject {
+    func didSelect(control: A11yDescription?)
+}

@@ -23,6 +23,17 @@ public class TextRepresentationController: NSViewController {
         return controller
     }
     
+    public func select(_ model: A11yDescription?) {
+        guard let index = document.controls.firstIndex(where: { aModel in
+            aModel === model
+        }) else { return }
+        
+        outlineView.selectRowIndexes(IndexSet(integer: index),
+                                     byExtendingSelection: false)
+    }
+    
+    @IBOutlet weak var outlineView: NSOutlineView!
+    
     func inject(document: VODesignDocument, actionDelegate: TextRepresentationControllerDelegate?) {
         self.document = document
         self.actionDelegate = actionDelegate

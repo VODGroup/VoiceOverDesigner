@@ -14,12 +14,14 @@ public class EditorPresenter {
     public var document: VODesignDocument!
     var drawingController: DrawingController!
     var ui: DrawingView!
-    var router: EditorRouterProtocol!
+    weak var router: EditorRouterProtocol!
+    weak var delegate: EditorDelegate!
     
-    func didLoad(ui: DrawingView, router: EditorRouterProtocol) {
+    func didLoad(ui: DrawingView, router: EditorRouterProtocol, delegate: EditorDelegate) {
         self.ui = ui
         self.drawingController = DrawingController(view: ui)
         self.router = router
+        self.delegate = delegate
         
         draw()
     }
@@ -90,6 +92,8 @@ public class EditorPresenter {
             oldValue?.isSelected = false
             
             selectedControl?.isSelected = true
+            
+            delegate.didSelect(control: selectedControl?.a11yDescription)
         }
     }
     
