@@ -43,6 +43,7 @@ public class A11yControl: CALayer {
     
     public func updateColor() {
         backgroundColor = a11yDescription?.color.cgColor
+        borderColor = a11yDescription?.color.cgColor.copy(alpha: 1)
     }
     
     public override var frame: CGRect {
