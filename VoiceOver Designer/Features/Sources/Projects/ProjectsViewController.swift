@@ -45,6 +45,7 @@ public class ProjectsViewController: NSViewController {
 
     private func show(document: VODesignDocument) {
         router?.show(document: document)
+        view.window?.close() // Projects window should hides when open a project
     }
     
     public static func fromStoryboard() -> ProjectsViewController {

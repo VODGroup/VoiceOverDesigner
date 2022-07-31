@@ -20,9 +20,6 @@ class VODocumentController: NSDocumentController {
     override func removeDocument(_ document: NSDocument) {
         super.removeDocument(document)
         
-        if VODocumentController.shared.documents.isEmpty {
-            NSApplication.shared.delegate?.applicationShouldHandleReopen?(NSApplication.shared, hasVisibleWindows: false)
-        }
     }
 }
 
@@ -30,9 +27,5 @@ extension VODesignDocument {
     public override func makeWindowControllers() {
         let window = WindowContoller.fromStoryboard()
         window.show(document: self)
-        
-        // TODO: Is it needed?
-        window.window?.setFrameAutosaveName("windowFrame")
-        window.window?.makeKeyAndOrderFront(self)
     }
 }

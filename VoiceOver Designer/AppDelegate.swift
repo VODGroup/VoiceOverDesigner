@@ -11,36 +11,13 @@ import Document
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    #warning("TODO: probably migrate from Storyboard ???")
-    // TODO: probably migrate from Storyboard ???
-    lazy var windowController: WindowContoller = {
-        let windowController = WindowContoller.fromStoryboard()
-        windowController.window?.setFrameAutosaveName("Projects")
-        windowController.showWindow(self)
-        return windowController
-    }()
+    lazy var windowController: WindowContoller = createWindowController()
 
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
-    }
-
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
-    }
-
-    func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
-        return true
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        true
     }
     
-    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows: Bool) -> Bool {
-        guard !hasVisibleWindows else {
-            return false
-        }
-
-        windowController = WindowContoller.fromStoryboard()
-        windowController.window?.setFrameAutosaveName("Projects")
-        windowController.showWindow(self)
-            
+    func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
         return true
     }
     
@@ -48,11 +25,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let url = URL(fileURLWithPath: filename)
         let document = VODesignDocument(file: url)
         
-        let window = WindowContoller.fromStoryboard()
-        window.show(document: document)
-        
-        window.showWindow(self)
+        windowController.show(document: document)
         
         return true
+    }
+    
+    private func createWindowController() -> WindowContoller {
+        let windowController = WindowContoller.fromStoryboard()
+        windowController.window?.setFrameAutosaveName("Projects")
+        return windowController
     }
 }
