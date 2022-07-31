@@ -39,14 +39,14 @@ let package = Package(
         .target(
             name: "Editor",
             dependencies: [
-                .product(name: "Document", package: "Document"),
+                "Document",
                 "CommonUI",
             ]
         ),
         .target(
             name: "TextUI",
             dependencies: [
-                .product(name: "Document", package: "Document"),
+                "Document",
                 "CommonUI",
             ]
         ),
@@ -60,7 +60,7 @@ let package = Package(
         .target(
             name: "Settings",
             dependencies: [
-                .product(name: "Document", package: "Document")
+                "Document",
             ]
         ),
         .target(
@@ -75,8 +75,9 @@ let package = Package(
             name: "SettingsTests",
             dependencies: [
                 "Settings",
-                .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
-                .product(name: "Document", package: "Document")
+                "Document",
+                .product(name: "SnapshotTesting",
+                         package: "swift-snapshot-testing"),
             ],
             exclude: ["__Snapshots__"]
         ),
@@ -84,8 +85,15 @@ let package = Package(
             name: "ProjectsTests",
             dependencies: [
                 "Projects",
-                .product(name: "Document", package: "Document")
+                "Document",
             ]
-        )
+        ),
+        .testTarget(
+            name: "TextUITests",
+            dependencies: [
+                "TextUI",
+                "Document",
+            ]
+        ),
     ]
 )

@@ -138,7 +138,7 @@ public class EditorViewController: NSViewController {
             control.a11yDescription === model
         }) else { return }
         
-        presenter.select(control: control)
+        presenter.select(control: control, tellToDelegate: false)
     }
 }
 

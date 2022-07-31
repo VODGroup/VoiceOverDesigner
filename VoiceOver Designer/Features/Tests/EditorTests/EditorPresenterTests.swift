@@ -13,7 +13,7 @@ class EditorPresenterTests: XCTestCase {
 
     var sut: EditorPresenter!
     var router: RouterMock!
-    
+    var delegate: EditorDelegateMock!
     var controller: EmptyViewController!
     
     override func setUp() {
@@ -26,7 +26,11 @@ class EditorPresenterTests: XCTestCase {
                                                      saveImmediately: true)
         
         router = RouterMock()
-        sut.didLoad(ui: controller.controlsView, router: router)
+        delegate = EditorDelegateMock()
+        
+        sut.didLoad(ui: controller.controlsView,
+                    router: router,
+                    delegate: delegate)
     }
     
     override func tearDown() {
@@ -244,5 +248,11 @@ extension CGPoint {
     func offset(x: CGFloat, y: CGFloat) -> Self {
         return CGPoint(x: self.x + x,
                        y: self.y + y)
+    }
+}
+
+class EditorDelegateMock: EditorDelegate {
+    func didSelect(control: A11yDescription?) {
+        
     }
 }

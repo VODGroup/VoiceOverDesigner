@@ -77,9 +77,13 @@ public class EditorPresenter {
         }
     }
     
-    func select(control: A11yControl) {
+    func select(control: A11yControl, tellToDelegate: Bool = true) {
         selectedControl = control
         router.showSettings(for: control, controlSuperview: drawingController.view, delegate: self)
+        
+        if tellToDelegate {
+            delegate.didSelect(control: selectedControl?.a11yDescription)
+        }
     }
     
     func deselect() {
@@ -92,8 +96,6 @@ public class EditorPresenter {
             oldValue?.isSelected = false
             
             selectedControl?.isSelected = true
-            
-            delegate.didSelect(control: selectedControl?.a11yDescription)
         }
     }
     
