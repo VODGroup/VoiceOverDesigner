@@ -53,6 +53,8 @@ class ProjectController: NSSplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let textContent = TextRepresentationController.fromStoryboard()
+        addSplitViewItem(NSSplitViewItem(sidebarWithViewController: textContent))
         addSplitViewItem(NSSplitViewItem(viewController: editor))
     }
 }
