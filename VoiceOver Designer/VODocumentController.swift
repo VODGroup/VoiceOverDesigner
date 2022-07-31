@@ -10,10 +10,16 @@ import Foundation
 import AppKit
 import Document
 import Editor
+import Projects
 
 class VODocumentController: NSDocumentController {
     override func documentClass(forType typeName: String) -> AnyClass? {
         return VODesignDocument.self
+    }
+    
+    override func removeDocument(_ document: NSDocument) {
+        super.removeDocument(document)
+        
     }
 }
 
@@ -21,9 +27,5 @@ extension VODesignDocument {
     public override func makeWindowControllers() {
         let window = WindowContoller.fromStoryboard()
         window.show(document: self)
-        
-        // TODO: Is it needed?
-        window.window?.setFrameAutosaveName("windowFrame")
-        window.window?.makeKeyAndOrderFront(self)
     }
 }

@@ -21,12 +21,23 @@ class WindowContoller: NSWindowController {
     override func windowDidLoad() {
         super.windowDidLoad()
         
+        window?.delegate = self
+        
+        shouldCascadeWindows = true
+        
+        showProjectsController()
+    }
+    
+    func showProjectsController() {
         let projects = ProjectsViewController.fromStoryboard()
         projects.documentController = VODocumentController.shared
+        projects.router = self
+        
         window?.toolbar = projects.toolbar
         contentViewController = projects
-        projects.router = self
     }
+    
+    var documentWindows: [NSWindow] = []
 }
 
 extension WindowContoller: ProjectsRouter {
@@ -40,19 +51,39 @@ extension WindowContoller: ProjectsRouter {
         editor.inject(router: split.router, document: document)
         split.editor = editor
         
-        window?.contentViewController = split
-        window?.toolbar = editor.toolbar
+        let window = NSWindow(contentViewController: split)
+        window.delegate = self
+        window.makeKeyAndOrderFront(window)
+        window.toolbar = editor.toolbar
+        window.title = document.displayName
+        
+        documentWindows.append(window)
     }
 }
 
-class ProjectController: NSSplitViewController {
-    
-    var editor: EditorViewController!
-    lazy var router = Router(rootController: self)
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+extension WindowContoller: NSWindowDelegate {
+    func windowWillClose(_ notification: Notification) {
+        guard let window = notification.object as? NSWindow else { return }
         
-        addSplitViewItem(NSSplitViewItem(viewController: editor))
+        guard let index = documentWindows.firstIndex(of: window) else {
+            return // Project windows, for example
+        }
+        
+        documentWindows.remove(at: index) // Remove refernce to realase
+        
+        guard documentWindows.isEmpty else { return }
+        
+        presentProjectsInNewWindow()
+    }
+    
+    private func presentProjectsInNewWindow() {
+        let projects = ProjectsViewController.fromStoryboard()
+        projects.documentController = VODocumentController.shared
+        projects.router = self
+        
+        let window = NSWindow(contentViewController: projects)
+        window.delegate = self
+        window.title = NSLocalizedString("Projects", comment: "Window title")
+        window.makeKeyAndOrderFront(window)
     }
 }

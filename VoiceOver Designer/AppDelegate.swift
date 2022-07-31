@@ -10,15 +10,13 @@ import Document
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
+    
+    lazy var windowController: WindowContoller = createWindowController()
 
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        true
     }
-
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
-    }
-
+    
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
         return true
     }
@@ -27,11 +25,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let url = URL(fileURLWithPath: filename)
         let document = VODesignDocument(file: url)
         
-        let window = WindowContoller.fromStoryboard()
-        window.show(document: document)
-        
-        window.showWindow(self)
+        windowController.show(document: document)
         
         return true
+    }
+    
+    private func createWindowController() -> WindowContoller {
+        let windowController = WindowContoller.fromStoryboard()
+        windowController.window?.setFrameAutosaveName("Projects")
+        return windowController
     }
 }
