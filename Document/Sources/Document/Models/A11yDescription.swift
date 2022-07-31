@@ -144,6 +144,10 @@ public class A11yDescription: Codable {
             descr.append(". \(hint)")
         }
         
+        if descr.isEmpty {
+            return NSLocalizedString("Empty", comment: "")
+        }
+        
         return descr.joined()
     }
     

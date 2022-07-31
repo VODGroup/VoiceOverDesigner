@@ -37,6 +37,7 @@ extension WindowContoller: ProjectsRouter {
         let editor = EditorViewController.fromStoryboard()
         
         let split = ProjectController()
+        split.document = document
         editor.inject(router: split.router, document: document)
         split.editor = editor
         
@@ -49,11 +50,12 @@ class ProjectController: NSSplitViewController {
     
     var editor: EditorViewController!
     lazy var router = Router(rootController: self)
+    var document: VODesignDocument!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let textContent = TextRepresentationController.fromStoryboard()
+        let textContent = TextRepresentationController.fromStoryboard(document: document)
         addSplitViewItem(NSSplitViewItem(sidebarWithViewController: textContent))
         addSplitViewItem(NSSplitViewItem(viewController: editor))
     }
