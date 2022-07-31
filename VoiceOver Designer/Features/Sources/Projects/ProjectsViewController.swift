@@ -29,7 +29,8 @@ public class ProjectsViewController: NSViewController {
     }
     
     override public func loadView() {
-        view = ProjectsView(frame: CGRect(origin: .zero, size: CGSize(width: 800, height: 400)))
+        view = ProjectsView(frame: CGRect(origin: .zero,
+                                          size: CGSize(width: 800, height: 400)))
     }
     
     func view() -> ProjectsView {
@@ -38,9 +39,14 @@ public class ProjectsViewController: NSViewController {
     
     @objc func createNewProject() {
         let document = VODesignDocument()
-        router?.show(document: document)
+        
+        show(document: document)
     }
 
+    private func show(document: VODesignDocument) {
+        router?.show(document: document)
+        view.window?.close() // Projects window should hides when open a project
+    }
     
     public static func fromStoryboard() -> ProjectsViewController {
         let storyboard = NSStoryboard(name: "Projects", bundle: .module)
@@ -50,17 +56,14 @@ public class ProjectsViewController: NSViewController {
 
 extension ProjectsViewController: DragNDropDelegate {
     public func didDrag(path: URL) {
-        let document = VODesignDocument(fileName: path.lastPathComponent, rootPath: path.deletingLastPathComponent())
-        router?.show(document: document)
+        let document = VODesignDocument(fileName: path.lastPathComponent,
+                                        rootPath: path.deletingLastPathComponent())
+        show(document: document)
     }
     
     public func didDrag(image: NSImage) {
-        show(image: image)
-    }
-    
-    func show(image: NSImage) {
         let document = VODesignDocument(image: image)
-        router?.show(document: document)
+        show(document: document)
     }
 }
 
@@ -81,16 +84,15 @@ extension ProjectsViewController : NSCollectionViewDataSource {
     public func numberOfSections(in collectionView: NSCollectionView) -> Int {
         1
     }
-    
-    
 }
 
 extension ProjectsViewController: NSCollectionViewDelegate {
-    public func collectionView(_ collectionView: NSCollectionView, didSelectItemsAt indexPaths: Set<IndexPath>) {
+    public func collectionView(_ collectionView: NSCollectionView,
+                               didSelectItemsAt indexPaths: Set<IndexPath>) {
         for indexPath in indexPaths {
             if let url = documentController?.recentDocumentURLs[indexPath.item] {
                 let document = VODesignDocument(file: url)
-                router?.show(document: document)
+                show(document: document)
             }
         }
     }

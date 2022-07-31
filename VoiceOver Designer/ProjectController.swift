@@ -6,9 +6,10 @@ import Document
 
 class ProjectController: NSSplitViewController {
     
+    lazy var router = Router(rootController: self, settingsDelegate: self)
+    
     var editor: EditorViewController!
     var textContent: TextRepresentationController!
-    lazy var router = Router(rootController: self, settingsDelegate: self)
     var document: VODesignDocument!
     
     override func viewDidLoad() {
