@@ -96,7 +96,6 @@ public class EditorViewController: NSViewController {
         
         control.isHiglighted = true
         
-        
 //        NSCursor.current.set = NSImage(
 //            systemSymbolName: "arrow.up.and.down.and.arrow.left.and.right",
 //            accessibilityDescription: nil)!
@@ -104,8 +103,7 @@ public class EditorViewController: NSViewController {
     
     func location(from event: NSEvent) -> CGPoint {
         let inWindow = event.locationInWindow
-        let flipped = inWindow.flippendVertical(in: view)
-        let inView = view().backgroundImageView.convert(flipped, from: view)
+        let inView = view().backgroundImageView.convert(inWindow, from: nil)
         return inView.flippendVertical(in: view().backgroundImageView)
     }
     
