@@ -1,24 +1,34 @@
 import AppKit
 import Document
 
+protocol TextRepresentationControllerDelegate: AnyObject {
+    func didSelect(_ model: A11yDescription)
+}
+
 class TextRepresentationController: NSViewController {
     
     public static func fromStoryboard(
-        document: VODesignDocument
+        document: VODesignDocument,
+        actionDelegate: TextRepresentationControllerDelegate?
     ) -> TextRepresentationController {
         let controller = NSStoryboard(
             name: "TextRepresentationController",
             bundle: nil).instantiateInitialController() as! TextRepresentationController
         
-        controller.inject(document: document)
+        controller.inject(
+            document: document,
+            actionDelegate: actionDelegate
+        )
         
         return controller
     }
     
-    public func inject(document: VODesignDocument) {
+    func inject(document: VODesignDocument, actionDelegate: TextRepresentationControllerDelegate?) {
         self.document = document
+        self.actionDelegate = actionDelegate
     }
     
+    weak var actionDelegate: TextRepresentationControllerDelegate?
     private var document: VODesignDocument!
 }
 
@@ -47,5 +57,13 @@ extension TextRepresentationController: NSOutlineViewDelegate {
         let view = outlineView.makeView(withIdentifier: id, owner: self) as! NSTableCellView
         view.textField?.stringValue = control.voiceOverText
         return view
+    }
+    
+    public func outlineViewSelectionDidChange(_ notification: Notification) {
+        guard let outlineView = notification.object as? NSOutlineView else { return }
+        
+        if let model = outlineView.item(atRow: outlineView.selectedRow) as? A11yDescription {
+            actionDelegate?.didSelect(model)
+        }
     }
 }

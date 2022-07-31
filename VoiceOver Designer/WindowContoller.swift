@@ -55,8 +55,16 @@ class ProjectController: NSSplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let textContent = TextRepresentationController.fromStoryboard(document: document)
+        let textContent = TextRepresentationController.fromStoryboard(
+            document: document,
+            actionDelegate: self)
         addSplitViewItem(NSSplitViewItem(sidebarWithViewController: textContent))
         addSplitViewItem(NSSplitViewItem(viewController: editor))
+    }
+}
+
+extension ProjectController: TextRepresentationControllerDelegate {
+    func didSelect(_ model: A11yDescription) {
+        editor.select(model)
     }
 }

@@ -129,6 +129,14 @@ public class EditorViewController: NSViewController {
         let storyboard = NSStoryboard(name: "Editor", bundle: .module)
         return storyboard.instantiateInitialController() as! EditorViewController
     }
+    
+    public func select(_ model: A11yDescription) {
+        guard let control = view().controlsView.drawnControls.first(where: { control in
+            control.a11yDescription === model
+        }) else { return }
+        
+        presenter.select(control: control)
+    }
 }
 
 extension EditorViewController: DragNDropDelegate {
