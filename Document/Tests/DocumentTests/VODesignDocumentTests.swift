@@ -9,50 +9,66 @@ import XCTest
 import Document
 
 #if os(macOS)
-class VODesignDocumentTests: XCTestCase {
-    override func tearDownWithError() throws {
-        try VODesignDocument.removeTestDocument(name: "TestFile")
-
-    }
-    
-    func testWhenSaveNewDocument_shouldHaveSameExtensions() throws {
-        var document: VODesignDocument? = VODesignDocument.testDocument(name: "TestFile")
-        document!.controls = [A11yDescription.testMake(label: "Label3"),
-                              A11yDescription.testMake(label: "Label4")]
-        document!.save()
-        
-        
-        XCTAssertEqual(document?.fileURL?.pathExtension, "vodesign")
-    }
-}
-
-class VODesignDocumentPersistanceTests: VODesignDocumentTests {
-    override func tearDownWithError() throws {
-        try VODesignDocument.removeTestDocument(name: "TestFile")
-    }
-    
-    func testWhenSaveOneDocument_andReadAnotherWithSameName_shouldKeepObjects() throws {
-        var document: VODesignDocument? = VODesignDocument.testDocument(name: "TestFile")
-        document!.controls = [A11yDescription.testMake(label: "Label1"),
-                              A11yDescription.testMake(label: "Label2")]
-        document!.save()
-        document = nil
-        
-        let document2 = VODesignDocument(
-            fileName: "TestFile",
-            rootPath: VODesignDocument.path)
-        try document2.read()
-        
-        XCTAssertEqual(document2.controls.count, 2)
-    }
-}
-
-class VODesignDocumentUndoTests: VODesignDocumentTests {
-    
-    func test_undoForArray() {
-        let document = VODesignDocument.testDocument(name: "TestFile")
+extension VODesignDocument {
+    static func with2Controls(name: String) -> VODesignDocument {
+        let document = VODesignDocument.testDocument(name: name)
         document.controls = [A11yDescription.testMake(label: "Label1"),
                              A11yDescription.testMake(label: "Label2")]
+        return document
+    }
+}
+
+
+class VODesignDocumentPersistanceTests: XCTestCase {
+    
+    func testWhenSaveOneDocument_andReadAnotherWithSameName_shouldKeepObjects() throws {
+        let fileName = "TestFile1"
+        
+        var document: VODesignDocument?
+        
+        XCTContext.runActivity(named: "Create document") { _ in
+            document = VODesignDocument.with2Controls(name: fileName)
+            document!.controls = [A11yDescription.testMake(label: "Label1"),
+                                  A11yDescription.testMake(label: "Label2")]
+        }
+        
+        XCTContext.runActivity(named: "Save document and remove from memory") { _ in
+            document!.save()
+            addTeardownBlock {
+                try! VODesignDocument.removeTestDocument(name: fileName)
+            }
+            document = nil
+        }
+        
+        XCTContext.runActivity(named: "Read document with same name") { _ in
+            let document2 = VODesignDocument(
+                fileName: fileName,
+                rootPath: VODesignDocument.path)
+            try? document2.read()
+            
+            XCTAssertEqual(document2.controls.count, 2, "Should contain controls")
+        }
+    }
+    
+    func testWhenSaveNewDocument_shouldHaveCorrectExtensions() throws {
+        let document = VODesignDocument.with2Controls(name: "TestFile2")
+        
+        XCTContext.runActivity(named: "Save document to disk") { _ in
+            document.save()
+            addTeardownBlock {
+                try! VODesignDocument.removeTestDocument(name: "TestFile2")
+            }
+        }
+        
+        XCTAssertEqual(document.fileURL?.pathExtension, "vodesign")
+    }
+}
+
+class VODesignDocumentUndoTests: XCTestCase {
+    
+    func test_undoForArray() {
+        let document = VODesignDocument.with2Controls(name: "TestFile1")
+        XCTAssertEqual(document.controls.count, 2)
         
         document.undoManager?.undo()
         XCTAssertTrue(document.controls.isEmpty)
