@@ -9,18 +9,17 @@
         <scene sceneID="cJT-1T-ftV">
             <objects>
                 <viewController storyboardIdentifier="editor" id="LVp-Pr-lAJ" customClass="EditorViewController" customModule="Editor" sceneMemberID="viewController">
-                    <view key="view" id="ndy-hA-WOO" customClass="EditorView" customModule="Editor">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="812"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                    <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="ndy-hA-WOO" customClass="EditorView" customModule="Editor">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="812"/>
                         <subviews>
                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHg-wh-ieX">
-                                <rect key="frame" x="0.0" y="0.0" width="390" height="812"/>
+                                <rect key="frame" x="105" y="0.0" width="390" height="812"/>
                                 <clipView key="contentView" id="lki-H1-X1O">
                                     <rect key="frame" x="1" y="1" width="388" height="810"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <view id="JlK-Oy-LgO">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                        <view ambiguous="YES" id="JlK-Oy-LgO">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="812"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <subviews>
                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kiH-h5-aG4">
@@ -37,17 +36,13 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="kiH-h5-aG4" firstAttribute="leading" secondItem="JlK-Oy-LgO" secondAttribute="leading" id="30x-54-sy6"/>
-                                                <constraint firstAttribute="bottom" secondItem="kiH-h5-aG4" secondAttribute="bottom" id="6lv-I0-VOw"/>
-                                                <constraint firstItem="L7U-F0-kOc" firstAttribute="top" secondItem="JlK-Oy-LgO" secondAttribute="top" id="BD8-6t-yPo"/>
                                                 <constraint firstAttribute="bottom" secondItem="kiH-h5-aG4" secondAttribute="bottom" id="BGc-d2-Nn0"/>
-                                                <constraint firstItem="kiH-h5-aG4" firstAttribute="top" secondItem="JlK-Oy-LgO" secondAttribute="top" id="BXZ-nT-0um"/>
-                                                <constraint firstAttribute="bottom" secondItem="L7U-F0-kOc" secondAttribute="bottom" id="H7N-3R-s7c"/>
                                                 <constraint firstAttribute="trailing" secondItem="kiH-h5-aG4" secondAttribute="trailing" id="Kkg-Z5-LEn"/>
-                                                <constraint firstAttribute="trailing" secondItem="L7U-F0-kOc" secondAttribute="trailing" id="Og3-AW-BEB"/>
-                                                <constraint firstAttribute="trailing" secondItem="kiH-h5-aG4" secondAttribute="trailing" id="U59-Xs-4rI"/>
+                                                <constraint firstItem="L7U-F0-kOc" firstAttribute="leading" secondItem="kiH-h5-aG4" secondAttribute="leading" id="Obm-Tr-fna"/>
+                                                <constraint firstItem="L7U-F0-kOc" firstAttribute="top" secondItem="kiH-h5-aG4" secondAttribute="top" id="SBm-Od-Tuz"/>
+                                                <constraint firstItem="L7U-F0-kOc" firstAttribute="trailing" secondItem="kiH-h5-aG4" secondAttribute="trailing" id="WuV-iT-lLw"/>
                                                 <constraint firstItem="kiH-h5-aG4" firstAttribute="top" secondItem="JlK-Oy-LgO" secondAttribute="top" id="e4i-oa-Bvl"/>
-                                                <constraint firstItem="kiH-h5-aG4" firstAttribute="leading" secondItem="JlK-Oy-LgO" secondAttribute="leading" id="tjl-gY-yaf"/>
-                                                <constraint firstItem="L7U-F0-kOc" firstAttribute="leading" secondItem="JlK-Oy-LgO" secondAttribute="leading" id="wlb-BM-4pM"/>
+                                                <constraint firstItem="L7U-F0-kOc" firstAttribute="bottom" secondItem="kiH-h5-aG4" secondAttribute="bottom" id="p80-Rx-c8q"/>
                                             </constraints>
                                         </view>
                                     </subviews>
@@ -65,18 +60,19 @@
                                 </scroller>
                             </scrollView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="4cN-cs-t43" customClass="DragNDropImageView" customModule="CommonUI">
-                                <rect key="frame" x="0.0" y="0.0" width="390" height="812"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="812"/>
                             </customView>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="4cN-cs-t43" secondAttribute="trailing" id="9ge-cr-jcg"/>
-                            <constraint firstAttribute="trailing" secondItem="JHg-wh-ieX" secondAttribute="trailing" id="SwQ-dg-9fH"/>
+                            <constraint firstItem="JHg-wh-ieX" firstAttribute="centerX" secondItem="ndy-hA-WOO" secondAttribute="centerX" id="RGB-6k-rxw"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="JHg-wh-ieX" secondAttribute="trailing" id="SwQ-dg-9fH"/>
                             <constraint firstItem="4cN-cs-t43" firstAttribute="leading" secondItem="ndy-hA-WOO" secondAttribute="leading" id="imA-ca-blj"/>
                             <constraint firstItem="JHg-wh-ieX" firstAttribute="top" secondItem="ndy-hA-WOO" secondAttribute="top" id="nM5-li-hss"/>
                             <constraint firstAttribute="bottom" secondItem="JHg-wh-ieX" secondAttribute="bottom" id="osd-jY-8o2"/>
                             <constraint firstAttribute="bottom" secondItem="4cN-cs-t43" secondAttribute="bottom" id="q5n-mn-4x8"/>
                             <constraint firstItem="4cN-cs-t43" firstAttribute="top" secondItem="ndy-hA-WOO" secondAttribute="top" id="rID-hz-0k6"/>
-                            <constraint firstItem="JHg-wh-ieX" firstAttribute="leading" secondItem="ndy-hA-WOO" secondAttribute="leading" id="xpf-jL-Dqa"/>
+                            <constraint firstItem="JHg-wh-ieX" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ndy-hA-WOO" secondAttribute="leading" id="xpf-jL-Dqa"/>
                         </constraints>
                         <connections>
                             <outlet property="backgroundImageView" destination="kiH-h5-aG4" id="7f8-09-iTJ"/>
