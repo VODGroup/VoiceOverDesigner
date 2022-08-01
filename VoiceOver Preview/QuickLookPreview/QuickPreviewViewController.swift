@@ -9,7 +9,7 @@ import UIKit
 import QuickLook
 
 import Document
-import UIKitPreview
+import DesignPreview
 
 class QuickPreviewViewController: UIViewController, QLPreviewingController {
         

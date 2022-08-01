@@ -12,8 +12,8 @@
         <!--Design Preview View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="VODesignPreviewViewController" customModule="UIKitPreview" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="VODesignPreviewView" customModule="UIKitPreview">
+                <viewController id="BYZ-38-t0r" customClass="VODesignPreviewViewController" customModule="DesignPreview" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="VODesignPreviewView" customModule="DesignPreview">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -23,7 +23,7 @@
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="300" translatesAutoresizingMaskIntoConstraints="NO" id="7Pb-jU-hIf">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="1000"/>
                                     </imageView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LHE-cX-Gho" customClass="Canvas" customModule="UIKitPreview">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LHE-cX-Gho" customClass="Canvas" customModule="DesignPreview">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="1000"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
