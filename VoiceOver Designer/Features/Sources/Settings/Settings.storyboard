@@ -21,20 +21,6 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SZT-24-i1X">
-                                <rect key="frame" x="16" y="20" width="46" height="18"/>
-                                <buttonCell key="cell" type="inline" title="Delete" bezelStyle="inline" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Mq6-Um-Jqv">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="smallSystemBold"/>
-                                    <string key="keyEquivalent" base64-UTF8="YES">
-CA
-</string>
-                                    <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="delete:" target="U2f-R7-Q2a" id="Tb8-Y5-Fbf"/>
-                                </connections>
-                            </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fAf-ES-vjT">
                                 <rect key="frame" x="18" y="722" width="41" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Label:" id="Nlv-IC-RPW">
@@ -69,92 +55,17 @@ CA
                                     <action selector="isAccessibleElementDidChanged:" target="U2f-R7-Q2a" id="IFz-ZF-iQd"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8Ci-CL-WW4">
-                                <rect key="frame" x="18" y="218" width="29" height="16"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Hint" id="6v7-js-tss">
-                                    <font key="font" textStyle="body" name=".SFNS-Regular"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9A8-ed-t5M">
-                                <rect key="frame" x="20" y="194" width="350" height="21"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="fDS-jY-sEx">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                                <connections>
-                                    <action selector="hintDidChange:" target="U2f-R7-Q2a" id="zOO-q4-ak0"/>
-                                </connections>
-                            </textField>
-                            <box title="Media" translatesAutoresizingMaskIntoConstraints="NO" id="h43-WO-P0P">
-                                <rect key="frame" x="17" y="64" width="356" height="109"/>
-                                <view key="contentView" id="Nnm-wP-dpa">
-                                    <rect key="frame" x="3" y="3" width="350" height="91"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FNW-91-Vci" customClass="TraitCheckBox" customModule="Settings">
-                                            <rect key="frame" x="6" y="54" width="99" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Plays sound" bezelStyle="regularSquare" imagePosition="left" inset="2" id="1SM-XQ-AxR">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="31X-WC-S9r"/>
-                                            </connections>
-                                        </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CCG-Bz-5xi" customClass="TraitCheckBox" customModule="Settings">
-                                            <rect key="frame" x="164" y="55" width="172" height="17"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Allows direct interaction" bezelStyle="regularSquare" imagePosition="left" inset="2" id="16j-Yi-cnk">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="FYi-J7-xX8"/>
-                                            </connections>
-                                        </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Eda-Du-doD" customClass="TraitCheckBox" customModule="Settings">
-                                            <rect key="frame" x="6" y="19" width="152" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Starts media session" bezelStyle="regularSquare" imagePosition="left" inset="2" id="iC7-b2-SaW">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="F1q-KK-dU1"/>
-                                            </connections>
-                                        </button>
-                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="69m-by-VKr" customClass="TraitCheckBox" customModule="Settings">
-                                            <rect key="frame" x="164" y="19" width="133" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Causes page turn" bezelStyle="regularSquare" imagePosition="left" inset="2" id="our-SC-Bnu">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <action selector="traitDidChange:" target="U2f-R7-Q2a" id="GKr-gN-16P"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                </view>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="105" id="1Y1-aq-yp3"/>
-                                </constraints>
-                            </box>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="16" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LGK-Fp-or4">
-                                <rect key="frame" x="20" y="250" width="350" height="425"/>
+                                <rect key="frame" x="20" y="73" width="350" height="602"/>
                                 <subviews>
                                     <containerView placeholderIntrinsicWidth="385" placeholderIntrinsicHeight="146" translatesAutoresizingMaskIntoConstraints="NO" id="cWG-yH-GJd">
-                                        <rect key="frame" x="0.0" y="279" width="350" height="146"/>
+                                        <rect key="frame" x="0.0" y="456" width="350" height="146"/>
                                         <connections>
                                             <segue destination="hCW-q0-HC9" kind="embed" id="c9M-xQ-asw"/>
                                         </connections>
                                     </containerView>
                                     <box title="Type" translatesAutoresizingMaskIntoConstraints="NO" id="UuZ-Ye-28d">
-                                        <rect key="frame" x="-3" y="110" width="356" height="153"/>
+                                        <rect key="frame" x="-3" y="287" width="356" height="153"/>
                                         <view key="contentView" id="yiu-tQ-QTm">
                                             <rect key="frame" x="3" y="3" width="350" height="135"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -295,7 +206,7 @@ CA
                                         </view>
                                     </box>
                                     <box title="Behavour" translatesAutoresizingMaskIntoConstraints="NO" id="X9x-Tf-0Jm">
-                                        <rect key="frame" x="-3" y="-4" width="356" height="102"/>
+                                        <rect key="frame" x="-3" y="173" width="356" height="102"/>
                                         <view key="contentView" id="0gq-OC-PyL">
                                             <rect key="frame" x="3" y="3" width="350" height="84"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -350,13 +261,105 @@ CA
                                             <constraint firstAttribute="height" constant="98" id="cTg-50-5gm"/>
                                         </constraints>
                                     </box>
+                                    <box title="Media" translatesAutoresizingMaskIntoConstraints="NO" id="h43-WO-P0P">
+                                        <rect key="frame" x="-3" y="52" width="356" height="109"/>
+                                        <view key="contentView" id="Nnm-wP-dpa">
+                                            <rect key="frame" x="3" y="3" width="350" height="91"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FNW-91-Vci" customClass="TraitCheckBox" customModule="Settings">
+                                                    <rect key="frame" x="6" y="54" width="99" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="Plays sound" bezelStyle="regularSquare" imagePosition="left" inset="2" id="1SM-XQ-AxR">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="traitDidChange:" target="U2f-R7-Q2a" id="31X-WC-S9r"/>
+                                                    </connections>
+                                                </button>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CCG-Bz-5xi" customClass="TraitCheckBox" customModule="Settings">
+                                                    <rect key="frame" x="164" y="55" width="172" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="Allows direct interaction" bezelStyle="regularSquare" imagePosition="left" inset="2" id="16j-Yi-cnk">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="traitDidChange:" target="U2f-R7-Q2a" id="FYi-J7-xX8"/>
+                                                    </connections>
+                                                </button>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Eda-Du-doD" customClass="TraitCheckBox" customModule="Settings">
+                                                    <rect key="frame" x="6" y="19" width="152" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="Starts media session" bezelStyle="regularSquare" imagePosition="left" inset="2" id="iC7-b2-SaW">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="traitDidChange:" target="U2f-R7-Q2a" id="F1q-KK-dU1"/>
+                                                    </connections>
+                                                </button>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="69m-by-VKr" customClass="TraitCheckBox" customModule="Settings">
+                                                    <rect key="frame" x="164" y="19" width="133" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="Causes page turn" bezelStyle="regularSquare" imagePosition="left" inset="2" id="our-SC-Bnu">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="traitDidChange:" target="U2f-R7-Q2a" id="GKr-gN-16P"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="105" id="1Y1-aq-yp3"/>
+                                        </constraints>
+                                    </box>
+                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="g95-0u-h7J">
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="40"/>
+                                        <subviews>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8Ci-CL-WW4">
+                                                <rect key="frame" x="-2" y="24" width="29" height="16"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Hint" id="6v7-js-tss">
+                                                    <font key="font" textStyle="body" name=".SFNS-Regular"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9A8-ed-t5M">
+                                                <rect key="frame" x="0.0" y="0.0" width="350" height="21"/>
+                                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="fDS-jY-sEx">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                                <connections>
+                                                    <action selector="hintDidChange:" target="U2f-R7-Q2a" id="zOO-q4-ak0"/>
+                                                </connections>
+                                            </textField>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="8Ci-CL-WW4" firstAttribute="top" secondItem="g95-0u-h7J" secondAttribute="top" id="3Dd-e5-Bb9"/>
+                                            <constraint firstItem="8Ci-CL-WW4" firstAttribute="leading" secondItem="9A8-ed-t5M" secondAttribute="leading" id="AFj-Ha-isE"/>
+                                            <constraint firstAttribute="bottom" secondItem="9A8-ed-t5M" secondAttribute="bottom" id="EAA-9T-gkE"/>
+                                            <constraint firstItem="9A8-ed-t5M" firstAttribute="top" secondItem="8Ci-CL-WW4" secondAttribute="bottom" constant="3" id="Esy-WO-1AV"/>
+                                            <constraint firstItem="8Ci-CL-WW4" firstAttribute="leading" secondItem="g95-0u-h7J" secondAttribute="leading" id="GSH-GN-Boy"/>
+                                            <constraint firstItem="9A8-ed-t5M" firstAttribute="leading" secondItem="g95-0u-h7J" secondAttribute="leading" id="huZ-9T-9Df"/>
+                                            <constraint firstAttribute="trailing" secondItem="9A8-ed-t5M" secondAttribute="trailing" id="m8w-DU-PFe"/>
+                                        </constraints>
+                                    </customView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="UuZ-Ye-28d" firstAttribute="width" secondItem="LGK-Fp-or4" secondAttribute="width" id="5UC-5n-ID4"/>
                                     <constraint firstItem="X9x-Tf-0Jm" firstAttribute="width" secondItem="LGK-Fp-or4" secondAttribute="width" id="Ksn-K8-eWc"/>
+                                    <constraint firstItem="h43-WO-P0P" firstAttribute="width" secondItem="LGK-Fp-or4" secondAttribute="width" id="aoN-Ge-Dpp"/>
                                     <constraint firstItem="cWG-yH-GJd" firstAttribute="width" secondItem="LGK-Fp-or4" secondAttribute="width" id="i2z-UA-RGh"/>
                                 </constraints>
                                 <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
@@ -365,34 +368,42 @@ CA
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SZT-24-i1X">
+                                <rect key="frame" x="16" y="20" width="46" height="18"/>
+                                <buttonCell key="cell" type="inline" title="Delete" bezelStyle="inline" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Mq6-Um-Jqv">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="smallSystemBold"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                                    <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="delete:" target="U2f-R7-Q2a" id="Tb8-Y5-Fbf"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="LGK-Fp-or4" firstAttribute="trailing" secondItem="oEr-KQ-HrL" secondAttribute="trailing" id="01a-x3-ImU"/>
                             <constraint firstItem="SZT-24-i1X" firstAttribute="leading" secondItem="cLK-md-r8c" secondAttribute="leading" constant="16" id="37h-mN-nlo"/>
                             <constraint firstItem="oEr-KQ-HrL" firstAttribute="trailing" secondItem="JZg-MT-gb1" secondAttribute="trailing" id="4FL-G6-blV"/>
                             <constraint firstItem="fAf-ES-vjT" firstAttribute="leading" secondItem="JZg-MT-gb1" secondAttribute="leading" id="HVs-Kw-FfJ"/>
+                            <constraint firstItem="SZT-24-i1X" firstAttribute="top" secondItem="LGK-Fp-or4" secondAttribute="bottom" constant="35" id="IR7-zx-32y"/>
                             <constraint firstItem="fAf-ES-vjT" firstAttribute="top" secondItem="JZg-MT-gb1" secondAttribute="bottom" constant="24" id="IVH-RS-uPc"/>
-                            <constraint firstItem="h43-WO-P0P" firstAttribute="top" secondItem="9A8-ed-t5M" secondAttribute="bottom" constant="21" id="NpD-Fi-QrO"/>
                             <constraint firstItem="I0u-MB-fxF" firstAttribute="firstBaseline" secondItem="fAf-ES-vjT" secondAttribute="firstBaseline" id="Pi3-FQ-5mj"/>
-                            <constraint firstItem="h43-WO-P0P" firstAttribute="trailing" secondItem="9A8-ed-t5M" secondAttribute="trailing" id="T9Z-z9-tuM"/>
                             <constraint firstItem="oEr-KQ-HrL" firstAttribute="leading" secondItem="fAf-ES-vjT" secondAttribute="leading" id="W62-6m-ERw"/>
-                            <constraint firstItem="8Ci-CL-WW4" firstAttribute="leading" secondItem="9A8-ed-t5M" secondAttribute="leading" id="X1s-xU-2q2"/>
                             <constraint firstItem="LGK-Fp-or4" firstAttribute="top" secondItem="oEr-KQ-HrL" secondAttribute="bottom" constant="22" id="ZOg-oJ-E39"/>
                             <constraint firstItem="oEr-KQ-HrL" firstAttribute="top" secondItem="fAf-ES-vjT" secondAttribute="bottom" constant="4" id="Zpj-iB-3H4"/>
-                            <constraint firstItem="9A8-ed-t5M" firstAttribute="trailing" secondItem="oEr-KQ-HrL" secondAttribute="trailing" id="ckR-sg-Mg9"/>
-                            <constraint firstItem="8Ci-CL-WW4" firstAttribute="top" secondItem="LGK-Fp-or4" secondAttribute="bottom" constant="16" id="eqA-hM-r1h"/>
                             <constraint firstItem="JZg-MT-gb1" firstAttribute="centerX" secondItem="cLK-md-r8c" secondAttribute="centerX" id="gg4-lz-ppD"/>
-                            <constraint firstItem="SZT-24-i1X" firstAttribute="top" secondItem="Nnm-wP-dpa" secondAttribute="bottom" constant="29" id="hOj-S2-dLJ"/>
                             <constraint firstItem="JZg-MT-gb1" firstAttribute="leading" secondItem="cLK-md-r8c" secondAttribute="leading" constant="20" id="hRY-LL-3Ie"/>
                             <constraint firstItem="JZg-MT-gb1" firstAttribute="top" secondItem="cLK-md-r8c" secondAttribute="top" constant="20" symbolic="YES" id="iRr-TZ-hcv"/>
-                            <constraint firstItem="h43-WO-P0P" firstAttribute="leading" secondItem="9A8-ed-t5M" secondAttribute="leading" id="nn1-eK-bxL"/>
                             <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="SZT-24-i1X" secondAttribute="bottom" constant="20" symbolic="YES" id="nub-eY-qeS"/>
                             <constraint firstItem="I0u-MB-fxF" firstAttribute="trailing" secondItem="oEr-KQ-HrL" secondAttribute="trailing" id="qvl-ot-gYX"/>
-                            <constraint firstItem="9A8-ed-t5M" firstAttribute="leading" secondItem="cLK-md-r8c" secondAttribute="leading" constant="20" id="rDe-nX-qMM"/>
                             <constraint firstItem="LGK-Fp-or4" firstAttribute="leading" secondItem="oEr-KQ-HrL" secondAttribute="leading" id="tG0-Hh-YTr"/>
-                            <constraint firstItem="9A8-ed-t5M" firstAttribute="top" secondItem="8Ci-CL-WW4" secondAttribute="bottom" constant="3" id="znO-vt-lZo"/>
                         </constraints>
                     </view>
                     <connections>

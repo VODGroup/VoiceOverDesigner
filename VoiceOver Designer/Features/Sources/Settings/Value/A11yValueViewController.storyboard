@@ -9,12 +9,11 @@
         <scene sceneID="EMZ-Na-XNY">
             <objects>
                 <viewController storyboardIdentifier="value" id="fEp-Em-BFf" customClass="A11yValueViewController" customModule="Settings" sceneMemberID="viewController">
-                    <view key="view" misplaced="YES" id="oRf-1I-4R3" customClass="A11yValueView" customModule="Settings">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="184"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                    <view key="view" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oRf-1I-4R3" customClass="A11yValueView" customModule="Settings">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="151"/>
                         <subviews>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8dJ-cU-P1q">
-                                <rect key="frame" x="0.0" y="135" width="390" height="21"/>
+                                <rect key="frame" x="0.0" y="78" width="390" height="21"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="Dfp-AP-TqR">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -25,7 +24,7 @@
                                 </connections>
                             </textField>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="12" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mXM-5i-JW0">
-                                <rect key="frame" x="0.0" y="65" width="390" height="54"/>
+                                <rect key="frame" x="0.0" y="8" width="390" height="54"/>
                                 <subviews>
                                     <box title="Adjustable values for prototype" translatesAutoresizingMaskIntoConstraints="NO" id="wvl-Qv-rQo">
                                         <rect key="frame" x="-3" y="-4" width="396" height="58"/>
@@ -75,7 +74,7 @@
                                 </customSpacing>
                             </stackView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ecy-07-j5w" customClass="TraitCheckBox" customModule="Settings">
-                                <rect key="frame" x="300" y="159" width="90" height="18"/>
+                                <rect key="frame" x="300" y="102" width="90" height="18"/>
                                 <buttonCell key="cell" type="check" title="Adjustable" bezelStyle="regularSquare" imagePosition="left" inset="2" id="AkL-hm-OBG">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -87,7 +86,7 @@
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qzS-CE-2HZ">
-                                <rect key="frame" x="-2" y="160" width="42" height="16"/>
+                                <rect key="frame" x="-2" y="103" width="42" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Value:" id="RlP-o3-uyw">
                                     <font key="font" textStyle="body" name=".SFNS-Regular"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -100,14 +99,13 @@
                             <constraint firstItem="mXM-5i-JW0" firstAttribute="top" secondItem="8dJ-cU-P1q" secondAttribute="bottom" constant="16" id="EnN-Ln-bSr"/>
                             <constraint firstItem="mXM-5i-JW0" firstAttribute="leading" secondItem="oRf-1I-4R3" secondAttribute="leading" id="Hrf-3P-nUW"/>
                             <constraint firstItem="8dJ-cU-P1q" firstAttribute="top" secondItem="qzS-CE-2HZ" secondAttribute="bottom" constant="4" id="PkW-Qb-kmw"/>
-                            <constraint firstItem="mXM-5i-JW0" firstAttribute="centerY" secondItem="oRf-1I-4R3" secondAttribute="centerY" id="Syj-i7-IE0"/>
                             <constraint firstItem="qzS-CE-2HZ" firstAttribute="leading" secondItem="8dJ-cU-P1q" secondAttribute="leading" id="VfU-pC-qBK"/>
                             <constraint firstItem="8dJ-cU-P1q" firstAttribute="centerX" secondItem="oRf-1I-4R3" secondAttribute="centerX" id="Xg2-Ak-UeY"/>
                             <constraint firstItem="ecy-07-j5w" firstAttribute="firstBaseline" secondItem="qzS-CE-2HZ" secondAttribute="firstBaseline" id="Yog-BB-fzK"/>
                             <constraint firstItem="8dJ-cU-P1q" firstAttribute="leading" secondItem="daA-4f-RTO" secondAttribute="leading" id="b5m-Op-86k"/>
                             <constraint firstAttribute="trailing" secondItem="mXM-5i-JW0" secondAttribute="trailing" id="dXW-Li-34U"/>
                             <constraint firstItem="ecy-07-j5w" firstAttribute="trailing" secondItem="8dJ-cU-P1q" secondAttribute="trailing" id="edU-fT-8ji"/>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="mXM-5i-JW0" secondAttribute="bottom" id="oKP-WT-x8G"/>
+                            <constraint firstAttribute="bottom" secondItem="mXM-5i-JW0" secondAttribute="bottom" constant="8" id="oKP-WT-x8G"/>
                         </constraints>
                         <connections>
                             <outlet property="adjustableOptionsBox" destination="wvl-Qv-rQo" id="acd-WF-pAf"/>
@@ -119,7 +117,7 @@
                 </viewController>
                 <customObject id="5d6-eZ-Hth" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="673" y="864"/>
+            <point key="canvasLocation" x="673" y="795.5"/>
         </scene>
     </scenes>
 </document>
