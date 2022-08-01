@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import UIKitPreview
+import DesignPreview
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 

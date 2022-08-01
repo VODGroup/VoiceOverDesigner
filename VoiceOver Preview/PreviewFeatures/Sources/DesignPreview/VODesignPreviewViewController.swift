@@ -12,7 +12,7 @@ public final class VODesignPreviewViewController: UIViewController {
     
     public static func controller(for document: VODesignDocument) -> UIViewController {
         let storyboard = UIStoryboard(name: "VODesignPreviewViewController",
-                                      bundle: Bundle.module)
+                                      bundle: .module)
         let preview = storyboard.instantiateInitialViewController() as! VODesignPreviewViewController
         preview.open(document: document)
         return preview
