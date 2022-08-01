@@ -46,11 +46,11 @@ class AdjustableOptionView: NSView {
                                     target: nil, action: nil)
         self.textView = NSTextField()
         NSLayoutConstraint.activate([
-            textView.widthAnchor.constraint(equalToConstant: 240)
+            textView.widthAnchor.constraint(equalToConstant: 280)
         ])
         
         
-        self.removeButton = NSButton(title: "Remove", target: nil, action: nil)
+        self.removeButton = NSButton(title: "-", target: nil, action: nil)
         removeButton.bezelStyle = .inline
         
         self.stackView = NSStackView(views: [radioButton, textView, removeButton])
