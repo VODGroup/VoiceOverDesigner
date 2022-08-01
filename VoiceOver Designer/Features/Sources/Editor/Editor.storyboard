@@ -10,85 +10,85 @@
             <objects>
                 <viewController storyboardIdentifier="editor" id="LVp-Pr-lAJ" customClass="EditorViewController" customModule="Editor" sceneMemberID="viewController">
                     <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="ndy-hA-WOO" customClass="EditorView" customModule="Editor">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="786" height="814"/>
                         <subviews>
                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHg-wh-ieX">
-                                <rect key="frame" x="105" y="0.0" width="390" height="812"/>
+                                <rect key="frame" x="0.0" y="0.0" width="786" height="814"/>
                                 <clipView key="contentView" id="lki-H1-X1O">
-                                    <rect key="frame" x="1" y="1" width="388" height="810"/>
+                                    <rect key="frame" x="1" y="1" width="784" height="812"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <view ambiguous="YES" id="JlK-Oy-LgO">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="812"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <view translatesAutoresizingMaskIntoConstraints="NO" id="JlK-Oy-LgO">
+                                            <rect key="frame" x="0.0" y="0.0" width="784" height="812"/>
                                             <subviews>
-                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kiH-h5-aG4">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="812" translatesAutoresizingMaskIntoConstraints="NO" id="kiH-h5-aG4">
+                                                    <rect key="frame" x="205" y="0.0" width="375" height="812"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="375" id="cX1-ar-rKx"/>
-                                                        <constraint firstAttribute="height" constant="812" id="xHB-ca-Zjv"/>
+                                                        <constraint firstAttribute="height" constant="812" id="Te8-3a-boV"/>
+                                                        <constraint firstAttribute="width" constant="375" id="hR1-I7-oyp"/>
                                                     </constraints>
                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="vuC-bS-HZw"/>
                                                 </imageView>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="L7U-F0-kOc" customClass="ControlsView" customModule="Editor">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                                    <rect key="frame" x="205" y="0.0" width="375" height="812"/>
                                                 </customView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="kiH-h5-aG4" firstAttribute="leading" secondItem="JlK-Oy-LgO" secondAttribute="leading" id="30x-54-sy6"/>
-                                                <constraint firstAttribute="bottom" secondItem="kiH-h5-aG4" secondAttribute="bottom" id="BGc-d2-Nn0"/>
-                                                <constraint firstAttribute="trailing" secondItem="kiH-h5-aG4" secondAttribute="trailing" id="Kkg-Z5-LEn"/>
-                                                <constraint firstItem="L7U-F0-kOc" firstAttribute="leading" secondItem="kiH-h5-aG4" secondAttribute="leading" id="Obm-Tr-fna"/>
-                                                <constraint firstItem="L7U-F0-kOc" firstAttribute="top" secondItem="kiH-h5-aG4" secondAttribute="top" id="SBm-Od-Tuz"/>
-                                                <constraint firstItem="L7U-F0-kOc" firstAttribute="trailing" secondItem="kiH-h5-aG4" secondAttribute="trailing" id="WuV-iT-lLw"/>
-                                                <constraint firstItem="kiH-h5-aG4" firstAttribute="top" secondItem="JlK-Oy-LgO" secondAttribute="top" id="e4i-oa-Bvl"/>
-                                                <constraint firstItem="L7U-F0-kOc" firstAttribute="bottom" secondItem="kiH-h5-aG4" secondAttribute="bottom" id="p80-Rx-c8q"/>
+                                                <constraint firstAttribute="height" secondItem="kiH-h5-aG4" secondAttribute="height" id="9it-A2-7Se"/>
+                                                <constraint firstItem="L7U-F0-kOc" firstAttribute="trailing" secondItem="kiH-h5-aG4" secondAttribute="trailing" id="Bfr-yC-ybi"/>
+                                                <constraint firstItem="L7U-F0-kOc" firstAttribute="bottom" secondItem="kiH-h5-aG4" secondAttribute="bottom" id="D7L-qk-w8d"/>
+                                                <constraint firstItem="L7U-F0-kOc" firstAttribute="leading" secondItem="kiH-h5-aG4" secondAttribute="leading" id="Ktv-0M-EF2"/>
+                                                <constraint firstItem="kiH-h5-aG4" firstAttribute="centerY" secondItem="JlK-Oy-LgO" secondAttribute="centerY" id="cqI-yc-qFe"/>
+                                                <constraint firstItem="kiH-h5-aG4" firstAttribute="centerX" secondItem="JlK-Oy-LgO" secondAttribute="centerX" id="iUb-l4-Lws"/>
+                                                <constraint firstItem="L7U-F0-kOc" firstAttribute="top" secondItem="kiH-h5-aG4" secondAttribute="top" id="wwn-n4-ERv"/>
                                             </constraints>
                                         </view>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="JlK-Oy-LgO" firstAttribute="top" secondItem="lki-H1-X1O" secondAttribute="top" id="dUP-b3-8XE"/>
+                                        <constraint firstAttribute="trailing" secondItem="JlK-Oy-LgO" secondAttribute="trailing" id="gWK-jX-1VP"/>
+                                        <constraint firstAttribute="bottom" secondItem="JlK-Oy-LgO" secondAttribute="bottom" id="r8X-Mx-JrR"/>
+                                        <constraint firstItem="JlK-Oy-LgO" firstAttribute="leading" secondItem="lki-H1-X1O" secondAttribute="leading" id="vBW-8I-XoS"/>
+                                    </constraints>
                                 </clipView>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="390" id="eTS-Ih-zYt"/>
+                                    <constraint firstItem="JlK-Oy-LgO" firstAttribute="width" secondItem="JHg-wh-ieX" secondAttribute="width" multiplier="0.997455" id="7hd-5P-I9r"/>
                                 </constraints>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="RkM-Hh-eZx">
-                                    <rect key="frame" x="1" y="795" width="388" height="16"/>
+                                    <rect key="frame" x="1" y="797" width="784" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="96e-u8-vjE">
-                                    <rect key="frame" x="373" y="1" width="16" height="810"/>
+                                    <rect key="frame" x="769" y="1" width="16" height="812"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="4cN-cs-t43" customClass="DragNDropImageView" customModule="CommonUI">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="812"/>
+                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dHk-Q5-FAZ" customClass="DragNDropImageView" customModule="CommonUI">
+                                <rect key="frame" x="0.0" y="0.0" width="786" height="814"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="4cN-cs-t43" secondAttribute="trailing" id="9ge-cr-jcg"/>
-                            <constraint firstItem="JHg-wh-ieX" firstAttribute="centerX" secondItem="ndy-hA-WOO" secondAttribute="centerX" id="RGB-6k-rxw"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="JHg-wh-ieX" secondAttribute="trailing" id="SwQ-dg-9fH"/>
-                            <constraint firstItem="4cN-cs-t43" firstAttribute="leading" secondItem="ndy-hA-WOO" secondAttribute="leading" id="imA-ca-blj"/>
-                            <constraint firstItem="JHg-wh-ieX" firstAttribute="top" secondItem="ndy-hA-WOO" secondAttribute="top" id="nM5-li-hss"/>
-                            <constraint firstAttribute="bottom" secondItem="JHg-wh-ieX" secondAttribute="bottom" id="osd-jY-8o2"/>
-                            <constraint firstAttribute="bottom" secondItem="4cN-cs-t43" secondAttribute="bottom" id="q5n-mn-4x8"/>
-                            <constraint firstItem="4cN-cs-t43" firstAttribute="top" secondItem="ndy-hA-WOO" secondAttribute="top" id="rID-hz-0k6"/>
-                            <constraint firstItem="JHg-wh-ieX" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ndy-hA-WOO" secondAttribute="leading" id="xpf-jL-Dqa"/>
+                            <constraint firstItem="JHg-wh-ieX" firstAttribute="top" secondItem="ndy-hA-WOO" secondAttribute="top" id="Qiz-Tv-2ML"/>
+                            <constraint firstAttribute="trailing" secondItem="JHg-wh-ieX" secondAttribute="trailing" id="as5-CT-2Dr"/>
+                            <constraint firstItem="JHg-wh-ieX" firstAttribute="leading" secondItem="ndy-hA-WOO" secondAttribute="leading" id="df2-t2-QcY"/>
+                            <constraint firstAttribute="bottom" secondItem="JHg-wh-ieX" secondAttribute="bottom" id="im7-2p-KCV"/>
                         </constraints>
                         <connections>
                             <outlet property="backgroundImageView" destination="kiH-h5-aG4" id="7f8-09-iTJ"/>
                             <outlet property="clipView" destination="lki-H1-X1O" id="yfA-nS-Iqj"/>
                             <outlet property="contentView" destination="JlK-Oy-LgO" id="6NV-jp-qGf"/>
                             <outlet property="controlsView" destination="L7U-F0-kOc" id="nWG-y5-Tqd"/>
-                            <outlet property="dragnDropView" destination="4cN-cs-t43" id="5pO-tT-x64"/>
-                            <outlet property="imageHeight" destination="xHB-ca-Zjv" id="gtV-cy-dfw"/>
-                            <outlet property="imageWidth" destination="cX1-ar-rKx" id="pgx-b5-Mwq"/>
+                            <outlet property="dragnDropView" destination="dHk-Q5-FAZ" id="9Yb-dX-lbU"/>
+                            <outlet property="imageHeight" destination="Te8-3a-boV" id="V14-Dg-u7E"/>
+                            <outlet property="imageWidth" destination="hR1-I7-oyp" id="253-i5-sE6"/>
                             <outlet property="scrollView" destination="JHg-wh-ieX" id="oB8-ia-UPa"/>
                         </connections>
                     </view>
                 </viewController>
                 <customObject id="Wlo-hV-FCI" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-297" y="676"/>
+            <point key="canvasLocation" x="-388" y="676"/>
         </scene>
     </scenes>
 </document>
