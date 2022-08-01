@@ -13,12 +13,14 @@ public class EditorViewController: NSViewController {
     
     public let toolbar: NSToolbar = NSToolbar()
     
-    public func inject(router: EditorRouterProtocol, document: VODesignDocument) {
+    public func inject(router: EditorRouterProtocol, document: VODesignDocument, delegate: EditorDelegate) {
         self.router = router
+        self.delegate = delegate
         self.presenter.document = document
     }
     
     private weak var router: EditorRouterProtocol!
+    private weak var delegate: EditorDelegate!
     private let presenter = EditorPresenter()
     
     var trackingArea: NSTrackingArea!
@@ -56,7 +58,8 @@ public class EditorViewController: NSViewController {
         DispatchQueue.main.async {
             self.presenter.didLoad(
                 ui: self.view().controlsView,
-                router: self.router)
+                router: self.router,
+                delegate: self.delegate)
             self.setImage()
             self.addMouseTracking()
         }
@@ -96,7 +99,6 @@ public class EditorViewController: NSViewController {
         
         control.isHiglighted = true
         
-        
 //        NSCursor.current.set = NSImage(
 //            systemSymbolName: "arrow.up.and.down.and.arrow.left.and.right",
 //            accessibilityDescription: nil)!
@@ -104,8 +106,7 @@ public class EditorViewController: NSViewController {
     
     func location(from event: NSEvent) -> CGPoint {
         let inWindow = event.locationInWindow
-        let flipped = inWindow.flippendVertical(in: view)
-        let inView = view().backgroundImageView.convert(flipped, from: view)
+        let inView = view().backgroundImageView.convert(inWindow, from: nil)
         return inView.flippendVertical(in: view().backgroundImageView)
     }
     
@@ -130,6 +131,23 @@ public class EditorViewController: NSViewController {
     public static func fromStoryboard() -> EditorViewController {
         let storyboard = NSStoryboard(name: "Editor", bundle: .module)
         return storyboard.instantiateInitialController() as! EditorViewController
+    }
+    
+    public func select(_ model: A11yDescription) {
+        guard let control = view().controlsView.drawnControls.first(where: { control in
+            control.a11yDescription === model
+        }) else { return }
+        
+        presenter.select(control: control, tellToDelegate: false)
+    }
+    
+    public func save() {
+        presenter.save()
+    }
+    
+    public func delete(control: A11yControl) {
+        presenter.delete(control: control)
+        presenter.save()
     }
 }
 

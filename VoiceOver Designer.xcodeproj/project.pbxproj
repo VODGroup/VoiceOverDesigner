@@ -7,10 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E0030B82896C50400B2E238 /* ProjectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0030B72896C50400B2E238 /* ProjectController.swift */; };
 		1E033902281E737000EE373E /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E033901281E737000EE373E /* Document */; };
 		1E1D7FF1281D5CBE00B64954 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1D7FF0281D5CBE00B64954 /* AppDelegate.swift */; };
 		1E1D7FF5281D5CBF00B64954 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E1D7FF4281D5CBF00B64954 /* Assets.xcassets */; };
 		1E1D7FF8281D5CBF00B64954 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E1D7FF6281D5CBF00B64954 /* Main.storyboard */; };
+		1E25D6782896967C00D06A9F /* TextUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1E25D6772896967C00D06A9F /* TextUI */; };
+		1E25D67A289696E900D06A9F /* Settings in Frameworks */ = {isa = PBXBuildFile; productRef = 1E25D679289696E900D06A9F /* Settings */; };
 		1E31DBCC2893146F007EBFC7 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E31DBCB2893146F007EBFC7 /* Router.swift */; };
 		1E579B20282447D900B13565 /* WindowContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579B1F282447D900B13565 /* WindowContoller.swift */; };
 		1E579B9C2825485300B13565 /* VODocumentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E579B9B2825485300B13565 /* VODocumentController.swift */; };
@@ -19,7 +22,6 @@
 		1E7555C82895918400024714 /* ThumbnailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7555C72895918400024714 /* ThumbnailProvider.swift */; };
 		1E7555CD2895918400024714 /* MacOSPreview.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1E7555C12895918400024714 /* MacOSPreview.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1E7555D3289591B900024714 /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E7555D2289591B900024714 /* Document */; };
-		1E81DB702895C0E20033E2D4 /* ProjectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E81DB6F2895C0E20033E2D4 /* ProjectController.swift */; };
 		6B628797288D3F60006F622A /* Projects in Frameworks */ = {isa = PBXBuildFile; productRef = 6B628796288D3F60006F622A /* Projects */; };
 		6B628799288D4039006F622A /* Editor in Frameworks */ = {isa = PBXBuildFile; productRef = 6B628798288D4039006F622A /* Editor */; };
 /* End PBXBuildFile section */
@@ -49,6 +51,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1E0030B72896C50400B2E238 /* ProjectController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectController.swift; sourceTree = "<group>"; };
 		1E1D7FED281D5CBE00B64954 /* VoiceOver Designer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VoiceOver Designer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E1D7FF0281D5CBE00B64954 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1E1D7FF4281D5CBF00B64954 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -66,7 +69,6 @@
 		1E7555C72895918400024714 /* ThumbnailProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailProvider.swift; sourceTree = "<group>"; };
 		1E7555C92895918400024714 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1E7555CA2895918400024714 /* MacOSPreview.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacOSPreview.entitlements; sourceTree = "<group>"; };
-		1E81DB6F2895C0E20033E2D4 /* ProjectController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectController.swift; sourceTree = "<group>"; };
 		1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "VoiceOver-Designer-Info.plist"; sourceTree = SOURCE_ROOT; };
 		6B628795288D3A8D006F622A /* Features */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Features; path = "VoiceOver Designer/Features"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -77,6 +79,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B628799288D4039006F622A /* Editor in Frameworks */,
+				1E25D67A289696E900D06A9F /* Settings in Frameworks */,
+				1E25D6782896967C00D06A9F /* TextUI in Frameworks */,
 				6B628797288D3F60006F622A /* Projects in Frameworks */,
 				1E033902281E737000EE373E /* Document in Frameworks */,
 			);
@@ -133,7 +137,7 @@
 				1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */,
 				1E1D7FF0281D5CBE00B64954 /* AppDelegate.swift */,
 				1E579B1F282447D900B13565 /* WindowContoller.swift */,
-				1E81DB6F2895C0E20033E2D4 /* ProjectController.swift */,
+				1E0030B72896C50400B2E238 /* ProjectController.swift */,
 				1E579B9B2825485300B13565 /* VODocumentController.swift */,
 				1E31DBCB2893146F007EBFC7 /* Router.swift */,
 				1E1D7FF4281D5CBF00B64954 /* Assets.xcassets */,
@@ -175,6 +179,8 @@
 				1E033901281E737000EE373E /* Document */,
 				6B628796288D3F60006F622A /* Projects */,
 				6B628798288D4039006F622A /* Editor */,
+				1E25D6772896967C00D06A9F /* TextUI */,
+				1E25D679289696E900D06A9F /* Settings */,
 			);
 			productName = "VoiceOver Designer";
 			productReference = 1E1D7FED281D5CBE00B64954 /* VoiceOver Designer.app */;
@@ -261,7 +267,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1E81DB702895C0E20033E2D4 /* ProjectController.swift in Sources */,
+				1E0030B82896C50400B2E238 /* ProjectController.swift in Sources */,
 				1E31DBCC2893146F007EBFC7 /* Router.swift in Sources */,
 				1E579B20282447D900B13565 /* WindowContoller.swift in Sources */,
 				1E1D7FF1281D5CBE00B64954 /* AppDelegate.swift in Sources */,
@@ -562,6 +568,14 @@
 		1E033901281E737000EE373E /* Document */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Document;
+		};
+		1E25D6772896967C00D06A9F /* TextUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TextUI;
+		};
+		1E25D679289696E900D06A9F /* Settings */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Settings;
 		};
 		1E7555D2289591B900024714 /* Document */ = {
 			isa = XCSwiftPackageProductDependency;

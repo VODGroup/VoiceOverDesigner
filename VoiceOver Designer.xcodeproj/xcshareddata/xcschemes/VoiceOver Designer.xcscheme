@@ -69,6 +69,16 @@
                ReferencedContainer = "container:VoiceOver Designer/Features">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "TextUITests"
+               BuildableName = "TextUITests"
+               BlueprintName = "TextUITests"
+               ReferencedContainer = "container:VoiceOver Designer/Features">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

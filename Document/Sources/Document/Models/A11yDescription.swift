@@ -72,14 +72,15 @@ public class A11yDescription: Codable {
         !label.isEmpty
     }
     
-    private let alphaColor: CGFloat = 0.5
+    static let alphaColor: CGFloat = A11yControl.Config().normalAlpha
+
     
     public var color: Color {
         guard isAccessibilityElement else {
-            return Self.ignoreColor.withAlphaComponent(alphaColor)
+            return Self.ignoreColor.withAlphaComponent(Self.alphaColor)
         }
         
-        return (isValid ? Self.validColor: Self.invalidColor).withAlphaComponent(alphaColor)
+        return (isValid ? Self.validColor: Self.invalidColor).withAlphaComponent(Self.alphaColor)
     }
     
     static var invalidColor: Color {
@@ -142,6 +143,10 @@ public class A11yDescription: Codable {
         
         if !hint.isEmpty {
             descr.append(". \(hint)")
+        }
+        
+        if descr.isEmpty {
+            return NSLocalizedString("Empty", comment: "")
         }
         
         return descr.joined()

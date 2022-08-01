@@ -12,11 +12,16 @@ let package = Package(
             name: "Editor",
             targets: ["Editor"]),
         .library(
-            name: "Projects",
-            targets: ["Projects"]),
+            name: "TextUI",
+            targets: ["TextUI"]),
         .library(
             name: "Settings",
             targets: ["Settings"]),
+        
+        .library(
+            name: "Projects",
+            targets: ["Projects"]),
+
         .library(
             name: "CommonUI",
             targets: ["CommonUI"]),
@@ -26,7 +31,7 @@ let package = Package(
             url: "git@github.com:pointfreeco/swift-snapshot-testing.git",
             branch: "main"
         ),
-        .package(name: "Document", path: "../Document")
+        .package(name: "Document", path: "./../../Document")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -34,9 +39,15 @@ let package = Package(
         .target(
             name: "Editor",
             dependencies: [
-                .product(name: "Document", package: "Document"),
+                "Document",
                 "CommonUI",
-                "Settings"
+            ]
+        ),
+        .target(
+            name: "TextUI",
+            dependencies: [
+                "Document",
+                "CommonUI",
             ]
         ),
         .target(
@@ -49,13 +60,14 @@ let package = Package(
         .target(
             name: "Settings",
             dependencies: [
-                .product(name: "Document", package: "Document")
+                "Document",
             ]
         ),
         .target(
             name: "CommonUI",
             dependencies: []
         ),
+        
         .testTarget(
             name: "EditorTests",
             dependencies: ["Editor"]),
@@ -63,8 +75,9 @@ let package = Package(
             name: "SettingsTests",
             dependencies: [
                 "Settings",
-                .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
-                .product(name: "Document", package: "Document")
+                "Document",
+                .product(name: "SnapshotTesting",
+                         package: "swift-snapshot-testing"),
             ],
             exclude: ["__Snapshots__"]
         ),
@@ -72,8 +85,15 @@ let package = Package(
             name: "ProjectsTests",
             dependencies: [
                 "Projects",
-                .product(name: "Document", package: "Document")
+                "Document",
             ]
-        )
+        ),
+        .testTarget(
+            name: "TextUITests",
+            dependencies: [
+                "TextUI",
+                "Document",
+            ]
+        ),
     ]
 )
