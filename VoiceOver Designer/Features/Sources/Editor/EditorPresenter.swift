@@ -7,19 +7,20 @@
 
 import Document
 import AppKit
-import Settings
 
 public class EditorPresenter {
     
     public var document: VODesignDocument!
     var drawingController: DrawingController!
     var ui: DrawingView!
-    var router: EditorRouterProtocol!
+    weak var router: EditorRouterProtocol!
+    weak var delegate: EditorDelegate!
     
-    func didLoad(ui: DrawingView, router: EditorRouterProtocol) {
+    func didLoad(ui: DrawingView, router: EditorRouterProtocol, delegate: EditorDelegate) {
         self.ui = ui
         self.drawingController = DrawingController(view: ui)
         self.router = router
+        self.delegate = delegate
         
         draw()
     }
@@ -30,7 +31,7 @@ public class EditorPresenter {
         }
     }
     
-    func save() {
+    public func save() {
         let descriptions = ui.drawnControls.compactMap { control in
             control.a11yDescription
         }
@@ -75,9 +76,13 @@ public class EditorPresenter {
         }
     }
     
-    func select(control: A11yControl) {
+    func select(control: A11yControl, tellToDelegate: Bool = true) {
         selectedControl = control
-        router.showSettings(for: control, controlSuperview: drawingController.view, delegate: self)
+        router.showSettings(for: control, controlSuperview: drawingController.view)
+        
+        if tellToDelegate {
+            delegate.didSelect(control: selectedControl?.a11yDescription)
+        }
     }
     
     func deselect() {
@@ -102,10 +107,7 @@ public class EditorPresenter {
     }
 }
 
-extension EditorPresenter: SettingsDelegate {
-    public func didUpdateValue() {
-        save()
-    }
+extension EditorPresenter {
     
     public func delete(control: A11yControl) {
         ui.delete(control: control)

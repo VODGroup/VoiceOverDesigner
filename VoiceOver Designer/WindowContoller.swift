@@ -43,21 +43,19 @@ class WindowContoller: NSWindowController {
 extension WindowContoller: ProjectsRouter {
     
     func show(document: VODesignDocument) {
-        document.addWindowController(self)
-        
-        let editor = EditorViewController.fromStoryboard()
-        
         let split = ProjectController()
-        editor.inject(router: split.router, document: document)
-        split.editor = editor
-        
+        split.inject(document: document)
+
         let window = NSWindow(contentViewController: split)
         window.delegate = self
         window.makeKeyAndOrderFront(window)
-        window.toolbar = editor.toolbar
+        window.toolbar = split.editor.toolbar
         window.title = document.displayName
         
         documentWindows.append(window)
+        
+        let windowContorller = WindowContoller(window: window)
+        document.addWindowController(windowContorller)
     }
 }
 
