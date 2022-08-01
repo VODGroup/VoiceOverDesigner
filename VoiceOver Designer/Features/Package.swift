@@ -26,7 +26,7 @@ let package = Package(
             url: "git@github.com:pointfreeco/swift-snapshot-testing.git",
             branch: "main"
         ),
-        .package(name: "Document", path: "../Document")
+        .package(name: "Document", path: "./../../Document")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
