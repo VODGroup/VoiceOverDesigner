@@ -73,6 +73,7 @@ public class A11yDescription: Codable {
     }
     
     static let alphaColor: CGFloat = A11yControl.Config().normalAlpha
+
     
     public var color: Color {
         guard isAccessibilityElement else {
