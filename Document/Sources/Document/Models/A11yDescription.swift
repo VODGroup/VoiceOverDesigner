@@ -72,7 +72,7 @@ public class A11yDescription: Codable {
         !label.isEmpty
     }
     
-    private let alphaColor: CGFloat = 0.3
+    private let alphaColor: CGFloat = 0.5
     
     public var color: Color {
         guard isAccessibilityElement else {
