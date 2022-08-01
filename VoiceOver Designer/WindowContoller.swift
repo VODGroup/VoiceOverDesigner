@@ -43,8 +43,6 @@ class WindowContoller: NSWindowController {
 extension WindowContoller: ProjectsRouter {
     
     func show(document: VODesignDocument) {
-        document.addWindowController(self)
-        
         let split = ProjectController()
         split.inject(document: document)
 
@@ -55,6 +53,9 @@ extension WindowContoller: ProjectsRouter {
         window.title = document.displayName
         
         documentWindows.append(window)
+        
+        let windowContorller = WindowContoller(window: window)
+        document.addWindowController(windowContorller)
     }
 }
 

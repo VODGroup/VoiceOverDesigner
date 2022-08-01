@@ -22,7 +22,6 @@
 		1E7555C82895918400024714 /* ThumbnailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7555C72895918400024714 /* ThumbnailProvider.swift */; };
 		1E7555CD2895918400024714 /* MacOSPreview.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1E7555C12895918400024714 /* MacOSPreview.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1E7555D3289591B900024714 /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E7555D2289591B900024714 /* Document */; };
-		1E81DB702895C0E20033E2D4 /* ProjectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E81DB6F2895C0E20033E2D4 /* ProjectController.swift */; };
 		6B628797288D3F60006F622A /* Projects in Frameworks */ = {isa = PBXBuildFile; productRef = 6B628796288D3F60006F622A /* Projects */; };
 		6B628799288D4039006F622A /* Editor in Frameworks */ = {isa = PBXBuildFile; productRef = 6B628798288D4039006F622A /* Editor */; };
 /* End PBXBuildFile section */
@@ -70,7 +69,6 @@
 		1E7555C72895918400024714 /* ThumbnailProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailProvider.swift; sourceTree = "<group>"; };
 		1E7555C92895918400024714 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1E7555CA2895918400024714 /* MacOSPreview.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacOSPreview.entitlements; sourceTree = "<group>"; };
-		1E81DB6F2895C0E20033E2D4 /* ProjectController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectController.swift; sourceTree = "<group>"; };
 		1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "VoiceOver-Designer-Info.plist"; sourceTree = SOURCE_ROOT; };
 		6B628795288D3A8D006F622A /* Features */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Features; path = "VoiceOver Designer/Features"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
