@@ -35,7 +35,7 @@ extension VODesignDocument {
     }
     
     public func save(testCase: XCTestCase) {
-//        let expectation = testCase.expectation(description: "Save file")
+        let expectation = testCase.expectation(description: "Save file")
         save(to: fileURL!, ofType: Self.vodesign, for: .saveOperation) { error in
             if let error = error {
                 Swift.print("saving error: \(error)")
@@ -44,10 +44,10 @@ extension VODesignDocument {
             }
             
             // TODO: Handle
-//            expectation.fulfill()
+            expectation.fulfill()
         }
         
-//        testCase.wait(for: [expectation], timeout: 1)
+        testCase.wait(for: [expectation], timeout: 1)
     }
     
     public func read() throws {
