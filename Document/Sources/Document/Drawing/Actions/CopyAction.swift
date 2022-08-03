@@ -28,8 +28,9 @@ public class CopyAction: DraggingAction {
     public func drag(to coordinate: CGPoint) {
         let offset = coordinate - startLocation
         let frame = initialFrame.offsetBy(dx: offset.x, dy: offset.y)
+        let aligned = view.alingmentOverlay.alignToAny(copiedControl, frame: frame, drawnControls: view.drawnControls)
         copiedControl.updateWithoutAnimation {
-            copiedControl.frame = frame
+            copiedControl.frame = aligned
         }
         self.offset = offset
     }
