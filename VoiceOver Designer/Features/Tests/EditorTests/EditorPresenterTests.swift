@@ -23,9 +23,10 @@ class EditorPresenterTests: XCTestCase {
         controller = EmptyViewController()
         
         sut = EditorPresenter()
-        sut.document = VODesignDocument.testDocument(name: "Test",
-                                                     saveImmediately: true,
-                                                     testCase: self)
+        sut.document = DocumentFake()
+//        VODesignDocument.testDocument(name: "Test",
+//                                      saveImmediately: true,
+//                                      testCase: self)
         
         router = RouterMock()
         delegate = EditorDelegateMock()
@@ -254,4 +255,10 @@ class EditorDelegateMock: EditorDelegate {
     func didSelect(control: A11yDescription?) {
         
     }
+}
+
+class DocumentFake: VODesignDocumentProtocol {
+    var controls: [A11yDescription] = []
+    var undoManager: UndoManager? = nil
+    var image: Image? = nil
 }
