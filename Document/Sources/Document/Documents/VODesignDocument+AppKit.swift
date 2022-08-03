@@ -5,20 +5,30 @@ public typealias Document = NSDocument
 
 import os
 import Foundation
+import Combine
 
+public protocol VODesignDocumentProtocol {
+    var controls: [A11yDescription] { get set }
+    var undoManager: UndoManager? { get }
+    var image: Image? { get set }
+}
 
-public class VODesignDocument: Document {
+public class VODesignDocument: Document, VODesignDocumentProtocol {
     public static var vodesign = "vodesign"
     public static var uti = "com.akaDuality.vodesign"
     
     // MARK: - Data
     public var image: Image?
     
+    public let controlsPublisher: PassthroughSubject<[A11yDescription], Never> = .init()
+    
     public var controls: [A11yDescription] = [] {
         didSet {
             undoManager?.registerUndo(withTarget: self, handler: { document in
                 document.controls = oldValue
             })
+            
+            controlsPublisher.send(controls)
         }
     }
 
@@ -56,6 +66,7 @@ public class VODesignDocument: Document {
     }
     
     public override func fileWrapper(ofType typeName: String) throws -> FileWrapper {
+        Swift.print("Will save")
         let package = FileWrapper(directoryWithFileWrappers: [:])
         
         package.addFileWrapper(try controlsWrapper())

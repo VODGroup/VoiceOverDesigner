@@ -10,7 +10,7 @@ import AppKit
 
 public class EditorPresenter {
     
-    public var document: VODesignDocument!
+    public var document: VODesignDocumentProtocol!
     var drawingController: DrawingController!
     var ui: DrawingView!
     weak var router: EditorRouterProtocol!

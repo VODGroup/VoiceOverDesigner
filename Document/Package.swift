@@ -5,12 +5,15 @@ import PackageDescription
 
 let package = Package(
     name: "Document",
-    platforms: [.iOS(.v13), .macOS(.v10_13)],
+    platforms: [.iOS(.v13), .macOS(.v10_15)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "Document",
             targets: ["Document"]),
+        .library(
+            name: "DocumentTestHelpers",
+            targets: ["DocumentTestHelpers"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -20,8 +23,13 @@ let package = Package(
         .target(
             name: "Document",
             dependencies: []),
+        .target(
+            name: "DocumentTestHelpers",
+            dependencies: ["Document"],
+            path: "TestHelpers"),
         .testTarget(
             name: "DocumentTests",
-            dependencies: ["Document"]),
+            dependencies: ["Document", "DocumentTestHelpers"]),
+        
     ]
 )

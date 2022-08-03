@@ -3,25 +3,20 @@
 <img width="1590" alt="Screenshot of the application" src="https://user-images.githubusercontent.com/3120680/182229618-32919790-51a5-4a8a-81d8-8e0f34e15b95.png">
 
 
-A MacOS app that helps to design accessible apps in 3 stages:
+A macOS app that helps design accessible apps in three stages:
 
-### 1. Design
+1. Design
+The VoiceOver Designer app for macOS gives designers all possible instruments to lay out accessibility features on their mockups, teaches them what developers can and cannot do with accessibility, and creates specifications to hand over to developers. They can hear the result of their work on an iPhone via a little companion iPhone app called VoiceOver Preview.
 
-Designer uses VoiceOver Designer for macOS to layout accessibility over an app's screenshots. The designer can use VoiceOver Preview app for iPhone to hear the result.
+Integrating it directly into Figma feels natural but can be done later.
 
-VoiceOver Designer presents all possible instruments to designer and teaches them what a developer can and can't do with accessibility.
+2. Development
 
-At the end the designer passes the document to developer.
+Developers get the instructions in the form of a VoiceOver Designer document from designers, read them and understand what accessibility features designers want them to implement.
 
-It looks reasonable to integrate it directly to Figma, but it can be done later.
+3. Unit testing (in future releases)
 
-### 2. Development
-
-A developer got the layout from the designer, can read it and understand what accessibility layout is expected from the visible UI.
-
-### 3. Unit-testing (in feature release)
-
-The app generates test-case for automatic testing of accessibility. In general we can start from AccessibilitySnapshot, but use it in different way: generate only readable text, we don't need a visual part of screenshot. I'll describe the idea In details at different topic, it's not goal of first release.
+The app generates test cases for automatic accessibility testing. In general, we can start from AccessibilitySnapshot, but use it differently: instead of performing image comparisons, we can create and compare textual representations of accessible elements. I'll elaborate on this idea on a different topic, as it's not the goal of the first release.
 
 # How to learn VoiceOver
 1. [Understand VoiceOver navigation](https://www.youtube.com/watch?v=L5UXN7l15ro)

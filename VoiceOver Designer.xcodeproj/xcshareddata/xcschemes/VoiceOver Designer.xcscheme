@@ -68,6 +68,11 @@
                BlueprintName = "SettingsTests"
                ReferencedContainer = "container:VoiceOver Designer/Features">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "AdjustableViewControllerSnapshotTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
          <TestableReference
             skipped = "NO">

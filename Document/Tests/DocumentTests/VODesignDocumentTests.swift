@@ -7,11 +7,12 @@
 
 import XCTest
 import Document
+import DocumentTestHelpers
 
 #if os(macOS)
 extension VODesignDocument {
-    static func with2Controls(name: String) -> VODesignDocument {
-        let document = VODesignDocument.testDocument(name: name)
+    static func with2Controls(name: String, testCase: XCTestCase) -> VODesignDocument {
+        let document = VODesignDocument.testDocument(name: name, testCase: testCase)
         document.controls = [A11yDescription.testMake(label: "Label1"),
                              A11yDescription.testMake(label: "Label2")]
         return document
@@ -27,13 +28,13 @@ class VODesignDocumentPersistanceTests: XCTestCase {
         var document: VODesignDocument?
         
         XCTContext.runActivity(named: "Create document") { _ in
-            document = VODesignDocument.with2Controls(name: fileName)
+            document = VODesignDocument.with2Controls(name: fileName, testCase: self)
             document!.controls = [A11yDescription.testMake(label: "Label1"),
                                   A11yDescription.testMake(label: "Label2")]
         }
         
         XCTContext.runActivity(named: "Save document and remove from memory") { _ in
-            document!.save()
+            document!.save(testCase: self)
             addTeardownBlock {
                 try! VODesignDocument.removeTestDocument(name: fileName)
             }
@@ -51,10 +52,10 @@ class VODesignDocumentPersistanceTests: XCTestCase {
     }
     
     func testWhenSaveNewDocument_shouldHaveCorrectExtensions() throws {
-        let document = VODesignDocument.with2Controls(name: "TestFile2")
+        let document = VODesignDocument.with2Controls(name: "TestFile2", testCase: self)
         
         XCTContext.runActivity(named: "Save document to disk") { _ in
-            document.save()
+            document.save(testCase: self)
             addTeardownBlock {
                 try! VODesignDocument.removeTestDocument(name: "TestFile2")
             }
@@ -67,7 +68,7 @@ class VODesignDocumentPersistanceTests: XCTestCase {
 class VODesignDocumentUndoTests: XCTestCase {
     
     func test_undoForArray() {
-        let document = VODesignDocument.with2Controls(name: "TestFile1")
+        let document = VODesignDocument.with2Controls(name: "TestFile1", testCase: self)
         XCTAssertEqual(document.controls.count, 2)
         
         document.undoManager?.undo()
