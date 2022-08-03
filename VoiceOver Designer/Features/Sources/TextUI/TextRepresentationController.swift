@@ -1,5 +1,6 @@
 import AppKit
 import Document
+import Combine
 
 public protocol TextRepresentationControllerDelegate: AnyObject {
     func didSelect(_ model: A11yDescription)
@@ -44,6 +45,8 @@ public class TextRepresentationController: NSViewController {
     
     private var draggedNode: A11yDescription? = nil
     
+    private var cancellables = Set<AnyCancellable>()
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,6 +58,10 @@ public class TextRepresentationController: NSViewController {
         
         // Enable dragging items within and into our view.
         outlineView.setDraggingSourceOperationMask(NSDragOperation.every, forLocal: true)
+        
+        document.controlsPublisher.sink { controls in
+            self.outlineView.reloadData()
+        }.store(in: &cancellables)
     }
 }
 
