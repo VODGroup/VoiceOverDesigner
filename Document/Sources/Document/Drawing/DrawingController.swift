@@ -7,11 +7,13 @@ public class DrawingController {
         
 #if os(macOS)
         view.wantsLayer = true
+
 #endif
     }
     
     public let view: DrawingView
     private var action: DraggingAction?
+
     
     // MARK: Drawn from existed controls
     
@@ -27,10 +29,14 @@ public class DrawingController {
     }
     
     // MARK: New drawing
-    public func mouseDown(on location: CGPoint) {
+    public func mouseDown(on location: CGPoint, shouldCopy: Bool) {
         if let existedControl = view.control(at: location) {
-            startTranslating(control: existedControl,
-                             startLocation: location)
+            if shouldCopy {
+                startCopy(controlToCopy: existedControl, startLocation: location)
+            } else {
+                startTranslating(control: existedControl,
+                                 startLocation: location)
+            }
         } else {
             startDrawing(coordinate: location)
         }
@@ -45,6 +51,12 @@ public class DrawingController {
         let control = drawControl(from: .empty(frame: .zero))
         
         self.action = NewControlAction(view: view, control: control, coordinate: coordinate)
+    }
+    
+    private func startCopy(controlToCopy: A11yControl, startLocation: CGPoint) {
+        guard let descriptionToCopy = controlToCopy.a11yDescription else { return }
+        let control = drawControl(from: descriptionToCopy)
+        action = CopyAction(view: view, copiedControl: control, startLocation: startLocation, offset: .zero, initialFrame: control.frame)
     }
     
     public func drag(to coordinate: CGPoint) {

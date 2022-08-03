@@ -16,6 +16,7 @@ public class EditorPresenter {
     weak var router: EditorRouterProtocol!
     weak var delegate: EditorDelegate!
     
+    
     func didLoad(ui: DrawingView, router: EditorRouterProtocol, delegate: EditorDelegate) {
         self.ui = ui
         self.drawingController = DrawingController(view: ui)
@@ -40,8 +41,8 @@ public class EditorPresenter {
     }
     
     // MARK: Mouse
-    func mouseDown(on location: CGPoint) {
-        drawingController.mouseDown(on: location)
+    func mouseDown(on location: CGPoint, shouldCopy: Bool) {
+        drawingController.mouseDown(on: location, shouldCopy: shouldCopy)
     }
     
     func mouseDragged(on location: CGPoint) {
@@ -67,6 +68,11 @@ public class EditorPresenter {
             save()
         case let click as ClickAction:
             select(control: click.control)
+        case let copy as CopyAction:
+            document.undoManager?.registerUndo(withTarget: self, handler: { target in
+                target.delete(control: copy.copiedControl)
+            })
+            save()
             
         case .none:
             deselect()
