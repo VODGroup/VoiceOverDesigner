@@ -45,7 +45,8 @@ public class TextRepresentationController: NSViewController {
     
     private var draggedNode: A11yDescription? = nil
     
-    private var cancellables = [AnyCancellable]()
+    private var cancellables = Set<AnyCancellable>()
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         
