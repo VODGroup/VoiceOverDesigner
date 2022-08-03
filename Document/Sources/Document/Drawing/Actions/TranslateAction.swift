@@ -31,7 +31,7 @@ public class TranslateAction: DraggingAction {
         self.offset = offset
     }
     
-    public func end(at coodrinate: CGPoint) -> DraggingAction? {
+    public func end(at coordinate: CGPoint) -> DraggingAction? {
         if offset.isSmallOffset {
             // Reset frame
             control.frame = control.frame

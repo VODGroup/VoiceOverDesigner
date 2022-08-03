@@ -22,7 +22,7 @@ public class NewControlAction: DraggingAction {
         }
     }
     
-    public func end(at coodrinate: CGPoint) -> DraggingAction? {
+    public func end(at coordinate: CGPoint) -> DraggingAction? {
         if control.frame.size.width < 5 || control.frame.size.height < 5 {
             view.delete(control: control)
             return .none
