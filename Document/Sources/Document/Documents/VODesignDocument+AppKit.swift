@@ -5,7 +5,7 @@ public typealias Document = NSDocument
 
 import os
 import Foundation
-
+import Combine
 
 public class VODesignDocument: Document {
     public static var vodesign = "vodesign"
@@ -14,11 +14,15 @@ public class VODesignDocument: Document {
     // MARK: - Data
     public var image: Image?
     
+    public let controlsPublisher: PassthroughSubject<[A11yDescription], Never> = .init()
+    
     public var controls: [A11yDescription] = [] {
         didSet {
             undoManager?.registerUndo(withTarget: self, handler: { document in
                 document.controls = oldValue
             })
+            
+            controlsPublisher.send(controls)
         }
     }
 
