@@ -70,7 +70,12 @@ let package = Package(
         
         .testTarget(
             name: "EditorTests",
-            dependencies: ["Editor"]),
+            dependencies: [
+                "Editor",
+                .product(
+                    name: "DocumentTestHelpers",
+                    package: "Document"),
+            ]),
         .testTarget(
             name: "SettingsTests",
             dependencies: [

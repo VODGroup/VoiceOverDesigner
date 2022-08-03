@@ -11,6 +11,9 @@ let package = Package(
         .library(
             name: "Document",
             targets: ["Document"]),
+        .library(
+            name: "DocumentTestHelpers",
+            targets: ["DocumentTestHelpers"])
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -20,8 +23,13 @@ let package = Package(
         .target(
             name: "Document",
             dependencies: []),
+        .target(
+            name: "DocumentTestHelpers",
+            dependencies: ["Document"],
+            path: "TestHelpers"),
         .testTarget(
             name: "DocumentTests",
-            dependencies: ["Document"]),
+            dependencies: ["Document", "DocumentTestHelpers"]),
+        
     ]
 )
