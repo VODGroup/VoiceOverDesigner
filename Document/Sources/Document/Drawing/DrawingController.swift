@@ -55,7 +55,8 @@ public class DrawingController {
     
     private func startCopy(controlToCopy: A11yControl, startLocation: CGPoint) {
         guard let descriptionToCopy = controlToCopy.a11yDescription else { return }
-        let control = drawControl(from: descriptionToCopy)
+        let copiedDescription = A11yDescription.copy(from: descriptionToCopy)
+        let control = drawControl(from: copiedDescription)
         action = CopyAction(view: view, copiedControl: control, startLocation: startLocation, offset: .zero, initialFrame: control.frame)
     }
     
