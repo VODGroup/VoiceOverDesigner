@@ -8,6 +8,7 @@
 import XCTest
 @testable import Editor
 import Document
+import DocumentTestHelpers
 
 class EditorPresenterTests: XCTestCase {
 
@@ -23,7 +24,8 @@ class EditorPresenterTests: XCTestCase {
         
         sut = EditorPresenter()
         sut.document = VODesignDocument.testDocument(name: "Test",
-                                                     saveImmediately: true)
+                                                     saveImmediately: true,
+                                                     testCase: self)
         
         router = RouterMock()
         delegate = EditorDelegateMock()
@@ -33,7 +35,7 @@ class EditorPresenterTests: XCTestCase {
                     delegate: delegate)
     }
     
-    override func tearDown() {
+    override func tearDownWithError() throws {
         try? VODesignDocument.removeTestDocument(name: "Test")
         sut = nil
         router = nil

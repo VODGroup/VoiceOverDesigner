@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "UIKitPreview"
-               BuildableName = "UIKitPreview"
-               BlueprintName = "UIKitPreview"
+               BlueprintIdentifier = "DocumentTestHelpers"
+               BuildableName = "DocumentTestHelpers"
+               BlueprintName = "DocumentTestHelpers"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -50,9 +50,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "UIKitPreview"
-            BuildableName = "UIKitPreview"
-            BlueprintName = "UIKitPreview"
+            BlueprintIdentifier = "DocumentTestHelpers"
+            BuildableName = "DocumentTestHelpers"
+            BlueprintName = "DocumentTestHelpers"
             ReferencedContainer = "container:">
          </BuildableReference>
       </MacroExpansion>

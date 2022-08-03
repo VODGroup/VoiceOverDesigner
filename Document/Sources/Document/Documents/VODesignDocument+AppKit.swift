@@ -60,6 +60,7 @@ public class VODesignDocument: Document {
     }
     
     public override func fileWrapper(ofType typeName: String) throws -> FileWrapper {
+        Swift.print("Will save")
         let package = FileWrapper(directoryWithFileWrappers: [:])
         
         package.addFileWrapper(try controlsWrapper())

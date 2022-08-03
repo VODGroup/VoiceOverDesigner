@@ -1,15 +1,18 @@
 #if canImport(XCTest) && canImport(AppKit)
 
 import Foundation
+import Document
+import XCTest
 
 extension VODesignDocument {
     public static func testDocument(
         name: String,
-        saveImmediately: Bool = false
+        saveImmediately: Bool = false,
+        testCase: XCTestCase
     ) -> VODesignDocument {
         let document = VODesignDocument(file: testURL(name: name))
         if saveImmediately {
-            document.save()
+            document.save(testCase: testCase)
         }
         return document
     }
@@ -31,11 +34,20 @@ extension VODesignDocument {
             in: .userDomainMask).first!
     }
     
-    public func save() {
+    public func save(testCase: XCTestCase) {
+//        let expectation = testCase.expectation(description: "Save file")
         save(to: fileURL!, ofType: Self.vodesign, for: .saveOperation) { error in
-            Swift.print(error)
+            if let error = error {
+                Swift.print("saving error: \(error)")
+            } else {
+                Swift.print("saved successfully")
+            }
+            
             // TODO: Handle
+//            expectation.fulfill()
         }
+        
+//        testCase.wait(for: [expectation], timeout: 1)
     }
     
     public func read() throws {
