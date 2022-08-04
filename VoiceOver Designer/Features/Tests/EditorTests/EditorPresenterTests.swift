@@ -51,7 +51,7 @@ class EditorPresenterTests: XCTestCase {
     // MARK: - Drawning
     // MARK: New
     func test_rectangleDrawnOnTheFly() {
-        sut.mouseDown(on: start10, shouldCopy: false)
+        sut.mouseDown(on: start10)
         
         XCTContext.runActivity(named: "draw on drag") { _ in
             sut.mouseDragged(on: end60)
@@ -70,7 +70,7 @@ class EditorPresenterTests: XCTestCase {
     }
     
     func test_drawRectangle_onMouseUp() {
-        sut.mouseDown(on: start10, shouldCopy: false)
+        sut.mouseDown(on: start10)
         sut.mouseUp(on: end60)
         
         XCTAssertEqual(sut.document.controls.first?.frame,
@@ -78,7 +78,7 @@ class EditorPresenterTests: XCTestCase {
     }
     
     func test_drawSmallerThanMinimalWidth_shouldIncreaseSizeToMinimal_andKeepCenter() {
-        sut.mouseDown(on: start10, shouldCopy: false)
+        sut.mouseDown(on: start10)
         sut.mouseUp(on: start10.offset(x: 10, y: 50))
         
         XCTAssertEqual(sut.document.controls.first?.frame,
@@ -88,7 +88,7 @@ class EditorPresenterTests: XCTestCase {
     }
     
     func test_drawSmallerThanMinimalHeight_shouldIncreaseSizeToMinimal_andKeepCenter() {
-        sut.mouseDown(on: start10, shouldCopy: false)
+        sut.mouseDown(on: start10)
         sut.mouseUp(on: start10.offset(x: 50, y: 10))
         
         XCTAssertEqual(sut.document.controls.first?.frame,
@@ -98,14 +98,14 @@ class EditorPresenterTests: XCTestCase {
     }
     
     func test_notDrawIfSizeIsSmallerThan5px() {
-        sut.mouseDown(on: start10, shouldCopy: false)
+        sut.mouseDown(on: start10)
         sut.mouseUp(on: start10.offset(x: 4, y: 4))
         
         XCTAssertNil(sut.document.controls.first)
     }
     
     func test_drawInReverseDirection() {
-        sut.mouseDown(on: end60, shouldCopy: false)
+        sut.mouseDown(on: end60)
         sut.mouseUp(on: start10)
         
         XCTAssertEqual(sut.document.controls.first?.frame,
@@ -117,7 +117,7 @@ class EditorPresenterTests: XCTestCase {
         drawRect_10_60()
         
         // Move
-        sut.mouseDown(on: .coord(15), shouldCopy: false)
+        sut.mouseDown(on: .coord(15))
         sut.mouseDragged(on: .coord(17))
         sut.mouseDragged(on: .coord(18))
         sut.mouseDragged(on: .coord(20)) // 5px from start
@@ -133,7 +133,7 @@ class EditorPresenterTests: XCTestCase {
         drawRect_10_60()
         
         // Move
-        sut.mouseDown(on: .coord(15), shouldCopy: false)
+        sut.mouseDown(on: .coord(15))
         sut.mouseUp(on: .coord(5))
         
         XCTAssertEqual(sut.document.controls.first?.frame,
@@ -148,7 +148,7 @@ class EditorPresenterTests: XCTestCase {
                  to: .coord(150))
         XCTAssertEqual(sut.document.controls.count, 2)
         
-        sut.mouseDown(on: .coord(101), shouldCopy: false) // 2nd rect
+        sut.mouseDown(on: .coord(101)) // 2nd rect
         sut.mouseDragged(on: .coord(11))
         
         XCTAssertEqual(sut.document.controls[1].frame,
@@ -171,7 +171,7 @@ class EditorPresenterTests: XCTestCase {
         }
         
         XCTContext.runActivity(named: "open settings after click") { _ in
-            sut.mouseDown(on: .coord(10), shouldCopy: false)
+            sut.mouseDown(on: .coord(10))
             XCTAssertFalse(router.isSettingsShown, "not show settings on touch down")
             
             sut.mouseUp(on: .coord(11)) // Slightly move is possible
@@ -202,21 +202,21 @@ class EditorPresenterTests: XCTestCase {
     
     // MARK: - DSL
     func drawRect_10_60(deselect: Bool = true) {
-        sut.mouseDown(on: start10, shouldCopy: false)
+        sut.mouseDown(on: start10)
         sut.mouseUp(on: end60)
         
         sut.deselect()
     }
     
     func drawRect(from: CGPoint, to: CGPoint) {
-        sut.mouseDown(on: from, shouldCopy: false)
+        sut.mouseDown(on: from)
         sut.mouseUp(on: to)
     }
 }
 
 extension EditorPresenter {
     func click(coordinate: CGPoint) {
-        mouseDown(on: coordinate, shouldCopy: false)
+        mouseDown(on: coordinate)
         mouseUp(on: coordinate)
     }
 }
