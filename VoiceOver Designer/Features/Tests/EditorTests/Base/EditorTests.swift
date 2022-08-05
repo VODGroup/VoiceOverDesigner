@@ -32,6 +32,10 @@ class EditorTests: XCTestCase {
         controller = nil
         super.tearDown()
     }
+    
+    let start10 = CGPoint.coord(10)
+    let end60   = CGPoint.coord(60)
+    let rect10to50  = CGRect(origin: .coord(10), size: .side(50))
 }
 
 // MARK: - DSL
@@ -51,5 +55,23 @@ extension EditorTests {
     var documentControls: [A11yDescription] {
         sut.document.controls
     }
+    
+    func drawRect_10_60(deselect: Bool = true) {
+        sut.mouseDown(on: start10)
+        sut.mouseUp(on: end60)
+        
+        sut.deselect()
+    }
+    
+    func drawRect(from: CGPoint, to: CGPoint) {
+        sut.mouseDown(on: from)
+        sut.mouseUp(on: to)
+    }
 }
 
+extension EditorPresenter {
+    func click(coordinate: CGPoint) {
+        mouseDown(on: coordinate)
+        mouseUp(on: coordinate)
+    }
+}
