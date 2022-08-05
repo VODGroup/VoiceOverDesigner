@@ -32,11 +32,24 @@ class EditorTests: XCTestCase {
         controller = nil
         super.tearDown()
     }
-    
+}
+
+// MARK: - DSL
+
+extension EditorTests {
     func didLoad() {
         sut.didLoad(ui: controller.controlsView,
                     router: router,
                     delegate: delegate)
+    }
+    
+    
+    var drawnControls: [A11yDescription] {
+        controller.controlsView.drawnControls.compactMap(\.a11yDescription)
+    }
+    
+    var documentControls: [A11yDescription] {
+        sut.document.controls
     }
 }
 

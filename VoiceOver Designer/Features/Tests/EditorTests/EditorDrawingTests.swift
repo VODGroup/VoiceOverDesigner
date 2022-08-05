@@ -11,7 +11,7 @@ import Document
 import DocumentTestHelpers
 
 class EditorDrawingTests: EditorAfterDidLoadTests {
-
+    
     private let start10 = CGPoint.coord(10)
     private let end60   = CGPoint.coord(60)
     private let rect10to50  = CGRect(origin: .coord(10), size: .side(50))
@@ -24,15 +24,15 @@ class EditorDrawingTests: EditorAfterDidLoadTests {
         XCTContext.runActivity(named: "draw on drag") { _ in
             sut.mouseDragged(on: end60)
             
-            XCTAssertEqual(controller.controlsView.layer?.sublayers?.first?.frame,
+            XCTAssertEqual(drawnControls.first?.frame,
                            rect10to50, "Draw")
             
-            XCTAssertNil(sut.document.controls.first, "but not saved yet")
+            XCTAssertNil(documentControls.first, "but not saved yet")
         }
         
         XCTContext.runActivity(named: "saved on release") { _ in
             sut.mouseUp(on: end60)
-            XCTAssertEqual(sut.document.controls.first?.frame,
+            XCTAssertEqual(drawnControls.first?.frame,
                            rect10to50)
         }
     }
@@ -41,7 +41,7 @@ class EditorDrawingTests: EditorAfterDidLoadTests {
         sut.mouseDown(on: start10)
         sut.mouseUp(on: end60)
         
-        XCTAssertEqual(sut.document.controls.first?.frame,
+        XCTAssertEqual(drawnControls.first?.frame,
                        rect10to50)
     }
     
@@ -49,7 +49,7 @@ class EditorDrawingTests: EditorAfterDidLoadTests {
         sut.mouseDown(on: start10)
         sut.mouseUp(on: start10.offset(x: 10, y: 50))
         
-        XCTAssertEqual(sut.document.controls.first?.frame,
+        XCTAssertEqual(drawnControls.first?.frame,
                        CGRect(origin: CGPoint(x: 10 + 5 - 44/2,
                                               y: 10),
                               size: CGSize(width: 44, height: 50)))
@@ -59,7 +59,7 @@ class EditorDrawingTests: EditorAfterDidLoadTests {
         sut.mouseDown(on: start10)
         sut.mouseUp(on: start10.offset(x: 50, y: 10))
         
-        XCTAssertEqual(sut.document.controls.first?.frame,
+        XCTAssertEqual(drawnControls.first?.frame,
                        CGRect(origin: CGPoint(x: 10,
                                               y: 10 +  5 - 44/2),
                               size: CGSize(width: 50, height: 44)))
@@ -69,14 +69,14 @@ class EditorDrawingTests: EditorAfterDidLoadTests {
         sut.mouseDown(on: start10)
         sut.mouseUp(on: start10.offset(x: 4, y: 4))
         
-        XCTAssertNil(sut.document.controls.first)
+        XCTAssertNil(drawnControls.first)
     }
     
     func test_drawInReverseDirection() {
         sut.mouseDown(on: end60)
         sut.mouseUp(on: start10)
         
-        XCTAssertEqual(sut.document.controls.first?.frame,
+        XCTAssertEqual(drawnControls.first?.frame,
                        rect10to50)
     }
     
@@ -90,8 +90,8 @@ class EditorDrawingTests: EditorAfterDidLoadTests {
         sut.mouseDragged(on: .coord(18))
         sut.mouseDragged(on: .coord(20)) // 5px from start
         
-        XCTAssertEqual(sut.document.controls.count, 1)
-        XCTAssertEqual(sut.document.controls.first?.frame,
+        XCTAssertEqual(drawnControls.count, 1)
+        XCTAssertEqual(drawnControls.first?.frame,
                        rect10to50.offsetBy(dx: 5, dy: 5))
         
         XCTAssertFalse(router.isSettingsShown, "Not open settings at the end of translation")
@@ -104,7 +104,7 @@ class EditorDrawingTests: EditorAfterDidLoadTests {
         sut.mouseDown(on: .coord(15))
         sut.mouseUp(on: .coord(5))
         
-        XCTAssertEqual(sut.document.controls.first?.frame,
+        XCTAssertEqual(drawnControls.first?.frame,
                        rect10to50.offsetBy(dx: -10, dy: -10))
         
         XCTAssertFalse(router.isSettingsShown, "Not open settings at the end of translation")
@@ -114,12 +114,12 @@ class EditorDrawingTests: EditorAfterDidLoadTests {
         drawRect(from: start10, to: end60)
         drawRect(from: .coord(100),
                  to: .coord(150))
-        XCTAssertEqual(sut.document.controls.count, 2)
+        XCTAssertEqual(drawnControls.count, 2)
         
         sut.mouseDown(on: .coord(101)) // 2nd rect
         sut.mouseDragged(on: .coord(11))
         
-        XCTAssertEqual(sut.document.controls[1].frame,
+        XCTAssertEqual(drawnControls[1].frame,
                        CGRect(origin: .coord(10), size: .side(50)))
     }
     
@@ -145,7 +145,7 @@ class EditorDrawingTests: EditorAfterDidLoadTests {
             sut.mouseUp(on: .coord(11)) // Slightly move is possible
             XCTAssertTrue(router.isSettingsShown, "show settings on touch up")
             
-            XCTAssertEqual(sut.document.controls.first?.frame,
+            XCTAssertEqual(drawnControls.first?.frame,
                            rect10to50, "Keep frame")
             
             XCTAssertNotNil(sut.selectedControl)
