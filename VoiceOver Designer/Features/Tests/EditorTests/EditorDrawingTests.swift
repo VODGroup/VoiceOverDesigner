@@ -10,40 +10,8 @@ import XCTest
 import Document
 import DocumentTestHelpers
 
-class EditorPresenterTests: XCTestCase {
+class EditorDrawingTests: EditorAfterDidLoadTests {
 
-    var sut: EditorPresenter!
-    var router: RouterMock!
-    var delegate: EditorDelegateMock!
-    var controller: EmptyViewController!
-    
-    override func setUp() {
-        super.setUp()
-        
-        controller = EmptyViewController()
-        
-        sut = EditorPresenter()
-        sut.document = DocumentFake()
-//        VODesignDocument.testDocument(name: "Test",
-//                                      saveImmediately: true,
-//                                      testCase: self)
-        
-        router = RouterMock()
-        delegate = EditorDelegateMock()
-        
-        sut.didLoad(ui: controller.controlsView,
-                    router: router,
-                    delegate: delegate)
-    }
-    
-    override func tearDownWithError() throws {
-        try? VODesignDocument.removeTestDocument(name: "Test")
-        sut = nil
-        router = nil
-        controller = nil
-        super.tearDown()
-    }
-    
     private let start10 = CGPoint.coord(10)
     private let end60   = CGPoint.coord(60)
     private let rect10to50  = CGRect(origin: .coord(10), size: .side(50))
@@ -252,13 +220,25 @@ extension CGPoint {
 }
 
 class EditorDelegateMock: EditorDelegate {
+    func didDraw(control: A11yDescription) {
+        
+    }
+    
+    func didChangeDocument(controls: [A11yDescription]) {
+        
+    }
+    
     func didSelect(control: A11yDescription?) {
         
     }
 }
 
+import Combine
 class DocumentFake: VODesignDocumentProtocol {
+    var controlsPublisher: PassthroughSubject<[A11yDescription], Never> = .init()
+    
     var controls: [A11yDescription] = []
     var undoManager: UndoManager? = nil
     var image: Image? = nil
 }
+
