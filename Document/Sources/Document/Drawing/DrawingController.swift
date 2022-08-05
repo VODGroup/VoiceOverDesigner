@@ -15,6 +15,14 @@ public class DrawingController {
     
     // MARK: Drawn from existed controls
     
+    public func drawControls(
+        _ descriptions: [A11yDescription]
+    ) {
+        descriptions.forEach { description in
+            drawControl(from: description)
+        }
+    }
+    
     @discardableResult
     public func drawControl(from description: A11yDescription) -> A11yControl {
         let control = A11yControl()

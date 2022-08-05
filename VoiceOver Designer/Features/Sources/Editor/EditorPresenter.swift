@@ -7,6 +7,7 @@
 
 import Document
 import AppKit
+import Combine
 
 public class EditorPresenter {
     
@@ -22,13 +23,24 @@ public class EditorPresenter {
         self.router = router
         self.delegate = delegate
         
-        draw()
+        draw(controls: document.controls)
+        redrawOnControlChanges()
     }
     
-    func draw() {
-        document.controls.forEach { control in
-            drawingController.drawControl(from: control)
-        }
+    private var cancellables = Set<AnyCancellable>()
+    
+    private func redrawOnControlChanges() {
+        document
+            .controlsPublisher
+            .sink { controls in
+                self.drawingController.view.removeAll()
+                self.draw(controls: controls)
+            }
+            .store(in: &cancellables)
+    }
+    
+    func draw(controls: [A11yDescription]) {
+        drawingController.drawControls(controls)
     }
     
     public func save() {

@@ -6,7 +6,12 @@ import Document
 class DocumentFake: VODesignDocumentProtocol {
     var controlsPublisher: PassthroughSubject<[A11yDescription], Never> = .init()
     
-    var controls: [A11yDescription] = []
+    var controls: [A11yDescription] = [] {
+        didSet {
+            controlsPublisher.send(controls)
+        }
+    }
+    
     var undoManager: UndoManager? = nil
     var image: Image? = nil
 }

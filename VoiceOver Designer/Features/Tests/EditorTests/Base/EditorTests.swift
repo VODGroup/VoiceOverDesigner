@@ -52,6 +52,10 @@ extension EditorTests {
         controller.controlsView.drawnControls.compactMap(\.a11yDescription)
     }
     
+    var numberOfDrawnViews: Int {
+        drawnControls.count
+    }
+    
     var documentControls: [A11yDescription] {
         sut.document.controls
     }
