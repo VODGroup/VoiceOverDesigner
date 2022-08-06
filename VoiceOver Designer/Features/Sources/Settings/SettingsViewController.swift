@@ -17,7 +17,7 @@ public class SettingsViewController: NSViewController {
     public var presenter: SettingsPresenter!
     
     var descr: A11yDescription {
-        presenter.control.a11yDescription!
+        presenter.model
     }
     
     @IBOutlet weak var resultLabel: NSTextField!
@@ -148,7 +148,7 @@ public class SettingsViewController: NSViewController {
     }
     
     @IBAction func delete(_ sender: Any) {
-        presenter.delegate?.delete(control: presenter.control)
+        presenter.delegate?.delete(model: presenter.model)
     }
     
     @IBAction func isAccessibleElementDidChanged(_ sender: NSButton) {

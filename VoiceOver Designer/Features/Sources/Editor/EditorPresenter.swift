@@ -9,19 +9,41 @@ import Document
 import AppKit
 import Combine
 
-public class EditorPresenter {
+public class DocumentPresenter {
     
-    public var document: VODesignDocumentProtocol!
+    public init(document: VODesignDocumentProtocol) {
+        self.document = document
+    }
+    
+    public private(set) var document: VODesignDocumentProtocol
+    
     var drawingController: DrawingController!
     var ui: DrawingView!
-    weak var router: EditorRouterProtocol!
-    weak var delegate: EditorDelegate!
     
-    func didLoad(ui: DrawingView, router: EditorRouterProtocol, delegate: EditorDelegate) {
+    public func save() {
+        let descriptions = ui.drawnControls.compactMap { control in
+            control.a11yDescription
+        }
+        
+        document.controls = descriptions
+    }
+    
+    public var selectedPublisher = OptionalDescriptionSubject(nil)
+    
+    func update(image: Image) {
+        document.image = image
+    }
+    
+    func update(controls: [A11yDescription]) {
+        document.controls = controls
+    }
+}
+
+public class EditorPresenter: DocumentPresenter {
+    
+    func didLoad(ui: DrawingView) {
         self.ui = ui
         self.drawingController = DrawingController(view: ui)
-        self.router = router
-        self.delegate = delegate
         
         draw(controls: document.controls)
         redrawOnControlChanges()
@@ -32,34 +54,22 @@ public class EditorPresenter {
     private func redrawOnControlChanges() {
         document
             .controlsPublisher
-            .sink { controls in
-                self.drawingController.view.removeAll()
-                self.draw(controls: controls)
-                self.selectPreviousSelected()
-            }
+            .sink(receiveValue: redraw(controls:))
+            .store(in: &cancellables)
+        
+        selectedPublisher
+            .sink(receiveValue: updateSelectedControl)
             .store(in: &cancellables)
     }
     
-    private func selectPreviousSelected() {
-        if let selected = self.selectedControl?.a11yDescription {
-            self.selectedControl = self.drawingController.view
-                .drawnControls
-                .first(where: { control in
-                    selected.frame == control.frame // Can be same by description (empty, for e.g. but should select same in place
-                })
-        }
+    private func redraw(controls: [A11yDescription]) {
+        drawingController.view.removeAll()
+        draw(controls: controls)
+        updateSelectedControl(selectedPublisher.value)
     }
     
     func draw(controls: [A11yDescription]) {
         drawingController.drawControls(controls)
-    }
-    
-    public func save() {
-        let descriptions = ui.drawnControls.compactMap { control in
-            control.a11yDescription
-        }
-        
-        document.controls = descriptions
     }
     
     // MARK: Mouse
@@ -77,7 +87,7 @@ public class EditorPresenter {
         switch action {
         case let new as NewControlAction:
             document.undoManager?.registerUndo(withTarget: self, handler: { target in
-                target.delete(control: new.control)
+                target.delete(model: new.control.a11yDescription!)
             })
             
             save()
@@ -99,21 +109,21 @@ public class EditorPresenter {
         }
     }
     
-    func select(control: A11yControl, tellToDelegate: Bool = true) {
-        selectedControl = control
-        router.showSettings(for: control, controlSuperview: drawingController.view)
-        
-        if tellToDelegate {
-            delegate.didSelect(control: selectedControl?.a11yDescription)
+    // MARK: - Selection
+    private func updateSelectedControl(_ selectedDescription: A11yDescription?) {
+        guard let selected = selectedDescription else {
+            selectedControl = nil
+            return
         }
+        
+        let selectedControl = ui.drawnControls.first(where: { control in
+            control.a11yDescription?.frame == selected.frame
+        })
+            
+        self.selectedControl = selectedControl
     }
     
-    func deselect() {
-        selectedControl = nil
-        router.hideSettings()
-    }
-    
-    private(set) var selectedControl: A11yControl? {
+    public private(set) var selectedControl: A11yControl? {
         didSet {
             oldValue?.isSelected = false
             
@@ -121,6 +131,15 @@ public class EditorPresenter {
         }
     }
     
+    func select(control: A11yControl) {
+        selectedPublisher.send(control.a11yDescription)
+    }
+    
+    func deselect() {
+        selectedPublisher.send(nil)
+    }
+    
+    // MARK: - Labels
     func showLabels() {
         ui.addLabels()
     }
@@ -128,12 +147,21 @@ public class EditorPresenter {
     func hideLabels() {
         ui.removeLabels()
     }
-}
-
-extension EditorPresenter {
     
-    public func delete(control: A11yControl) {
+    // MARK: - Deletion
+    public func delete(model: A11yDescription) {
+        guard let control = control(for: model) else {
+            return
+        }
+        
         ui.delete(control: control)
+        
         save()
+    }
+    
+    private func control(for model: A11yDescription) -> A11yControl? {
+        ui.drawnControls.first { control in
+            control.a11yDescription?.frame == model.frame
+        }
     }
 }

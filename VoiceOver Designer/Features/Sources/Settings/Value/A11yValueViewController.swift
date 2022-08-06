@@ -29,7 +29,7 @@ class A11yValueViewController: NSViewController {
     weak var delegate: A11yValueDelegate?
     
     var descr: A11yDescription {
-        presenter.control.a11yDescription!
+        presenter.model
     }
     
     override func viewDidLoad() {

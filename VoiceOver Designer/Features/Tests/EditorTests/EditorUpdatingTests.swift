@@ -34,17 +34,12 @@ class EditorUpdatingTests: EditorTests {
         }
     }
     
-    func updateControls(_ controls: [A11yDescription]) {
-        sut.document.controls = controls
-    }
-    
     func setControls(count: Int) {
         var controls = [A11yDescription]()
         for _ in 0..<count {
             controls.append(.empty(frame: .zero))
         }
         
-        updateControls(controls)
+        sut.update(controls: controls)
     }
 }
-
