@@ -62,6 +62,10 @@ extension EditorTests {
         sut.mouseDown(on: from)
         sut.mouseUp(on: to)
     }
+    
+    func awaitSelected() async throws -> A11yDescription? {
+        return try await awaitPublisher(sut.selectedPublisher)
+    }
 }
 
 extension EditorPresenter {

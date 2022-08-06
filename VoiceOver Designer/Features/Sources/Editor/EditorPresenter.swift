@@ -11,7 +11,7 @@ import Combine
 
 public class DocumentPresenter {
     
-    public init(document: VODesignDocument) {
+    public init(document: VODesignDocumentProtocol) {
         self.document = document
     }
     
@@ -32,6 +32,10 @@ public class DocumentPresenter {
     
     func update(image: Image) {
         document.image = image
+    }
+    
+    func update(controls: [A11yDescription]) {
+        document.controls = controls
     }
 }
 

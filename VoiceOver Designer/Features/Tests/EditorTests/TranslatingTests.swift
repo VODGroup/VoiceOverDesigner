@@ -4,7 +4,7 @@ import XCTest
 class TranslatingTests: EditorAfterDidLoadTests {
     
     // MARK: Editing
-    func test_movementFor5px_shouldTranslateRect() {
+    func test_movementFor5px_shouldTranslateRect() async throws {
         drawRect_10_60()
         
         // Move
@@ -17,10 +17,11 @@ class TranslatingTests: EditorAfterDidLoadTests {
         XCTAssertEqual(drawnControls.first?.frame,
                        rect10to50.offsetBy(dx: 5, dy: 5))
         
-        XCTAssertFalse(router.isSettingsShown, "Not open settings at the end of translation")
+        let selected = try await awaitSelected()
+        XCTAssertNil(selected, "should not select after translation")
     }
     
-    func test_translateToNegativeCoordinates_shouldTranslate() {
+    func test_translateToNegativeCoordinates_shouldTranslate() async throws {
         drawRect_10_60()
         
         // Move
@@ -30,7 +31,8 @@ class TranslatingTests: EditorAfterDidLoadTests {
         XCTAssertEqual(drawnControls.first?.frame,
                        rect10to50.offsetBy(dx: -10, dy: -10))
         
-        XCTAssertFalse(router.isSettingsShown, "Not open settings at the end of translation")
+        let selected = try await awaitSelected()
+        XCTAssertNil(selected, "should not select after translation")
     }
     
     func test_whenMoveNearLeftEdgeOnAnyElement_shouldPinToLeftEdge() {

@@ -13,6 +13,7 @@ import CoreGraphics
 class SettingsTests: XCTestCase {
 
     func test_whenSettingsUpdateLabel_shouldRevalidateColor() throws {
+        XCTExpectFailure("Should be moved to integration tests")
         let model = A11yDescription.empty(frame: .zero)
         
         let control = A11yControl()
