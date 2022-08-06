@@ -7,8 +7,8 @@
 
 import Foundation
 
-public class EmptyCopyListener: CopyListenerProtocol {
-    public var isOptionPressed: Bool {
+public class EmptyCopyListener: CopyModifierProtocol {
+    public var isCopyHold: Bool {
         false
     }
 }

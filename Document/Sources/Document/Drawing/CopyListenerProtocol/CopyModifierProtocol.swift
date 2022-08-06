@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol CopyListenerProtocol {
-    var isOptionPressed: Bool { get }
+public protocol CopyModifierProtocol {
+    var isCopyHold: Bool { get }
 }

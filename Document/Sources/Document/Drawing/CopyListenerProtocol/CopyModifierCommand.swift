@@ -8,14 +8,14 @@
 import Foundation
 
 
-public class CopyListenerFactory {
+public class CopyModifierFactory {
     
     public init() {
         
     }
-    public func make() -> CopyListenerProtocol {
+    public func make() -> CopyModifierProtocol {
         #if os(macOS)
-        return CopyOptionListener()
+        return CopyModifierCommand()
         #else
         return EmptyCopyListener()
         #endif
@@ -24,20 +24,20 @@ public class CopyListenerFactory {
 
 #if canImport(AppKit)
 import AppKit
-public class CopyOptionListener: CopyListenerProtocol {
+public class CopyModifierCommand: CopyModifierProtocol {
     
     public init() {
         keyListener = NSEvent.addLocalMonitorForEvents(matching: [.flagsChanged], handler: { [weak self] event in
-            self?.isOptionPressed = event.modifierFlags.contains(.option)
+            self?.isCopyHold = event.modifierFlags.contains(.option)
             return event
         })
     }
     
     
     private var keyListener: Any?
-    public var isOptionPressed: Bool = false {
+    public var isCopyHold: Bool = false {
         didSet {
-            print(isOptionPressed ? "Option Pressed": "Option Released")
+            print(isCopyHold ? "Option Pressed": "Option Released")
         }
     }
 

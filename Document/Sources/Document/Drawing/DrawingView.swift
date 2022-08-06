@@ -31,7 +31,7 @@ public protocol DrawingView: View {
     
     var alingmentOverlay: AlingmentOverlayProtocol { get }
     
-    var copyListener: CopyListenerProtocol { get }
+    var copyListener: CopyModifierProtocol { get }
     
 }
 

@@ -15,7 +15,7 @@ class ControlsView: FlippedView, DrawingView {
     
     lazy var alingmentOverlay = AlingmentOverlayFactory().overlay(for: self)
     
-    var copyListener = CopyListenerFactory().make()
+    var copyListener = CopyModifierFactory().make()
 }
 
 class EditorView: FlippedView {

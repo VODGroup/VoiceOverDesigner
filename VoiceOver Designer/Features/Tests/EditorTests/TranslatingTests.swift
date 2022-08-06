@@ -1,5 +1,6 @@
 import XCTest
 @testable import Editor
+import SwiftUI
 
 class TranslatingTests: EditorAfterDidLoadTests {
     
@@ -53,17 +54,30 @@ class TranslatingTests: EditorAfterDidLoadTests {
     // - aligned to 3rd element
     
     func test_CopyControlShouldDrawNewControlAndHaveSameProperties() async throws {
+        let optionCommand = FakeOptionCommand()
+        
+        await MainActor.run {
+            controller.controlsView.copyListener = optionCommand
+        }
+        
         drawRect_10_60()
         
         // Copy
+        optionCommand.isCopyHold = true
         sut.mouseDown(on: .coord(15))
         sut.mouseUp(on: .coord(50))
         
         XCTAssertEqual(sut.document.controls.count, 2)
         XCTAssert(sut.document.controls[0] !== sut.document.controls[1], "Not same objects")
-        XCTAssertEqual(sut.document.controls[1].frame, rect10to50.offsetBy(dx: 35, dy: 35))
+        XCTAssertEqual(sut.document.controls[1].frame, rect10to50.offsetBy(dx: 35,
+                                                                           dy: 35))
         
         let selected = try await awaitSelected()
         XCTAssertNil(selected, "should not select after translation")
     }
+}
+
+import Document
+class FakeOptionCommand: CopyModifierProtocol {
+    var isCopyHold: Bool = false
 }
