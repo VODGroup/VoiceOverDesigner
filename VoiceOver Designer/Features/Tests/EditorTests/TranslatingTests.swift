@@ -58,9 +58,8 @@ class TranslatingTests: EditorAfterDidLoadTests {
         
         await MainActor.run {
             controller.controlsView.copyListener = copyCommand
+            drawRect_10_60()
         }
-        
-        drawRect_10_60()
         
         // Copy
         copyCommand.isCopyHold = true
@@ -74,5 +73,10 @@ class TranslatingTests: EditorAfterDidLoadTests {
         
         let selected = try await awaitSelected()
         XCTAssertNil(selected, "should not select after translation")
+        
+        
+        // Undo
+        sut.document.undoManager?.undo()
+        XCTAssertEqual(sut.document.controls.count, 1, "should remove copy")
     }
 }
