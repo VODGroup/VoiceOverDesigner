@@ -52,16 +52,16 @@ public class TextRepresentationController: NSViewController {
         // Enable dragging items within and into our view.
         outlineView.setDraggingSourceOperationMask(NSDragOperation.every, forLocal: true)
         
-        document.controlsPublisher.sink { controls in
-            self.outlineView.reloadData()
+        document.controlsPublisher.sink { [weak self] controls in
+            self?.outlineView.reloadData()
         }.store(in: &cancellables)
         
         presenter.selectedPublisher
-            .sink(receiveValue: select)
+            .sink(receiveValue: select(model:))
             .store(in: &cancellables)
     }
     
-    private func select(_ model: A11yDescription?) {
+    private func select(model: A11yDescription?) {
         guard let index = document.controls.firstIndex(where: { aModel in
             aModel === model
         }) else { return }

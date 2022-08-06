@@ -54,16 +54,18 @@ public class EditorPresenter: DocumentPresenter {
     private func redrawOnControlChanges() {
         document
             .controlsPublisher
-            .sink { controls in
-                self.drawingController.view.removeAll()
-                self.draw(controls: controls)
-                self.updateSelectedControl(self.selectedPublisher.value)
-            }
+            .sink(receiveValue: redraw(controls:))
             .store(in: &cancellables)
         
-        selectedPublisher.sink { selectedDescription in
-            self.updateSelectedControl(selectedDescription)
-        }.store(in: &cancellables)
+        selectedPublisher
+            .sink(receiveValue: updateSelectedControl)
+            .store(in: &cancellables)
+    }
+    
+    private func redraw(controls: [A11yDescription]) {
+        drawingController.view.removeAll()
+        draw(controls: controls)
+        updateSelectedControl(selectedPublisher.value)
     }
     
     func draw(controls: [A11yDescription]) {
