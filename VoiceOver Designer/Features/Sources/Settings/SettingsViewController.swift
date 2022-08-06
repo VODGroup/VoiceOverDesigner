@@ -141,22 +141,15 @@ public class SettingsViewController: NSViewController {
     
     internal func updateText() {
         resultLabel.stringValue = descr.voiceOverText
+        presenter.delegate?.didUpdateValue()
     }
     
     @IBAction func delete(_ sender: Any) {
         presenter.delegate?.delete(control: presenter.control)
-        
-        // TODO: Dismiss in popover presentation
-//        dismiss(self)
     }
     
     @IBAction func isAccessibleElementDidChanged(_ sender: NSButton) {
         descr.isAccessibilityElement = sender.state == .on
-    }
-    
-    public override func viewWillDisappear() {
-        super.viewWillDisappear()
-        presenter.delegate?.didUpdateValue()
     }
     
     public static func fromStoryboard() -> SettingsViewController {
