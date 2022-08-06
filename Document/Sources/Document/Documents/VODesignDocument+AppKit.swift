@@ -11,6 +11,8 @@ public protocol VODesignDocumentProtocol {
     var controls: [A11yDescription] { get set }
     var undoManager: UndoManager? { get }
     var image: Image? { get set }
+    
+    var controlsPublisher: PassthroughSubject<[A11yDescription], Never> { get }
 }
 
 public class VODesignDocument: Document, VODesignDocumentProtocol {
@@ -24,6 +26,7 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     
     public var controls: [A11yDescription] = [] {
         didSet {
+            Swift.print(controls.map(\.label))
             undoManager?.registerUndo(withTarget: self, handler: { document in
                 document.controls = oldValue
             })

@@ -10,7 +10,7 @@ import Document
 import Settings
 import Editor
 
-class Router: EditorRouterProtocol {
+class Router {
     init(rootController: ProjectController, settingsDelegate: SettingsDelegate) {
         self.root = rootController
         self.settingsDelegate = settingsDelegate
@@ -19,46 +19,27 @@ class Router: EditorRouterProtocol {
     let root: ProjectController
     unowned var settingsDelegate: SettingsDelegate!
     
-    func showSettings(for control: A11yControl, controlSuperview: NSView) {
-        let sidebarToggle = true
-        if sidebarToggle {
-            showSettingsInSidebar(for: control, controlSuperview: controlSuperview)
-        } else {
-            showSettingsInPopover(for: control, controlSuperview: controlSuperview)
-        }
+    func showSettings(for model: A11yDescription) {
+        showSettingsInSidebar(for: model)
     }
     
     var sidebar: NSSplitViewItem?
     
     private func showSettingsInSidebar(
-        for control: A11yControl,
-        controlSuperview: NSView
+        for model: A11yDescription
     ) {
-        if let sidebar = sidebar {
-            root.removeSplitViewItem(sidebar)
-        }
+        hideSettings()
         
         let settings = SettingsViewController.fromStoryboard()
-        settings.presenter = SettingsPresenter(control: control, delegate: settingsDelegate)
+        settings.presenter = SettingsPresenter(
+            model: model,
+            delegate: settingsDelegate)
         
-        let sidebar = NSSplitViewItem(sidebarWithViewController: settings)
+        let sidebar = NSSplitViewItem(
+            sidebarWithViewController: settings)
+        
         self.sidebar = sidebar
         root.addSplitViewItem(sidebar)
-    }
-    
-    private func showSettingsInPopover(
-        for control: A11yControl,
-        controlSuperview: NSView
-    ) {
-        let settings = SettingsViewController.fromStoryboard()
-        settings.presenter = SettingsPresenter(control: control, delegate: settingsDelegate)
-        
-        let windowCoordinates = controlSuperview.convert(control.frame, to: root.view)
-        root.present(settings,
-                     asPopoverRelativeTo: windowCoordinates,
-                     of: root.view,
-                     preferredEdge: .maxX,
-                     behavior: .semitransient)
     }
     
     func hideSettings() {

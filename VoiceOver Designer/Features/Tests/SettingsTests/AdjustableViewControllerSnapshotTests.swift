@@ -70,12 +70,9 @@ class AdjustableViewControllerSnapshotTests: XCTestCase {
     private let size = CGSize(width: 350, height: 300)
     
     private func sut(descr: A11yDescription) -> A11yValueViewController {
-        let control = A11yControl()
-        control.a11yDescription = descr
-        
         let sut = A11yValueViewController.fromStoryboard()
         
-        sut.presenter = .init(control: control,
+        sut.presenter = .init(model: descr,
                               delegate: SettingsDelegateMock())
         
         sut.view.wantsLayer = true

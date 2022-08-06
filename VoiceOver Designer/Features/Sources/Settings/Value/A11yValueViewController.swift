@@ -9,7 +9,7 @@ import AppKit
 import Document
 
 protocol A11yValueDelegate: AnyObject {
-    func updateText()
+    func updateText(isUserAction: Bool)
 }
 
 class A11yValueViewController: NSViewController {
@@ -29,7 +29,7 @@ class A11yValueViewController: NSViewController {
     weak var delegate: A11yValueDelegate?
     
     var descr: A11yDescription {
-        presenter.control.a11yDescription!
+        presenter.model
     }
     
     override func viewDidLoad() {
@@ -40,7 +40,7 @@ class A11yValueViewController: NSViewController {
     
     @IBAction func valueDidChange(_ sender: NSTextField) {
         descr.value = sender.stringValue
-        delegate?.updateText()
+        delegate?.updateText(isUserAction: true)
     }
     
     @IBAction func addAdjustable(_ sender: Any) {
@@ -99,7 +99,7 @@ extension A11yValueViewController: AdjustableOptionViewDelegate {
                 anOption.radioButton.state = .off
             }
         
-        delegate?.updateText()
+        delegate?.updateText(isUserAction: true)
     }
     
     func update(option: AdjustableOptionView) {

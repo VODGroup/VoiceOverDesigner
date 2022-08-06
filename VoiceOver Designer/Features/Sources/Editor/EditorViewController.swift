@@ -13,16 +13,11 @@ public class EditorViewController: NSViewController {
     
     public let toolbar: NSToolbar = NSToolbar()
     
-    public func inject(router: EditorRouterProtocol, document: VODesignDocument, delegate: EditorDelegate) {
-        self.router = router
-        self.delegate = delegate
-        self.presenter.document = document
+    public func inject(presenter: EditorPresenter) {
+        self.presenter = presenter
     }
     
-    private weak var router: EditorRouterProtocol!
-    private weak var delegate: EditorDelegate!
-
-    private let presenter = EditorPresenter()
+    public var presenter: EditorPresenter!
     
     var trackingArea: NSTrackingArea!
     
@@ -58,9 +53,7 @@ public class EditorViewController: NSViewController {
         super.viewDidAppear()
         DispatchQueue.main.async {
             self.presenter.didLoad(
-                ui: self.view().controlsView,
-                router: self.router,
-                delegate: self.delegate)
+                ui: self.view().controlsView)
             self.setImage()
             self.addMouseTracking()
         }
@@ -139,22 +132,21 @@ public class EditorViewController: NSViewController {
             control.a11yDescription === model
         }) else { return }
         
-        presenter.select(control: control, tellToDelegate: false)
+        presenter.select(control: control)
     }
     
     public func save() {
         presenter.save()
     }
     
-    public func delete(control: A11yControl) {
-        presenter.delete(control: control)
-        presenter.save()
+    public func delete(model: A11yDescription) {
+        presenter.delete(model: model)
     }
 }
 
 extension EditorViewController: DragNDropDelegate {
     public func didDrag(image: NSImage) {
-        presenter.document.image = image
+        presenter.update(image: image)
         view().backgroundImageView.image = image
         presenter.save()
     }
