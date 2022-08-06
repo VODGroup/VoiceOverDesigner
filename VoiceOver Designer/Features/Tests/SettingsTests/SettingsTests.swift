@@ -13,11 +13,13 @@ import CoreGraphics
 class SettingsTests: XCTestCase {
 
     func test_whenSettingsUpdateLabel_shouldRevalidateColor() throws {
+        let model = A11yDescription.empty(frame: .zero)
+        
         let control = A11yControl()
-        control.a11yDescription = .empty(frame: .zero)
+        control.a11yDescription = model
         
         let sut = SettingsPresenter(
-            control: control,
+            model: model,
             delegate: SettingsDelegateMock())
         
         sut.updateLabel(to: "Test")
@@ -29,11 +31,13 @@ class SettingsTests: XCTestCase {
     }
     
     func test_whenSettingsUpdateLabel_shouldUpdateLayerLabel() throws {
+        let model = A11yDescription.empty(frame: .zero)
+        
         let control = A11yControl()
-        control.a11yDescription = .empty(frame: .zero)
+        control.a11yDescription = model
         
         let sut = SettingsPresenter(
-            control: control,
+            model: model,
             delegate: SettingsDelegateMock())
         
         sut.updateLabel(to: "Test")
@@ -52,7 +56,7 @@ class SettingsDelegateMock: SettingsDelegate {
         
     }
     
-    func delete(control: A11yControl) {
+    func delete(model: A11yDescription) {
         
     }
 }
