@@ -15,6 +15,7 @@ public class A11yControl: CALayer {
         
         let highlightedAlpha: CGFloat = 0.75
         let normalAlpha: CGFloat = 0.5
+        let normalCornerRadius: CGFloat = 0
         
         let fontSize: CGFloat = 10
     }
@@ -66,7 +67,7 @@ public class A11yControl: CALayer {
         didSet {
             borderWidth = isSelected ? config.selectedBorderWidth : 0
             borderColor = backgroundColor?.copy(alpha: 1)
-            cornerRadius = isSelected ? config.selectedCornerRadius : 0
+            cornerRadius = isSelected ? config.selectedCornerRadius : config.normalCornerRadius
             if #available(macOS 10.15, *) {
                 cornerCurve = .continuous
             }

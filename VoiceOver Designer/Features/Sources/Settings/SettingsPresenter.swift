@@ -10,24 +10,22 @@ import Document
 
 public protocol SettingsDelegate: AnyObject {
     func didUpdateValue()
-    func delete(control: A11yControl)
+    func delete(model: A11yDescription)
 }
 
 public class SettingsPresenter {
     public init(
-        control: A11yControl,
+        model: A11yDescription,
         delegate: SettingsDelegate
     ) {
-        self.control = control
+        self.model = model
         self.delegate = delegate
     }
     
-    public var control: A11yControl
+    public var model: A11yDescription
     public weak var delegate: SettingsDelegate?
     
     func updateLabel(to newValue: String) {
-        control.a11yDescription?.label = newValue
-        control.updateColor()
-        control.label?.string = newValue
+        model.label = newValue
     }
 }

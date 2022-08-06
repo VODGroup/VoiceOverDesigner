@@ -2,15 +2,15 @@ import AppKit
 import Document
 import Combine
 
-public protocol TextRepresentationControllerDelegate: AnyObject {
-    func didSelect(_ model: A11yDescription)
+public protocol TextBasedPresenter {
+    var selectedPublisher: OptionalDescriptionSubject { get }
 }
 
 public class TextRepresentationController: NSViewController {
     
     public static func fromStoryboard(
         document: VODesignDocument,
-        actionDelegate: TextRepresentationControllerDelegate?
+        presenter: TextBasedPresenter
     ) -> TextRepresentationController {
         let controller = NSStoryboard(
             name: "TextRepresentationController",
@@ -18,29 +18,22 @@ public class TextRepresentationController: NSViewController {
         
         controller.inject(
             document: document,
-            actionDelegate: actionDelegate
+            presenter: presenter
         )
         
         return controller
     }
     
-    public func select(_ model: A11yDescription?) {
-        guard let index = document.controls.firstIndex(where: { aModel in
-            aModel === model
-        }) else { return }
-        
-        outlineView.selectRowIndexes(IndexSet(integer: index),
-                                     byExtendingSelection: false)
-    }
+    var presenter: TextBasedPresenter!
     
     @IBOutlet weak var outlineView: NSOutlineView!
     
-    func inject(document: VODesignDocument, actionDelegate: TextRepresentationControllerDelegate?) {
+    func inject(document: VODesignDocument,
+                presenter: TextBasedPresenter) {
         self.document = document
-        self.actionDelegate = actionDelegate
+        self.presenter = presenter
     }
     
-    private weak var actionDelegate: TextRepresentationControllerDelegate?
     private var document: VODesignDocument!
     
     private var draggedNode: A11yDescription? = nil
@@ -62,6 +55,19 @@ public class TextRepresentationController: NSViewController {
         document.controlsPublisher.sink { controls in
             self.outlineView.reloadData()
         }.store(in: &cancellables)
+        
+        presenter.selectedPublisher
+            .sink(receiveValue: select)
+            .store(in: &cancellables)
+    }
+    
+    private func select(_ model: A11yDescription?) {
+        guard let index = document.controls.firstIndex(where: { aModel in
+            aModel === model
+        }) else { return }
+        
+        outlineView.selectRowIndexes(IndexSet(integer: index),
+                                     byExtendingSelection: false)
     }
 }
 
@@ -96,9 +102,9 @@ extension TextRepresentationController: NSOutlineViewDelegate {
     
     public func outlineViewSelectionDidChange(_ notification: Notification) {
         guard let outlineView = notification.object as? NSOutlineView else { return }
-        
+
         if let model = outlineView.item(atRow: outlineView.selectedRow) as? A11yDescription {
-            actionDelegate?.didSelect(model)
+            presenter.selectedPublisher.send(model)
         }
     }
 }
