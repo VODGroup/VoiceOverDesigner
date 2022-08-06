@@ -41,8 +41,8 @@ public class EditorPresenter {
     }
     
     // MARK: Mouse
-    func mouseDown(on location: CGPoint, shouldCopy: Bool = false) {
-        drawingController.mouseDown(on: location, shouldCopy: shouldCopy)
+    func mouseDown(on location: CGPoint) {
+        drawingController.mouseDown(on: location)
     }
     
     func mouseDragged(on location: CGPoint) {

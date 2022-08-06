@@ -190,7 +190,7 @@ class EditorPresenterTests: XCTestCase {
         
         
         // Copy
-        sut.mouseDown(on: .coord(15), shouldCopy: true)
+        sut.mouseDown(on: .coord(15))
         sut.mouseUp(on: .coord(50))
         
         XCTAssertEqual(sut.document.controls.count, 2)
@@ -257,6 +257,20 @@ class RouterMock: EditorRouterProtocol {
     
     func hideSettings() {
         didShowSettingsForControl = nil
+    }
+}
+
+extension CopyListenerFactory {
+    
+    class CopyListenerMock: CopyListenerProtocol {
+        init(isOptionPressed: Bool) {
+            self.isOptionPressed = isOptionPressed
+        }
+        var isOptionPressed: Bool
+    }
+    
+    func mock(isPressed: Bool = false) -> CopyListenerProtocol {
+        CopyListenerMock(isOptionPressed: isPressed)
     }
 }
 

@@ -29,35 +29,23 @@ public class DrawingController {
     }
     
     // MARK: New drawing
-    public func mouseDown(on location: CGPoint, shouldCopy: Bool) {
+    public func mouseDown(on location: CGPoint) {
         if let existedControl = view.control(at: location) {
-            if shouldCopy {
-                startCopy(controlToCopy: existedControl, startLocation: location)
-            } else {
-                startTranslating(control: existedControl,
-                                 startLocation: location)
-            }
+            startDragging(control: existedControl, startLocation: location)
         } else {
             startDrawing(coordinate: location)
         }
     }
     
-    private func startTranslating(control: A11yControl, startLocation: CGPoint) {
-        self.action = TranslateAction(view: view, control: control, startLocation: startLocation,
-                                      offset: .zero, initialFrame: control.frame)
+    private func startDragging(control: A11yControl, startLocation: CGPoint) {
+        action = CopyAndTranslateAction(view: view, sourceControl: control, startLocation: startLocation, offset: .zero, initialFrame: .zero)
     }
+    
     
     private func startDrawing(coordinate: CGPoint) {
         let control = drawControl(from: .empty(frame: .zero))
         
         self.action = NewControlAction(view: view, control: control, coordinate: coordinate)
-    }
-    
-    private func startCopy(controlToCopy: A11yControl, startLocation: CGPoint) {
-        guard let descriptionToCopy = controlToCopy.a11yDescription else { return }
-        let copiedDescription = A11yDescription.copy(from: descriptionToCopy)
-        let control = drawControl(from: copiedDescription)
-        action = CopyAction(view: view, copiedControl: control, startLocation: startLocation, offset: .zero, initialFrame: control.frame)
     }
     
     public func drag(to coordinate: CGPoint) {

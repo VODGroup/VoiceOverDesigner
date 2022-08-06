@@ -21,8 +21,7 @@ public class EditorViewController: NSViewController {
     
     private weak var router: EditorRouterProtocol!
     private weak var delegate: EditorDelegate!
-    private var keyListener: Any?
-    var isOptionPressed: Bool = false
+
     private let presenter = EditorPresenter()
     
     var trackingArea: NSTrackingArea!
@@ -65,10 +64,6 @@ public class EditorViewController: NSViewController {
             self.setImage()
             self.addMouseTracking()
         }
-        keyListener = NSEvent.addLocalMonitorForEvents(matching: [.flagsChanged], handler: { [weak self] event in
-            self?.isOptionPressed = event.modifierFlags.contains(.option)
-            return event
-        })
     }
     
     func setImage() {
@@ -119,7 +114,7 @@ public class EditorViewController: NSViewController {
     
     // MARK:
     public override func mouseDown(with event: NSEvent) {
-        presenter.mouseDown(on: location(from: event), shouldCopy: isOptionPressed)
+        presenter.mouseDown(on: location(from: event))
     }
     
     public override func mouseDragged(with event: NSEvent) {
