@@ -35,8 +35,19 @@ public class EditorPresenter {
             .sink { controls in
                 self.drawingController.view.removeAll()
                 self.draw(controls: controls)
+                self.selectPreviousSelected()
             }
             .store(in: &cancellables)
+    }
+    
+    private func selectPreviousSelected() {
+        if let selected = self.selectedControl?.a11yDescription {
+            self.selectedControl = self.drawingController.view
+                .drawnControls
+                .first(where: { control in
+                    selected.frame == control.frame // Can be same by description (empty, for e.g. but should select same in place
+                })
+        }
     }
     
     func draw(controls: [A11yDescription]) {
