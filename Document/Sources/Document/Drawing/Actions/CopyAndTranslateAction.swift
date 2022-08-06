@@ -47,7 +47,7 @@ public class CopyAndTranslateAction: DraggingAction {
 //        }
         
         view.add(control: newControl)
-        let action = CopyAction(view: view, copiedControl: newControl, startLocation: startLocation, offset: offset, initialFrame: initialFrame)
+        let action = CopyAction(view: view, control: newControl, startLocation: startLocation, offset: offset, initialFrame: initialFrame)
         return action
 
     }()

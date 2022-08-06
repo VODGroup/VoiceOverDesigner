@@ -70,7 +70,7 @@ public class EditorPresenter {
             select(control: click.control)
         case let copy as CopyAction:
             document.undoManager?.registerUndo(withTarget: self, handler: { target in
-                target.delete(control: copy.copiedControl)
+                target.delete(control: copy.control)
             })
             save()
             
