@@ -11,7 +11,7 @@ import Document
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    lazy var windowController: WindowContoller = createWindowController()
+    lazy var windowController: WindowController = createWindowController()
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         true
@@ -30,8 +30,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return true
     }
     
-    private func createWindowController() -> WindowContoller {
-        let windowController = WindowContoller.fromStoryboard()
+    private func createWindowController() -> WindowController {
+        let windowController = WindowController.fromStoryboard()
         windowController.window?.setFrameAutosaveName("Projects")
         return windowController
     }

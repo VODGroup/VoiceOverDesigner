@@ -66,8 +66,9 @@ public extension DrawingView {
     }
     
     func removeAll() {
-        for contol in drawnControls {
-            contol.removeFromSuperlayer()
+        for control in drawnControls.reversed() {
+            control.removeFromSuperlayer()
+            drawnControls.remove(at: drawnControls.count - 1)
         }
     }
 }

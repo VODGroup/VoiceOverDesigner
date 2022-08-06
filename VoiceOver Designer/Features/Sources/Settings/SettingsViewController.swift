@@ -62,7 +62,7 @@ public class SettingsViewController: NSViewController {
         hint.stringValue  = descr.hint
         isAccessibilityElement.state = descr.isAccessibilityElement ? .on: .off
         
-        updateText()
+        updateText(isUserAction: false)
         
         buttonTrait.trait = .button
         headerTrait.trait = .header
@@ -124,39 +124,35 @@ public class SettingsViewController: NSViewController {
         } else {
             descr.trait.subtract(sender.trait)
         }
-        updateText()
+        updateText(isUserAction: true)
     }
     
     // MARK: Description
     @IBAction func labelDidChange(_ sender: NSTextField) {
         // TODO: if you forgot to call updateColor, the label wouldn't be revalidated
         presenter.updateLabel(to: sender.stringValue)
-        updateText()
+        updateText(isUserAction: true)
     }
     
     @IBAction func hintDidChange(_ sender: NSTextField) {
         descr.hint = sender.stringValue
-        updateText()
+        updateText(isUserAction: true)
     }
     
-    internal func updateText() {
+    func updateText(isUserAction: Bool) {
         resultLabel.stringValue = descr.voiceOverText
+        
+        if isUserAction {
+            presenter.delegate?.didUpdateValue()
+        }
     }
     
     @IBAction func delete(_ sender: Any) {
         presenter.delegate?.delete(control: presenter.control)
-        
-        // TODO: Dismiss in popover presentation
-//        dismiss(self)
     }
     
     @IBAction func isAccessibleElementDidChanged(_ sender: NSButton) {
         descr.isAccessibilityElement = sender.state == .on
-    }
-    
-    public override func viewWillDisappear() {
-        super.viewWillDisappear()
-        presenter.delegate?.didUpdateValue()
     }
     
     public static func fromStoryboard() -> SettingsViewController {
