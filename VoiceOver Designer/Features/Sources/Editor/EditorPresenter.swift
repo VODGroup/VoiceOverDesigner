@@ -102,7 +102,7 @@ public class EditorPresenter: DocumentPresenter {
             select(control: click.control)
         case let copy as CopyAction:
             document.undoManager?.registerUndo(withTarget: self, handler: { target in
-                target.delete(control: copy.control)
+                target.delete(model: copy.control.a11yDescription!)
             })
             save()
             
