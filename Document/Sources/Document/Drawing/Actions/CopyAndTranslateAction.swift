@@ -1,11 +1,4 @@
-//
-//  File.swift
-//  
-//
-//  Created by Andrey Plotnikov on 06.08.2022.
-//
-
-import Foundation
+import CoreGraphics
 
 public class CopyAndTranslateAction: DraggingAction {
     public func drag(to coordinate: CGPoint) {

@@ -10,8 +10,6 @@
 		1E3DB0E2289581410035F229 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E3DB0E1289581410035F229 /* QuickLook.framework */; };
 		1E3DB0EA289581410035F229 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E3DB0E8289581410035F229 /* MainInterface.storyboard */; };
 		1E3DB0EE289581410035F229 /* QuickLookPreview.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1E3DB0E0289581410035F229 /* QuickLookPreview.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		1E7555A12895866900024714 /* UIKitPreview in Frameworks */ = {isa = PBXBuildFile; productRef = 1E7555A02895866900024714 /* UIKitPreview */; };
-		1E7555A32895869200024714 /* UIKitPreview in Frameworks */ = {isa = PBXBuildFile; productRef = 1E7555A22895869200024714 /* UIKitPreview */; };
 		1E7555A6289586B100024714 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB1BD0281E3DA000615EA9 /* SceneDelegate.swift */; };
 		1E7555A82895879900024714 /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E7555A72895879900024714 /* Document */; };
 		1E7555A92895881B00024714 /* QuickPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3DB0E4289581410035F229 /* QuickPreviewViewController.swift */; };
@@ -19,6 +17,8 @@
 		1E7555B3289589F300024714 /* ThumbnailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7555B2289589F300024714 /* ThumbnailProvider.swift */; };
 		1E7555B7289589F300024714 /* Thumbnail.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1E7555AE289589F300024714 /* Thumbnail.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1E7555BC28958DEE00024714 /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E7555BB28958DEE00024714 /* Document */; };
+		1EB978F5289F0D2200CE330C /* DesignPreview in Frameworks */ = {isa = PBXBuildFile; productRef = 1EB978F4289F0D2200CE330C /* DesignPreview */; };
+		1EB978F7289F0D3B00CE330C /* DesignPreview in Frameworks */ = {isa = PBXBuildFile; productRef = 1EB978F6289F0D3B00CE330C /* DesignPreview */; };
 		1EEB1BCF281E3DA000615EA9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB1BCE281E3DA000615EA9 /* AppDelegate.swift */; };
 		1EEB1BD8281E3DA100615EA9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1EEB1BD7281E3DA100615EA9 /* Assets.xcassets */; };
 		1EEB1BDB281E3DA100615EA9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EEB1BD9281E3DA100615EA9 /* LaunchScreen.storyboard */; };
@@ -104,9 +104,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1E7555A32895869200024714 /* UIKitPreview in Frameworks */,
 				1E7555A82895879900024714 /* Document in Frameworks */,
 				1E3DB0E2289581410035F229 /* QuickLook.framework in Frameworks */,
+				1EB978F7289F0D3B00CE330C /* DesignPreview in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,7 +123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1E7555A12895866900024714 /* UIKitPreview in Frameworks */,
+				1EB978F5289F0D2200CE330C /* DesignPreview in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,8 +246,8 @@
 			);
 			name = QuickLookPreview;
 			packageProductDependencies = (
-				1E7555A22895869200024714 /* UIKitPreview */,
 				1E7555A72895879900024714 /* Document */,
+				1EB978F6289F0D3B00CE330C /* DesignPreview */,
 			);
 			productName = QuickLook;
 			productReference = 1E3DB0E0289581410035F229 /* QuickLookPreview.appex */;
@@ -290,7 +290,7 @@
 			);
 			name = "VoiceOver Preview";
 			packageProductDependencies = (
-				1E7555A02895866900024714 /* UIKitPreview */,
+				1EB978F4289F0D2200CE330C /* DesignPreview */,
 			);
 			productName = "VoiceOver Preview";
 			productReference = 1EEB1BCB281E3DA000615EA9 /* VoiceOver Preview.app */;
@@ -944,14 +944,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1E7555A02895866900024714 /* UIKitPreview */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = UIKitPreview;
-		};
-		1E7555A22895869200024714 /* UIKitPreview */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = UIKitPreview;
-		};
 		1E7555A72895879900024714 /* Document */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Document;
@@ -959,6 +951,14 @@
 		1E7555BB28958DEE00024714 /* Document */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Document;
+		};
+		1EB978F4289F0D2200CE330C /* DesignPreview */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DesignPreview;
+		};
+		1EB978F6289F0D3B00CE330C /* DesignPreview */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DesignPreview;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

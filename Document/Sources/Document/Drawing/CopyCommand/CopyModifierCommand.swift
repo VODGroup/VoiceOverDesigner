@@ -17,7 +17,7 @@ public class CopyModifierFactory {
         #if os(macOS)
         return CopyModifierCommand()
         #else
-        return EmptyCopyListener()
+        return ManualCopyCommand()
         #endif
     }
 }
