@@ -20,12 +20,7 @@ class Router: EditorRouterProtocol {
     unowned var settingsDelegate: SettingsDelegate!
     
     func showSettings(for control: A11yControl, controlSuperview: NSView) {
-        let sidebarToggle = true
-        if sidebarToggle {
-            showSettingsInSidebar(for: control, controlSuperview: controlSuperview)
-        } else {
-            showSettingsInPopover(for: control, controlSuperview: controlSuperview)
-        }
+        showSettingsInSidebar(for: control, controlSuperview: controlSuperview)
     }
     
     var sidebar: NSSplitViewItem?
@@ -44,21 +39,6 @@ class Router: EditorRouterProtocol {
         let sidebar = NSSplitViewItem(sidebarWithViewController: settings)
         self.sidebar = sidebar
         root.addSplitViewItem(sidebar)
-    }
-    
-    private func showSettingsInPopover(
-        for control: A11yControl,
-        controlSuperview: NSView
-    ) {
-        let settings = SettingsViewController.fromStoryboard()
-        settings.presenter = SettingsPresenter(control: control, delegate: settingsDelegate)
-        
-        let windowCoordinates = controlSuperview.convert(control.frame, to: root.view)
-        root.present(settings,
-                     asPopoverRelativeTo: windowCoordinates,
-                     of: root.view,
-                     preferredEdge: .maxX,
-                     behavior: .semitransient)
     }
     
     func hideSettings() {
