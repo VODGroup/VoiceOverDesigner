@@ -1,6 +1,6 @@
 import XCTest
 @testable import Editor
-import SwiftUI
+import Document
 
 class TranslatingTests: EditorAfterDidLoadTests {
     
@@ -54,16 +54,16 @@ class TranslatingTests: EditorAfterDidLoadTests {
     // - aligned to 3rd element
     
     func test_CopyControlShouldDrawNewControlAndHaveSameProperties() async throws {
-        let optionCommand = FakeOptionCommand()
+        let copyCommand = ManualCopyCommand()
         
         await MainActor.run {
-            controller.controlsView.copyListener = optionCommand
+            controller.controlsView.copyListener = copyCommand
         }
         
         drawRect_10_60()
         
         // Copy
-        optionCommand.isCopyHold = true
+        copyCommand.isCopyHold = true
         sut.mouseDown(on: .coord(15))
         sut.mouseUp(on: .coord(50))
         
@@ -75,9 +75,4 @@ class TranslatingTests: EditorAfterDidLoadTests {
         let selected = try await awaitSelected()
         XCTAssertNil(selected, "should not select after translation")
     }
-}
-
-import Document
-class FakeOptionCommand: CopyModifierProtocol {
-    var isCopyHold: Bool = false
 }

@@ -7,8 +7,8 @@
 
 import Foundation
 
-public class EmptyCopyListener: CopyModifierProtocol {
-    public var isCopyHold: Bool {
-        false
-    }
+public class ManualCopyCommand: CopyModifierProtocol {
+    public init() {}
+    
+    public var isCopyHold: Bool = false
 }
