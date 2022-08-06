@@ -38,7 +38,7 @@ public class DrawingController {
     }
     
     private func startDragging(control: A11yControl, startLocation: CGPoint) {
-        action = CopyAndTranslateAction(view: view, sourceControl: control, startLocation: startLocation, offset: .zero, initialFrame: .zero)
+        action = CopyAndTranslateAction(view: view, sourceControl: control, startLocation: startLocation, offset: .zero, initialFrame: control.frame)
     }
     
     
