@@ -37,15 +37,7 @@ public class CopyAndTranslateAction: DraggingAction {
             return nil
         }
         
-        let newDescription = A11yDescription.copy(from: descriptionToCopy)
-        let newControl = A11yControl()
-        newControl.a11yDescription = newDescription
-        newControl.frame = newDescription.frame
-        newControl.backgroundColor = newDescription.color.cgColor
-//        sourceControl.updateWithoutAnimation {
-//            sourceControl.frame = initialFrame
-//        }
-        
+        let newControl = A11yControl.copy(from: A11yDescription.copy(from: descriptionToCopy))
         view.add(control: newControl)
         let action = CopyAction(view: view, control: newControl, startLocation: startLocation, offset: offset, initialFrame: initialFrame)
         return action
