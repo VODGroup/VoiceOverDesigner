@@ -63,8 +63,11 @@ extension EditorTests {
         sut.mouseUp(on: to)
     }
     
-    func awaitSelected() async throws -> A11yDescription? {
-        return try await awaitPublisher(sut.selectedPublisher)
+    func awaitSelected(file: StaticString = #file,
+                       line: UInt = #line
+    ) async throws -> A11yDescription? {
+        return try await awaitPublisher(sut.selectedPublisher,
+                                        file: file, line: line)
     }
 }
 
