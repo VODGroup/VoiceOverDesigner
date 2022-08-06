@@ -132,7 +132,7 @@ public class EditorViewController: NSViewController {
             control.a11yDescription === model
         }) else { return }
         
-        presenter.select(control: control, tellToDelegate: false)
+        presenter.select(control: control)
     }
     
     public func save() {

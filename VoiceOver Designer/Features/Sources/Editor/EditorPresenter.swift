@@ -131,7 +131,7 @@ public class EditorPresenter: DocumentPresenter {
         }
     }
     
-    func select(control: A11yControl, tellToDelegate: Bool = true) {
+    func select(control: A11yControl) {
         selectedPublisher.send(control.a11yDescription)
     }
     
