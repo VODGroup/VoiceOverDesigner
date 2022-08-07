@@ -79,4 +79,17 @@ class TranslatingTests: EditorAfterDidLoadTests {
         sut.document.undoManager?.undo()
         XCTAssertEqual(sut.document.controls.count, 1, "should remove copy")
     }
+    
+    // MARK: - Resizing
+    func test_whenMoveBottomRightCorner_shouldResize() {
+        drawRect(from: start10, to: end60)
+        XCTAssertEqual(drawnControls.count, 1)
+        
+        sut.mouseDown(on: .coord(60-1)) // Not inclued border
+        sut.mouseDragged(on: .coord(20))
+        
+        XCTAssertEqual(drawnControls.count, 1)
+        XCTAssertEqual(drawnControls[0].frame,
+                       CGRect(origin: .coord(10), size: .side(10)))
+    }
 }
