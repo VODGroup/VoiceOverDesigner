@@ -30,6 +30,8 @@ public protocol DrawingView: View {
     var drawnControls: [A11yControl] { get set }
     
     var alignmentOverlay: AlignmentOverlayProtocol { get }
+    
+    var copyListener: CopyModifierProtocol { get }
 }
 
 public extension DrawingView {

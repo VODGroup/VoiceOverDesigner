@@ -52,4 +52,6 @@ class Canvas: UIView, DrawingView {
             accessibilityElements = layout?.accessibilityElements
         }
     }
+    
+    var copyListener: CopyModifierProtocol = ManualCopyCommand()
 }

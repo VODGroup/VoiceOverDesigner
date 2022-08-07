@@ -14,6 +14,8 @@ class ControlsView: FlippedView, DrawingView {
     var drawnControls: [A11yControl] = []
     
     lazy var alignmentOverlay = AlignmentOverlayFactory().overlay(for: self)
+    
+    var copyListener = CopyModifierFactory().make()
 }
 
 class EditorView: FlippedView {

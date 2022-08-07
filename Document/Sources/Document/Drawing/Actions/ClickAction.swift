@@ -7,7 +7,7 @@ public struct ClickAction: DraggingAction {
         
     }
     
-    public func end(at coodrinate: CGPoint) -> DraggingAction? {
+    public func end(at coordinate: CGPoint) -> DraggingAction? {
         return self
     }
 }

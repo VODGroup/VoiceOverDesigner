@@ -12,6 +12,9 @@
       location = "container:"
       name = "Preview">
       <FileRef
+         location = "group:VoiceOver Preview/PreviewFeatures">
+      </FileRef>
+      <FileRef
          location = "group:VoiceOver Preview/VoiceOver Preview.xcodeproj">
       </FileRef>
    </Group>

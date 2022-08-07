@@ -68,6 +68,17 @@ public class A11yDescription: Codable {
             adjustableOptions: AdjustableOptions(options: []))
     }
     
+    public static func copy(from descr: A11yDescription) -> A11yDescription {
+        A11yDescription(
+            isAccessibilityElement: descr.isAccessibilityElement,
+            label: descr.label,
+            value: descr.value,
+            hint: descr.hint,
+            trait: descr.trait,
+            frame: descr.frame,
+            adjustableOptions: descr.adjustableOptions)
+    }
+    
     var isValid: Bool {
         !label.isEmpty
     }
