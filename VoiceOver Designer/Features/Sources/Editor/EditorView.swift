@@ -13,7 +13,7 @@ import Document
 class ControlsView: FlippedView, DrawingView {
     var drawnControls: [A11yControl] = []
     
-    lazy var alingmentOverlay = AlingmentOverlayFactory().overlay(for: self)
+    lazy var alignmentOverlay = AlignmentOverlayFactory().overlay(for: self)
     
     var copyListener = CopyModifierFactory().make()
 }

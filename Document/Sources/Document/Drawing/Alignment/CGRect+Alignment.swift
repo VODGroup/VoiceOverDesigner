@@ -1,57 +1,48 @@
 import CoreGraphics
 
-#if canImport(AppKit)
-import AppKit
+extension Array where Element == AlignmentPoint {
+    func getFrame(original: CGRect) -> (CGRect, [AlignmentPoint]) {
+        let horizontal = firstHorizontal()
+        let vertical = firstVertical()
+        
+        let rect = original.offsetBy(dx: horizontal?.value ?? 0,
+                                     dy: vertical?.value ?? 0)
+        return (rect, [horizontal, vertical].compactMap { $0 })
+    }
+}
 
 extension CGRect {
     
     func aligned(
         to frame: CGRect
-    ) -> (CGRect, NSRectEdge)?  {
-        for edge in NSRectEdge.allCases {
-            let isNear = isNear(to: frame, edge: edge)
-            
-            if isNear {
-                guard let offset = offset(edge: edge, alignedFrame: frame) else {
-                    continue
-                }
-                return (offset, edge)
+    ) -> [AlignmentPoint] {
+        AlignmentDirection
+            .allCases
+            .filter { edge in
+                isNear(to: frame, edge: edge)
+            }.map { edge in
+                let value = frame.value(edge) - self.value(edge)
+                return AlignmentPoint(value: value, direction: edge, frame: frame)
             }
-        }
-        
-        return nil
     }
-    
-    private func isNear(to frame: CGRect, edge: NSRectEdge) -> Bool {
+
+    private func isNear(
+        to frame: CGRect,
+        edge: AlignmentDirection
+    ) -> Bool {
         let threeshold: CGFloat = 5
         return abs(self.value(edge) - frame.value(edge)) < threeshold
     }
     
-    private func offset(edge: NSRectEdge, alignedFrame: CGRect) -> CGRect? {
-        switch edge {
-        case .minX, .maxX:
-            return self.offsetBy(dx: alignedFrame.value(edge) - self.value(edge),
-                                 dy: 0)
-        case .minY, .maxY:
-            return self.offsetBy(dx: 0,
-                                 dy: alignedFrame.value(edge) - self.value(edge))
-        @unknown default:
-            return nil
-        }
-    }
-    
-    func value(_ edge: NSRectEdge) -> CGFloat {
+    func value(_ edge: AlignmentDirection) -> CGFloat {
         switch edge {
         case .minX: return minX
         case .minY: return minY
+        case .midX: return midX
+            
         case .maxX: return maxX
         case .maxY: return maxY
-        @unknown default: return 0
+        case .midY: return midY
         }
     }
 }
-
-extension NSRectEdge {
-    static var allCases: [Self] = [.minX, .maxX, .minY, .maxY]
-}
-#endif

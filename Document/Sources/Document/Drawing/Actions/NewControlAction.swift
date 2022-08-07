@@ -5,7 +5,7 @@ public class NewControlAction: DraggingAction {
     init(view: DrawingView, control: A11yControl, coordinate: CGPoint) {
         self.view = view
         self.control = control
-        self.origin = view.alingmentOverlay.alignToAny(control, point: coordinate, drawnControls: view.drawnControls)
+        self.origin = view.alignmentOverlay.alignToAny(control, point: coordinate, drawnControls: view.drawnControls)
     }
     
     private let view: DrawingView
@@ -13,7 +13,7 @@ public class NewControlAction: DraggingAction {
     private let origin: CGPoint
     
     public func drag(to coordinate: CGPoint) {
-        let alignedCoordinate = view.alingmentOverlay.alignToAny(control, point: coordinate, drawnControls: view.drawnControls)
+        let alignedCoordinate = view.alignmentOverlay.alignToAny(control, point: coordinate, drawnControls: view.drawnControls)
         control.updateWithoutAnimation {
             control.frame = CGRect(x: origin.x,
                                    y: origin.y,
