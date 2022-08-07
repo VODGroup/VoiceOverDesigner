@@ -24,7 +24,8 @@ public class A11yDescription: Codable {
         hint: String,
         trait: A11yTraits,
         frame: CGRect,
-        adjustableOptions: AdjustableOptions
+        adjustableOptions: AdjustableOptions,
+        customActions: A11yCustomActions
     ) {
         self.isAccessibilityElement = isAccessibilityElement
         self.label = label
@@ -33,6 +34,7 @@ public class A11yDescription: Codable {
         self.trait = trait
         self.frame = frame
         self.adjustableOptions = adjustableOptions
+        self.customActions = customActions
     }
     
     public var isAccessibilityElement: Bool
@@ -44,6 +46,8 @@ public class A11yDescription: Codable {
     
     // MARK: - Adjustable
     public private(set) var adjustableOptions: AdjustableOptions // Not optional because user can input values, disable adjustable, but reenable after time. The app will keep data :-)
+    
+    public private(set) var customActions: A11yCustomActions
     
     public var isAdjustable: Bool {
         get {
@@ -65,7 +69,9 @@ public class A11yDescription: Codable {
             hint: "",
             trait: .none,
             frame: frame,
-            adjustableOptions: AdjustableOptions(options: []))
+            adjustableOptions: AdjustableOptions(options: []),
+            customActions: A11yCustomActions(names: [])
+        )
     }
     
     public static func copy(from descr: A11yDescription) -> A11yDescription {
@@ -76,7 +82,9 @@ public class A11yDescription: Codable {
             hint: descr.hint,
             trait: descr.trait,
             frame: descr.frame,
-            adjustableOptions: descr.adjustableOptions)
+            adjustableOptions: descr.adjustableOptions,
+            customActions: descr.customActions
+        )
     }
     
     var isValid: Bool {
