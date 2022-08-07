@@ -1,7 +1,7 @@
 #if canImport(AppKit)
 import AppKit
 
-class AlingmentOverlay: AlingmentOverlayProtocol {
+class AlignmentOverlay: AlignmentOverlayProtocol {
     init(view: View) {
         self.view = view
     }
@@ -18,9 +18,9 @@ class AlingmentOverlay: AlingmentOverlayProtocol {
         return line
     }
     
-    private func removeAlingments() {
-        for alingmentLine in alignmentLines {
-            alingmentLine.removeFromSuperlayer()
+    private func removeAlignments() {
+        for alignmentLine in alignmentLines {
+            alignmentLine.removeFromSuperlayer()
         }
         
         alignmentLines = []
@@ -34,7 +34,7 @@ class AlingmentOverlay: AlingmentOverlayProtocol {
         }
     }
     
-    private var alignedEdges: [AlingmentPoint] = [] {
+    private var alignedEdges: [AlignmentPoint] = [] {
         didSet {
             if alignedEdges != oldValue {
                 vibrate()
@@ -54,21 +54,21 @@ class AlingmentOverlay: AlingmentOverlayProtocol {
         
         hideAligningLine()
         
-        let alingments: [AlingmentPoint] = drawnControls
+        let alignments: [AlignmentPoint] = drawnControls
             .filter { control in
                 control != sourceControl
             }.map { control in
                 point.aligned(to: control.frame)
-            }.reduce([]) { partialResult, alingments in
+            }.reduce([]) { partialResult, alignments in
                 var res = partialResult
-                res.append(contentsOf: alingments)
+                res.append(contentsOf: alignments)
                 return res
             }
         
-        let (alignedPoint, stickedAlignemntes) = alingments.getPoint(original: point)
+        let (alignedPoint, stickedAlignemntes) = alignments.getPoint(original: point)
         
         drawAligningLine(from: sourceControl.frame,
-                         alingments: stickedAlignemntes)
+                         alignments: stickedAlignemntes)
         
         return alignedPoint
     }
@@ -81,32 +81,32 @@ class AlingmentOverlay: AlingmentOverlayProtocol {
         
         hideAligningLine()
         
-        let alingments: [AlingmentPoint] = drawnControls
+        let alignments: [AlignmentPoint] = drawnControls
             .filter { control in
                 control != sourceControl
             }.map { control in
                 frame.aligned(to: control.frame)
-            }.reduce([]) { partialResult, alingments in
+            }.reduce([]) { partialResult, alignments in
                 var res = partialResult
-                res.append(contentsOf: alingments)
+                res.append(contentsOf: alignments)
                 return res
             }
         
-        let (alingedFrame, stickedAlingments) = alingments.getFrame(original: frame)
+        let (alignedFrame, stickedAlignments) = alignments.getFrame(original: frame)
         
-        self.alignedEdges = stickedAlingments
+        self.alignedEdges = stickedAlignments
         
         drawAligningLine(from: sourceControl.frame,
-                         alingments: stickedAlingments)
+                         alignments: stickedAlignments)
         
-        return alingedFrame
+        return alignedFrame
     }
     
     private func drawAligningLine(
         from: CGRect,
-        alingments: [AlingmentPoint]
+        alignments: [AlignmentPoint]
     ) {
-        for edge in alingments {
+        for edge in alignments {
             let line = createAlignmentLine()
             line.updateWithoutAnimation {
                 line.isHidden = false
@@ -118,7 +118,7 @@ class AlingmentOverlay: AlingmentOverlayProtocol {
     }
     
     func hideAligningLine() {
-        removeAlingments()
+        removeAlignments()
         alignedControl = nil
         alignedEdges = []
     }

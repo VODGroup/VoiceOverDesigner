@@ -62,7 +62,7 @@ public class DrawingController {
     public func end(coordinate: CGPoint) -> DraggingAction? {
         defer {
             self.action = nil
-            view.alingmentOverlay.hideAligningLine()
+            view.alignmentOverlay.hideAligningLine()
         }
         
         drag(to: coordinate)

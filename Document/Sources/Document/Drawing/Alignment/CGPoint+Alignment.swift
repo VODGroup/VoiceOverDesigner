@@ -1,7 +1,7 @@
 import CoreGraphics
 
-extension Array where Element == AlingmentPoint {
-    func getPoint(original: CGPoint) -> (CGPoint, [AlingmentPoint]) {
+extension Array where Element == AlignmentPoint {
+    func getPoint(original: CGPoint) -> (CGPoint, [AlignmentPoint]) {
         let horizontal = firstHorizontal()
         let vertical = firstVertical()
         
@@ -10,41 +10,41 @@ extension Array where Element == AlingmentPoint {
         return (point, [horizontal, vertical].compactMap { $0 })
     }
     
-    func first(in directions: [AlingmentDirection]) -> Element? {
+    func first(in directions: [AlignmentDirection]) -> Element? {
         first { element in
             directions.contains(element.direction)
         }
     }
     
     func firstHorizontal() -> Element? {
-        first(in: AlingmentDirection.horizontals)
+        first(in: AlignmentDirection.horizontals)
     }
     
     func firstVertical() -> Element? {
-        first(in: AlingmentDirection.verticals)
+        first(in: AlignmentDirection.verticals)
     }
 }
 
 extension CGPoint {
     func aligned(
         to frame: CGRect
-    ) -> [AlingmentPoint]  {
-        AlingmentDirection
+    ) -> [AlignmentPoint]  {
+        AlignmentDirection
             .allCases
             .filter { edge in
                 isNear(to: frame, edge: edge)
             }
             .map { edge in
-                AlingmentPoint(value: frame.value(edge), direction: edge, frame: frame)
+                AlignmentPoint(value: frame.value(edge), direction: edge, frame: frame)
             }
     }
     
-    private func isNear(to frame: CGRect, edge: AlingmentDirection) -> Bool {
+    private func isNear(to frame: CGRect, edge: AlignmentDirection) -> Bool {
         let threeshold: CGFloat = 5
         return abs(self.value(edge) - frame.value(edge)) < threeshold
     }
     
-    private func value(_ edge: AlingmentDirection) -> CGFloat {
+    private func value(_ edge: AlignmentDirection) -> CGFloat {
         switch edge {
         case .minX: return x
         case .maxX: return x

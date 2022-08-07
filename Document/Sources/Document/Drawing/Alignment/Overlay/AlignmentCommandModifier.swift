@@ -1,21 +1,21 @@
 import CoreGraphics
 
-public protocol AlingmentOverlayProtocol {
+public protocol AlignmentOverlayProtocol {
     func alignToAny(_ sourceControl: A11yControl, point: CGPoint, drawnControls: [A11yControl]) -> CGPoint
     func alignToAny(_ sourceControl: A11yControl, frame: CGRect, drawnControls: [A11yControl]) -> CGRect
     func hideAligningLine()
 }
 
-public class AlingmentOverlayFactory {
+public class AlignmentOverlayFactory {
     public init() {}
     
-    public func overlay(for view: View) -> AlingmentOverlayProtocol {
+    public func overlay(for view: View) -> AlignmentOverlayProtocol {
 #if canImport(UIKit)
         return NoAlignmentOverlay()
 #else
-        return AlingmentCommandModifier(
-            alingmentOverlay: AlingmentOverlay(view: view),
-            noAlingmentOverlay: NoAlignmentOverlay())
+        return AlignmentCommandModifier(
+            alignmentOverlay: AlignmentOverlay(view: view),
+            noAlignmentOverlay: NoAlignmentOverlay())
 #endif
     }
 }
@@ -24,12 +24,12 @@ public class AlingmentOverlayFactory {
 #if canImport(AppKit)
 import AppKit
 
-class AlingmentCommandModifier: AlingmentOverlayProtocol {
-    init(alingmentOverlay: AlingmentOverlay,
-         noAlingmentOverlay: NoAlignmentOverlay
+class AlignmentCommandModifier: AlignmentOverlayProtocol {
+    init(alignmentOverlay: AlignmentOverlay,
+         noAlignmentOverlay: NoAlignmentOverlay
     ) {
-        self.alingmentOverlay = alingmentOverlay
-        self.noAlingmentOverlay = noAlingmentOverlay
+        self.alignmentOverlay = alignmentOverlay
+        self.noAlignmentOverlay = noAlignmentOverlay
         
         self.keyPressMonitor = NSEvent.addLocalMonitorForEvents(matching: [.flagsChanged]) { [weak self] event in
             self?.isCommandPressed = event.modifierFlags.contains(.command)
@@ -52,14 +52,14 @@ class AlingmentCommandModifier: AlingmentOverlayProtocol {
     }
     
     // MARK: Implementations
-    private var alingmentOverlay: AlingmentOverlay
-    private var noAlingmentOverlay: NoAlignmentOverlay
+    private var alignmentOverlay: AlignmentOverlay
+    private var noAlignmentOverlay: NoAlignmentOverlay
     
-    private var currentOverlay: AlingmentOverlayProtocol {
+    private var currentOverlay: AlignmentOverlayProtocol {
         if isCommandPressed {
-            return noAlingmentOverlay
+            return noAlignmentOverlay
         } else {
-            return alingmentOverlay
+            return alignmentOverlay
         }
     }
     
@@ -67,7 +67,7 @@ class AlingmentCommandModifier: AlingmentOverlayProtocol {
     var isCommandPressed = false {
         didSet {
             if isCommandPressed {
-                alingmentOverlay.hideAligningLine() // Hide alingment line event when mode changed
+                alignmentOverlay.hideAligningLine() // Hide alignment line event when mode changed
             }
             print(isCommandPressed ? "Pressed": "Released")
         }

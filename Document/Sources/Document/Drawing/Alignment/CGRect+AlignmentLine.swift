@@ -3,7 +3,7 @@ import CoreGraphics
 extension CGRect {
     func frameForAlignmentLine(
         with: CGRect,
-        edge: AlingmentDirection
+        edge: AlignmentDirection
     ) -> CGRect {
         let unionRect = self.union(with).insetBy(dx: -5, dy: -5)
         

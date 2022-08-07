@@ -1,7 +1,7 @@
 import CoreGraphics
 
-extension Array where Element == AlingmentPoint {
-    func getFrame(original: CGRect) -> (CGRect, [AlingmentPoint]) {
+extension Array where Element == AlignmentPoint {
+    func getFrame(original: CGRect) -> (CGRect, [AlignmentPoint]) {
         let horizontal = firstHorizontal()
         let vertical = firstVertical()
         
@@ -15,26 +15,26 @@ extension CGRect {
     
     func aligned(
         to frame: CGRect
-    ) -> [AlingmentPoint] {
-        AlingmentDirection
+    ) -> [AlignmentPoint] {
+        AlignmentDirection
             .allCases
             .filter { edge in
                 isNear(to: frame, edge: edge)
             }.map { edge in
                 let value = frame.value(edge) - self.value(edge)
-                return AlingmentPoint(value: value, direction: edge, frame: frame)
+                return AlignmentPoint(value: value, direction: edge, frame: frame)
             }
     }
 
     private func isNear(
         to frame: CGRect,
-        edge: AlingmentDirection
+        edge: AlignmentDirection
     ) -> Bool {
         let threeshold: CGFloat = 5
         return abs(self.value(edge) - frame.value(edge)) < threeshold
     }
     
-    func value(_ edge: AlingmentDirection) -> CGFloat {
+    func value(_ edge: AlignmentDirection) -> CGFloat {
         switch edge {
         case .minX: return minX
         case .minY: return minY

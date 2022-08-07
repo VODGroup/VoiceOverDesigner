@@ -1,6 +1,6 @@
 import CoreGraphics
 
-public enum AlingmentDirection: CaseIterable {
+public enum AlignmentDirection: CaseIterable {
     case minX
     case maxX
     case midX
@@ -13,8 +13,8 @@ public enum AlingmentDirection: CaseIterable {
     static var verticals: [Self] = [.minY, .maxY, .midY]
 }
 
-struct AlingmentPoint: Equatable {
+struct AlignmentPoint: Equatable {
     let value: CGFloat
-    let direction: AlingmentDirection
+    let direction: AlignmentDirection
     let frame: CGRect
 }
