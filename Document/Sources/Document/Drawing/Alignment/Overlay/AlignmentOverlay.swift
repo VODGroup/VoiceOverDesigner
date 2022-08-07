@@ -12,7 +12,7 @@ class AlignmentOverlay: AlignmentOverlayProtocol {
     
     private func createAlignmentLine() -> CAShapeLayer {
         let line = CAShapeLayer()
-        line.backgroundColor = NSColor.lightGray.cgColor
+        line.backgroundColor = NSColor.systemRed.cgColor
         view.addSublayer(line)
         alignmentLines.append(line)
         return line
