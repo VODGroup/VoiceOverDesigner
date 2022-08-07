@@ -8,12 +8,23 @@ class AlingmentOverlay: AlingmentOverlayProtocol {
     
     let view: View
     
-    private lazy var alignmentLine: CAShapeLayer = {
-        let layer = CAShapeLayer()
-        layer.backgroundColor = NSColor.lightGray.cgColor
-        view.addSublayer(layer)
-        return layer
-    }()
+    private var alignmentLines: [CALayer] = []
+    
+    private func createAlignmentLine() -> CAShapeLayer {
+        let line = CAShapeLayer()
+        line.backgroundColor = NSColor.lightGray.cgColor
+        view.addSublayer(line)
+        alignmentLines.append(line)
+        return line
+    }
+    
+    private func removeAlingments() {
+        for alingmentLine in alignmentLines {
+            alingmentLine.removeFromSuperlayer()
+        }
+        
+        alignmentLines = []
+    }
     
     private var alignedControl: A11yControl? {
         didSet {
@@ -23,9 +34,9 @@ class AlingmentOverlay: AlingmentOverlayProtocol {
         }
     }
     
-    private var alignedEdge: AlingmentDirection? {
+    private var alignedEdges: [AlingmentPoint] = [] {
         didSet {
-            if alignedEdge != oldValue {
+            if alignedEdges != oldValue {
                 vibrate()
             }
         }
@@ -35,58 +46,80 @@ class AlingmentOverlay: AlingmentOverlayProtocol {
         NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .default)
     }
     
-    func alignToAny(_ sourceControl: A11yControl, point: CGPoint, drawnControls: [A11yControl]) -> CGPoint {
+    func alignToAny(
+        _ sourceControl: A11yControl,
+        point: CGPoint,
+        drawnControls: [A11yControl]
+    ) -> CGPoint {
         
-        for control in drawnControls {
-            guard control != sourceControl else { continue }
-            guard let (aligned, edge) = point.aligned(to: control.frame) else {
-                continue
-            }
-            
-            self.alignedControl = control
-            self.alignedEdge = edge
-            
-            drawAligningLine(from: control.frame, to: CGRect(origin: aligned, size: .zero), edge: edge)
-            
-            return aligned
-        }
-        
+//        removeAlingments()
         hideAligningLine()
-        return point
+        
+        let alingments: [AlingmentPoint] = drawnControls
+            .filter { control in
+                control != sourceControl
+            }.map { control in
+                point.aligned(to: control.frame)
+            }.reduce([]) { partialResult, alingments in
+                var res = partialResult
+                res.append(contentsOf: alingments)
+                return res
+            }
+        
+        drawAligningLine(from: sourceControl.frame,
+                         alingments: alingments)
+        
+        return alingments.getPoint(original: point)
     }
     
-    func alignToAny(_ sourceControl: A11yControl, frame: CGRect, drawnControls: [A11yControl]) -> CGRect {
-        for control in drawnControls {
-            guard control != sourceControl else { continue }
-            guard let (aligned, edge) = frame.aligned(to: control.frame) else {
-                continue
-            }
-            
-            self.alignedControl = control
-            self.alignedEdge = edge
-            drawAligningLine(from: control.frame, to: sourceControl.frame, edge: edge)
-            return aligned
-        }
+    func alignToAny(
+        _ sourceControl: A11yControl,
+        frame: CGRect,
+        drawnControls: [A11yControl]
+    ) -> CGRect {
         
         hideAligningLine()
-        return frame // No frames to align, return original
+        
+        let alingments: [AlingmentPoint] = drawnControls
+            .filter { control in
+                control != sourceControl
+            }.map { control in
+                frame.aligned(to: control.frame)
+            }.reduce([]) { partialResult, alingments in
+                var res = partialResult
+                res.append(contentsOf: alingments)
+                return res
+            }
+        
+        self.alignedEdges = alingments
+        
+        let alingedFrame = alingments.getFrame(original: frame)
+        
+        drawAligningLine(from: sourceControl.frame,
+                         alingments: alingments)
+        
+        return alingedFrame
     }
     
     private func drawAligningLine(
         from: CGRect,
-        to: CGRect,
-        edge: AlingmentDirection
+        alingments: [AlingmentPoint]
     ) {
-        alignmentLine.updateWithoutAnimation {
-            alignmentLine.isHidden = false
-            alignmentLine.frame = from.frameForAlignmentLine(with: to, edge: edge)
+        for edge in alingments {
+            let line = createAlignmentLine()
+            line.updateWithoutAnimation {
+                line.isHidden = false
+                line.frame = from.frameForAlignmentLine(
+                    with: edge.frame,
+                    edge: edge.direction)
+            }
         }
     }
     
     func hideAligningLine() {
-        alignmentLine.isHidden = true
+        removeAlingments()
         alignedControl = nil
-        alignedEdge = nil
+        alignedEdges = []
     }
 }
 #endif

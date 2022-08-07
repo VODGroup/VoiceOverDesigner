@@ -1,51 +1,33 @@
 import CoreGraphics
 
-#if canImport(AppKit)
-import AppKit
-
-public enum AlingmentDirection: CaseIterable {
-    case minX
-    case maxX
-    
-    case minY
-    case maxY
-//    case centerX
-//    case centerY
+extension Array where Element == AlingmentPoint {
+    func getFrame(original: CGRect) -> CGRect {
+        original.offsetBy(dx: firstHorizontal() ?? 0,
+                          dy: firstVertical() ?? 0)
+    }
 }
 
 extension CGRect {
     
     func aligned(
         to frame: CGRect
-    ) -> (CGRect, AlingmentDirection)?  {
-        for edge in AlingmentDirection.allCases {
-            let isNear = isNear(to: frame, edge: edge)
-            
-            if isNear {
-                guard let offset = offset(edge: edge, alignedFrame: frame) else {
-                    continue
-                }
-                return (offset, edge)
+    ) -> [AlingmentPoint] {
+        AlingmentDirection
+            .allCases
+            .filter { edge in
+                isNear(to: frame, edge: edge)
+            }.map { edge in
+                let value = frame.value(edge) - self.value(edge)
+                return AlingmentPoint(value: value, direction: edge, frame: frame)
             }
-        }
-        
-        return nil
     }
-    
-    private func isNear(to frame: CGRect, edge: AlingmentDirection) -> Bool {
+
+    private func isNear(
+        to frame: CGRect,
+        edge: AlingmentDirection
+    ) -> Bool {
         let threeshold: CGFloat = 5
         return abs(self.value(edge) - frame.value(edge)) < threeshold
-    }
-    
-    private func offset(edge: AlingmentDirection, alignedFrame: CGRect) -> CGRect? {
-        switch edge {
-        case .minX, .maxX:
-            return self.offsetBy(dx: alignedFrame.value(edge) - self.value(edge),
-                                 dy: 0)
-        case .minY, .maxY:
-            return self.offsetBy(dx: 0,
-                                 dy: alignedFrame.value(edge) - self.value(edge))
-        }
     }
     
     func value(_ edge: AlingmentDirection) -> CGFloat {
@@ -57,8 +39,3 @@ extension CGRect {
         }
     }
 }
-
-extension NSRectEdge {
-    static var allCases: [Self] = [.minX, .maxX, .minY, .maxY]
-}
-#endif

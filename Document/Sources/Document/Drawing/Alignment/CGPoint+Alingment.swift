@@ -1,38 +1,43 @@
-#if canImport(AppKit)
-import AppKit
+import CoreGraphics
+
+extension Array where Element == AlingmentPoint {
+    func getPoint(original: CGPoint) -> CGPoint {
+        CGPoint(x: firstHorizontal() ?? original.x,
+                y: firstVertical() ?? original.y)
+    }
+    
+    func first(in directions: [AlingmentDirection]) -> CGFloat? {
+        first { element in
+            directions.contains(element.direction)
+        }?.value
+    }
+    
+    func firstHorizontal() -> CGFloat? {
+        first(in: AlingmentDirection.horizontals)
+    }
+    
+    func firstVertical() -> CGFloat? {
+        first(in: AlingmentDirection.verticals)
+    }
+}
 
 extension CGPoint {
     func aligned(
         to frame: CGRect
-    ) -> (CGPoint, AlingmentDirection)?  {
-        for edge in AlingmentDirection.allCases {
-            let isNear = isNear(to: frame, edge: edge)
-            
-            if isNear {
-                guard let offset = offset(edge: edge, alignedFrame: frame) else {
-                    continue
-                }
-                return (offset, edge)
+    ) -> [AlingmentPoint]  {
+        AlingmentDirection
+            .allCases
+            .filter { edge in
+                isNear(to: frame, edge: edge)
             }
-        }
-        
-        return nil
+            .map { edge in
+                AlingmentPoint(value: frame.value(edge), direction: edge, frame: frame)
+            }
     }
     
     private func isNear(to frame: CGRect, edge: AlingmentDirection) -> Bool {
         let threeshold: CGFloat = 5
         return abs(self.value(edge) - frame.value(edge)) < threeshold
-    }
-    
-    private func offset(edge: AlingmentDirection, alignedFrame: CGRect) -> CGPoint? {
-        switch edge {
-        case .minX, .maxX:
-            return CGPoint(x: alignedFrame.value(edge),
-                           y: y)
-        case .minY, .maxY:
-            return CGPoint(x: x,
-                           y: alignedFrame.value(edge))
-        }
     }
     
     private func value(_ edge: AlingmentDirection) -> CGFloat {
@@ -44,4 +49,3 @@ extension CGPoint {
         }
     }
 }
-#endif

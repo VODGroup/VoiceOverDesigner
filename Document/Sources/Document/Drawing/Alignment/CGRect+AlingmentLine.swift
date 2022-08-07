@@ -1,5 +1,4 @@
-#if canImport(AppKit)
-import AppKit
+import CoreGraphics
 
 extension CGRect {
     func frameForAlignmentLine(
@@ -36,5 +35,3 @@ extension CGRect {
         }
     }
 }
-
-#endif
