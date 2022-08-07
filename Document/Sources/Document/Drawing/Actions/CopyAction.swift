@@ -22,7 +22,7 @@ public class MoveAction {
             .offsetBy(dx: offset.x,
                       dy: offset.y)
         
-        let aligned = view.alingmentOverlay.alignToAny(control, frame: frame, drawnControls: view.drawnControls)
+        let aligned = view.alignmentOverlay.alignToAny(control, frame: frame, drawnControls: view.drawnControls)
         
         control.updateWithoutAnimation {
             control.frame = aligned
