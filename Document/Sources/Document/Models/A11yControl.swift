@@ -84,3 +84,13 @@ public class A11yControl: CALayer {
         label?.removeFromSuperlayer()
     }
 }
+
+public extension A11yControl {
+    static func copy(from model: A11yDescription) -> A11yControl {
+        let control = A11yControl()
+        control.a11yDescription = model
+        control.backgroundColor = model.color.cgColor
+        control.frame = model.frame
+        return control
+    }
+}

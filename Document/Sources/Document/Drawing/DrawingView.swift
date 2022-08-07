@@ -30,6 +30,9 @@ public protocol DrawingView: View {
     var drawnControls: [A11yControl] { get set }
     
     var alingmentOverlay: AlingmentOverlayProtocol { get }
+    
+    var copyListener: CopyModifierProtocol { get }
+    
 }
 
 public extension DrawingView {
