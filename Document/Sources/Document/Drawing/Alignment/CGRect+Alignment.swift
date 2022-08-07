@@ -1,9 +1,13 @@
 import CoreGraphics
 
 extension Array where Element == AlingmentPoint {
-    func getFrame(original: CGRect) -> CGRect {
-        original.offsetBy(dx: firstHorizontal() ?? 0,
-                          dy: firstVertical() ?? 0)
+    func getFrame(original: CGRect) -> (CGRect, [AlingmentPoint]) {
+        let horizontal = firstHorizontal()
+        let vertical = firstVertical()
+        
+        let rect = original.offsetBy(dx: horizontal?.value ?? 0,
+                                     dy: vertical?.value ?? 0)
+        return (rect, [horizontal, vertical].compactMap { $0 })
     }
 }
 

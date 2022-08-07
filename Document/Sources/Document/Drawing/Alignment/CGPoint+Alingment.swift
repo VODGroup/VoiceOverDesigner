@@ -1,22 +1,26 @@
 import CoreGraphics
 
 extension Array where Element == AlingmentPoint {
-    func getPoint(original: CGPoint) -> CGPoint {
-        CGPoint(x: firstHorizontal() ?? original.x,
-                y: firstVertical() ?? original.y)
+    func getPoint(original: CGPoint) -> (CGPoint, [AlingmentPoint]) {
+        let horizontal = firstHorizontal()
+        let vertical = firstVertical()
+        
+        let point = CGPoint(x: horizontal?.value ?? original.x,
+                            y: vertical?.value ?? original.y)
+        return (point, [horizontal, vertical].compactMap { $0 })
     }
     
-    func first(in directions: [AlingmentDirection]) -> CGFloat? {
+    func first(in directions: [AlingmentDirection]) -> Element? {
         first { element in
             directions.contains(element.direction)
-        }?.value
+        }
     }
     
-    func firstHorizontal() -> CGFloat? {
+    func firstHorizontal() -> Element? {
         first(in: AlingmentDirection.horizontals)
     }
     
-    func firstVertical() -> CGFloat? {
+    func firstVertical() -> Element? {
         first(in: AlingmentDirection.verticals)
     }
 }

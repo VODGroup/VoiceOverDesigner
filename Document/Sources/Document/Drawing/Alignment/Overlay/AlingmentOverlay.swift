@@ -52,7 +52,6 @@ class AlingmentOverlay: AlingmentOverlayProtocol {
         drawnControls: [A11yControl]
     ) -> CGPoint {
         
-//        removeAlingments()
         hideAligningLine()
         
         let alingments: [AlingmentPoint] = drawnControls
@@ -66,10 +65,12 @@ class AlingmentOverlay: AlingmentOverlayProtocol {
                 return res
             }
         
-        drawAligningLine(from: sourceControl.frame,
-                         alingments: alingments)
+        let (alignedPoint, stickedAlignemntes) = alingments.getPoint(original: point)
         
-        return alingments.getPoint(original: point)
+        drawAligningLine(from: sourceControl.frame,
+                         alingments: stickedAlignemntes)
+        
+        return alignedPoint
     }
     
     func alignToAny(
@@ -91,12 +92,12 @@ class AlingmentOverlay: AlingmentOverlayProtocol {
                 return res
             }
         
-        self.alignedEdges = alingments
+        let (alingedFrame, stickedAlingments) = alingments.getFrame(original: frame)
         
-        let alingedFrame = alingments.getFrame(original: frame)
+        self.alignedEdges = stickedAlingments
         
         drawAligningLine(from: sourceControl.frame,
-                         alingments: alingments)
+                         alingments: stickedAlingments)
         
         return alingedFrame
     }

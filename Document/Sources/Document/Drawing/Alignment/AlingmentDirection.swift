@@ -9,8 +9,8 @@ public enum AlingmentDirection: CaseIterable {
     case maxY
     case midY
     
-    static var horizontals: [Self] = [.minX, .maxX]
-    static var verticals: [Self] = [.minY, .maxY]
+    static var horizontals: [Self] = [.minX, .maxX, .midX]
+    static var verticals: [Self] = [.minY, .maxY, .midY]
 }
 
 struct AlingmentPoint: Equatable {
