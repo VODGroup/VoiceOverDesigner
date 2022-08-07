@@ -40,7 +40,7 @@ public class DrawingController {
     public func mouseDown(on location: CGPoint) {
         if let existedControl = view.control(at: location) {
             if location.nearBottomRightCorner(of: existedControl.frame) {
-                
+                startResizing(control: existedControl, startLocation: location)
             } else {
                 startDragging(control: existedControl, startLocation: location)
             }
@@ -53,6 +53,9 @@ public class DrawingController {
         action = CopyAndTranslateAction(view: view, sourceControl: control, startLocation: startLocation, offset: .zero, initialFrame: control.frame)
     }
     
+    private func startResizing(control: A11yControl, startLocation: CGPoint) {
+        action = ResizeAction(view: view, control: control, startLocation: startLocation, offset: .zero, initialFrame: control.frame)
+    }
     
     private func startDrawing(coordinate: CGPoint) {
         let control = drawControl(from: .empty(frame: .zero))
