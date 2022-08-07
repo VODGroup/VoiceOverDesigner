@@ -65,10 +65,12 @@ class AlignmentOverlay: AlignmentOverlayProtocol {
                 return res
             }
         
-        let (alignedPoint, stickedAlignemntes) = alignments.getPoint(original: point)
+        let (alignedPoint, stickedAlignments) = alignments.getPoint(original: point)
+        
+        self.alignedEdges = stickedAlignments
         
         drawAligningLine(from: sourceControl.frame,
-                         alignments: stickedAlignemntes)
+                         alignments: stickedAlignments)
         
         return alignedPoint
     }
