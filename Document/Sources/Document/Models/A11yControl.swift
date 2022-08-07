@@ -18,6 +18,8 @@ public class A11yControl: CALayer {
         let normalCornerRadius: CGFloat = 0
         
         let fontSize: CGFloat = 10
+        
+        let resizeMarkerSize: CGFloat = 10
     }
     
     private let config = Config()
@@ -36,15 +38,29 @@ public class A11yControl: CALayer {
     }()
     
     override public func layoutSublayers() {
+        super.layoutSublayers()
+        
         if let size = label?.preferredFrameSize() {
             label?.frame = .init(origin: .zero, size: size)
                 .offsetBy(dx: 0, dy: -size.height - 1)
         }
+        
+        updateWithoutAnimation {
+            layoutResizeMarker()
+        }
+    }
+                                      
+    private func layoutResizeMarker() {
+        let size: CGFloat = Config().resizeMarkerSize
+        resizingMarker.frame = CGRect(origin: CGPoint(x: bounds.maxX - size,
+                                                      y: bounds.maxY - size),
+                                      size: CGSize(width: size,
+                                                   height: size))
     }
     
     public func updateColor() {
         backgroundColor = a11yDescription?.color.cgColor
-        borderColor = a11yDescription?.color.cgColor.copy(alpha: 1)
+        borderColor = a11yDescription?.color.cgColor.copy(alpha: 0)
     }
     
     public override var frame: CGRect {
@@ -60,8 +76,27 @@ public class A11yControl: CALayer {
             : config.normalAlpha
             
             backgroundColor = backgroundColor?.copy(alpha: alpha)
+            
+            resizingMarker.isHidden = !isHiglighted
         }
     }
+    
+    private lazy var resizingMarker: CALayer = {
+        let size = Config().resizeMarkerSize
+        
+        var triangle = CGMutablePath()
+        triangle.move(to: CGPoint(x: size, y: 0))
+        triangle.addLine(to: CGPoint(x: size, y: size))
+        triangle.addLine(to: CGPoint(x: 0, y: size))
+        triangle.closeSubpath()
+        
+        let marker = CAShapeLayer()
+        marker.path = triangle
+        marker.fillColor = CGColor(gray: 0, alpha: 0.25)
+        addSublayer(marker)
+        marker.isHidden = true
+        return marker
+    }()
     
     public var isSelected: Bool = false {
         didSet {

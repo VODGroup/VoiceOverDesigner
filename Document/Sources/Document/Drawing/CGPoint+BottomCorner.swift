@@ -2,8 +2,9 @@ import CoreGraphics
 
 extension CGPoint {
     func nearBottomRightCorner(of rect: CGRect) -> Bool {
-        abs(x - rect.bottomCorner.x) < 5 &&
-        abs(y - rect.bottomCorner.y) < 5
+        let threeshold = A11yControl.Config().resizeMarkerSize
+        return abs(x - rect.bottomCorner.x) < threeshold
+            && abs(y - rect.bottomCorner.y) < threeshold
     }
 }
 
