@@ -44,8 +44,11 @@ extension CGPoint {
         switch edge {
         case .minX: return x
         case .maxX: return x
+        case .midX: return x
+            
         case .minY: return y
         case .maxY: return y
+        case .midY: return y
         }
     }
 }

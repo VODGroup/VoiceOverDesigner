@@ -20,6 +20,13 @@ extension CGRect {
                 y: unionRect.maxY,
                 width: 1,
                 height: unionRect.minY - unionRect.maxY)
+        case .midX:
+            return CGRect(
+                x: unionRect.midX,
+                y: unionRect.maxY,
+                width: 1,
+                height: unionRect.minY - unionRect.maxY)
+            
         case .minY:
             return CGRect(
                 x: unionRect.minX,
@@ -30,6 +37,12 @@ extension CGRect {
             return CGRect(
                 x: unionRect.minX,
                 y: unionRect.maxY,
+                width: unionRect.maxX - unionRect.minX,
+                height: 1)
+        case .midY:
+            return CGRect(
+                x: unionRect.minX,
+                y: unionRect.midY,
                 width: unionRect.maxX - unionRect.minX,
                 height: 1)
         }

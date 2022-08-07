@@ -34,8 +34,11 @@ extension CGRect {
         switch edge {
         case .minX: return minX
         case .minY: return minY
+        case .midX: return midX
+            
         case .maxX: return maxX
         case .maxY: return maxY
+        case .midY: return midY
         }
     }
 }
