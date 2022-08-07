@@ -39,7 +39,11 @@ public class DrawingController {
     // MARK: New drawing
     public func mouseDown(on location: CGPoint) {
         if let existedControl = view.control(at: location) {
-            startDragging(control: existedControl, startLocation: location)
+            if location.nearBottomRightCorner(of: existedControl.frame) {
+                
+            } else {
+                startDragging(control: existedControl, startLocation: location)
+            }
         } else {
             startDrawing(coordinate: location)
         }
