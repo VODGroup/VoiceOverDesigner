@@ -48,7 +48,9 @@ class CGPointAlingmentTests: XCTestCase {
     
     
     func assertAlingment(
-        _ point: CGPoint, _ expectedAlingedPoint: CGPoint, _ expectedEdge: NSRectEdge,
+        _ point: CGPoint,
+        _ expectedAlingedPoint: CGPoint,
+        _ expectedEdge: AlingmentDirection,
         file: StaticString = #file, line: UInt = #line
     ) throws {
         let (resultPoint, edge) = try XCTUnwrap(point.aligned(to: rect), file: file, line: line)
@@ -58,14 +60,13 @@ class CGPointAlingmentTests: XCTestCase {
     }
 }
 
-extension NSRectEdge: CustomDebugStringConvertible {
+extension AlingmentDirection: CustomDebugStringConvertible {
     public var debugDescription: String {
         switch self {
         case .minX: return "minX"
         case .minY: return "minY"
         case .maxX: return "maxX"
         case .maxY: return "maxY"
-        @unknown default: return "unknown default"
         }
     }
 }

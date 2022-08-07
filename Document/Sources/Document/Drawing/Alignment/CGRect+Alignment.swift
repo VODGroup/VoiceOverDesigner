@@ -3,12 +3,22 @@ import CoreGraphics
 #if canImport(AppKit)
 import AppKit
 
+public enum AlingmentDirection: CaseIterable {
+    case minX
+    case maxX
+    
+    case minY
+    case maxY
+//    case centerX
+//    case centerY
+}
+
 extension CGRect {
     
     func aligned(
         to frame: CGRect
-    ) -> (CGRect, NSRectEdge)?  {
-        for edge in NSRectEdge.allCases {
+    ) -> (CGRect, AlingmentDirection)?  {
+        for edge in AlingmentDirection.allCases {
             let isNear = isNear(to: frame, edge: edge)
             
             if isNear {
@@ -22,12 +32,12 @@ extension CGRect {
         return nil
     }
     
-    private func isNear(to frame: CGRect, edge: NSRectEdge) -> Bool {
+    private func isNear(to frame: CGRect, edge: AlingmentDirection) -> Bool {
         let threeshold: CGFloat = 5
         return abs(self.value(edge) - frame.value(edge)) < threeshold
     }
     
-    private func offset(edge: NSRectEdge, alignedFrame: CGRect) -> CGRect? {
+    private func offset(edge: AlingmentDirection, alignedFrame: CGRect) -> CGRect? {
         switch edge {
         case .minX, .maxX:
             return self.offsetBy(dx: alignedFrame.value(edge) - self.value(edge),
@@ -35,18 +45,15 @@ extension CGRect {
         case .minY, .maxY:
             return self.offsetBy(dx: 0,
                                  dy: alignedFrame.value(edge) - self.value(edge))
-        @unknown default:
-            return nil
         }
     }
     
-    func value(_ edge: NSRectEdge) -> CGFloat {
+    func value(_ edge: AlingmentDirection) -> CGFloat {
         switch edge {
         case .minX: return minX
         case .minY: return minY
         case .maxX: return maxX
         case .maxY: return maxY
-        @unknown default: return 0
         }
     }
 }

@@ -2,7 +2,10 @@
 import AppKit
 
 extension CGRect {
-    func frameForAlignmentLine(with: CGRect, edge: NSRectEdge) -> CGRect {
+    func frameForAlignmentLine(
+        with: CGRect,
+        edge: AlingmentDirection
+    ) -> CGRect {
         let unionRect = self.union(with).insetBy(dx: -5, dy: -5)
         
         switch edge {
@@ -30,7 +33,6 @@ extension CGRect {
                 y: unionRect.maxY,
                 width: unionRect.maxX - unionRect.minX,
                 height: 1)
-        @unknown default: return .zero
         }
     }
 }

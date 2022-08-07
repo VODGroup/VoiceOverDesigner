@@ -23,7 +23,7 @@ class AlingmentOverlay: AlingmentOverlayProtocol {
         }
     }
     
-    private var alignedEdge: NSRectEdge? {
+    private var alignedEdge: AlingmentDirection? {
         didSet {
             if alignedEdge != oldValue {
                 vibrate()
@@ -72,7 +72,11 @@ class AlingmentOverlay: AlingmentOverlayProtocol {
         return frame // No frames to align, return original
     }
     
-    private func drawAligningLine(from: CGRect, to: CGRect, edge: NSRectEdge) {
+    private func drawAligningLine(
+        from: CGRect,
+        to: CGRect,
+        edge: AlingmentDirection
+    ) {
         alignmentLine.updateWithoutAnimation {
             alignmentLine.isHidden = false
             alignmentLine.frame = from.frameForAlignmentLine(with: to, edge: edge)
