@@ -20,6 +20,7 @@ public class A11yControl: CALayer {
         let fontSize: CGFloat = 10
         
         let resizeMarkerSize: CGFloat = 10
+        let alignmentThreshold: CGFloat = 5
     }
     
     private let config = Config()
