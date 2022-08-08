@@ -1,5 +1,4 @@
 import QuartzCore
-import AppKit
 
 public class MoveAction {
     init(view: DrawingView, control: A11yControl, startLocation: CGPoint, offset: CGPoint, initialFrame: CGRect) {
@@ -8,8 +7,6 @@ public class MoveAction {
         self.startLocation = startLocation
         self.offset = offset
         self.initialFrame = initialFrame
-        
-        NSCursor.closedHand.push()
     }
     
     private let view: DrawingView
