@@ -106,8 +106,15 @@ public class EditorPresenter: DocumentPresenter {
             })
             save()
             
+        case let resize as ResizeAction:
+            document.undoManager?.registerUndo(withTarget: self, handler: { target in
+                resize.control.frame = resize.initialFrame
+            })
+            break
+            
         case .none:
             deselect()
+            
         default:
             assert(false, "Handle new type here")
             break

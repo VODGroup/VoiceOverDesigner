@@ -40,8 +40,8 @@ extension CGPoint {
     }
     
     private func isNear(to frame: CGRect, edge: AlignmentDirection) -> Bool {
-        let threeshold: CGFloat = 5
-        return abs(self.value(edge) - frame.value(edge)) < threeshold
+        let threshold = A11yControl.Config().alignmentThreshold
+        return abs(self.value(edge) - frame.value(edge)) < threshold
     }
     
     private func value(_ edge: AlignmentDirection) -> CGFloat {

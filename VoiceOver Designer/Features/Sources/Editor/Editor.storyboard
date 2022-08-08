@@ -22,7 +22,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="784" height="812"/>
                                             <subviews>
                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="812" translatesAutoresizingMaskIntoConstraints="NO" id="kiH-h5-aG4">
-                                                    <rect key="frame" x="205" y="0.0" width="375" height="812"/>
+                                                    <rect key="frame" x="204" y="0.0" width="375" height="812"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="812" id="Te8-3a-boV"/>
                                                         <constraint firstAttribute="width" constant="375" id="hR1-I7-oyp"/>
@@ -30,7 +30,7 @@
                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="vuC-bS-HZw"/>
                                                 </imageView>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="L7U-F0-kOc" customClass="ControlsView" customModule="Editor">
-                                                    <rect key="frame" x="205" y="0.0" width="375" height="812"/>
+                                                    <rect key="frame" x="204" y="0.0" width="375" height="812"/>
                                                 </customView>
                                             </subviews>
                                             <constraints>
@@ -50,6 +50,7 @@
                                         <constraint firstAttribute="bottom" secondItem="JlK-Oy-LgO" secondAttribute="bottom" id="r8X-Mx-JrR"/>
                                         <constraint firstItem="JlK-Oy-LgO" firstAttribute="leading" secondItem="lki-H1-X1O" secondAttribute="leading" id="vBW-8I-XoS"/>
                                     </constraints>
+                                    <color key="backgroundColor" name="windowBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <constraints>
                                     <constraint firstItem="JlK-Oy-LgO" firstAttribute="width" secondItem="JHg-wh-ieX" secondAttribute="width" multiplier="0.997455" id="7hd-5P-I9r"/>

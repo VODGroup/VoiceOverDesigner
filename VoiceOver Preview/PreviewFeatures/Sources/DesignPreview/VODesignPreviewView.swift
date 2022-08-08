@@ -45,7 +45,7 @@ class VODesignPreviewView: UIView {
 class Canvas: UIView, DrawingView {
     var drawnControls: [A11yControl] = []
     
-    var alingmentOverlay: AlingmentOverlayProtocol = NoAlignmentOverlay()
+    var alignmentOverlay: AlignmentOverlayProtocol = NoAlignmentOverlay()
     
     var layout: VoiceOverLayout? {
         didSet {
