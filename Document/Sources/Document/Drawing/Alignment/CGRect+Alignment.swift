@@ -30,7 +30,7 @@ extension CGRect {
         to frame: CGRect,
         edge: AlignmentDirection
     ) -> Bool {
-        let threehold: = A11yControl.Config().alignmentThreshold
+        let threehold = A11yControl.Config().alignmentThreshold
         return abs(self.value(edge) - frame.value(edge)) < threehold
     }
     
