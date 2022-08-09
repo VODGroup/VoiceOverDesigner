@@ -10,11 +10,11 @@
             <objects>
                 <viewController id="U2f-R7-Q2a" customClass="SettingsViewController" customModule="Settings" sceneMemberID="viewController">
                     <view key="view" id="cLK-md-r8c">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="813"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="975"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" horizontalCompressionResistancePriority="500" translatesAutoresizingMaskIntoConstraints="NO" id="JZg-MT-gb1">
-                                <rect key="frame" x="18" y="762" width="354" height="31"/>
+                                <rect key="frame" x="18" y="924" width="354" height="31"/>
                                 <textFieldCell key="cell" selectable="YES" title="Москва, кнопка" id="egg-Nz-KWw">
                                     <font key="font" textStyle="largeTitle" name=".SFNS-Regular"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -22,7 +22,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fAf-ES-vjT">
-                                <rect key="frame" x="18" y="722" width="41" height="16"/>
+                                <rect key="frame" x="18" y="884" width="41" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Label:" id="Nlv-IC-RPW">
                                     <font key="font" textStyle="body" name=".SFNS-Regular"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -30,7 +30,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oEr-KQ-HrL">
-                                <rect key="frame" x="20" y="697" width="350" height="21"/>
+                                <rect key="frame" x="20" y="859" width="350" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="350" id="qZr-UX-PZV"/>
                                 </constraints>
@@ -44,7 +44,7 @@
                                 </connections>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="I0u-MB-fxF">
-                                <rect key="frame" x="266" y="721" width="104" height="18"/>
+                                <rect key="frame" x="266" y="883" width="104" height="18"/>
                                 <buttonCell key="cell" type="check" title="is accessible" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="mZL-5y-qIU">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -56,12 +56,18 @@
                                 </connections>
                             </button>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="16" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LGK-Fp-or4">
-                                <rect key="frame" x="20" y="73" width="350" height="602"/>
+                                <rect key="frame" x="20" y="73" width="350" height="764"/>
                                 <subviews>
-                                    <containerView placeholderIntrinsicWidth="385" placeholderIntrinsicHeight="146" translatesAutoresizingMaskIntoConstraints="NO" id="cWG-yH-GJd">
+                                    <containerView placeholderIntrinsicWidth="385" placeholderIntrinsicHeight="146" translatesAutoresizingMaskIntoConstraints="NO" id="cWG-yH-GJd" userLabel="A11y Value View">
+                                        <rect key="frame" x="0.0" y="618" width="350" height="146"/>
+                                        <connections>
+                                            <segue destination="hCW-q0-HC9" kind="embed" identifier="A11yValueViewController" id="c9M-xQ-asw"/>
+                                        </connections>
+                                    </containerView>
+                                    <containerView placeholderIntrinsicWidth="385" placeholderIntrinsicHeight="146" translatesAutoresizingMaskIntoConstraints="NO" id="3pr-Nv-IXY" userLabel="Custom Actions View">
                                         <rect key="frame" x="0.0" y="456" width="350" height="146"/>
                                         <connections>
-                                            <segue destination="hCW-q0-HC9" kind="embed" id="c9M-xQ-asw"/>
+                                            <segue destination="VfM-h9-pgU" kind="embed" identifier="CustomActionsViewContoller" id="47j-c8-xJ5"/>
                                         </connections>
                                     </containerView>
                                     <box title="Type" translatesAutoresizingMaskIntoConstraints="NO" id="UuZ-Ye-28d">
@@ -363,8 +369,10 @@
                                     <integer value="1000"/>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
+                                    <integer value="1000"/>
                                 </visibilityPriorities>
                                 <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
@@ -575,6 +583,14 @@ CA
                 <customObject id="hv7-8B-bTl" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="673.5" y="1248.5"/>
+        </scene>
+        <!--CustomActionsViewController-->
+        <scene sceneID="nG4-cf-TDE">
+            <objects>
+                <controllerPlaceholder storyboardName="CustomActionsViewController" id="VfM-h9-pgU" sceneMemberID="viewController"/>
+                <customObject id="y5B-4o-BRS" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="249" y="1387"/>
         </scene>
     </scenes>
 </document>
