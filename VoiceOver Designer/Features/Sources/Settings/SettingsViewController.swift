@@ -120,6 +120,7 @@ public class SettingsViewController: NSViewController {
         case "CustomActionsViewContoller":
             if let customActionViewController = segue.destinationController as? CustomActionsViewController {
                 actionsViewController = customActionViewController
+                actionsViewController?.presenter = presenter
             }
         default: break
         }

@@ -202,3 +202,10 @@ public class A11yDescription: Codable {
         value = adjustableOptions.currentValue ?? ""
     }
 }
+
+// MARK: CustomActions
+public extension A11yDescription {
+    func addCustomAction(named name: String) {
+        customActions.addNewCustomAction(named: name)
+    }
+}

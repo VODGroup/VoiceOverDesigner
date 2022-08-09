@@ -6,10 +6,29 @@
 //
 
 import Foundation
+import Document
 import AppKit
 
 class CustomActionsViewController: NSViewController {
+    
+    var presenter: SettingsPresenter!
+    
+    var descr: A11yDescription {
+        presenter.model
+    }
 
+    func view() -> CustomActionsView {
+        view as! CustomActionsView
+    }
+    
+    @IBAction func addCustomAction(_ sender: Any) {
+        descr.addCustomAction(named: "")
+        renderDescription()
+    }
+    
+    func renderDescription() {
+        view().render(descr: descr, delegate: self)
+    }
 }
 
 extension CustomActionsViewController {
@@ -20,3 +39,15 @@ extension CustomActionsViewController {
     }
 }
 
+extension CustomActionsViewController: CustomActionOptionViewDelegate {
+    func delete(option: CustomActionOptionView) {
+//        view
+    }
+    
+    func update(option: CustomActionOptionView) {
+//        let a = view().actionsStack.arrangedSubviews.first(where: {$0 == option})
+//        descr.customActions.
+    }
+    
+    
+}

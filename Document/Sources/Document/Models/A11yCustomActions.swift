@@ -22,4 +22,8 @@ public struct A11yCustomActions: Codable {
     public mutating func addNewCustomAction(named action: String) {
         names.append(action)
     }
+    
+    public mutating func remove(at index: Int) {
+        names.remove(at: index)
+    }
 }
