@@ -113,7 +113,8 @@ extension A11yDescription {
             hint: "",
             trait: [],
             frame: .zero,
-            adjustableOptions: AdjustableOptions(options: [])
+            adjustableOptions: AdjustableOptions(options: []),
+            customActions: A11yCustomActions(names: [])
         )
     }
 }

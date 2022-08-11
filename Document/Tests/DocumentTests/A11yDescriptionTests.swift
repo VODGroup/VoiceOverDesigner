@@ -104,14 +104,17 @@ extension A11yDescription {
         hint: String = "",
         trait: A11yTraits = .none,
         frame: CGRect = .zero,
-        adjustableOption: AdjustableOptions = .testMake()
+        adjustableOption: AdjustableOptions = .testMake(),
+        customActions: A11yCustomActions = .testMake()
     ) -> A11yDescription {
         A11yDescription(label: label,
                         value: value,
                         hint: hint,
                         trait: trait,
                         frame: frame,
-                        adjustableOptions: adjustableOption)
+                        adjustableOptions: adjustableOption,
+                        customActions: customActions
+        )
     }
 }
 
@@ -121,5 +124,11 @@ extension AdjustableOptions {
         currentIndex: Int? = nil
     ) -> AdjustableOptions {
         AdjustableOptions(options: options, currentIndex: currentIndex)
+    }
+}
+
+extension A11yCustomActions {
+    public static func testMake(names: [String] = []) -> A11yCustomActions {
+        A11yCustomActions(names: names)
     }
 }
