@@ -26,6 +26,7 @@ class CustomActionOptionView: NSView {
         NSLayoutConstraint.activate([
             textfield.widthAnchor.constraint(equalToConstant: 280)
         ])
+        
         removeButton = NSButton(title: "-", target: nil, action: nil)
         removeButton.bezelStyle = .inline
         stackView = NSStackView()
@@ -34,6 +35,7 @@ class CustomActionOptionView: NSView {
         super.init(frame: .zero)
         removeButton.action = #selector(deleteSelf)
         textfield.action = #selector(updateText)
+        addSubview(stackView)
         
     }
     
@@ -44,6 +46,15 @@ class CustomActionOptionView: NSView {
     
     @objc func updateText() {
         delegate?.update(option: self)
+    }
+    
+    
+    override var intrinsicContentSize: NSSize {
+        get {
+            CGSize(width: NSView.noIntrinsicMetric, height: 24)
+        }
+        
+        set {}
     }
     
     required init?(coder: NSCoder) {
