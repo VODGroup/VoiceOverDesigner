@@ -8,11 +8,7 @@ class TranslatingTests: EditorAfterDidLoadTests {
     func test_movementFor5px_shouldTranslateRect() async throws {
         drawRect_10_60()
         
-        // Move
-        sut.mouseDown(on: .coord(15))
-        sut.mouseDragged(on: .coord(17))
-        sut.mouseDragged(on: .coord(18))
-        sut.mouseDragged(on: .coord(20)) // 5px from start
+        drag(15, 17, 18, 20) // 5px from start
         
         XCTAssertEqual(drawnControls.count, 1)
         XCTAssertEqual(drawnControls.first?.frame,
@@ -24,10 +20,7 @@ class TranslatingTests: EditorAfterDidLoadTests {
     
     func test_translateToNegativeCoordinates_shouldTranslate() async throws {
         drawRect_10_60()
-        
-        // Move
-        sut.mouseDown(on: .coord(15))
-        sut.mouseUp(on: .coord(5))
+        move(from: .coord(15), to: .coord(5))
         
         XCTAssertEqual(drawnControls.first?.frame,
                        rect10to50.offsetBy(dx: -10, dy: -10))

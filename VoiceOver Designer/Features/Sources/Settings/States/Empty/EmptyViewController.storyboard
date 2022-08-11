@@ -14,7 +14,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qwD-jY-ObV">
-                                <rect key="frame" x="18" y="385" width="354" height="63"/>
+                                <rect key="frame" x="18" y="218" width="354" height="63"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="350" id="ay4-UP-NVc"/>
                                 </constraints>
@@ -28,9 +28,10 @@ to adjust settings</string>
                             </textField>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="qwD-jY-ObV" firstAttribute="top" secondItem="tOy-S4-hL0" secondAttribute="top" constant="50" id="OZQ-fx-wl2"/>
+                            <constraint firstItem="qwD-jY-ObV" firstAttribute="top" relation="greaterThanOrEqual" secondItem="tOy-S4-hL0" secondAttribute="top" constant="50" id="OZQ-fx-wl2"/>
                             <constraint firstItem="qwD-jY-ObV" firstAttribute="centerX" secondItem="tOy-S4-hL0" secondAttribute="centerX" id="fbi-5e-eAJ"/>
                             <constraint firstItem="qwD-jY-ObV" firstAttribute="leading" secondItem="tOy-S4-hL0" secondAttribute="leading" constant="20" symbolic="YES" id="o5n-zj-SH6"/>
+                            <constraint firstItem="qwD-jY-ObV" firstAttribute="centerY" secondItem="tOy-S4-hL0" secondAttribute="centerY" id="xdl-4K-Voz"/>
                         </constraints>
                     </view>
                 </viewController>
