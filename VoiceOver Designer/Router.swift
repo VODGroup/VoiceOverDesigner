@@ -11,40 +11,27 @@ import Settings
 import Editor
 
 class Router {
-    init(rootController: ProjectController, settingsDelegate: SettingsDelegate) {
-        self.root = rootController
-        self.settingsDelegate = settingsDelegate
-    }
-    
-    let root: ProjectController
-    unowned var settingsDelegate: SettingsDelegate!
-    
-    func showSettings(for model: A11yDescription) {
-        showSettingsInSidebar(for: model)
-    }
-    
-    var sidebar: NSSplitViewItem?
-    
-    private func showSettingsInSidebar(
-        for model: A11yDescription
+    init(
+        rootController: ProjectController,
+        settingsDelegate: SettingsDelegate
     ) {
-        hideSettings()
+        self.root = rootController
         
-        let settings = SettingsViewController.fromStoryboard()
-        settings.presenter = SettingsPresenter(
-            model: model,
-            delegate: settingsDelegate)
+        self.settings = SettingsStateViewController.fromStoryboard()
+        self.settings.settingsDelegate = settingsDelegate
         
-        let sidebar = NSSplitViewItem(
-            sidebarWithViewController: settings)
-        
-        self.sidebar = sidebar
+        let sidebar = NSSplitViewItem(sidebarWithViewController: settings)
         root.addSplitViewItem(sidebar)
     }
     
+    private let root: ProjectController
+    private let settings: SettingsStateViewController
+    
+    func showSettings(for model: A11yDescription) {
+        settings.state = .control(model)
+    }
+    
     func hideSettings() {
-        guard let sidebar = sidebar else { return }
-        root.removeSplitViewItem(sidebar)
-        self.sidebar = nil
+        settings.state = .empty
     }
 }

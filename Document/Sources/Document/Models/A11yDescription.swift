@@ -16,7 +16,11 @@ import CoreGraphics
     public typealias Color = NSColor
 #endif
 
-public class A11yDescription: Codable {
+public class A11yDescription: Codable, Equatable {
+    public static func == (lhs: A11yDescription, rhs: A11yDescription) -> Bool {
+        lhs.frame == rhs.frame // It looks that we can't have two instances with same frame it it's uniquely enough
+    }
+    
     public init(
         isAccessibilityElement: Bool = true,
         label: String,
