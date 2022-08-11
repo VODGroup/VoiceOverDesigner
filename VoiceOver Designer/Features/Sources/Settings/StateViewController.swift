@@ -30,7 +30,7 @@ where State: StateProtocol {
         didSet {
             let isChanged = state != oldValue
             if isChanged {
-                removeCurrenIfExists()
+                removeCurrentIfExists()
                 addController(for: state)
             }
         }
@@ -53,7 +53,7 @@ where State: StateProtocol {
         currentController = newController
     }
     
-    private func removeCurrenIfExists() {
+    private func removeCurrentIfExists() {
         if let currentController = currentController {
 //            currentController.willMove(toParent: nil)
             currentController.view.removeFromSuperview()
