@@ -37,13 +37,3 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
         return storyboard.instantiateInitialController() as! SettingsStateViewController
     }
 }
-
-//protocol Storyboardable {
-//    public static func fromStoryboard() -> SettingsStateViewController {
-//        let storyboard = NSStoryboard(name: String(description(for: Self)), bundle: .module)
-//        return storyboard.instantiateInitialController() as! SettingsStateViewController
-//    }
-//}
-
-
-
