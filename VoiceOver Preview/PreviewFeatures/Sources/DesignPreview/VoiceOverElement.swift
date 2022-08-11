@@ -40,4 +40,18 @@ class VoiceOverElement: UIAccessibilityElement {
         control.accessibilityDecrement()
         setup(from: control)
     }
+    
+    override var accessibilityCustomActions: [UIAccessibilityCustomAction]? {
+        get {
+            control.customActions.names.map({
+                UIAccessibilityCustomAction(name: $0, actionHandler: { _ in
+                    true
+                })
+            })
+        }
+        set {
+            
+        }
+    }
+    
 }
