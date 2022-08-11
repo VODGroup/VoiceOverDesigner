@@ -9,14 +9,23 @@ import AppKit
 
 
 protocol CustomActionOptionViewDelegate: AnyObject {
-    func delete(option: CustomActionOptionView)
-    func update(option: CustomActionOptionView)
+    func delete(action: CustomActionOptionView)
+    func update(action: CustomActionOptionView)
 }
 
 class CustomActionOptionView: NSView {
     let textfield: NSTextField
     let removeButton: NSButton
     let stackView: NSStackView
+    
+    var name: String {
+        get {
+            textfield.stringValue
+        }
+        set {
+            textfield.stringValue = newValue
+        }
+    }
     
     
     weak var delegate: CustomActionOptionViewDelegate?
@@ -26,26 +35,31 @@ class CustomActionOptionView: NSView {
         NSLayoutConstraint.activate([
             textfield.widthAnchor.constraint(equalToConstant: 280)
         ])
+        textfield.isEditable = true
         
         removeButton = NSButton(title: "-", target: nil, action: nil)
         removeButton.bezelStyle = .inline
-        stackView = NSStackView()
+        stackView = NSStackView(views: [textfield, removeButton])
         stackView.orientation = .horizontal
         stackView.distribution = .fill
         super.init(frame: .zero)
+        removeButton.target = self
         removeButton.action = #selector(deleteSelf)
+        
+        textfield.target = self
         textfield.action = #selector(updateText)
+        
         addSubview(stackView)
         
     }
     
     @objc func deleteSelf() {
-        delegate?.delete(option: self)
+        delegate?.delete(action: self)
     }
 
     
     @objc func updateText() {
-        delegate?.update(option: self)
+        delegate?.update(action: self)
     }
     
     

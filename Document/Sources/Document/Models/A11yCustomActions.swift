@@ -12,7 +12,6 @@ public struct A11yCustomActions: Codable {
     
     public init(names: [String] = []) {
         self.names = names
-        
     }
     
     
@@ -25,5 +24,9 @@ public struct A11yCustomActions: Codable {
     
     public mutating func remove(at index: Int) {
         names.remove(at: index)
+    }
+    
+    public mutating func update(at index: Int, with name: String) {
+        names[index] = name
     }
 }

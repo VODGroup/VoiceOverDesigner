@@ -26,6 +26,11 @@ class CustomActionsViewController: NSViewController {
         renderDescription()
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        renderDescription()
+    }
+    
     func renderDescription() {
         view().render(descr: descr, delegate: self)
     }
@@ -40,14 +45,16 @@ extension CustomActionsViewController {
 }
 
 extension CustomActionsViewController: CustomActionOptionViewDelegate {
-    func delete(option: CustomActionOptionView) {
-//        view
+    func delete(action: CustomActionOptionView) {
+        if let index = view().index(of: action) {
+            descr.removeCustomAction(at: index)
+        }
+        renderDescription()
     }
     
-    func update(option: CustomActionOptionView) {
-//        let a = view().actionsStack.arrangedSubviews.first(where: {$0 == option})
-//        descr.customActions.
+    func update(action: CustomActionOptionView) {
+        if let index = view().index(of: action) {
+            descr.updateCustomAction(at: index, with: action.name)
+        }
     }
-    
-    
 }

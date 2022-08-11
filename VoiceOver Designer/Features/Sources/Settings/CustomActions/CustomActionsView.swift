@@ -36,6 +36,9 @@ class CustomActionsView: NSView {
 
     }
     
+    func index(of option: CustomActionOptionView) -> Int? {
+        actionsStack.arrangedSubviews.firstIndex(of: option)
+    }
     
     func removeAllOptions() {
         actionsStack
@@ -48,9 +51,10 @@ class CustomActionsView: NSView {
     func addNewCustomAction(named name: String, delegate: CustomActionOptionViewDelegate) {
         let actionView = CustomActionOptionView()
         actionView.textfield.stringValue = name
-        actionView.textfield.becomeFirstResponder()
+        
         actionView.delegate = delegate
         actionsStack.insertArrangedSubview(actionView, at: insertIndex)
+        actionView.textfield.becomeFirstResponder()
     }
     
     private var insertIndex: Int {
