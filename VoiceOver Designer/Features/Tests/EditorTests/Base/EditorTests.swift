@@ -51,6 +51,16 @@ extension EditorTests {
         sut.document.controls
     }
     
+    func move(from: CGPoint, to: CGPoint) {
+        sut.mouseDown(on: from)
+        sut.mouseUp(on: to)
+    }
+    
+    func drawRect(from: CGPoint, to: CGPoint) {
+        sut.mouseDown(on: from)
+        sut.mouseUp(on: to)
+    }
+    
     func drawRect_10_60(deselect: Bool = true) {
         sut.mouseDown(on: start10)
         sut.mouseUp(on: end60)
@@ -58,9 +68,11 @@ extension EditorTests {
         sut.deselect()
     }
     
-    func drawRect(from: CGPoint, to: CGPoint) {
-        sut.mouseDown(on: from)
-        sut.mouseUp(on: to)
+    func drag(_ start: CGFloat, _ otherPoints: CGFloat...) {
+        sut.mouseDown(on: .coord(start))
+        for point in otherPoints {
+            sut.mouseDragged(on: .coord(point))
+        }
     }
     
     func awaitSelected(file: StaticString = #file,
