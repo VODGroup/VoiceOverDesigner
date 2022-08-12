@@ -136,6 +136,6 @@ class A11yValueView: NSView {
     }
     
     func selectLastOption() {
-        optionViews.last?.becomeFirstResponder()
+        optionViews.last?.textView.becomeFirstResponder()
     }
 }
