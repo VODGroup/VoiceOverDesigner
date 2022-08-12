@@ -46,7 +46,7 @@ class AdjustableOptionView: NSView {
                                     target: nil, action: nil)
         self.textView = NSTextField()
         NSLayoutConstraint.activate([
-            textView.widthAnchor.constraint(equalToConstant: 300),
+            textView.widthAnchor.constraint(equalToConstant: 310),
         ])
         
         

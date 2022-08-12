@@ -10,10 +10,10 @@
             <objects>
                 <viewController storyboardIdentifier="value" id="fEp-Em-BFf" customClass="A11yValueViewController" customModule="Settings" sceneMemberID="viewController">
                     <view key="view" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oRf-1I-4R3" customClass="A11yValueView" customModule="Settings">
-                        <rect key="frame" x="0.0" y="0.0" width="406" height="95"/>
+                        <rect key="frame" x="0.0" y="0.0" width="406" height="154"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6GH-JK-vtJ">
-                                <rect key="frame" x="-2" y="81" width="38" height="16"/>
+                                <rect key="frame" x="-2" y="136" width="38" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Value" id="Cfa-kM-O7m">
                                     <font key="font" textStyle="body" name=".SFNS-Regular"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -21,10 +21,10 @@
                                 </textFieldCell>
                             </textField>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mXM-5i-JW0">
-                                <rect key="frame" x="0.0" y="8" width="406" height="68"/>
+                                <rect key="frame" x="0.0" y="8" width="406" height="123"/>
                                 <subviews>
                                     <textField verticalHuggingPriority="750" placeholderIntrinsicWidth="390" placeholderIntrinsicHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="MJ0-z7-LB8">
-                                        <rect key="frame" x="0.0" y="28" width="390" height="40"/>
+                                        <rect key="frame" x="0.0" y="83" width="390" height="40"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="8Zp-JZ-Qhy">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -35,19 +35,43 @@
                                         </connections>
                                     </textField>
                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ACh-c1-5AL">
-                                        <rect key="frame" x="0.0" y="0.0" width="406" height="20"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="406" height="75"/>
                                         <subviews>
-                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4ac-qr-xd8">
-                                                <rect key="frame" x="-7" y="-7" width="106" height="32"/>
-                                                <buttonCell key="cell" type="push" title="+ Add value" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="G1o-wg-Qfo">
-                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                    <font key="font" metaFont="system"/>
-                                                </buttonCell>
-                                                <connections>
-                                                    <action selector="addAdjustable:" target="fEp-Em-BFf" id="k1L-c8-mTD"/>
-                                                </connections>
-                                            </button>
+                                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="aNN-Zr-bHS">
+                                                <rect key="frame" x="0.0" y="0.0" width="406" height="75"/>
+                                                <subviews>
+                                                    <button horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4ac-qr-xd8">
+                                                        <rect key="frame" x="4" y="5" width="106" height="71"/>
+                                                        <buttonCell key="cell" type="push" title="+ Add value" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="G1o-wg-Qfo">
+                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                        </buttonCell>
+                                                        <connections>
+                                                            <action selector="addAdjustable:" target="fEp-Em-BFf" id="k1L-c8-mTD"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NNz-9W-VWL" customClass="TraitCheckBox" customModule="Settings">
+                                                        <rect key="frame" x="306" y="53" width="100" height="18"/>
+                                                        <buttonCell key="cell" type="check" title="Enumerated" bezelStyle="regularSquare" imagePosition="left" inset="2" id="0Mf-ur-5Yd">
+                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                            <font key="font" metaFont="system"/>
+                                                            <string key="keyEquivalent">d</string>
+                                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                                        </buttonCell>
+                                                    </button>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="NNz-9W-VWL" firstAttribute="firstBaseline" secondItem="4ac-qr-xd8" secondAttribute="firstBaseline" id="5r6-1G-aez"/>
+                                                    <constraint firstItem="4ac-qr-xd8" firstAttribute="leading" secondItem="aNN-Zr-bHS" secondAttribute="leading" constant="11" id="AUr-WK-7wV"/>
+                                                    <constraint firstAttribute="trailing" secondItem="NNz-9W-VWL" secondAttribute="trailing" id="DrD-jU-bCQ"/>
+                                                    <constraint firstAttribute="bottom" secondItem="4ac-qr-xd8" secondAttribute="bottom" constant="12" id="Feq-KN-hjM"/>
+                                                    <constraint firstItem="4ac-qr-xd8" firstAttribute="top" secondItem="aNN-Zr-bHS" secondAttribute="top" constant="4" id="ubp-1L-u58"/>
+                                                </constraints>
+                                            </customView>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstItem="aNN-Zr-bHS" firstAttribute="width" secondItem="ACh-c1-5AL" secondAttribute="width" id="y43-fE-iD6"/>
+                                        </constraints>
                                         <visibilityPriorities>
                                             <integer value="1000"/>
                                         </visibilityPriorities>
@@ -66,7 +90,7 @@
                                 </customSpacing>
                             </stackView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ecy-07-j5w" customClass="TraitCheckBox" customModule="Settings">
-                                <rect key="frame" x="316" y="80" width="90" height="18"/>
+                                <rect key="frame" x="316" y="135" width="90" height="18"/>
                                 <buttonCell key="cell" type="check" title="Adjustable" bezelStyle="regularSquare" imagePosition="left" inset="2" id="AkL-hm-OBG">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -99,7 +123,7 @@
                 </viewController>
                 <customObject id="5d6-eZ-Hth" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="673" y="816.5"/>
+            <point key="canvasLocation" x="673" y="777"/>
         </scene>
     </scenes>
 </document>
