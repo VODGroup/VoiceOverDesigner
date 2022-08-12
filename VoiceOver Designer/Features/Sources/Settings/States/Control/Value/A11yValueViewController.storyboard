@@ -10,71 +10,63 @@
             <objects>
                 <viewController storyboardIdentifier="value" id="fEp-Em-BFf" customClass="A11yValueViewController" customModule="Settings" sceneMemberID="viewController">
                     <view key="view" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oRf-1I-4R3" customClass="A11yValueView" customModule="Settings">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="151"/>
+                        <rect key="frame" x="0.0" y="0.0" width="406" height="95"/>
                         <subviews>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8dJ-cU-P1q">
-                                <rect key="frame" x="0.0" y="78" width="390" height="21"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="Dfp-AP-TqR">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6GH-JK-vtJ">
+                                <rect key="frame" x="-2" y="81" width="38" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Value" id="Cfa-kM-O7m">
+                                    <font key="font" textStyle="body" name=".SFNS-Regular"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
-                                <connections>
-                                    <action selector="valueDidChange:" target="fEp-Em-BFf" id="3Vp-wJ-JLx"/>
-                                </connections>
                             </textField>
-                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="12" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mXM-5i-JW0">
-                                <rect key="frame" x="0.0" y="8" width="390" height="54"/>
+                            <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mXM-5i-JW0">
+                                <rect key="frame" x="0.0" y="8" width="406" height="68"/>
                                 <subviews>
-                                    <box title="Adjustable values for prototype" translatesAutoresizingMaskIntoConstraints="NO" id="wvl-Qv-rQo">
-                                        <rect key="frame" x="-3" y="-4" width="396" height="58"/>
-                                        <view key="contentView" id="daA-4f-RTO">
-                                            <rect key="frame" x="3" y="3" width="390" height="40"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <subviews>
-                                                <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y8O-yf-X3v">
-                                                    <rect key="frame" x="8" y="12" width="374" height="20"/>
-                                                    <subviews>
-                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3n3-bj-V2L">
-                                                            <rect key="frame" x="-7" y="-7" width="106" height="32"/>
-                                                            <buttonCell key="cell" type="push" title="+ Add value" bezelStyle="rounded" alignment="left" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="u7P-J9-xHY">
-                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                <font key="font" metaFont="system"/>
-                                                            </buttonCell>
-                                                            <connections>
-                                                                <action selector="addAdjustable:" target="fEp-Em-BFf" id="TPv-Gr-sQF"/>
-                                                            </connections>
-                                                        </button>
-                                                    </subviews>
-                                                    <visibilityPriorities>
-                                                        <integer value="1000"/>
-                                                    </visibilityPriorities>
-                                                    <customSpacing>
-                                                        <real value="3.4028234663852886e+38"/>
-                                                    </customSpacing>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Y8O-yf-X3v" firstAttribute="leading" secondItem="daA-4f-RTO" secondAttribute="leading" constant="8" id="3Dy-qC-2cd"/>
-                                                <constraint firstItem="Y8O-yf-X3v" firstAttribute="top" secondItem="daA-4f-RTO" secondAttribute="top" constant="8" id="6WH-Vi-CmE"/>
-                                                <constraint firstAttribute="bottom" secondItem="Y8O-yf-X3v" secondAttribute="bottom" constant="12" id="o9H-Bv-dqY"/>
-                                                <constraint firstAttribute="trailing" secondItem="Y8O-yf-X3v" secondAttribute="trailing" constant="8" id="yUm-d2-gVC"/>
-                                            </constraints>
-                                        </view>
-                                    </box>
+                                    <textField verticalHuggingPriority="750" placeholderIntrinsicWidth="390" placeholderIntrinsicHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="MJ0-z7-LB8">
+                                        <rect key="frame" x="0.0" y="28" width="390" height="40"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="8Zp-JZ-Qhy">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <action selector="valueDidChange:" target="fEp-Em-BFf" id="WiF-RC-suG"/>
+                                        </connections>
+                                    </textField>
+                                    <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ACh-c1-5AL">
+                                        <rect key="frame" x="0.0" y="0.0" width="406" height="20"/>
+                                        <subviews>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4ac-qr-xd8">
+                                                <rect key="frame" x="-7" y="-7" width="106" height="32"/>
+                                                <buttonCell key="cell" type="push" title="+ Add value" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="G1o-wg-Qfo">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="addAdjustable:" target="fEp-Em-BFf" id="k1L-c8-mTD"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="wvl-Qv-rQo" firstAttribute="width" secondItem="mXM-5i-JW0" secondAttribute="width" id="OqB-zM-K8E"/>
-                                </constraints>
                                 <visibilityPriorities>
+                                    <integer value="1000"/>
                                     <integer value="1000"/>
                                 </visibilityPriorities>
                                 <customSpacing>
                                     <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ecy-07-j5w" customClass="TraitCheckBox" customModule="Settings">
-                                <rect key="frame" x="300" y="102" width="90" height="18"/>
+                                <rect key="frame" x="316" y="80" width="90" height="18"/>
                                 <buttonCell key="cell" type="check" title="Adjustable" bezelStyle="regularSquare" imagePosition="left" inset="2" id="AkL-hm-OBG">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -85,39 +77,29 @@
                                     <action selector="isAdjustableDidChange:" target="fEp-Em-BFf" id="OUU-TS-xZ9"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qzS-CE-2HZ">
-                                <rect key="frame" x="-2" y="103" width="42" height="16"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Value:" id="RlP-o3-uyw">
-                                    <font key="font" textStyle="body" name=".SFNS-Regular"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="qzS-CE-2HZ" firstAttribute="top" secondItem="oRf-1I-4R3" secondAttribute="top" constant="8" id="0ia-1t-j4v"/>
-                            <constraint firstItem="mXM-5i-JW0" firstAttribute="top" secondItem="8dJ-cU-P1q" secondAttribute="bottom" constant="16" id="EnN-Ln-bSr"/>
+                            <constraint firstItem="6GH-JK-vtJ" firstAttribute="top" secondItem="oRf-1I-4R3" secondAttribute="top" constant="2" id="1z3-Rn-s66"/>
+                            <constraint firstItem="mXM-5i-JW0" firstAttribute="top" secondItem="6GH-JK-vtJ" secondAttribute="bottom" constant="5" id="3B2-H5-vWt"/>
                             <constraint firstItem="mXM-5i-JW0" firstAttribute="leading" secondItem="oRf-1I-4R3" secondAttribute="leading" id="Hrf-3P-nUW"/>
-                            <constraint firstItem="8dJ-cU-P1q" firstAttribute="top" secondItem="qzS-CE-2HZ" secondAttribute="bottom" constant="4" id="PkW-Qb-kmw"/>
-                            <constraint firstItem="qzS-CE-2HZ" firstAttribute="leading" secondItem="8dJ-cU-P1q" secondAttribute="leading" id="VfU-pC-qBK"/>
-                            <constraint firstItem="8dJ-cU-P1q" firstAttribute="centerX" secondItem="oRf-1I-4R3" secondAttribute="centerX" id="Xg2-Ak-UeY"/>
-                            <constraint firstItem="ecy-07-j5w" firstAttribute="firstBaseline" secondItem="qzS-CE-2HZ" secondAttribute="firstBaseline" id="Yog-BB-fzK"/>
-                            <constraint firstItem="8dJ-cU-P1q" firstAttribute="leading" secondItem="daA-4f-RTO" secondAttribute="leading" id="b5m-Op-86k"/>
                             <constraint firstAttribute="trailing" secondItem="mXM-5i-JW0" secondAttribute="trailing" id="dXW-Li-34U"/>
-                            <constraint firstItem="ecy-07-j5w" firstAttribute="trailing" secondItem="8dJ-cU-P1q" secondAttribute="trailing" id="edU-fT-8ji"/>
+                            <constraint firstItem="ecy-07-j5w" firstAttribute="trailing" secondItem="mXM-5i-JW0" secondAttribute="trailing" id="ksR-R5-h6N"/>
+                            <constraint firstItem="6GH-JK-vtJ" firstAttribute="leading" secondItem="oRf-1I-4R3" secondAttribute="leading" id="nR6-P9-fcL"/>
                             <constraint firstAttribute="bottom" secondItem="mXM-5i-JW0" secondAttribute="bottom" constant="8" id="oKP-WT-x8G"/>
+                            <constraint firstItem="ecy-07-j5w" firstAttribute="firstBaseline" secondItem="6GH-JK-vtJ" secondAttribute="firstBaseline" id="uet-5Q-mkq"/>
+                            <constraint firstItem="ACh-c1-5AL" firstAttribute="width" secondItem="oRf-1I-4R3" secondAttribute="width" id="yko-wG-iIv"/>
                         </constraints>
                         <connections>
-                            <outlet property="adjustableOptionsBox" destination="wvl-Qv-rQo" id="acd-WF-pAf"/>
                             <outlet property="isAdjustableTrait" destination="ecy-07-j5w" id="28o-NW-ikX"/>
-                            <outlet property="optionsStack" destination="Y8O-yf-X3v" id="GZr-dD-6DA"/>
-                            <outlet property="valueTextField" destination="8dJ-cU-P1q" id="iCc-RK-HPk"/>
+                            <outlet property="mainStack" destination="mXM-5i-JW0" id="OHC-WK-xI4"/>
+                            <outlet property="optionsStack" destination="ACh-c1-5AL" id="6cQ-ud-6la"/>
+                            <outlet property="valueTextField" destination="MJ0-z7-LB8" id="QL6-tY-ElL"/>
                         </connections>
                     </view>
                 </viewController>
                 <customObject id="5d6-eZ-Hth" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="673" y="795.5"/>
+            <point key="canvasLocation" x="673" y="816.5"/>
         </scene>
     </scenes>
 </document>

@@ -46,7 +46,7 @@ class AdjustableOptionView: NSView {
                                     target: nil, action: nil)
         self.textView = NSTextField()
         NSLayoutConstraint.activate([
-            textView.widthAnchor.constraint(equalToConstant: 280)
+            textView.widthAnchor.constraint(equalToConstant: 300),
         ])
         
         
@@ -55,6 +55,7 @@ class AdjustableOptionView: NSView {
         
         self.stackView = NSStackView(views: [radioButton, textView, removeButton])
         stackView.orientation = .horizontal
+        stackView.spacing = 4
         stackView.distribution = .fill
         
         super.init(frame: .zero)

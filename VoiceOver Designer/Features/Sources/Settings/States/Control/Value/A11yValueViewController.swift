@@ -35,7 +35,7 @@ class A11yValueViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        renderDescription()
+        renderDescription(setFirstResponder: false)
     }
     
     @IBAction func valueDidChange(_ sender: NSTextField) {
@@ -46,7 +46,9 @@ class A11yValueViewController: NSViewController {
     @IBAction func addAdjustable(_ sender: Any) {
         saveCurrentChanges()
         descr.addAdjustableOption()
-        renderDescription()
+        renderDescription(setFirstResponder: false)
+        
+        view().selectLastOption()
     }
     
     func saveCurrentChanges() {
@@ -64,11 +66,11 @@ class A11yValueViewController: NSViewController {
             descr.addAdjustableOption(defaultValue: currentValue)
         }
         
-        renderDescription()
+        renderDescription(setFirstResponder: false)
     }
     
-    func renderDescription() {
-        view().render(descr: descr, delegate: self)
+    func renderDescription(setFirstResponder: Bool) {
+        view().render(descr: descr, delegate: self, setFirstResponder: setFirstResponder)
     }
     
     func view() -> A11yValueView {
@@ -82,22 +84,15 @@ extension A11yValueViewController: AdjustableOptionViewDelegate {
         if let index = view().index(of: option) {
             descr.removeAdjustableOption(at: index)
         }
-        renderDescription()
+        renderDescription(setFirstResponder: true)
     }
     
     func select(option: AdjustableOptionView) {
         if let index = view().index(of: option) {
             descr.selectAdjustableOption(at: index)
         }
-        // TODO: Move to render
-        view().optionsStack.arrangedSubviews
-            .compactMap { view in
-                view as? AdjustableOptionView
-            }.filter { anOption in
-                anOption != option
-            }.forEach { anOption in
-                anOption.radioButton.state = .off
-            }
+        
+        view().deselectRadioGroup(selected: option)
         
         delegate?.updateText(isUserAction: true)
     }

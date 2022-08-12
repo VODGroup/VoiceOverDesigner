@@ -38,26 +38,19 @@ class EditorView: FlippedView {
     }
     
     func setImage(_ image: NSImage) {
-        //        view().backgroundImageView.frame = CGRect(x: 0, y: 0, width: 375, height: 1000)
         backgroundImageView.image = image
         backgroundImageView.layer?.zPosition = 0
-        //        view.window?.contentMinSize = CGSize(width: 320, height: 762)
-        
-        
-//        scrollViewHeight.constant = image.size.height / 3
-//        clipView.frame = CGRect(origin: .zero,
-//                                       size: scrollView.frame.size)
-        
-        let imageSizeScaled = CGSize(width: image.size.width / 3,
-                                     height: image.size.height / 3)
-//        clipView.setBoundsSize(imageSizeScaled)
+
+        let scale = image.recommendedLayerContentsScale(0)
+
+        let imageSizeScaled = CGSize(width: image.size.width / scale,
+                                     height: image.size.height / scale)
+
         clipView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
-//        contentView.frame = CGRect(
-//            origin: .zero,
-//            size: imageSizeScaled)
-        imageWidth.constant = imageSizeScaled.width
-        imageHeight.constant = imageSizeScaled.height
+
+//        imageWidth.constant = imageSizeScaled.width
+//        imageHeight.constant = imageSizeScaled.height
         
     }
     
