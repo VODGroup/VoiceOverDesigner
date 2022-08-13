@@ -51,6 +51,7 @@ public class A11yDescription: Codable, Equatable {
     // MARK: - Adjustable
     public private(set) var adjustableOptions: AdjustableOptions // Not optional because user can input values, disable adjustable, but reenable after time. The app will keep data :-)
     
+    @DecodableDefault.EmptyCustomActions
     public private(set) var customActions: A11yCustomActions
     
     public var isAdjustable: Bool {
