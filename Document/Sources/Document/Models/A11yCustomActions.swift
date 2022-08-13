@@ -29,4 +29,8 @@ public struct A11yCustomActions: Codable {
     public mutating func update(at index: Int, with name: String) {
         names[index] = name
     }
+    
+    static var empty: Self {
+        Self(names: [])
+    }
 }
