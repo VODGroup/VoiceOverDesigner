@@ -93,7 +93,7 @@ class A11yDescriptionTests: XCTestCase {
         
         descr.addAdjustableOption(defaultValue: "Большая")
         descr.selectAdjustableOption(at: 2)
-        XCTAssertEqual(descr.voiceOverText, "Пицца: Большая. Элемент регулировки")
+        XCTAssertEqual(descr.voiceOverText, "Пицца: Большая, 3 of 3. Элемент регулировки")
     }
 }
 

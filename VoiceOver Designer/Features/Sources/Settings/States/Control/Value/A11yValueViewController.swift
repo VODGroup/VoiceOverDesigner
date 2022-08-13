@@ -49,6 +49,8 @@ class A11yValueViewController: NSViewController {
         renderDescription(setFirstResponder: false)
         
         view().selectLastOption()
+        
+        delegate?.updateText(isUserAction: true)
     }
     
     func saveCurrentChanges() {
@@ -67,6 +69,13 @@ class A11yValueViewController: NSViewController {
         }
         
         renderDescription(setFirstResponder: false)
+        delegate?.updateText(isUserAction: true)
+    }
+    
+    @IBAction func isEnumeratedDidChanged(_ sender: NSButton) {
+        descr.isEnumeratedAdjustable = sender.state == .on
+        
+        delegate?.updateText(isUserAction: true)
     }
     
     func renderDescription(setFirstResponder: Bool) {
@@ -102,5 +111,7 @@ extension A11yValueViewController: AdjustableOptionViewDelegate {
             descr.updateAdjustableOption(at: index,
                                            with: option.text)
         }
+        
+        delegate?.updateText(isUserAction: true)
     }
 }

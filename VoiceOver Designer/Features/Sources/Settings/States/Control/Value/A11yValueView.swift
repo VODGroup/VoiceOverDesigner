@@ -12,6 +12,7 @@ class A11yValueView: NSView {
     
     @IBOutlet weak var isAdjustableTrait: TraitCheckBox!
     
+    @IBOutlet weak var isEnumeratedCheckBox: NSButton!
     @IBOutlet weak var mainStack: NSStackView!
     @IBOutlet weak var optionsStack: NSStackView!
     
@@ -34,12 +35,17 @@ class A11yValueView: NSView {
     }
     
     func render(
-        descr: A11yDescription, delegate: AdjustableOptionViewDelegate, setFirstResponder: Bool) {
+        descr: A11yDescription,
+        delegate: AdjustableOptionViewDelegate,
+        setFirstResponder: Bool
+    ) {
         valueTextField.stringValue = descr.value
         
         isAdjustable = descr.isAdjustable
         
         update(options: descr.adjustableOptions, delegate: delegate, setFirstResponder: setFirstResponder)
+        
+        isEnumeratedCheckBox.state = descr.isEnumeratedAdjustable ? .on : .off
     }
     
     private func update(
