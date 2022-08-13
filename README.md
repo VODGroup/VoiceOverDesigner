@@ -2,7 +2,6 @@
 
 <img width="1590" alt="Screenshot of the application" src="https://user-images.githubusercontent.com/3120680/182229618-32919790-51a5-4a8a-81d8-8e0f34e15b95.png">
 
-
 A macOS app that helps design accessible apps in three stages:
 
 1. Design
@@ -17,6 +16,8 @@ Developers get the instructions in the form of a VoiceOver Designer document fro
 3. Unit testing (in future releases)
 
 The app generates test cases for automatic accessibility testing. In general, we can start from AccessibilitySnapshot, but use it differently: instead of performing image comparisons, we can create and compare textual representations of accessible elements. I'll elaborate on this idea on a different topic, as it's not the goal of the first release.
+
+![image](https://user-images.githubusercontent.com/3120680/184469370-d58a3dfb-52b0-4743-b71a-9496e72bfebc.png)
 
 # How to learn VoiceOver
 1. [Understand VoiceOver navigation](https://www.youtube.com/watch?v=L5UXN7l15ro)
