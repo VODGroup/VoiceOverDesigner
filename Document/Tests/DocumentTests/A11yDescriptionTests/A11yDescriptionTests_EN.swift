@@ -17,7 +17,7 @@ class A11yDescriptionTests_EN: XCTestCase {
     func test_labelOnly() {
         let descr = A11yDescription.testMake(label: "4 cheese")
         
-        XCTAssertEqual(descr.voiceOverText, "4 chesse")
+        XCTAssertEqual(descr.voiceOverText, "4 cheese")
     }
     
     func test_labelWithValue() throws {

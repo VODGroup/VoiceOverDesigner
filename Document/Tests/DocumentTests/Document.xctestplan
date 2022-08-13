@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "833BE425-BA38-441A-B5CB-4ADEF3AB0EFB",
+      "name" : "English",
+      "options" : {
+        "language" : "en"
+      }
+    },
+    {
+      "id" : "1112E9D2-5AC2-4DB8-B737-928F52CA2661",
+      "name" : "Russian",
+      "options" : {
+        "language" : "ru"
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "DocumentTests",
+        "name" : "DocumentTests"
+      }
+    }
+  ],
+  "version" : 1
+}
