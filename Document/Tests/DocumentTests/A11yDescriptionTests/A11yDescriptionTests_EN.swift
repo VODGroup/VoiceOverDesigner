@@ -10,17 +10,21 @@ import XCTest
 
 class A11yDescriptionTests_EN: XCTestCase {
     
-    func skipIfNotRuLocale() throws {
-        try XCTSkipIf(Locale.current.languageCode != "en")
+    func skipIfNotEnLocale() throws {
+        let key = "languageCode"
+        let languageCode = ProcessInfo.processInfo.environment[key]
+        try XCTSkipIf(languageCode != "en")
     }
 
-    func test_labelOnly() {
+    func test_labelOnly() throws {
+        try skipIfNotEnLocale()
         let descr = A11yDescription.testMake(label: "4 cheese")
         
         XCTAssertEqual(descr.voiceOverText, "4 cheese")
     }
     
     func test_labelWithValue() throws {
+        try skipIfNotEnLocale()
         let descr = A11yDescription.testMake(
             label: "City",
             value: "Yekaterinburg")
@@ -28,7 +32,8 @@ class A11yDescriptionTests_EN: XCTestCase {
         XCTAssertEqual(descr.voiceOverText, "City: Yekaterinburg")
     }
 
-    func test_labelWithValueAndTrait() {
+    func test_labelWithValueAndTrait() throws {
+        try skipIfNotEnLocale()
         let descr = A11yDescription.testMake(
             label: "City",
             value: "Yekaterinburg",
@@ -37,7 +42,8 @@ class A11yDescriptionTests_EN: XCTestCase {
         XCTAssertEqual(descr.voiceOverText, "City: Yekaterinburg. Button")
     }
     
-    func test_selectedButton() {
+    func test_selectedButton() throws {
+        try skipIfNotEnLocale()
         let descr = A11yDescription.testMake(
             label: "City",
             value: "Yekaterinburg",
@@ -46,7 +52,8 @@ class A11yDescriptionTests_EN: XCTestCase {
         XCTAssertEqual(descr.voiceOverText, "Selected. City: Yekaterinburg. Button")
     }
     
-    func test_notEnabledButton() {
+    func test_notEnabledButton() throws {
+        try skipIfNotEnLocale()
         let descr = A11yDescription.testMake(
             label: "City",
             value: "Yekaterinburg",
@@ -56,7 +63,8 @@ class A11yDescriptionTests_EN: XCTestCase {
     }
     
     
-    func test_whenRemoveLastAdjustableOption_shouldRemoveAdjustableTrait() {
+    func test_whenRemoveLastAdjustableOption_shouldRemoveAdjustableTrait() throws {
+        try skipIfNotEnLocale()
         let descr = A11yDescription.testMake(
             value: "",
             trait: .adjustable,
@@ -73,7 +81,8 @@ class A11yDescriptionTests_EN: XCTestCase {
         XCTAssertEqual(descr.adjustableOptions.isEmpty, true)
     }
     
-    func test_addingAdjustableOption_withSample() {
+    func test_addingAdjustableOption_withSample() throws {
+        try skipIfNotEnLocale()
         let descr = A11yDescription.testMake()
         
         let options = ["Small", "Medium", "Big"]
@@ -86,7 +95,8 @@ class A11yDescriptionTests_EN: XCTestCase {
         XCTAssertEqual(descr.adjustableOptions.options.count, 3)
     }
     
-    func test_selectingAdjustableOption_shouldSetValue() {
+    func test_selectingAdjustableOption_shouldSetValue() throws {
+        try skipIfNotEnLocale()
         let descr = A11yDescription.testMake(
             label: "Pizza",
             value: "Small",

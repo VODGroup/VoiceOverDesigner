@@ -11,7 +11,9 @@ import XCTest
 class A11yDescriptionTests_RU: XCTestCase {
     
     func skipIfNotRuLocale() throws {
-        try XCTSkipIf(Locale.current.languageCode != "ru")
+        let key = "languageCode"
+        let languageCode = ProcessInfo.processInfo.environment[key]
+        try XCTSkipIf(languageCode != "ru")
     }
 
     func test_labelOnly() throws {
