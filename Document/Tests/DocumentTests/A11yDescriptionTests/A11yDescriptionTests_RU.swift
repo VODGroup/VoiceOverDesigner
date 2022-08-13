@@ -8,15 +8,20 @@
 import XCTest
 @testable import Document
 
-class A11yDescriptionTests: XCTestCase {
+class A11yDescriptionTests_RU: XCTestCase {
+    
+    func skipIfNotRuLocale() throws {
+        try XCTSkipIf(Locale.current.languageCode != "ru")
+    }
 
-    func test_labelOnly() {
+    func test_labelOnly() throws {
+        try skipIfNotRuLocale()
         let descr = A11yDescription.testMake(label: "4 сыра")
-        
         XCTAssertEqual(descr.voiceOverText, "4 сыра")
     }
     
-    func test_labelWithValue() {
+    func test_labelWithValue() throws {
+        try skipIfNotRuLocale()
         let descr = A11yDescription.testMake(
             label: "Город",
             value: "Екатеринбург")
@@ -24,7 +29,8 @@ class A11yDescriptionTests: XCTestCase {
         XCTAssertEqual(descr.voiceOverText, "Город: Екатеринбург")
     }
 
-    func test_labelWithValueAndTrait() {
+    func test_labelWithValueAndTrait() throws {
+        try skipIfNotRuLocale()
         let descr = A11yDescription.testMake(
             label: "Город",
             value: "Екатеринбург",
@@ -33,7 +39,8 @@ class A11yDescriptionTests: XCTestCase {
         XCTAssertEqual(descr.voiceOverText, "Город: Екатеринбург. Кнопка")
     }
     
-    func test_selectedButton() {
+    func test_selectedButton() throws {
+        try skipIfNotRuLocale()
         let descr = A11yDescription.testMake(
             label: "Город",
             value: "Екатеринбург",
@@ -42,7 +49,8 @@ class A11yDescriptionTests: XCTestCase {
         XCTAssertEqual(descr.voiceOverText, "Выбрано. Город: Екатеринбург. Кнопка")
     }
     
-    func test_notEnabledButton() {
+    func test_notEnabledButton() throws {
+        try skipIfNotRuLocale()
         let descr = A11yDescription.testMake(
             label: "Город",
             value: "Екатеринбург",
@@ -52,7 +60,8 @@ class A11yDescriptionTests: XCTestCase {
     }
     
     
-    func test_whenRemoveLastAdjustableOption_shouldRemoveAdjustableTrait() {
+    func test_whenRemoveLastAdjustableOption_shouldRemoveAdjustableTrait() throws {
+        try skipIfNotRuLocale()
         let descr = A11yDescription.testMake(
             value: "",
             trait: .adjustable,
@@ -69,7 +78,8 @@ class A11yDescriptionTests: XCTestCase {
         XCTAssertEqual(descr.adjustableOptions.isEmpty, true)
     }
     
-    func test_addingAdjustableOption_withSample() {
+    func test_addingAdjustableOption_withSample() throws {
+        try skipIfNotRuLocale()
         let descr = A11yDescription.testMake()
         
         let options = ["Маленькая", "Средняя", "Большая"]
@@ -82,7 +92,8 @@ class A11yDescriptionTests: XCTestCase {
         XCTAssertEqual(descr.adjustableOptions.options.count, 3)
     }
     
-    func test_selectingAdjustableOption_shouldSetValue() {
+    func test_selectingAdjustableOption_shouldSetValue() throws {
+        try skipIfNotRuLocale()
         let descr = A11yDescription.testMake(
             label: "Пицца",
             value: "Маленькая",
@@ -94,41 +105,5 @@ class A11yDescriptionTests: XCTestCase {
         descr.addAdjustableOption(defaultValue: "Большая")
         descr.selectAdjustableOption(at: 2)
         XCTAssertEqual(descr.voiceOverText, "Пицца: Большая, 3 of 3. Элемент регулировки")
-    }
-}
-
-extension A11yDescription {
-    public static func testMake(
-        label: String = "",
-        value: String = "",
-        hint: String = "",
-        trait: A11yTraits = .none,
-        frame: CGRect = .zero,
-        adjustableOption: AdjustableOptions = .testMake(),
-        customActions: A11yCustomActions = .testMake()
-    ) -> A11yDescription {
-        A11yDescription(label: label,
-                        value: value,
-                        hint: hint,
-                        trait: trait,
-                        frame: frame,
-                        adjustableOptions: adjustableOption,
-                        customActions: customActions
-        )
-    }
-}
-
-extension AdjustableOptions {
-    public static func testMake(
-        options: [String] = [],
-        currentIndex: Int? = nil
-    ) -> AdjustableOptions {
-        AdjustableOptions(options: options, currentIndex: currentIndex)
-    }
-}
-
-extension A11yCustomActions {
-    public static func testMake(names: [String] = []) -> A11yCustomActions {
-        A11yCustomActions(names: names)
     }
 }
