@@ -32,7 +32,8 @@ public struct AdjustableOptions: Codable {
         return value
     }
     
-    public var isEnumerated: Bool = true
+    @DecodableDefault.True
+    public var isEnumerated: Bool
     
     public mutating func remove(at index: Int) {
         options.remove(at: index)
