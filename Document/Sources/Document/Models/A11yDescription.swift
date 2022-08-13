@@ -132,7 +132,7 @@ public class A11yDescription: Codable, Equatable {
         var descr = [String]()
         
         if trait.contains(.selected) {
-            descr.append("Выбрано. ")
+            descr.append(Localization.traitSelectedDescription)
         }
         
         if !label.isEmpty {
@@ -144,45 +144,45 @@ public class A11yDescription: Codable, Equatable {
         }
         
         if trait.contains(.notEnabled) {
-            descr.append(". Недоступно")
+            descr.append(Localization.traitNotEnabledDescription)
         }
         
         // TODO: Add more traits
         if trait.contains(.button) {
-            descr.append(". Кнопка")
+            descr.append(Localization.traitButtonDescription)
         }
         
         if trait.contains(.adjustable) {
-            descr.append(". Элемент регулировки")
+            descr.append(Localization.traitAdjustableDescription)
         }
         
         if trait.contains(.header) {
-            descr.append(". Заголовок")
+            descr.append(Localization.traitHeaderDescription)
         }
         
         // TODO: Это иначе работает, .tab это свойство контейнера
         if trait.contains(.tab) {
-            descr.append(". Вкладка")
+            descr.append(Localization.traitTabDescription)
         }
         
         // TODO: Test order when all enabled
         if trait.contains(.image) {
-            descr.append(". Изображение")
+            descr.append(Localization.traitImageDescription)
         }
         
         if trait.contains(.link) {
-            descr.append(". Ссылка")
+            descr.append(Localization.traitLinkDescription)
         }
         
         if !hint.isEmpty {
-            descr.append(". \(hint)")
+            descr.append("\(hint)")
         }
         
         if descr.isEmpty {
-            return NSLocalizedString("Empty", comment: "")
+            return Localization.traitEmptyDescription
         }
         
-        return descr.joined()
+        return descr.joined(separator: " ")
     }
     
     public func addAdjustableOption(defaultValue: String = "") {
