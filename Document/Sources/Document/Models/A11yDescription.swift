@@ -66,6 +66,16 @@ public class A11yDescription: Codable, Equatable {
         }
     }
     
+    public var isEnumeratedAdjustable: Bool {
+        get {
+            adjustableOptions.isEnumerated
+        }
+        
+        set {
+            adjustableOptions.isEnumerated = newValue
+        }
+    }
+    
     public static func empty(frame: CGRect) -> A11yDescription {
         A11yDescription(
             label: "",
@@ -130,7 +140,7 @@ public class A11yDescription: Codable, Equatable {
         }
         
         if !value.isEmpty {
-            descr.append(": \(value)")
+            descr.append(": \(isAdjustable ? (adjustableOptions.currentValue ?? "") : value)")
         }
         
         if trait.contains(.notEnabled) {

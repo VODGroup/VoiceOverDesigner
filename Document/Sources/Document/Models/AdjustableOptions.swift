@@ -22,8 +22,17 @@ public struct AdjustableOptions: Codable {
         guard let currentIndex = currentIndex else {
             return nil
         }
-        return options[currentIndex]
+        
+        let value = options[currentIndex]
+        
+        if isEnumerated, options.count > 1 {
+            return "\(value), \(currentIndex + 1) of \(options.count)"
+        }
+        
+        return value
     }
+    
+    public var isEnumerated: Bool = true
     
     public mutating func remove(at index: Int) {
         options.remove(at: index)

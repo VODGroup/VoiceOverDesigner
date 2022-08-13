@@ -11,10 +11,15 @@ import SnapshotTesting
 @testable import Settings
 
 import Document
-//import DocumentTests
 
 class AdjustableViewControllerSnapshotTests: XCTestCase {
 
+    override class func setUp() {
+        super.setUp()
+        
+//        SnapshotTesting.isRecording = true
+    }
+    
     func test_empty() throws {
         let descr = A11yDescription.testMake()
 
@@ -64,7 +69,8 @@ class AdjustableViewControllerSnapshotTests: XCTestCase {
         
         let sut = sut(descr: descr)
         
-        assertSnapshot(matching: sut, as: .image())
+        assertSnapshot(matching: sut,
+                       as: .image())
     }
     
     private let size = CGSize(width: 350, height: 300)
@@ -77,8 +83,6 @@ class AdjustableViewControllerSnapshotTests: XCTestCase {
         
         sut.view.wantsLayer = true
         sut.view.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
-        
-//        SnapshotTesting.isRecording = true
         
         return sut
     }

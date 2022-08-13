@@ -11,16 +11,13 @@ import Document
 class A11yValueView: NSView {
     
     @IBOutlet weak var isAdjustableTrait: TraitCheckBox!
+    
+    @IBOutlet weak var isEnumeratedCheckBox: NSButton!
+    @IBOutlet weak var mainStack: NSStackView!
     @IBOutlet weak var optionsStack: NSStackView!
     
     @IBOutlet weak var valueTextField: NSTextField!
-    @IBOutlet weak var adjustableOptionsBox: NSBox!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        adjustableOptionsBox.isHidden = true
-    }
-    
+
     override var intrinsicContentSize: NSSize {
         get {
             return CGSize(width: NSView.noIntrinsicMetric, height: 300)
@@ -29,20 +26,44 @@ class A11yValueView: NSView {
         set {}
     }
     
-    func render(descr: A11yDescription, delegate: AdjustableOptionViewDelegate) {
+    private var isAdjustable: Bool = false {
+        didSet {
+            valueTextField.isHidden = isAdjustable
+            isAdjustableTrait.state = isAdjustable ? .on: .off
+            optionsStack.isHidden = !isAdjustable
+        }
+    }
+    
+    func render(
+        descr: A11yDescription,
+        delegate: AdjustableOptionViewDelegate,
+        setFirstResponder: Bool
+    ) {
         valueTextField.stringValue = descr.value
         
-        valueTextField.isEnabled = !descr.isAdjustable
-        isAdjustableTrait.state = descr.isAdjustable ? .on: .off
-        adjustableOptionsBox.isHidden = !descr.isAdjustable
+        isAdjustable = descr.isAdjustable
         
+        update(options: descr.adjustableOptions, delegate: delegate, setFirstResponder: setFirstResponder)
+        
+        isEnumeratedCheckBox.state = descr.isEnumeratedAdjustable ? .on : .off
+    }
+    
+    private func update(
+        options: AdjustableOptions,
+        delegate: AdjustableOptionViewDelegate,
+        setFirstResponder: Bool
+    ) {
         // TODO: It looks unoptimal to remove all and draw again. Some cache can help
         removeAllOptions()
-        for (index, text) in descr.adjustableOptions.options.enumerated() {
+        for (index, text) in options.options.enumerated() {
             let option = addNewAdjustableOption(delegate: delegate, text: text)
             
-            if index == descr.adjustableOptions.currentIndex {
+            if index == options.currentIndex {
                 option.isOn = true
+                
+                if setFirstResponder {
+                    option.textView.becomeFirstResponder()
+                }
             }
         }
     }
@@ -85,10 +106,19 @@ class A11yValueView: NSView {
             option,
             at: instertIndex)
         
-        option.textView.becomeFirstResponder()
+//        option.textView.becomeFirstResponder()
         return option
     }
     
+    func deselectRadioGroup(selected: AdjustableOptionView) {
+        // TODO: Move to render
+        optionViews
+            .filter { option in
+                option != selected
+            }.forEach { anOption in
+                anOption.radioButton.state = .off
+            }
+    }
     
     private var instertIndex: Int {
         if optionsStack.arrangedSubviews.count == 1 { // Add button
@@ -99,10 +129,19 @@ class A11yValueView: NSView {
     }
     
     func removeAllOptions() {
-        optionsStack
-            .arrangedSubviews
-            .dropLast() // Remove Add button
+        optionViews
             .reversed()
             .forEach { $0.removeFromSuperview() }
+    }
+    
+    var optionViews: [AdjustableOptionView] {
+        optionsStack.arrangedSubviews
+            .compactMap { view in
+                view as? AdjustableOptionView
+            }
+    }
+    
+    func selectLastOption() {
+        optionViews.last?.textView.becomeFirstResponder()
     }
 }
