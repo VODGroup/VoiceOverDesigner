@@ -56,10 +56,6 @@ extension DecodableDefault {
         public enum EmptyMap<T: Map>: Source {
             public static var defaultValue: T { [:] }
         }
-        
-        public enum EmptyCustomActions: Source {
-            public static var defaultValue: A11yCustomActions { .empty }
-        }
     }
 }
 
@@ -75,8 +71,6 @@ extension DecodableDefault {
     public typealias EmptyString = Wrapper<Sources.EmptyString>
     public typealias EmptyList<T: List> = Wrapper<Sources.EmptyList<T>>
     public typealias EmptyMap<T: Map> = Wrapper<Sources.EmptyMap<T>>
-    
-    public typealias EmptyCustomActions = Wrapper<Sources.EmptyCustomActions>
 }
 
 extension DecodableDefault.Wrapper: Equatable where Value: Equatable {}
