@@ -1,5 +1,5 @@
 /* Description for the absent accessibility traits */
-"trait.empty.description" = "Пусто"
+"trait.empty.description" = "Пусто";
 /* Description for the 'selected' accessibility trait */
 "trait.selected.description" = "Выбрано.";
 
