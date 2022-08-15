@@ -39,7 +39,7 @@ class A11yDescriptionTests_EN: XCTestCase {
             value: "Yekaterinburg",
             trait: .button)
         
-        XCTAssertEqual(descr.voiceOverText, "City: Yekaterinburg. Button")
+        XCTAssertEqual(descr.voiceOverText, "City: Yekaterinburg. Button.")
     }
     
     func test_selectedButton() throws {
@@ -49,7 +49,7 @@ class A11yDescriptionTests_EN: XCTestCase {
             value: "Yekaterinburg",
             trait: [.button, .selected])
         
-        XCTAssertEqual(descr.voiceOverText, "Selected. City: Yekaterinburg. Button")
+        XCTAssertEqual(descr.voiceOverText, "Selected. City: Yekaterinburg. Button.")
     }
     
     func test_notEnabledButton() throws {
@@ -59,7 +59,7 @@ class A11yDescriptionTests_EN: XCTestCase {
             value: "Yekaterinburg",
             trait: [.button, .notEnabled])
         
-        XCTAssertEqual(descr.voiceOverText, "City: Yekaterinburg. Dimmed. Button")
+        XCTAssertEqual(descr.voiceOverText, "City: Yekaterinburg. Dimmed. Button.")
     }
     
     
@@ -107,7 +107,7 @@ class A11yDescriptionTests_EN: XCTestCase {
         
         descr.addAdjustableOption(defaultValue: "Big")
         descr.selectAdjustableOption(at: 2)
-        XCTAssertEqual(descr.voiceOverText, "Pizza: Big, 3 of 3. Adjustable")
+        XCTAssertEqual(descr.voiceOverText, "Pizza: Big, 3 of 3. Adjustable.")
     }
 }
 

@@ -130,11 +130,10 @@ public class A11yDescription: Codable, Equatable {
     }
     
     public var voiceOverText: String {
-        var descr = [String]()
+        var descr = ""
+        var traitsDescription: [String] = []
         
-        if trait.contains(.selected) {
-            descr.append(Localization.traitSelectedDescription)
-        }
+
         
         if !label.isEmpty {
             descr.append(label)
@@ -144,46 +143,65 @@ public class A11yDescription: Codable, Equatable {
             descr.append(": \(isAdjustable ? (adjustableOptions.currentValue ?? "") : value)")
         }
         
+        if trait.contains(.selected) {
+            if descr.isEmpty {
+                descr = Localization.traitSelectedDescription
+            } else {
+                descr = Localization.traitSelectedFormat(value: descr)
+            }
+        }
+        
         if trait.contains(.notEnabled) {
-            descr.append(Localization.traitNotEnabledDescription)
+            traitsDescription.append(Localization.traitNotEnabledDescription)
         }
         
         // TODO: Add more traits
         if trait.contains(.button) {
-            descr.append(Localization.traitButtonDescription)
+            traitsDescription.append(Localization.traitButtonDescription)
         }
         
         if trait.contains(.adjustable) {
-            descr.append(Localization.traitAdjustableDescription)
+            traitsDescription.append(Localization.traitAdjustableDescription)
         }
         
         if trait.contains(.header) {
-            descr.append(Localization.traitHeaderDescription)
+            traitsDescription.append(Localization.traitHeaderDescription)
         }
         
         // TODO: Это иначе работает, .tab это свойство контейнера
         if trait.contains(.tab) {
-            descr.append(Localization.traitTabDescription)
+            traitsDescription.append(Localization.traitTabDescription)
         }
         
         // TODO: Test order when all enabled
         if trait.contains(.image) {
-            descr.append(Localization.traitImageDescription)
+            traitsDescription.append(Localization.traitImageDescription)
         }
         
         if trait.contains(.link) {
-            descr.append(Localization.traitLinkDescription)
+            traitsDescription.append(Localization.traitLinkDescription)
         }
         
         if !hint.isEmpty {
-            descr.append("\(hint)")
+            traitsDescription.append("\(hint)")
         }
         
-        if descr.isEmpty {
+        if descr.isEmpty && traitsDescription.isEmpty {
             return Localization.traitEmptyDescription
         }
         
-        return descr.joined(separator: " ")
+        if !traitsDescription.isEmpty {
+            if !descr.isEmpty {
+                let trailingPeriod = descr.hasSuffix(".") ? "" : "."
+                descr = "\(descr)\(trailingPeriod) \(traitsDescription.joined(separator: " "))"
+            } else {
+                descr = traitsDescription.joined(separator: " ")
+            }
+        }
+        
+        return descr
+        
+
     }
     
     public func addAdjustableOption(defaultValue: String = "") {
