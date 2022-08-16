@@ -8,66 +8,55 @@
 import XCTest
 @testable import Document
 
-class A11yDescriptionTests_RU: XCTestCase {
+class A11yDescriptionTests_EN: XCTestCase {
     
-    func skipIfNotRuLocale() throws {
-        let key = "languageCode"
-        let languageCode = ProcessInfo.processInfo.environment[key]
-        try XCTSkipIf(languageCode != "ru")
-    }
-
     func test_labelOnly() throws {
-        try skipIfNotRuLocale()
-        let descr = A11yDescription.testMake(label: "4 сыра")
-        XCTAssertEqual(descr.voiceOverText, "4 сыра")
+        let descr = A11yDescription.testMake(label: "4 cheese")
+        
+        XCTAssertEqual(descr.voiceOverText, "4 cheese")
     }
     
     func test_labelWithValue() throws {
-        try skipIfNotRuLocale()
         let descr = A11yDescription.testMake(
-            label: "Город",
-            value: "Екатеринбург")
+            label: "City",
+            value: "Yekaterinburg")
         
-        XCTAssertEqual(descr.voiceOverText, "Город: Екатеринбург")
+        XCTAssertEqual(descr.voiceOverText, "City: Yekaterinburg")
     }
 
     func test_labelWithValueAndTrait() throws {
-        try skipIfNotRuLocale()
         let descr = A11yDescription.testMake(
-            label: "Город",
-            value: "Екатеринбург",
+            label: "City",
+            value: "Yekaterinburg",
             trait: .button)
         
-        XCTAssertEqual(descr.voiceOverText, "Город: Екатеринбург. Кнопка")
+        XCTAssertEqual(descr.voiceOverText, "City: Yekaterinburg. Button.")
     }
     
     func test_selectedButton() throws {
-        try skipIfNotRuLocale()
         let descr = A11yDescription.testMake(
-            label: "Город",
-            value: "Екатеринбург",
+            label: "City",
+            value: "Yekaterinburg",
             trait: [.button, .selected])
         
-        XCTAssertEqual(descr.voiceOverText, "Выбрано. Город: Екатеринбург. Кнопка")
+        XCTAssertEqual(descr.voiceOverText, "Selected. City: Yekaterinburg. Button.")
     }
     
     func test_notEnabledButton() throws {
-        try skipIfNotRuLocale()
         let descr = A11yDescription.testMake(
-            label: "Город",
-            value: "Екатеринбург",
+            label: "City",
+            value: "Yekaterinburg",
             trait: [.button, .notEnabled])
         
-        XCTAssertEqual(descr.voiceOverText, "Город: Екатеринбург. Недоступно. Кнопка")
+        XCTAssertEqual(descr.voiceOverText, "City: Yekaterinburg. Dimmed. Button.")
     }
     
     
     func test_whenRemoveLastAdjustableOption_shouldRemoveAdjustableTrait() throws {
-        try skipIfNotRuLocale()
         let descr = A11yDescription.testMake(
             value: "",
             trait: .adjustable,
-            adjustableOption: .testMake(options: ["Маленькая", "Средняя", "Большая"],
+            adjustableOption: .testMake(options: ["Small", "Medium", "Big"],
                                         currentIndex: 0)
         )
         
@@ -81,10 +70,9 @@ class A11yDescriptionTests_RU: XCTestCase {
     }
     
     func test_addingAdjustableOption_withSample() throws {
-        try skipIfNotRuLocale()
         let descr = A11yDescription.testMake()
         
-        let options = ["Маленькая", "Средняя", "Большая"]
+        let options = ["Small", "Medium", "Big"]
         
         for option in options {
             descr.addAdjustableOption(defaultValue: option)
@@ -95,17 +83,17 @@ class A11yDescriptionTests_RU: XCTestCase {
     }
     
     func test_selectingAdjustableOption_shouldSetValue() throws {
-        try skipIfNotRuLocale()
         let descr = A11yDescription.testMake(
-            label: "Пицца",
-            value: "Маленькая",
+            label: "Pizza",
+            value: "Small",
             trait: .adjustable,
-            adjustableOption: .testMake(options: ["Маленькая", "Средняя"],
+            adjustableOption: .testMake(options: ["Small", "Medium"],
                                         currentIndex: 0)
         )
         
-        descr.addAdjustableOption(defaultValue: "Большая")
+        descr.addAdjustableOption(defaultValue: "Big")
         descr.selectAdjustableOption(at: 2)
-        XCTAssertEqual(descr.voiceOverText, "Пицца: Большая, 3 of 3. Элемент регулировки")
+        XCTAssertEqual(descr.voiceOverText, "Pizza: Big, 3 of 3. Adjustable.")
     }
 }
+

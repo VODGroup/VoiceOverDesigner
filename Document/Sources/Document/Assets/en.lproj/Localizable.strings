@@ -24,6 +24,10 @@
 /* Description for the 'adjustable' accessibility trait */
 "trait.adjustable.description" = "Adjustable.";
 
+
+/* Format for the description of enumerated element of adjustable option */
+"trait.adjustable.enumerated" = "%1$d of %2$d";
+
 /* Hint describing how to use elements with the 'adjustable' accessibility trait */
 "trait.adjustable.hint" = "Swipe up or down with one finger to adjust the value.";
 
