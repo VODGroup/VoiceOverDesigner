@@ -20,7 +20,7 @@ class A11yDescriptionTests_EN: XCTestCase {
         try skipIfNotEnLocale()
         let descr = A11yDescription.testMake(label: "4 cheese")
         
-        XCTAssertEqual(descr.voiceOverText, "4 cheese")
+        XCTAssertEqual(descr.voiceOverText, "4 chesse")
     }
     
     func test_labelWithValue() throws {

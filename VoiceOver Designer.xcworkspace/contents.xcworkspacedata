@@ -21,7 +21,4 @@
    <FileRef
       location = "group:Document">
    </FileRef>
-   <FileRef
-      location = "group:Document/Tests/DocumentTests/Document.xctestplan">
-   </FileRef>
 </Workspace>
