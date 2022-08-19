@@ -8,55 +8,55 @@
 import XCTest
 @testable import Document
 
-class A11yDescriptionTests: XCTestCase {
-
-    func test_labelOnly() {
-        let descr = A11yDescription.testMake(label: "4 сыра")
+class A11yDescriptionTests_EN: XCTestCase {
+    
+    func test_labelOnly() throws {
+        let descr = A11yDescription.testMake(label: "4 cheese")
         
-        XCTAssertEqual(descr.voiceOverText, "4 сыра")
+        XCTAssertEqual(descr.voiceOverText, "4 cheese")
     }
     
-    func test_labelWithValue() {
+    func test_labelWithValue() throws {
         let descr = A11yDescription.testMake(
-            label: "Город",
-            value: "Екатеринбург")
+            label: "City",
+            value: "Yekaterinburg")
         
-        XCTAssertEqual(descr.voiceOverText, "Город: Екатеринбург")
+        XCTAssertEqual(descr.voiceOverText, "City: Yekaterinburg")
     }
 
-    func test_labelWithValueAndTrait() {
+    func test_labelWithValueAndTrait() throws {
         let descr = A11yDescription.testMake(
-            label: "Город",
-            value: "Екатеринбург",
+            label: "City",
+            value: "Yekaterinburg",
             trait: .button)
         
-        XCTAssertEqual(descr.voiceOverText, "Город: Екатеринбург. Кнопка")
+        XCTAssertEqual(descr.voiceOverText, "City: Yekaterinburg. Button.")
     }
     
-    func test_selectedButton() {
+    func test_selectedButton() throws {
         let descr = A11yDescription.testMake(
-            label: "Город",
-            value: "Екатеринбург",
+            label: "City",
+            value: "Yekaterinburg",
             trait: [.button, .selected])
         
-        XCTAssertEqual(descr.voiceOverText, "Выбрано. Город: Екатеринбург. Кнопка")
+        XCTAssertEqual(descr.voiceOverText, "Selected. City: Yekaterinburg. Button.")
     }
     
-    func test_notEnabledButton() {
+    func test_notEnabledButton() throws {
         let descr = A11yDescription.testMake(
-            label: "Город",
-            value: "Екатеринбург",
+            label: "City",
+            value: "Yekaterinburg",
             trait: [.button, .notEnabled])
         
-        XCTAssertEqual(descr.voiceOverText, "Город: Екатеринбург. Недоступно. Кнопка")
+        XCTAssertEqual(descr.voiceOverText, "City: Yekaterinburg. Dimmed. Button.")
     }
     
     
-    func test_whenRemoveLastAdjustableOption_shouldRemoveAdjustableTrait() {
+    func test_whenRemoveLastAdjustableOption_shouldRemoveAdjustableTrait() throws {
         let descr = A11yDescription.testMake(
             value: "",
             trait: .adjustable,
-            adjustableOption: .testMake(options: ["Маленькая", "Средняя", "Большая"],
+            adjustableOption: .testMake(options: ["Small", "Medium", "Big"],
                                         currentIndex: 0)
         )
         
@@ -69,10 +69,10 @@ class A11yDescriptionTests: XCTestCase {
         XCTAssertEqual(descr.adjustableOptions.isEmpty, true)
     }
     
-    func test_addingAdjustableOption_withSample() {
+    func test_addingAdjustableOption_withSample() throws {
         let descr = A11yDescription.testMake()
         
-        let options = ["Маленькая", "Средняя", "Большая"]
+        let options = ["Small", "Medium", "Big"]
         
         for option in options {
             descr.addAdjustableOption(defaultValue: option)
@@ -82,53 +82,18 @@ class A11yDescriptionTests: XCTestCase {
         XCTAssertEqual(descr.adjustableOptions.options.count, 3)
     }
     
-    func test_selectingAdjustableOption_shouldSetValue() {
+    func test_selectingAdjustableOption_shouldSetValue() throws {
         let descr = A11yDescription.testMake(
-            label: "Пицца",
-            value: "Маленькая",
+            label: "Pizza",
+            value: "Small",
             trait: .adjustable,
-            adjustableOption: .testMake(options: ["Маленькая", "Средняя"],
+            adjustableOption: .testMake(options: ["Small", "Medium"],
                                         currentIndex: 0)
         )
         
-        descr.addAdjustableOption(defaultValue: "Большая")
+        descr.addAdjustableOption(defaultValue: "Big")
         descr.selectAdjustableOption(at: 2)
-        XCTAssertEqual(descr.voiceOverText, "Пицца: Большая, 3 of 3. Элемент регулировки")
+        XCTAssertEqual(descr.voiceOverText, "Pizza: Big, 3 of 3. Adjustable.")
     }
 }
 
-extension A11yDescription {
-    public static func testMake(
-        label: String = "",
-        value: String = "",
-        hint: String = "",
-        trait: A11yTraits = .none,
-        frame: CGRect = .zero,
-        adjustableOption: AdjustableOptions = .testMake(),
-        customActions: A11yCustomActions = .testMake()
-    ) -> A11yDescription {
-        A11yDescription(label: label,
-                        value: value,
-                        hint: hint,
-                        trait: trait,
-                        frame: frame,
-                        adjustableOptions: adjustableOption,
-                        customActions: customActions
-        )
-    }
-}
-
-extension AdjustableOptions {
-    public static func testMake(
-        options: [String] = [],
-        currentIndex: Int? = nil
-    ) -> AdjustableOptions {
-        AdjustableOptions(options: options, currentIndex: currentIndex)
-    }
-}
-
-extension A11yCustomActions {
-    public static func testMake(names: [String] = []) -> A11yCustomActions {
-        A11yCustomActions(names: names)
-    }
-}

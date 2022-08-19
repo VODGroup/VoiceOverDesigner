@@ -26,7 +26,8 @@ public struct AdjustableOptions: Codable {
         let value = options[currentIndex]
         
         if isEnumerated, options.count > 1 {
-            return "\(value), \(currentIndex + 1) of \(options.count)"
+            let enumerated = Localization.enumerated(option: currentIndex + 1, of: options.count)
+            return "\(value), \(enumerated)"
         }
         
         return value
