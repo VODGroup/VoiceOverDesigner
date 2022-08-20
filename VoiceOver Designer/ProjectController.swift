@@ -9,47 +9,72 @@ extension EditorPresenter: TextBasedPresenter {}
 
 class ProjectController: NSSplitViewController {
     
-    lazy var router = Router(rootController: self, settingsDelegate: self)
+    init(document: VODesignDocument) {
+        let editorPresenter = EditorPresenter(document: document)
+        
+        textContent = TextRepresentationController.fromStoryboard(
+            document: document,
+            presenter: editorPresenter)
+        
+        editor = EditorViewController.fromStoryboard()
+        editor.inject(presenter: editorPresenter)
+        
+        settings = SettingsStateViewController.fromStoryboard()
+        
+        super.init(nibName: nil, bundle: nil)
+        
+        settings.settingsDelegate = self
+    }
     
-    var editor: EditorViewController!
-    var textContent: TextRepresentationController!
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private let textContent: TextRepresentationController
+    let editor: EditorViewController
+    private let settings: SettingsStateViewController
+    
     var document: VODesignDocument!
     private var cancellables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let editorPresenter = EditorPresenter(document: document)
+        let textSidebar = NSSplitViewItem(sidebarWithViewController: textContent)
+        textSidebar.minimumThickness = 250
+        textSidebar.allowsFullHeightLayout = true
+        textSidebar.isSpringLoaded = true
         
-        editor = EditorViewController.fromStoryboard()
+        let settingsSidebar = NSSplitViewItem(sidebarWithViewController: settings)
+        settingsSidebar.allowsFullHeightLayout = true
         
-        textContent = TextRepresentationController.fromStoryboard(
-            document: document,
-            presenter: editorPresenter)
-        
-        editor.inject(presenter: editorPresenter)
-        
-        addSplitViewItem(NSSplitViewItem(sidebarWithViewController: textContent))
+        addSplitViewItem(textSidebar)
         addSplitViewItem(NSSplitViewItem(viewController: editor))
+        addSplitViewItem(settingsSidebar)
         
         editor.presenter
             .selectedPublisher
             .sink(receiveValue: updateSelection(_:))
             .store(in: &cancellables)
     }
-    
+}
+
+// MARK: Settings visibility
+extension ProjectController {
     private func updateSelection(_ selectedModel: A11yDescription?) {
         if let selectedModel = selectedModel {
-            router.showSettings(for: selectedModel)
+            showSettings(for: selectedModel)
         } else {
-            router.hideSettings()
+            hideSettings()
         }
     }
     
-    public func inject(
-        document: VODesignDocument
-    ) {
-        self.document = document
+    func showSettings(for model: A11yDescription) {
+        settings.state = .control(model)
+    }
+    
+    func hideSettings() {
+        settings.state = .empty
     }
 }
 

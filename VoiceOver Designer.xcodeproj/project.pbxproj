@@ -22,6 +22,7 @@
 		1E7555C82895918400024714 /* ThumbnailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7555C72895918400024714 /* ThumbnailProvider.swift */; };
 		1E7555CD2895918400024714 /* MacOSPreview.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1E7555C12895918400024714 /* MacOSPreview.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1E7555D3289591B900024714 /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E7555D2289591B900024714 /* Document */; };
+		1EC992DB28B119730020041B /* ProjectController+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC992DA28B119730020041B /* ProjectController+Toolbar.swift */; };
 		6B628797288D3F60006F622A /* Projects in Frameworks */ = {isa = PBXBuildFile; productRef = 6B628796288D3F60006F622A /* Projects */; };
 		6B628799288D4039006F622A /* Editor in Frameworks */ = {isa = PBXBuildFile; productRef = 6B628798288D4039006F622A /* Editor */; };
 /* End PBXBuildFile section */
@@ -69,6 +70,7 @@
 		1E7555C72895918400024714 /* ThumbnailProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailProvider.swift; sourceTree = "<group>"; };
 		1E7555C92895918400024714 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1E7555CA2895918400024714 /* MacOSPreview.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacOSPreview.entitlements; sourceTree = "<group>"; };
+		1EC992DA28B119730020041B /* ProjectController+Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProjectController+Toolbar.swift"; sourceTree = "<group>"; };
 		1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "VoiceOver-Designer-Info.plist"; sourceTree = SOURCE_ROOT; };
 		6B628795288D3A8D006F622A /* Features */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Features; path = "VoiceOver Designer/Features"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -138,6 +140,7 @@
 				1E1D7FF0281D5CBE00B64954 /* AppDelegate.swift */,
 				1E579B1F282447D900B13565 /* WindowController.swift */,
 				1E0030B72896C50400B2E238 /* ProjectController.swift */,
+				1EC992DA28B119730020041B /* ProjectController+Toolbar.swift */,
 				1E579B9B2825485300B13565 /* VODocumentController.swift */,
 				1E31DBCB2893146F007EBFC7 /* Router.swift */,
 				1E1D7FF4281D5CBF00B64954 /* Assets.xcassets */,
@@ -268,6 +271,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E0030B82896C50400B2E238 /* ProjectController.swift in Sources */,
+				1EC992DB28B119730020041B /* ProjectController+Toolbar.swift in Sources */,
 				1E31DBCC2893146F007EBFC7 /* Router.swift in Sources */,
 				1E579B20282447D900B13565 /* WindowController.swift in Sources */,
 				1E1D7FF1281D5CBE00B64954 /* AppDelegate.swift in Sources */,
