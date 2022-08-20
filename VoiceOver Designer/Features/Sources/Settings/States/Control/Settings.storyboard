@@ -10,7 +10,7 @@
         <scene sceneID="XOO-ii-QJZ">
             <objects>
                 <viewController id="U2f-R7-Q2a" customClass="SettingsViewController" customModule="Settings" sceneMemberID="viewController">
-                    <view key="view" id="cLK-md-r8c">
+                    <view key="view" id="cLK-md-r8c" customClass="SettingsView" customModule="Settings">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="987"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
@@ -453,31 +453,31 @@ CA
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ZTT-Qb-WBc"/>
                         <viewLayoutGuide key="layoutMargins" id="bZr-Rb-UCj"/>
+                        <connections>
+                            <outlet property="allowsDirectInteraction" destination="CCG-Bz-5xi" id="zFi-RK-4jg"/>
+                            <outlet property="buttonTrait" destination="aYo-qI-qNV" id="orD-q8-Y3U"/>
+                            <outlet property="causesPageTurn" destination="69m-by-VKr" id="QHV-A8-cm8"/>
+                            <outlet property="disabledTrait" destination="xFh-Kd-0Sr" id="8qs-wq-5zq"/>
+                            <outlet property="headerTrait" destination="2zF-Vg-XdC" id="srw-0p-pBh"/>
+                            <outlet property="hint" destination="9A8-ed-t5M" id="swz-kZ-ayG"/>
+                            <outlet property="imageTrait" destination="XDN-qp-Yki" id="4hX-ig-5zn"/>
+                            <outlet property="isAccessibilityElementButton" destination="I0u-MB-fxF" id="Aej-vg-dOE"/>
+                            <outlet property="keyboardKey" destination="7UK-ta-ChB" id="KF6-pV-tiS"/>
+                            <outlet property="label" destination="oEr-KQ-HrL" id="BQq-HR-UnH"/>
+                            <outlet property="linkTrait" destination="EMU-qW-ZhR" id="5dc-rs-MkB"/>
+                            <outlet property="mainStack" destination="LGK-Fp-or4" id="98L-rt-K2Y"/>
+                            <outlet property="playSoundTrait" destination="FNW-91-Vci" id="9bq-jV-P6L"/>
+                            <outlet property="resultLabel" destination="JZg-MT-gb1" id="9KW-0b-cmE"/>
+                            <outlet property="scrollView" destination="LG9-7o-bxA" id="vI4-tw-LOb"/>
+                            <outlet property="searchFieldTrait" destination="6n0-ds-xIu" id="inw-rv-IWC"/>
+                            <outlet property="selectedTrait" destination="X40-02-0FX" id="ceV-hS-8RB"/>
+                            <outlet property="startMediaSession" destination="Eda-Du-doD" id="xcl-bg-FqE"/>
+                            <outlet property="staticTextTrait" destination="llv-Ig-GA1" id="XJj-17-Db0"/>
+                            <outlet property="summaryElementTrait" destination="47B-J9-pib" id="x2o-dp-B7d"/>
+                            <outlet property="tabTrait" destination="9jL-IX-KOe" id="C1n-yB-gw4"/>
+                            <outlet property="updatesFrequently" destination="vNT-s9-2Ik" id="0mo-h8-QBU"/>
+                        </connections>
                     </view>
-                    <connections>
-                        <outlet property="allowsDirectInteraction" destination="CCG-Bz-5xi" id="p7t-ZW-fMA"/>
-                        <outlet property="buttonTrait" destination="aYo-qI-qNV" id="UIh-dj-Qp5"/>
-                        <outlet property="causesPageTurn" destination="69m-by-VKr" id="ntl-sP-gsf"/>
-                        <outlet property="disabledTrait" destination="xFh-Kd-0Sr" id="I7W-zA-JdM"/>
-                        <outlet property="headerTrait" destination="2zF-Vg-XdC" id="wSQ-hd-Qb5"/>
-                        <outlet property="hint" destination="9A8-ed-t5M" id="MTU-MO-eFF"/>
-                        <outlet property="imageTrait" destination="XDN-qp-Yki" id="Y4h-nt-pPZ"/>
-                        <outlet property="isAccessibilityElement" destination="I0u-MB-fxF" id="dG8-2w-zbl"/>
-                        <outlet property="keyboardKey" destination="7UK-ta-ChB" id="W2a-WC-CIz"/>
-                        <outlet property="label" destination="oEr-KQ-HrL" id="HEp-p9-smA"/>
-                        <outlet property="linkTrait" destination="EMU-qW-ZhR" id="Dqf-4c-z9W"/>
-                        <outlet property="mainStack" destination="LGK-Fp-or4" id="340-UQ-9SA"/>
-                        <outlet property="playSoundTrait" destination="FNW-91-Vci" id="zRz-iI-WU5"/>
-                        <outlet property="resultLabel" destination="JZg-MT-gb1" id="u6v-RW-s8t"/>
-                        <outlet property="scrollView" destination="LG9-7o-bxA" id="5pK-HM-vqb"/>
-                        <outlet property="searchFieldTrait" destination="6n0-ds-xIu" id="JaD-8B-Fsw"/>
-                        <outlet property="selectedTrait" destination="X40-02-0FX" id="gyf-er-aGU"/>
-                        <outlet property="startMediaSession" destination="Eda-Du-doD" id="AbA-eI-PQB"/>
-                        <outlet property="staticTextTrait" destination="llv-Ig-GA1" id="GJv-eF-ebD"/>
-                        <outlet property="summaryElementTrait" destination="47B-J9-pib" id="PdQ-KQ-6hd"/>
-                        <outlet property="tabTrait" destination="9jL-IX-KOe" id="AU8-tA-CyX"/>
-                        <outlet property="updatesFrequently" destination="vNT-s9-2Ik" id="Wxy-R1-Yqp"/>
-                    </connections>
                 </viewController>
                 <customObject id="o9l-1z-44d" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
