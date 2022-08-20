@@ -19,6 +19,8 @@ public class TranslateAction: MoveAction, DraggingAction {
     }
     
     public func cancel() {
-        undo()
+        control.updateWithoutAnimation {
+            control.frame = initialFrame
+        }
     }
 }
