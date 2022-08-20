@@ -5,6 +5,10 @@ extension View {
     func addSublayer(_ layer: CALayer) {
         self.layer.addSublayer(layer)
     }
+    
+    var contentScale: CGFloat {
+        layer!.contentsScale
+    }
 }
 #else
 import AppKit
@@ -13,6 +17,10 @@ public typealias View = NSView
 extension View {
     func addSublayer(_ layer: CALayer) {
         self.layer!.addSublayer(layer)
+    }
+    
+    var contentScale: CGFloat {
+        layer!.contentsScale
     }
 }
 #endif
@@ -37,6 +45,7 @@ public protocol DrawingView: View {
 public extension DrawingView {
     
     func add(control: A11yControl) {
+        control.contentsScale = contentScale
         addSublayer(control)
         drawnControls.append(control)
     }
