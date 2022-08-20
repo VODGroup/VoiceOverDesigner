@@ -8,7 +8,7 @@
 import Foundation
 
 
-public class EmptyCancelAction: EscModifierAction {
+public class EmptyEscModifierAction: EscModifierAction {
     public func setDelegate(_ delegate: EscModifierActionDelegate) {
         self.delegate = delegate
     }

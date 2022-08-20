@@ -16,7 +16,7 @@ public class EscModifierFactory {
         #if os(macOS)
         return EscModifierActionCommand()
         #else
-        return EmptyCancelAction()
+        return EmptyEscModifierAction()
         #endif
     }
 }
