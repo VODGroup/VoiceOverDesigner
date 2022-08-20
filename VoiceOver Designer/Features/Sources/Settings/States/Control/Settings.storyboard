@@ -22,40 +22,55 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fAf-ES-vjT">
-                                <rect key="frame" x="18" y="854" width="41" height="16"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Label:" id="Nlv-IC-RPW">
-                                    <font key="font" textStyle="body" name=".SFNS-Regular"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oEr-KQ-HrL">
-                                <rect key="frame" x="20" y="829" width="350" height="21"/>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="7lc-fy-0gJ">
+                                <rect key="frame" x="20" y="829" width="350" height="41"/>
+                                <subviews>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fAf-ES-vjT">
+                                        <rect key="frame" x="-2" y="25" width="41" height="16"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Label:" id="Nlv-IC-RPW">
+                                            <font key="font" textStyle="body" name=".SFNS-Regular"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oEr-KQ-HrL">
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="350" id="qZr-UX-PZV"/>
+                                        </constraints>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="w3a-a1-67E">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <action selector="labelDidChange:" target="U2f-R7-Q2a" id="HyC-ZJ-Ks6"/>
+                                        </connections>
+                                    </textField>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="I0u-MB-fxF">
+                                        <rect key="frame" x="246" y="24" width="104" height="18"/>
+                                        <buttonCell key="cell" type="check" title="is accessible" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="mZL-5y-qIU">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                            <string key="keyEquivalent">s</string>
+                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="isAccessibleElementDidChanged:" target="U2f-R7-Q2a" id="IFz-ZF-iQd"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="350" id="qZr-UX-PZV"/>
+                                    <constraint firstAttribute="trailing" secondItem="I0u-MB-fxF" secondAttribute="trailing" id="BYf-Gf-hn5"/>
+                                    <constraint firstItem="I0u-MB-fxF" firstAttribute="trailing" secondItem="oEr-KQ-HrL" secondAttribute="trailing" id="DaV-c7-cJY"/>
+                                    <constraint firstItem="fAf-ES-vjT" firstAttribute="leading" secondItem="7lc-fy-0gJ" secondAttribute="leading" id="HIV-Sc-MB1"/>
+                                    <constraint firstItem="fAf-ES-vjT" firstAttribute="top" secondItem="7lc-fy-0gJ" secondAttribute="top" id="IgN-RY-KH1"/>
+                                    <constraint firstItem="oEr-KQ-HrL" firstAttribute="top" secondItem="fAf-ES-vjT" secondAttribute="bottom" constant="4" id="eTP-68-w3k"/>
+                                    <constraint firstItem="I0u-MB-fxF" firstAttribute="firstBaseline" secondItem="fAf-ES-vjT" secondAttribute="firstBaseline" id="n26-Tl-Eml"/>
+                                    <constraint firstAttribute="bottom" secondItem="oEr-KQ-HrL" secondAttribute="bottom" id="ubq-Bq-E4T"/>
+                                    <constraint firstItem="oEr-KQ-HrL" firstAttribute="leading" secondItem="fAf-ES-vjT" secondAttribute="leading" id="yU3-gT-718"/>
                                 </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="w3a-a1-67E">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                                <connections>
-                                    <action selector="labelDidChange:" target="U2f-R7-Q2a" id="HyC-ZJ-Ks6"/>
-                                </connections>
-                            </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="I0u-MB-fxF">
-                                <rect key="frame" x="266" y="853" width="104" height="18"/>
-                                <buttonCell key="cell" type="check" title="is accessible" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="mZL-5y-qIU">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                    <string key="keyEquivalent">s</string>
-                                    <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="isAccessibleElementDidChanged:" target="U2f-R7-Q2a" id="IFz-ZF-iQd"/>
-                                </connections>
-                            </button>
+                            </customView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SZT-24-i1X">
                                 <rect key="frame" x="20" y="62" width="46" height="18"/>
                                 <buttonCell key="cell" type="inline" title="Delete" bezelStyle="inline" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Mq6-Um-Jqv">
@@ -423,23 +438,19 @@ CA
                             </scrollView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="oEr-KQ-HrL" firstAttribute="trailing" secondItem="JZg-MT-gb1" secondAttribute="trailing" id="4FL-G6-blV"/>
-                            <constraint firstItem="LG9-7o-bxA" firstAttribute="top" secondItem="oEr-KQ-HrL" secondAttribute="bottom" constant="21" id="BGN-ex-EMW"/>
-                            <constraint firstItem="fAf-ES-vjT" firstAttribute="leading" secondItem="JZg-MT-gb1" secondAttribute="leading" id="HVs-Kw-FfJ"/>
                             <constraint firstItem="SZT-24-i1X" firstAttribute="top" secondItem="LG9-7o-bxA" secondAttribute="bottom" constant="34" id="HcH-bl-kE2"/>
-                            <constraint firstItem="fAf-ES-vjT" firstAttribute="top" secondItem="JZg-MT-gb1" secondAttribute="bottom" constant="24" id="IVH-RS-uPc"/>
                             <constraint firstItem="SZT-24-i1X" firstAttribute="leading" secondItem="LGK-Fp-or4" secondAttribute="leading" id="If2-bw-N3z"/>
-                            <constraint firstItem="I0u-MB-fxF" firstAttribute="firstBaseline" secondItem="fAf-ES-vjT" secondAttribute="firstBaseline" id="Pi3-FQ-5mj"/>
                             <constraint firstItem="LG9-7o-bxA" firstAttribute="leading" secondItem="bZr-Rb-UCj" secondAttribute="leading" id="Ql4-Qn-aOQ"/>
-                            <constraint firstItem="LG9-7o-bxA" firstAttribute="centerX" secondItem="oEr-KQ-HrL" secondAttribute="centerX" id="TLX-sk-WRH"/>
-                            <constraint firstItem="oEr-KQ-HrL" firstAttribute="leading" secondItem="fAf-ES-vjT" secondAttribute="leading" id="W62-6m-ERw"/>
+                            <constraint firstItem="7lc-fy-0gJ" firstAttribute="leading" secondItem="JZg-MT-gb1" secondAttribute="leading" id="RjM-DV-Nwd"/>
+                            <constraint firstItem="LG9-7o-bxA" firstAttribute="top" secondItem="7lc-fy-0gJ" secondAttribute="bottom" constant="21" id="SrK-S1-8Jy"/>
+                            <constraint firstItem="7lc-fy-0gJ" firstAttribute="top" secondItem="JZg-MT-gb1" secondAttribute="bottom" constant="24" id="W5H-16-cpO"/>
                             <constraint firstItem="bZr-Rb-UCj" firstAttribute="bottom" secondItem="LG9-7o-bxA" secondAttribute="bottom" constant="94" id="Wk6-1B-QjN"/>
-                            <constraint firstItem="oEr-KQ-HrL" firstAttribute="top" secondItem="fAf-ES-vjT" secondAttribute="bottom" constant="4" id="Zpj-iB-3H4"/>
+                            <constraint firstItem="7lc-fy-0gJ" firstAttribute="centerX" secondItem="JZg-MT-gb1" secondAttribute="centerX" id="fdD-HR-KT8"/>
                             <constraint firstItem="JZg-MT-gb1" firstAttribute="centerX" secondItem="ZTT-Qb-WBc" secondAttribute="centerX" id="gg4-lz-ppD"/>
                             <constraint firstItem="JZg-MT-gb1" firstAttribute="leading" secondItem="bZr-Rb-UCj" secondAttribute="leading" id="hRY-LL-3Ie"/>
                             <constraint firstItem="JZg-MT-gb1" firstAttribute="top" secondItem="bZr-Rb-UCj" secondAttribute="top" id="iRr-TZ-hcv"/>
                             <constraint firstItem="bZr-Rb-UCj" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="SZT-24-i1X" secondAttribute="bottom" id="nub-eY-qeS"/>
-                            <constraint firstItem="I0u-MB-fxF" firstAttribute="trailing" secondItem="oEr-KQ-HrL" secondAttribute="trailing" id="qvl-ot-gYX"/>
+                            <constraint firstItem="LG9-7o-bxA" firstAttribute="centerX" secondItem="7lc-fy-0gJ" secondAttribute="centerX" id="uXd-3z-v4x"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ZTT-Qb-WBc"/>
                         <viewLayoutGuide key="layoutMargins" id="bZr-Rb-UCj"/>
