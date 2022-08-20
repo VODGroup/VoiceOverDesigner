@@ -13,7 +13,7 @@ let package = Package(
             targets: ["DesignPreview"]),
     ],
     dependencies: [
-        .package(name: "Document", path: "../Document")
+        .package(name: "Document", path: "./../../Document")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
