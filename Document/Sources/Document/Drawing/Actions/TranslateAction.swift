@@ -17,4 +17,8 @@ public class TranslateAction: MoveAction, DraggingAction {
     public func undo() {
         control.frame = initialFrame
     }
+    
+    public func cancel() {
+        undo()
+    }
 }

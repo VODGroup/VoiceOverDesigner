@@ -1,6 +1,14 @@
 import CoreGraphics
 
 public class CopyAndTranslateAction: DraggingAction {
+    public func cancel() {
+        if case let copy as CopyAction = action {
+            view.delete(control: copy.control)
+        }
+        
+        action?.cancel()
+    }
+    
     public func drag(to coordinate: CGPoint) {
         action?.drag(to: coordinate)
     }

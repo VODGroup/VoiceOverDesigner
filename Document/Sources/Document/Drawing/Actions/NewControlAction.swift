@@ -1,6 +1,10 @@
 import QuartzCore
 
 public class NewControlAction: DraggingAction {
+    public func cancel() {
+        view.delete(control: control)
+    }
+    
     
     init(view: DrawingView, control: A11yControl, coordinate: CGPoint) {
         self.view = view

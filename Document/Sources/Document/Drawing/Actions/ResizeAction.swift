@@ -29,4 +29,10 @@ public class ResizeAction: DraggingAction {
     public func end(at coordinate: CGPoint) -> DraggingAction? {
         return self
     }
+    
+    public func cancel() {
+        control.updateWithoutAnimation {
+            control.frame = initialFrame
+        }
+    }
 }
