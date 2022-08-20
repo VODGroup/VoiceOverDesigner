@@ -22,31 +22,17 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SZT-24-i1X">
-                                <rect key="frame" x="20" y="104" width="46" height="18"/>
-                                <buttonCell key="cell" type="inline" title="Delete" bezelStyle="inline" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Mq6-Um-Jqv">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="smallSystemBold"/>
-                                    <string key="keyEquivalent" base64-UTF8="YES">
-CA
-</string>
-                                    <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="delete:" target="U2f-R7-Q2a" id="Tb8-Y5-Fbf"/>
-                                </connections>
-                            </button>
-                            <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LG9-7o-bxA">
-                                <rect key="frame" x="20" y="156" width="350" height="772"/>
-                                <clipView key="contentView" drawsBackground="NO" id="RRR-wz-1X7">
-                                    <rect key="frame" x="0.0" y="0.0" width="350" height="772"/>
+                            <scrollView ambiguous="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LG9-7o-bxA">
+                                <rect key="frame" x="20" y="64" width="350" height="864"/>
+                                <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="RRR-wz-1X7">
+                                    <rect key="frame" x="0.0" y="0.0" width="350" height="864"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="16" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LGK-Fp-or4">
-                                            <rect key="frame" x="0.0" y="-58" width="350" height="830"/>
+                                        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="16" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LGK-Fp-or4">
+                                            <rect key="frame" x="0.0" y="0.0" width="350" height="864"/>
                                             <subviews>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="7lc-fy-0gJ">
-                                                    <rect key="frame" x="0.0" y="780" width="350" height="50"/>
+                                                    <rect key="frame" x="0.0" y="814" width="350" height="50"/>
                                                     <subviews>
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fAf-ES-vjT">
                                                             <rect key="frame" x="-2" y="34" width="41" height="16"/>
@@ -94,19 +80,19 @@ CA
                                                     </constraints>
                                                 </customView>
                                                 <containerView placeholderIntrinsicWidth="385" placeholderIntrinsicHeight="146" translatesAutoresizingMaskIntoConstraints="NO" id="cWG-yH-GJd" userLabel="A11y Value View">
-                                                    <rect key="frame" x="0.0" y="618" width="350" height="146"/>
+                                                    <rect key="frame" x="0.0" y="652" width="350" height="146"/>
                                                     <connections>
                                                         <segue destination="hCW-q0-HC9" kind="embed" identifier="A11yValueViewController" id="c9M-xQ-asw"/>
                                                     </connections>
                                                 </containerView>
                                                 <containerView placeholderIntrinsicWidth="385" placeholderIntrinsicHeight="146" translatesAutoresizingMaskIntoConstraints="NO" id="3pr-Nv-IXY" userLabel="Custom Actions View">
-                                                    <rect key="frame" x="0.0" y="456" width="350" height="146"/>
+                                                    <rect key="frame" x="0.0" y="490" width="350" height="146"/>
                                                     <connections>
                                                         <segue destination="VfM-h9-pgU" kind="embed" identifier="CustomActionsViewContoller" id="47j-c8-xJ5"/>
                                                     </connections>
                                                 </containerView>
                                                 <box title="Type" translatesAutoresizingMaskIntoConstraints="NO" id="UuZ-Ye-28d">
-                                                    <rect key="frame" x="-3" y="287" width="356" height="153"/>
+                                                    <rect key="frame" x="-3" y="321" width="356" height="153"/>
                                                     <view key="contentView" id="yiu-tQ-QTm">
                                                         <rect key="frame" x="3" y="3" width="350" height="135"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -247,7 +233,7 @@ CA
                                                     </view>
                                                 </box>
                                                 <box title="Behavour" translatesAutoresizingMaskIntoConstraints="NO" id="X9x-Tf-0Jm">
-                                                    <rect key="frame" x="-3" y="173" width="356" height="102"/>
+                                                    <rect key="frame" x="-3" y="207" width="356" height="102"/>
                                                     <view key="contentView" id="0gq-OC-PyL">
                                                         <rect key="frame" x="3" y="3" width="350" height="84"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -303,7 +289,7 @@ CA
                                                     </constraints>
                                                 </box>
                                                 <box title="Media" translatesAutoresizingMaskIntoConstraints="NO" id="h43-WO-P0P">
-                                                    <rect key="frame" x="-3" y="52" width="356" height="109"/>
+                                                    <rect key="frame" x="-3" y="86" width="356" height="109"/>
                                                     <view key="contentView" id="Nnm-wP-dpa">
                                                         <rect key="frame" x="3" y="3" width="350" height="91"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -359,7 +345,7 @@ CA
                                                     </constraints>
                                                 </box>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="g95-0u-h7J">
-                                                    <rect key="frame" x="0.0" y="0.0" width="350" height="40"/>
+                                                    <rect key="frame" x="0.0" y="34" width="350" height="40"/>
                                                     <subviews>
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8Ci-CL-WW4">
                                                             <rect key="frame" x="-2" y="24" width="29" height="16"/>
@@ -391,6 +377,20 @@ CA
                                                         <constraint firstAttribute="trailing" secondItem="9A8-ed-t5M" secondAttribute="trailing" id="m8w-DU-PFe"/>
                                                     </constraints>
                                                 </customView>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SZT-24-i1X">
+                                                    <rect key="frame" x="0.0" y="0.0" width="46" height="18"/>
+                                                    <buttonCell key="cell" type="inline" title="Delete" bezelStyle="inline" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Mq6-Um-Jqv">
+                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                        <font key="font" metaFont="smallSystemBold"/>
+                                                        <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                                                        <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="delete:" target="U2f-R7-Q2a" id="Tb8-Y5-Fbf"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="350" id="0DJ-Re-prA"/>
@@ -411,8 +411,10 @@ CA
                                                 <integer value="1000"/>
                                                 <integer value="1000"/>
                                                 <integer value="1000"/>
+                                                <integer value="1000"/>
                                             </visibilityPriorities>
                                             <customSpacing>
+                                                <real value="3.4028234663852886e+38"/>
                                                 <real value="3.4028234663852886e+38"/>
                                                 <real value="3.4028234663852886e+38"/>
                                                 <real value="3.4028234663852886e+38"/>
@@ -424,7 +426,6 @@ CA
                                         </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="LGK-Fp-or4" secondAttribute="bottom" constant="-58" id="IFR-Ry-y1D"/>
                                         <constraint firstItem="LGK-Fp-or4" firstAttribute="top" secondItem="RRR-wz-1X7" secondAttribute="top" id="XRM-Xn-7QC"/>
                                         <constraint firstItem="LGK-Fp-or4" firstAttribute="leading" secondItem="RRR-wz-1X7" secondAttribute="leading" id="iht-Mj-e4L"/>
                                     </constraints>
@@ -433,26 +434,24 @@ CA
                                     <constraint firstAttribute="width" constant="350" id="KKe-sQ-Y4H"/>
                                 </constraints>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="UEA-1D-l4Q">
-                                    <rect key="frame" x="0.0" y="756" width="350" height="16"/>
+                                    <rect key="frame" x="0.0" y="848" width="350" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="3QC-EC-gsl">
-                                    <rect key="frame" x="334" y="0.0" width="16" height="772"/>
+                                    <rect key="frame" x="334" y="0.0" width="16" height="864"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="bZr-Rb-UCj" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="LG9-7o-bxA" secondAttribute="bottom" id="DK1-H9-hPl"/>
                             <constraint firstItem="LG9-7o-bxA" firstAttribute="centerX" secondItem="JZg-MT-gb1" secondAttribute="centerX" id="H78-T8-Tx8"/>
-                            <constraint firstItem="SZT-24-i1X" firstAttribute="top" secondItem="LG9-7o-bxA" secondAttribute="bottom" constant="34" id="HcH-bl-kE2"/>
-                            <constraint firstItem="SZT-24-i1X" firstAttribute="leading" secondItem="LGK-Fp-or4" secondAttribute="leading" id="If2-bw-N3z"/>
                             <constraint firstItem="LG9-7o-bxA" firstAttribute="leading" secondItem="bZr-Rb-UCj" secondAttribute="leading" id="Ql4-Qn-aOQ"/>
                             <constraint firstItem="LG9-7o-bxA" firstAttribute="leading" secondItem="JZg-MT-gb1" secondAttribute="leading" id="gMa-AI-BHy"/>
                             <constraint firstItem="LG9-7o-bxA" firstAttribute="top" secondItem="JZg-MT-gb1" secondAttribute="bottom" constant="8" symbolic="YES" id="gZt-LB-L9T"/>
                             <constraint firstItem="JZg-MT-gb1" firstAttribute="leading" secondItem="bZr-Rb-UCj" secondAttribute="leading" id="hRY-LL-3Ie"/>
                             <constraint firstItem="JZg-MT-gb1" firstAttribute="top" secondItem="bZr-Rb-UCj" secondAttribute="top" id="iRr-TZ-hcv"/>
                             <constraint firstItem="bZr-Rb-UCj" firstAttribute="trailing" secondItem="JZg-MT-gb1" secondAttribute="trailing" id="lzE-Xa-PQg"/>
-                            <constraint firstItem="bZr-Rb-UCj" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="SZT-24-i1X" secondAttribute="bottom" id="nub-eY-qeS"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ZTT-Qb-WBc"/>
                         <viewLayoutGuide key="layoutMargins" id="bZr-Rb-UCj"/>
