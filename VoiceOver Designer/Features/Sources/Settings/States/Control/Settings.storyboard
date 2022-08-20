@@ -25,21 +25,21 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LG9-7o-bxA">
+                            <scrollView ambiguous="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LG9-7o-bxA">
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="864"/>
                                 <clipView key="contentView" ambiguous="YES" drawsBackground="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RRR-wz-1X7">
                                     <rect key="frame" x="0.0" y="0.0" width="390" height="864"/>
                                     <subviews>
-                                        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="16" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalHuggingPriority="251" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LGK-Fp-or4">
+                                        <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="16" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalHuggingPriority="251" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LGK-Fp-or4">
                                             <rect key="frame" x="0.0" y="0.0" width="390" height="864"/>
                                             <subviews>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="7lc-fy-0gJ">
                                                     <rect key="frame" x="0.0" y="814" width="390" height="50"/>
                                                     <subviews>
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fAf-ES-vjT">
-                                                            <rect key="frame" x="-2" y="34" width="41" height="16"/>
-                                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Label:" id="Nlv-IC-RPW">
-                                                                <font key="font" textStyle="body" name=".SFNS-Regular"/>
+                                                            <rect key="frame" x="-2" y="34" width="40" height="16"/>
+                                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="Nlv-IC-RPW">
+                                                                <font key="font" textStyle="headline" name=".SFNS-Bold"/>
                                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
@@ -426,6 +426,7 @@ CA
                                         </stackView>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" secondItem="LGK-Fp-or4" secondAttribute="height" constant="50" id="2jz-4p-hZY"/>
                                         <constraint firstItem="LGK-Fp-or4" firstAttribute="top" secondItem="RRR-wz-1X7" secondAttribute="top" id="XRM-Xn-7QC"/>
                                         <constraint firstItem="LGK-Fp-or4" firstAttribute="leading" secondItem="RRR-wz-1X7" secondAttribute="leading" id="iht-Mj-e4L"/>
                                         <constraint firstItem="LGK-Fp-or4" firstAttribute="width" secondItem="RRR-wz-1X7" secondAttribute="width" id="jQu-Io-TIO"/>
@@ -447,7 +448,7 @@ CA
                         </subviews>
                         <constraints>
                             <constraint firstItem="LG9-7o-bxA" firstAttribute="centerX" secondItem="JZg-MT-gb1" secondAttribute="centerX" id="H78-T8-Tx8"/>
-                            <constraint firstItem="LG9-7o-bxA" firstAttribute="bottom" secondItem="bZr-Rb-UCj" secondAttribute="bottom" constant="20" symbolic="YES" id="Mql-5B-J8w"/>
+                            <constraint firstItem="LG9-7o-bxA" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="bZr-Rb-UCj" secondAttribute="bottom" constant="20" symbolic="YES" id="Mql-5B-J8w"/>
                             <constraint firstItem="LG9-7o-bxA" firstAttribute="leading" secondItem="cLK-md-r8c" secondAttribute="leading" id="Ql4-Qn-aOQ"/>
                             <constraint firstItem="LG9-7o-bxA" firstAttribute="top" secondItem="JZg-MT-gb1" secondAttribute="bottom" constant="20" id="gZt-LB-L9T"/>
                             <constraint firstItem="JZg-MT-gb1" firstAttribute="leading" secondItem="bZr-Rb-UCj" secondAttribute="leading" id="hRY-LL-3Ie"/>
