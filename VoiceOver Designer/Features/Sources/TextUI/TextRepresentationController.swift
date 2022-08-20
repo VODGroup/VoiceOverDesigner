@@ -62,6 +62,11 @@ public class TextRepresentationController: NSViewController {
     }
     
     private func select(model: A11yDescription?) {
+        guard let model = model else {
+            outlineView.deselectAll(self)
+            return
+        }
+
         guard let index = document.controls.firstIndex(where: { aModel in
             aModel === model
         }) else { return }
