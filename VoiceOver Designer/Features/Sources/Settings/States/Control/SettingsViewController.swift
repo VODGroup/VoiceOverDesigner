@@ -22,7 +22,8 @@ public class SettingsViewController: NSViewController {
     
     @IBOutlet weak var resultLabel: NSTextField!
     
-    @IBOutlet weak var value: NSTextField!
+    @IBOutlet weak var scrollView: NSScrollView!
+    @IBOutlet weak var mainStack: NSStackView!
     @IBOutlet weak var label: NSTextField!
     @IBOutlet weak var hint: NSTextField!
     
@@ -54,6 +55,7 @@ public class SettingsViewController: NSViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        scrollView.documentView = mainStack
         setup(from: descr)
     }
     
