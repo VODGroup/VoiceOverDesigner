@@ -9,18 +9,18 @@
         <scene sceneID="PEd-7d-5j0">
             <objects>
                 <viewController id="bU7-R8-ocO" customClass="TextRepresentationController" customModule="TextUI" sceneMemberID="viewController">
-                    <view key="view" id="tOy-S4-hL0">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                    <view key="view" misplaced="YES" id="tOy-S4-hL0">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="263"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mqU-N5-NAr">
-                                <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                                <rect key="frame" x="0.0" y="0.0" width="450" height="147"/>
                                 <clipView key="contentView" drawsBackground="NO" id="JaH-Gf-ck7">
-                                    <rect key="frame" x="1" y="1" width="448" height="298"/>
+                                    <rect key="frame" x="1" y="1" width="448" height="145"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="fullWidth" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="large" viewBased="YES" autoresizesOutlineColumn="YES" outlineTableColumn="3vj-vX-1Fu" id="IqG-75-ntI">
-                                            <rect key="frame" x="0.0" y="0.0" width="448" height="298"/>
+                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="fullWidth" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" usesAutomaticRowHeights="YES" viewBased="YES" autoresizesOutlineColumn="YES" outlineTableColumn="3vj-vX-1Fu" id="IqG-75-ntI">
+                                            <rect key="frame" x="0.0" y="0.0" width="448" height="145"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="17" height="0.0"/>
                                             <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -38,20 +38,25 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="Element" id="6t4-O5-sau">
-                                                            <rect key="frame" x="8" y="0.0" width="431" height="53"/>
+                                                        <tableCellView identifier="Element" misplaced="YES" id="6t4-O5-sau">
+                                                            <rect key="frame" x="8" y="0.0" width="431" height="44"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jbJ-hm-5F3">
-                                                                    <rect key="frame" x="0.0" y="3" width="431" height="31"/>
-                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                                    <textFieldCell key="cell" controlSize="large" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="zcW-EB-RzX">
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="jbJ-hm-5F3">
+                                                                    <rect key="frame" x="-2" y="8" width="435" height="16"/>
+                                                                    <textFieldCell key="cell" controlSize="large" sendsActionOnEndEditing="YES" title="Table View Cell" id="zcW-EB-RzX">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
                                                             </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="jbJ-hm-5F3" firstAttribute="centerX" secondItem="6t4-O5-sau" secondAttribute="centerX" id="6nZ-jP-uCq"/>
+                                                                <constraint firstItem="jbJ-hm-5F3" firstAttribute="centerY" secondItem="6t4-O5-sau" secondAttribute="centerY" id="V3O-nh-FfW"/>
+                                                                <constraint firstItem="jbJ-hm-5F3" firstAttribute="leading" secondItem="6t4-O5-sau" secondAttribute="leading" id="dNU-TE-zhV"/>
+                                                                <constraint firstItem="jbJ-hm-5F3" firstAttribute="top" secondItem="6t4-O5-sau" secondAttribute="top" constant="8" id="iHI-fy-uPr"/>
+                                                            </constraints>
                                                             <connections>
                                                                 <outlet property="textField" destination="jbJ-hm-5F3" id="jTn-hi-khQ"/>
                                                             </connections>
@@ -68,7 +73,7 @@
                                     <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="z7t-lq-y8S">
-                                    <rect key="frame" x="1" y="283" width="448" height="16"/>
+                                    <rect key="frame" x="1" y="151" width="17" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="q5V-xw-zwQ">
@@ -90,7 +95,7 @@
                 </viewController>
                 <customObject id="9uD-mB-xHs" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="59" y="131"/>
+            <point key="canvasLocation" x="59" y="130.5"/>
         </scene>
     </scenes>
 </document>
