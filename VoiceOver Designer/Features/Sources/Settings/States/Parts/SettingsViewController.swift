@@ -15,10 +15,7 @@ public class SettingsViewController: NSViewController {
     var descr: A11yDescription {
         presenter.model
     }
-    
-    // MARK: behaviourTrait
-    // TODO: Add
-    
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,6 +28,7 @@ public class SettingsViewController: NSViewController {
     
     weak var valueViewController: A11yValueViewController?
     weak var actionsViewController: CustomActionsViewController?
+    
     public override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case "A11yValueViewController":
@@ -44,22 +42,16 @@ public class SettingsViewController: NSViewController {
                 actionsViewController = customActionViewController
                 actionsViewController?.presenter = presenter
             }
+        case "TraitsViewController":
+            if let traits = segue.destinationController as? TraitsViewController {
+                traits.delegate = self
+                traits.view().setup(from: descr)
+            }
         default: break
         }
     }
     
-    @IBAction func traitDidChange(_ sender: TraitCheckBox) {
-        let isOn = sender.state == .on
-        
-        if isOn {
-            descr.trait.formUnion(sender.trait)
-        } else {
-            descr.trait.subtract(sender.trait)
-        }
-        updateText()
-    }
-    
-    // MARK: Description
+    // MARK: Actions
     @IBAction func labelDidChange(_ sender: NSTextField) {
         // TODO: if you forgot to call updateColor, the label wouldn't be revalidated
         presenter.updateLabel(to: sender.stringValue)
@@ -71,18 +63,13 @@ public class SettingsViewController: NSViewController {
         updateText()
     }
     
-    func updateText() {
-        view().updateText(from: descr)
-        
-        presenter.delegate?.didUpdateValue()
-    }
-    
     @IBAction func delete(_ sender: Any) {
         presenter.delegate?.delete(model: presenter.model)
     }
     
     @IBAction func isAccessibleElementDidChanged(_ sender: NSButton) {
         descr.isAccessibilityElement = sender.state == .on
+        presenter.delegate?.didUpdateValue()
     }
     
     public static func fromStoryboard() -> SettingsViewController {
@@ -91,4 +78,21 @@ public class SettingsViewController: NSViewController {
     }
 }
 
-extension SettingsViewController: A11yValueDelegate {}
+extension SettingsViewController: A11yValueDelegate {
+    func updateText() {
+        view().updateText(from: descr)
+        
+        presenter.delegate?.didUpdateValue()
+    }
+}
+
+extension SettingsViewController: TraitsViewControllerDelegate {
+    func didChangeTrait(_ trait: A11yTraits, state: Bool) {
+        if state {
+            descr.trait.formUnion(trait)
+        } else {
+            descr.trait.subtract(trait)
+        }
+        updateText()
+    }
+}
