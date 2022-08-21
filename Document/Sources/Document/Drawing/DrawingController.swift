@@ -2,8 +2,11 @@ import CoreGraphics
 import QuartzCore
 
 public class DrawingController {
+
+    
     public init(view: DrawingView) {
         self.view = view
+        view.escListener.setDelegate(self)
         
 #if os(macOS)
         view.wantsLayer = true
@@ -76,5 +79,14 @@ public class DrawingController {
         drag(to: coordinate)
         
         return action?.end(at: coordinate)
+    }
+    
+    
+}
+
+extension DrawingController: EscModifierActionDelegate {
+    public func didPressed() {
+        action?.cancel()
+        action = nil
     }
 }

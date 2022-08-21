@@ -10,4 +10,8 @@ public struct ClickAction: DraggingAction {
     public func end(at coordinate: CGPoint) -> DraggingAction? {
         return self
     }
+    
+    public func cancel() {
+        
+    }
 }

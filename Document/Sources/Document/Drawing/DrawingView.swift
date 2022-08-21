@@ -32,6 +32,8 @@ public protocol DrawingView: View {
     var alignmentOverlay: AlignmentOverlayProtocol { get }
     
     var copyListener: CopyModifierProtocol { get }
+    
+    var escListener: EscModifierAction { get }
 }
 
 public extension DrawingView {
