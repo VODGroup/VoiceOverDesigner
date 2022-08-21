@@ -45,6 +45,8 @@ public class TextRepresentationController: NSViewController {
         enableDragging()
     
         observe()
+        
+        outlineView.style = .sourceList
     }
     
     private func observe() {
