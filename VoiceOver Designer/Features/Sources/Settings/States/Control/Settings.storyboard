@@ -31,10 +31,10 @@
                                     <rect key="frame" x="0.0" y="0.0" width="390" height="864"/>
                                     <subviews>
                                         <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="16" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalHuggingPriority="251" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LGK-Fp-or4" customClass="FlippedStackView" customModule="Editor">
-                                            <rect key="frame" x="0.0" y="-50" width="405" height="914"/>
+                                            <rect key="frame" x="0.0" y="34" width="405" height="830"/>
                                             <subviews>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="7lc-fy-0gJ">
-                                                    <rect key="frame" x="0.0" y="864" width="405" height="50"/>
+                                                    <rect key="frame" x="0.0" y="780" width="405" height="50"/>
                                                     <subviews>
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fAf-ES-vjT">
                                                             <rect key="frame" x="-2" y="34" width="40" height="16"/>
@@ -80,90 +80,28 @@
                                                     </constraints>
                                                 </customView>
                                                 <containerView placeholderIntrinsicWidth="385" placeholderIntrinsicHeight="146" translatesAutoresizingMaskIntoConstraints="NO" id="cWG-yH-GJd" userLabel="A11y Value View">
-                                                    <rect key="frame" x="0.0" y="702" width="405" height="146"/>
+                                                    <rect key="frame" x="0.0" y="618" width="405" height="146"/>
                                                     <connections>
                                                         <segue destination="hCW-q0-HC9" kind="embed" identifier="A11yValueViewController" id="c9M-xQ-asw"/>
                                                     </connections>
                                                 </containerView>
                                                 <containerView placeholderIntrinsicWidth="385" placeholderIntrinsicHeight="146" translatesAutoresizingMaskIntoConstraints="NO" id="3pr-Nv-IXY" userLabel="Custom Actions View">
-                                                    <rect key="frame" x="0.0" y="540" width="405" height="146"/>
+                                                    <rect key="frame" x="0.0" y="456" width="405" height="146"/>
                                                     <connections>
                                                         <segue destination="VfM-h9-pgU" kind="embed" identifier="CustomActionsViewContoller" id="47j-c8-xJ5"/>
                                                     </connections>
                                                 </containerView>
                                                 <box title="Type" translatesAutoresizingMaskIntoConstraints="NO" id="UuZ-Ye-28d">
-                                                    <rect key="frame" x="-3" y="371" width="411" height="153"/>
+                                                    <rect key="frame" x="-3" y="308" width="411" height="132"/>
                                                     <view key="contentView" id="yiu-tQ-QTm">
-                                                        <rect key="frame" x="3" y="3" width="405" height="135"/>
+                                                        <rect key="frame" x="3" y="3" width="405" height="114"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="15" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GOv-Dv-yOD">
-                                                                <rect key="frame" x="188" y="15" width="106" height="109"/>
-                                                                <subviews>
-                                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="llv-Ig-GA1" customClass="TraitCheckBox" customModule="Settings">
-                                                                        <rect key="frame" x="-2" y="92" width="88" height="18"/>
-                                                                        <buttonCell key="cell" type="check" title="Static text" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ZG2-IJ-hrj">
-                                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                            <font key="font" metaFont="system"/>
-                                                                            <string key="keyEquivalent">s</string>
-                                                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                                                                        </buttonCell>
-                                                                        <connections>
-                                                                            <action selector="traitDidChange:" target="U2f-R7-Q2a" id="0fY-MA-OmX"/>
-                                                                        </connections>
-                                                                    </button>
-                                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6n0-ds-xIu" customClass="TraitCheckBox" customModule="Settings">
-                                                                        <rect key="frame" x="-2" y="61" width="101" height="18"/>
-                                                                        <buttonCell key="cell" type="check" title="Search Field" bezelStyle="regularSquare" imagePosition="left" inset="2" id="GID-75-oJI">
-                                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                            <font key="font" metaFont="system"/>
-                                                                            <string key="keyEquivalent">f</string>
-                                                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                                                                        </buttonCell>
-                                                                        <connections>
-                                                                            <action selector="traitDidChange:" target="U2f-R7-Q2a" id="Kb3-pz-VRu"/>
-                                                                        </connections>
-                                                                    </button>
-                                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9jL-IX-KOe" customClass="TraitCheckBox" customModule="Settings">
-                                                                        <rect key="frame" x="-2" y="30" width="48" height="18"/>
-                                                                        <buttonCell key="cell" type="check" title="Tab" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="gyz-00-tTT">
-                                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                            <font key="font" metaFont="system"/>
-                                                                            <string key="keyEquivalent">t</string>
-                                                                        </buttonCell>
-                                                                        <connections>
-                                                                            <action selector="traitDidChange:" target="U2f-R7-Q2a" id="tRc-ad-K7Q"/>
-                                                                        </connections>
-                                                                    </button>
-                                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7UK-ta-ChB" customClass="TraitCheckBox" customModule="Settings">
-                                                                        <rect key="frame" x="-2" y="-1" width="108" height="18"/>
-                                                                        <buttonCell key="cell" type="check" title="Keyboard key" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Rw4-VK-3ti">
-                                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                            <font key="font" metaFont="system"/>
-                                                                        </buttonCell>
-                                                                        <connections>
-                                                                            <action selector="traitDidChange:" target="U2f-R7-Q2a" id="FAa-v7-gGA"/>
-                                                                        </connections>
-                                                                    </button>
-                                                                </subviews>
-                                                                <visibilityPriorities>
-                                                                    <integer value="1000"/>
-                                                                    <integer value="1000"/>
-                                                                    <integer value="1000"/>
-                                                                    <integer value="1000"/>
-                                                                </visibilityPriorities>
-                                                                <customSpacing>
-                                                                    <real value="3.4028234663852886e+38"/>
-                                                                    <real value="3.4028234663852886e+38"/>
-                                                                    <real value="3.4028234663852886e+38"/>
-                                                                    <real value="3.4028234663852886e+38"/>
-                                                                </customSpacing>
-                                                            </stackView>
-                                                            <stackView distribution="fill" orientation="vertical" alignment="leading" spacing="15" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kgm-HT-WD5">
-                                                                <rect key="frame" x="10" y="15" width="69" height="109"/>
+                                                            <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kgm-HT-WD5">
+                                                                <rect key="frame" x="10" y="15" width="69" height="88"/>
                                                                 <subviews>
                                                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aYo-qI-qNV" customClass="TraitCheckBox" customModule="Settings">
-                                                                        <rect key="frame" x="-2" y="92" width="67" height="18"/>
+                                                                        <rect key="frame" x="-2" y="71" width="67" height="18"/>
                                                                         <buttonCell key="cell" type="check" title="Button" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ncd-cz-aLg">
                                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                             <font key="font" metaFont="system"/>
@@ -175,7 +113,7 @@
                                                                         </connections>
                                                                     </button>
                                                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2zF-Vg-XdC" customClass="TraitCheckBox" customModule="Settings">
-                                                                        <rect key="frame" x="-2" y="61" width="71" height="18"/>
+                                                                        <rect key="frame" x="-2" y="47" width="71" height="18"/>
                                                                         <buttonCell key="cell" type="check" title="Header" bezelStyle="regularSquare" imagePosition="left" inset="2" id="cr6-jA-6Q9">
                                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                             <font key="font" metaFont="system"/>
@@ -187,7 +125,7 @@
                                                                         </connections>
                                                                     </button>
                                                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XDN-qp-Yki" customClass="TraitCheckBox" customModule="Settings">
-                                                                        <rect key="frame" x="-2" y="30" width="63" height="18"/>
+                                                                        <rect key="frame" x="-2" y="23" width="63" height="18"/>
                                                                         <buttonCell key="cell" type="check" title="Image" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jDG-BW-o3A">
                                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                             <font key="font" metaFont="system"/>
@@ -224,6 +162,68 @@
                                                                     <real value="3.4028234663852886e+38"/>
                                                                 </customSpacing>
                                                             </stackView>
+                                                            <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" fixedFrame="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GOv-Dv-yOD">
+                                                                <rect key="frame" x="177" y="15" width="106" height="88"/>
+                                                                <subviews>
+                                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="llv-Ig-GA1" customClass="TraitCheckBox" customModule="Settings">
+                                                                        <rect key="frame" x="-2" y="71" width="88" height="18"/>
+                                                                        <buttonCell key="cell" type="check" title="Static text" bezelStyle="regularSquare" imagePosition="left" inset="2" id="ZG2-IJ-hrj">
+                                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                            <font key="font" metaFont="system"/>
+                                                                            <string key="keyEquivalent">s</string>
+                                                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                                                        </buttonCell>
+                                                                        <connections>
+                                                                            <action selector="traitDidChange:" target="U2f-R7-Q2a" id="0fY-MA-OmX"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6n0-ds-xIu" customClass="TraitCheckBox" customModule="Settings">
+                                                                        <rect key="frame" x="-2" y="47" width="101" height="18"/>
+                                                                        <buttonCell key="cell" type="check" title="Search Field" bezelStyle="regularSquare" imagePosition="left" inset="2" id="GID-75-oJI">
+                                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                            <font key="font" metaFont="system"/>
+                                                                            <string key="keyEquivalent">f</string>
+                                                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                                                        </buttonCell>
+                                                                        <connections>
+                                                                            <action selector="traitDidChange:" target="U2f-R7-Q2a" id="Kb3-pz-VRu"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9jL-IX-KOe" customClass="TraitCheckBox" customModule="Settings">
+                                                                        <rect key="frame" x="-2" y="23" width="48" height="18"/>
+                                                                        <buttonCell key="cell" type="check" title="Tab" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="gyz-00-tTT">
+                                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                            <font key="font" metaFont="system"/>
+                                                                            <string key="keyEquivalent">t</string>
+                                                                        </buttonCell>
+                                                                        <connections>
+                                                                            <action selector="traitDidChange:" target="U2f-R7-Q2a" id="tRc-ad-K7Q"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7UK-ta-ChB" customClass="TraitCheckBox" customModule="Settings">
+                                                                        <rect key="frame" x="-2" y="-1" width="108" height="18"/>
+                                                                        <buttonCell key="cell" type="check" title="Keyboard key" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Rw4-VK-3ti">
+                                                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                            <font key="font" metaFont="system"/>
+                                                                        </buttonCell>
+                                                                        <connections>
+                                                                            <action selector="traitDidChange:" target="U2f-R7-Q2a" id="FAa-v7-gGA"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                </subviews>
+                                                                <visibilityPriorities>
+                                                                    <integer value="1000"/>
+                                                                    <integer value="1000"/>
+                                                                    <integer value="1000"/>
+                                                                    <integer value="1000"/>
+                                                                </visibilityPriorities>
+                                                                <customSpacing>
+                                                                    <real value="3.4028234663852886e+38"/>
+                                                                    <real value="3.4028234663852886e+38"/>
+                                                                    <real value="3.4028234663852886e+38"/>
+                                                                    <real value="3.4028234663852886e+38"/>
+                                                                </customSpacing>
+                                                            </stackView>
                                                         </subviews>
                                                         <constraints>
                                                             <constraint firstItem="Kgm-HT-WD5" firstAttribute="leading" secondItem="yiu-tQ-QTm" secondAttribute="leading" constant="10" id="WVK-lp-TDc"/>
@@ -233,24 +233,13 @@
                                                     </view>
                                                 </box>
                                                 <box title="Behavour" translatesAutoresizingMaskIntoConstraints="NO" id="X9x-Tf-0Jm">
-                                                    <rect key="frame" x="-3" y="257" width="411" height="102"/>
+                                                    <rect key="frame" x="-3" y="222" width="411" height="74"/>
                                                     <view key="contentView" id="0gq-OC-PyL">
-                                                        <rect key="frame" x="3" y="3" width="405" height="84"/>
+                                                        <rect key="frame" x="3" y="3" width="405" height="56"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vNT-s9-2Ik" customClass="TraitCheckBox" customModule="Settings">
-                                                                <rect key="frame" x="187" y="55" width="143" height="18"/>
-                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                <buttonCell key="cell" type="check" title="Updates frequently" bezelStyle="regularSquare" imagePosition="left" inset="2" id="sav-QE-xQt">
-                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                    <font key="font" metaFont="system"/>
-                                                                </buttonCell>
-                                                                <connections>
-                                                                    <action selector="traitDidChange:" target="U2f-R7-Q2a" id="VMv-tc-4Y7"/>
-                                                                </connections>
-                                                            </button>
                                                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X40-02-0FX" customClass="TraitCheckBox" customModule="Settings">
-                                                                <rect key="frame" x="7" y="55" width="80" height="18"/>
+                                                                <rect key="frame" x="7" y="30" width="80" height="18"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <buttonCell key="cell" type="check" title="Selected" bezelStyle="regularSquare" imagePosition="left" inset="2" id="FDi-Xy-TcB">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -261,7 +250,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xFh-Kd-0Sr" customClass="TraitCheckBox" customModule="Settings">
-                                                                <rect key="frame" x="8" y="24" width="79" height="18"/>
+                                                                <rect key="frame" x="8" y="8" width="79" height="18"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <buttonCell key="cell" type="check" title="Disabled" bezelStyle="regularSquare" imagePosition="left" inset="2" id="I4q-KO-u9h">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -271,8 +260,19 @@
                                                                     <action selector="traitDidChange:" target="U2f-R7-Q2a" id="7Zm-7A-afT"/>
                                                                 </connections>
                                                             </button>
+                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vNT-s9-2Ik" customClass="TraitCheckBox" customModule="Settings">
+                                                                <rect key="frame" x="174" y="30" width="143" height="18"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <buttonCell key="cell" type="check" title="Updates frequently" bezelStyle="regularSquare" imagePosition="left" inset="2" id="sav-QE-xQt">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <action selector="traitDidChange:" target="U2f-R7-Q2a" id="VMv-tc-4Y7"/>
+                                                                </connections>
+                                                            </button>
                                                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="47B-J9-pib" customClass="TraitCheckBox" customModule="Settings">
-                                                                <rect key="frame" x="187" y="24" width="136" height="18"/>
+                                                                <rect key="frame" x="174" y="8" width="136" height="18"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <buttonCell key="cell" type="check" title="Summary element" bezelStyle="regularSquare" imagePosition="left" inset="2" id="iVu-ph-hdt">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -285,17 +285,17 @@
                                                         </subviews>
                                                     </view>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="98" id="cTg-50-5gm"/>
+                                                        <constraint firstAttribute="height" constant="70" id="cTg-50-5gm"/>
                                                     </constraints>
                                                 </box>
                                                 <box title="Media" translatesAutoresizingMaskIntoConstraints="NO" id="h43-WO-P0P">
-                                                    <rect key="frame" x="-3" y="136" width="411" height="109"/>
+                                                    <rect key="frame" x="-3" y="136" width="411" height="74"/>
                                                     <view key="contentView" id="Nnm-wP-dpa">
-                                                        <rect key="frame" x="3" y="3" width="405" height="91"/>
+                                                        <rect key="frame" x="3" y="3" width="405" height="56"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FNW-91-Vci" customClass="TraitCheckBox" customModule="Settings">
-                                                                <rect key="frame" x="6" y="54" width="99" height="18"/>
+                                                                <rect key="frame" x="6" y="31" width="99" height="18"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <buttonCell key="cell" type="check" title="Plays sound" bezelStyle="regularSquare" imagePosition="left" inset="2" id="1SM-XQ-AxR">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -305,19 +305,8 @@
                                                                     <action selector="traitDidChange:" target="U2f-R7-Q2a" id="31X-WC-S9r"/>
                                                                 </connections>
                                                             </button>
-                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CCG-Bz-5xi" customClass="TraitCheckBox" customModule="Settings">
-                                                                <rect key="frame" x="164" y="55" width="172" height="17"/>
-                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                <buttonCell key="cell" type="check" title="Allows direct interaction" bezelStyle="regularSquare" imagePosition="left" inset="2" id="16j-Yi-cnk">
-                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                    <font key="font" metaFont="system"/>
-                                                                </buttonCell>
-                                                                <connections>
-                                                                    <action selector="traitDidChange:" target="U2f-R7-Q2a" id="FYi-J7-xX8"/>
-                                                                </connections>
-                                                            </button>
                                                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Eda-Du-doD" customClass="TraitCheckBox" customModule="Settings">
-                                                                <rect key="frame" x="6" y="19" width="152" height="18"/>
+                                                                <rect key="frame" x="6" y="9" width="152" height="18"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <buttonCell key="cell" type="check" title="Starts media session" bezelStyle="regularSquare" imagePosition="left" inset="2" id="iC7-b2-SaW">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -327,8 +316,19 @@
                                                                     <action selector="traitDidChange:" target="U2f-R7-Q2a" id="F1q-KK-dU1"/>
                                                                 </connections>
                                                             </button>
+                                                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CCG-Bz-5xi" customClass="TraitCheckBox" customModule="Settings">
+                                                                <rect key="frame" x="174" y="32" width="172" height="17"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                <buttonCell key="cell" type="check" title="Allows direct interaction" bezelStyle="regularSquare" imagePosition="left" inset="2" id="16j-Yi-cnk">
+                                                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                    <font key="font" metaFont="system"/>
+                                                                </buttonCell>
+                                                                <connections>
+                                                                    <action selector="traitDidChange:" target="U2f-R7-Q2a" id="FYi-J7-xX8"/>
+                                                                </connections>
+                                                            </button>
                                                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="69m-by-VKr" customClass="TraitCheckBox" customModule="Settings">
-                                                                <rect key="frame" x="164" y="19" width="133" height="18"/>
+                                                                <rect key="frame" x="174" y="9" width="133" height="18"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                                 <buttonCell key="cell" type="check" title="Causes page turn" bezelStyle="regularSquare" imagePosition="left" inset="2" id="our-SC-Bnu">
                                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -341,7 +341,7 @@
                                                         </subviews>
                                                     </view>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="105" id="1Y1-aq-yp3"/>
+                                                        <constraint firstAttribute="height" constant="70" id="1Y1-aq-yp3"/>
                                                     </constraints>
                                                 </box>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="g95-0u-h7J">
@@ -436,7 +436,7 @@ CA
                                     <rect key="frame" x="20" y="848" width="370" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="3QC-EC-gsl">
+                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.090909090909090939" horizontal="NO" id="3QC-EC-gsl">
                                     <rect key="frame" x="374" y="0.0" width="16" height="864"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
