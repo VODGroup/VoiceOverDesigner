@@ -7,7 +7,7 @@ extension View {
     }
     
     var contentScale: CGFloat {
-        layer!.contentsScale
+        layer.contentsScale
     }
 }
 #else
