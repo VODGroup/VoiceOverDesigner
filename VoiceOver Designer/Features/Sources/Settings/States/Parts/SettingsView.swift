@@ -33,6 +33,6 @@ class SettingsView: NSView {
     }
     
     func updateText(from descr: A11yDescription) {
-        resultLabel.stringValue = descr.voiceOverText
+        resultLabel.attributedStringValue = descr.voiceOverTextAttributed(font: resultLabel.font)
     }
 }

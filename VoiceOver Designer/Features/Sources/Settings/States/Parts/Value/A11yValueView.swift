@@ -45,6 +45,7 @@ class A11yValueView: NSView {
         
         update(options: descr.adjustableOptions, delegate: delegate, setFirstResponder: setFirstResponder)
         
+        isEnumeratedCheckBox.isHidden = descr.adjustableOptions.options.count <= 1
         isEnumeratedCheckBox.state = descr.isEnumeratedAdjustable ? .on : .off
     }
     
