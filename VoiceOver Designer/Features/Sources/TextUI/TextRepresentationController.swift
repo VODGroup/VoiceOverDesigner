@@ -34,24 +34,20 @@ public class TextRepresentationController: NSViewController {
         self.presenter = presenter
     }
     
-    private var document: VODesignDocument!
-    
-    private var draggedNode: A11yDescription? = nil
+    var document: VODesignDocument!
+    var draggedNode: A11yDescription? = nil
     
     private var cancellables = Set<AnyCancellable>()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Register for the dropped object types we can accept.
-        outlineView.registerForDraggedTypes([REORDER_PASTEBOARD_TYPE])
-        
-        // Disable dragging items from our view to other applications.
-        outlineView.setDraggingSourceOperationMask(NSDragOperation(), forLocal: false)
-        
-        // Enable dragging items within and into our view.
-        outlineView.setDraggingSourceOperationMask(NSDragOperation.every, forLocal: true)
-        
+        enableDragging()
+    
+        observe()
+    }
+    
+    private func observe() {
         document.controlsPublisher.sink { [weak self] controls in
             self?.outlineView.reloadData()
         }.store(in: &cancellables)
@@ -75,8 +71,6 @@ public class TextRepresentationController: NSViewController {
                                      byExtendingSelection: false)
     }
 }
-
-let REORDER_PASTEBOARD_TYPE = NSPasteboard.PasteboardType(rawValue: "com.kinematicsystems.outline.item")
 
 extension TextRepresentationController: NSOutlineViewDataSource {
     
@@ -111,51 +105,5 @@ extension TextRepresentationController: NSOutlineViewDelegate {
         if let model = outlineView.item(atRow: outlineView.selectedRow) as? A11yDescription {
             presenter.selectedPublisher.send(model)
         }
-    }
-}
-
-// MARK: Reordering
-
-extension TextRepresentationController {
-    public func outlineView(_ outlineView: NSOutlineView, pasteboardWriterForItem item: Any) -> NSPasteboardWriting? {
-        let pbItem:NSPasteboardItem = NSPasteboardItem()
-        pbItem.setDataProvider(self, forTypes: [REORDER_PASTEBOARD_TYPE])
-        return pbItem
-    }
-    
-    public func outlineView(_ outlineView: NSOutlineView, draggingSession session: NSDraggingSession, willBeginAt screenPoint: NSPoint, forItems draggedItems: [Any]) {
-        draggedNode = draggedItems[0] as? A11yDescription
-        session.draggingPasteboard.setData(Data(), forType: REORDER_PASTEBOARD_TYPE)
-    }
-    
-    public func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
-        return .move
-    }
-    
-    public func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex toIndex: Int) -> Bool {
-        guard toIndex != NSOutlineViewDropOnItemIndex else { return false } // When place over item, check `item` for this case. Will help lately when deal with container
-        
-        guard document.controls.move(draggedNode!, to: toIndex) else {
-            print("did not move to \(toIndex)")
-            return false
-            
-        }
-        
-//        outlineView.moveItem(at: fromIndex, inParent: nil,
-//                             to: toIndex, inParent: nil)
-        outlineView.reloadData()
-        
-        return true
-    }
-    
-    public func outlineView(_ outlineView: NSOutlineView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
-        self.draggedNode = nil
-    }
-}
-
-extension TextRepresentationController: NSPasteboardItemDataProvider {
-    public func pasteboard(_ pasteboard: NSPasteboard?, item: NSPasteboardItem, provideDataForType type: NSPasteboard.PasteboardType) {
-        let s = "Outline Pasteboard Item"
-        item.setString(s, forType: type)
     }
 }
