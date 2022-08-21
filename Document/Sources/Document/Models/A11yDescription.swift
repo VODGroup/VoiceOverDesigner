@@ -131,82 +131,10 @@ public class A11yDescription: Codable, Equatable {
     static var ignoreColor: Color {
         Color.systemGray
     }
-    
-    public var voiceOverText: String {
-        var descr = ""
-        var traitsDescription: [String] = []
-        
-
-        
-        if !label.isEmpty {
-            descr.append(label)
-        }
-        
-        if !value.isEmpty {
-            descr.append(": \(isAdjustable ? (adjustableOptions.currentValue ?? "") : value)")
-        }
-        
-        if trait.contains(.selected) {
-            if descr.isEmpty {
-                descr = Localization.traitSelectedDescription
-            } else {
-                descr = Localization.traitSelectedFormat(value: descr)
-            }
-        }
-        
-        if trait.contains(.notEnabled) {
-            traitsDescription.append(Localization.traitNotEnabledDescription)
-        }
-        
-        // TODO: Add more traits
-        if trait.contains(.button) {
-            traitsDescription.append(Localization.traitButtonDescription)
-        }
-        
-        if trait.contains(.adjustable) {
-            traitsDescription.append(Localization.traitAdjustableDescription)
-        }
-        
-        if trait.contains(.header) {
-            traitsDescription.append(Localization.traitHeaderDescription)
-        }
-        
-        // TODO: Это иначе работает, .tab это свойство контейнера
-        if trait.contains(.tab) {
-            traitsDescription.append(Localization.traitTabDescription)
-        }
-        
-        // TODO: Test order when all enabled
-        if trait.contains(.image) {
-            traitsDescription.append(Localization.traitImageDescription)
-        }
-        
-        if trait.contains(.link) {
-            traitsDescription.append(Localization.traitLinkDescription)
-        }
-        
-        if !hint.isEmpty {
-            traitsDescription.append("\(hint)")
-        }
-        
-        if descr.isEmpty && traitsDescription.isEmpty {
-            return Localization.traitEmptyDescription
-        }
-        
-        if !traitsDescription.isEmpty {
-            if !descr.isEmpty {
-                let trailingPeriod = descr.hasSuffix(".") ? "" : "."
-                descr = "\(descr)\(trailingPeriod) \(traitsDescription.joined(separator: " "))"
-            } else {
-                descr = traitsDescription.joined(separator: " ")
-            }
-        }
-        
-        return descr
-        
-
-    }
-    
+}
+  
+// MARK: Adjustable
+extension A11yDescription {
     public func addAdjustableOption(defaultValue: String = "") {
         trait.formUnion(.adjustable)
         adjustableOptions.add(defaultValue: defaultValue)

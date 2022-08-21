@@ -4,7 +4,7 @@
 "trait.selected.description" = "Selected.";
 
 /* Format for the description of the selected element; param0: the description of the element */
-"trait.selected.format" = "Selected: %@";
+"trait.selected.format" = "Selected. %@";
 
 /* Description for the 'not enabled' accessibility trait */
 "trait.not_enabled.description" = "Dimmed.";

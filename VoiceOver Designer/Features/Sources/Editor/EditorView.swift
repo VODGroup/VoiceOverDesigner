@@ -67,3 +67,9 @@ class FlippedView: NSView {
         true
     }
 }
+
+class FlippedStackView: NSStackView {
+    override var isFlipped: Bool {
+        true
+    }
+}

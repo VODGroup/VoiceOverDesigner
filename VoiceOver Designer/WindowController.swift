@@ -43,19 +43,22 @@ class WindowController: NSWindowController {
 extension WindowController: ProjectsRouter {
     
     func show(document: VODesignDocument) {
-        let split = ProjectController()
-        split.inject(document: document)
+        let split = ProjectController(document: document)
 
         let window = NSWindow(contentViewController: split)
         window.delegate = self
         window.makeKeyAndOrderFront(window)
-        window.toolbar = split.editor.toolbar
         window.title = document.displayName
-        
+        window.styleMask.formUnion(.fullSizeContentView)
         documentWindows.append(window)
         
         let windowContorller = WindowController(window: window)
         document.addWindowController(windowContorller)
+        
+        let toolbar: NSToolbar = NSToolbar()
+        toolbar.delegate = split
+        
+        windowContorller.window?.toolbar = toolbar
     }
 }
 

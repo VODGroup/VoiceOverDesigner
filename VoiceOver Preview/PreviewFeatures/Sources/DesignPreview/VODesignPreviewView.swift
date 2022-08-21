@@ -43,6 +43,8 @@ class VODesignPreviewView: UIView {
 }
 
 class Canvas: UIView, DrawingView {
+    var escListener: EscModifierAction = EmptyEscModifierAction()
+    
     var drawnControls: [A11yControl] = []
     
     var alignmentOverlay: AlignmentOverlayProtocol = NoAlignmentOverlay()

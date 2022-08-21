@@ -152,11 +152,11 @@ public class EditorPresenter: DocumentPresenter {
     }
     
     // MARK: - Labels
-    func showLabels() {
+    public func showLabels() {
         ui.addLabels()
     }
     
-    func hideLabels() {
+    public func hideLabels() {
         ui.removeLabels()
     }
     

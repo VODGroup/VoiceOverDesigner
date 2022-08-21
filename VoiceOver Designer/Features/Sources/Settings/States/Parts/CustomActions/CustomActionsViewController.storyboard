@@ -9,8 +9,8 @@
         <scene sceneID="zl1-vK-EMr">
             <objects>
                 <viewController id="bke-Yi-iei" customClass="CustomActionsViewController" customModule="Settings" sceneMemberID="viewController">
-                    <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="xu6-7R-iuZ" customClass="CustomActionsView" customModule="Settings">
-                        <rect key="frame" x="0.0" y="0.0" width="326" height="60"/>
+                    <view key="view" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xu6-7R-iuZ" customClass="CustomActionsView" customModule="Settings">
+                        <rect key="frame" x="0.0" y="0.0" width="326" height="50"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zYa-Ij-04p">
                                 <rect key="frame" x="-2" y="34" width="107" height="16"/>
@@ -44,7 +44,7 @@
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="PEF-jK-zWB" secondAttribute="bottom" constant="8" id="1Xw-Zg-uys"/>
-                            <constraint firstItem="zYa-Ij-04p" firstAttribute="top" secondItem="xu6-7R-iuZ" secondAttribute="top" constant="10" id="6wG-Se-dpP"/>
+                            <constraint firstItem="zYa-Ij-04p" firstAttribute="top" secondItem="xu6-7R-iuZ" secondAttribute="top" id="6wG-Se-dpP"/>
                             <constraint firstItem="PEF-jK-zWB" firstAttribute="width" secondItem="xu6-7R-iuZ" secondAttribute="width" constant="1" id="E1t-uW-xF3"/>
                             <constraint firstItem="zYa-Ij-04p" firstAttribute="leading" secondItem="PEF-jK-zWB" secondAttribute="leading" id="Gu6-Zb-Qlx"/>
                             <constraint firstItem="PEF-jK-zWB" firstAttribute="top" secondItem="zYa-Ij-04p" secondAttribute="bottom" constant="6" id="MCj-bI-Tzq"/>
