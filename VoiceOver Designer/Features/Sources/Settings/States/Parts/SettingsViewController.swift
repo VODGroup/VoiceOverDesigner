@@ -30,23 +30,18 @@ public class SettingsViewController: NSViewController {
     weak var actionsViewController: CustomActionsViewController?
     
     public override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case "A11yValueViewController":
-            if let valueViewController = segue.destinationController as? A11yValueViewController {
-                self.valueViewController = valueViewController
-                valueViewController.presenter = presenter
-                valueViewController.delegate = self
-            }
-        case "CustomActionsViewContoller":
-            if let customActionViewController = segue.destinationController as? CustomActionsViewController {
-                actionsViewController = customActionViewController
-                actionsViewController?.presenter = presenter
-            }
-        case "TraitsViewController":
-            if let traits = segue.destinationController as? TraitsViewController {
-                traits.delegate = self
-                traits.view().setup(from: descr)
-            }
+        switch segue.destinationController {
+        case let valueViewController as A11yValueViewController:
+            self.valueViewController = valueViewController
+            valueViewController.presenter = presenter
+            valueViewController.delegate = self
+        case let customActionViewController as CustomActionsViewController:
+            actionsViewController = customActionViewController
+            actionsViewController?.presenter = presenter
+            
+        case let traitsViewController as TraitsViewController:
+            traitsViewController.delegate = self
+            traitsViewController.view().setup(from: descr)
         default: break
         }
     }
