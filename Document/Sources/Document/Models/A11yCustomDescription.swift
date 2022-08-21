@@ -17,6 +17,18 @@ public struct A11yCustomDescriptions: Codable {
     static var empty: A11yCustomDescriptions {
         A11yCustomDescriptions(descriptions: [])
     }
+    
+    public mutating func addNewCustomDescription(_ description: A11yCustomDescription) {
+        descriptions.append(description)
+    }
+    
+    public mutating func remove(at index: Int) {
+        descriptions.remove(at: index)
+    }
+    
+    public mutating func update(at index: Int, with description: A11yCustomDescription) {
+        descriptions[index] = description
+    }
 }
 
 extension A11yCustomDescriptions: DecodableDefaultSource {
