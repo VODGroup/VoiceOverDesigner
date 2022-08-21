@@ -97,7 +97,9 @@ extension TextRepresentationController: NSOutlineViewDelegate {
         let id = NSUserInterfaceItemIdentifier("Element")
         
         let view = outlineView.makeView(withIdentifier: id, owner: self) as! NSTableCellView
-        view.textField?.stringValue = control.voiceOverText
+        
+        view.textField?.attributedStringValue = control.voiceOverTextAttributed
+        
         return view
     }
     
