@@ -1,4 +1,5 @@
 import Foundation
+import AppKit
 
 @available(macOS 12, *)
 extension NSMutableAttributedString {
@@ -32,7 +33,7 @@ extension String {
 extension A11yDescription {
     
     @available(macOS 12, *)
-    public var voiceOverTextAttributed: NSAttributedString {
+    public func voiceOverTextAttributed(font: NSFont?) -> NSAttributedString {
         let result = NSMutableAttributedString()
         
         if trait.contains(.selected) {
@@ -63,6 +64,10 @@ extension A11yDescription {
                 let trailingPeriod = result.string.hasSuffix(".") ? "" : "."
                 result += "\(trailingPeriod) \(traitsDescription.joined(separator: " ").bold)"
             }
+        }
+        
+        if let font = font {
+            result.addAttribute(.font, value: font, range: NSRange(location: 0, length: result.string.count))
         }
         
         return result
@@ -107,6 +112,6 @@ extension A11yDescription {
     
     @available(macOS 12, *)
     public var voiceOverText: String {
-        voiceOverTextAttributed.string
+        voiceOverTextAttributed(font: nil).string
     }
 }
