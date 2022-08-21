@@ -1,7 +1,9 @@
 import Foundation
 
 @available(macOS 12, *)
+@available(iOS 15, *)
 extension NSMutableAttributedString {
+    
     func append(markdown: String) {
         if markdown.isEmpty {
             return // Do nothing, otherwise it will crash

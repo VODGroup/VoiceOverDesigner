@@ -1,10 +1,19 @@
 import Foundation
+
+#if canImport(AppKit)
 import AppKit
+
+public typealias Font = NSFont
+#elseif canImport(UIKit)
+import UIKit
+public typealias Font = UIFont
+#endif
 
 extension A11yDescription {
     
     @available(macOS 12, *)
-    public func voiceOverTextAttributed(font: NSFont?) -> NSAttributedString {
+    @available(iOS 15, *)
+    public func voiceOverTextAttributed(font: Font?) -> NSAttributedString {
         let result = NSMutableAttributedString()
         
         if trait.contains(.selected) {
@@ -82,6 +91,7 @@ extension A11yDescription {
     }
     
     @available(macOS 12, *)
+    @available(iOS 15, *)
     public var voiceOverText: String {
         voiceOverTextAttributed(font: nil).string
     }
