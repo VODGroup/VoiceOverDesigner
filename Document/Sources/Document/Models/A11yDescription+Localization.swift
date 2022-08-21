@@ -12,7 +12,7 @@ extension A11yDescription {
     enum Localization {
         
         static func traitSelectedFormat(value: String) -> String {
-            let format = NSLocalizedString("trait.selected.format", bundle: .module, value: "Selected: %@", comment: "Format for the description of the selected element; param0: the description of the element")
+            let format = NSLocalizedString("trait.selected.format", bundle: .module, value: "Selected. %@", comment: "Format for the description of the selected element; param0: the description of the element")
             return String.localizedStringWithFormat(format, value)
         }
         

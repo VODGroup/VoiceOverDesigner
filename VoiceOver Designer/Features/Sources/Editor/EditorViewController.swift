@@ -11,8 +11,6 @@ import CommonUI
 
 public class EditorViewController: NSViewController {
     
-    public let toolbar: NSToolbar = NSToolbar()
-    
     public func inject(presenter: EditorPresenter) {
         self.presenter = presenter
     }
@@ -21,19 +19,10 @@ public class EditorViewController: NSViewController {
     
     var trackingArea: NSTrackingArea!
     
-    lazy var showLabelButton: NSButton = {
-        let image = NSImage(systemSymbolName: "text.bubble", accessibilityDescription: "VoiceControlLabel")!
-        let button = NSButton(image: image, target: self, action: #selector(voiceOverLabel))
-        button.alternateImage = NSImage(systemSymbolName: "text.bubble.fill", accessibilityDescription: "VoiceControlLabel")
-        button.state = .off
-        button.setButtonType(.toggle)
-        return button
-    }()
-    
     public override func viewDidLoad() {
         super.viewDidLoad()
         view.window?.makeFirstResponder(self)
-        toolbar.delegate = self
+        
         view().dragnDropView.delegate = self
     }
     
@@ -154,43 +143,6 @@ extension EditorViewController: DragNDropDelegate {
     public func didDrag(path: URL) {
         // TODO: Add support. Or decline this files
     }
-}
-
-extension NSToolbarItem.Identifier {
-    static let voiceControlLabel = NSToolbarItem.Identifier(rawValue: "VoiceControlLabel")
-}
-
-extension EditorViewController: NSToolbarDelegate {
-    public func toolbar(
-        _ toolbar: NSToolbar,
-        itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier,
-        willBeInsertedIntoToolbar flag: Bool
-    ) -> NSToolbarItem? {
-        switch itemIdentifier {
-        case .voiceControlLabel:
-            let item = NSToolbarItem(itemIdentifier: itemIdentifier)
-            item.view = showLabelButton
-            return item
-        default:
-            return nil
-        }
-    }
-
-    public func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        [.voiceControlLabel]
-    }
-
-    public func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        [.voiceControlLabel]
-    }
-    
-    
-    
-    @objc func voiceOverLabel(sender: NSButton) {
-        let isShowingLabel = sender.state == .on
-        isShowingLabel ? presenter.showLabels() : presenter.hideLabels()
-    }
-    
 }
 
 extension NSEvent {

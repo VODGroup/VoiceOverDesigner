@@ -35,6 +35,7 @@ public class A11yControl: CALayer {
         label.backgroundColor = Color.systemGray.withAlphaComponent(0.7).cgColor
         let size = label.preferredFrameSize()
         label.frame = .init(origin: .zero, size: size).offsetBy(dx: 0, dy: -size.height - 1)
+        label.contentsScale = contentsScale
         return label
     }()
     

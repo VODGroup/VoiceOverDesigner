@@ -18,7 +18,7 @@
                                     <rect key="frame" x="1" y="1" width="784" height="812"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <view translatesAutoresizingMaskIntoConstraints="NO" id="JlK-Oy-LgO">
+                                        <view translatesAutoresizingMaskIntoConstraints="NO" id="JlK-Oy-LgO" customClass="FlippedView" customModule="Editor">
                                             <rect key="frame" x="0.0" y="0.0" width="784" height="812"/>
                                             <subviews>
                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="812" translatesAutoresizingMaskIntoConstraints="NO" id="kiH-h5-aG4">
