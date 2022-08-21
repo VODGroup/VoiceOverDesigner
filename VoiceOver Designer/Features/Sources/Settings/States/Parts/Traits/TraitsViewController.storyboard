@@ -32,6 +32,9 @@
                                             <string key="keyEquivalent">b</string>
                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="traitDidChange:" target="L5q-KG-Y3R" id="k9A-AB-Mm6"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Sth-Bb-MUY" customClass="TraitCheckBox" customModule="Settings">
                                         <rect key="frame" x="-2" y="143" width="71" height="18"/>
@@ -41,6 +44,9 @@
                                             <string key="keyEquivalent">h</string>
                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="traitDidChange:" target="L5q-KG-Y3R" id="YtG-ge-6Hu"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cGe-I6-LhE" customClass="TraitCheckBox" customModule="Settings">
                                         <rect key="frame" x="-2" y="119" width="63" height="18"/>
@@ -50,6 +56,9 @@
                                             <string key="keyEquivalent">i</string>
                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="traitDidChange:" target="L5q-KG-Y3R" id="9Qu-ZU-g92"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UgQ-Nu-gzf" customClass="TraitCheckBox" customModule="Settings">
                                         <rect key="frame" x="-2" y="95" width="51" height="18"/>
@@ -59,6 +68,9 @@
                                             <string key="keyEquivalent">l</string>
                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="traitDidChange:" target="L5q-KG-Y3R" id="0YU-u8-bIS"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vrL-3v-bUa" customClass="TraitCheckBox" customModule="Settings">
                                         <rect key="frame" x="-2" y="71" width="88" height="18"/>
@@ -68,6 +80,9 @@
                                             <string key="keyEquivalent">s</string>
                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="traitDidChange:" target="L5q-KG-Y3R" id="Vgs-fv-gPx"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gry-6H-2g1" customClass="TraitCheckBox" customModule="Settings">
                                         <rect key="frame" x="-2" y="47" width="101" height="18"/>
@@ -77,6 +92,9 @@
                                             <string key="keyEquivalent">f</string>
                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="traitDidChange:" target="L5q-KG-Y3R" id="01u-Sc-h9G"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gEf-Id-OOC" customClass="TraitCheckBox" customModule="Settings">
                                         <rect key="frame" x="-2" y="23" width="108" height="18"/>
@@ -84,6 +102,9 @@
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="traitDidChange:" target="L5q-KG-Y3R" id="GdU-xV-jbw"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cDL-pF-vqH" customClass="TraitCheckBox" customModule="Settings">
                                         <rect key="frame" x="-2" y="-1" width="48" height="18"/>
@@ -92,6 +113,9 @@
                                             <font key="font" metaFont="system"/>
                                             <string key="keyEquivalent">t</string>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="traitDidChange:" target="L5q-KG-Y3R" id="Lgm-jw-4L5"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <visibilityPriorities>
@@ -124,6 +148,9 @@
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="traitDidChange:" target="L5q-KG-Y3R" id="Pc8-bL-XJ7"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ajt-gQ-aT3" customClass="TraitCheckBox" customModule="Settings">
                                         <rect key="frame" x="-2" y="143" width="79" height="18"/>
@@ -131,6 +158,9 @@
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="traitDidChange:" target="L5q-KG-Y3R" id="hKj-fg-Mpf"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="H6O-8e-02U" customClass="TraitCheckBox" customModule="Settings">
                                         <rect key="frame" x="-2" y="119" width="143" height="18"/>
@@ -138,6 +168,9 @@
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="traitDidChange:" target="L5q-KG-Y3R" id="Vwp-D4-bNe"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aFs-7m-HT1" customClass="TraitCheckBox" customModule="Settings">
                                         <rect key="frame" x="-2" y="95" width="136" height="18"/>
@@ -145,6 +178,9 @@
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="traitDidChange:" target="L5q-KG-Y3R" id="rbO-2m-wPL"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SlC-sG-sJP" customClass="TraitCheckBox" customModule="Settings">
                                         <rect key="frame" x="-2" y="71" width="99" height="18"/>
@@ -152,6 +188,9 @@
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="traitDidChange:" target="L5q-KG-Y3R" id="ebn-ZV-RKO"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fif-Of-wQQ" customClass="TraitCheckBox" customModule="Settings">
                                         <rect key="frame" x="-2" y="47" width="152" height="18"/>
@@ -159,6 +198,9 @@
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="traitDidChange:" target="L5q-KG-Y3R" id="3ED-FO-nPH"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zGh-2M-WVp" customClass="TraitCheckBox" customModule="Settings">
                                         <rect key="frame" x="-2" y="23" width="172" height="18"/>
@@ -166,6 +208,9 @@
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="traitDidChange:" target="L5q-KG-Y3R" id="N2D-RA-foW"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SYY-pk-XiM" customClass="TraitCheckBox" customModule="Settings">
                                         <rect key="frame" x="-2" y="-1" width="133" height="18"/>
@@ -173,6 +218,9 @@
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="traitDidChange:" target="L5q-KG-Y3R" id="p6x-FE-B4L"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <visibilityPriorities>
