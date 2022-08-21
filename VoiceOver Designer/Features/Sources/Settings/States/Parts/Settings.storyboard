@@ -31,10 +31,10 @@
                                     <rect key="frame" x="0.0" y="0.0" width="390" height="902"/>
                                     <subviews>
                                         <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalHuggingPriority="251" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LGK-Fp-or4" customClass="FlippedStackView" customModule="Editor">
-                                            <rect key="frame" x="0.0" y="262" width="405" height="640"/>
+                                            <rect key="frame" x="0.0" y="208" width="405" height="694"/>
                                             <subviews>
                                                 <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7lc-fy-0gJ">
-                                                    <rect key="frame" x="0.0" y="590" width="405" height="50"/>
+                                                    <rect key="frame" x="0.0" y="644" width="405" height="50"/>
                                                     <subviews>
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fAf-ES-vjT">
                                                             <rect key="frame" x="-2" y="34" width="40" height="16"/>
@@ -80,21 +80,27 @@
                                                     </constraints>
                                                 </customView>
                                                 <containerView ambiguous="YES" placeholderIntrinsicWidth="385" placeholderIntrinsicHeight="146" translatesAutoresizingMaskIntoConstraints="NO" id="cWG-yH-GJd" userLabel="A11y Value View">
-                                                    <rect key="frame" x="0.0" y="436" width="405" height="146"/>
+                                                    <rect key="frame" x="0.0" y="490" width="405" height="146"/>
                                                     <connections>
                                                         <segue destination="hCW-q0-HC9" kind="embed" identifier="" id="c9M-xQ-asw"/>
                                                     </connections>
                                                 </containerView>
                                                 <containerView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lm7-oJ-ukt">
-                                                    <rect key="frame" x="0.0" y="278" width="405" height="150"/>
+                                                    <rect key="frame" x="0.0" y="432" width="405" height="50"/>
                                                     <connections>
                                                         <segue destination="Y6t-CC-JMm" kind="embed" id="YAW-io-mKf"/>
                                                     </connections>
                                                 </containerView>
                                                 <containerView placeholderIntrinsicWidth="385" placeholderIntrinsicHeight="146" translatesAutoresizingMaskIntoConstraints="NO" id="3pr-Nv-IXY" userLabel="Custom Actions View">
-                                                    <rect key="frame" x="0.0" y="124" width="405" height="146"/>
+                                                    <rect key="frame" x="0.0" y="278" width="405" height="146"/>
                                                     <connections>
                                                         <segue destination="VfM-h9-pgU" kind="embed" identifier="" id="47j-c8-xJ5"/>
+                                                    </connections>
+                                                </containerView>
+                                                <containerView placeholderIntrinsicWidth="385" placeholderIntrinsicHeight="146" translatesAutoresizingMaskIntoConstraints="NO" id="KY5-VV-oG4" userLabel="Custom Descriptions View">
+                                                    <rect key="frame" x="0.0" y="124" width="405" height="146"/>
+                                                    <connections>
+                                                        <segue destination="7dB-Xh-ADJ" kind="embed" id="dyW-I8-Vyy"/>
                                                     </connections>
                                                 </containerView>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="g95-0u-h7J">
@@ -149,11 +155,13 @@ CA
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="3pr-Nv-IXY" secondAttribute="trailing" id="54e-9D-B3z"/>
                                                 <constraint firstItem="3pr-Nv-IXY" firstAttribute="leading" secondItem="LGK-Fp-or4" secondAttribute="leading" id="6j4-Pd-Q7D"/>
+                                                <constraint firstItem="KY5-VV-oG4" firstAttribute="leading" secondItem="LGK-Fp-or4" secondAttribute="leading" id="OBe-E5-q0t"/>
                                                 <constraint firstItem="lm7-oJ-ukt" firstAttribute="width" secondItem="LGK-Fp-or4" secondAttribute="width" id="PAe-1J-eVh"/>
                                                 <constraint firstAttribute="trailing" secondItem="g95-0u-h7J" secondAttribute="trailing" id="eCj-pp-Gis"/>
                                                 <constraint firstItem="7lc-fy-0gJ" firstAttribute="width" secondItem="LGK-Fp-or4" secondAttribute="width" id="hkI-wW-IQH"/>
                                                 <constraint firstItem="cWG-yH-GJd" firstAttribute="leading" secondItem="LGK-Fp-or4" secondAttribute="leading" id="imA-Yr-Mzj"/>
                                                 <constraint firstAttribute="trailing" secondItem="cWG-yH-GJd" secondAttribute="trailing" id="mli-74-Etw"/>
+                                                <constraint firstAttribute="trailing" secondItem="KY5-VV-oG4" secondAttribute="trailing" id="r8K-3U-gtJ"/>
                                             </constraints>
                                             <visibilityPriorities>
                                                 <integer value="1000"/>
@@ -162,8 +170,10 @@ CA
                                                 <integer value="1000"/>
                                                 <integer value="1000"/>
                                                 <integer value="1000"/>
+                                                <integer value="1000"/>
                                             </visibilityPriorities>
                                             <customSpacing>
+                                                <real value="3.4028234663852886e+38"/>
                                                 <real value="3.4028234663852886e+38"/>
                                                 <real value="3.4028234663852886e+38"/>
                                                 <real value="3.4028234663852886e+38"/>
@@ -237,6 +247,14 @@ CA
                 <customObject id="y5B-4o-BRS" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="485" y="387"/>
+        </scene>
+        <!--CustomDescriptionsViewController-->
+        <scene sceneID="u5o-NU-7Nx">
+            <objects>
+                <controllerPlaceholder storyboardName="CustomDescriptionsViewController" id="7dB-Xh-ADJ" sceneMemberID="viewController"/>
+                <customObject id="6Ol-1q-Jhp" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="501" y="441"/>
         </scene>
     </scenes>
 </document>

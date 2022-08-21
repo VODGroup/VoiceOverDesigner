@@ -22,18 +22,26 @@ class CustomDescriptionSectionView: NSView {
         set {}
     }
     
-    func render(descr: A11yDescription) {
+    func render(descr: A11yDescription, delegate: CustomDescriptionViewDelegate) {
         
+        // TODO: It looks unoptimal to remove all and draw again. Some cache can help
+        removeAllOptions()
+        
+        for description in descr.customDescriptions.descriptions {
+            addNewCustomDescription(for: description, delegate: delegate)
+        }
     }
     
     func index(of option: CustomDescriptionView) -> Int? {
         descriptionsStack.arrangedSubviews.firstIndex(of: option)
     }
     
-    func addNewCustomDescription(for label: String, with value: String, delegate: CustomActionOptionViewDelegate) {
+    func addNewCustomDescription(for description: A11yCustomDescription, delegate: CustomDescriptionViewDelegate) {
         let descriptionView = CustomDescriptionView()
-        descriptionView.label = label
-        descriptionView.value = value
+        descriptionView.label = description.label
+        descriptionView.delegate = delegate
+        descriptionView.value = description.value
+        descriptionView.container.title = "Description \(insertIndex)"
         descriptionsStack.insertArrangedSubview(descriptionView, at: insertIndex)
         descriptionView.labelTextField.becomeFirstResponder()
     }

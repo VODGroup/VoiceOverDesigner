@@ -43,4 +43,8 @@ public struct A11yCustomDescription: Codable {
     
     public var label: String
     public var value: String
+    
+    public static var empty: A11yCustomDescription {
+        A11yCustomDescription(label: "", value: "")
+    }
 }

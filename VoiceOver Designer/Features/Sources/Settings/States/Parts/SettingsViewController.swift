@@ -28,6 +28,7 @@ public class SettingsViewController: NSViewController {
     
     weak var valueViewController: A11yValueViewController?
     weak var actionsViewController: CustomActionsViewController?
+    weak var customDescriptionViewController: CustomDescriptionsViewController?
     
     public override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         switch segue.destinationController {
@@ -42,6 +43,9 @@ public class SettingsViewController: NSViewController {
         case let traitsViewController as TraitsViewController:
             traitsViewController.delegate = self
             traitsViewController.view().setup(from: descr)
+        case let customDescriptionsViewController as CustomDescriptionsViewController:
+            customDescriptionViewController = customDescriptionsViewController
+            customDescriptionViewController?.presenter = presenter
         default: break
         }
     }
