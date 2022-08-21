@@ -54,6 +54,9 @@ public class A11yDescription: Codable, Equatable {
     @DecodableDefault.EmptyCustomActions
     public private(set) var customActions: A11yCustomActions
     
+    @DecodableDefault.EmptyCustomDescriptions
+    public private(set) var customDescriptions: A11yCustomDescriptions
+    
     public var isAdjustable: Bool {
         get {
             trait.contains(.adjustable)
