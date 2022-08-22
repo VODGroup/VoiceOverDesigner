@@ -9,10 +9,6 @@ class DrawingTests: DocumentTests {
             .inputLabel("Title")
             .clickHeaderTrait()
 
-        XCTContext.runActivity(named: "Name should be set to text and settings header") { _ in
-            let resultText = "Title. Heading."
-            XCTAssertEqual(textSummary.firstCellText, resultText)
-            XCTAssertEqual(settings.resultLabelText, resultText)
-        }
+        project.verify(controlDescription: "Title. Heading.")
     }
 }
