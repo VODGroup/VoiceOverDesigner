@@ -99,5 +99,26 @@ class AdjustableOptionView: NSView {
     var value: String {
         textView.stringValue
     }
+    
+    override func accessibilityLabel() -> String? {
+        let label = textView.stringValue
+        if label.isEmpty {
+            return "Empty"
+        } else {
+            return label
+        }
+    }
+    
+    override func accessibilityValue() -> Any? {
+        isOn ? "Selected": ""
+    }
+    
+    override func accessibilityIdentifier() -> String {
+        return "AdjustableOption"
+    }
+    
+    override func isAccessibilityElement() -> Bool {
+        return true
+    }
 }
 

@@ -40,10 +40,13 @@ class ProjectWindow: Robot {
     }
     
     // MARK: Assert
-    func verify(controlDescription: String) {
+    func verify(controlDescription: String,
+                file: StaticString = #file, line: UInt = #line) {
         XCTContext.runActivity(named: "Name should be set to text and settings header") { _ in
-            XCTAssertEqual(textSummary.firstCellText, controlDescription)
-            XCTAssertEqual(settingsPanel.resultLabelText, controlDescription)
+            XCTAssertEqual(textSummary.firstCellText, controlDescription,
+                           file: file, line: line)
+            XCTAssertEqual(settingsPanel.resultLabelText, controlDescription,
+                           file: file, line: line)
         }
     }
 }

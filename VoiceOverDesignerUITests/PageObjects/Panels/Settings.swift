@@ -53,15 +53,28 @@ class Settings: ProjectPanel {
         return self
     }
     
+    var addValueButton: XCUIElement {
+        window.splitGroups.scrollViews.buttons["+ Add value"].firstMatch
+    }
+    
     @discardableResult
     func addAdjustableVariant(_ text: String) -> Self {
-        // TODO: Add code
+        addValueButton.click()
+        
+        let newAdjustableOption = app.otherElements["Empty"]
+        newAdjustableOption.click()
+        newAdjustableOption.input(text, pressEnter: false)
+        
+        // Element's identifiers have changed
+        let newAdjustableOption1 = app.otherElements[text]
+        newAdjustableOption1.inputEnter()
+        
         return self
     }
     
     @discardableResult
     func selectAdjustable(_ value: String) -> Self {
-        
+        window.radioButtons.element(boundBy: 1).click()
         return self
     }
     
@@ -83,7 +96,11 @@ extension XCUIElement {
         typeText(text)
         
         if pressEnter {
-            typeText("\r")
+            inputEnter()
         }
+    }
+    
+    func inputEnter() {
+        typeText("\r")
     }
 }

@@ -12,9 +12,9 @@ class AdjustableTest: DocumentTests {
         project.verify(controlDescription: "Pizza ize: Small. Adjustable.")
         
         settings
-            .addAdjustableVariant("Medium")
-            .selectAdjustable("Medium")
+            .addAdjustableVariant("Meium")
+            .selectAdjustable("Meium")
         
-        // TODO: Verify that text represents second variant
+        project.verify(controlDescription: "Pizza ize: Meium, 2 of 2. Adjustable.")
     }
 }
