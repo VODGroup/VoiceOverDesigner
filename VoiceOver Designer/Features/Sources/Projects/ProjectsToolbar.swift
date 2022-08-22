@@ -14,16 +14,17 @@ public class ProjectsToolbar: NSToolbar {
         delegate = self
     }
     
-    public lazy var addButton: NSButton = {
-        let button = NSButton(frame: .zero)
-        button.image = NSImage(systemSymbolName: "plus", accessibilityDescription: "Create New Project")
-        button.isBordered = false
-        return button
+    public lazy var addButton: NSToolbarItem = {
+        let item = NSToolbarItem(itemIdentifier: .createNewProject)
+        item.image = NSImage(systemSymbolName: "plus",
+                             accessibilityDescription: NSLocalizedString("Create New Project",
+                                                                         comment: "Toolbar item"))
+        item.label = NSLocalizedString("New", comment: "Toolbar item")
+        item.paletteLabel = NSLocalizedString("New Project", comment: "Toolbar item")
+        item.toolTip = NSLocalizedString("Create new Project", comment: "Toolbar item")
+        return item
     }()
-    
 }
-
-
 
 extension NSToolbarItem.Identifier {
     static let createNewProject = NSToolbarItem.Identifier(rawValue: "CreateNewProject")
@@ -37,9 +38,7 @@ extension ProjectsToolbar: NSToolbarDelegate {
     ) -> NSToolbarItem? {
         switch itemIdentifier {
         case .createNewProject:
-            let item = NSToolbarItem(itemIdentifier: itemIdentifier)
-            item.view = addButton
-            return item
+            return addButton
         default:
             return nil
         }

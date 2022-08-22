@@ -84,6 +84,16 @@
                ReferencedContainer = "container:VoiceOver Designer/Features">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1EA7411528B2683000D6CAA4"
+               BuildableName = "VoiceOverDesignerUITests.xctest"
+               BlueprintName = "VoiceOverDesignerUITests"
+               ReferencedContainer = "container:VoiceOver Designer.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
