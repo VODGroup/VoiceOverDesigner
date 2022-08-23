@@ -17,16 +17,33 @@ open class DragNDropImageView: NSView {
     
     public weak var delegate: DragNDropDelegate?
     
+    @IBOutlet weak var managedLabel: NSTextField!
+    var text: String = "" {
+        didSet {
+            managedLabel.stringValue = text
+        }
+    }
+    
     public override func awakeFromNib() {
         super.awakeFromNib()
         
+        registerDragging()
+    }
+    
+    // MARK: - Dragging
+    func registerDragging() {
         // TODO: Add another files
         registerForDraggedTypes([.png, .fileURL])
     }
     
     public override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
         isWaitingForFile = true
+        show(text: NSLocalizedString("Drop!", comment: ""))
         return .copy
+    }
+    
+    open override func draggingExited(_ sender: NSDraggingInfo?) {
+        show(text: NSLocalizedString("Drag image here", comment: ""))
     }
     
     open override func draggingEnded(_ sender: NSDraggingInfo) {
@@ -38,6 +55,7 @@ open class DragNDropImageView: NSView {
         
         if let image = NSImage(pasteboard: pasteboard) {
             delegate?.didDrag(image: image)
+            hideText()
             return true
         }
         
@@ -46,8 +64,30 @@ open class DragNDropImageView: NSView {
            let string = String(data: data, encoding: .utf8) {
             let url = URL(fileURLWithPath: string)
             delegate?.didDrag(path: url)
+            hideText()
+            return true
         }
         
+        show(text: NSLocalizedString("Another time...", comment: ""),
+             changeTo: defaultText)
+        
         return false
+    }
+    
+    let defaultText = NSLocalizedString("Drag'n'Drop image here", comment: "")
+    
+    func show(text: String, changeTo nextText: String? = nil) {
+        managedLabel.isHidden = false
+        self.text = text
+        
+        if let nextText = nextText {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+                self.text = nextText
+            }
+        }
+    }
+    
+    func hideText() {
+        managedLabel.isHidden = true
     }
 }

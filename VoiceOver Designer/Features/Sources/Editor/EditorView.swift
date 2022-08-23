@@ -39,7 +39,14 @@ class EditorView: FlippedView {
         scrollView.horizontalScrollElasticity = .none
     }
     
-    func setImage(_ image: NSImage) {
+    func setImage(_ image: NSImage?) {
+        dragnDropView.isHidden = image != nil
+        dragndropLabel.isHidden = image != nil
+        
+        guard let image = image else {
+            return
+        }
+
         backgroundImageView.image = image
         backgroundImageView.layer?.zPosition = 0
 
@@ -60,6 +67,7 @@ class EditorView: FlippedView {
     @IBOutlet weak var imageHeight: NSLayoutConstraint!
     
     @IBOutlet weak var dragnDropView: DragNDropImageView!
+    @IBOutlet weak var dragndropLabel: NSTextField!
 }
 
 class FlippedView: NSView {
