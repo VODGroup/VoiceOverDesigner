@@ -7,20 +7,20 @@ class WindowManager: NSObject {
     static var shared = WindowManager()
     
     var documentWindows: [NSWindow] = []
-    var projectsWindowController: ProjectsWindowController!
+    lazy var projectsWindowController: ProjectsWindowController =  .fromStoryboard(delegate: self)
     
     func start() {
-        projectsWindowController = .fromStoryboard(delegate: self)
-        
         if hasRecentDocuments {
+            showDocumentSelector()
+        } else if documentWindows.isEmpty {
             showNewDocument()
         } else {
-            showDocumentSelector()
+            // Do nothing, the user open document directly
         }
     }
     
     private var hasRecentDocuments: Bool {
-        VODocumentController.shared.recentDocumentURLs.isEmpty
+        !VODocumentController.shared.recentDocumentURLs.isEmpty
     }
     
     private func showNewDocument() {
