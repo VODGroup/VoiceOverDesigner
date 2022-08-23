@@ -16,11 +16,13 @@ open class DragNDropImageView: NSView {
     open var isWaitingForFile: Bool = false
     
     public weak var delegate: DragNDropDelegate?
+
+    lazy var label = NSTextField(string: defaultText)
     
-    @IBOutlet weak var managedLabel: NSTextField!
     var text: String = "" {
         didSet {
-            managedLabel.stringValue = text
+            label.stringValue = text
+            needsLayout = true
         }
     }
     
@@ -28,7 +30,31 @@ open class DragNDropImageView: NSView {
         super.awakeFromNib()
         
         registerDragging()
+        setupLabel()
     }
+    
+    private func setupLabel() {
+        label.font = NSFont.preferredFont(forTextStyle: .largeTitle)
+        label.textColor = .tertiaryLabelColor
+        label.isBordered = false
+        
+        addSubview(label)
+        label.isEditable = false
+        label.isSelectable = false
+        label.alignment = .center
+    }
+    
+    open override func layout() {
+        super.layout()
+        
+        label.sizeToFit()
+        let size = label.frame.size
+        label.frame = CGRect(
+            origin: CGPoint(x: (bounds.width-size.width)/2,
+                            y: (bounds.height-size.height)/2),
+            size: size)
+    }
+
     
     // MARK: - Dragging
     func registerDragging() {
@@ -77,7 +103,7 @@ open class DragNDropImageView: NSView {
     let defaultText = NSLocalizedString("Drag'n'Drop image here", comment: "")
     
     func show(text: String, changeTo nextText: String? = nil) {
-        managedLabel.isHidden = false
+        label.isHidden = false
         self.text = text
         
         if let nextText = nextText {
@@ -88,6 +114,6 @@ open class DragNDropImageView: NSView {
     }
     
     func hideText() {
-        managedLabel.isHidden = true
+        label.isHidden = true
     }
 }
