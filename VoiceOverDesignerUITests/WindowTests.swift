@@ -3,7 +3,7 @@ import XCTest
 class WindowTests: DesignerTests {
     func test_whenCreateNewDocument_shouldCloseProjectWindow() {
         XCTContext.runActivity(named: "When create new project") { _ in
-            projects.createNewProject()
+//            projects.createNewProject()
             XCTAssertFalse(projects.projectsWindow.isHittable, "should close Projects")
         }
         

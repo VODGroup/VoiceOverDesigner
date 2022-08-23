@@ -26,6 +26,14 @@ class ProjectsWindowController: NSWindowController {
         shouldCascadeWindows = true
         
         embedProjectsViewControllerInWindow()
+        
+        if VODocumentController.shared.recentDocumentURLs.isEmpty {
+            createNewDocumentWindow(document: VODesignDocument())
+            
+            DispatchQueue.main.async {
+                self.window?.close()
+            }
+        }
     }
     
     private func embedProjectsViewControllerInWindow() {
