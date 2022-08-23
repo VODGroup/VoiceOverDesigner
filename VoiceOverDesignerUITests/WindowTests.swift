@@ -7,13 +7,13 @@ class WindowTests: DesignerTests {
         lauchApp()
         
         XCTContext.runActivity(named: "When create new project") { _ in
-            XCTAssertFalse(projects.projectsWindow.isHittable, "should close Projects")
+            XCTAssertFalse(recent.isVisible, "should close Projects")
         }
         
         XCTContext.runActivity(named: "When close project") { _ in
             project.close(delete: false)
             
-            XCTAssertTrue(projects.projectsWindow.isHittable, "should reopen Projects")
+            XCTAssertTrue(recent.isVisible, "should reopen Projects")
         }
     }
 }

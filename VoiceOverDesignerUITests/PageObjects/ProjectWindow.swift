@@ -24,7 +24,6 @@ class ProjectWindow: Robot {
         return self
     }
     
-    @discardableResult
     func close(delete: Bool) {
         projectWindow.buttons[XCUIIdentifierCloseWindow].click()
         if delete {

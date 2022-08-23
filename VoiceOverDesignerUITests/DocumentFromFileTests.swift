@@ -8,7 +8,7 @@ class DocumentFromFileTests: DesignerTests {
         
         XCTContext.runActivity(named: "When open document") { _ in
             lauchApp(launchType: .openDocument(documentURL: fileURL))
-            XCTAssertFalse(projects.projectsWindow.isHittable, "should close Projects")
+            XCTAssertFalse(recent.isVisible, "should close Projects")
             XCTAssertEqual(1, app.windows.count, "should open only document")
         }
         

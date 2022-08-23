@@ -31,15 +31,15 @@ class DesignerTests: XCTestCase {
         app.launch()
         
         if case .createNewAndCloseRecent = launchType {
-            let projects = ProjectsWindow(app: app)
-            if projects.projectsWindow.isHittable {
-                projects.createNewProject()
+            let recent = RecentWindow(app: app)
+            if recent.recentWindow.isHittable {
+                recent.createNewProject()
             }
         }
     }
     
-    var projects: ProjectsWindow {
-        ProjectsWindow(app: app)
+    var recent: RecentWindow {
+        RecentWindow(app: app)
     }
     
     var project: ProjectWindow {
