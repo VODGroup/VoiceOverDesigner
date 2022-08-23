@@ -36,8 +36,8 @@
 		1EA7411928B2683000D6CAA4 /* DrawingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA7411828B2683000D6CAA4 /* DrawingTests.swift */; };
 		1EB554B228B274B6000DC4FB /* Robot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB554B128B274B6000DC4FB /* Robot.swift */; };
 		1EC752EC28B511730064CF2F /* VODesignDocument+Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC752EB28B511730064CF2F /* VODesignDocument+Window.swift */; };
+		1EC752EE28B514690064CF2F /* Recent in Frameworks */ = {isa = PBXBuildFile; productRef = 1EC752ED28B514690064CF2F /* Recent */; };
 		1EC992DB28B119730020041B /* ProjectController+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC992DA28B119730020041B /* ProjectController+Toolbar.swift */; };
-		6B628797288D3F60006F622A /* Projects in Frameworks */ = {isa = PBXBuildFile; productRef = 6B628796288D3F60006F622A /* Projects */; };
 		6B628799288D4039006F622A /* Editor in Frameworks */ = {isa = PBXBuildFile; productRef = 6B628798288D4039006F622A /* Editor */; };
 /* End PBXBuildFile section */
 
@@ -116,10 +116,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1EC752EE28B514690064CF2F /* Recent in Frameworks */,
 				6B628799288D4039006F622A /* Editor in Frameworks */,
 				1E25D67A289696E900D06A9F /* Settings in Frameworks */,
 				1E25D6782896967C00D06A9F /* TextUI in Frameworks */,
-				6B628797288D3F60006F622A /* Projects in Frameworks */,
 				1E033902281E737000EE373E /* Document in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -294,10 +294,10 @@
 			name = "VoiceOver Designer";
 			packageProductDependencies = (
 				1E033901281E737000EE373E /* Document */,
-				6B628796288D3F60006F622A /* Projects */,
 				6B628798288D4039006F622A /* Editor */,
 				1E25D6772896967C00D06A9F /* TextUI */,
 				1E25D679289696E900D06A9F /* Settings */,
+				1EC752ED28B514690064CF2F /* Recent */,
 			);
 			productName = "VoiceOver Designer";
 			productReference = 1E1D7FED281D5CBE00B64954 /* VoiceOver Designer.app */;
@@ -785,9 +785,9 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Document;
 		};
-		6B628796288D3F60006F622A /* Projects */ = {
+		1EC752ED28B514690064CF2F /* Recent */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Projects;
+			productName = Recent;
 		};
 		6B628798288D4039006F622A /* Editor */ = {
 			isa = XCSwiftPackageProductDependency;

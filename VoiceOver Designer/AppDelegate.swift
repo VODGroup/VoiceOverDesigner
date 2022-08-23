@@ -7,7 +7,6 @@
 
 import Cocoa
 import Document
-import Projects
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     

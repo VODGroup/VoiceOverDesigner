@@ -1,4 +1,4 @@
-import Projects
+import Recent
 import AppKit
 import Document
 

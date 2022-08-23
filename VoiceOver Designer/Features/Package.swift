@@ -20,8 +20,8 @@ let package = Package(
             targets: ["Settings"]),
         
         .library(
-            name: "Projects",
-            targets: ["Projects"]),
+            name: "Recent",
+            targets: ["Recent"]),
 
         .library(
             name: "CommonUI",
@@ -52,7 +52,7 @@ let package = Package(
             ]
         ),
         .target(
-            name: "Projects",
+            name: "Recent",
             dependencies: [
                 "CommonUI",
                 "Document",
@@ -88,9 +88,9 @@ let package = Package(
             exclude: ["__Snapshots__"]
         ),
         .testTarget(
-            name: "ProjectsTests",
+            name: "RecentTests",
             dependencies: [
-                "Projects",
+                "Recent",
                 "Document",
             ]
         ),
