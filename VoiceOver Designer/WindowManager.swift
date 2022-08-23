@@ -3,31 +3,32 @@ import AppKit
 import Document
 
 class WindowManager: NSObject {
+    
+    static var shared = WindowManager()
+    
     var documentWindows: [NSWindow] = []
     var projectsWindowController: ProjectsWindowController!
     
-    func findProjectsWindowController() {
-        projectsWindowController =
-        NSApplication.shared
-            .windows
-            .compactMap({ window in
-                window.windowController as? ProjectsWindowController
-            })
-            .first
+    func start() {
+        projectsWindowController = .fromStoryboard(delegate: self)
         
-        projectsWindowController.delegate = self
+        if hasRecentDocuments {
+            showNewDocument()
+        } else {
+            showDocumentSelector()
+        }
     }
     
-    func start() {
-        findProjectsWindowController()
-        
-        if VODocumentController.shared.recentDocumentURLs.isEmpty {
-            self.createNewDocumentWindow(document: VODesignDocument())
-            
-            DispatchQueue.main.async {
-                self.projectsWindowController.window?.close()
-            }
-        }
+    private var hasRecentDocuments: Bool {
+        VODocumentController.shared.recentDocumentURLs.isEmpty
+    }
+    
+    private func showNewDocument() {
+        createNewDocumentWindow(document: VODesignDocument())
+    }
+     
+    private func showDocumentSelector() {
+        projectsWindowController.window?.makeKeyAndOrderFront(self)
     }
 }
 

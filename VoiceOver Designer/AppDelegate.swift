@@ -9,12 +9,11 @@ import Cocoa
 import Document
 import Projects
 
-@main
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    var windowManager = WindowManager()
+    private var windowManager = WindowManager.shared
     
-    func applicationDidFinishLaunching(_ notification: Notification) {
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
         windowManager.start()
     }
     
@@ -33,12 +32,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         windowManager.createNewDocumentWindow(document: document)
         
         return true
-    }
-    
-    private func createWindowController() -> ProjectsWindowController {
-        let windowController = ProjectsWindowController.fromStoryboard()
-        windowController.window?.setFrameAutosaveName("Projects")
-        return windowController
     }
 }
 

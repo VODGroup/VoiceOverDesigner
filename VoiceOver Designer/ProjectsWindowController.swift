@@ -18,10 +18,11 @@ protocol ProjectsDelegate: AnyObject {
 
 class ProjectsWindowController: NSWindowController {
     
-    static func fromStoryboard() -> ProjectsWindowController {
-        let storyboard = NSStoryboard(name: "Main", bundle: nil)
-        let window = storyboard.instantiateInitialController() as! ProjectsWindowController
-        return window
+    static func fromStoryboard(delegate: ProjectsDelegate) -> ProjectsWindowController {
+        let storyboard = NSStoryboard(name: "ProjectsWindowController", bundle: nil)
+        let windowController = storyboard.instantiateInitialController() as! ProjectsWindowController
+        windowController.delegate = delegate
+        return windowController
     }
     
     weak var delegate: ProjectsDelegate?
