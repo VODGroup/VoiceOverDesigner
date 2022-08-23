@@ -677,13 +677,5 @@
             </objects>
             <point key="canvasLocation" x="-759" y="686"/>
         </scene>
-        <!--Projects-->
-        <scene sceneID="T2B-ut-nRO">
-            <objects>
-                <controllerPlaceholder storyboardName="Projects" id="BDL-5D-Q2K" sceneMemberID="viewController"/>
-                <customObject id="c6e-ph-bjm" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-408" y="710"/>
-        </scene>
     </scenes>
 </document>
