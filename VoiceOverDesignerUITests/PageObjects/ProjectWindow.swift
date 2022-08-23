@@ -1,7 +1,13 @@
 import XCTest
 
 class ProjectWindow: Robot {
-    lazy var projectWindow = app.windows["Untitled"]
+    var title: String
+    init(title: String = "Untitled", app: XCUIApplication) {
+        self.title = title
+        super.init(app: app)
+    }
+    
+    lazy var projectWindow = app.windows[title]
     
     @discardableResult
     func selectNewWindow() -> Self {

@@ -56,8 +56,6 @@
                                                         <buttonCell key="cell" type="check" title="Enumerated" bezelStyle="regularSquare" imagePosition="left" inset="2" id="0Mf-ur-5Yd">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
-                                                            <string key="keyEquivalent">d</string>
-                                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                                         </buttonCell>
                                                         <connections>
                                                             <action selector="isEnumeratedDidChanged:" target="fEp-Em-BFf" id="nJY-6e-mls"/>
@@ -98,8 +96,6 @@
                                 <buttonCell key="cell" type="check" title="Adjustable" bezelStyle="regularSquare" imagePosition="left" inset="2" id="AkL-hm-OBG">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
-                                    <string key="keyEquivalent">d</string>
-                                    <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="isAdjustableDidChange:" target="fEp-Em-BFf" id="OUU-TS-xZ9"/>

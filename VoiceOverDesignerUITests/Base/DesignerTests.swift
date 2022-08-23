@@ -7,7 +7,35 @@ class DesignerTests: XCTestCase {
         continueAfterFailure = false
         
         app = XCUIApplication()
+    }
+    
+    enum LaunchType {
+        case justTapIcon
+        case openDocument(documentURL: URL)
+        case createNewAndCloseRecent
+    }
+    
+    func lauchApp(launchType: LaunchType = .justTapIcon) {
+        app.launchEnvironment["DocumentURL"] = ""
+        
+        switch launchType {
+        case .justTapIcon:
+            break // Do nothing
+        case .openDocument(let documentURL):
+            app.launchEnvironment["DocumentURL"] = documentURL.standardizedFileURL.absoluteString
+        case .createNewAndCloseRecent:
+            // Do nothing here
+            break
+        }
+        
         app.launch()
+        
+        if case .createNewAndCloseRecent = launchType {
+            let projects = ProjectsWindow(app: app)
+            if projects.projectsWindow.isHittable {
+                projects.createNewProject()
+            }
+        }
     }
     
     var projects: ProjectsWindow {

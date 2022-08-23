@@ -2,6 +2,8 @@ import XCTest
 
 class DrawingTests: DocumentTests {
     func test_whenDrawAnElement_shouldUpdateTitleEverywhere() throws {
+        lauchApp()
+        
         canvas
             .drawRectInCenter()
         

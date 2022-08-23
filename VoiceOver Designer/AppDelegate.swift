@@ -8,11 +8,29 @@
 import Cocoa
 import Document
 
-@main
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    lazy var windowController: WindowController = createWindowController()
-
+    private let documentController = VODocumentController() // Called by the iOS, we had to just keep reference
+    private var windowManager = WindowManager.shared
+    
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
+        windowManager.start()
+        NSApplication.shared.mainMenu = MainMenu.menu()
+        
+        openFileIfNeeded()
+    }
+    
+    private func openFileIfNeeded() {
+#if DEBUG
+        // UI-testing simulation for file openning
+        guard let path = ProcessInfo.processInfo.environment["DocumentURL"] else { return }
+        guard !path.isEmpty else { return }
+            
+        let url = URL(fileURLWithPath: path)
+        openFile(url: url)
+#endif
+    }
+    
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         true
     }
@@ -23,16 +41,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func application(_ sender: NSApplication, openFile filename: String) -> Bool {
         let url = URL(fileURLWithPath: filename)
-        let document = VODesignDocument(file: url)
         
-        windowController.show(document: document)
-        
+        openFile(url: url)
         return true
     }
     
-    private func createWindowController() -> WindowController {
-        let windowController = WindowController.fromStoryboard()
-        windowController.window?.setFrameAutosaveName("Projects")
-        return windowController
+    private func openFile(url: URL) {
+        let document = VODesignDocument(file: url)
+        
+        windowManager.createNewDocumentWindow(document: document)
     }
 }
+
