@@ -1,0 +1,64 @@
+import Projects
+import AppKit
+import Document
+
+class WindowManager: NSObject {
+    var documentWindows: [NSWindow] = []
+    var projectsWindowController: ProjectsWindowController! {
+        didSet {
+            projectsWindowController.delegate = self
+        }
+    }
+    
+    func start() {
+        if VODocumentController.shared.recentDocumentURLs.isEmpty {
+            self.createNewDocumentWindow(document: VODesignDocument())
+            
+            DispatchQueue.main.async {
+                self.projectsWindowController.window?.close()
+            }
+        }
+    }
+}
+
+extension WindowManager: NSWindowDelegate {
+    func windowWillClose(_ notification: Notification) {
+        guard let window = notification.object as? NSWindow else { return }
+        
+        guard let index = documentWindows.firstIndex(of: window) else {
+            return // Project windows, for example
+        }
+        
+        documentWindows.remove(at: index) // Remove refernce to realase
+        
+        guard documentWindows.isEmpty else { return }
+        
+        projectsWindowController.restoreProjectsWindow()
+    }
+}
+
+extension WindowManager: ProjectsDelegate {
+    func createNewDocumentWindow(
+        document: VODesignDocument
+    ) {
+        let split = ProjectController(document: document)
+        
+        let window = NSWindow(contentViewController: split)
+        window.delegate = self
+        window.makeKeyAndOrderFront(window)
+        window.title = document.displayName
+        window.styleMask.formUnion(.fullSizeContentView)
+        
+        let windowContorller = ProjectsWindowController(window: window)
+        document.addWindowController(windowContorller)
+        
+        let toolbar: NSToolbar = NSToolbar()
+        toolbar.delegate = split
+        
+        windowContorller.window?.toolbar = toolbar
+        
+        documentWindows.append(window)
+        
+        projectsWindowController.window?.close()
+    }
+}

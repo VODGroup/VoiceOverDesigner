@@ -10,6 +10,12 @@ import Projects
 import Document
 import Editor
 
+protocol ProjectsDelegate: AnyObject {
+    func createNewDocumentWindow(
+        document: VODesignDocument
+    )
+}
+
 class ProjectsWindowController: NSWindowController {
     
     static func fromStoryboard() -> ProjectsWindowController {
@@ -18,22 +24,16 @@ class ProjectsWindowController: NSWindowController {
         return window
     }
     
+    weak var delegate: ProjectsDelegate?
+    
     override func windowDidLoad() {
         super.windowDidLoad()
         
-        window?.delegate = self
+        window?.setFrameAutosaveName("Projects")
         
         shouldCascadeWindows = true
         
         embedProjectsViewControllerInWindow()
-        
-        if VODocumentController.shared.recentDocumentURLs.isEmpty {
-            createNewDocumentWindow(document: VODesignDocument())
-            
-            DispatchQueue.main.async {
-                self.window?.close()
-            }
-        }
     }
     
     private func embedProjectsViewControllerInWindow() {
@@ -42,7 +42,7 @@ class ProjectsWindowController: NSWindowController {
         contentViewController = projects
     }
     
-    private func restoreProjectsWindow() {
+    func restoreProjectsWindow() {
         window?.makeKeyAndOrderFront(window)
     }
     
@@ -52,52 +52,11 @@ class ProjectsWindowController: NSWindowController {
         projects.router = self
         return projects
     }
-    
-    var documentWindows: [NSWindow] = []
 }
 
 extension ProjectsWindowController: ProjectsRouter {
     
     func show(document: VODesignDocument) {
-        createNewDocumentWindow(document: document)
-        
-        self.window?.close() // Projects window should hides when open a project
-    }
-    
-    private func createNewDocumentWindow(
-        document: VODesignDocument
-    ) {
-        let split = ProjectController(document: document)
-        
-        let window = NSWindow(contentViewController: split)
-        window.delegate = self
-        window.makeKeyAndOrderFront(window)
-        window.title = document.displayName
-        window.styleMask.formUnion(.fullSizeContentView)
-        documentWindows.append(window)
-        
-        let windowContorller = ProjectsWindowController(window: window)
-        document.addWindowController(windowContorller)
-        
-        let toolbar: NSToolbar = NSToolbar()
-        toolbar.delegate = split
-        
-        windowContorller.window?.toolbar = toolbar
-    }
-}
-
-extension ProjectsWindowController: NSWindowDelegate {
-    func windowWillClose(_ notification: Notification) {
-        guard let window = notification.object as? NSWindow else { return }
-        
-        guard let index = documentWindows.firstIndex(of: window) else {
-            return // Project windows, for example
-        }
-        
-        documentWindows.remove(at: index) // Remove refernce to realase
-        
-        guard documentWindows.isEmpty else { return }
-        
-        restoreProjectsWindow()
+        delegate?.createNewDocumentWindow(document: document)
     }
 }

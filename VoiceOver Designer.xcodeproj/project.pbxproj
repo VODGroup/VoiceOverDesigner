@@ -31,6 +31,7 @@
 		1E7B56AC28B38103008D1871 /* DocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7B56AB28B38103008D1871 /* DocumentTests.swift */; };
 		1E7B56AF28B38F5D008D1871 /* AdjustableTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7B56AE28B38F5D008D1871 /* AdjustableTest.swift */; };
 		1E80528728B4DF6300743023 /* WindowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E80528628B4DF6300743023 /* WindowTests.swift */; };
+		1E80528928B4E71E00743023 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E80528828B4E71E00743023 /* WindowManager.swift */; };
 		1EA7411928B2683000D6CAA4 /* DrawingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA7411828B2683000D6CAA4 /* DrawingTests.swift */; };
 		1EB554B228B274B6000DC4FB /* Robot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB554B128B274B6000DC4FB /* Robot.swift */; };
 		1EC992DB28B119730020041B /* ProjectController+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC992DA28B119730020041B /* ProjectController+Toolbar.swift */; };
@@ -97,6 +98,7 @@
 		1E7B56AB28B38103008D1871 /* DocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentTests.swift; sourceTree = "<group>"; };
 		1E7B56AE28B38F5D008D1871 /* AdjustableTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustableTest.swift; sourceTree = "<group>"; };
 		1E80528628B4DF6300743023 /* WindowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowTests.swift; sourceTree = "<group>"; };
+		1E80528828B4E71E00743023 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 		1EA7411628B2683000D6CAA4 /* VoiceOverDesignerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoiceOverDesignerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EA7411828B2683000D6CAA4 /* DrawingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingTests.swift; sourceTree = "<group>"; };
 		1EB554B128B274B6000DC4FB /* Robot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Robot.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 			children = (
 				1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */,
 				1E1D7FF0281D5CBE00B64954 /* AppDelegate.swift */,
+				1E80528828B4E71E00743023 /* WindowManager.swift */,
 				1E579B1F282447D900B13565 /* ProjectsWindowController.swift */,
 				1E0030B72896C50400B2E238 /* ProjectController.swift */,
 				1EC992DA28B119730020041B /* ProjectController+Toolbar.swift */,
@@ -394,6 +397,7 @@
 				1E579B20282447D900B13565 /* ProjectsWindowController.swift in Sources */,
 				1E1D7FF1281D5CBE00B64954 /* AppDelegate.swift in Sources */,
 				1E579B9C2825485300B13565 /* VODocumentController.swift in Sources */,
+				1E80528928B4E71E00743023 /* WindowManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

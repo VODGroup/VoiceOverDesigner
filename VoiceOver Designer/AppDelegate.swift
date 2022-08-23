@@ -7,12 +7,23 @@
 
 import Cocoa
 import Document
+import Projects
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    lazy var projectsWindowController: ProjectsWindowController = createWindowController()
-
+    var windowManager = WindowManager()
+    
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        windowManager.projectsWindowController =
+        NSApplication.shared.windows
+            .first { window in
+                window.windowController is ProjectsWindowController
+            }?.windowController as! ProjectsWindowController
+        
+        windowManager.start()
+    }
+    
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         true
     }
@@ -25,7 +36,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let url = URL(fileURLWithPath: filename)
         let document = VODesignDocument(file: url)
         
-        projectsWindowController.show(document: document)
+        windowManager.createNewDocumentWindow(document: document)
         
         return true
     }
@@ -36,3 +47,4 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return windowController
     }
 }
+
