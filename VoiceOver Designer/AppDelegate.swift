@@ -24,10 +24,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private func openFileIfNeeded() {
 #if DEBUG
         // UI-testing simulation for file openning
-        if let url = UserDefaults.standard
-            .url(forKey: "DocumentURL") {
-            openFile(url: url)
-        }
+        guard let path = ProcessInfo.processInfo.environment["DocumentURL"] else { return }
+        guard !path.isEmpty else { return }
+            
+        let url = URL(fileURLWithPath: path)
+        openFile(url: url)
 #endif
     }
     

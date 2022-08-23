@@ -16,11 +16,4 @@ class WindowTests: DesignerTests {
     }
 }
 
-class DocumentFromFileTests: DesignerTests {
-    let fileURL = URL(fileURLWithPath: "/Users/rubanov/Library/Mobile Documents/com~apple~CloudDocs/VoiceOver Design Samples/Ru/Dodo Pizza/Empty.vodesign")
-    
-    func test_whenOpenDocument_shouldNotShowRecentoProjectsWindow() {
-        lauchApp(documentURL: fileURL)
-        XCTAssertFalse(projects.projectsWindow.isHittable, "should close Projects")
-    }
-}
+

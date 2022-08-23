@@ -10,6 +10,7 @@
 		1E0030B82896C50400B2E238 /* ProjectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0030B72896C50400B2E238 /* ProjectController.swift */; };
 		1E033902281E737000EE373E /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E033901281E737000EE373E /* Document */; };
 		1E183AE228B500B3008B0F07 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E183AE128B500B3008B0F07 /* MainMenu.xib */; };
+		1E183AE628B50600008B0F07 /* DocumentFromFileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E183AE528B50600008B0F07 /* DocumentFromFileTests.swift */; };
 		1E1D7FF1281D5CBE00B64954 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1D7FF0281D5CBE00B64954 /* AppDelegate.swift */; };
 		1E1D7FF5281D5CBF00B64954 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E1D7FF4281D5CBF00B64954 /* Assets.xcassets */; };
 		1E1D7FF8281D5CBF00B64954 /* ProjectsWindowController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E1D7FF6281D5CBF00B64954 /* ProjectsWindowController.storyboard */; };
@@ -76,6 +77,7 @@
 /* Begin PBXFileReference section */
 		1E0030B72896C50400B2E238 /* ProjectController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectController.swift; sourceTree = "<group>"; };
 		1E183AE128B500B3008B0F07 /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		1E183AE528B50600008B0F07 /* DocumentFromFileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentFromFileTests.swift; sourceTree = "<group>"; };
 		1E1D7FED281D5CBE00B64954 /* VoiceOver Designer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VoiceOver Designer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E1D7FF0281D5CBE00B64954 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1E1D7FF4281D5CBF00B64954 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 			children = (
 				1EA7411828B2683000D6CAA4 /* DrawingTests.swift */,
 				1E80528628B4DF6300743023 /* WindowTests.swift */,
+				1E183AE528B50600008B0F07 /* DocumentFromFileTests.swift */,
 				1E7B56AE28B38F5D008D1871 /* AdjustableTest.swift */,
 				1E7B56AD28B38116008D1871 /* Base */,
 				1EB554B028B274A0000DC4FB /* PageObjects */,
@@ -443,6 +446,7 @@
 			files = (
 				1EB554B228B274B6000DC4FB /* Robot.swift in Sources */,
 				1E7B56A728B37C51008D1871 /* ProjectsWindow.swift in Sources */,
+				1E183AE628B50600008B0F07 /* DocumentFromFileTests.swift in Sources */,
 				1E7B569C28B37B7C008D1871 /* DesignerTests.swift in Sources */,
 				1E7B569F28B37BE0008D1871 /* Settings.swift in Sources */,
 				1E7B56AC28B38103008D1871 /* DocumentTests.swift in Sources */,
@@ -606,7 +610,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "VoiceOver-Designer-Info.plist";
@@ -636,7 +640,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "VoiceOver-Designer-Info.plist";
@@ -662,7 +666,7 @@
 				CODE_SIGN_ENTITLEMENTS = MacOSPreview/MacOSPreview.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MacOSPreview/Info.plist;
@@ -689,7 +693,7 @@
 				CODE_SIGN_ENTITLEMENTS = MacOSPreview/MacOSPreview.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MacOSPreview/Info.plist;
@@ -715,7 +719,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.akaDuality.VoiceOverDesignerUITests;
@@ -731,7 +735,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.akaDuality.VoiceOverDesignerUITests;

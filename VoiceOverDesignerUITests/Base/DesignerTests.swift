@@ -9,11 +9,14 @@ class DesignerTests: XCTestCase {
         app = XCUIApplication()
     }
     
+    enum LaunchType {
+        case justTapIcon
+        case openDocument
+        case createNewAndCloseRecent
+    }
+    
     func lauchApp(documentURL: URL? = nil) {
-        if let documentURL = documentURL {
-            app.launchArguments.append("-DocumentURL")
-            app.launchArguments.append(documentURL.standardizedFileURL.absoluteString)
-        }
+        app.launchEnvironment["DocumentURL"] = documentURL?.standardizedFileURL.absoluteString ?? ""
         app.launch()
     }
     
