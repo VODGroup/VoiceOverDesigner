@@ -30,6 +30,7 @@
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
+                                        <accessibility identifier="valueTextField"/>
                                         <connections>
                                             <action selector="valueDidChange:" target="fEp-Em-BFf" id="WiF-RC-suG"/>
                                         </connections>

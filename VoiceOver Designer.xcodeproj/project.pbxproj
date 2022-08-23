@@ -21,6 +21,17 @@
 		1E7555C82895918400024714 /* ThumbnailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7555C72895918400024714 /* ThumbnailProvider.swift */; };
 		1E7555CD2895918400024714 /* MacOSPreview.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1E7555C12895918400024714 /* MacOSPreview.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1E7555D3289591B900024714 /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E7555D2289591B900024714 /* Document */; };
+		1E7B569C28B37B7C008D1871 /* DesignerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7B569B28B37B7C008D1871 /* DesignerTests.swift */; };
+		1E7B569F28B37BE0008D1871 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7B569E28B37BE0008D1871 /* Settings.swift */; };
+		1E7B56A128B37BEF008D1871 /* TextSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7B56A028B37BEF008D1871 /* TextSummary.swift */; };
+		1E7B56A328B37C07008D1871 /* ProjectPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7B56A228B37C07008D1871 /* ProjectPanel.swift */; };
+		1E7B56A528B37C39008D1871 /* ProjectWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7B56A428B37C39008D1871 /* ProjectWindow.swift */; };
+		1E7B56A728B37C51008D1871 /* ProjectsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7B56A628B37C51008D1871 /* ProjectsWindow.swift */; };
+		1E7B56AA28B38042008D1871 /* Canvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7B56A928B38042008D1871 /* Canvas.swift */; };
+		1E7B56AC28B38103008D1871 /* DocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7B56AB28B38103008D1871 /* DocumentTests.swift */; };
+		1E7B56AF28B38F5D008D1871 /* AdjustableTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7B56AE28B38F5D008D1871 /* AdjustableTest.swift */; };
+		1EA7411928B2683000D6CAA4 /* DrawingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA7411828B2683000D6CAA4 /* DrawingTests.swift */; };
+		1EB554B228B274B6000DC4FB /* Robot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB554B128B274B6000DC4FB /* Robot.swift */; };
 		1EC992DB28B119730020041B /* ProjectController+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC992DA28B119730020041B /* ProjectController+Toolbar.swift */; };
 		6B628797288D3F60006F622A /* Projects in Frameworks */ = {isa = PBXBuildFile; productRef = 6B628796288D3F60006F622A /* Projects */; };
 		6B628799288D4039006F622A /* Editor in Frameworks */ = {isa = PBXBuildFile; productRef = 6B628798288D4039006F622A /* Editor */; };
@@ -33,6 +44,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 1E7555C02895918400024714;
 			remoteInfo = MacOSPreview;
+		};
+		1EA7411C28B2683000D6CAA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1E1D7FE5281D5CBE00B64954 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1E1D7FEC281D5CBE00B64954;
+			remoteInfo = "VoiceOver Designer";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -68,6 +86,18 @@
 		1E7555C72895918400024714 /* ThumbnailProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailProvider.swift; sourceTree = "<group>"; };
 		1E7555C92895918400024714 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1E7555CA2895918400024714 /* MacOSPreview.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MacOSPreview.entitlements; sourceTree = "<group>"; };
+		1E7B569B28B37B7C008D1871 /* DesignerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignerTests.swift; sourceTree = "<group>"; };
+		1E7B569E28B37BE0008D1871 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		1E7B56A028B37BEF008D1871 /* TextSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSummary.swift; sourceTree = "<group>"; };
+		1E7B56A228B37C07008D1871 /* ProjectPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectPanel.swift; sourceTree = "<group>"; };
+		1E7B56A428B37C39008D1871 /* ProjectWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectWindow.swift; sourceTree = "<group>"; };
+		1E7B56A628B37C51008D1871 /* ProjectsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsWindow.swift; sourceTree = "<group>"; };
+		1E7B56A928B38042008D1871 /* Canvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Canvas.swift; sourceTree = "<group>"; };
+		1E7B56AB28B38103008D1871 /* DocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentTests.swift; sourceTree = "<group>"; };
+		1E7B56AE28B38F5D008D1871 /* AdjustableTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustableTest.swift; sourceTree = "<group>"; };
+		1EA7411628B2683000D6CAA4 /* VoiceOverDesignerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoiceOverDesignerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1EA7411828B2683000D6CAA4 /* DrawingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingTests.swift; sourceTree = "<group>"; };
+		1EB554B128B274B6000DC4FB /* Robot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Robot.swift; sourceTree = "<group>"; };
 		1EC992DA28B119730020041B /* ProjectController+Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProjectController+Toolbar.swift"; sourceTree = "<group>"; };
 		1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "VoiceOver-Designer-Info.plist"; sourceTree = SOURCE_ROOT; };
 		6B628795288D3A8D006F622A /* Features */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Features; path = "VoiceOver Designer/Features"; sourceTree = "<group>"; };
@@ -96,6 +126,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1EA7411328B2683000D6CAA4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -117,6 +154,7 @@
 				6B628795288D3A8D006F622A /* Features */,
 				1E1D7FEF281D5CBE00B64954 /* VoiceOver Designer */,
 				1E7555C62895918400024714 /* MacOSPreview */,
+				1EA7411728B2683000D6CAA4 /* VoiceOverDesignerUITests */,
 				1E1D7FEE281D5CBE00B64954 /* Products */,
 				1E033900281E737000EE373E /* Frameworks */,
 			);
@@ -127,6 +165,7 @@
 			children = (
 				1E1D7FED281D5CBE00B64954 /* VoiceOver Designer.app */,
 				1E7555C12895918400024714 /* MacOSPreview.appex */,
+				1EA7411628B2683000D6CAA4 /* VoiceOverDesignerUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -155,6 +194,56 @@
 				1E7555CA2895918400024714 /* MacOSPreview.entitlements */,
 			);
 			path = MacOSPreview;
+			sourceTree = "<group>";
+		};
+		1E7B569D28B37BCB008D1871 /* Panels */ = {
+			isa = PBXGroup;
+			children = (
+				1E7B569E28B37BE0008D1871 /* Settings.swift */,
+				1E7B56A928B38042008D1871 /* Canvas.swift */,
+				1E7B56A028B37BEF008D1871 /* TextSummary.swift */,
+			);
+			path = Panels;
+			sourceTree = "<group>";
+		};
+		1E7B56A828B37C6E008D1871 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				1EB554B128B274B6000DC4FB /* Robot.swift */,
+				1E7B56A228B37C07008D1871 /* ProjectPanel.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		1E7B56AD28B38116008D1871 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				1E7B56AB28B38103008D1871 /* DocumentTests.swift */,
+				1E7B569B28B37B7C008D1871 /* DesignerTests.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		1EA7411728B2683000D6CAA4 /* VoiceOverDesignerUITests */ = {
+			isa = PBXGroup;
+			children = (
+				1EA7411828B2683000D6CAA4 /* DrawingTests.swift */,
+				1E7B56AE28B38F5D008D1871 /* AdjustableTest.swift */,
+				1E7B56AD28B38116008D1871 /* Base */,
+				1EB554B028B274A0000DC4FB /* PageObjects */,
+			);
+			path = VoiceOverDesignerUITests;
+			sourceTree = "<group>";
+		};
+		1EB554B028B274A0000DC4FB /* PageObjects */ = {
+			isa = PBXGroup;
+			children = (
+				1E7B56A828B37C6E008D1871 /* Base */,
+				1E7B56A428B37C39008D1871 /* ProjectWindow.swift */,
+				1E7B56A628B37C51008D1871 /* ProjectsWindow.swift */,
+				1E7B569D28B37BCB008D1871 /* Panels */,
+			);
+			path = PageObjects;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -206,6 +295,24 @@
 			productReference = 1E7555C12895918400024714 /* MacOSPreview.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		1EA7411528B2683000D6CAA4 /* VoiceOverDesignerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1EA7412028B2683000D6CAA4 /* Build configuration list for PBXNativeTarget "VoiceOverDesignerUITests" */;
+			buildPhases = (
+				1EA7411228B2683000D6CAA4 /* Sources */,
+				1EA7411328B2683000D6CAA4 /* Frameworks */,
+				1EA7411428B2683000D6CAA4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1EA7411D28B2683000D6CAA4 /* PBXTargetDependency */,
+			);
+			name = VoiceOverDesignerUITests;
+			productName = VoiceOverDesignerUITests;
+			productReference = 1EA7411628B2683000D6CAA4 /* VoiceOverDesignerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -221,6 +328,10 @@
 					};
 					1E7555C02895918400024714 = {
 						CreatedOnToolsVersion = 13.4;
+					};
+					1EA7411528B2683000D6CAA4 = {
+						CreatedOnToolsVersion = 13.4;
+						TestTargetID = 1E1D7FEC281D5CBE00B64954;
 					};
 				};
 			};
@@ -239,6 +350,7 @@
 			targets = (
 				1E1D7FEC281D5CBE00B64954 /* VoiceOver Designer */,
 				1E7555C02895918400024714 /* MacOSPreview */,
+				1EA7411528B2683000D6CAA4 /* VoiceOverDesignerUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -254,6 +366,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		1E7555BF2895918400024714 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1EA7411428B2683000D6CAA4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -283,6 +402,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1EA7411228B2683000D6CAA4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1EB554B228B274B6000DC4FB /* Robot.swift in Sources */,
+				1E7B56A728B37C51008D1871 /* ProjectsWindow.swift in Sources */,
+				1E7B569C28B37B7C008D1871 /* DesignerTests.swift in Sources */,
+				1E7B569F28B37BE0008D1871 /* Settings.swift in Sources */,
+				1E7B56AC28B38103008D1871 /* DocumentTests.swift in Sources */,
+				1E7B56A528B37C39008D1871 /* ProjectWindow.swift in Sources */,
+				1E7B56AF28B38F5D008D1871 /* AdjustableTest.swift in Sources */,
+				1E7B56AA28B38042008D1871 /* Canvas.swift in Sources */,
+				1E7B56A128B37BEF008D1871 /* TextSummary.swift in Sources */,
+				1E7B56A328B37C07008D1871 /* ProjectPanel.swift in Sources */,
+				1EA7411928B2683000D6CAA4 /* DrawingTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -290,6 +427,11 @@
 			isa = PBXTargetDependency;
 			target = 1E7555C02895918400024714 /* MacOSPreview */;
 			targetProxy = 1E7555CB2895918400024714 /* PBXContainerItemProxy */;
+		};
+		1EA7411D28B2683000D6CAA4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1E1D7FEC281D5CBE00B64954 /* VoiceOver Designer */;
+			targetProxy = 1EA7411C28B2683000D6CAA4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -532,6 +674,36 @@
 			};
 			name = Release;
 		};
+		1EA7411E28B2683000D6CAA4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.akaDuality.VoiceOverDesignerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "VoiceOver Designer";
+			};
+			name = Debug;
+		};
+		1EA7411F28B2683000D6CAA4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.akaDuality.VoiceOverDesignerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "VoiceOver Designer";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -558,6 +730,15 @@
 			buildConfigurations = (
 				1E7555CF2895918400024714 /* Debug */,
 				1E7555D02895918400024714 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1EA7412028B2683000D6CAA4 /* Build configuration list for PBXNativeTarget "VoiceOverDesignerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1EA7411E28B2683000D6CAA4 /* Debug */,
+				1EA7411F28B2683000D6CAA4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
