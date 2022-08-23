@@ -44,6 +44,7 @@ public class ProjectsWindowController: NSWindowController {
     }
     
     public func restoreProjectsWindow() {
+        guard !VODocumentController.shared.recentDocumentURLs.isEmpty else { return }
         window?.makeKeyAndOrderFront(window)
     }
     
