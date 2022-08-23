@@ -49,9 +49,7 @@ public class EditorViewController: NSViewController {
     }
     
     func setImage() {
-        guard let image = presenter.document.image else { return }
-        
-        view().setImage(image)
+        view().setImage(presenter.document.image)
     }
     
     public override var representedObject: Any? {
