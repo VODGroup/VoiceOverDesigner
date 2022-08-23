@@ -181,12 +181,8 @@
 			children = (
 				1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */,
 				1E1D7FF0281D5CBE00B64954 /* AppDelegate.swift */,
-				1E80528828B4E71E00743023 /* WindowManager.swift */,
-				1E579B1F282447D900B13565 /* ProjectsWindowController.swift */,
-				1E1D7FF6281D5CBF00B64954 /* ProjectsWindowController.storyboard */,
-				1E0030B72896C50400B2E238 /* ProjectController.swift */,
-				1EC992DA28B119730020041B /* ProjectController+Toolbar.swift */,
-				1E579B9B2825485300B13565 /* VODocumentController.swift */,
+				1E80528E28B4EDD200743023 /* Documents */,
+				1E80528F28B4EDD800743023 /* SingleDocument */,
 				1E80528C28B4E98C00743023 /* main.swift */,
 				1E1D7FF4281D5CBF00B64954 /* Assets.xcassets */,
 				1E1D7FF9281D5CBF00B64954 /* VoiceOver_Designer.entitlements */,
@@ -230,6 +226,26 @@
 				1E7B569B28B37B7C008D1871 /* DesignerTests.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		1E80528E28B4EDD200743023 /* Documents */ = {
+			isa = PBXGroup;
+			children = (
+				1E80528828B4E71E00743023 /* WindowManager.swift */,
+				1E579B1F282447D900B13565 /* ProjectsWindowController.swift */,
+				1E1D7FF6281D5CBF00B64954 /* ProjectsWindowController.storyboard */,
+				1E579B9B2825485300B13565 /* VODocumentController.swift */,
+			);
+			path = Documents;
+			sourceTree = "<group>";
+		};
+		1E80528F28B4EDD800743023 /* SingleDocument */ = {
+			isa = PBXGroup;
+			children = (
+				1E0030B72896C50400B2E238 /* ProjectController.swift */,
+				1EC992DA28B119730020041B /* ProjectController+Toolbar.swift */,
+			);
+			path = SingleDocument;
 			sourceTree = "<group>";
 		};
 		1EA7411728B2683000D6CAA4 /* VoiceOverDesignerUITests */ = {
