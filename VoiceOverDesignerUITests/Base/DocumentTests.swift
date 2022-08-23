@@ -2,18 +2,10 @@ import XCTest
 
 class DocumentTests: DesignerTests {
     
-    func createNewProject() {
-        projects
-            .createNewProject()
-        
-        project
-            .selectNewWindow()
-    }
-    
     override func setUp() {
         super.setUp()
         
-        createNewProject()
+        projects.createNewProject()
     }
     
     override func tearDownWithError() throws {

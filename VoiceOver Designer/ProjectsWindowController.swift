@@ -25,16 +25,24 @@ class ProjectsWindowController: NSWindowController {
         
         shouldCascadeWindows = true
         
-        showProjectsController()
+        embedProjectsViewControllerInWindow()
     }
     
-    func showProjectsController() {
+    private func embedProjectsViewControllerInWindow() {
+        let projects = projectsController()
+        window?.toolbar = projects.toolbar
+        contentViewController = projects
+    }
+    
+    private func restoreProjectsWindow() {
+        window?.makeKeyAndOrderFront(window)
+    }
+    
+    private func projectsController() -> ProjectsViewController {
         let projects = ProjectsViewController.fromStoryboard()
         projects.documentController = VODocumentController.shared
         projects.router = self
-        
-        window?.toolbar = projects.toolbar
-        contentViewController = projects
+        return projects
     }
     
     var documentWindows: [NSWindow] = []
@@ -43,8 +51,16 @@ class ProjectsWindowController: NSWindowController {
 extension ProjectsWindowController: ProjectsRouter {
     
     func show(document: VODesignDocument) {
+        createNewDocumentWindow(document: document)
+        
+        self.window?.close() // Projects window should hides when open a project
+    }
+    
+    private func createNewDocumentWindow(
+        document: VODesignDocument
+    ) {
         let split = ProjectController(document: document)
-
+        
         let window = NSWindow(contentViewController: split)
         window.delegate = self
         window.makeKeyAndOrderFront(window)
@@ -74,17 +90,6 @@ extension ProjectsWindowController: NSWindowDelegate {
         
         guard documentWindows.isEmpty else { return }
         
-        presentProjectsInNewWindow()
-    }
-    
-    private func presentProjectsInNewWindow() {
-        let projects = ProjectsViewController.fromStoryboard()
-        projects.documentController = VODocumentController.shared
-        projects.router = self
-        
-        let window = NSWindow(contentViewController: projects)
-        window.delegate = self
-        window.title = NSLocalizedString("Projects", comment: "Window title")
-        window.makeKeyAndOrderFront(window)
+        restoreProjectsWindow()
     }
 }

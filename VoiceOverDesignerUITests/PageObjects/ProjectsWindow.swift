@@ -1,7 +1,11 @@
 import XCTest
 
 class ProjectsWindow: Robot {
+    var projectsWindow: XCUIElement {
+        app.windows["VoiceOver Designer"]
+    }
+    
     func createNewProject() {
-        app.windows["VoiceOver Designer"].toolbars.buttons["New"].click()
+        projectsWindow.toolbars.buttons["New"].click()
     }
 }
