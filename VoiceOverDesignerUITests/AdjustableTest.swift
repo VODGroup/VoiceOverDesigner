@@ -2,6 +2,8 @@ import XCTest
 
 class AdjustableTest: DocumentTests {
     func test_whenCreateAdjustable_andSelectAnotherVariant_shouldUpdateTitle() {
+        lauchApp()
+        
         canvas.drawRectInCenter()
         
         XCTContext.runActivity(named: "Fill adjustable") { _ in

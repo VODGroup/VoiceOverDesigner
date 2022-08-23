@@ -15,6 +15,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         windowManager.start()
+        
+        openFileIfNeeded()
+    }
+    
+    private func openFileIfNeeded() {
+#if DEBUG
+        // UI-testing simulation for file openning
+        if let url = UserDefaults.standard
+            .url(forKey: "DocumentURL") {
+            openFile(url: url)
+        }
+#endif
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
@@ -27,11 +39,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func application(_ sender: NSApplication, openFile filename: String) -> Bool {
         let url = URL(fileURLWithPath: filename)
+        
+        openFile(url: url)
+        return true
+    }
+    
+    private func openFile(url: URL) {
         let document = VODesignDocument(file: url)
         
         windowManager.createNewDocumentWindow(document: document)
-        
-        return true
     }
 }
 

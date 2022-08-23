@@ -7,6 +7,13 @@ class DesignerTests: XCTestCase {
         continueAfterFailure = false
         
         app = XCUIApplication()
+    }
+    
+    func lauchApp(documentURL: URL? = nil) {
+        if let documentURL = documentURL {
+            app.launchArguments.append("-DocumentURL")
+            app.launchArguments.append(documentURL.standardizedFileURL.absoluteString)
+        }
         app.launch()
     }
     
