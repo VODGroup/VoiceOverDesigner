@@ -8,7 +8,7 @@
 import Foundation
 import AppKit
 
-public class ProjectsToolbar: NSToolbar {
+public class RecentToolbar: NSToolbar {
     public override init(identifier: NSToolbar.Identifier) {
         super.init(identifier: identifier)
         delegate = self
@@ -30,7 +30,7 @@ extension NSToolbarItem.Identifier {
     static let createNewProject = NSToolbarItem.Identifier(rawValue: "CreateNewProject")
 }
 
-extension ProjectsToolbar: NSToolbarDelegate {
+extension RecentToolbar: NSToolbarDelegate {
     public func toolbar(
         _ toolbar: NSToolbar,
         itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier,

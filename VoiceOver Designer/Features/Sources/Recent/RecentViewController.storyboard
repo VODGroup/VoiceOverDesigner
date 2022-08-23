@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
     </dependencies>
     <scenes>
-        <!--Projects View Controller-->
+        <!--Recent View Controller-->
         <scene sceneID="m6j-7H-VRt">
             <objects>
-                <viewController id="KyR-Ji-qI4" customClass="ProjectsViewController" customModule="Recent" sceneMemberID="viewController"/>
+                <viewController id="KyR-Ji-qI4" customClass="RecentViewController" customModule="Recent" sceneMemberID="viewController"/>
                 <customObject id="Kn0-bV-vA7" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-20" y="54"/>

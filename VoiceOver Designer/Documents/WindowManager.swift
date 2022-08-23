@@ -7,7 +7,7 @@ class WindowManager: NSObject {
     static var shared = WindowManager()
     
     var documentWindows: [NSWindow] = []
-    lazy var projectsWindowController: ProjectsWindowController =  .fromStoryboard(delegate: self)
+    lazy var projectsWindowController: RecentWindowController =  .fromStoryboard(delegate: self)
     
     func start() {
         if hasRecentDocuments {
@@ -48,7 +48,7 @@ extension WindowManager: NSWindowDelegate {
     }
 }
 
-extension WindowManager: ProjectsDelegate {
+extension WindowManager: RecentDelegate {
     func createNewDocumentWindow(
         document: VODesignDocument
     ) {
@@ -66,7 +66,7 @@ extension WindowManager: ProjectsDelegate {
         window.title = document.displayName
         window.styleMask.formUnion(.fullSizeContentView)
         
-        let windowContorller = ProjectsWindowController(window: window)
+        let windowContorller = RecentWindowController(window: window)
         document.addWindowController(windowContorller)
         
         let toolbar: NSToolbar = NSToolbar()

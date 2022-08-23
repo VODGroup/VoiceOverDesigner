@@ -8,24 +8,24 @@
 import AppKit
 import Document
 
-public protocol ProjectsDelegate: AnyObject {
+public protocol RecentDelegate: AnyObject {
     func createNewDocumentWindow(
         document: VODesignDocument
     )
 }
 
-public class ProjectsWindowController: NSWindowController {
+public class RecentWindowController: NSWindowController {
     
     public static func fromStoryboard(
-        delegate: ProjectsDelegate
-    ) -> ProjectsWindowController {
-        let storyboard = NSStoryboard(name: "ProjectsWindowController", bundle: Bundle.module)
-        let windowController = storyboard.instantiateInitialController() as! ProjectsWindowController
+        delegate: RecentDelegate
+    ) -> RecentWindowController {
+        let storyboard = NSStoryboard(name: "RecentWindowController", bundle: Bundle.module)
+        let windowController = storyboard.instantiateInitialController() as! RecentWindowController
         windowController.delegate = delegate
         return windowController
     }
     
-    weak var delegate: ProjectsDelegate?
+    weak var delegate: RecentDelegate?
     
     public override func windowDidLoad() {
         super.windowDidLoad()
@@ -48,15 +48,15 @@ public class ProjectsWindowController: NSWindowController {
         window?.makeKeyAndOrderFront(window)
     }
     
-    private func projectsController() -> ProjectsViewController {
-        let projects = ProjectsViewController.fromStoryboard()
+    private func projectsController() -> RecentViewController {
+        let projects = RecentViewController.fromStoryboard()
         projects.documentController = VODocumentController.shared
         projects.router = self
         return projects
     }
 }
 
-extension ProjectsWindowController: ProjectsRouter {
+extension RecentWindowController: RecentRouter {
     
     public func show(document: VODesignDocument) {
         delegate?.createNewDocumentWindow(document: document)

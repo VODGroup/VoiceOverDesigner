@@ -8,7 +8,7 @@
 import AppKit
 import CommonUI
 
-class ProjectsView: NSView {
+class RecentView: NSView {
     
     var scrollViewCollectionView = NSScrollView()
     
@@ -20,7 +20,7 @@ class ProjectsView: NSView {
         let collection = NSCollectionView()
         collection.collectionViewLayout = flowLayout
         collection.isSelectable = true
-        collection.register(ProjectCollectionViewItem.self, forItemWithIdentifier: ProjectCollectionViewItem.identifier)
+        collection.register(RecentCollectionViewItem.self, forItemWithIdentifier: RecentCollectionViewItem.identifier)
         return collection
     }()
     
