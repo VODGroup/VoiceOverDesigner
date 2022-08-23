@@ -15,12 +15,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var windowManager = WindowManager()
     
     func applicationDidFinishLaunching(_ notification: Notification) {
-        windowManager.projectsWindowController =
-        NSApplication.shared.windows
-            .first { window in
-                window.windowController is ProjectsWindowController
-            }?.windowController as! ProjectsWindowController
-        
         windowManager.start()
     }
     

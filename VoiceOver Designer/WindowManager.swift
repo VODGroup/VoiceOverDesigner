@@ -4,13 +4,23 @@ import Document
 
 class WindowManager: NSObject {
     var documentWindows: [NSWindow] = []
-    var projectsWindowController: ProjectsWindowController! {
-        didSet {
-            projectsWindowController.delegate = self
-        }
+    var projectsWindowController: ProjectsWindowController!
+    
+    func findProjectsWindowController() {
+        projectsWindowController =
+        NSApplication.shared
+            .windows
+            .compactMap({ window in
+                window.windowController as? ProjectsWindowController
+            })
+            .first
+        
+        projectsWindowController.delegate = self
     }
     
     func start() {
+        findProjectsWindowController()
+        
         if VODocumentController.shared.recentDocumentURLs.isEmpty {
             self.createNewDocumentWindow(document: VODesignDocument())
             
@@ -41,6 +51,12 @@ extension WindowManager: ProjectsDelegate {
     func createNewDocumentWindow(
         document: VODesignDocument
     ) {
+        let window = presenteWindow(for: document)
+        documentWindows.append(window)
+        projectsWindowController.window?.close()
+    }
+    
+    func presenteWindow(for document: VODesignDocument) -> NSWindow {
         let split = ProjectController(document: document)
         
         let window = NSWindow(contentViewController: split)
@@ -57,8 +73,6 @@ extension WindowManager: ProjectsDelegate {
         
         windowContorller.window?.toolbar = toolbar
         
-        documentWindows.append(window)
-        
-        projectsWindowController.window?.close()
+        return window
     }
 }
