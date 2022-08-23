@@ -25,7 +25,7 @@ class VODocumentController: NSDocumentController {
 
 extension VODesignDocument {
     public override func makeWindowControllers() {
-        let window = WindowController.fromStoryboard()
+        let window = ProjectsWindowController.fromStoryboard()
         window.show(document: self)
     }
 }

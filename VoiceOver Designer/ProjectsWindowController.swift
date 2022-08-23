@@ -1,5 +1,5 @@
 //
-//  WindowController.swift
+//  ProjectsWindowController.swift
 //  VoiceOver Designer
 //
 //  Created by Mikhail Rubanov on 05.05.2022.
@@ -10,11 +10,11 @@ import Projects
 import Document
 import Editor
 
-class WindowController: NSWindowController {
+class ProjectsWindowController: NSWindowController {
     
-    static func fromStoryboard() -> WindowController {
+    static func fromStoryboard() -> ProjectsWindowController {
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
-        let window = storyboard.instantiateInitialController() as! WindowController
+        let window = storyboard.instantiateInitialController() as! ProjectsWindowController
         return window
     }
     
@@ -40,7 +40,7 @@ class WindowController: NSWindowController {
     var documentWindows: [NSWindow] = []
 }
 
-extension WindowController: ProjectsRouter {
+extension ProjectsWindowController: ProjectsRouter {
     
     func show(document: VODesignDocument) {
         let split = ProjectController(document: document)
@@ -52,7 +52,7 @@ extension WindowController: ProjectsRouter {
         window.styleMask.formUnion(.fullSizeContentView)
         documentWindows.append(window)
         
-        let windowContorller = WindowController(window: window)
+        let windowContorller = ProjectsWindowController(window: window)
         document.addWindowController(windowContorller)
         
         let toolbar: NSToolbar = NSToolbar()
@@ -62,7 +62,7 @@ extension WindowController: ProjectsRouter {
     }
 }
 
-extension WindowController: NSWindowDelegate {
+extension ProjectsWindowController: NSWindowDelegate {
     func windowWillClose(_ notification: Notification) {
         guard let window = notification.object as? NSWindow else { return }
         

@@ -11,7 +11,7 @@ import Document
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    lazy var windowController: WindowController = createWindowController()
+    lazy var projectsWindowController: ProjectsWindowController = createWindowController()
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         true
@@ -25,13 +25,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let url = URL(fileURLWithPath: filename)
         let document = VODesignDocument(file: url)
         
-        windowController.show(document: document)
+        projectsWindowController.show(document: document)
         
         return true
     }
     
-    private func createWindowController() -> WindowController {
-        let windowController = WindowController.fromStoryboard()
+    private func createWindowController() -> ProjectsWindowController {
+        let windowController = ProjectsWindowController.fromStoryboard()
         windowController.window?.setFrameAutosaveName("Projects")
         return windowController
     }
