@@ -39,7 +39,13 @@ class EditorView: FlippedView {
         scrollView.horizontalScrollElasticity = .none
     }
     
-    func setImage(_ image: NSImage) {
+    func setImage(_ image: NSImage?) {
+        dragnDropView.isHidden = image != nil
+        
+        guard let image = image else {
+            return
+        }
+
         backgroundImageView.image = image
         backgroundImageView.layer?.zPosition = 0
 
