@@ -6,20 +6,20 @@
 //
 
 import AppKit
-import Projects
 import Document
-import Editor
 
-protocol ProjectsDelegate: AnyObject {
+public protocol ProjectsDelegate: AnyObject {
     func createNewDocumentWindow(
         document: VODesignDocument
     )
 }
 
-class ProjectsWindowController: NSWindowController {
+public class ProjectsWindowController: NSWindowController {
     
-    static func fromStoryboard(delegate: ProjectsDelegate) -> ProjectsWindowController {
-        let storyboard = NSStoryboard(name: "ProjectsWindowController", bundle: nil)
+    public static func fromStoryboard(
+        delegate: ProjectsDelegate
+    ) -> ProjectsWindowController {
+        let storyboard = NSStoryboard(name: "ProjectsWindowController", bundle: Bundle.module)
         let windowController = storyboard.instantiateInitialController() as! ProjectsWindowController
         windowController.delegate = delegate
         return windowController
@@ -27,7 +27,7 @@ class ProjectsWindowController: NSWindowController {
     
     weak var delegate: ProjectsDelegate?
     
-    override func windowDidLoad() {
+    public override func windowDidLoad() {
         super.windowDidLoad()
         
         window?.setFrameAutosaveName("Projects")
@@ -43,7 +43,7 @@ class ProjectsWindowController: NSWindowController {
         contentViewController = projects
     }
     
-    func restoreProjectsWindow() {
+    public func restoreProjectsWindow() {
         window?.makeKeyAndOrderFront(window)
     }
     
@@ -57,7 +57,7 @@ class ProjectsWindowController: NSWindowController {
 
 extension ProjectsWindowController: ProjectsRouter {
     
-    func show(document: VODesignDocument) {
+    public func show(document: VODesignDocument) {
         delegate?.createNewDocumentWindow(document: document)
     }
 }
