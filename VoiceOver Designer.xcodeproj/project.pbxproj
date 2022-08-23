@@ -33,6 +33,7 @@
 		1E80528728B4DF6300743023 /* WindowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E80528628B4DF6300743023 /* WindowTests.swift */; };
 		1E80528928B4E71E00743023 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E80528828B4E71E00743023 /* WindowManager.swift */; };
 		1E80528D28B4E98C00743023 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E80528C28B4E98C00743023 /* main.swift */; };
+		1E80529328B4F27100743023 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E80529228B4F27100743023 /* MainMenu.xib */; };
 		1EA7411928B2683000D6CAA4 /* DrawingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA7411828B2683000D6CAA4 /* DrawingTests.swift */; };
 		1EB554B228B274B6000DC4FB /* Robot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EB554B128B274B6000DC4FB /* Robot.swift */; };
 		1EC992DB28B119730020041B /* ProjectController+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC992DA28B119730020041B /* ProjectController+Toolbar.swift */; };
@@ -101,6 +102,7 @@
 		1E80528628B4DF6300743023 /* WindowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowTests.swift; sourceTree = "<group>"; };
 		1E80528828B4E71E00743023 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 		1E80528C28B4E98C00743023 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		1E80529228B4F27100743023 /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		1EA7411628B2683000D6CAA4 /* VoiceOverDesignerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoiceOverDesignerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EA7411828B2683000D6CAA4 /* DrawingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingTests.swift; sourceTree = "<group>"; };
 		1EB554B128B274B6000DC4FB /* Robot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Robot.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 			children = (
 				1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */,
 				1E1D7FF0281D5CBE00B64954 /* AppDelegate.swift */,
+				1E80529228B4F27100743023 /* MainMenu.xib */,
 				1E80528E28B4EDD200743023 /* Documents */,
 				1E80528F28B4EDD800743023 /* SingleDocument */,
 				1E80528C28B4E98C00743023 /* main.swift */,
@@ -387,6 +390,7 @@
 			files = (
 				1E1D7FF5281D5CBF00B64954 /* Assets.xcassets in Resources */,
 				1E1D7FF8281D5CBF00B64954 /* ProjectsWindowController.storyboard in Resources */,
+				1E80529328B4F27100743023 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
