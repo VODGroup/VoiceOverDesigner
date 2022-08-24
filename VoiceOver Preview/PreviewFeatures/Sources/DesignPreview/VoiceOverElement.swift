@@ -9,7 +9,7 @@ import Foundation
 import Document
 import UIKit
 
-class VoiceOverElement: UIAccessibilityElement {
+class VoiceOverElement: UIAccessibilityElement, AXCustomContentProvider {
     var control: A11yDescription {
         didSet {
             setup(from: control)
@@ -29,6 +29,7 @@ class VoiceOverElement: UIAccessibilityElement {
         accessibilityHint = model.hint
         accessibilityFrameInContainerSpace = model.frame
         accessibilityTraits = model.trait.accessibilityTrait
+        accessibilityCustomContent = model.customDescriptions.descriptions.map({AXCustomContent(label: $0.label, value: $0.value)})
     }
     
     override func accessibilityIncrement() {
@@ -55,3 +56,5 @@ class VoiceOverElement: UIAccessibilityElement {
     }
     
 }
+
+
