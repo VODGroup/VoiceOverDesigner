@@ -1,6 +1,6 @@
 # VoiceOverDesigner
 
-<img width="1590" alt="Screenshot of the application" src="https://user-images.githubusercontent.com/3120680/182229618-32919790-51a5-4a8a-81d8-8e0f34e15b95.png">
+<img width="1359" alt="Screenshot of the application" src="https://user-images.githubusercontent.com/3120680/186341097-d2313fa0-8975-462f-9cef-0dabeba3d591.png">
 
 A macOS app that helps design accessible apps in three stages:
 
