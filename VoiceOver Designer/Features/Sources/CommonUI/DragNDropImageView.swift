@@ -17,7 +17,19 @@ open class DragNDropImageView: NSView {
     
     public weak var delegate: DragNDropDelegate?
 
-    lazy var label = NSTextField(string: defaultText)
+    lazy var label: NSTextField = {
+        let label = NSTextField(string: defaultText)
+        label.font = NSFont.preferredFont(forTextStyle: .largeTitle)
+        label.textColor = .tertiaryLabelColor
+        label.backgroundColor = .clear
+        label.isBordered = false
+        
+        addSubview(label)
+        label.isEditable = false
+        label.isSelectable = false
+        label.alignment = .center
+        return label
+    }()
     
     var text: String = "" {
         didSet {
@@ -30,18 +42,6 @@ open class DragNDropImageView: NSView {
         super.awakeFromNib()
         
         registerDragging()
-        setupLabel()
-    }
-    
-    private func setupLabel() {
-        label.font = NSFont.preferredFont(forTextStyle: .largeTitle)
-        label.textColor = .tertiaryLabelColor
-        label.isBordered = false
-        
-        addSubview(label)
-        label.isEditable = false
-        label.isSelectable = false
-        label.alignment = .center
     }
     
     open override func layout() {
