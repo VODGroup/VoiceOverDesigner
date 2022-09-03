@@ -42,8 +42,9 @@ class CustomDescriptionSectionView: NSView {
         descriptionView.delegate = delegate
         descriptionView.value = description.value
         descriptionView.container.title = "Description \(insertIndex)"
+        
         descriptionsStack.insertArrangedSubview(descriptionView, at: insertIndex)
-        descriptionView.labelTextField.becomeFirstResponder()
+        descriptionView.container.labelTextField.becomeFirstResponder()
     }
     
     func removeAllOptions() {

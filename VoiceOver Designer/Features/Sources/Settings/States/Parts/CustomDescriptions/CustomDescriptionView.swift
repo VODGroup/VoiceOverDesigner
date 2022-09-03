@@ -10,100 +10,74 @@ import AppKit
 
 class CustomDescriptionView: NSView {
     
-    let container: NSBox
-    let labelView: NSTextField
-    let valueView: NSTextField
-    let labelTextField: NSTextField
-    let valueTextField: NSTextField
+    let container: CustomDescriptionBox
+
     let removeButton: NSButton
-    let stackView: NSStackView
-    
+        
     weak var delegate: CustomDescriptionViewDelegate?
     
+
     var label: String {
         get {
-            labelTextField.stringValue
+            container.labelTextField.stringValue
         }
         set {
-            labelTextField.stringValue = newValue
+            container.labelTextField.stringValue = newValue
         }
     }
     
     var value: String {
         get {
-            valueTextField.stringValue
+            container.valueTextField.stringValue
         }
         set {
-            valueTextField.stringValue = newValue
+            container.valueTextField.stringValue = newValue
         }
     }
     
     
     override var intrinsicContentSize: NSSize {
         get {
-            CGSize(width: NSView.noIntrinsicMetric, height: 100)
+            CGSize(width: NSView.noIntrinsicMetric, height: 120)
         }
         
         set {}
     }
     
     init() {
-        labelView = NSTextField()
-        valueView = NSTextField()
-        labelView.stringValue = "Label:"
-        valueView.stringValue = "Value:"
-        labelTextField = NSTextField()
-        valueTextField = NSTextField()
-        labelTextField.isEditable = true
-        valueTextField.isEditable = true
         
-        container = NSBox()
+        
+        container = CustomDescriptionBox()
+        container.translatesAutoresizingMaskIntoConstraints = false
+
         removeButton = NSButton(title: "Remove", target: nil, action: nil)
         removeButton.bezelStyle = .inline
-
-
-        
-        stackView = NSStackView(views: [container, removeButton])
-        stackView.orientation = .horizontal
-        stackView.distribution = .fill
-        stackView.alignment = .top
-        
-
         
         super.init(frame: .zero)
-        
-        addSubview(stackView)
-        
-        NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            stackView.heightAnchor.constraint(equalTo: heightAnchor)
-        ])
-        
-        
-        container.autoresizesSubviews = true
 
-        for view in [labelTextField, valueTextField, labelView, valueView] {
-            container.contentView?.addSubview(view)
-        }
+        removeButton.translatesAutoresizingMaskIntoConstraints = false
         
-//        NSLayoutConstraint.activate([
-//            labelView.topAnchor.constraint(equalTo: container.contentView!.topAnchor, constant: 8),
-//            labelTextField.leadingAnchor.constraint(equalTo: labelView.trailingAnchor, constant: 8),
-//            valueView.topAnchor.constraint(equalTo: labelView.bottomAnchor, constant: 8),
-//            labelTextField.leadingAnchor.constraint(equalTo: valueView.trailingAnchor, constant: 8),
-//        ])
-//        
-       
+        container.labelTextField.target = self
+        container.labelTextField.action = #selector(updateLabel)
         
-        labelTextField.target = self
-        labelTextField.action = #selector(updateLabel)
+        container.valueTextField.target = self
+        container.valueTextField.action = #selector(updateValue)
         
-        valueTextField.target = self
-        valueTextField.action = #selector(updateValue)
         
         removeButton.target = self
         removeButton.action = #selector(deleteSelf)
         
+        
+        addSubview(container)
+        addSubview(removeButton)
+        
+        NSLayoutConstraint.activate([
+            container.leadingAnchor.constraint(equalTo: leadingAnchor),
+            container.trailingAnchor.constraint(equalTo: trailingAnchor),
+            
+            removeButton.bottomAnchor.constraint(equalTo: container.contentView!.topAnchor, constant: -5),
+            removeButton.trailingAnchor.constraint(equalTo: container.trailingAnchor)
+        ])
     }
     
     required init?(coder: NSCoder) {
