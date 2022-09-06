@@ -55,3 +55,16 @@ class VoiceOverElement: UIAccessibilityElement {
     }
     
 }
+
+
+@available(iOS 14.0, *)
+extension VoiceOverElement: AXCustomContentProvider {
+    var accessibilityCustomContent: [AXCustomContent]! {
+        get {
+            control.customDescriptions.descriptions.map {
+                AXCustomContent(label: $0.label, value: $0.value)
+            }
+        }
+        set { }
+    }
+}

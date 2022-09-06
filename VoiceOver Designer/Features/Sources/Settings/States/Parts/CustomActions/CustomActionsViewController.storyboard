@@ -9,7 +9,7 @@
         <scene sceneID="zl1-vK-EMr">
             <objects>
                 <viewController id="bke-Yi-iei" customClass="CustomActionsViewController" customModule="Settings" sceneMemberID="viewController">
-                    <view key="view" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xu6-7R-iuZ" customClass="CustomActionsView" customModule="Settings">
+                    <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="xu6-7R-iuZ" customClass="CustomActionsView" customModule="Settings">
                         <rect key="frame" x="0.0" y="0.0" width="326" height="50"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zYa-Ij-04p">

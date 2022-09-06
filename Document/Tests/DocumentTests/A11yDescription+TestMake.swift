@@ -42,3 +42,15 @@ extension A11yCustomActions {
         A11yCustomActions(names: names)
     }
 }
+
+extension A11yCustomDescriptions {
+    public static func testMake(descriptions: [A11yCustomDescription] = []) -> A11yCustomDescriptions {
+        A11yCustomDescriptions(descriptions: descriptions)
+    }
+}
+
+extension A11yCustomDescription {
+    public static func testMake(number: Int) -> A11yCustomDescription {
+        .init(label: "Label \(number)", value: "Value \(number)")
+    }
+}

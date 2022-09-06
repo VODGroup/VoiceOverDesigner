@@ -54,6 +54,9 @@ public class A11yDescription: Codable, Equatable {
     @DecodableDefault.EmptyCustomActions
     public private(set) var customActions: A11yCustomActions
     
+    @DecodableDefault.EmptyCustomDescriptions
+    public private(set) var customDescriptions: A11yCustomDescriptions
+    
     public var isAdjustable: Bool {
         get {
             trait.contains(.adjustable)
@@ -176,5 +179,21 @@ public extension A11yDescription {
     
     func updateCustomAction(at index: Int, with name: String) {
         customActions.update(at: index, with: name)
+    }
+}
+
+
+// MARK: CustomDescription
+public extension A11yDescription {
+    func addCustomDescription(_ description: A11yCustomDescription) {
+        customDescriptions.addNewCustomDescription(description)
+    }
+    
+    func removeCustomDescription(at index: Int) {
+        customDescriptions.remove(at: index)
+    }
+    
+    func updateCustomDescription(at index: Int, with description: A11yCustomDescription) {
+        customDescriptions.update(at: index, with: description)
     }
 }
