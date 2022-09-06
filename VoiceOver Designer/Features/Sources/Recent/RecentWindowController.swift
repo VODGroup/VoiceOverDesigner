@@ -39,7 +39,6 @@ public class RecentWindowController: NSWindowController {
     
     private func embedProjectsViewControllerInWindow() {
         let projects = projectsController()
-        window?.toolbar = projects.toolbar
         contentViewController = projects
     }
     

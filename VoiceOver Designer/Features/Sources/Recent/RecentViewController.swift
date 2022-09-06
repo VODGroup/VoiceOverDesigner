@@ -15,15 +15,25 @@ public protocol RecentRouter: AnyObject {
 
 public class RecentViewController: NSViewController {
     
+    /// Type of cell in collection view
+    enum CollectionViewItem {
+        /// Regular (existing) document item
+        case document(URL)
+        /// Add new document item
+        case newDocument
+    }
+    
     public weak var documentController: NSDocumentController?
     
     public weak var router: RecentRouter?
     
-    public var toolbar = RecentToolbar()
+    private var items: [CollectionViewItem] {
+        let documentItems = (documentController?.recentDocumentURLs ?? []).map { CollectionViewItem.document($0) }
+        return [.newDocument] + documentItems
+    }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        toolbar.addButton.action = #selector(createNewProject)
         view().collectionView.dataSource = self
         view().collectionView.delegate = self
     }
@@ -37,9 +47,8 @@ public class RecentViewController: NSViewController {
         view as! RecentView
     }
     
-    @objc func createNewProject() {
+    private func createNewProject() {
         let document = VODesignDocument()
-        
         show(document: document)
     }
 
@@ -68,16 +77,23 @@ extension RecentViewController: DragNDropDelegate {
 
 
 extension RecentViewController : NSCollectionViewDataSource {
+    
     public func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
-        documentController?.recentDocumentURLs.count ?? 0
+        items.count
     }
     
     public func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
-        let item = RecentCollectionViewItem()
-        if let url = documentController?.recentDocumentURLs[indexPath.item] {
-            item.configure(image: VODesignDocument.image(from: url), fileName: url.deletingPathExtension().lastPathComponent)
+        switch items[indexPath.item] {
+        case .newDocument:
+            return RecentNewDocCollectionViewItem()
+        case .document(let url):
+            let item = RecentCollectionViewItem()
+            item.configure(
+                image: VODesignDocument.image(from: url),
+                fileName: url.deletingPathExtension().lastPathComponent
+            )
+            return item
         }
-        return item
     }
     
     public func numberOfSections(in collectionView: NSCollectionView) -> Int {
@@ -86,12 +102,17 @@ extension RecentViewController : NSCollectionViewDataSource {
 }
 
 extension RecentViewController: NSCollectionViewDelegate {
+    
     public func collectionView(_ collectionView: NSCollectionView,
                                didSelectItemsAt indexPaths: Set<IndexPath>) {
         for indexPath in indexPaths {
-            if let url = documentController?.recentDocumentURLs[indexPath.item] {
+            switch items[indexPath.item] {
+            case .document(let url):
                 let document = VODesignDocument(file: url)
                 show(document: document)
+                
+            case .newDocument:
+                createNewProject()
             }
         }
     }

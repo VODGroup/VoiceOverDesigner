@@ -20,6 +20,7 @@ class RecentView: NSView {
         let collection = NSCollectionView()
         collection.collectionViewLayout = flowLayout
         collection.isSelectable = true
+        collection.register(RecentNewDocCollectionViewItem.self, forItemWithIdentifier: RecentNewDocCollectionViewItem.identifier)
         collection.register(RecentCollectionViewItem.self, forItemWithIdentifier: RecentCollectionViewItem.identifier)
         return collection
     }()
