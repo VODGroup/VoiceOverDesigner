@@ -17,7 +17,7 @@ class CustomDescriptionBox: NSBox {
     
     override var intrinsicContentSize: NSSize {
         get {
-            CGSize(width: NSView.noIntrinsicMetric, height: 100)
+            CGSize(width: NSView.noIntrinsicMetric, height: 90)
         }
         
         set {}
@@ -78,7 +78,7 @@ class CustomDescriptionBox: NSBox {
             labelTextField.leadingAnchor.constraint(equalTo: labelView.trailingAnchor, constant: 8),
             labelTextField.trailingAnchor.constraint(equalTo: contentView!.trailingAnchor, constant: -8),
             
-            valueTextField.topAnchor.constraint(equalTo: labelTextField.bottomAnchor, constant: 20),
+            valueTextField.topAnchor.constraint(equalTo: labelTextField.bottomAnchor, constant: 10),
             valueTextField.leadingAnchor.constraint(equalTo: labelView.trailingAnchor, constant: 8),
             valueTextField.trailingAnchor.constraint(equalTo: contentView!.trailingAnchor, constant: -8)
         ])

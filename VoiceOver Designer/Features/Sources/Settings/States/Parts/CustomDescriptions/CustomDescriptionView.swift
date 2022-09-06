@@ -38,7 +38,7 @@ class CustomDescriptionView: NSView {
     
     override var intrinsicContentSize: NSSize {
         get {
-            CGSize(width: NSView.noIntrinsicMetric, height: 120)
+            CGSize(width: NSView.noIntrinsicMetric, height: 100)
         }
         
         set {}
