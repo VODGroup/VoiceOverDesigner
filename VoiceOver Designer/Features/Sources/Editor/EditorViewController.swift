@@ -40,6 +40,8 @@ public class EditorViewController: NSViewController {
     
     public override func viewDidAppear() {
         super.viewDidAppear()
+        view().addImageButton.action = #selector(addImageButtonTapped)
+        view().addImageButton.target = self
         DispatchQueue.main.async {
             self.presenter.didLoad(
                 ui: self.view().controlsView)
@@ -129,7 +131,27 @@ public class EditorViewController: NSViewController {
     public func delete(model: A11yDescription) {
         presenter.delete(model: model)
     }
+    
+    @objc func addImageButtonTapped() {
+        guard let window = view.window else { return }
+        let imagePanel = NSOpenPanel()
+        imagePanel.canChooseFiles = true
+        imagePanel.canChooseDirectories = false
+        imagePanel.allowsMultipleSelection = false
+        imagePanel.beginSheetModal(for: window) { [weak self] response in
+            if response == .OK {
+                if let url = imagePanel.url, let image = NSImage(contentsOf: url) {
+                    self?.presenter.update(image: image)
+                    self?.view().setImage(image)
+                    self?.view().backgroundImageView.image = image
+                    self?.presenter.save()
+                }
+            }
+        }
+    }
 }
+
+
 
 extension EditorViewController: DragNDropDelegate {
     public func didDrag(image: NSImage) {
