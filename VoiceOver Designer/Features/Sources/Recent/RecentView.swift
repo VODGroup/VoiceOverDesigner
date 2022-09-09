@@ -15,7 +15,7 @@ class RecentView: NSView {
     lazy var collectionView: NSCollectionView = {
         let flowLayout = NSCollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
-        flowLayout.itemSize = CGSize(width: 100, height: 250)
+        flowLayout.itemSize = CGSize(width: 125, height: 250)
         flowLayout.sectionInset = .init(top: 16, left: 16, bottom: 0, right: 16)
         let collection = NSCollectionView()
         collection.collectionViewLayout = flowLayout
