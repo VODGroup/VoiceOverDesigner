@@ -42,12 +42,25 @@ public class EditorViewController: NSViewController {
         super.viewDidAppear()
         view().addImageButton.action = #selector(addImageButtonTapped)
         view().addImageButton.target = self
+        
         DispatchQueue.main.async {
             self.presenter.didLoad(
                 ui: self.view().controlsView)
             self.setImage()
             self.addMouseTracking()
+            self.addMenuItem()
         }
+    }
+    
+    // TODO: try to extract?
+    func addMenuItem() {
+        guard let menu = NSApplication.shared.menu, menu.item(withTitle: "Editor") == nil else { return }
+        let editorMenuItem = NSMenuItem(title: "Editor", action: nil, keyEquivalent: "")
+        let editorSubMenu = NSMenu(title: "Editor")
+        let addImageItem = NSMenuItem(title: "Add image", action: #selector(addImageButtonTapped), keyEquivalent: "")
+        editorSubMenu.addItem(addImageItem)
+        editorMenuItem.submenu = editorSubMenu
+        menu.addItem(editorMenuItem)
     }
     
     func setImage() {
