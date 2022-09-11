@@ -1,3 +1,5 @@
+import CoreGraphics
+
 extension A11yDescription {
     var isValid: Bool {
         !label.isEmpty

@@ -49,13 +49,13 @@ public class A11yDescription: Codable, Equatable {
     public var frame: CGRect
     
     // MARK: - Adjustable
-    public private(set) var adjustableOptions: AdjustableOptions // Not optional because user can input values, disable adjustable, but reenable after time. The app will keep data :-)
+    public internal(set) var adjustableOptions: AdjustableOptions // Not optional because user can input values, disable adjustable, but reenable after time. The app will keep data :-)
     
     @DecodableDefault.EmptyCustomActions
-    public private(set) var customActions: A11yCustomActions
+    public internal(set) var customActions: A11yCustomActions
     
     @DecodableDefault.EmptyCustomDescriptions
-    public private(set) var customDescriptions: A11yCustomDescriptions
+    public internal(set) var customDescriptions: A11yCustomDescriptions
     
     public var isAdjustable: Bool {
         get {

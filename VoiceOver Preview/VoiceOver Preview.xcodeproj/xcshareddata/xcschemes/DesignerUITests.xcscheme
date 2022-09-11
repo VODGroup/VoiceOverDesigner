@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "1340"
-   wasCreatedForAppExtension = "YES"
-   version = "2.0">
+   version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
@@ -15,24 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1E7555C02895918400024714"
-               BuildableName = "MacOSPreview.appex"
-               BlueprintName = "MacOSPreview"
-               ReferencedContainer = "container:VoiceOver Designer.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1E1D7FEC281D5CBE00B64954"
-               BuildableName = "VoiceOver Designer.app"
-               BlueprintName = "VoiceOver Designer"
-               ReferencedContainer = "container:VoiceOver Designer.xcodeproj">
+               BlueprintIdentifier = "1EA7411528B2683000D6CAA4"
+               BuildableName = "VoiceOverDesignerUITests.xctest"
+               BlueprintName = "VoiceOverDesignerUITests"
+               ReferencedContainer = "container:../VoiceOver Designer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -50,23 +35,21 @@
                BlueprintIdentifier = "1EA7411528B2683000D6CAA4"
                BuildableName = "VoiceOverDesignerUITests.xctest"
                BlueprintName = "VoiceOverDesignerUITests"
-               ReferencedContainer = "container:VoiceOver Designer.xcodeproj">
+               ReferencedContainer = "container:../VoiceOver Designer.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
-      selectedDebuggerIdentifier = ""
-      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
-      askForAppToLaunch = "Yes"
       useCustomWorkingDirectory = "NO"
-      ignoresPersistentStateOnLaunch = "NO"
+      ignoresPersistentStateOnLaunch = "YES"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      allowLocationSimulation = "YES"
-      launchAutomaticallySubstyle = "2">
+      allowLocationSimulation = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
@@ -74,7 +57,7 @@
             BlueprintIdentifier = "1E1D7FEC281D5CBE00B64954"
             BuildableName = "VoiceOver Designer.app"
             BlueprintName = "VoiceOver Designer"
-            ReferencedContainer = "container:VoiceOver Designer.xcodeproj">
+            ReferencedContainer = "container:../VoiceOver Designer.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -83,18 +66,16 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      debugDocumentVersioning = "YES"
-      launchAutomaticallySubstyle = "2">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      debugDocumentVersioning = "YES">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1E1D7FEC281D5CBE00B64954"
-            BuildableName = "VoiceOver Designer.app"
-            BlueprintName = "VoiceOver Designer"
-            ReferencedContainer = "container:VoiceOver Designer.xcodeproj">
+            BlueprintIdentifier = "1EA7411528B2683000D6CAA4"
+            BuildableName = "VoiceOverDesignerUITests.xctest"
+            BlueprintName = "VoiceOverDesignerUITests"
+            ReferencedContainer = "container:../VoiceOver Designer.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

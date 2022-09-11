@@ -39,20 +39,30 @@ class EditorView: FlippedView {
         scrollView.horizontalScrollElasticity = .none
     }
     
-    func setImage(_ image: NSImage) {
+    func setImage(_ image: NSImage?) {
+        dragnDropView.isHidden = image != nil
+        
+        guard let image = image else {
+            return
+        }
+
         backgroundImageView.image = image
         backgroundImageView.layer?.zPosition = 0
 
-        let scale = image.recommendedLayerContentsScale(0)
+        let screenScale = NSScreen.main?.backingScaleFactor ?? 1
+        var scale: CGFloat = image.recommendedLayerContentsScale(screenScale)
 
+        if scale == 1 {
+            scale = 3
+        }
         let imageSizeScaled = CGSize(width: image.size.width / scale,
                                      height: image.size.height / scale)
 
         clipView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
 
-//        imageWidth.constant = imageSizeScaled.width
-//        imageHeight.constant = imageSizeScaled.height
+        imageWidth.constant = imageSizeScaled.width
+        imageHeight.constant = imageSizeScaled.height
         
     }
     

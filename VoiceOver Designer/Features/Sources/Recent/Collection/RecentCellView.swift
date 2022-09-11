@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 
 
-class ProjectCellView: NSView {
+class RecentCellView: NSView {
     
     lazy var thumbnail: NSImageView = {
         let view = NSImageView(image: NSImage())
