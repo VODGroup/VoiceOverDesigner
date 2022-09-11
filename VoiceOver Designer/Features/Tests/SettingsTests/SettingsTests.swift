@@ -27,7 +27,7 @@ class SettingsTests: XCTestCase {
         
         XCTAssertEqual(
             control.backgroundColor,
-            A11yDescription.validColor.withAlphaComponent(0.5).cgColor
+            Color.validColor.withAlphaComponent(0.5).cgColor
         )
     }
     
