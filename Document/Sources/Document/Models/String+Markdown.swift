@@ -15,8 +15,32 @@ extension NSMutableAttributedString {
         lhs.append(markdown: rhs)
     }
     
+    static func += (lhs: NSMutableAttributedString, rhs: NSAttributedString) {
+        lhs.append(rhs)
+    }
+    
     var isEmpty: Bool {
         length == 0
+    }
+}
+
+extension String {
+    @available(macOS 12, *)
+    @available(iOS 15, *)
+    func markdown(color: Color? = nil) -> NSAttributedString {
+        if self.isEmpty {
+            return NSAttributedString()// Do nothing, otherwise it will crash
+        }
+
+        let result = try! NSMutableAttributedString(markdown: self)
+        
+        if let color = color {
+            let withoutMarkdownRange = result.string.fullRange
+            result.addAttribute(.foregroundColor,
+                                value: color,
+                                range: withoutMarkdownRange)
+        }
+        return result
     }
 }
 

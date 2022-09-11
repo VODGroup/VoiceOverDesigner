@@ -8,7 +8,7 @@ extension A11yDescription {
     static let colorAlpha: CGFloat = A11yControl.Config().normalAlpha
     
     public var color: Color {
-        .colorFor(element: self)
+        .color(for: self)
         .withAlphaComponent(Self.colorAlpha)
     }
 }

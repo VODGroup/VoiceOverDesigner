@@ -21,7 +21,7 @@ extension Color {
         Color.systemBlue
     }
     
-    static func colorFor(element: A11yDescription) -> Color {
+    static func color(for element: A11yDescription) -> Color {
         guard element.isAccessibilityElement else {
             return .ignoreColor
         }
