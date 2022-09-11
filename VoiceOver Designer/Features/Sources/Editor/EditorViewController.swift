@@ -146,22 +146,34 @@ public class EditorViewController: NSViewController {
     }
     
     @objc func addImageButtonTapped() {
-        guard let window = view.window else { return }
-        let imagePanel = NSOpenPanel()
-        imagePanel.canChooseFiles = true
-        imagePanel.canChooseDirectories = false
-        imagePanel.allowsMultipleSelection = false
-        imagePanel.beginSheetModal(for: window) { [weak self] response in
-            if response == .OK {
-                if let url = imagePanel.url, let image = NSImage(contentsOf: url) {
-                    self?.presenter.update(image: image)
-                    self?.view().setImage(image)
-                    self?.view().backgroundImageView.image = image
-                    self?.presenter.save()
-                }
+        Task {
+            if let image = await requestImage() {
+                presentImage(image)
             }
         }
     }
+    
+    func requestImage() async -> NSImage? {
+        guard let window = view.window else { return nil }
+        let imagePanel = NSOpenPanel()
+        imagePanel.allowedFileTypes = NSImage.imageTypes
+        imagePanel.canChooseFiles = true
+        imagePanel.canChooseDirectories = false
+        imagePanel.allowsMultipleSelection = false
+        let modalResponse = await imagePanel.beginSheetModal(for: window)
+        guard modalResponse == .OK else { return nil }
+        guard let url = imagePanel.url, let image = NSImage(contentsOf: url) else { return nil }
+        return image
+    }
+    
+    
+    func presentImage(_ image: NSImage) {
+        presenter.update(image: image)
+        view().setImage(image)
+        view().backgroundImageView.image = image
+        presenter.save()
+    }
+    
 }
 
 
