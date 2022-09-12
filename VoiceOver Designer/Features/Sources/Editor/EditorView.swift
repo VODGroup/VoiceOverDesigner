@@ -31,6 +31,7 @@ class EditorView: FlippedView {
     
     @IBOutlet weak var contentView: NSView!
     @IBOutlet weak var controlsView: ControlsView!
+    @IBOutlet weak var addImageButton: NSButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -41,6 +42,7 @@ class EditorView: FlippedView {
     
     func setImage(_ image: NSImage?) {
         dragnDropView.isHidden = image != nil
+        addImageButton.isHidden = image != nil
         
         guard let image = image else {
             return
