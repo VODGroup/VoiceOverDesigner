@@ -11,7 +11,7 @@ public class A11yControl: CALayer {
     
     struct Config {
         let selectedBorderWidth: CGFloat = 4
-        let selectedCornerRadius: CGFloat = 10
+        let selectedCornerRadius: CGFloat = 4
         
         let highlightedAlpha: CGFloat = 0.75
         let normalAlpha: CGFloat = 0.5
