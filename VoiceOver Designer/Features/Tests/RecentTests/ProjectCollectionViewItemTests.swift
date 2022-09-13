@@ -6,12 +6,12 @@
 //
 
 import XCTest
-@testable import Projects
+@testable import Recent
 
 class ProjectCollectionViewItemTests: XCTestCase {
     
-    private func makeSUT() -> ProjectCollectionViewItem {
-        let cell = ProjectCollectionViewItem()
+    private func makeSUT() -> RecentCollectionViewItem {
+        let cell = RecentCollectionViewItem()
         return cell
     }
 

@@ -42,12 +42,13 @@ extension A11yDescription {
                 result += traitsDescription.joined(separator: " ").bold
             } else {
                 let trailingPeriod = result.string.hasSuffix(".") ? "" : "."
-                result += "\(trailingPeriod) \(traitsDescription.joined(separator: " ").bold)"
+                let trait = traitsDescription.joined(separator: " ").bold
+                result += "\(trailingPeriod) \(trait)".markdown(color: .color(for: self))
             }
         }
         
         if let font = font {
-            result.addAttribute(.font, value: font, range: NSRange(location: 0, length: result.string.count))
+            result.addAttribute(.font, value: font, range: result.string.fullRange)
         }
         
         return result
@@ -94,5 +95,11 @@ extension A11yDescription {
     @available(iOS 15, *)
     public var voiceOverText: String {
         voiceOverTextAttributed(font: nil).string
+    }
+}
+
+extension String {
+    var fullRange: NSRange {
+        NSRange(location: 0, length: count)
     }
 }

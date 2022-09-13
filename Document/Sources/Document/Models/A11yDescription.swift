@@ -49,13 +49,13 @@ public class A11yDescription: Codable, Equatable {
     public var frame: CGRect
     
     // MARK: - Adjustable
-    public private(set) var adjustableOptions: AdjustableOptions // Not optional because user can input values, disable adjustable, but reenable after time. The app will keep data :-)
+    public internal(set) var adjustableOptions: AdjustableOptions // Not optional because user can input values, disable adjustable, but reenable after time. The app will keep data :-)
     
     @DecodableDefault.EmptyCustomActions
-    public private(set) var customActions: A11yCustomActions
+    public internal(set) var customActions: A11yCustomActions
     
     @DecodableDefault.EmptyCustomDescriptions
-    public private(set) var customDescriptions: A11yCustomDescriptions
+    public internal(set) var customDescriptions: A11yCustomDescriptions
     
     public var isAdjustable: Bool {
         get {
@@ -103,97 +103,5 @@ public class A11yDescription: Codable, Equatable {
             adjustableOptions: descr.adjustableOptions,
             customActions: descr.customActions
         )
-    }
-    
-    var isValid: Bool {
-        !label.isEmpty
-    }
-    
-    static let alphaColor: CGFloat = A11yControl.Config().normalAlpha
-
-    
-    public var color: Color {
-        guard isAccessibilityElement else {
-            return Self.ignoreColor.withAlphaComponent(Self.alphaColor)
-        }
-        
-        return (isValid ? Self.validColor: Self.invalidColor).withAlphaComponent(Self.alphaColor)
-    }
-    
-    static var invalidColor: Color {
-        Color.systemOrange
-    }
-    
-    static var validColor: Color {
-        Color.systemGreen
-    }
-    
-    static var ignoreColor: Color {
-        Color.systemGray
-    }
-}
-  
-// MARK: Adjustable
-extension A11yDescription {
-    public func addAdjustableOption(defaultValue: String = "") {
-        trait.formUnion(.adjustable)
-        adjustableOptions.add(defaultValue: defaultValue)
-    }
-    
-    public func updateAdjustableOption(at index: Int, with text: String) {
-        adjustableOptions.update(at: index, text: text)
-    }
-    
-    public func removeAdjustableOption(at index: Int) {
-        adjustableOptions.remove(at: index)
-        if adjustableOptions.isEmpty {
-            trait.remove(.adjustable)
-        }
-    }
-    
-    public func selectAdjustableOption(at index: Int) {
-        adjustableOptions.currentIndex = index
-        value = adjustableOptions.options[index]
-    }
-    
-    public func accessibilityIncrement() {
-        adjustableOptions.accessibilityIncrement()
-        value = adjustableOptions.currentValue ?? ""
-    }
-    
-    public func accessibilityDecrement() {
-        adjustableOptions.accessibilityDecrement()
-        value = adjustableOptions.currentValue ?? ""
-    }
-}
-
-// MARK: CustomActions
-public extension A11yDescription {
-    func addCustomAction(named name: String) {
-        customActions.addNewCustomAction(named: name)
-    }
-    
-    func removeCustomAction(at index: Int) {
-        customActions.remove(at: index)
-    }
-    
-    func updateCustomAction(at index: Int, with name: String) {
-        customActions.update(at: index, with: name)
-    }
-}
-
-
-// MARK: CustomDescription
-public extension A11yDescription {
-    func addCustomDescription(_ description: A11yCustomDescription) {
-        customDescriptions.addNewCustomDescription(description)
-    }
-    
-    func removeCustomDescription(at index: Int) {
-        customDescriptions.remove(at: index)
-    }
-    
-    func updateCustomDescription(at index: Int, with description: A11yCustomDescription) {
-        customDescriptions.update(at: index, with: description)
     }
 }
