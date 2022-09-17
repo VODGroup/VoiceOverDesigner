@@ -80,7 +80,7 @@ extension ProjectController {
        
         guard let currentController = settings.currentController as? SettingsViewController else { return }
         
-        currentController.presentTextRecognition(result?.text)
+        currentController.presentTextRecognition(result?.text ?? [])
     }
     
     func showSettings(for model: A11yDescription) {

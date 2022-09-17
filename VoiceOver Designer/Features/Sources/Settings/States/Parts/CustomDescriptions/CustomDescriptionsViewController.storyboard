@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="gh7-mI-6NE">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="gh7-mI-6NE">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21225"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -9,11 +10,11 @@
         <scene sceneID="BAw-O5-PCB">
             <objects>
                 <viewController id="gh7-mI-6NE" customClass="CustomDescriptionsViewController" customModule="Settings" sceneMemberID="viewController">
-                    <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="cqR-h9-93e" customClass="CustomDescriptionSectionView" customModule="Settings">
-                        <rect key="frame" x="0.0" y="0.0" width="472" height="80"/>
+                    <view key="view" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cqR-h9-93e" customClass="CustomDescriptionSectionView" customModule="Settings">
+                        <rect key="frame" x="0.0" y="0.0" width="472" height="62"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zej-NZ-O8n">
-                                <rect key="frame" x="-2" y="64" width="133" height="16"/>
+                                <rect key="frame" x="-2" y="46" width="133" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Custom Description" id="EIx-Uf-Zn4">
                                     <font key="font" textStyle="headline" name=".SFNS-Bold"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -21,7 +22,7 @@
                                 </textFieldCell>
                             </textField>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MfN-lc-2QT">
-                                <rect key="frame" x="0.0" y="34" width="473" height="20"/>
+                                <rect key="frame" x="0.0" y="16" width="473" height="20"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3Zg-pg-JDY">
                                         <rect key="frame" x="-7" y="-7" width="190" height="32"/>
@@ -48,7 +49,7 @@
                             <constraint firstItem="MfN-lc-2QT" firstAttribute="top" secondItem="zej-NZ-O8n" secondAttribute="bottom" constant="10" id="LbX-xd-DTL"/>
                             <constraint firstItem="zej-NZ-O8n" firstAttribute="leading" secondItem="MfN-lc-2QT" secondAttribute="leading" id="bbH-nn-Z23"/>
                             <constraint firstItem="zej-NZ-O8n" firstAttribute="top" secondItem="cqR-h9-93e" secondAttribute="top" id="e8E-lc-ccu"/>
-                            <constraint firstAttribute="bottom" secondItem="MfN-lc-2QT" secondAttribute="bottom" constant="34" id="wWy-UJ-QA9"/>
+                            <constraint firstAttribute="bottom" secondItem="MfN-lc-2QT" secondAttribute="bottom" constant="16" id="wWy-UJ-QA9"/>
                         </constraints>
                         <connections>
                             <outlet property="addNewCustomDescriptionButton" destination="3Zg-pg-JDY" id="r3n-OL-E7b"/>

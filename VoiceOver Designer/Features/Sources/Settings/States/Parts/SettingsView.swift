@@ -10,7 +10,7 @@ class SettingsView: NSView {
     
     @IBOutlet weak var scrollView: NSScrollView!
     @IBOutlet weak var mainStack: NSStackView!
-    @IBOutlet weak var label: NSTextField!
+    @IBOutlet weak var label: NSComboBox!
     var labelText: String {
         get {
             label.stringValue

@@ -81,10 +81,14 @@ public class SettingsViewController: NSViewController {
     }
     
     // MARK: Text Recognition
-    public func presentTextRecognition(_ results: [String]?) {
+    public func presentTextRecognition(_ results: [String]) {
         print("Recognition results \(results)")
+        
         guard view().isLiveRecogtionEnabled.state == .on else { return }
-        guard let first = results?.first else { return }
+        
+        view().label.addItems(withObjectValues: results)
+        valueViewController?.view().valueTextField.addItems(withObjectValues: results)
+        guard let first = results.first else { return }
         
         if view().labelText.isEmpty {
             view().labelText = first

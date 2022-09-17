@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="fEp-Em-BFf">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="fEp-Em-BFf">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21225"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -13,7 +14,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="406" height="125"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6GH-JK-vtJ">
-                                <rect key="frame" x="-2" y="109" width="40" height="16"/>
+                                <rect key="frame" x="-2" y="90" width="40" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Value" id="Cfa-kM-O7m">
                                     <font key="font" textStyle="headline" name=".SFNS-Bold"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -21,28 +22,27 @@
                                 </textFieldCell>
                             </textField>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalHuggingPriority="251" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mXM-5i-JW0">
-                                <rect key="frame" x="0.0" y="8" width="406" height="96"/>
+                                <rect key="frame" x="0.0" y="8" width="406" height="77"/>
                                 <subviews>
-                                    <textField verticalHuggingPriority="750" placeholderIntrinsicWidth="390" placeholderIntrinsicHeight="40" translatesAutoresizingMaskIntoConstraints="NO" id="MJ0-z7-LB8">
-                                        <rect key="frame" x="0.0" y="56" width="390" height="40"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="8Zp-JZ-Qhy">
+                                    <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RMJ-Q9-TSq">
+                                        <rect key="frame" x="0.0" y="54" width="409" height="25"/>
+                                        <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="K21-iz-Sge">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                        <accessibility identifier="valueTextField"/>
+                                        </comboBoxCell>
                                         <connections>
-                                            <action selector="valueDidChange:" target="fEp-Em-BFf" id="WiF-RC-suG"/>
+                                            <action selector="valueDidChange:" target="fEp-Em-BFf" id="JfQ-PX-5DK"/>
                                         </connections>
-                                    </textField>
+                                    </comboBox>
                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ACh-c1-5AL">
-                                        <rect key="frame" x="0.0" y="0.0" width="406" height="48"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="406" height="50"/>
                                         <subviews>
                                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="aNN-Zr-bHS">
-                                                <rect key="frame" x="0.0" y="0.0" width="406" height="48"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="406" height="50"/>
                                                 <subviews>
                                                     <button horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4ac-qr-xd8">
-                                                        <rect key="frame" x="13" y="5" width="106" height="44"/>
+                                                        <rect key="frame" x="13" y="5" width="106" height="46"/>
                                                         <buttonCell key="cell" type="push" title="+ Add value" bezelStyle="rounded" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="G1o-wg-Qfo">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -52,7 +52,7 @@
                                                         </connections>
                                                     </button>
                                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NNz-9W-VWL">
-                                                        <rect key="frame" x="306" y="26" width="100" height="18"/>
+                                                        <rect key="frame" x="306" y="28" width="100" height="18"/>
                                                         <buttonCell key="cell" type="check" title="Enumerated" bezelStyle="regularSquare" imagePosition="left" inset="2" id="0Mf-ur-5Yd">
                                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                             <font key="font" metaFont="system"/>
@@ -82,6 +82,9 @@
                                         </customSpacing>
                                     </stackView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="RMJ-Q9-TSq" firstAttribute="width" secondItem="mXM-5i-JW0" secondAttribute="width" id="7Vi-kf-fyz"/>
+                                </constraints>
                                 <visibilityPriorities>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
@@ -92,7 +95,7 @@
                                 </customSpacing>
                             </stackView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ecy-07-j5w" customClass="TraitCheckBox" customModule="Settings">
-                                <rect key="frame" x="316" y="108" width="90" height="18"/>
+                                <rect key="frame" x="316" y="89" width="90" height="18"/>
                                 <buttonCell key="cell" type="check" title="Adjustable" bezelStyle="regularSquare" imagePosition="left" inset="2" id="AkL-hm-OBG">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -118,7 +121,7 @@
                             <outlet property="isEnumeratedCheckBox" destination="NNz-9W-VWL" id="eh7-Ix-Emz"/>
                             <outlet property="mainStack" destination="mXM-5i-JW0" id="OHC-WK-xI4"/>
                             <outlet property="optionsStack" destination="ACh-c1-5AL" id="6cQ-ud-6la"/>
-                            <outlet property="valueTextField" destination="MJ0-z7-LB8" id="QL6-tY-ElL"/>
+                            <outlet property="valueTextField" destination="RMJ-Q9-TSq" id="cPS-Ix-3wy"/>
                         </connections>
                     </view>
                 </viewController>

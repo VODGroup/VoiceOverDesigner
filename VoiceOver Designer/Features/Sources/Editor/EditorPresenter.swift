@@ -194,7 +194,6 @@ public class EditorPresenter: DocumentPresenter {
             let recognitionResults = try await textRecognition.processImage(image: image)
             let results = RecognitionResult(control: control,
                                             text: recognitionResults)
-            guard !results.text.isEmpty else { return }
             
             publish(textRecognition: results)
         } catch let error {
