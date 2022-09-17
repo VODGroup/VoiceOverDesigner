@@ -28,7 +28,8 @@ public class DocumentPresenter {
         document.controls = descriptions
     }
     
-    public var selectedPublisher = OptionalDescriptionSubject(nil)
+    public let selectedPublisher = OptionalDescriptionSubject(nil)
+    public let recognitionPublisher = TextRecognitionSubject(nil)
     
     func update(image: Image) {
         document.image = image
@@ -36,6 +37,10 @@ public class DocumentPresenter {
     
     func update(controls: [A11yDescription]) {
         document.controls = controls
+    }
+    
+    func update(textRecognition: RecognitionResult) {
+        recognitionPublisher.send(textRecognition)
     }
 }
 

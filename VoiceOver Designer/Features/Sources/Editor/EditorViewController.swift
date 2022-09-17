@@ -128,7 +128,9 @@ public class EditorViewController: NSViewController {
             // TODO: Make dynamic scale
             let backImage = await view().image(at: control.frame, scale: 3)
             let recognitionResults = await textRecognition.update(image: backImage, control: control)
-            print(recognitionResults)
+            let results = RecognitionResult(control: control,
+                                            text: recognitionResults)
+            presenter.update(textRecognition: results)
         }
     }
     

@@ -1,5 +1,5 @@
 import Vision
-import AppKit
+import CoreGraphics
 
 class TextRecognitionService {
     
