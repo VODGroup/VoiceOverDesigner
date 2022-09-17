@@ -14,6 +14,7 @@ class SettingsView: NSView {
     @IBOutlet weak var hint: NSTextField!
     
     @IBOutlet weak var isAccessibilityElementButton: NSButton!
+    @IBOutlet weak var isLiveRecogtionEnabled: NSButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

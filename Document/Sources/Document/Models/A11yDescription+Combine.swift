@@ -9,6 +9,6 @@ public struct RecognitionResult {
         self.text = text
     }
     
-    let control: A11yControl
-    let text: [String]
+    public let control: A11yControl
+    public let text: [String]
 }

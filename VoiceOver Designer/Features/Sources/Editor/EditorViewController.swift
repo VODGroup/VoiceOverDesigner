@@ -126,15 +126,14 @@ public class EditorViewController: NSViewController {
     private func recongizeText(under control: A11yControl) {
         Task {
             // TODO: Make dynamic scale
-            let backImage = await view().image(at: control.frame, scale: 3)
-            let recognitionResults = await textRecognition.update(image: backImage, control: control)
-            let results = RecognitionResult(control: control,
-                                            text: recognitionResults)
-            presenter.update(textRecognition: results)
+            guard let backImage = await view().image(
+                at: control.frame,
+                scale: 3)
+            else { return }
+            
+            await presenter.recognizeText(image: backImage, control: control)
         }
     }
-    
-    private let textRecognition = TextRecognitionController()
     
     func view() -> EditorView {
         view as! EditorView

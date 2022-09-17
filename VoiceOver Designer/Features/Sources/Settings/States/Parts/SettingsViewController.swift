@@ -75,6 +75,17 @@ public class SettingsViewController: NSViewController {
         let storyboard = NSStoryboard(name: "Settings", bundle: .module)
         return storyboard.instantiateInitialController() as! SettingsViewController
     }
+    
+    // MARK: Text Recognition
+    public func presentTextRecognition(_ results: [String]?) {
+        print("Recognition results \(results)")
+        guard view().isLiveRecogtionEnabled.state == .on else { return }
+        guard let first = results?.first else { return }
+        
+        if view().label.stringValue.isEmpty {
+            view().label.stringValue = first
+        }
+    }
 }
 
 extension SettingsViewController: A11yValueDelegate {

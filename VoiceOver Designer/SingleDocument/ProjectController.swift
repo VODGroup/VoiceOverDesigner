@@ -55,6 +55,12 @@ class ProjectController: NSSplitViewController {
             .selectedPublisher
             .sink(receiveValue: updateSelection(_:))
             .store(in: &cancellables)
+        
+        editor.presenter
+            .recognitionPublisher
+            .receive(on: DispatchQueue.main)
+            .sink(receiveValue: updateTextRecognition(_:))
+            .store(in: &cancellables)
     }
 }
 
@@ -66,6 +72,15 @@ extension ProjectController {
         } else {
             hideSettings()
         }
+    }
+    
+    private func updateTextRecognition(_ result: RecognitionResult?) {
+        guard case .control(let model) = settings.state else { return }
+        guard model == result?.control.a11yDescription else { return }
+       
+        guard let currentController = settings.currentController as? SettingsViewController else { return }
+        
+        currentController.presentTextRecognition(result?.text)
     }
     
     func showSettings(for model: A11yDescription) {

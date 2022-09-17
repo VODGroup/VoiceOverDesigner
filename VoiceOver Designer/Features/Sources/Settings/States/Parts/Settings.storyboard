@@ -226,6 +226,7 @@ CA
                         <connections>
                             <outlet property="hint" destination="9A8-ed-t5M" id="swz-kZ-ayG"/>
                             <outlet property="isAccessibilityElementButton" destination="I0u-MB-fxF" id="Aej-vg-dOE"/>
+                            <outlet property="isLiveRecogtionEnabled" destination="UxK-Iq-lOc" id="YnF-RA-2Rf"/>
                             <outlet property="label" destination="oEr-KQ-HrL" id="BQq-HR-UnH"/>
                             <outlet property="mainStack" destination="LGK-Fp-or4" id="98L-rt-K2Y"/>
                             <outlet property="resultLabel" destination="JZg-MT-gb1" id="9KW-0b-cmE"/>

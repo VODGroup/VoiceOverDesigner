@@ -39,7 +39,7 @@ public class DocumentPresenter {
         document.controls = controls
     }
     
-    func update(textRecognition: RecognitionResult) {
+    func publish(textRecognition: RecognitionResult) {
         recognitionPublisher.send(textRecognition)
     }
 }
@@ -182,6 +182,23 @@ public class EditorPresenter: DocumentPresenter {
     private func control(for model: A11yDescription) -> A11yControl? {
         ui.drawnControls.first { control in
             control.a11yDescription?.frame == model.frame
+        }
+    }
+    
+    // MARK: Text recognition
+    
+    private let textRecognition = TextRecognitionService()
+    
+    func recognizeText(image: CGImage, control: A11yControl) async {
+        do {
+            let recognitionResults = try await textRecognition.processImage(image: image)
+            let results = RecognitionResult(control: control,
+                                            text: recognitionResults)
+            guard !results.text.isEmpty else { return }
+            
+            publish(textRecognition: results)
+        } catch let error {
+            print(error)
         }
     }
 }
