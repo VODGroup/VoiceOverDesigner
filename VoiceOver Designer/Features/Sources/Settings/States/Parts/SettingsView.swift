@@ -11,6 +11,14 @@ class SettingsView: NSView {
     @IBOutlet weak var scrollView: NSScrollView!
     @IBOutlet weak var mainStack: NSStackView!
     @IBOutlet weak var label: NSTextField!
+    var labelText: String {
+        get {
+            label.stringValue
+        }
+        set {
+            label.stringValue = newValue
+        }
+    }
     @IBOutlet weak var hint: NSTextField!
     
     @IBOutlet weak var isAccessibilityElementButton: NSButton!
@@ -28,7 +36,7 @@ class SettingsView: NSView {
         
         updateText(from: descr)
         
-        label.stringValue = descr.label
+        labelText = descr.label
         hint.stringValue  = descr.hint
         isAccessibilityElementButton.state = descr.isAccessibilityElement ? .on: .off
     }

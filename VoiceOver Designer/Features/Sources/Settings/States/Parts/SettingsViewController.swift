@@ -53,7 +53,11 @@ public class SettingsViewController: NSViewController {
     // MARK: Actions
     @IBAction func labelDidChange(_ sender: NSTextField) {
         // TODO: if you forgot to call updateColor, the label wouldn't be revalidated
-        presenter.updateLabel(to: sender.stringValue)
+        updateLabel(to: sender.stringValue)
+    }
+    
+    private func updateLabel(to text: String) {
+        presenter.updateLabel(to: text)
         updateText()
     }
     
@@ -82,8 +86,9 @@ public class SettingsViewController: NSViewController {
         guard view().isLiveRecogtionEnabled.state == .on else { return }
         guard let first = results?.first else { return }
         
-        if view().label.stringValue.isEmpty {
-            view().label.stringValue = first
+        if view().labelText.isEmpty {
+            view().labelText = first
+            updateLabel(to: first)
         }
     }
 }
