@@ -85,6 +85,13 @@ class A11yValueViewController: NSViewController {
     func view() -> A11yValueView {
         view as! A11yValueView
     }
+    
+    func addTextRegognition(alternatives: [String]) {
+        view().valueTextField.addItems(withObjectValues: alternatives)
+        view().optionViews.forEach { adjustableOption in
+            adjustableOption.textView.addItems(withObjectValues: alternatives)
+        }
+    }
 }
 
 // MARK: - AdjustableOptionDelegate
