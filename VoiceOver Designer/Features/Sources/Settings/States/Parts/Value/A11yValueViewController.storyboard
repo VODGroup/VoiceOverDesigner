@@ -24,7 +24,7 @@
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalHuggingPriority="251" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mXM-5i-JW0">
                                 <rect key="frame" x="0.0" y="8" width="406" height="77"/>
                                 <subviews>
-                                    <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RMJ-Q9-TSq">
+                                    <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RMJ-Q9-TSq" customClass="TextRecognitionComboBox" customModule="Settings">
                                         <rect key="frame" x="0.0" y="54" width="409" height="25"/>
                                         <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="K21-iz-Sge">
                                             <font key="font" metaFont="system"/>

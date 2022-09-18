@@ -55,7 +55,7 @@
                                                                 <action selector="isAccessibleElementDidChanged:" target="U2f-R7-Q2a" id="jj8-fV-uo8"/>
                                                             </connections>
                                                         </button>
-                                                        <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="M0e-ss-Ln5">
+                                                        <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="M0e-ss-Ln5" customClass="TextRecognitionComboBox" customModule="Settings">
                                                             <rect key="frame" x="0.0" y="5" width="408" height="27"/>
                                                             <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" bezelStyle="round" completes="NO" numberOfVisibleItems="5" id="kuu-od-JMi">
                                                                 <font key="font" metaFont="system"/>
@@ -213,7 +213,7 @@ CA
                                 </clipView>
                                 <edgeInsets key="contentInsets" left="20" right="20" top="0.0" bottom="0.0"/>
                                 <edgeInsets key="scrollerInsets" left="0.0" right="-20" top="0.0" bottom="0.0"/>
-                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.10909090909090909" horizontal="YES" id="UEA-1D-l4Q">
+                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="UEA-1D-l4Q">
                                     <rect key="frame" x="20" y="886" width="370" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
