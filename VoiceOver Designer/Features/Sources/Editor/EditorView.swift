@@ -20,7 +20,7 @@ class ControlsView: FlippedView, DrawingView {
     var escListener = EscModifierFactory().make()
 }
 
-class EditorView: FlippedView {
+class EditorView: FlippedView, EditorPresenterUIProtocol {
     
     @IBOutlet weak var scrollView: NSScrollView!
     

@@ -44,7 +44,10 @@ public class EditorViewController: NSViewController {
         view.window?.delegate = self
         DispatchQueue.main.async {
             self.presenter.didLoad(
-                ui: self.view().controlsView)
+                ui: self.view().controlsView,
+                screenUI: self.view()
+            )
+            
             self.setImage()
             self.addMouseTracking()
             self.addMenuItem()
@@ -116,23 +119,7 @@ public class EditorViewController: NSViewController {
     }
     
     public override func mouseUp(with event: NSEvent) {
-        let control = presenter.mouseUp(on: location(from: event))
-       
-        if let control = control {
-            recongizeText(under: control)
-        }
-    }
-    
-    private func recongizeText(under control: A11yControl) {
-        Task {
-            // TODO: Make dynamic scale
-            guard let backImage = await view().image(
-                at: control.frame,
-                scale: 3)
-            else { return }
-            
-            await presenter.recognizeText(image: backImage, control: control)
-        }
+        presenter.mouseUp(on: location(from: event))
     }
     
     func view() -> EditorView {

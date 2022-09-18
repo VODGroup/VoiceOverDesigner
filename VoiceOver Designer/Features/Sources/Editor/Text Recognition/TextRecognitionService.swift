@@ -1,7 +1,11 @@
 import Vision
 import CoreGraphics
 
-class TextRecognitionService {
+public protocol TextRecognitionServiceProtocol {
+    func processImage(image: CGImage) async throws -> [String]
+}
+
+class TextRecognitionService: TextRecognitionServiceProtocol {
     
     func processImage(image: CGImage) async throws -> [String] {
         let handler = VNImageRequestHandler(cgImage: image, options: [:])

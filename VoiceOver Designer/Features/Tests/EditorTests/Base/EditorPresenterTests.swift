@@ -3,17 +3,22 @@ import XCTest
 import Document
 import DocumentTestHelpers
 
-class EditorTests: XCTestCase {
+class EditorPresenterTests: XCTestCase {
     
     var sut: EditorPresenter!
     var controller: EmptyViewController!
+    var editorUI: FakeEditorUI!
+    var textRecognition: FakeTextRecognitionService!
     
     override func setUp() {
         super.setUp()
         
         controller = EmptyViewController()
+        editorUI = FakeEditorUI()
+        textRecognition = FakeTextRecognitionService()
         
-        sut = EditorPresenter(document: DocumentFake())
+        sut = EditorPresenter(document: DocumentFake(),
+                              textRecognition: textRecognition)
 //        VODesignDocument.testDocument(name: "Test",
 //                                      saveImmediately: true,
 //                                      testCase: self)
@@ -33,11 +38,11 @@ class EditorTests: XCTestCase {
 
 // MARK: - DSL
 
-extension EditorTests {
+extension EditorPresenterTests {
     func didLoad() {
-        sut.didLoad(ui: controller.controlsView)
+        sut.didLoad(ui: controller.controlsView,
+                    screenUI: editorUI)
     }
-    
     
     var drawnControls: [A11yDescription] {
         controller.controlsView.drawnControls.compactMap(\.a11yDescription)

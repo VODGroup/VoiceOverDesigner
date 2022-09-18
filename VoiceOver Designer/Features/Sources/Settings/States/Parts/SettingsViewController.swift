@@ -58,12 +58,12 @@ public class SettingsViewController: NSViewController {
     
     private func updateLabel(to text: String) {
         presenter.updateLabel(to: text)
-        updateText()
+        updateTitle()
     }
     
     @IBAction func hintDidChange(_ sender: NSTextField) {
         descr.hint = sender.stringValue
-        updateText()
+        updateTitle()
     }
     
     @IBAction func delete(_ sender: Any) {
@@ -99,7 +99,7 @@ public class SettingsViewController: NSViewController {
 }
 
 extension SettingsViewController: A11yValueDelegate {
-    func updateText() {
+    func updateTitle() {
         view().updateText(from: descr)
         
         presenter.delegate?.didUpdateValue()
@@ -113,6 +113,6 @@ extension SettingsViewController: TraitsViewControllerDelegate {
         } else {
             descr.trait.subtract(trait)
         }
-        updateText()
+        updateTitle()
     }
 }

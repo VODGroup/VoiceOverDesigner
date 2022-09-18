@@ -9,7 +9,7 @@ import AppKit
 import Document
 
 protocol A11yValueDelegate: AnyObject {
-    func updateText()
+    func updateTitle()
 }
 
 class A11yValueViewController: NSViewController {
@@ -40,7 +40,7 @@ class A11yValueViewController: NSViewController {
     
     @IBAction func valueDidChange(_ sender: NSTextField) {
         descr.value = sender.stringValue
-        delegate?.updateText()
+        delegate?.updateTitle()
     }
     
     @IBAction func addAdjustable(_ sender: Any) {
@@ -50,7 +50,7 @@ class A11yValueViewController: NSViewController {
         
         view().selectLastOption()
         
-        delegate?.updateText()
+        delegate?.updateTitle()
     }
     
     func saveCurrentChanges() {
@@ -69,13 +69,13 @@ class A11yValueViewController: NSViewController {
         }
         
         renderDescription(setFirstResponder: false)
-        delegate?.updateText()
+        delegate?.updateTitle()
     }
     
     @IBAction func isEnumeratedDidChanged(_ sender: NSButton) {
         descr.isEnumeratedAdjustable = sender.state == .on
         
-        delegate?.updateText()
+        delegate?.updateTitle()
     }
     
     func renderDescription(setFirstResponder: Bool) {
@@ -110,7 +110,7 @@ extension A11yValueViewController: AdjustableOptionViewDelegate {
         
         view().deselectRadioGroup(selected: option)
         
-        delegate?.updateText()
+        delegate?.updateTitle()
     }
     
     func update(option: AdjustableOptionView) {
@@ -119,6 +119,6 @@ extension A11yValueViewController: AdjustableOptionViewDelegate {
                                            with: option.text)
         }
         
-        delegate?.updateText()
+        delegate?.updateTitle()
     }
 }

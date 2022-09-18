@@ -3,7 +3,7 @@ import XCTest
 import Document
 import DocumentTestHelpers
 
-class EditorUpdatingTests: EditorTests {
+class EditorUpdatingTests: EditorPresenterTests {
     
     func test_emptyDocument_whenLoad_shouldDrawNothing() {
         didLoad()

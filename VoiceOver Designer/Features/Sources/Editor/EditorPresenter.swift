@@ -18,7 +18,7 @@ public class DocumentPresenter {
     public private(set) var document: VODesignDocumentProtocol
     
     var drawingController: DrawingController!
-    var ui: DrawingView!
+    weak var ui: DrawingView!
     
     public func save() {
         let descriptions = ui.drawnControls.compactMap { control in
@@ -44,10 +44,31 @@ public class DocumentPresenter {
     }
 }
 
+protocol EditorPresenterUIProtocol: AnyObject {
+    func image(at frame: CGRect, scale: CGFloat) async -> CGImage?
+}
+
 public class EditorPresenter: DocumentPresenter {
+   
+    public override convenience init(document: VODesignDocumentProtocol) {
+        self.init(document: document,
+             textRecognition: TextRecognitionService())
+    }
     
-    func didLoad(ui: DrawingView) {
+    init(
+        document: VODesignDocumentProtocol,
+        textRecognition: TextRecognitionServiceProtocol)
+    {
+        self.textRecognition = textRecognition
+        
+        super.init(document: document)
+    }
+    
+    weak var screenUI: EditorPresenterUIProtocol!
+    
+    func didLoad(ui: DrawingView, screenUI: EditorPresenterUIProtocol) {
         self.ui = ui
+        self.screenUI = screenUI
         self.drawingController = DrawingController(view: ui)
         
         draw(controls: document.controls)
@@ -85,10 +106,18 @@ public class EditorPresenter: DocumentPresenter {
     func mouseDragged(on location: CGPoint) {
         drawingController.drag(to: location)
     }
-    
-    func mouseUp(on location: CGPoint) -> A11yControl? {
+   
+    func mouseUp(on location: CGPoint) {
         let action = drawingController.end(coordinate: location)
         
+        let control = finishAciton(action)
+        
+        if let control = control {
+            recongizeText(under: control)
+        }
+    }
+    
+    private func finishAciton(_ action: DraggingAction?) -> A11yControl? {
         switch action {
         case let new as NewControlAction:
             document.undoManager?.registerUndo(withTarget: self, handler: { target in
@@ -187,7 +216,19 @@ public class EditorPresenter: DocumentPresenter {
     
     // MARK: Text recognition
     
-    private let textRecognition = TextRecognitionService()
+    private let textRecognition: TextRecognitionServiceProtocol
+    
+    private func recongizeText(under control: A11yControl) {
+        Task {
+            // TODO: Make dynamic scale
+            guard let backImage = await screenUI.image(
+                at: control.frame,
+                scale: 3)
+            else { return }
+            
+            await recognizeText(image: backImage, control: control)
+        }
+    }
     
     func recognizeText(image: CGImage, control: A11yControl) async {
         do {
