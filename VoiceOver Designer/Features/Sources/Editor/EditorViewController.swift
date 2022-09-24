@@ -21,8 +21,6 @@ public class EditorViewController: NSViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        view.window?.makeFirstResponder(self)
-        
         view().dragnDropView.delegate = self
     }
     
@@ -43,6 +41,7 @@ public class EditorViewController: NSViewController {
         view().addImageButton.action = #selector(addImageButtonTapped)
         view().addImageButton.target = self
         
+        view.window?.delegate = self
         DispatchQueue.main.async {
             self.presenter.didLoad(
                 ui: self.view().controlsView)
@@ -176,7 +175,11 @@ public class EditorViewController: NSViewController {
     
 }
 
-
+extension EditorViewController: NSWindowDelegate {
+    public func windowDidResize(_ notification: Notification) {
+        view().fitToWindowIfAlreadyFitted()
+    }
+}
 
 extension EditorViewController: DragNDropDelegate {
     public func didDrag(image: NSImage) {

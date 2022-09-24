@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="LVp-Pr-lAJ">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="LVp-Pr-lAJ">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21225"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,7 +16,7 @@
                         <subviews>
                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHg-wh-ieX">
                                 <rect key="frame" x="0.0" y="0.0" width="786" height="814"/>
-                                <clipView key="contentView" id="lki-H1-X1O">
+                                <clipView key="contentView" id="lki-H1-X1O" customClass="CenteredClipView" customModule="Editor">
                                     <rect key="frame" x="1" y="1" width="784" height="812"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -23,21 +24,18 @@
                                             <rect key="frame" x="0.0" y="0.0" width="784" height="812"/>
                                             <subviews>
                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="812" translatesAutoresizingMaskIntoConstraints="NO" id="kiH-h5-aG4">
-                                                    <rect key="frame" x="204" y="0.0" width="375" height="812"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="812" id="Te8-3a-boV"/>
-                                                        <constraint firstAttribute="width" constant="375" id="hR1-I7-oyp"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="0.0" y="0.0" width="784" height="812"/>
                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="vuC-bS-HZw"/>
                                                 </imageView>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="L7U-F0-kOc" customClass="ControlsView" customModule="Editor">
-                                                    <rect key="frame" x="204" y="0.0" width="375" height="812"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="784" height="812"/>
                                                 </customView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="height" secondItem="kiH-h5-aG4" secondAttribute="height" id="9it-A2-7Se"/>
                                                 <constraint firstItem="L7U-F0-kOc" firstAttribute="trailing" secondItem="kiH-h5-aG4" secondAttribute="trailing" id="Bfr-yC-ybi"/>
                                                 <constraint firstItem="L7U-F0-kOc" firstAttribute="bottom" secondItem="kiH-h5-aG4" secondAttribute="bottom" id="D7L-qk-w8d"/>
+                                                <constraint firstAttribute="width" secondItem="kiH-h5-aG4" secondAttribute="width" id="G4t-9B-qSA"/>
                                                 <constraint firstItem="L7U-F0-kOc" firstAttribute="leading" secondItem="kiH-h5-aG4" secondAttribute="leading" id="Ktv-0M-EF2"/>
                                                 <constraint firstItem="kiH-h5-aG4" firstAttribute="centerY" secondItem="JlK-Oy-LgO" secondAttribute="centerY" id="cqI-yc-qFe"/>
                                                 <constraint firstItem="kiH-h5-aG4" firstAttribute="centerX" secondItem="JlK-Oy-LgO" secondAttribute="centerX" id="iUb-l4-Lws"/>
@@ -53,9 +51,6 @@
                                     </constraints>
                                     <color key="backgroundColor" name="windowBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
-                                <constraints>
-                                    <constraint firstItem="JlK-Oy-LgO" firstAttribute="width" secondItem="JHg-wh-ieX" secondAttribute="width" multiplier="0.997455" id="7hd-5P-I9r"/>
-                                </constraints>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="RkM-Hh-eZx">
                                     <rect key="frame" x="1" y="797" width="784" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
@@ -99,8 +94,6 @@
                             <outlet property="contentView" destination="JlK-Oy-LgO" id="6NV-jp-qGf"/>
                             <outlet property="controlsView" destination="L7U-F0-kOc" id="nWG-y5-Tqd"/>
                             <outlet property="dragnDropView" destination="dHk-Q5-FAZ" id="9Yb-dX-lbU"/>
-                            <outlet property="imageHeight" destination="Te8-3a-boV" id="V14-Dg-u7E"/>
-                            <outlet property="imageWidth" destination="hR1-I7-oyp" id="253-i5-sE6"/>
                             <outlet property="scrollView" destination="JHg-wh-ieX" id="oB8-ia-UPa"/>
                         </connections>
                     </view>

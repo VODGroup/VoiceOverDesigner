@@ -32,6 +32,8 @@ class EditorView: FlippedView {
     @IBOutlet weak var contentView: NSView!
     @IBOutlet weak var controlsView: ControlsView!
     @IBOutlet weak var addImageButton: NSButton!
+   
+    @IBOutlet weak var dragnDropView: DragNDropImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -51,27 +53,40 @@ class EditorView: FlippedView {
         backgroundImageView.image = image
         backgroundImageView.layer?.zPosition = 0
 
-        let screenScale = NSScreen.main?.backingScaleFactor ?? 1
-        var scale: CGFloat = image.recommendedLayerContentsScale(screenScale)
-
-        if scale == 1 {
-            scale = 3
-        }
-        let imageSizeScaled = CGSize(width: image.size.width / scale,
-                                     height: image.size.height / scale)
+        let imageSize = image.size
 
         clipView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
 
-        imageWidth.constant = imageSizeScaled.width
-        imageHeight.constant = imageSizeScaled.height
-        
+        fitToWindow()
     }
     
-    @IBOutlet weak var imageWidth: NSLayoutConstraint!
-    @IBOutlet weak var imageHeight: NSLayoutConstraint!
+    private func fitToWindow() {
+        if let fitingMagnification {
+            scrollView.magnification = fitingMagnification
+        }
+    }
     
-    @IBOutlet weak var dragnDropView: DragNDropImageView!
+    private var isImageMagnificationFitsToWindow: Bool {
+        if let fitingMagnification {
+            return abs(fitingMagnification - scrollView.magnification) < 0.01
+        } else {
+            return false
+        }
+    }
+    
+    private var fitingMagnification: CGFloat? {
+        guard let image = backgroundImageView.image else { return nil }
+        
+        let scrollViewVisibleHeight = scrollView.frame.height - scrollView.contentInsets.verticals
+        return scrollViewVisibleHeight / image.size.height
+    }
+    
+    func fitToWindowIfAlreadyFitted() {
+        if isImageMagnificationFitsToWindow {
+            fitToWindow()
+        }
+    }
 }
 
 class FlippedView: NSView {
@@ -83,5 +98,30 @@ class FlippedView: NSView {
 class FlippedStackView: NSStackView {
     override var isFlipped: Bool {
         true
+    }
+}
+
+extension NSEdgeInsets {
+    var verticals: CGFloat {
+        top + bottom
+    }
+}
+
+class CenteredClipView: NSClipView
+{
+    override func constrainBoundsRect(_ proposedBounds: NSRect) -> NSRect {
+        var rect = super.constrainBoundsRect(proposedBounds)
+        if let containerView = self.documentView as? NSView {
+            
+            if (rect.size.width > containerView.frame.size.width) {
+                rect.origin.x = (containerView.frame.width - rect.width) / 2
+            }
+            
+            if(rect.size.height > containerView.frame.size.height) {
+                rect.origin.y = (containerView.frame.height - rect.height) / 2
+            }
+        }
+        
+        return rect
     }
 }
