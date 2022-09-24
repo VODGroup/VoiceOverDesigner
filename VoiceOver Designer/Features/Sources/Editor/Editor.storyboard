@@ -45,12 +45,13 @@
                                     </subviews>
                                     <color key="backgroundColor" name="windowBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
+                                <edgeInsets key="contentInsets" left="0.0" right="0.0" top="52" bottom="40"/>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="RkM-Hh-eZx">
-                                    <rect key="frame" x="1" y="797" width="784" height="16"/>
+                                    <rect key="frame" x="1" y="758" width="784" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="96e-u8-vjE">
-                                    <rect key="frame" x="769" y="1" width="16" height="812"/>
+                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="96e-u8-vjE">
+                                    <rect key="frame" x="769" y="52" width="16" height="722"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
