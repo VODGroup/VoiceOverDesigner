@@ -5,11 +5,12 @@ public protocol TextRecognitionServiceProtocol {
     func processImage(image: CGImage) async throws -> [String]
 }
 
-class TextRecognitionService: TextRecognitionServiceProtocol {
+public class TextRecognitionService: TextRecognitionServiceProtocol {
+    public init() {}
     
-    func processImage(image: CGImage) async throws -> [String] {
+    public func processImage(image: CGImage) async throws -> [String] {
         let handler = VNImageRequestHandler(cgImage: image, options: [:])
-        
+        print(TextRecognitionService.supportedLanguages)
         return try await withCheckedThrowingContinuation { continuation in
             let request = VNRecognizeTextRequest(completionHandler: { (request, error) in
                 guard let requestResults = request.results as? [VNRecognizedTextObservation] else {
@@ -36,7 +37,7 @@ class TextRecognitionService: TextRecognitionServiceProtocol {
             }
         }
     }
-    
+    /// Level2: ["en-US", "fr-FR", "it-IT", "de-DE", "es-ES", "pt-BR", "zh-Hans", "zh-Hant"]
     static var supportedLanguages: [String] {
         (try? VNRecognizeTextRequest
             .supportedRecognitionLanguages(for: recognitionLevel,
@@ -47,6 +48,15 @@ class TextRecognitionService: TextRecognitionServiceProtocol {
     
     static var latestRevision: Int {
         VNRecognizeTextRequest.supportedRevisions.last ?? VNRequestRevisionUnspecified
+    }
+    
+    static func isAutofillEnabledDefault() -> Bool {
+        Locale
+            .current
+            .languageCode // Like "en-US"
+            .map(TextRecognitionService
+                .supportedLanguages
+                .contains) ?? false
     }
 }
 

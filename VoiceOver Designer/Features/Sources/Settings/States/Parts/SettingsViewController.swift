@@ -7,6 +7,7 @@
 
 import AppKit
 import Document
+import TextRecognition
 
 public class SettingsViewController: NSViewController {
 

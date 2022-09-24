@@ -8,6 +8,7 @@
 import Document
 import AppKit
 import Combine
+import TextRecognition
 
 public class DocumentPresenter {
     

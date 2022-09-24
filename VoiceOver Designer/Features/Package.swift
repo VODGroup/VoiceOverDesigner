@@ -42,6 +42,12 @@ let package = Package(
             dependencies: [
                 "Document",
                 "CommonUI",
+                "TextRecognition",
+            ]
+        ),
+        .target(
+            name: "TextRecognition",
+            dependencies: [
             ]
         ),
         .target(
@@ -62,6 +68,7 @@ let package = Package(
             name: "Settings",
             dependencies: [
                 "Document",
+                "TextRecognition"
             ]
         ),
         .target(
