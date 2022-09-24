@@ -14,7 +14,7 @@
                     <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="ndy-hA-WOO" customClass="EditorView" customModule="Editor">
                         <rect key="frame" x="0.0" y="0.0" width="786" height="814"/>
                         <subviews>
-                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHg-wh-ieX">
+                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" maxMagnification="6" minMagnification="0.01" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHg-wh-ieX">
                                 <rect key="frame" x="0.0" y="0.0" width="786" height="814"/>
                                 <clipView key="contentView" id="lki-H1-X1O" customClass="CenteredClipView" customModule="Editor">
                                     <rect key="frame" x="1" y="1" width="784" height="812"/>
@@ -74,6 +74,54 @@
                                     </button>
                                 </subviews>
                             </customView>
+                            <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mCV-f8-hTw">
+                                <rect key="frame" x="644" y="724" width="122" height="20"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qkH-aw-PoH">
+                                        <rect key="frame" x="-3" y="-4" width="33" height="27"/>
+                                        <buttonCell key="cell" type="bevel" title="-" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KVa-eP-Qr5">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="reduceMagnifingWithSender:" target="LVp-Pr-lAJ" id="gAt-r5-cvq"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5ma-Hm-fQo">
+                                        <rect key="frame" x="32" y="-4" width="56" height="27"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="hqe-62-P3Z"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="bevel" title="Fit" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0qr-8q-RNS">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="fitMagnifingWithSender:" target="LVp-Pr-lAJ" id="6th-eu-hdq"/>
+                                        </connections>
+                                    </button>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Drp-5v-mQ5">
+                                        <rect key="frame" x="90" y="-4" width="35" height="27"/>
+                                        <buttonCell key="cell" type="bevel" title="+" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Zvo-dm-N9a">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="increaseMagnifingWithSender:" target="LVp-Pr-lAJ" id="hw3-xP-5be"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="dHk-Q5-FAZ" firstAttribute="centerX" secondItem="ndy-hA-WOO" secondAttribute="centerX" id="7uK-4x-5KY"/>
@@ -84,8 +132,10 @@
                             <constraint firstAttribute="trailing" secondItem="JHg-wh-ieX" secondAttribute="trailing" id="as5-CT-2Dr"/>
                             <constraint firstItem="JHg-wh-ieX" firstAttribute="leading" secondItem="ndy-hA-WOO" secondAttribute="leading" id="df2-t2-QcY"/>
                             <constraint firstAttribute="bottom" secondItem="dHk-Q5-FAZ" secondAttribute="bottom" id="fNE-dY-vWd"/>
+                            <constraint firstItem="mCV-f8-hTw" firstAttribute="top" secondItem="ndy-hA-WOO" secondAttribute="top" constant="70" id="gCh-GJ-ZzY"/>
                             <constraint firstItem="dHk-Q5-FAZ" firstAttribute="centerY" secondItem="ndy-hA-WOO" secondAttribute="centerY" id="gJX-CH-1CF"/>
                             <constraint firstAttribute="bottom" secondItem="JHg-wh-ieX" secondAttribute="bottom" id="im7-2p-KCV"/>
+                            <constraint firstAttribute="trailing" secondItem="mCV-f8-hTw" secondAttribute="trailing" constant="20" symbolic="YES" id="t7p-L4-f6P"/>
                         </constraints>
                         <connections>
                             <outlet property="addImageButton" destination="Cii-yh-9Te" id="Y6C-qb-AAD"/>

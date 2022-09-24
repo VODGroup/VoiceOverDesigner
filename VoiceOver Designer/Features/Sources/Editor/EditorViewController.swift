@@ -172,7 +172,32 @@ public class EditorViewController: NSViewController {
         view().backgroundImageView.image = image
         presenter.save()
     }
+}
+
+extension CGRect {
+    var center: CGPoint {
+        CGPoint(x: midX, y: midY)
+    }
+}
+
+/// Magnifiing
+extension EditorViewController {
     
+    @IBAction func reduceMagnifing(sender: Any) {
+        view().changeMagnifacation { current in
+            current / 2
+        }
+    }
+    
+    @IBAction func increaseMagnifing(sender: Any) {
+        view().changeMagnifacation { current in
+            current * 2
+        }
+    }
+    
+    @IBAction func fitMagnifing(sender: Any) {
+        view().fitToWindow(animated: true)
+    }
 }
 
 extension EditorViewController: NSWindowDelegate {

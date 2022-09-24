@@ -53,18 +53,36 @@ class EditorView: FlippedView {
         backgroundImageView.image = image
         backgroundImageView.layer?.zPosition = 0
 
-        let imageSize = image.size
-
         clipView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
 
-        fitToWindow()
+        fitToWindow(animated: false)
     }
     
-    private func fitToWindow() {
-        if let fitingMagnification {
-            scrollView.magnification = fitingMagnification
+    func fitToWindowIfAlreadyFitted() {
+        if isImageMagnificationFitsToWindow {
+            fitToWindow(animated: false)
         }
+    }
+    
+    func fitToWindow(animated: Bool) {
+        if let fitingMagnification {
+            if animated {
+                scrollView.animator().setMagnification(
+                    fitingMagnification,
+                    centeredAt: contentView.frame.center)
+            } else {
+                scrollView.magnification = fitingMagnification
+            }
+        }
+    }
+    
+    func changeMagnifacation(_ change: (_ current: CGFloat) -> CGFloat) {
+        let current = scrollView.magnification
+        let changed = change(current)
+        scrollView.animator().setMagnification(
+            changed,
+            centeredAt: contentView.frame.center)
     }
     
     private var isImageMagnificationFitsToWindow: Bool {
@@ -82,11 +100,6 @@ class EditorView: FlippedView {
         return scrollViewVisibleHeight / image.size.height
     }
     
-    func fitToWindowIfAlreadyFitted() {
-        if isImageMagnificationFitsToWindow {
-            fitToWindow()
-        }
-    }
 }
 
 class FlippedView: NSView {
