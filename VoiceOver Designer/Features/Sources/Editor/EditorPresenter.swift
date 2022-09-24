@@ -46,7 +46,7 @@ public class DocumentPresenter {
 }
 
 protocol EditorPresenterUIProtocol: AnyObject {
-    func image(at frame: CGRect, scale: CGFloat) async -> CGImage?
+    func image(at frame: CGRect) async -> CGImage?
 }
 
 public class EditorPresenter: DocumentPresenter {
@@ -224,10 +224,8 @@ public class EditorPresenter: DocumentPresenter {
     
     private func recongizeText(under control: A11yControl) {
         Task {
-            // TODO: Make dynamic scale
             guard let backImage = await screenUI.image(
-                at: control.frame,
-                scale: 3)
+                at: control.frame)
             else { return }
             
             await recognizeText(image: backImage, control: control)

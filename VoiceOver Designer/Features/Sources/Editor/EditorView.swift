@@ -114,9 +114,9 @@ class EditorView: FlippedView, EditorPresenterUIProtocol {
         return scrollViewVisibleHeight / image.size.height
     }
     
-    func image(at frame: CGRect, scale: CGFloat) async -> CGImage? {
+    func image(at frame: CGRect) async -> CGImage? {
         let image = backgroundImageView.image
-        var frame = frame.scaled(scale)
+        var frame = frame
         let cgImage = image?
             .cgImage(forProposedRect: &frame,
                      context: nil,
