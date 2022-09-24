@@ -24,6 +24,11 @@ class VODesignPreviewView: UIView {
             guard image.size.width != 0 else { return }
             let aspectRatio = bounds.width / image.size.width
             backgroundImageHeight.constant = image.size.height * aspectRatio
+            
+            let scale = frame.width / image.size.width
+            let scaleTranform = CGAffineTransform(scaleX: scale, y: scale)
+            let translation = CGAffineTransform(translationX: -frame.width*scale, y: -frame.height*scale)
+            canvas.transform = scaleTranform.concatenating(translation)
         }
     }
     
