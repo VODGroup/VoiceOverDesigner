@@ -52,9 +52,11 @@ class EditorView: FlippedView {
         zoomInButton.toolTip = "⌘+"
         footer.wantsLayer = true
         footer.layer?.backgroundColor = NSColor.quaternaryLabelColor.cgColor
+        footer.isHidden = true
     }
     
     func setImage(_ image: NSImage?) {
+        footer.isHidden = image == nil
         dragnDropView.isHidden = image != nil
         addImageButton.isHidden = image != nil
         
