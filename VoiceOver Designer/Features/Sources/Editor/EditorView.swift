@@ -32,15 +32,31 @@ class EditorView: FlippedView {
     @IBOutlet weak var contentView: NSView!
     @IBOutlet weak var controlsView: ControlsView!
     @IBOutlet weak var addImageButton: NSButton!
+   
+    @IBOutlet weak var dragnDropView: DragNDropImageView!
+    
+    @IBOutlet weak var zoomOutButton: NSButton!
+    @IBOutlet weak var zoomToFitButton: NSButton!
+    @IBOutlet weak var zoomInButton: NSButton!
+    
+    @IBOutlet weak var footer: NSView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
         scrollView.verticalScrollElasticity = .none
         scrollView.horizontalScrollElasticity = .none
+        
+        zoomOutButton.toolTip = "⌘-"
+        zoomToFitButton.toolTip = "0"
+        zoomInButton.toolTip = "⌘+"
+        footer.wantsLayer = true
+        footer.layer?.backgroundColor = NSColor.quaternaryLabelColor.cgColor
+        footer.isHidden = true
     }
     
     func setImage(_ image: NSImage?) {
+        footer.isHidden = image == nil
         dragnDropView.isHidden = image != nil
         addImageButton.isHidden = image != nil
         
@@ -51,37 +67,62 @@ class EditorView: FlippedView {
         backgroundImageView.image = image
         backgroundImageView.layer?.zPosition = 0
 
-        let screenScale = NSScreen.main?.backingScaleFactor ?? 1
-        var scale: CGFloat = image.recommendedLayerContentsScale(screenScale)
-
-        if scale == 1 {
-            scale = 3
-        }
-        let imageSizeScaled = CGSize(width: image.size.width / scale,
-                                     height: image.size.height / scale)
-
         clipView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
 
-        imageWidth.constant = imageSizeScaled.width
-        imageHeight.constant = imageSizeScaled.height
+        fitToWindow(animated: false)
+    }
+    
+    func fitToWindowIfAlreadyFitted() {
+        if isImageMagnificationFitsToWindow {
+            fitToWindow(animated: false)
+        }
+    }
+    
+    func fitToWindow(animated: Bool) {
+        if let fitingMagnification {
+            if animated {
+                scrollView.animator().setMagnification(
+                    fitingMagnification,
+                    centeredAt: contentView.frame.center)
+            } else {
+                scrollView.magnification = fitingMagnification
+            }
+        }
+    }
+    
+    func changeMagnifacation(_ change: (_ current: CGFloat) -> CGFloat) {
+        let current = scrollView.magnification
+        let changed = change(current)
+        scrollView.animator().setMagnification(
+            changed,
+            centeredAt: contentView.frame.center)
+    }
+    
+    private var isImageMagnificationFitsToWindow: Bool {
+        if let fitingMagnification {
+            return abs(fitingMagnification - scrollView.magnification) < 0.01
+        } else {
+            return false
+        }
+    }
+    
+    private var fitingMagnification: CGFloat? {
+        guard let image = backgroundImageView.image else { return nil }
         
-    }
-    
-    @IBOutlet weak var imageWidth: NSLayoutConstraint!
-    @IBOutlet weak var imageHeight: NSLayoutConstraint!
-    
-    @IBOutlet weak var dragnDropView: DragNDropImageView!
-}
-
-class FlippedView: NSView {
-    override var isFlipped: Bool {
-        true
+        let scrollViewVisibleHeight = scrollView.frame.height - scrollView.contentInsets.verticals
+        return scrollViewVisibleHeight / image.size.height
     }
 }
 
-class FlippedStackView: NSStackView {
-    override var isFlipped: Bool {
-        true
+extension NSEdgeInsets {
+    var verticals: CGFloat {
+        top + bottom
+    }
+}
+
+extension CGRect {
+    var center: CGPoint {
+        CGPoint(x: midX, y: midY)
     }
 }

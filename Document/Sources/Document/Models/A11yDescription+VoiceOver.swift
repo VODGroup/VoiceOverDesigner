@@ -17,7 +17,7 @@ extension A11yDescription {
         let result = NSMutableAttributedString()
         
         if trait.contains(.selected) {
-            result += "\(Localization.traitSelectedDescription.bold) \(label)"
+            result += "\(Localization.traitSelectedDescription) \(label)"
         } else {
             result += label
         }
@@ -39,10 +39,10 @@ extension A11yDescription {
 
         if !traitsDescription.isEmpty {
             if result.isEmpty {
-                result += traitsDescription.joined(separator: " ").bold
+                result += traitsDescription.joined(separator: " ")
             } else {
                 let trailingPeriod = result.string.hasSuffix(".") ? "" : "."
-                let trait = traitsDescription.joined(separator: " ").bold
+                let trait = traitsDescription.joined(separator: " ")
                 result += "\(trailingPeriod) \(trait)".markdown(color: .color(for: self))
             }
         }

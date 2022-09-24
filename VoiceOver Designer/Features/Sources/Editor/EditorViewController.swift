@@ -21,8 +21,6 @@ public class EditorViewController: NSViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        view.window?.makeFirstResponder(self)
-        
         view().dragnDropView.delegate = self
     }
     
@@ -43,6 +41,7 @@ public class EditorViewController: NSViewController {
         view().addImageButton.action = #selector(addImageButtonTapped)
         view().addImageButton.target = self
         
+        view.window?.delegate = self
         DispatchQueue.main.async {
             self.presenter.didLoad(
                 ui: self.view().controlsView)
@@ -166,22 +165,44 @@ public class EditorViewController: NSViewController {
         return image
     }
     
-    
     func presentImage(_ image: NSImage) {
         presenter.update(image: image)
         view().setImage(image)
         view().backgroundImageView.image = image
         presenter.save()
     }
-    
 }
 
+// MARK: - Magnifiing
+extension EditorViewController {
+    
+    @IBAction func reduceMagnifing(sender: Any) {
+        view().changeMagnifacation { current in
+            current / 2
+        }
+    }
+    
+    @IBAction func increaseMagnifing(sender: Any) {
+        view().changeMagnifacation { current in
+            current * 2
+        }
+    }
+    
+    @IBAction func fitMagnifing(sender: Any) {
+        view().fitToWindow(animated: true)
+    }
+}
 
+extension EditorViewController: NSWindowDelegate {
+    public func windowDidResize(_ notification: Notification) {
+        view().fitToWindowIfAlreadyFitted()
+    }
+}
 
 extension EditorViewController: DragNDropDelegate {
     public func didDrag(image: NSImage) {
         presenter.update(image: image)
-        view().backgroundImageView.image = image
+        view().setImage(image)
         presenter.save()
     }
     

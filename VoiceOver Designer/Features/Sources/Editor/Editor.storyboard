@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="LVp-Pr-lAJ">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="LVp-Pr-lAJ">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21225"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,31 +14,28 @@
                     <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="ndy-hA-WOO" customClass="EditorView" customModule="Editor">
                         <rect key="frame" x="0.0" y="0.0" width="786" height="814"/>
                         <subviews>
-                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHg-wh-ieX">
+                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" maxMagnification="6" minMagnification="0.01" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHg-wh-ieX" customClass="CanvasScrollView" customModule="Editor">
                                 <rect key="frame" x="0.0" y="0.0" width="786" height="814"/>
-                                <clipView key="contentView" id="lki-H1-X1O">
+                                <clipView key="contentView" id="lki-H1-X1O" customClass="CenteredClipView" customModule="Editor">
                                     <rect key="frame" x="1" y="1" width="784" height="812"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <view translatesAutoresizingMaskIntoConstraints="NO" id="JlK-Oy-LgO" customClass="FlippedView" customModule="Editor">
+                                        <view ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JlK-Oy-LgO" customClass="FlippedView" customModule="Editor">
                                             <rect key="frame" x="0.0" y="0.0" width="784" height="812"/>
                                             <subviews>
                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="812" translatesAutoresizingMaskIntoConstraints="NO" id="kiH-h5-aG4">
-                                                    <rect key="frame" x="204" y="0.0" width="375" height="812"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="812" id="Te8-3a-boV"/>
-                                                        <constraint firstAttribute="width" constant="375" id="hR1-I7-oyp"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="vuC-bS-HZw"/>
                                                 </imageView>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="L7U-F0-kOc" customClass="ControlsView" customModule="Editor">
-                                                    <rect key="frame" x="204" y="0.0" width="375" height="812"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                                 </customView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="height" secondItem="kiH-h5-aG4" secondAttribute="height" id="9it-A2-7Se"/>
                                                 <constraint firstItem="L7U-F0-kOc" firstAttribute="trailing" secondItem="kiH-h5-aG4" secondAttribute="trailing" id="Bfr-yC-ybi"/>
                                                 <constraint firstItem="L7U-F0-kOc" firstAttribute="bottom" secondItem="kiH-h5-aG4" secondAttribute="bottom" id="D7L-qk-w8d"/>
+                                                <constraint firstAttribute="width" secondItem="kiH-h5-aG4" secondAttribute="width" id="G4t-9B-qSA"/>
                                                 <constraint firstItem="L7U-F0-kOc" firstAttribute="leading" secondItem="kiH-h5-aG4" secondAttribute="leading" id="Ktv-0M-EF2"/>
                                                 <constraint firstItem="kiH-h5-aG4" firstAttribute="centerY" secondItem="JlK-Oy-LgO" secondAttribute="centerY" id="cqI-yc-qFe"/>
                                                 <constraint firstItem="kiH-h5-aG4" firstAttribute="centerX" secondItem="JlK-Oy-LgO" secondAttribute="centerX" id="iUb-l4-Lws"/>
@@ -45,44 +43,118 @@
                                             </constraints>
                                         </view>
                                     </subviews>
-                                    <constraints>
-                                        <constraint firstItem="JlK-Oy-LgO" firstAttribute="top" secondItem="lki-H1-X1O" secondAttribute="top" id="dUP-b3-8XE"/>
-                                        <constraint firstAttribute="trailing" secondItem="JlK-Oy-LgO" secondAttribute="trailing" id="gWK-jX-1VP"/>
-                                        <constraint firstAttribute="bottom" secondItem="JlK-Oy-LgO" secondAttribute="bottom" id="r8X-Mx-JrR"/>
-                                        <constraint firstItem="JlK-Oy-LgO" firstAttribute="leading" secondItem="lki-H1-X1O" secondAttribute="leading" id="vBW-8I-XoS"/>
-                                    </constraints>
                                     <color key="backgroundColor" name="windowBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
-                                <constraints>
-                                    <constraint firstItem="JlK-Oy-LgO" firstAttribute="width" secondItem="JHg-wh-ieX" secondAttribute="width" multiplier="0.997455" id="7hd-5P-I9r"/>
-                                </constraints>
+                                <edgeInsets key="contentInsets" left="0.0" right="0.0" top="52" bottom="40"/>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="RkM-Hh-eZx">
-                                    <rect key="frame" x="1" y="797" width="784" height="16"/>
+                                    <rect key="frame" x="1" y="758" width="784" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="96e-u8-vjE">
-                                    <rect key="frame" x="769" y="1" width="16" height="812"/>
+                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="96e-u8-vjE">
+                                    <rect key="frame" x="769" y="52" width="16" height="722"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
                             <customView horizontalHuggingPriority="1" verticalHuggingPriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="dHk-Q5-FAZ" customClass="DragNDropImageView" customModule="CommonUI">
                                 <rect key="frame" x="0.0" y="0.0" width="786" height="814"/>
                                 <subviews>
-                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cii-yh-9Te">
-                                        <rect key="frame" x="336" y="356" width="115" height="32"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="push" title="Add Image" bezelStyle="rounded" image="plus" catalog="system" imagePosition="leading" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="exO-s4-81h">
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cii-yh-9Te">
+                                        <rect key="frame" x="337" y="337" width="113" height="40"/>
+                                        <buttonCell key="cell" type="push" title="Add Image" bezelStyle="rounded" image="plus" catalog="system" imagePosition="leading" alignment="center" controlSize="large" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="exO-s4-81h">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <color key="bezelColor" name="AccentColor"/>
                                     </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="Cii-yh-9Te" firstAttribute="centerX" secondItem="dHk-Q5-FAZ" secondAttribute="centerX" id="8MI-I4-pht"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="LKl-HZ-UDo"/>
+                                    <constraint firstItem="Cii-yh-9Te" firstAttribute="centerY" secondItem="dHk-Q5-FAZ" secondAttribute="centerY" constant="50" id="oQf-Yq-to2"/>
+                                </constraints>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="xXt-RS-DEx">
+                                <rect key="frame" x="0.0" y="0.0" width="786" height="40"/>
+                                <subviews>
+                                    <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mCV-f8-hTw">
+                                        <rect key="frame" x="582" y="10" width="184" height="20"/>
+                                        <subviews>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hlp-qk-Lzc">
+                                                <rect key="frame" x="-2" y="2" width="50" height="14"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" title="⌘+scroll" id="q7H-rP-QxS">
+                                                    <font key="font" metaFont="system" size="11"/>
+                                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qkH-aw-PoH">
+                                                <rect key="frame" x="51" y="-4" width="38" height="27"/>
+                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="minus.magnifyingglass" catalog="system" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KVa-eP-Qr5">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                    <string key="keyEquivalent">-</string>
+                                                    <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="reduceMagnifingWithSender:" target="LVp-Pr-lAJ" id="gAt-r5-cvq"/>
+                                                </connections>
+                                            </button>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5ma-Hm-fQo">
+                                                <rect key="frame" x="91" y="-4" width="56" height="27"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="hqe-62-P3Z"/>
+                                                </constraints>
+                                                <buttonCell key="cell" type="bevel" title="Fit" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0qr-8q-RNS">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                    <string key="keyEquivalent">0</string>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="fitMagnifingWithSender:" target="LVp-Pr-lAJ" id="6th-eu-hdq"/>
+                                                </connections>
+                                            </button>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Drp-5v-mQ5">
+                                                <rect key="frame" x="149" y="-4" width="38" height="27"/>
+                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="plus.magnifyingglass" catalog="system" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Zvo-dm-N9a">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                    <string key="keyEquivalent">+</string>
+                                                    <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="increaseMagnifingWithSender:" target="LVp-Pr-lAJ" id="hw3-xP-5be"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="hlp-qk-Lzc" firstAttribute="firstBaseline" secondItem="qkH-aw-PoH" secondAttribute="firstBaseline" id="bNj-n0-7m6"/>
+                                        </constraints>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="mCV-f8-hTw" secondAttribute="trailing" constant="20" symbolic="YES" id="9IX-V4-bUo"/>
+                                    <constraint firstItem="mCV-f8-hTw" firstAttribute="centerY" secondItem="xXt-RS-DEx" secondAttribute="centerY" id="QYp-0S-04I"/>
+                                    <constraint firstAttribute="bottom" secondItem="mCV-f8-hTw" secondAttribute="bottom" constant="10" id="r3n-4o-vRN"/>
+                                </constraints>
                             </customView>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="xXt-RS-DEx" firstAttribute="leading" secondItem="ndy-hA-WOO" secondAttribute="leading" id="50A-G8-3U4"/>
                             <constraint firstItem="dHk-Q5-FAZ" firstAttribute="centerX" secondItem="ndy-hA-WOO" secondAttribute="centerX" id="7uK-4x-5KY"/>
                             <constraint firstAttribute="trailing" secondItem="dHk-Q5-FAZ" secondAttribute="trailing" id="NaE-nh-KJy"/>
+                            <constraint firstItem="xXt-RS-DEx" firstAttribute="centerX" secondItem="ndy-hA-WOO" secondAttribute="centerX" id="OgB-lN-rxP"/>
                             <constraint firstItem="JHg-wh-ieX" firstAttribute="top" secondItem="ndy-hA-WOO" secondAttribute="top" id="Qiz-Tv-2ML"/>
                             <constraint firstItem="dHk-Q5-FAZ" firstAttribute="top" secondItem="ndy-hA-WOO" secondAttribute="top" id="USZ-Do-ccr"/>
                             <constraint firstItem="dHk-Q5-FAZ" firstAttribute="leading" secondItem="ndy-hA-WOO" secondAttribute="leading" id="VVn-CA-TLV"/>
@@ -90,6 +162,7 @@
                             <constraint firstItem="JHg-wh-ieX" firstAttribute="leading" secondItem="ndy-hA-WOO" secondAttribute="leading" id="df2-t2-QcY"/>
                             <constraint firstAttribute="bottom" secondItem="dHk-Q5-FAZ" secondAttribute="bottom" id="fNE-dY-vWd"/>
                             <constraint firstItem="dHk-Q5-FAZ" firstAttribute="centerY" secondItem="ndy-hA-WOO" secondAttribute="centerY" id="gJX-CH-1CF"/>
+                            <constraint firstAttribute="bottom" secondItem="xXt-RS-DEx" secondAttribute="bottom" id="hAO-b7-9K7"/>
                             <constraint firstAttribute="bottom" secondItem="JHg-wh-ieX" secondAttribute="bottom" id="im7-2p-KCV"/>
                         </constraints>
                         <connections>
@@ -99,9 +172,11 @@
                             <outlet property="contentView" destination="JlK-Oy-LgO" id="6NV-jp-qGf"/>
                             <outlet property="controlsView" destination="L7U-F0-kOc" id="nWG-y5-Tqd"/>
                             <outlet property="dragnDropView" destination="dHk-Q5-FAZ" id="9Yb-dX-lbU"/>
-                            <outlet property="imageHeight" destination="Te8-3a-boV" id="V14-Dg-u7E"/>
-                            <outlet property="imageWidth" destination="hR1-I7-oyp" id="253-i5-sE6"/>
+                            <outlet property="footer" destination="xXt-RS-DEx" id="CUu-m3-y9O"/>
                             <outlet property="scrollView" destination="JHg-wh-ieX" id="oB8-ia-UPa"/>
+                            <outlet property="zoomInButton" destination="Drp-5v-mQ5" id="6Up-o2-vD4"/>
+                            <outlet property="zoomOutButton" destination="qkH-aw-PoH" id="1wa-JI-EWr"/>
+                            <outlet property="zoomToFitButton" destination="5ma-Hm-fQo" id="thW-gW-M0Q"/>
                         </connections>
                     </view>
                 </viewController>
@@ -111,7 +186,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="minus.magnifyingglass" catalog="system" width="16" height="15"/>
         <image name="plus" catalog="system" width="14" height="13"/>
+        <image name="plus.magnifyingglass" catalog="system" width="16" height="15"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
