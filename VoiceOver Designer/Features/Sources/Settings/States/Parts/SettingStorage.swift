@@ -22,6 +22,7 @@ class SettingsStorage {
     
     private var isAutofillEnabledDefault: Bool {
         true
+//        TextRecognitionService.supportedLanguages
     }
 }
 

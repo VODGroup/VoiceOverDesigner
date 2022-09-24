@@ -25,7 +25,8 @@ class TextRecognitionService: TextRecognitionServiceProtocol {
                 continuation.resume(with: .success(candidates))
             })
             
-            request.recognitionLevel = .accurate
+            request.revision = Self.latestRevision
+            request.recognitionLevel = Self.recognitionLevel
             request.usesLanguageCorrection = true
             
             do {
@@ -34,6 +35,18 @@ class TextRecognitionService: TextRecognitionServiceProtocol {
                 continuation.resume(throwing: error)
             }
         }
+    }
+    
+    static var supportedLanguages: [String] {
+        (try? VNRecognizeTextRequest
+            .supportedRecognitionLanguages(for: recognitionLevel,
+                                           revision: latestRevision)) ?? []
+    }
+    
+    static var recognitionLevel: VNRequestTextRecognitionLevel = .accurate
+    
+    static var latestRevision: Int {
+        VNRecognizeTextRequest.supportedRevisions.last ?? VNRequestRevisionUnspecified
     }
 }
 
