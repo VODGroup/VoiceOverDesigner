@@ -64,7 +64,7 @@ public final class VODesignPreviewViewController: UIViewController {
     }
     
     private func draw(document: VODesignDocument) {
-        view().image = document.image
-        view().controls = document.controls
+        view().setup(image: document.image,
+                     controls: document.controls)
     }
 }

@@ -24,15 +24,15 @@ public class DrawingController {
         _ descriptions: [A11yDescription]
     ) {
         descriptions.forEach { description in
-            drawControl(from: description)
+            drawControl(from: description, scale: 1)
         }
     }
     
     @discardableResult
-    public func drawControl(from description: A11yDescription) -> A11yControl {
+    public func drawControl(from description: A11yDescription, scale: CGFloat) -> A11yControl {
         let control = A11yControl()
         control.a11yDescription = description
-        control.frame = description.frame
+        control.frame = description.frame.scaled(scale)
         control.backgroundColor = description.color.cgColor
         
         view.add(control: control)
@@ -61,7 +61,7 @@ public class DrawingController {
     }
     
     private func startDrawing(coordinate: CGPoint) {
-        let control = drawControl(from: .empty(frame: .zero))
+        let control = drawControl(from: .empty(frame: .zero), scale: 1)
         
         self.action = NewControlAction(view: view, control: control, coordinate: coordinate)
     }
@@ -88,5 +88,14 @@ extension DrawingController: EscModifierActionDelegate {
     public func didPressed() {
         action?.cancel()
         action = nil
+    }
+}
+
+extension CGRect {
+    public func scaled(_ scale: CGFloat) -> CGRect {
+        CGRect(x: minX * scale,
+               y: minY * scale,
+               width: width * scale,
+               height: height * scale)
     }
 }

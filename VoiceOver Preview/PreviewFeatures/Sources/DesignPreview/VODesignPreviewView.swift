@@ -14,8 +14,13 @@ class VODesignPreviewView: UIView {
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var backgroundImageHeight: NSLayoutConstraint!
     @IBOutlet weak var canvas: Canvas!
+   
+    func setup(image: UIImage?, controls: [A11yDescription]) {
+        self.image = image
+        self.controls = controls
+    }
     
-    var image: UIImage? {
+    private var image: UIImage? {
         didSet {
             backgroundImageView.image = image
             
@@ -26,16 +31,14 @@ class VODesignPreviewView: UIView {
             backgroundImageHeight.constant = image.size.height * aspectRatio
             
             let scale = frame.width / image.size.width
-            let scaleTranform = CGAffineTransform(scaleX: scale, y: scale)
-            let translation = CGAffineTransform(translationX: -frame.width*scale, y: -frame.height*scale)
-            canvas.transform = scaleTranform.concatenating(translation)
+            canvas.scale = scale
         }
     }
     
-    var controls: [A11yDescription] = [] {
+    private var controls: [A11yDescription] = [] {
         didSet {
             for control in controls {
-                drawingController.drawControl(from: control)
+                drawingController.drawControl(from: control, scale: canvas.scale)
             }
             
             canvas.layout = VoiceOverLayout(
@@ -59,6 +62,8 @@ class Canvas: UIView, DrawingView {
             accessibilityElements = layout?.accessibilityElements
         }
     }
+    
+    var scale: CGFloat = 1
     
     var copyListener: CopyModifierProtocol = ManualCopyCommand()
 }

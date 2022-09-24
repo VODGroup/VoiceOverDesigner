@@ -138,12 +138,3 @@ extension CGRect {
         CGPoint(x: midX, y: midY)
     }
 }
-
-extension CGRect {
-    func scaled(_ scale: CGFloat) -> CGRect {
-        CGRect(x: minX * scale,
-               y: minY * scale,
-               width: width * scale,
-               height: height * scale)
-    }
-}
