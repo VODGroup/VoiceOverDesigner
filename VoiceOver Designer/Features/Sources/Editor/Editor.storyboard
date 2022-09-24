@@ -76,11 +76,19 @@
                                 <rect key="frame" x="0.0" y="0.0" width="786" height="40"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mCV-f8-hTw">
-                                        <rect key="frame" x="644" y="10" width="122" height="20"/>
+                                        <rect key="frame" x="582" y="10" width="184" height="20"/>
                                         <subviews>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hlp-qk-Lzc">
+                                                <rect key="frame" x="-2" y="2" width="50" height="14"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" title="⌘+scroll" id="q7H-rP-QxS">
+                                                    <font key="font" metaFont="system" size="11"/>
+                                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qkH-aw-PoH">
-                                                <rect key="frame" x="-3" y="-4" width="33" height="27"/>
-                                                <buttonCell key="cell" type="bevel" title="-" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KVa-eP-Qr5">
+                                                <rect key="frame" x="51" y="-4" width="38" height="27"/>
+                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="minus.magnifyingglass" catalog="system" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KVa-eP-Qr5">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                     <string key="keyEquivalent">-</string>
@@ -91,7 +99,7 @@
                                                 </connections>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5ma-Hm-fQo">
-                                                <rect key="frame" x="32" y="-4" width="56" height="27"/>
+                                                <rect key="frame" x="91" y="-4" width="56" height="27"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="hqe-62-P3Z"/>
                                                 </constraints>
@@ -105,8 +113,8 @@
                                                 </connections>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Drp-5v-mQ5">
-                                                <rect key="frame" x="90" y="-4" width="35" height="27"/>
-                                                <buttonCell key="cell" type="bevel" title="+" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Zvo-dm-N9a">
+                                                <rect key="frame" x="149" y="-4" width="38" height="27"/>
+                                                <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="plus.magnifyingglass" catalog="system" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Zvo-dm-N9a">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                     <string key="keyEquivalent">+</string>
@@ -117,12 +125,17 @@
                                                 </connections>
                                             </button>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstItem="hlp-qk-Lzc" firstAttribute="firstBaseline" secondItem="qkH-aw-PoH" secondAttribute="firstBaseline" id="bNj-n0-7m6"/>
+                                        </constraints>
                                         <visibilityPriorities>
+                                            <integer value="1000"/>
                                             <integer value="1000"/>
                                             <integer value="1000"/>
                                             <integer value="1000"/>
                                         </visibilityPriorities>
                                         <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
@@ -135,15 +148,6 @@
                                     <constraint firstAttribute="bottom" secondItem="mCV-f8-hTw" secondAttribute="bottom" constant="10" id="r3n-4o-vRN"/>
                                 </constraints>
                             </customView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hlp-qk-Lzc">
-                                <rect key="frame" x="680" y="702" width="50" height="14"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="⌘+scroll" id="q7H-rP-QxS">
-                                    <font key="font" metaFont="system" size="11"/>
-                                    <color key="textColor" name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="xXt-RS-DEx" firstAttribute="leading" secondItem="ndy-hA-WOO" secondAttribute="leading" id="50A-G8-3U4"/>
@@ -181,7 +185,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="minus.magnifyingglass" catalog="system" width="16" height="15"/>
         <image name="plus" catalog="system" width="14" height="13"/>
+        <image name="plus.magnifyingglass" catalog="system" width="16" height="15"/>
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
