@@ -116,8 +116,22 @@ public class EditorViewController: NSViewController {
     }
     
     public override func mouseUp(with event: NSEvent) {
-        presenter.mouseUp(on: location(from: event))
+        let control = presenter.mouseUp(on: location(from: event))
+       
+        if let control = control {
+            recongizeText(under: control)
+        }
     }
+    
+    private func recongizeText(under control: A11yControl) {
+        Task {
+            // TODO: Make dynamic scale
+            let backImage = await view().image(at: control.frame, scale: 3)
+            await textRecognition.update(image: backImage, control: control)
+        }
+    }
+    
+    private let textRecognition = TextRecognitionController()
     
     func view() -> EditorView {
         view as! EditorView

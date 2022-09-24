@@ -81,7 +81,7 @@ public class EditorPresenter: DocumentPresenter {
         drawingController.drag(to: location)
     }
     
-    func mouseUp(on location: CGPoint) {
+    func mouseUp(on location: CGPoint) -> A11yControl? {
         let action = drawingController.end(coordinate: location)
         
         switch action {
@@ -92,32 +92,35 @@ public class EditorPresenter: DocumentPresenter {
             
             save()
             select(control: new.control)
+            return new.control
             
         case let translate as TranslateAction:
             document.undoManager?.registerUndo(withTarget: self, handler: { target in
                 translate.undo()
             })
             save()
+            return translate.control
+            
         case let click as ClickAction:
             select(control: click.control)
+            return click.control
         case let copy as CopyAction:
             document.undoManager?.registerUndo(withTarget: self, handler: { target in
                 target.delete(model: copy.control.a11yDescription!)
             })
             save()
-            
+            return copy.control
         case let resize as ResizeAction:
             document.undoManager?.registerUndo(withTarget: self, handler: { target in
                 resize.control.frame = resize.initialFrame
             })
-            break
-            
+            return resize.control
         case .none:
             deselect()
+            return nil
             
         default:
             assert(false, "Handle new type here")
-            break
         }
     }
     
