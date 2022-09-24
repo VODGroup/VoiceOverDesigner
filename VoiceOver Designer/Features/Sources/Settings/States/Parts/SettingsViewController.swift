@@ -84,7 +84,7 @@ public class SettingsViewController: NSViewController {
     public func presentTextRecognition(_ alternatives: [String]) {
         print("Recognition results \(alternatives)")
         
-        guard view().isLiveRecogtionEnabled.state == .on else { return }
+        guard view().isAutofilleEnabled.state == .on else { return }
         
         view().label.addItems(withObjectValues: alternatives)
         valueViewController?.addTextRegognition(alternatives: alternatives)

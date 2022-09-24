@@ -155,7 +155,10 @@ public class EditorPresenter: DocumentPresenter {
             
         default:
             assert(false, "Handle new type here")
+            return nil
         }
+        
+        // TODO: Extract control from action
     }
     
     // MARK: - Selection

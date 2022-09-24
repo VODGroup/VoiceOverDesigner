@@ -62,6 +62,15 @@ class ProjectController: NSSplitViewController {
             .sink(receiveValue: updateTextRecognition(_:))
             .store(in: &cancellables)
     }
+    
+    private func updateTextRecognition(_ result: RecognitionResult?) {
+        guard case .control(let model) = settings.state else { return }
+        guard model == result?.control.a11yDescription else { return }
+        
+        guard let currentController = settings.currentController as? SettingsViewController else { return }
+        
+        currentController.presentTextRecognition(result?.text ?? [])
+    }
 }
 
 // MARK: Settings visibility
@@ -73,16 +82,7 @@ extension ProjectController {
             hideSettings()
         }
     }
-    
-    private func updateTextRecognition(_ result: RecognitionResult?) {
-        guard case .control(let model) = settings.state else { return }
-        guard model == result?.control.a11yDescription else { return }
-       
-        guard let currentController = settings.currentController as? SettingsViewController else { return }
-        
-        currentController.presentTextRecognition(result?.text ?? [])
-    }
-    
+
     func showSettings(for model: A11yDescription) {
         settings.state = .control(model)
     }

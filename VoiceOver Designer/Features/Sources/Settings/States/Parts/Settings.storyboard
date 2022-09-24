@@ -46,14 +46,11 @@
                                                             </textFieldCell>
                                                         </textField>
                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UxK-Iq-lOc">
-                                                            <rect key="frame" x="282" y="33" width="123" height="18"/>
-                                                            <buttonCell key="cell" type="check" title="Live recognition" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="eaD-ft-sSb">
+                                                            <rect key="frame" x="336" y="33" width="69" height="18"/>
+                                                            <buttonCell key="cell" type="check" title="Autofill" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="eaD-ft-sSb">
                                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                 <font key="font" metaFont="system"/>
                                                             </buttonCell>
-                                                            <connections>
-                                                                <action selector="isAccessibleElementDidChanged:" target="U2f-R7-Q2a" id="jj8-fV-uo8"/>
-                                                            </connections>
                                                         </button>
                                                         <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="M0e-ss-Ln5" customClass="TextRecognitionComboBox" customModule="Settings">
                                                             <rect key="frame" x="0.0" y="5" width="408" height="27"/>
@@ -237,7 +234,7 @@ CA
                         <connections>
                             <outlet property="hint" destination="9A8-ed-t5M" id="swz-kZ-ayG"/>
                             <outlet property="isAccessibilityElementButton" destination="I0u-MB-fxF" id="Aej-vg-dOE"/>
-                            <outlet property="isLiveRecogtionEnabled" destination="UxK-Iq-lOc" id="YnF-RA-2Rf"/>
+                            <outlet property="isAutofilleEnabled" destination="UxK-Iq-lOc" id="t8v-wW-AWg"/>
                             <outlet property="label" destination="M0e-ss-Ln5" id="20l-9T-vp0"/>
                             <outlet property="mainStack" destination="LGK-Fp-or4" id="98L-rt-K2Y"/>
                             <outlet property="resultLabel" destination="JZg-MT-gb1" id="9KW-0b-cmE"/>
