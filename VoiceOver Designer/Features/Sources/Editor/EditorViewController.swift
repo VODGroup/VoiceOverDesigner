@@ -202,7 +202,7 @@ extension EditorViewController: NSWindowDelegate {
 extension EditorViewController: DragNDropDelegate {
     public func didDrag(image: NSImage) {
         presenter.update(image: image)
-        view().backgroundImageView.image = image
+        view().setImage(image)
         presenter.save()
     }
     
