@@ -80,6 +80,8 @@
                                         <buttonCell key="cell" type="bevel" title="-" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KVa-eP-Qr5">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
+                                            <string key="keyEquivalent">-</string>
+                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </buttonCell>
                                         <connections>
                                             <action selector="reduceMagnifingWithSender:" target="LVp-Pr-lAJ" id="gAt-r5-cvq"/>
@@ -93,6 +95,8 @@
                                         <buttonCell key="cell" type="bevel" title="Fit" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="0qr-8q-RNS">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
+                                            <string key="keyEquivalent">=</string>
+                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </buttonCell>
                                         <connections>
                                             <action selector="fitMagnifingWithSender:" target="LVp-Pr-lAJ" id="6th-eu-hdq"/>
@@ -103,6 +107,8 @@
                                         <buttonCell key="cell" type="bevel" title="+" bezelStyle="regularSquare" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Zvo-dm-N9a">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
+                                            <string key="keyEquivalent">+</string>
+                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </buttonCell>
                                         <connections>
                                             <action selector="increaseMagnifingWithSender:" target="LVp-Pr-lAJ" id="hw3-xP-5be"/>
@@ -153,6 +159,9 @@
                             <outlet property="controlsView" destination="L7U-F0-kOc" id="nWG-y5-Tqd"/>
                             <outlet property="dragnDropView" destination="dHk-Q5-FAZ" id="9Yb-dX-lbU"/>
                             <outlet property="scrollView" destination="JHg-wh-ieX" id="oB8-ia-UPa"/>
+                            <outlet property="zoomInButton" destination="Drp-5v-mQ5" id="6Up-o2-vD4"/>
+                            <outlet property="zoomOutButton" destination="qkH-aw-PoH" id="1wa-JI-EWr"/>
+                            <outlet property="zoomToFitButton" destination="5ma-Hm-fQo" id="thW-gW-M0Q"/>
                         </connections>
                     </view>
                 </viewController>

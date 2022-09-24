@@ -35,11 +35,19 @@ class EditorView: FlippedView {
    
     @IBOutlet weak var dragnDropView: DragNDropImageView!
     
+    @IBOutlet weak var zoomOutButton: NSButton!
+    @IBOutlet weak var zoomToFitButton: NSButton!
+    @IBOutlet weak var zoomInButton: NSButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
         scrollView.verticalScrollElasticity = .none
         scrollView.horizontalScrollElasticity = .none
+        
+        zoomOutButton.toolTip = "⌘-"
+        zoomToFitButton.toolTip = "⌘="
+        zoomInButton.toolTip = "⌘+"
     }
     
     func setImage(_ image: NSImage?) {
