@@ -7,6 +7,7 @@
 
 import AppKit
 import Document
+import TextRecognition
 
 public class SettingsViewController: NSViewController {
 
@@ -20,7 +21,10 @@ public class SettingsViewController: NSViewController {
         super.viewDidLoad()
         
         view().setup(from: descr)
+        view().isAutofillEnabled = settingStorage.isAutofillEnabled
     }
+    
+    private let settingStorage = SettingsStorage()
     
     func view() -> SettingsView {
         view as! SettingsView
@@ -53,13 +57,17 @@ public class SettingsViewController: NSViewController {
     // MARK: Actions
     @IBAction func labelDidChange(_ sender: NSTextField) {
         // TODO: if you forgot to call updateColor, the label wouldn't be revalidated
-        presenter.updateLabel(to: sender.stringValue)
-        updateText()
+        updateLabel(to: sender.stringValue)
+    }
+    
+    private func updateLabel(to text: String) {
+        presenter.updateLabel(to: text)
+        updateTitle()
     }
     
     @IBAction func hintDidChange(_ sender: NSTextField) {
         descr.hint = sender.stringValue
-        updateText()
+        updateTitle()
     }
     
     @IBAction func delete(_ sender: Any) {
@@ -75,10 +83,31 @@ public class SettingsViewController: NSViewController {
         let storyboard = NSStoryboard(name: "Settings", bundle: .module)
         return storyboard.instantiateInitialController() as! SettingsViewController
     }
+    
+    @IBAction func isAutofillDidChanged(_ sender: NSButton) {
+        settingStorage.isAutofillEnabled = sender.state == .on
+    }
+    
+    // MARK: Text Recognition
+    public func presentTextRecognition(_ alternatives: [String]) {
+        print("Recognition results \(alternatives)")
+        
+        guard view().isAutofillEnabled else { return }
+        
+        view().label.addItems(withObjectValues: alternatives)
+        valueViewController?.addTextRegognition(alternatives: alternatives)
+        
+        if view().labelText.isEmpty,
+           let first = alternatives.first
+        {
+            view().labelText = first
+            updateLabel(to: first)
+        }
+    }
 }
 
 extension SettingsViewController: A11yValueDelegate {
-    func updateText() {
+    func updateTitle() {
         view().updateText(from: descr)
         
         presenter.delegate?.didUpdateValue()
@@ -92,6 +121,6 @@ extension SettingsViewController: TraitsViewControllerDelegate {
         } else {
             descr.trait.subtract(trait)
         }
-        updateText()
+        updateTitle()
     }
 }

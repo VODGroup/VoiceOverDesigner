@@ -55,7 +55,9 @@ class CustomDescriptionBox: NSBox {
         valueView.backgroundColor = .clear
         
         labelTextField = NSTextField()
+        labelTextField.bezelStyle = .roundedBezel
         valueTextField = NSTextField()
+        valueTextField.bezelStyle = .roundedBezel
         labelTextField.isEditable = true
         valueTextField.isEditable = true
         

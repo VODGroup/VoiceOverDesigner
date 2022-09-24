@@ -16,7 +16,7 @@ class A11yValueView: NSView {
     @IBOutlet weak var mainStack: NSStackView!
     @IBOutlet weak var optionsStack: NSStackView!
     
-    @IBOutlet weak var valueTextField: NSTextField!
+    @IBOutlet weak var valueTextField: TextRecognitionComboBox!
 
     override var intrinsicContentSize: NSSize {
         get {

@@ -69,7 +69,6 @@ class AlignmentCommandModifier: AlignmentOverlayProtocol {
             if isCommandPressed {
                 alignmentOverlay.hideAligningLine() // Hide alignment line event when mode changed
             }
-            print(isCommandPressed ? "Pressed": "Released")
         }
     }
 }

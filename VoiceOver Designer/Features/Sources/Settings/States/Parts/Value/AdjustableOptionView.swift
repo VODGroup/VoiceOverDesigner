@@ -16,7 +16,7 @@ protocol AdjustableOptionViewDelegate: AnyObject {
 class AdjustableOptionView: NSView {
     
     let radioButton: NSButton
-    let textView: NSTextField
+    let textView: TextRecognitionComboBox
     let removeButton: NSButton
     
     let stackView: NSStackView
@@ -44,9 +44,9 @@ class AdjustableOptionView: NSView {
     init() {
         self.radioButton = NSButton(radioButtonWithTitle: "",
                                     target: nil, action: nil)
-        self.textView = NSTextField()
+        self.textView = TextRecognitionComboBox()
         NSLayoutConstraint.activate([
-            textView.widthAnchor.constraint(equalToConstant: 310),
+            textView.widthAnchor.constraint(equalToConstant: 305),
         ])
         
         

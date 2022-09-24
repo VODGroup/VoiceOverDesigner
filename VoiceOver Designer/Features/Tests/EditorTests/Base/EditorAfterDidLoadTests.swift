@@ -1,6 +1,6 @@
 @testable import Editor
 
-class EditorAfterDidLoadTests: EditorTests {
+class EditorAfterDidLoadTests: EditorPresenterTests {
     override func setUp() {
         super.setUp()
         

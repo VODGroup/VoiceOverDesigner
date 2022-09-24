@@ -35,11 +35,7 @@ public class CopyModifierCommand: CopyModifierProtocol {
     
     
     private var keyListener: Any?
-    public var isCopyHold: Bool = false {
-        didSet {
-            print(isCopyHold ? "Option Pressed": "Option Released")
-        }
-    }
+    public var isCopyHold: Bool = false 
 
 }
 #endif

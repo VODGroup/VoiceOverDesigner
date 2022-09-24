@@ -44,7 +44,10 @@ public class EditorViewController: NSViewController {
         view.window?.delegate = self
         DispatchQueue.main.async {
             self.presenter.didLoad(
-                ui: self.view().controlsView)
+                ui: self.view().controlsView,
+                screenUI: self.view()
+            )
+            
             self.setImage()
             self.addMouseTracking()
             self.addMenuItem()

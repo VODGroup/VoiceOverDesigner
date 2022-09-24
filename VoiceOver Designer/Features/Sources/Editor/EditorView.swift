@@ -20,7 +20,7 @@ class ControlsView: FlippedView, DrawingView {
     var escListener = EscModifierFactory().make()
 }
 
-class EditorView: FlippedView {
+class EditorView: FlippedView, EditorPresenterUIProtocol {
     
     @IBOutlet weak var scrollView: NSScrollView!
     
@@ -113,6 +113,18 @@ class EditorView: FlippedView {
         let scrollViewVisibleHeight = scrollView.frame.height - scrollView.contentInsets.verticals
         return scrollViewVisibleHeight / image.size.height
     }
+    
+    func image(at frame: CGRect) async -> CGImage? {
+        let image = backgroundImageView.image
+        var frame = frame
+        let cgImage = image?
+            .cgImage(forProposedRect: &frame,
+                     context: nil,
+                     hints: nil)?
+            .cropping(to: frame)
+        
+        return cgImage
+    }
 }
 
 extension NSEdgeInsets {
@@ -124,5 +136,14 @@ extension NSEdgeInsets {
 extension CGRect {
     var center: CGPoint {
         CGPoint(x: midX, y: midY)
+    }
+}
+
+extension CGRect {
+    func scaled(_ scale: CGFloat) -> CGRect {
+        CGRect(x: minX * scale,
+               y: minY * scale,
+               width: width * scale,
+               height: height * scale)
     }
 }

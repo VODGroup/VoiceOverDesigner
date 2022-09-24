@@ -32,6 +32,7 @@ class CustomActionOptionView: NSView {
     
     init() {
         textfield = NSTextField()
+        textfield.bezelStyle = .roundedBezel
         NSLayoutConstraint.activate([
             textfield.widthAnchor.constraint(equalToConstant: 280)
         ])
