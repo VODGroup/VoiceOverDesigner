@@ -20,15 +20,15 @@
                                     <rect key="frame" x="1" y="1" width="784" height="812"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <view translatesAutoresizingMaskIntoConstraints="NO" id="JlK-Oy-LgO" customClass="FlippedView" customModule="Editor">
+                                        <view ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JlK-Oy-LgO" customClass="FlippedView" customModule="Editor">
                                             <rect key="frame" x="0.0" y="0.0" width="784" height="812"/>
                                             <subviews>
                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="812" translatesAutoresizingMaskIntoConstraints="NO" id="kiH-h5-aG4">
-                                                    <rect key="frame" x="0.0" y="0.0" width="784" height="812"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="vuC-bS-HZw"/>
                                                 </imageView>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="L7U-F0-kOc" customClass="ControlsView" customModule="Editor">
-                                                    <rect key="frame" x="0.0" y="0.0" width="784" height="812"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                                 </customView>
                                             </subviews>
                                             <constraints>
@@ -43,12 +43,6 @@
                                             </constraints>
                                         </view>
                                     </subviews>
-                                    <constraints>
-                                        <constraint firstItem="JlK-Oy-LgO" firstAttribute="top" secondItem="lki-H1-X1O" secondAttribute="top" id="dUP-b3-8XE"/>
-                                        <constraint firstAttribute="trailing" secondItem="JlK-Oy-LgO" secondAttribute="trailing" id="gWK-jX-1VP"/>
-                                        <constraint firstAttribute="bottom" secondItem="JlK-Oy-LgO" secondAttribute="bottom" id="r8X-Mx-JrR"/>
-                                        <constraint firstItem="JlK-Oy-LgO" firstAttribute="leading" secondItem="lki-H1-X1O" secondAttribute="leading" id="vBW-8I-XoS"/>
-                                    </constraints>
                                     <color key="backgroundColor" name="windowBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="RkM-Hh-eZx">
@@ -63,16 +57,20 @@
                             <customView horizontalHuggingPriority="1" verticalHuggingPriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="dHk-Q5-FAZ" customClass="DragNDropImageView" customModule="CommonUI">
                                 <rect key="frame" x="0.0" y="0.0" width="786" height="814"/>
                                 <subviews>
-                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cii-yh-9Te">
-                                        <rect key="frame" x="336" y="356" width="115" height="32"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="push" title="Add Image" bezelStyle="rounded" image="plus" catalog="system" imagePosition="leading" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="exO-s4-81h">
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cii-yh-9Te">
+                                        <rect key="frame" x="337" y="337" width="113" height="40"/>
+                                        <buttonCell key="cell" type="push" title="Add Image" bezelStyle="rounded" image="plus" catalog="system" imagePosition="leading" alignment="center" controlSize="large" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="exO-s4-81h">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <color key="bezelColor" name="AccentColor"/>
                                     </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstItem="Cii-yh-9Te" firstAttribute="centerX" secondItem="dHk-Q5-FAZ" secondAttribute="centerX" id="8MI-I4-pht"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="LKl-HZ-UDo"/>
+                                    <constraint firstItem="Cii-yh-9Te" firstAttribute="centerY" secondItem="dHk-Q5-FAZ" secondAttribute="centerY" constant="50" id="oQf-Yq-to2"/>
+                                </constraints>
                             </customView>
                             <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mCV-f8-hTw">
                                 <rect key="frame" x="644" y="724" width="122" height="20"/>
