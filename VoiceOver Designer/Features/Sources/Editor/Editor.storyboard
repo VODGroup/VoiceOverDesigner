@@ -14,7 +14,7 @@
                     <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="ndy-hA-WOO" customClass="EditorView" customModule="Editor">
                         <rect key="frame" x="0.0" y="0.0" width="786" height="814"/>
                         <subviews>
-                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" maxMagnification="6" minMagnification="0.01" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHg-wh-ieX">
+                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" maxMagnification="6" minMagnification="0.01" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHg-wh-ieX" customClass="CanvasScrollView" customModule="Editor">
                                 <rect key="frame" x="0.0" y="0.0" width="786" height="814"/>
                                 <clipView key="contentView" id="lki-H1-X1O" customClass="CenteredClipView" customModule="Editor">
                                     <rect key="frame" x="1" y="1" width="784" height="812"/>
@@ -122,11 +122,20 @@
                                     <real value="3.4028234663852886e+38"/>
                                 </customSpacing>
                             </stackView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hlp-qk-Lzc">
+                                <rect key="frame" x="680" y="702" width="51" height="14"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="⌥+scroll" id="q7H-rP-QxS">
+                                    <font key="font" metaFont="system" size="11"/>
+                                    <color key="textColor" name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="dHk-Q5-FAZ" firstAttribute="centerX" secondItem="ndy-hA-WOO" secondAttribute="centerX" id="7uK-4x-5KY"/>
                             <constraint firstAttribute="trailing" secondItem="dHk-Q5-FAZ" secondAttribute="trailing" id="NaE-nh-KJy"/>
                             <constraint firstItem="JHg-wh-ieX" firstAttribute="top" secondItem="ndy-hA-WOO" secondAttribute="top" id="Qiz-Tv-2ML"/>
+                            <constraint firstItem="hlp-qk-Lzc" firstAttribute="top" secondItem="mCV-f8-hTw" secondAttribute="bottom" constant="8" symbolic="YES" id="RmV-p0-rE7"/>
                             <constraint firstItem="dHk-Q5-FAZ" firstAttribute="top" secondItem="ndy-hA-WOO" secondAttribute="top" id="USZ-Do-ccr"/>
                             <constraint firstItem="dHk-Q5-FAZ" firstAttribute="leading" secondItem="ndy-hA-WOO" secondAttribute="leading" id="VVn-CA-TLV"/>
                             <constraint firstAttribute="trailing" secondItem="JHg-wh-ieX" secondAttribute="trailing" id="as5-CT-2Dr"/>
@@ -136,6 +145,7 @@
                             <constraint firstItem="dHk-Q5-FAZ" firstAttribute="centerY" secondItem="ndy-hA-WOO" secondAttribute="centerY" id="gJX-CH-1CF"/>
                             <constraint firstAttribute="bottom" secondItem="JHg-wh-ieX" secondAttribute="bottom" id="im7-2p-KCV"/>
                             <constraint firstAttribute="trailing" secondItem="mCV-f8-hTw" secondAttribute="trailing" constant="20" symbolic="YES" id="t7p-L4-f6P"/>
+                            <constraint firstItem="hlp-qk-Lzc" firstAttribute="centerX" secondItem="mCV-f8-hTw" secondAttribute="centerX" id="zBc-93-Gfq"/>
                         </constraints>
                         <connections>
                             <outlet property="addImageButton" destination="Cii-yh-9Te" id="Y6C-qb-AAD"/>
