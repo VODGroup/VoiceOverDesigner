@@ -121,8 +121,8 @@
                                 </customSpacing>
                             </stackView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hlp-qk-Lzc">
-                                <rect key="frame" x="680" y="702" width="51" height="14"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="⌥+scroll" id="q7H-rP-QxS">
+                                <rect key="frame" x="680" y="702" width="50" height="14"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="⌘+scroll" id="q7H-rP-QxS">
                                     <font key="font" metaFont="system" size="11"/>
                                     <color key="textColor" name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>

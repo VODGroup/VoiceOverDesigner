@@ -1,8 +1,11 @@
 import AppKit
 
 class CanvasScrollView: NSScrollView {
+    
     public override func scrollWheel(with event: NSEvent) {
-        guard event.modifierFlags.contains(.option) else {
+        let isCommandPressed = event.modifierFlags.contains(.command)
+        
+        guard isCommandPressed else {
             super.scrollWheel(with: event)
             return
         }
