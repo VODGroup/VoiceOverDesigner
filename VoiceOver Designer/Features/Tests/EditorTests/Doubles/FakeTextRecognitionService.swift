@@ -1,5 +1,6 @@
 @testable import Editor
 import CoreGraphics
+import TextRecognition
 
 class FakeTextRecognitionService: TextRecognitionServiceProtocol {
     var recognitioResult = [String]()
