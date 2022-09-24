@@ -39,6 +39,8 @@ class EditorView: FlippedView {
     @IBOutlet weak var zoomToFitButton: NSButton!
     @IBOutlet weak var zoomInButton: NSButton!
     
+    @IBOutlet weak var footer: NSView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -46,8 +48,10 @@ class EditorView: FlippedView {
         scrollView.horizontalScrollElasticity = .none
         
         zoomOutButton.toolTip = "⌘-"
-        zoomToFitButton.toolTip = "⌘="
+        zoomToFitButton.toolTip = "0"
         zoomInButton.toolTip = "⌘+"
+        footer.wantsLayer = true
+        footer.layer?.backgroundColor = NSColor.quaternaryLabelColor.cgColor
     }
     
     func setImage(_ image: NSImage?) {
