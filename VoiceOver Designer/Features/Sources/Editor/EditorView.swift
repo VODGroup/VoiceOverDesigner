@@ -101,20 +101,14 @@ class EditorView: FlippedView {
     }
 }
 
-class FlippedView: NSView {
-    override var isFlipped: Bool {
-        true
-    }
-}
-
-class FlippedStackView: NSStackView {
-    override var isFlipped: Bool {
-        true
-    }
-}
-
 extension NSEdgeInsets {
     var verticals: CGFloat {
         top + bottom
+    }
+}
+
+extension CGRect {
+    var center: CGPoint {
+        CGPoint(x: midX, y: midY)
     }
 }

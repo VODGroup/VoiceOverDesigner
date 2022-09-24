@@ -165,7 +165,6 @@ public class EditorViewController: NSViewController {
         return image
     }
     
-    
     func presentImage(_ image: NSImage) {
         presenter.update(image: image)
         view().setImage(image)
@@ -174,13 +173,7 @@ public class EditorViewController: NSViewController {
     }
 }
 
-extension CGRect {
-    var center: CGPoint {
-        CGPoint(x: midX, y: midY)
-    }
-}
-
-/// Magnifiing
+// MARK: - Magnifiing
 extension EditorViewController {
     
     @IBAction func reduceMagnifing(sender: Any) {
