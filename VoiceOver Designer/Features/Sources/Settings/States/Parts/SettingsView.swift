@@ -22,7 +22,16 @@ class SettingsView: NSView {
     @IBOutlet weak var hint: NSTextField!
     
     @IBOutlet weak var isAccessibilityElementButton: NSButton!
-    @IBOutlet weak var isAutofilleEnabled: NSButton!
+    @IBOutlet weak var isAutofillEnabledButton: NSButton!
+    var isAutofillEnabled: Bool {
+        get {
+            isAutofillEnabledButton.state == .on
+        }
+        
+        set {
+            isAutofillEnabledButton.state = newValue ? .on: .off
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -20,7 +20,10 @@ public class SettingsViewController: NSViewController {
         super.viewDidLoad()
         
         view().setup(from: descr)
+        view().isAutofillEnabled = settingStorage.isAutofillEnabled
     }
+    
+    private let settingStorage = SettingsStorage()
     
     func view() -> SettingsView {
         view as! SettingsView
@@ -80,11 +83,15 @@ public class SettingsViewController: NSViewController {
         return storyboard.instantiateInitialController() as! SettingsViewController
     }
     
+    @IBAction func isAutofillDidChanged(_ sender: NSButton) {
+        settingStorage.isAutofillEnabled = sender.state == .on
+    }
+    
     // MARK: Text Recognition
     public func presentTextRecognition(_ alternatives: [String]) {
         print("Recognition results \(alternatives)")
         
-        guard view().isAutofilleEnabled.state == .on else { return }
+        guard view().isAutofillEnabled else { return }
         
         view().label.addItems(withObjectValues: alternatives)
         valueViewController?.addTextRegognition(alternatives: alternatives)

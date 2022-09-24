@@ -51,6 +51,9 @@
                                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                 <font key="font" metaFont="system"/>
                                                             </buttonCell>
+                                                            <connections>
+                                                                <action selector="isAutofillDidChanged:" target="U2f-R7-Q2a" id="4Bb-lW-Y7Q"/>
+                                                            </connections>
                                                         </button>
                                                         <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="M0e-ss-Ln5" customClass="TextRecognitionComboBox" customModule="Settings">
                                                             <rect key="frame" x="0.0" y="5" width="408" height="27"/>
@@ -210,7 +213,7 @@ CA
                                 </clipView>
                                 <edgeInsets key="contentInsets" left="20" right="20" top="0.0" bottom="0.0"/>
                                 <edgeInsets key="scrollerInsets" left="0.0" right="-20" top="0.0" bottom="0.0"/>
-                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="UEA-1D-l4Q">
+                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="UEA-1D-l4Q">
                                     <rect key="frame" x="20" y="886" width="370" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
@@ -234,7 +237,7 @@ CA
                         <connections>
                             <outlet property="hint" destination="9A8-ed-t5M" id="swz-kZ-ayG"/>
                             <outlet property="isAccessibilityElementButton" destination="I0u-MB-fxF" id="Aej-vg-dOE"/>
-                            <outlet property="isAutofilleEnabled" destination="UxK-Iq-lOc" id="t8v-wW-AWg"/>
+                            <outlet property="isAutofillEnabledButton" destination="UxK-Iq-lOc" id="kkV-SZ-j6w"/>
                             <outlet property="label" destination="M0e-ss-Ln5" id="20l-9T-vp0"/>
                             <outlet property="mainStack" destination="LGK-Fp-or4" id="98L-rt-K2Y"/>
                             <outlet property="resultLabel" destination="JZg-MT-gb1" id="9KW-0b-cmE"/>
