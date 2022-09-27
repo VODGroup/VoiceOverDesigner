@@ -37,13 +37,17 @@ class A11yValueView: NSView {
     func render(
         descr: A11yDescription,
         delegate: AdjustableOptionViewDelegate,
-        setFirstResponder: Bool
+        setFirstResponder: Bool,
+        alternatives: [String]
     ) {
         valueTextField.stringValue = descr.value
         
         isAdjustable = descr.isAdjustable
         
-        update(options: descr.adjustableOptions, delegate: delegate, setFirstResponder: setFirstResponder)
+        update(options: descr.adjustableOptions,
+               delegate: delegate,
+               setFirstResponder: setFirstResponder,
+               alternatives: alternatives)
         
         isEnumeratedCheckBox.isHidden = descr.adjustableOptions.options.count <= 1
         isEnumeratedCheckBox.state = descr.isEnumeratedAdjustable ? .on : .off
@@ -52,12 +56,15 @@ class A11yValueView: NSView {
     private func update(
         options: AdjustableOptions,
         delegate: AdjustableOptionViewDelegate,
-        setFirstResponder: Bool
+        setFirstResponder: Bool,
+        alternatives: [String]
     ) {
         // TODO: It looks unoptimal to remove all and draw again. Some cache can help
         removeAllOptions()
         for (index, text) in options.options.enumerated() {
-            let option = addNewAdjustableOption(delegate: delegate, text: text)
+            let option = addNewAdjustableOption(delegate: delegate,
+                                                text: text,
+                                                alternatives: alternatives)
             
             if index == options.currentIndex {
                 option.isOn = true
@@ -98,11 +105,13 @@ class A11yValueView: NSView {
     
     func addNewAdjustableOption(
         delegate: AdjustableOptionViewDelegate,
-        text: String
+        text: String,
+        alternatives: [String]
     ) -> AdjustableOptionView {
         let option = AdjustableOptionView()
         option.delegate = delegate
         option.text = text
+        option.alternatives = alternatives
         optionsStack.insertArrangedSubview(
             option,
             at: instertIndex)
@@ -144,5 +153,13 @@ class A11yValueView: NSView {
     
     func selectLastOption() {
         optionViews.last?.textView.becomeFirstResponder()
+    }
+}
+
+extension Array where Element == AdjustableOptionView {
+    func add(alternatives: [String]) {
+        forEach { adjustableOption in
+            adjustableOption.alternatives = alternatives
+        }
     }
 }
