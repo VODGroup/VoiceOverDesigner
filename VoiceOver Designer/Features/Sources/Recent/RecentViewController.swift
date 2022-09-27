@@ -85,7 +85,9 @@ extension RecentViewController : NSCollectionViewDataSource {
     public func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
         switch items[indexPath.item] {
         case .newDocument:
-            return RecentNewDocCollectionViewItem()
+            let item = RecentNewDocCollectionViewItem()
+            item.view.setAccessibilityIdentifier("New")
+            return item
         case .document(let url):
             let item = RecentCollectionViewItem()
             item.configure(

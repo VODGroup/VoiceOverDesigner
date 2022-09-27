@@ -79,18 +79,21 @@ class A11yValueViewController: NSViewController {
     }
     
     func renderDescription(setFirstResponder: Bool) {
-        view().render(descr: descr, delegate: self, setFirstResponder: setFirstResponder)
+        view().render(descr: descr, delegate: self,
+                      setFirstResponder: setFirstResponder,
+                      alternatives: alternatives)
     }
     
     func view() -> A11yValueView {
         view as! A11yValueView
     }
-    
+   
+    var alternatives: [String] = []
     func addTextRegognition(alternatives: [String]) {
+        self.alternatives = alternatives
+        
         view().valueTextField.addItems(withObjectValues: alternatives)
-        view().optionViews.forEach { adjustableOption in
-            adjustableOption.textView.addItems(withObjectValues: alternatives)
-        }
+        view().optionViews.add(alternatives: alternatives)
     }
 }
 

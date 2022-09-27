@@ -41,10 +41,17 @@ class AdjustableOptionView: NSView {
         }
     }
     
+    var alternatives: [String] = [] {
+        didSet {
+            textView.addItems(withObjectValues: alternatives)
+        }
+    }
+    
     init() {
         self.radioButton = NSButton(radioButtonWithTitle: "",
                                     target: nil, action: nil)
         self.textView = TextRecognitionComboBox()
+        
         NSLayoutConstraint.activate([
             textView.widthAnchor.constraint(equalToConstant: 305),
         ])
