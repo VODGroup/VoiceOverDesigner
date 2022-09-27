@@ -70,6 +70,7 @@ class AdjustableOptionView: NSView {
         radioButton.target = self
         radioButton.action = #selector(select)
         
+        textView.delegate = self
         textView.target = self
         textView.action = #selector(updateText)
         
@@ -126,6 +127,15 @@ class AdjustableOptionView: NSView {
     
     override func isAccessibilityElement() -> Bool {
         return true
+    }
+}
+
+extension AdjustableOptionView: NSComboBoxDelegate {
+    func comboBoxSelectionDidChange(_ notification: Notification) {
+        if let comboBox = notification.object as? NSComboBox {
+            self.text = alternatives[comboBox.indexOfSelectedItem]
+        }
+        updateText()
     }
 }
 
