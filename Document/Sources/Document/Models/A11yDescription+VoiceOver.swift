@@ -42,8 +42,9 @@ extension A11yDescription {
                 result += traitsDescription.joined(separator: " ")
             } else {
                 let trailingPeriod = result.string.hasSuffix(".") ? "" : "."
+                result += NSAttributedString(string: trailingPeriod + " ")
                 let trait = traitsDescription.joined(separator: " ")
-                result += "\(trailingPeriod) \(trait)".markdown(color: .color(for: self))
+                result += trait.markdown(color: .color(for: self))
             }
         }
         
