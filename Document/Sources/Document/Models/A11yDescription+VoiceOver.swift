@@ -13,7 +13,7 @@ extension A11yDescription {
     
     @available(macOS 12, *)
     @available(iOS 15, *)
-    public func voiceOverTextAttributed(font: Font?, isSelected: Bool = false) -> NSAttributedString {
+    public func voiceOverTextAttributed(font: Font?) -> NSAttributedString {
         let result = NSMutableAttributedString()
         
         if trait.contains(.selected) {
@@ -44,8 +44,7 @@ extension A11yDescription {
                 let trailingPeriod = result.string.hasSuffix(".") ? "" : "."
                 result += NSAttributedString(string: trailingPeriod + " ")
                 let trait = traitsDescription.joined(separator: " ")
-                let attributedTraitText = isSelected ? NSAttributedString(string: trait) : trait.markdown(color: .color(for: self))
-                result += attributedTraitText
+                result += trait.markdown(color: .color(for: self))
             }
         }
         

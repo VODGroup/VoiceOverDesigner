@@ -80,7 +80,16 @@ public class TextRepresentationController: NSViewController {
         guard let index = document.controls.firstIndex(of: model) else { return }
         guard let rowView = outlineView.rowView(atRow: index, makeIfNecessary: false) else { return }
         guard let cell = rowView.view(atColumn: 0) as? NSTableCellView else { return }
-        cell.textField?.attributedStringValue = model.voiceOverTextAttributed(font: cell.textField?.font, isSelected: isSelected)
+        
+        if isSelected {
+            if let attributedString = cell.textField?.attributedStringValue {
+                let stringToDeselect: NSMutableAttributedString = NSMutableAttributedString(attributedString: attributedString)
+                stringToDeselect.addAttribute(.foregroundColor, value: Color.white, range: NSRange(location: 0, length: stringToDeselect.length))
+                cell.textField?.attributedStringValue = stringToDeselect
+            }
+        } else {
+            cell.textField?.attributedStringValue = model.voiceOverTextAttributed(font: cell.textField?.font)
+        }
     }
 }
 
