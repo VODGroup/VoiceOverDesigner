@@ -69,8 +69,27 @@ public class TextRepresentationController: NSViewController {
             aModel === model
         }) else { return }
         
+        updateAttributedLabel(for: model, isSelected: true)
+
         outlineView.selectRowIndexes(IndexSet(integer: index),
                                      byExtendingSelection: false)
+    }
+    
+    private func updateAttributedLabel(for model: A11yDescription?, isSelected: Bool) {
+        guard let model else { return }
+        guard let index = document.controls.firstIndex(of: model) else { return }
+        guard let rowView = outlineView.rowView(atRow: index, makeIfNecessary: false) else { return }
+        guard let cell = rowView.view(atColumn: 0) as? NSTableCellView else { return }
+        
+        if isSelected {
+            if let attributedString = cell.textField?.attributedStringValue {
+                let stringToDeselect: NSMutableAttributedString = NSMutableAttributedString(attributedString: attributedString)
+                stringToDeselect.addAttribute(.foregroundColor, value: Color.white, range: NSRange(location: 0, length: stringToDeselect.length))
+                cell.textField?.attributedStringValue = stringToDeselect
+            }
+        } else {
+            cell.textField?.attributedStringValue = model.voiceOverTextAttributed(font: cell.textField?.font)
+        }
     }
 }
 
@@ -105,9 +124,14 @@ extension TextRepresentationController: NSOutlineViewDelegate {
     
     public func outlineViewSelectionDidChange(_ notification: Notification) {
         guard let outlineView = notification.object as? NSOutlineView else { return }
+        
+        // Deselection of previous value
+        let previousSelection = presenter.selectedPublisher.value
+        updateAttributedLabel(for: previousSelection, isSelected: false)
 
         if let model = outlineView.item(atRow: outlineView.selectedRow) as? A11yDescription {
             presenter.selectedPublisher.send(model)
         }
     }
+    
 }
