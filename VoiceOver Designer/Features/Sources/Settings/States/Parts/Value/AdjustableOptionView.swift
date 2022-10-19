@@ -19,8 +19,6 @@ class AdjustableOptionView: NSView {
     let textView: TextRecognitionComboBox
     let removeButton: NSButton
     
-    let stackView: NSStackView
-    
     weak var delegate: AdjustableOptionViewDelegate?
     
     var isOn: Bool {
@@ -48,36 +46,46 @@ class AdjustableOptionView: NSView {
     }
     
     init() {
-        self.radioButton = NSButton(radioButtonWithTitle: "",
-                                    target: nil, action: nil)
+        self.radioButton = NSButton(radioButtonWithTitle: "", target: nil, action: nil)
         self.textView = TextRecognitionComboBox()
-        
-        NSLayoutConstraint.activate([
-            textView.widthAnchor.constraint(equalToConstant: 305),
-        ])
-        
         
         self.removeButton = NSButton(title: "-", target: nil, action: nil)
         removeButton.bezelStyle = .inline
         
-        self.stackView = NSStackView(views: [radioButton, textView, removeButton])
-        stackView.orientation = .horizontal
-        stackView.spacing = 4
-        stackView.distribution = .fill
-        
         super.init(frame: .zero)
         
+        addSubview(radioButton)
+        radioButton.translatesAutoresizingMaskIntoConstraints = false
         radioButton.target = self
         radioButton.action = #selector(select)
         
+        addSubview(textView)
+        textView.translatesAutoresizingMaskIntoConstraints = false
         textView.delegate = self
         textView.target = self
         textView.action = #selector(updateText)
         
+        addSubview(removeButton)
+        removeButton.translatesAutoresizingMaskIntoConstraints = false
         removeButton.target = self
         removeButton.action = #selector(deleteSelf)
         
-        addSubview(stackView)
+        NSLayoutConstraint.activate([
+            radioButton.widthAnchor.constraint(equalToConstant: 24.0),
+            radioButton.topAnchor.constraint(equalTo: self.topAnchor),
+            radioButton.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            radioButton.leftAnchor.constraint(equalTo: self.leftAnchor),
+            
+            textView.topAnchor.constraint(equalTo: self.topAnchor),
+            textView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            textView.leftAnchor.constraint(equalTo: radioButton.rightAnchor, constant: 4.0),
+            textView.rightAnchor.constraint(equalTo: removeButton.leftAnchor, constant: -4.0),
+            
+            removeButton.widthAnchor.constraint(equalToConstant: 24.0),
+            removeButton.topAnchor.constraint(equalTo: self.topAnchor),
+            removeButton.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            removeButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -4.0)
+        ])
     }
     
     @objc func deleteSelf() {
