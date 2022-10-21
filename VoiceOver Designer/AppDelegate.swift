@@ -16,7 +16,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         windowManager.start()
         NSApplication.shared.mainMenu = MainMenu.menu()
-        
         openFileIfNeeded()
     }
     
@@ -47,7 +46,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     private func openFile(url: URL) {
-        let document = VODesignDocument(file: url)
+        let document: VODesignDocument
+        
+        if url.pathExtension == VODesignDocument.vodesign {
+            document = VODesignDocument(file: url)
+        } else {
+            let image = NSImage(byReferencing: url)
+            document = VODesignDocument(image: image)
+        }
         
         windowManager.createNewDocumentWindow(document: document)
     }

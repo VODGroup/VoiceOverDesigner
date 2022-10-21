@@ -53,7 +53,6 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
             Swift.print(error)
             // TODO: Is it ok?
             try! self.init(type: Self.vodesign)
-            self.fileURL = file
         }
     }
     
