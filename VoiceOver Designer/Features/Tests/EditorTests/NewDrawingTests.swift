@@ -72,6 +72,13 @@ class NewDrawingTests: EditorAfterDidLoadTests {
         XCTAssertEqual(drawnControls.first?.frame,
                        rect10to50)
     }
+    
+    func test_notCreateControlsWhenDocumentImageNil() {
+        removeImage()
+        sut.mouseDown(on: start10)
+        sut.mouseUp(on: end60)
+        XCTAssertNil(drawnControls.first)
+    }
 }
 
 extension CGPoint {
