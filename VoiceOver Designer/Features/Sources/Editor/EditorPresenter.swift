@@ -101,6 +101,7 @@ public class EditorPresenter: DocumentPresenter {
     
     // MARK: Mouse
     func mouseDown(on location: CGPoint) {
+        guard document.image != nil else { return }
         drawingController.mouseDown(on: location)
     }
     
