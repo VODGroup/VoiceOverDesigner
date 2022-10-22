@@ -108,6 +108,7 @@
 		1EC752EB28B511730064CF2F /* VODesignDocument+Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VODesignDocument+Window.swift"; sourceTree = "<group>"; };
 		1EC992DA28B119730020041B /* ProjectController+Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProjectController+Toolbar.swift"; sourceTree = "<group>"; };
 		1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "VoiceOver-Designer-Info.plist"; sourceTree = SOURCE_ROOT; };
+		6B4705F729048D9800AC4C23 /* VoiceOver DesignerRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "VoiceOver DesignerRelease.entitlements"; sourceTree = "<group>"; };
 		6B628795288D3A8D006F622A /* Features */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Features; path = "VoiceOver Designer/Features"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -181,6 +182,7 @@
 		1E1D7FEF281D5CBE00B64954 /* VoiceOver Designer */ = {
 			isa = PBXGroup;
 			children = (
+				6B4705F729048D9800AC4C23 /* VoiceOver DesignerRelease.entitlements */,
 				1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */,
 				1E1D7FF0281D5CBE00B64954 /* AppDelegate.swift */,
 				1E80529428B4F42900743023 /* MainMenu.swift */,
@@ -617,7 +619,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "VoiceOver Designer/VoiceOver_Designer.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "VoiceOver Designer/VoiceOver DesignerRelease.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 3;
