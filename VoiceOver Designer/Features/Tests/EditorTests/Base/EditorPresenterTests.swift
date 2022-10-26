@@ -9,6 +9,7 @@ class EditorPresenterTests: XCTestCase {
     var controller: EmptyViewController!
     var editorUI: FakeEditorUI!
     var textRecognition: FakeTextRecognitionService!
+    var document: VODesignDocumentProtocol!
     
     override func setUp() {
         super.setUp()
@@ -16,8 +17,10 @@ class EditorPresenterTests: XCTestCase {
         controller = EmptyViewController()
         editorUI = FakeEditorUI()
         textRecognition = FakeTextRecognitionService()
+        document = DocumentFake()
+        document.image = Image()
         
-        sut = EditorPresenter(document: DocumentFake(),
+        sut = EditorPresenter(document: document,
                               textRecognition: textRecognition)
 //        VODesignDocument.testDocument(name: "Test",
 //                                      saveImmediately: true,
@@ -26,6 +29,7 @@ class EditorPresenterTests: XCTestCase {
     
     override func tearDownWithError() throws {
         try? VODesignDocument.removeTestDocument(name: "Test")
+        document = nil
         sut = nil
         controller = nil
         super.tearDown()
@@ -85,6 +89,10 @@ extension EditorPresenterTests {
     ) async throws -> A11yDescription? {
         return try await awaitPublisher(sut.selectedPublisher,
                                         file: file, line: line)
+    }
+    
+    func removeImage() {
+        document.image = nil
     }
 }
 

@@ -10,9 +10,12 @@ extension VODesignDocument {
         saveImmediately: Bool = false,
         testCase: XCTestCase
     ) -> VODesignDocument {
+        if !FileManager.default.fileExists(atPath: testURL(name: name).path) {
+            FileManager.default.createFile(atPath: testURL(name: name).path, contents: Data())
+        }
         let document = VODesignDocument(file: testURL(name: name))
         if saveImmediately {
-            document.save(testCase: testCase)
+            document.save(testCase: testCase, fileName: name)
         }
         return document
     }
@@ -34,9 +37,9 @@ extension VODesignDocument {
             in: .userDomainMask).first!
     }
     
-    public func save(testCase: XCTestCase) {
+    public func save(testCase: XCTestCase, fileName: String) {
         let expectation = testCase.expectation(description: "Save file")
-        save(to: fileURL!, ofType: Self.vodesign, for: .saveOperation) { error in
+        save(to: Self.testURL(name: fileName), ofType: Self.vodesign, for: .saveOperation) { error in
             if let error = error {
                 Swift.print("saving error: \(error)")
             } else {

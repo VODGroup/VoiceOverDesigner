@@ -34,7 +34,7 @@ class VODesignDocumentPersistanceTests: XCTestCase {
         }
         
         XCTContext.runActivity(named: "Save document and remove from memory") { _ in
-            document!.save(testCase: self)
+            document!.save(testCase: self, fileName: fileName)
             addTeardownBlock {
                 try! VODesignDocument.removeTestDocument(name: fileName)
             }
@@ -55,7 +55,7 @@ class VODesignDocumentPersistanceTests: XCTestCase {
         let document = VODesignDocument.with2Controls(name: "TestFile2", testCase: self)
         
         XCTContext.runActivity(named: "Save document to disk") { _ in
-            document.save(testCase: self)
+            document.save(testCase: self, fileName: "TestFile2")
             addTeardownBlock {
                 try! VODesignDocument.removeTestDocument(name: "TestFile2")
             }
