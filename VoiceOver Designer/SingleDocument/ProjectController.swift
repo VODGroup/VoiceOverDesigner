@@ -99,5 +99,6 @@ extension ProjectController: SettingsDelegate {
     
     public func delete(model: A11yDescription) {
         editor.delete(model: model)
+        settings.state = .empty
     }
 }
