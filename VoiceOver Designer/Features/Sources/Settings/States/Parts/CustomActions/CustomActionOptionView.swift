@@ -16,7 +16,6 @@ protocol CustomActionOptionViewDelegate: AnyObject {
 class CustomActionOptionView: NSView {
     let textfield: NSTextField
     let removeButton: NSButton
-    let stackView: NSStackView
     
     var name: String {
         get {
@@ -33,25 +32,34 @@ class CustomActionOptionView: NSView {
     init() {
         textfield = NSTextField()
         textfield.bezelStyle = .roundedBezel
-        NSLayoutConstraint.activate([
-            textfield.widthAnchor.constraint(equalToConstant: 280)
-        ])
         textfield.isEditable = true
         
         removeButton = NSButton(title: "-", target: nil, action: nil)
         removeButton.bezelStyle = .inline
-        stackView = NSStackView(views: [textfield, removeButton])
-        stackView.orientation = .horizontal
-        stackView.distribution = .fill
+
         super.init(frame: .zero)
-        removeButton.target = self
-        removeButton.action = #selector(deleteSelf)
         
+        addSubview(textfield)
+        textfield.translatesAutoresizingMaskIntoConstraints = false
         textfield.target = self
         textfield.action = #selector(updateText)
         
-        addSubview(stackView)
+        addSubview(removeButton)
+        removeButton.translatesAutoresizingMaskIntoConstraints = false
+        removeButton.target = self
+        removeButton.action = #selector(deleteSelf)
         
+        NSLayoutConstraint.activate([
+            textfield.topAnchor.constraint(equalTo: self.topAnchor),
+            textfield.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            textfield.leftAnchor.constraint(equalTo: self.leftAnchor),
+            textfield.rightAnchor.constraint(equalTo: removeButton.leftAnchor, constant: -4.0),
+            
+            removeButton.widthAnchor.constraint(equalToConstant: 24.0),
+            removeButton.topAnchor.constraint(equalTo: self.topAnchor),
+            removeButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -4.0),
+            removeButton.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        ])
     }
     
     @objc func deleteSelf() {
