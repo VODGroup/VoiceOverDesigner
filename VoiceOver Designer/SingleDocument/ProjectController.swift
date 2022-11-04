@@ -68,8 +68,13 @@ class ProjectController: NSSplitViewController {
         guard model == result?.control.a11yDescription else { return }
         
         guard let currentController = settings.currentController as? SettingsViewController else { return }
-        
-        currentController.presentTextRecognition(result?.text ?? [])
+       
+        var alternatives = result?.text ?? []
+        if alternatives.count > 1 {
+            let combined = alternatives.joined(separator: " ")
+            alternatives.append(combined)
+        }
+        currentController.presentTextRecognition(alternatives)
     }
 }
 
