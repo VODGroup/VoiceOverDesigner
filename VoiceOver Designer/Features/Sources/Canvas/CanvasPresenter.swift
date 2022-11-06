@@ -6,7 +6,7 @@
 //
 
 import Document
-import AppKit
+import CoreText
 import Combine
 import TextRecognition
 
