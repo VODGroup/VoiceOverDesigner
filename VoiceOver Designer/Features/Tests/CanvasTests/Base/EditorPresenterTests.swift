@@ -1,13 +1,13 @@
 import XCTest
-@testable import Editor
+@testable import Canvas
 import Document
 import DocumentTestHelpers
 
-class EditorPresenterTests: XCTestCase {
+class CanvasPresenterTests: XCTestCase {
     
-    var sut: EditorPresenter!
+    var sut: CanvasPresenter!
     var controller: EmptyViewController!
-    var editorUI: FakeEditorUI!
+    var canvasUI: FakeCanvasUI!
     var textRecognition: FakeTextRecognitionService!
     var document: VODesignDocumentProtocol!
     
@@ -15,12 +15,12 @@ class EditorPresenterTests: XCTestCase {
         super.setUp()
         
         controller = EmptyViewController()
-        editorUI = FakeEditorUI()
+        canvasUI = FakeCanvasUI()
         textRecognition = FakeTextRecognitionService()
         document = DocumentFake()
         document.image = Image()
         
-        sut = EditorPresenter(document: document,
+        sut = CanvasPresenter(document: document,
                               textRecognition: textRecognition)
 //        VODesignDocument.testDocument(name: "Test",
 //                                      saveImmediately: true,
@@ -42,10 +42,10 @@ class EditorPresenterTests: XCTestCase {
 
 // MARK: - DSL
 
-extension EditorPresenterTests {
+extension CanvasPresenterTests {
     func didLoad() {
         sut.didLoad(ui: controller.controlsView,
-                    screenUI: editorUI)
+                    screenUI: canvasUI)
     }
     
     var drawnControls: [A11yDescription] {
@@ -96,7 +96,7 @@ extension EditorPresenterTests {
     }
 }
 
-extension EditorPresenter {
+extension CanvasPresenter {
     func click(coordinate: CGPoint) {
         mouseDown(on: coordinate)
         mouseUp(on: coordinate)

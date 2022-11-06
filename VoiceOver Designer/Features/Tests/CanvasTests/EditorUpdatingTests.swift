@@ -1,9 +1,9 @@
 import XCTest
-@testable import Editor
+@testable import Canvas
 import Document
 import DocumentTestHelpers
 
-class EditorUpdatingTests: EditorPresenterTests {
+class CanvasUpdatingTests: CanvasPresenterTests {
     
     func test_emptyDocument_whenLoad_shouldDrawNothing() {
         didLoad()

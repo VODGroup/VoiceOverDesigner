@@ -1,7 +1,7 @@
 import XCTest
-@testable import Editor
+@testable import Canvas
 
-class RoutingTests: EditorAfterDidLoadTests {
+class RoutingTests: CanvasAfterDidLoadTests {
     
     func test_openSettings() async throws {
         drawRect_10_60()

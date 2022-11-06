@@ -15,6 +15,7 @@
 		1E1D7FF5281D5CBF00B64954 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E1D7FF4281D5CBF00B64954 /* Assets.xcassets */; };
 		1E25D6782896967C00D06A9F /* TextUI in Frameworks */ = {isa = PBXBuildFile; productRef = 1E25D6772896967C00D06A9F /* TextUI */; };
 		1E25D67A289696E900D06A9F /* Settings in Frameworks */ = {isa = PBXBuildFile; productRef = 1E25D679289696E900D06A9F /* Settings */; };
+		1E49B5E329180A9600DFCD6C /* Canvas in Frameworks */ = {isa = PBXBuildFile; productRef = 1E49B5E229180A9600DFCD6C /* Canvas */; };
 		1E7555C32895918400024714 /* QuickLookThumbnailing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E7555C22895918400024714 /* QuickLookThumbnailing.framework */; };
 		1E7555C52895918400024714 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E7555C42895918400024714 /* Quartz.framework */; };
 		1E7555C82895918400024714 /* ThumbnailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7555C72895918400024714 /* ThumbnailProvider.swift */; };
@@ -38,7 +39,6 @@
 		1EC752EC28B511730064CF2F /* VODesignDocument+Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC752EB28B511730064CF2F /* VODesignDocument+Window.swift */; };
 		1EC752EE28B514690064CF2F /* Recent in Frameworks */ = {isa = PBXBuildFile; productRef = 1EC752ED28B514690064CF2F /* Recent */; };
 		1EC992DB28B119730020041B /* ProjectController+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC992DA28B119730020041B /* ProjectController+Toolbar.swift */; };
-		6B628799288D4039006F622A /* Editor in Frameworks */ = {isa = PBXBuildFile; productRef = 6B628798288D4039006F622A /* Editor */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,8 +117,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E49B5E329180A9600DFCD6C /* Canvas in Frameworks */,
 				1EC752EE28B514690064CF2F /* Recent in Frameworks */,
-				6B628799288D4039006F622A /* Editor in Frameworks */,
 				1E25D67A289696E900D06A9F /* Settings in Frameworks */,
 				1E25D6782896967C00D06A9F /* TextUI in Frameworks */,
 				1E033902281E737000EE373E /* Document in Frameworks */,
@@ -296,10 +296,10 @@
 			name = "VoiceOver Designer";
 			packageProductDependencies = (
 				1E033901281E737000EE373E /* Document */,
-				6B628798288D4039006F622A /* Editor */,
 				1E25D6772896967C00D06A9F /* TextUI */,
 				1E25D679289696E900D06A9F /* Settings */,
 				1EC752ED28B514690064CF2F /* Recent */,
+				1E49B5E229180A9600DFCD6C /* Canvas */,
 			);
 			productName = "VoiceOver Designer";
 			productReference = 1E1D7FED281D5CBE00B64954 /* VoiceOver Designer.app */;
@@ -783,6 +783,10 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Settings;
 		};
+		1E49B5E229180A9600DFCD6C /* Canvas */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Canvas;
+		};
 		1E7555D2289591B900024714 /* Document */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Document;
@@ -790,10 +794,6 @@
 		1EC752ED28B514690064CF2F /* Recent */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Recent;
-		};
-		6B628798288D4039006F622A /* Editor */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Editor;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

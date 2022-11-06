@@ -6,11 +6,11 @@
 //
 
 import Foundation
-@testable import Editor
+@testable import Canvas
 import XCTest
 import Document
 
-class CancellingActionsTests: EditorAfterDidLoadTests {
+class CancellingActionsTests: CanvasAfterDidLoadTests {
     func test_CancelCopyActionShouldDeleteCopiedControlAndResetFrame() async throws {
         let copyCommand = ManualCopyCommand()
         

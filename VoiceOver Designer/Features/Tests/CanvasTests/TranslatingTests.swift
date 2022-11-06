@@ -1,8 +1,8 @@
 import XCTest
-@testable import Editor
+@testable import Canvas
 import Document
 
-class TranslatingTests: EditorAfterDidLoadTests {
+class TranslatingTests: CanvasAfterDidLoadTests {
     
     // MARK: Editing
     func test_movementFor5px_shouldTranslateRect() async throws {
