@@ -1,4 +1,4 @@
-@testable import Editor
+@testable import Canvas
 import CoreGraphics
 import TextRecognition
 

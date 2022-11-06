@@ -1,7 +1,7 @@
-@testable import Editor
+@testable import Canvas
 import CoreGraphics
 
-class FakeEditorUI: EditorPresenterUIProtocol {
+class FakeCanvasUI: CanvasPresenterUIProtocol {
     var image: CGImage?
     func image(at frame: CGRect) async -> CGImage? {
         return image

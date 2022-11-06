@@ -1,6 +1,6 @@
-@testable import Editor
+@testable import Canvas
 
-class EditorAfterDidLoadTests: EditorPresenterTests {
+class CanvasAfterDidLoadTests: CanvasPresenterTests {
     override func setUp() {
         super.setUp()
         

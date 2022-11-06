@@ -39,14 +39,14 @@ extension ProjectController {
     
     @objc private func showLabels(sender: NSToolbarItem) {
         sender.action = #selector(hideLabels(sender:))
-        editor.presenter.showLabels()
+        canvas.presenter.showLabels()
         
         sender.disableLabels()
     }
     
     @objc private func hideLabels(sender: NSToolbarItem) {
         sender.action = #selector(showLabels(sender:))
-        editor.presenter.hideLabels()
+        canvas.presenter.hideLabels()
         
         sender.enableLabels()
     }

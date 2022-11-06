@@ -9,13 +9,13 @@ import Cocoa
 import Document
 import CommonUI
 
-public class EditorViewController: NSViewController {
+public class CanvasViewController: NSViewController {
     
-    public func inject(presenter: EditorPresenter) {
+    public func inject(presenter: CanvasPresenter) {
         self.presenter = presenter
     }
     
-    public var presenter: EditorPresenter!
+    public var presenter: CanvasPresenter!
     
     var trackingArea: NSTrackingArea!
     
@@ -56,13 +56,13 @@ public class EditorViewController: NSViewController {
     
     // TODO: try to extract?
     func addMenuItem() {
-        guard let menu = NSApplication.shared.menu, menu.item(withTitle: "Editor") == nil else { return }
-        let editorMenuItem = NSMenuItem(title: "Editor", action: nil, keyEquivalent: "")
-        let editorSubMenu = NSMenu(title: "Editor")
+        guard let menu = NSApplication.shared.menu, menu.item(withTitle: "Canvas") == nil else { return }
+        let canvasMenuItem = NSMenuItem(title: "Canvas", action: nil, keyEquivalent: "")
+        let canvasSubMenu = NSMenu(title: "Canvas")
         let addImageItem = NSMenuItem(title: "Add image", action: #selector(addImageButtonTapped), keyEquivalent: "")
-        editorSubMenu.addItem(addImageItem)
-        editorMenuItem.submenu = editorSubMenu
-        menu.addItem(editorMenuItem)
+        canvasSubMenu.addItem(addImageItem)
+        canvasMenuItem.submenu = canvasSubMenu
+        menu.addItem(canvasMenuItem)
     }
     
     func setImage() {
@@ -122,13 +122,13 @@ public class EditorViewController: NSViewController {
         presenter.mouseUp(on: location(from: event))
     }
     
-    func view() -> EditorView {
-        view as! EditorView
+    func view() -> CanvasView {
+        view as! CanvasView
     }
     
-    public static func fromStoryboard() -> EditorViewController {
-        let storyboard = NSStoryboard(name: "Editor", bundle: .module)
-        return storyboard.instantiateInitialController() as! EditorViewController
+    public static func fromStoryboard() -> CanvasViewController {
+        let storyboard = NSStoryboard(name: "Canvas", bundle: .module)
+        return storyboard.instantiateInitialController() as! CanvasViewController
     }
     
     public func select(_ model: A11yDescription) {
@@ -177,7 +177,7 @@ public class EditorViewController: NSViewController {
 }
 
 // MARK: - Magnifiing
-extension EditorViewController {
+extension CanvasViewController {
     
     @IBAction func reduceMagnifing(sender: Any) {
         view().changeMagnifacation { current in
@@ -196,13 +196,13 @@ extension EditorViewController {
     }
 }
 
-extension EditorViewController: NSWindowDelegate {
+extension CanvasViewController: NSWindowDelegate {
     public func windowDidResize(_ notification: Notification) {
         view().fitToWindowIfAlreadyFitted()
     }
 }
 
-extension EditorViewController: DragNDropDelegate {
+extension CanvasViewController: DragNDropDelegate {
     public func didDrag(image: NSImage) {
         presenter.update(image: image)
         view().setImage(image)

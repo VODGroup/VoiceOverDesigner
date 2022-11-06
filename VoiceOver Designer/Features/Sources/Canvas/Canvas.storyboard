@@ -7,27 +7,27 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Editor View Controller-->
+        <!--Canvas View Controller-->
         <scene sceneID="cJT-1T-ftV">
             <objects>
-                <viewController storyboardIdentifier="editor" id="LVp-Pr-lAJ" customClass="EditorViewController" customModule="Editor" sceneMemberID="viewController">
-                    <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="ndy-hA-WOO" customClass="EditorView" customModule="Editor">
+                <viewController storyboardIdentifier="canvas" id="LVp-Pr-lAJ" customClass="CanvasViewController" customModule="Canvas" sceneMemberID="viewController">
+                    <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="ndy-hA-WOO" customClass="CanvasView" customModule="Canvas">
                         <rect key="frame" x="0.0" y="0.0" width="800" height="814"/>
                         <subviews>
-                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" maxMagnification="6" minMagnification="0.01" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHg-wh-ieX" customClass="CanvasScrollView" customModule="Editor">
+                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" maxMagnification="6" minMagnification="0.01" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHg-wh-ieX" customClass="CanvasScrollView" customModule="Canvas">
                                 <rect key="frame" x="0.0" y="0.0" width="800" height="814"/>
-                                <clipView key="contentView" id="lki-H1-X1O" customClass="CenteredClipView" customModule="Editor">
+                                <clipView key="contentView" id="lki-H1-X1O" customClass="CenteredClipView" customModule="Canvas">
                                     <rect key="frame" x="1" y="1" width="798" height="812"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <view ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JlK-Oy-LgO" customClass="FlippedView" customModule="Editor">
+                                        <view ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JlK-Oy-LgO" customClass="FlippedView" customModule="Canvas">
                                             <rect key="frame" x="0.0" y="0.0" width="784" height="812"/>
                                             <subviews>
                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="812" translatesAutoresizingMaskIntoConstraints="NO" id="kiH-h5-aG4">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="vuC-bS-HZw"/>
                                                 </imageView>
-                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="L7U-F0-kOc" customClass="ControlsView" customModule="Editor">
+                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="L7U-F0-kOc" customClass="ControlsView" customModule="Canvas">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                                 </customView>
                                             </subviews>

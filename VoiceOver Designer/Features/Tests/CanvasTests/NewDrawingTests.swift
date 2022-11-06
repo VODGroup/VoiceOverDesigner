@@ -1,16 +1,16 @@
 //
-//  EditorPresenterTests.swift
+//  CanvasPresenterTests.swift
 //  VoiceOver DesignerTests
 //
 //  Created by Mikhail Rubanov on 05.05.2022.
 //
 
 import XCTest
-@testable import Editor
+@testable import Canvas
 import Document
 import DocumentTestHelpers
 
-class NewDrawingTests: EditorAfterDidLoadTests {
+class NewDrawingTests: CanvasAfterDidLoadTests {
     func test_rectangleDrawnOnTheFly() {
         sut.mouseDown(on: start10)
         

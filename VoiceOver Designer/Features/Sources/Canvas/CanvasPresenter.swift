@@ -1,12 +1,12 @@
 //
-//  EditorPresenter.swift
+//  CanvasPresenter.swift
 //  VoiceOver Designer
 //
 //  Created by Mikhail Rubanov on 05.05.2022.
 //
 
 import Document
-import AppKit
+import CoreText
 import Combine
 import TextRecognition
 
@@ -45,11 +45,11 @@ public class DocumentPresenter {
     }
 }
 
-protocol EditorPresenterUIProtocol: AnyObject {
+protocol CanvasPresenterUIProtocol: AnyObject {
     func image(at frame: CGRect) async -> CGImage?
 }
 
-public class EditorPresenter: DocumentPresenter {
+public class CanvasPresenter: DocumentPresenter {
    
     public override convenience init(document: VODesignDocumentProtocol) {
         self.init(document: document,
@@ -65,9 +65,9 @@ public class EditorPresenter: DocumentPresenter {
         super.init(document: document)
     }
     
-    weak var screenUI: EditorPresenterUIProtocol!
+    weak var screenUI: CanvasPresenterUIProtocol!
     
-    func didLoad(ui: DrawingView, screenUI: EditorPresenterUIProtocol) {
+    func didLoad(ui: DrawingView, screenUI: CanvasPresenterUIProtocol) {
         self.ui = ui
         self.screenUI = screenUI
         self.drawingController = DrawingController(view: ui)

@@ -1,6 +1,6 @@
 //
-//  EditorView.swift
-//  Editor
+//  CanvasView.swift
+//  Canvas
 //
 //  Created by Mikhail Rubanov on 22.05.2022.
 //
@@ -20,7 +20,7 @@ class ControlsView: FlippedView, DrawingView {
     var escListener = EscModifierFactory().make()
 }
 
-class EditorView: FlippedView, EditorPresenterUIProtocol {
+class CanvasView: FlippedView, CanvasPresenterUIProtocol {
     
     @IBOutlet weak var scrollView: NSScrollView!
     

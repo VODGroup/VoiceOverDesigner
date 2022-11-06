@@ -1,23 +1,23 @@
-import Editor
+import Canvas
 import TextUI
 import Settings
 import AppKit
 import Document
 import Combine
 
-extension EditorPresenter: TextBasedPresenter {}
+extension CanvasPresenter: TextBasedPresenter {}
 
 class ProjectController: NSSplitViewController {
     
     init(document: VODesignDocument) {
-        let editorPresenter = EditorPresenter(document: document)
+        let canvasPresenter = CanvasPresenter(document: document)
         
         textContent = TextRepresentationController.fromStoryboard(
             document: document,
-            presenter: editorPresenter)
+            presenter: canvasPresenter)
         
-        editor = EditorViewController.fromStoryboard()
-        editor.inject(presenter: editorPresenter)
+        canvas = CanvasViewController.fromStoryboard()
+        canvas.inject(presenter: canvasPresenter)
         
         settings = SettingsStateViewController.fromStoryboard()
         
@@ -31,7 +31,7 @@ class ProjectController: NSSplitViewController {
     }
     
     private let textContent: TextRepresentationController
-    let editor: EditorViewController
+    let canvas: CanvasViewController
     private let settings: SettingsStateViewController
     
     var document: VODesignDocument!
@@ -48,15 +48,15 @@ class ProjectController: NSSplitViewController {
         let settingsSidebar = NSSplitViewItem(sidebarWithViewController: settings)
         
         addSplitViewItem(textSidebar)
-        addSplitViewItem(NSSplitViewItem(viewController: editor))
+        addSplitViewItem(NSSplitViewItem(viewController: canvas))
         addSplitViewItem(settingsSidebar)
         
-        editor.presenter
+        canvas.presenter
             .selectedPublisher
             .sink(receiveValue: updateSelection(_:))
             .store(in: &cancellables)
         
-        editor.presenter
+        canvas.presenter
             .recognitionPublisher
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: updateTextRecognition(_:))
@@ -99,11 +99,11 @@ extension ProjectController {
 
 extension ProjectController: SettingsDelegate {
     public func didUpdateValue() {
-        editor.save()
+        canvas.save()
     }
     
     public func delete(model: A11yDescription) {
-        editor.delete(model: model)
+        canvas.delete(model: model)
         settings.state = .empty
     }
 }

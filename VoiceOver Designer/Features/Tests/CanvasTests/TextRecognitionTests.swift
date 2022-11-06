@@ -1,12 +1,12 @@
-@testable import Editor
+@testable import Canvas
 import Document
 import DocumentTestHelpers
 import CoreGraphics
 import XCTest
 
-class TextRecognitionTests: EditorAfterDidLoadTests {
+class TextRecognitionTests: CanvasAfterDidLoadTests {
     func test_whenDrawElement_shouldReturn() async throws {
-        editorUI.image = .empty()
+        canvasUI.image = .empty()
         textRecognition.recognitioResult = ["Test result"]
         
         drawRect_10_60()
