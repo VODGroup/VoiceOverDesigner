@@ -1,11 +1,5 @@
-//
-//  A11yControl.swift
-//  VoiceOver Designer
-//
-//  Created by Mikhail Rubanov on 30.04.2022.
-//
-
 import QuartzCore
+import Document
 
 public class A11yControl: CALayer {
     

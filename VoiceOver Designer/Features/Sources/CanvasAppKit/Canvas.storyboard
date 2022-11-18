@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="LVp-Pr-lAJ">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="LVp-Pr-lAJ">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21225"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -10,24 +10,24 @@
         <!--Canvas View Controller-->
         <scene sceneID="cJT-1T-ftV">
             <objects>
-                <viewController storyboardIdentifier="canvas" id="LVp-Pr-lAJ" customClass="CanvasViewController" customModule="Canvas" sceneMemberID="viewController">
-                    <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="ndy-hA-WOO" customClass="CanvasView" customModule="Canvas">
+                <viewController storyboardIdentifier="canvas" id="LVp-Pr-lAJ" customClass="CanvasViewController" customModule="CanvasAppKit" sceneMemberID="viewController">
+                    <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="ndy-hA-WOO" customClass="CanvasView" customModule="CanvasAppKit">
                         <rect key="frame" x="0.0" y="0.0" width="800" height="814"/>
                         <subviews>
                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" maxMagnification="6" minMagnification="0.01" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHg-wh-ieX" customClass="CanvasScrollView" customModule="Canvas">
                                 <rect key="frame" x="0.0" y="0.0" width="800" height="814"/>
-                                <clipView key="contentView" id="lki-H1-X1O" customClass="CenteredClipView" customModule="Canvas">
-                                    <rect key="frame" x="1" y="1" width="798" height="812"/>
+                                <clipView key="contentView" id="lki-H1-X1O" customClass="CenteredClipView" customModule="CanvasAppKit">
+                                    <rect key="frame" x="1" y="1" width="783" height="758"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <view ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JlK-Oy-LgO" customClass="FlippedView" customModule="Canvas">
-                                            <rect key="frame" x="0.0" y="0.0" width="784" height="812"/>
+                                        <view ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JlK-Oy-LgO" customClass="FlippedView" customModule="CanvasAppKit">
+                                            <rect key="frame" x="0.0" y="-54" width="784" height="812"/>
                                             <subviews>
                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="812" translatesAutoresizingMaskIntoConstraints="NO" id="kiH-h5-aG4">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="vuC-bS-HZw"/>
                                                 </imageView>
-                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="L7U-F0-kOc" customClass="ControlsView" customModule="Canvas">
+                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="L7U-F0-kOc" customClass="ControlsView" customModule="CanvasAppKit">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                                 </customView>
                                             </subviews>
@@ -47,11 +47,11 @@
                                 </clipView>
                                 <edgeInsets key="contentInsets" left="0.0" right="0.0" top="52" bottom="40"/>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="RkM-Hh-eZx">
-                                    <rect key="frame" x="1" y="758" width="798" height="16"/>
+                                    <rect key="frame" x="1" y="759" width="783" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="96e-u8-vjE">
-                                    <rect key="frame" x="783" y="52" width="16" height="722"/>
+                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.48571428571428577" horizontal="NO" id="96e-u8-vjE">
+                                    <rect key="frame" x="784" y="52" width="15" height="707"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>

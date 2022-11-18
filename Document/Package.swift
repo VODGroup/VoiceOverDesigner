@@ -14,7 +14,16 @@ let package = Package(
             targets: ["Document"]),
         .library(
             name: "DocumentTestHelpers",
-            targets: ["DocumentTestHelpers"])
+            targets: ["DocumentTestHelpers"]),
+        
+        .library(
+            name: "Canvas",
+            targets: ["Canvas"]),
+        
+        .library(
+            name: "TextRecognition",
+            targets: ["TextRecognition"]),
+        
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -32,5 +41,17 @@ let package = Package(
             name: "DocumentTests",
             dependencies: ["Document", "DocumentTestHelpers"]),
         
+        .target(
+            name: "TextRecognition",
+            dependencies: [
+            ]
+        ),
+        .target(
+            name: "Canvas",
+            dependencies: [
+                "Document",
+                "TextRecognition",
+            ]
+        ),
     ]
 )

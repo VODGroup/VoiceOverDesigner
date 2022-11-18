@@ -19,7 +19,7 @@ public class DocumentPresenter {
     public private(set) var document: VODesignDocumentProtocol
     
     var drawingController: DrawingController!
-    weak var ui: DrawingView!
+    public weak var ui: DrawingView!
     
     public func save() {
         let descriptions = ui.drawnControls.compactMap { control in
@@ -32,7 +32,7 @@ public class DocumentPresenter {
     public let selectedPublisher = OptionalDescriptionSubject(nil)
     public let recognitionPublisher = TextRecognitionSubject(nil)
     
-    func update(image: Image) {
+    public func update(image: Image) {
         document.image = image
     }
     
@@ -45,7 +45,7 @@ public class DocumentPresenter {
     }
 }
 
-protocol CanvasPresenterUIProtocol: AnyObject {
+public protocol CanvasPresenterUIProtocol: AnyObject {
     func image(at frame: CGRect) async -> CGImage?
 }
 
@@ -67,7 +67,7 @@ public class CanvasPresenter: DocumentPresenter {
     
     weak var screenUI: CanvasPresenterUIProtocol!
     
-    func didLoad(ui: DrawingView, screenUI: CanvasPresenterUIProtocol) {
+    public func didLoad(ui: DrawingView, screenUI: CanvasPresenterUIProtocol) {
         self.ui = ui
         self.screenUI = screenUI
         self.drawingController = DrawingController(view: ui)
@@ -95,21 +95,21 @@ public class CanvasPresenter: DocumentPresenter {
         updateSelectedControl(selectedPublisher.value)
     }
     
-    func draw(controls: [A11yDescription]) {
+    public func draw(controls: [A11yDescription]) {
         drawingController.drawControls(controls)
     }
     
     // MARK: Mouse
-    func mouseDown(on location: CGPoint) {
+    public func mouseDown(on location: CGPoint) {
         guard document.image != nil else { return }
         drawingController.mouseDown(on: location)
     }
     
-    func mouseDragged(on location: CGPoint) {
+    public func mouseDragged(on location: CGPoint) {
         drawingController.drag(to: location)
     }
    
-    func mouseUp(on location: CGPoint) {
+    public func mouseUp(on location: CGPoint) {
         let action = drawingController.end(coordinate: location)
         
         let control = finishAciton(action)
@@ -185,7 +185,7 @@ public class CanvasPresenter: DocumentPresenter {
         }
     }
     
-    func select(control: A11yControl) {
+    public func select(control: A11yControl) {
         selectedPublisher.send(control.a11yDescription)
     }
     

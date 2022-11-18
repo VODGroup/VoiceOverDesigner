@@ -1,6 +1,6 @@
+import Document
 import Combine
 
-public typealias OptionalDescriptionSubject = CurrentValueSubject<A11yDescription?, Never>
 public typealias TextRecognitionSubject = CurrentValueSubject<RecognitionResult?, Never>
 
 public struct RecognitionResult {

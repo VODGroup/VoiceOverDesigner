@@ -1,3 +1,5 @@
+import Document
+
 #if canImport(UIKit)
 import UIKit
 public typealias View = UIView

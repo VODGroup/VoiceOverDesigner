@@ -9,6 +9,7 @@ import AppKit
 
 import CommonUI
 import Document
+import Canvas
 
 class ControlsView: FlippedView, DrawingView {
     var drawnControls: [A11yControl] = []

@@ -1,5 +1,6 @@
 import CoreGraphics
 import QuartzCore
+import Document
 
 public class DrawingController {
 

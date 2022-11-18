@@ -8,6 +8,7 @@
 import Cocoa
 import Document
 import CommonUI
+import Canvas
 
 public class CanvasViewController: NSViewController {
     

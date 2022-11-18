@@ -1,4 +1,5 @@
 import CoreGraphics
+import Document
 
 public class CopyAndTranslateAction: DraggingAction {
     public func cancel() {
