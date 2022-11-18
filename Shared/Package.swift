@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "Document",
+    name: "Shared",
     defaultLocalization: "en",
     platforms: [.iOS(.v13), .macOS(.v10_15)],
     products: [
@@ -39,7 +39,9 @@ let package = Package(
             path: "TestHelpers"),
         .testTarget(
             name: "DocumentTests",
-            dependencies: ["Document", "DocumentTestHelpers"]),
+            dependencies: [
+                "Document",
+                "DocumentTestHelpers"]),
         
         .target(
             name: "TextRecognition",
@@ -53,5 +55,8 @@ let package = Package(
                 "TextRecognition",
             ]
         ),
+        .testTarget(
+            name: "CanvasTests",
+            dependencies: ["Canvas"]),
     ]
 )

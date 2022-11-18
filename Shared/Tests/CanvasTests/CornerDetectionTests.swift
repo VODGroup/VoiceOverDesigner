@@ -1,4 +1,4 @@
-@testable import Document
+@testable import Canvas
 import XCTest
 
 class CornerDetectionTests: XCTestCase {

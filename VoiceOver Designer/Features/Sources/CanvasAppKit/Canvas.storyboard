@@ -14,7 +14,7 @@
                     <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="ndy-hA-WOO" customClass="CanvasView" customModule="CanvasAppKit">
                         <rect key="frame" x="0.0" y="0.0" width="800" height="814"/>
                         <subviews>
-                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" maxMagnification="6" minMagnification="0.01" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHg-wh-ieX" customClass="CanvasScrollView" customModule="Canvas">
+                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" maxMagnification="6" minMagnification="0.01" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHg-wh-ieX" customClass="CanvasScrollView" customModule="CanvasAppKit">
                                 <rect key="frame" x="0.0" y="0.0" width="800" height="814"/>
                                 <clipView key="contentView" id="lki-H1-X1O" customClass="CenteredClipView" customModule="CanvasAppKit">
                                     <rect key="frame" x="1" y="1" width="783" height="758"/>

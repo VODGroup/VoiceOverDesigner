@@ -5,7 +5,7 @@
 //  Created by Mikhail Rubanov on 27.07.2022.
 //
 
-@testable import Document
+@testable import Canvas
 import XCTest
 import CoreGraphics
 
