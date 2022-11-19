@@ -10,63 +10,28 @@ public struct SettingsView: View {
     
     @State private var isOn: Bool = false
     
-    private var traits = ["Button", "Header", "Image", "Link", "Static text", "Search field"]
-    
     public var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text(label)
                 .font(.largeTitle)
             
             TextValue(title: "Label", value: $label)
+                .padding()
             TextValue(title: "Value", value: $value)
+                .padding()
+            TraitsView()
             
-            VStack(alignment: .leading) {
-                SectionTitle("Traits")
-                
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
-                        ForEach(traits, id: \.self) { trait in
-                            Button(trait) {
-                                // TODO: Add action
-                            }
-                            .buttonStyle(.bordered)
-                            .buttonBorderShape(.capsule)
-                        }
-                    }
-                }.frame(height: 40)
-            }
+            Divider()
             
-            VStack(alignment: .leading) {
-                SectionTitle("Custom actions")
-                
-                Button("+ Add custom action") {
-                    // TODO: Add action
-                }
-                .buttonStyle(.bordered)
-                .buttonBorderShape(.roundedRectangle)
-            }
-            
-            VStack(alignment: .leading) {
-                SectionTitle("Custom description")
-                
-                Button("+ Add custom description") {
-                    // TODO: Add action
-                }
-                .buttonStyle(.bordered)
-                .buttonBorderShape(.roundedRectangle)
-            }
-            
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Hint")
-                    .font(.headline)
-                
-                TextField("Hint", text: $hint)
-                    .textFieldStyle(.roundedBorder)
-            }
+            CustomActionView()
+                .padding()
+            CustomDescriptionView()
+                .padding()
+            TextValue(title: "Hint", value: $hint)
+                .padding()
             
             Spacer()
-        }.padding()
-        
+        }
     }
 }
 
@@ -90,13 +55,69 @@ struct TextValue: View {
     @Binding var value: String
     
     public var body: some View {
-        
         VStack(alignment: .leading, spacing: 4) {
             SectionTitle(title)
             
             TextField(title, text: $value)
                 .textFieldStyle(.roundedBorder)
         }
+    }
+}
+
+struct TraitsView: View {
+    
+    private var traits = ["Button", "Header", "Image", "Link", "Static text", "Search field"]
+    
+    public var body: some View {
+        VStack(alignment: .leading) {
+            SectionTitle("Traits")
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(traits, id: \.self) { trait in
+                        Button(trait) {
+                            // TODO: Add action
+                        }
+                        .buttonStyle(.bordered)
+                        .buttonBorderShape(.capsule)
+                    }
+                }
+            }.frame(height: 40)
+        }
+    }
+}
+
+struct CustomActionView: View {
+    
+    public var body: some View {
+        
+        VStack(alignment: .leading) {
+            SectionTitle("Custom actions")
+            
+            Button("+ Add custom action") {
+                // TODO: Add action
+            }
+            .buttonStyle(.bordered)
+            .buttonBorderShape(.roundedRectangle)
+        }
+        
+    }
+}
+
+struct CustomDescriptionView: View {
+    
+    public var body: some View {
+        
+        VStack(alignment: .leading) {
+            SectionTitle("Custom actions")
+            
+            Button("+ Add custom action") {
+                // TODO: Add action
+            }
+            .buttonStyle(.bordered)
+            .buttonBorderShape(.roundedRectangle)
+        }
+        
     }
 }
 
