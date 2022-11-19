@@ -11,28 +11,25 @@ import Canvas
 
 public final class VODesignPreviewViewController: UIViewController {
     
-    public static func controller(for document: VODesignDocument) -> UIViewController {
+    public static func controller(presenter: CanvasPresenter) -> UIViewController {
         let storyboard = UIStoryboard(name: "VODesignPreviewViewController",
                                       bundle: .module)
-        let preview = storyboard.instantiateInitialViewController() as! VODesignPreviewViewController
-        preview.open(document: document) // TODO: load document firstly, then load controller
+        let preview = storyboard
+            .instantiateInitialViewController() as! VODesignPreviewViewController
+        
+        preview.presenter = presenter
+        
         return preview
     }
     
-    private var presenter: CanvasPresenter!
-    
-    private var document: VODesignDocument!
-    func open(document: VODesignDocument) {
-        self.document = document
-        self.presenter = CanvasPresenter(document: document)
-    }
+    var presenter: CanvasPresenter!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadAndDraw()
-        addDocumentStateObserving()
-
+        draw()
+        
+        addGestures() // TODO: If document would drawn several times gestures will be added a lot
     }
     
     func view() -> VODesignPreviewView {
@@ -43,27 +40,14 @@ public final class VODesignPreviewViewController: UIViewController {
 // MARK: - Loading
 extension VODesignPreviewViewController {
     
-    private func loadAndDraw() {
-        self.view().canvas.removeAll()
-        document.close()
+    private func draw() {
+        self.view().canvas.removeAll() // TODO: Move clearing inside? drawingController?
         
-        document.open { isSuccess in
-            if isSuccess {
-                self.draw(document: self.document)
-            } else {
-                fatalError() // TODO: Present something to user
-            }
-        }
-    }
-    
-    private func draw(document: VODesignDocument) {
         presenter.didLoad(
             ui: view().canvas,
             screenUI: view())
         
         view().image = presenter.document.image
-        
-        addGestures() // TODO: If document would drawn several times gestures will be added a lot
     }
 }
 
@@ -115,24 +99,6 @@ extension VODesignPreviewViewController {
         case .possible: break
         @unknown default:
             break
-        }
-    }
-}
-
-// MARK: - iCloud sync
-extension VODesignPreviewViewController {
-    private func addDocumentStateObserving() {
-        NotificationCenter.default.addObserver(
-            self, selector: #selector(Self.documentStateChanged(_:)),
-            name: UIDocument.stateChangedNotification, object: document)
-    }
-    
-    @objc
-    func documentStateChanged(_ notification: Notification) {
-        document.printState()
-        
-        if document.documentState == .progressAvailable {
-            loadAndDraw()
         }
     }
 }
