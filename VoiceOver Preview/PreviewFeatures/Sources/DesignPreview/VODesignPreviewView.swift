@@ -15,18 +15,13 @@ class VODesignPreviewView: UIView {
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var backgroundImageHeight: NSLayoutConstraint!
     @IBOutlet weak var canvas: Canvas!
-   
-    func setup(image: UIImage?, controls: [A11yDescription]) {
-        self.image = image
-        self.controls = controls
-    }
     
-    private var image: UIImage? {
+    var image: UIImage? {
         didSet {
             backgroundImageView.image = image
             
             guard let image = image else { return }
- 
+            
             guard image.size.width != 0 else { return }
             let aspectRatio = bounds.width / image.size.width
             backgroundImageHeight.constant = image.size.height * aspectRatio
@@ -35,20 +30,12 @@ class VODesignPreviewView: UIView {
             canvas.scale = scale
         }
     }
-    
-    private var controls: [A11yDescription] = [] {
-        didSet {
-            for control in controls {
-                drawingController.drawControl(from: control, scale: canvas.scale)
-            }
-            
-            canvas.layout = VoiceOverLayout(
-                controls: controls,
-                container: scrollView)
-        }
+}
+
+extension VODesignPreviewView: CanvasPresenterUIProtocol {
+    func image(at frame: CGRect) async -> CGImage? {
+        return nil // TODO: calculate image
     }
-    
-    private lazy var drawingController = DrawingController(view: canvas)
 }
 
 class Canvas: UIView, DrawingView {

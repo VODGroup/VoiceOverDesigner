@@ -7,6 +7,7 @@
 
 import UIKit
 import Document
+import Canvas
 
 public final class VODesignPreviewViewController: UIViewController {
     
@@ -17,10 +18,13 @@ public final class VODesignPreviewViewController: UIViewController {
         preview.open(document: document)
         return preview
     }
+
+    private var presenter: CanvasPresenter!
     
     private var document: VODesignDocument!
     func open(document: VODesignDocument) {
         self.document = document
+        self.presenter = CanvasPresenter(document: document)
     }
 
     public override func viewDidLoad() {
@@ -35,6 +39,9 @@ public final class VODesignPreviewViewController: UIViewController {
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+    func setImage() {
+        view().image = presenter.document.image
+    }
     }
     
     @objc
@@ -64,7 +71,10 @@ public final class VODesignPreviewViewController: UIViewController {
     }
     
     private func draw(document: VODesignDocument) {
-        view().setup(image: document.image,
-                     controls: document.controls)
+        presenter.didLoad(
+            ui: view().canvas,
+            screenUI: view())
+        
+        setImage()
     }
 }
