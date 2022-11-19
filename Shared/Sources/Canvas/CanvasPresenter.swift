@@ -32,7 +32,10 @@ public class CanvasPresenter: DocumentPresenter {
     
     weak var screenUI: CanvasPresenterUIProtocol!
     
-    public func didLoad(ui: DrawingView, screenUI: CanvasPresenterUIProtocol) {
+    public func didLoad(
+        ui: DrawingView,
+        screenUI: CanvasPresenterUIProtocol
+    ) {
         self.ui = ui
         self.screenUI = screenUI
         self.drawingController = DrawingController(view: ui)
@@ -87,7 +90,7 @@ public class CanvasPresenter: DocumentPresenter {
     private func finishAciton(_ action: DraggingAction?) -> A11yControl? {
         switch action {
         case let new as NewControlAction:
-            document.undoManager?.registerUndo(withTarget: self, handler: { target in
+            document.undo.registerUndo(withTarget: self, handler: { target in
                 target.delete(model: new.control.a11yDescription!)
             })
             
@@ -96,7 +99,7 @@ public class CanvasPresenter: DocumentPresenter {
             return new.control
             
         case let translate as TranslateAction:
-            document.undoManager?.registerUndo(withTarget: self, handler: { target in
+            document.undo.registerUndo(withTarget: self, handler: { target in
                 translate.undo()
             })
             save()
@@ -106,13 +109,13 @@ public class CanvasPresenter: DocumentPresenter {
             select(control: click.control)
             return click.control
         case let copy as CopyAction:
-            document.undoManager?.registerUndo(withTarget: self, handler: { target in
+            document.undo.registerUndo(withTarget: self, handler: { target in
                 target.delete(model: copy.control.a11yDescription!)
             })
             save()
             return copy.control
         case let resize as ResizeAction:
-            document.undoManager?.registerUndo(withTarget: self, handler: { target in
+            document.undo.registerUndo(withTarget: self, handler: { target in
                 resize.control.frame = resize.initialFrame
             })
             return resize.control

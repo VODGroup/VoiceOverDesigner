@@ -7,6 +7,10 @@ import os
 import Combine
 
 public class VODesignDocument: Document, VODesignDocumentProtocol {
+    public var undo: UndoManager {
+        undoManager!
+    }
+    
     public static var vodesign = "vodesign"
     public static var uti = "com.akaDuality.vodesign"
     
@@ -18,7 +22,7 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     public var controls: [A11yDescription] = [] {
         didSet {
             Swift.print(controls.map(\.label))
-            undoManager?.registerUndo(withTarget: self, handler: { document in
+            undo.registerUndo(withTarget: self, handler: { document in
                 document.controls = oldValue
             })
             
