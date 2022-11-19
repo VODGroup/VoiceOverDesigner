@@ -3,6 +3,9 @@ import Document
 import Canvas
 import Combine
 
+import SwiftUI
+import SettingsSwiftUI
+
 public class PreviewMainViewController: UIViewController {
     private var presenter: CanvasPresenter!
     
@@ -32,9 +35,10 @@ public class PreviewMainViewController: UIViewController {
                 self.presenter.selectedPublisher.sink { description in
                     guard let description = description else { return }
                     
-                    let details = UIViewController()
-                    details.view.backgroundColor = .systemRed
+                    let details = UIHostingController(rootView: SettingsView())
                     self.present(details, animated: true)
+                    
+                    // TODO: Deselect on dismiss
                 }.store(in: &self.cancellables)
             } else {
                 fatalError() // TODO: Present something to user

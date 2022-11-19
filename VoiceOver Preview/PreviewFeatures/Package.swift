@@ -5,11 +5,14 @@ import PackageDescription
 
 let package = Package(
     name: "PreviewFeatures",
-    platforms: [.iOS(.v13)],
+    platforms: [.iOS(.v15)],
     products: [
         .library(
             name: "DesignPreview",
-            targets: ["DesignPreview"]),
+            targets: [
+                "DesignPreview",
+                "SettingsSwiftUI"
+            ]),
     ],
     dependencies: [
         .package(name: "Shared", path: "./../../Shared")
@@ -20,6 +23,12 @@ let package = Package(
             dependencies: [
                 .product(name: "Document", package: "Shared"),
                 .product(name: "Canvas", package: "Shared"),
+            ]),
+        .target(
+            name: "SettingsSwiftUI",
+            dependencies: [
+                .product(name: "Document", package: "Shared"),
+//                .product(name: "Canvas", package: "Shared"),
             ]),
     ]
 )
