@@ -9,6 +9,7 @@ import XCTest
 @testable import Settings
 @testable import Document
 import CoreGraphics
+import Canvas
 
 class SettingsTests: XCTestCase {
 
