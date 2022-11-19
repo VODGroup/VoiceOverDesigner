@@ -1,6 +1,7 @@
 import UIKit
 import Document
 import Canvas
+import Combine
 
 public class PreviewMainViewController: UIViewController {
     private var presenter: CanvasPresenter!
@@ -23,10 +24,18 @@ public class PreviewMainViewController: UIViewController {
         addDocumentStateObserving()
     }
     
+    private var cancellables = Set<AnyCancellable>()
     private func loadAndDraw() {
         document.open { isSuccess in
             if isSuccess {
                 self.embedCanvas()
+                self.presenter.selectedPublisher.sink { description in
+                    guard let description = description else { return }
+                    
+                    let details = UIViewController()
+                    details.view.backgroundColor = .systemRed
+                    self.present(details, animated: true)
+                }.store(in: &self.cancellables)
             } else {
                 fatalError() // TODO: Present something to user
             }
