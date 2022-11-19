@@ -8,11 +8,11 @@ import Foundation
 import Combine
 
 public protocol VODesignDocumentProtocol {
-    var controls: [A11yDescription] { get set }
+    var controls: [any AccessibilityView] { get set }
     var undoManager: UndoManager? { get }
     var image: Image? { get set }
     
-    var controlsPublisher: PassthroughSubject<[A11yDescription], Never> { get }
+    var controlsPublisher: PassthroughSubject<[any AccessibilityView], Never> { get }
 }
 
 public class VODesignDocument: Document, VODesignDocumentProtocol {
@@ -22,9 +22,9 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     // MARK: - Data
     public var image: Image?
     
-    public let controlsPublisher: PassthroughSubject<[A11yDescription], Never> = .init()
+    public let controlsPublisher: PassthroughSubject<[any AccessibilityView], Never> = .init()
     
-    public var controls: [A11yDescription] = [] {
+    public var controls: [any AccessibilityView] = [] {
         didSet {
             Swift.print(controls.map(\.label))
             undoManager?.registerUndo(withTarget: self, handler: { document in
@@ -86,7 +86,20 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     }
     
     private func controlsWrapper() throws -> FileWrapper {
-        let wrapper = FileWrapper(regularFileWithContents: try JSONEncoder().encode(controls))
+        
+        
+        let typedControls = controls.compactMap({
+            switch $0 {
+            case let description as A11yDescription:
+                return A11yElement.description(description)
+            case let container as A11yContainer:
+                return A11yElement.container(container)
+            default:
+                return nil
+            }
+        })
+        
+        let wrapper = FileWrapper(regularFileWithContents: try JSONEncoder().encode(typedControls))
         wrapper.preferredFilename = "controls.json"
         return wrapper
     }

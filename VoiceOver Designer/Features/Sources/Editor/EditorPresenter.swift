@@ -72,7 +72,11 @@ public class EditorPresenter: DocumentPresenter {
         self.screenUI = screenUI
         self.drawingController = DrawingController(view: ui)
         
-        draw(controls: document.controls)
+        let controls = document.controls.compactMap({
+            $0 as? A11yDescription
+        })
+        
+        draw(controls: controls)
         redrawOnControlChanges()
     }
     
@@ -81,6 +85,9 @@ public class EditorPresenter: DocumentPresenter {
     private func redrawOnControlChanges() {
         document
             .controlsPublisher
+            .map({
+                $0.compactMap({ $0 as? A11yDescription })
+            })
             .sink(receiveValue: redraw(controls:))
             .store(in: &cancellables)
         

@@ -7,13 +7,14 @@
 
 import Foundation
 
-public protocol AccessibilityView {
+public protocol AccessibilityView: AnyObject, Equatable {
     var label: String { get set }
     var frame: CGRect { get set }
 }
 
 public protocol AccessibilityContainer: AccessibilityView {
-    var elements: [AccessibilityView] { get set }
+    associatedtype Element: AccessibilityElement
+    var elements: [Element] { get set }
 }
 
 public protocol AccessibilityElement: AccessibilityView {

@@ -105,3 +105,5 @@ public class A11yDescription: Codable, Equatable {
         )
     }
 }
+
+extension A11yDescription: AccessibilityElement {}
