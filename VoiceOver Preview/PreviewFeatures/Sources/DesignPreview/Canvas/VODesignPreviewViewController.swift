@@ -54,10 +54,15 @@ extension VODesignPreviewViewController {
 // MARK: - Gesture
 extension VODesignPreviewViewController {
     func addGestures() {
-        let drawingGesture = UIPanGestureRecognizer(
+        let pencilDrawingGesture = UIPanGestureRecognizer(
             target: self,
             action: #selector(didPan(gesture:)))
-        view().canvas.addGestureRecognizer(drawingGesture)
+        pencilDrawingGesture.allowedTouchTypes = [
+            NSNumber(value: UITouch.TouchType.pencil.rawValue)
+            // Should we disable pencil touches for scrollView?
+            // See also https://www.swiftbysundell.com/articles/building-ipad-pro-features-in-swift/
+        ]
+        view().canvas.addGestureRecognizer(pencilDrawingGesture)
         
         let selectionGesture = UITapGestureRecognizer(
             target: self,
