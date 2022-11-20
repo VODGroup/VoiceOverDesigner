@@ -16,22 +16,17 @@ public struct SettingsView: View {
                 .font(.largeTitle)
             
             TextValue(title: "Label", value: $label)
-                .padding()
             TextValue(title: "Value", value: $value)
-                .padding()
             TraitsView()
             
             Divider()
             
             CustomActionView()
-                .padding()
             CustomDescriptionView()
-                .padding()
             TextValue(title: "Hint", value: $hint)
-                .padding()
             
             Spacer()
-        }
+        }.padding()
     }
 }
 

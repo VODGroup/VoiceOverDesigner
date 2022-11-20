@@ -29,21 +29,37 @@ public class PreviewMainViewController: UIViewController {
     
     private var cancellables = Set<AnyCancellable>()
     private func loadAndDraw() {
+        // TODO: Show loading?
         document.open { isSuccess in
             if isSuccess {
                 self.embedCanvas()
-                self.presenter.selectedPublisher.sink { description in
-                    guard let description = description else { return }
-                    
-                    let details = UIHostingController(rootView: SettingsView())
-                    self.present(details, animated: true)
-                    
-                    // TODO: Deselect on dismiss
-                }.store(in: &self.cancellables)
+                self.subsribeToSelection()
             } else {
                 fatalError() // TODO: Present something to user
             }
         }
+    }
+    
+    private func subsribeToSelection() {
+        presenter.selectedPublisher.sink { description in
+            guard let description = description
+            else { return } // TODO: Deselect on dismiss
+            
+            self.presentDetails(for: description)
+        }.store(in: &cancellables)
+    }
+   
+    private var sideTransition = SideTransition()
+    private func presentDetails(for description: A11yDescription) {
+        let details = UIHostingController(rootView: SettingsView())
+        
+        // Side presantation for iPad
+        if traitCollection.userInterfaceIdiom == .pad {
+            details.modalPresentationStyle = .custom
+            details.transitioningDelegate = sideTransition
+        }
+        
+        self.present(details, animated: true)
     }
     
     private func embedCanvas() {
