@@ -1,4 +1,6 @@
+import CanvasAppKit
 import Canvas
+
 import TextUI
 import Settings
 import AppKit

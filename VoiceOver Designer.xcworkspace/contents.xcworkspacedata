@@ -19,6 +19,6 @@
       </FileRef>
    </Group>
    <FileRef
-      location = "group:Document">
+      location = "group:Shared">
    </FileRef>
 </Workspace>
