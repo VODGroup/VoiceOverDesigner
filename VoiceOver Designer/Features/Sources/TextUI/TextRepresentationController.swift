@@ -75,12 +75,17 @@ public class TextRepresentationController: NSViewController {
                                      byExtendingSelection: false)
     }
     
-    private func updateAttributedLabel(for model: A11yDescription?, isSelected: Bool) {
+    private func updateAttributedLabel(for model: (any AccessibilityView)?, isSelected: Bool) {
         guard let model else { return }
-        guard let index = document.controls.firstIndex(of: model) else { return }
+        
+        let index = document.controls.firstIndex(where: { aView in
+            aView === model
+        })
+        guard let index else { return }
+        
         guard let rowView = outlineView.rowView(atRow: index, makeIfNecessary: false) else { return }
         guard let cell = rowView.view(atColumn: 0) as? NSTableCellView else { return }
-        
+
         if isSelected {
             if let attributedString = cell.textField?.attributedStringValue {
                 let stringToDeselect: NSMutableAttributedString = NSMutableAttributedString(attributedString: attributedString)
@@ -88,7 +93,13 @@ public class TextRepresentationController: NSViewController {
                 cell.textField?.attributedStringValue = stringToDeselect
             }
         } else {
-            cell.textField?.attributedStringValue = model.voiceOverTextAttributed(font: cell.textField?.font)
+            if let element = model as? A11yDescription {
+                cell.textField?.attributedStringValue = element.voiceOverTextAttributed(font: cell.textField?.font)
+            } else if let container = model as? A11yContainer {
+                cell.textField?.stringValue = container.label // TODO: Make bold?
+            } else {
+                cell.textField?.stringValue = NSLocalizedString("Unknown element", comment: "")
+            }
         }
     }
 }
