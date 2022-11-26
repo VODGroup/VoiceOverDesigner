@@ -47,7 +47,9 @@ public class A11yDescription: Codable, Equatable {
     public var hint: String
     public var trait: A11yTraits
     public var frame: CGRect
-    public var type: AccessibilityViewType = .element
+    
+    @DecodableDefault.ElementAccessibilityViewType
+    public var type: AccessibilityViewType
     
     // MARK: - Adjustable
     public internal(set) var adjustableOptions: AdjustableOptions // Not optional because user can input values, disable adjustable, but reenable after time. The app will keep data :-)

@@ -43,7 +43,6 @@ class DocumentSaveServiceTests: XCTestCase {
       }
    }
 ]
-
 """
     func test_decode1element() throws {
         let sut = DocumentSaveService(dataProvier: InMemoryDataProvider(json: singleElementJson))
@@ -61,6 +60,52 @@ class DocumentSaveServiceTests: XCTestCase {
         let resultElement = try XCTUnwrap(try sut.loadControls().first as? A11yDescription)
         
         XCTAssertEqual(expectedElement, resultElement)
+    }
+    
+    let singleElementJsonWithoutType: String =
+"""
+[
+   {
+      "isAccessibilityElement":true,
+      "frame":[
+         [
+            16.967559814453125,
+            119.93312260020866
+         ],
+         [
+            207.5379638671875,
+            193.74229431152344
+         ]
+      ],
+      "trait":1,
+      "adjustableOptions":{
+         "options":[
+            
+         ],
+         "isEnumerated":true
+      },
+      "hint":"",
+      "label":"Закрыть",
+      "value":"",
+      "customActions":{
+         "names":[
+            
+         ]
+      },
+      "customDescriptions":{
+         "descriptions":[
+            
+         ]
+      }
+   }
+]
+"""
+    
+    func test_decode1elementWithoutType() throws {
+        let sut = DocumentSaveService(dataProvier: InMemoryDataProvider(json: singleElementJsonWithoutType))
+        let elements = try sut.loadControls()
+    
+        XCTAssertTrue(elements.first is A11yDescription)
     }
     
     // TODO: Add tests for container
