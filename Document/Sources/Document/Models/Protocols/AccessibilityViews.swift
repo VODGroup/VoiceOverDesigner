@@ -1,15 +1,15 @@
-//
-//  File.swift
-//  
-//
-//  Created by Andrey Plotnikov on 08.11.2022.
-//
-
 import Foundation
 
-public protocol AccessibilityView: AnyObject, Equatable {
+public enum AccessibilityViewType: String, Codable {
+    case element
+    case container
+}
+
+public protocol AccessibilityView: AnyObject, Equatable, Decodable {
     var label: String { get set }
     var frame: CGRect { get set }
+    
+    var type: AccessibilityViewType { get }
 }
 
 public protocol AccessibilityContainer: AccessibilityView {

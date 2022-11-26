@@ -23,6 +23,7 @@ public class A11yContainer: Codable, AccessibilityContainer {
     public var elements: [A11yDescription]
     public var frame: CGRect
     public var label: String
+    public var type: AccessibilityViewType = .container
 }
 
 public enum A11yElement: Codable {

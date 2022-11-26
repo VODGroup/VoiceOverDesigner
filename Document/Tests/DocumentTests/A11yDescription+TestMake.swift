@@ -9,6 +9,7 @@ import Foundation
 
 extension A11yDescription {
     public static func testMake(
+        isAccessibilityElement: Bool = true,
         label: String = "",
         value: String = "",
         hint: String = "",
@@ -17,13 +18,15 @@ extension A11yDescription {
         adjustableOption: AdjustableOptions = .testMake(),
         customActions: A11yCustomActions = .testMake()
     ) -> A11yDescription {
-        A11yDescription(label: label,
-                        value: value,
-                        hint: hint,
-                        trait: trait,
-                        frame: frame,
-                        adjustableOptions: adjustableOption,
-                        customActions: customActions
+        A11yDescription(
+            isAccessibilityElement: isAccessibilityElement,
+            label: label,
+            value: value,
+            hint: hint,
+            trait: trait,
+            frame: frame,
+            adjustableOptions: adjustableOption,
+            customActions: customActions
         )
     }
 }
