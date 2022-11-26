@@ -155,12 +155,12 @@ extension TextRepresentationController: NSOutlineViewDelegate {
         return view
     }
     
-    private func a11yContainerCell(_ descr: A11yContainer, outlineView: NSOutlineView) -> NSView? {
+    private func a11yContainerCell(_ container: A11yContainer, outlineView: NSOutlineView) -> NSView? {
         let id = NSUserInterfaceItemIdentifier("Container")
         
         let view = outlineView.makeView(withIdentifier: id, owner: self) as! NSTableCellView
         
-        view.textField?.attributedStringValue = NSAttributedString(string: descr.label)
+        view.textField?.stringValue = container.label
         
         return view
     }
