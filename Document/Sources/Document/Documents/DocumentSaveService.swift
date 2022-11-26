@@ -70,7 +70,8 @@ class AccessibilityViewDecodable: Codable {
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let type = try container.decode(AccessibilityViewType.self, forKey: .type)
+        let type = (try? container.decode(AccessibilityViewType.self, forKey: .type)) ?? .element // Default value is element
+        
         switch type {
         case .element:
             self.view = try A11yDescription(from: decoder)
