@@ -108,6 +108,8 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     
     public override func read(from url: URL, ofType typeName: String) throws {
         Swift.print("Read from \(url)")
+        defer { undoManager?.enableUndoRegistration() }
+        undoManager?.disableUndoRegistration()
         
         controls = try DocumentSaveService(fileURL: url.appendingPathComponent("controls.json")).loadControls()
         
