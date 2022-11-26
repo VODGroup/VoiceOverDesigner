@@ -17,6 +17,7 @@ public protocol AccessibilityContainer: AccessibilityView {
     var elements: [Element] { get set }
 }
 
+// TODO: Remove if it is unused
 public protocol AccessibilityElement: AccessibilityView {
     var isAccessibilityElement: Bool { get set }
     var value: String { get set }

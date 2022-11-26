@@ -116,8 +116,8 @@ extension TextRepresentationController: NSOutlineViewDataSource {
     
     public func outlineView(_ outlineView: NSOutlineView,
                             child index: Int,
-                            ofItem item: Any?) -> Any
-    {
+                            ofItem item: Any?
+    ) -> Any {
         if let container = item as? A11yContainer {
             return container.elements[index]
         }
@@ -126,8 +126,8 @@ extension TextRepresentationController: NSOutlineViewDataSource {
     }
     
     public func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
-        if let container = item as? A11yContainer {
-            return !container.elements.isEmpty
+        if item is A11yContainer {
+            return true
         }
         
         return false
@@ -148,7 +148,6 @@ extension TextRepresentationController: NSOutlineViewDelegate {
     
     private func a11yDescriptionCell(_ descr: A11yDescription, outlineView: NSOutlineView) -> NSView? {
         let id = NSUserInterfaceItemIdentifier("Element")
-        
         let view = outlineView.makeView(withIdentifier: id, owner: self) as! NSTableCellView
         
         view.textField?.attributedStringValue = descr.voiceOverTextAttributed(font: view.textField?.font)
