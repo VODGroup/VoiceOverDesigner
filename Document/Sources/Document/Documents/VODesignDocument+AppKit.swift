@@ -45,6 +45,8 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         fileType = Self.vodesign
     }
     
+    private lazy var documentSaveService = DocumentSaveService(fileURL: fileURL!.appendingPathComponent("controls.json"))
+    
     public convenience init(file: URL) {
         do {
             try self.init(contentsOf: file,
@@ -72,12 +74,13 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         let package = FileWrapper(directoryWithFileWrappers: [:])
         
         package.addFileWrapper(try controlsWrapper())
-
         
+        // TODO: Save only if image has been changed. It should simplify iCloud sync
         if let imageWrapper = imageWrapper() {
             package.addFileWrapper(imageWrapper)
         }
         
+        // TODO: Save only if image has been changed. It should simplify iCloud sync
         if let previewWrapper = previewWrapper() {
             package.addFileWrapper(previewWrapper)
         }
@@ -86,20 +89,7 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     }
     
     private func controlsWrapper() throws -> FileWrapper {
-        
-        
-        let typedControls = controls.compactMap({
-            switch $0 {
-            case let description as A11yDescription:
-                return A11yElement.description(description)
-            case let container as A11yContainer:
-                return A11yElement.container(container)
-            default:
-                return nil
-            }
-        })
-        
-        let wrapper = FileWrapper(regularFileWithContents: try JSONEncoder().encode(typedControls))
+        let wrapper = FileWrapper(regularFileWithContents: try documentSaveService.data(from: controls))
         wrapper.preferredFilename = "controls.json"
         return wrapper
     }
@@ -131,7 +121,7 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     public override func read(from url: URL, ofType typeName: String) throws {
         Swift.print("Read from \(url)")
         
-        controls = try DocumentSaveService(fileURL: url.appendingPathComponent("controls.json")).loadControls()
+        controls = try documentSaveService.loadControls()
         
         image = try? ImageSaveService().load(from: url)
     }
