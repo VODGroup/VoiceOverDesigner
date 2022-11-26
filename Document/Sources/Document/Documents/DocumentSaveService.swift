@@ -7,26 +7,52 @@
 
 import Foundation
 
-class DocumentSaveService {
+protocol DataProvier {
+    func save(data: Data) throws
+    func read() throws -> Data
+}
+
+class URLDataProvider: DataProvier {
+    func save(data: Data) throws {
+        try data.write(to: fileURL)
+    }
+    
+    func read() throws -> Data {
+        try Data(contentsOf: fileURL)
+    }
     
     init(fileURL: URL) {
         self.fileURL = fileURL
     }
     
     private let fileURL: URL
+}
+
+class DocumentSaveService {
     
-    func save(controls: [any AccessibilityView]) {
+    // For production use
+    init(fileURL: URL) {
+        self.dataProvier = URLDataProvider(fileURL: fileURL)
+    }
+    
+    // For test purpose
+    init(dataProvier: DataProvier) {
+        self.dataProvier = dataProvier
+    }
+    
+    private let dataProvier: DataProvier
+    
+    func save(controls: [any AccessibilityView]) throws {
         let encodableWrapper = controls.map(AccessibilityViewDecodable.init(view:))
         let data = try! JSONEncoder().encode(encodableWrapper)
-        try! data.write(to: fileURL)
+        try dataProvier.save(data: data)
     }
     
     func loadControls() throws -> [any AccessibilityView] {
-        let data = try Data(contentsOf: fileURL)
+        let data = try dataProvier.read()
         let controls = try JSONDecoder().decode([AccessibilityViewDecodable].self, from: data)
         
         return controls.map(\.view)
-        
     }
 }
 

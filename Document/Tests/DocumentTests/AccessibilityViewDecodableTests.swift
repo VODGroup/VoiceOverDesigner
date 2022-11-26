@@ -2,9 +2,10 @@ import Foundation
 @testable import Document
 import XCTest
 
-class AccessibilityViewDecodableTests: XCTestCase {
+
+class DocumentSaveServiceTests: XCTestCase {
     
-    let json: String =
+    let singleElementJson: String =
 """
 [
    {
@@ -45,14 +46,41 @@ class AccessibilityViewDecodableTests: XCTestCase {
 
 """
     func test_decode1element() throws {
-        let data = json.data(using: .utf8)!
-        let elements = try JSONDecoder().decode([AccessibilityViewDecodable].self, from: data)
-            .map(\.view)
-        
+        let sut = DocumentSaveService(dataProvier: InMemoryDataProvider(json: singleElementJson))
+        let elements = try sut.loadControls()
+    
         XCTAssertTrue(elements.first is A11yDescription)
     }
     
-    func test_encode1Element() throws {
+    let expectedElement = A11yDescription(isAccessibilityElement: true, label: "label", value: "value", hint: "hint", trait: [.button], frame: .zero, adjustableOptions: AdjustableOptions(options: []), customActions: A11yCustomActions(names: []))
+    
+    func test_encodedElement_andDecoded_shouldBeEqual() throws {
+        let sut = DocumentSaveService(dataProvier: InMemoryDataProvider(json: nil))
         
+        try sut.save(controls: [expectedElement])
+        let resultElement = try XCTUnwrap(try sut.loadControls().first as? A11yDescription)
+        
+        XCTAssertEqual(expectedElement, resultElement)
+        
+    }
+}
+
+class InMemoryDataProvider: DataProvier {
+    var data: Data?
+    
+    init(json: String?) {
+        if let json {
+            self.data = json.data(using: .utf8)
+        } else {
+            self.data = nil
+        }
+    }
+    
+    func save(data: Data) throws {
+        self.data = data
+    }
+    
+    func read() throws -> Data {
+        return data! // TODO: Throw exception
     }
 }
