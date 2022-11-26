@@ -107,28 +107,43 @@ public class TextRepresentationController: NSViewController {
 extension TextRepresentationController: NSOutlineViewDataSource {
     
     public func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
-        document.controls.count
+        if let container = item as? A11yContainer {
+            return container.elements.count
+        }
+        
+        return document.controls.count
     }
     
     public func outlineView(_ outlineView: NSOutlineView,
                             child index: Int,
                             ofItem item: Any?
     ) -> Any {
-        document.controls[index]
+        if let container = item as? A11yContainer {
+            return container.elements[index]
+        }
+        
+        return document.controls[index]
+    }
+    
+    public func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
+        if item is A11yContainer {
+            return true
+        }
+        
+        return false
     }
 }
 
 extension TextRepresentationController: NSOutlineViewDelegate {
     public func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
-        guard let control = item as? A11yDescription else {
-            return nil
-        }
-        
         let id = NSUserInterfaceItemIdentifier("Element")
-        
         let view = outlineView.makeView(withIdentifier: id, owner: self) as! NSTableCellView
         
-        view.textField?.attributedStringValue = control.voiceOverTextAttributed(font: view.textField?.font)
+        if let container = item as? A11yContainer {
+            view.textField?.stringValue = container.label
+        } else if let control = item as? A11yDescription {
+            view.textField?.attributedStringValue = control.voiceOverTextAttributed(font: view.textField?.font)
+        }
         
         return view
     }
