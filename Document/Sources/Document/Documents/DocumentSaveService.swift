@@ -49,7 +49,9 @@ class DocumentSaveService {
     
     func data(from controls: [any AccessibilityView]) throws -> Data {
         let encodableWrapper = controls.map(AccessibilityViewDecodable.init(view:))
-        let data = try! JSONEncoder().encode(encodableWrapper)
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        let data = try! encoder.encode(encodableWrapper)
         return data
     }
     
