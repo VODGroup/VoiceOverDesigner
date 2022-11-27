@@ -32,6 +32,7 @@ public class TextRepresentationController: NSViewController {
         observe()
         
         outlineView.style = .sourceList
+        outlineView.allowsMultipleSelection = true
     }
     
     private func observe() {
@@ -123,6 +124,10 @@ extension TextRepresentationController: NSOutlineViewDelegate {
         // Deselection of previous value
         let previousSelection = presenter.selectedPublisher.value
         updateAttributedLabel(for: previousSelection, isSelected: false)
+        
+        guard outlineView.selectedRowIndexes.count == 1 else {
+            return // Not farward multiple seleciton to whole app
+        }
         
         if let model = outlineView.item(atRow: outlineView.selectedRow) as? A11yDescription {
             updateAttributedLabel(for: model, isSelected: true)
