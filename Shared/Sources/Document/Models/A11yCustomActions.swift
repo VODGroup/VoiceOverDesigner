@@ -15,7 +15,9 @@ public struct A11yCustomActions: Codable {
     }
     
     
-    public private(set) var names: [String]
+    public var names: [String]
+    
+    
     
     
     public mutating func addNewCustomAction(named action: String) {

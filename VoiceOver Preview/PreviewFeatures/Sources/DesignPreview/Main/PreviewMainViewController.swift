@@ -51,9 +51,23 @@ public class PreviewMainViewController: UIViewController {
    
     private var sideTransition = SideTransition()
     private func presentDetails(for description: A11yDescription) {
-        let details = UIHostingController(rootView: SettingsView())
         
-        // Side presantation for iPad
+        let onDismiss = { [weak self] in
+            guard let self = self else { return }
+            // TODO: redraw only changed control?
+            self.presenter.redraw(controls: self.document.controls)
+        }
+        
+        let onDelete = { [weak self] in
+            guard let self = self else { return }
+            self.presenter.delete(model: description)
+        }
+        
+        let details = UIHostingController(rootView: SettingsView(element: description, deleteAction: onDelete)
+            .onDisappear(perform: onDismiss))
+    
+        
+        // Side presentation for iPad
         if traitCollection.userInterfaceIdiom == .pad {
             details.modalPresentationStyle = .custom
             details.transitioningDelegate = sideTransition
