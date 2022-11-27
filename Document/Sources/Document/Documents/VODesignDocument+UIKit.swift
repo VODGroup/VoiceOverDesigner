@@ -17,7 +17,7 @@ public class VODesignDocument: Document {
         self.init(fileURL: dir)
     }
     
-    public var controls: [A11yDescription] = []
+    public var controls: [any AccessibilityView] = []
     public var image: Image?
     
     lazy var saveService: DocumentSaveService = DocumentSaveService(fileURL: fileURL
@@ -40,7 +40,7 @@ public class VODesignDocument: Document {
     public override func save(to url: URL, for saveOperation: Document.SaveOperation) async -> Bool {
         
         do {
-            DocumentSaveService(fileURL: url).save(controls: controls)
+            try DocumentSaveService(fileURL: url).save(controls: controls)
             return true
         } catch let error {
             print(error)

@@ -15,9 +15,9 @@ class VODesignPreviewView: UIView {
     @IBOutlet weak var backgroundImageHeight: NSLayoutConstraint!
     @IBOutlet weak var canvas: Canvas!
    
-    func setup(image: UIImage?, controls: [A11yDescription]) {
+    func setup(image: UIImage?, controls: [any AccessibilityView]) {
         self.image = image
-        self.controls = controls
+        self.controls = controls.compactMap({ $0 as? A11yDescription })
     }
     
     private var image: UIImage? {
