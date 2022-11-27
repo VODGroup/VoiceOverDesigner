@@ -72,9 +72,7 @@ public class EditorPresenter: DocumentPresenter {
         self.screenUI = screenUI
         self.drawingController = DrawingController(view: ui)
         
-        let controls = document.controls.extractElements()
-        
-        draw(controls: controls)
+        draw(controls: document.controls)
         redrawOnControlChanges()
     }
     
@@ -83,9 +81,6 @@ public class EditorPresenter: DocumentPresenter {
     private func redrawOnControlChanges() {
         document
             .controlsPublisher
-            .map({
-                $0.extractElements()
-            })
             .sink(receiveValue: redraw(controls:))
             .store(in: &cancellables)
         
@@ -94,13 +89,13 @@ public class EditorPresenter: DocumentPresenter {
             .store(in: &cancellables)
     }
     
-    private func redraw(controls: [A11yDescription]) {
+    private func redraw(controls: [any AccessibilityView]) {
         drawingController.view.removeAll()
         draw(controls: controls)
         updateSelectedControl(selectedPublisher.value)
     }
     
-    func draw(controls: [A11yDescription]) {
+    func draw(controls: [any AccessibilityView]) {
         drawingController.drawControls(controls)
     }
     

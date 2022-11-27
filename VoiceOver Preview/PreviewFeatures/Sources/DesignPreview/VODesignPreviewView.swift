@@ -17,6 +17,7 @@ class VODesignPreviewView: UIView {
    
     func setup(image: UIImage?, controls: [any AccessibilityView]) {
         self.image = image
+        // TODO: Pass any AccessibilityView 
         self.controls = controls.extractElements()
     }
     
