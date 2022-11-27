@@ -56,6 +56,20 @@ final class AccessibilityViewArrayGroupingTests: XCTestCase {
         XCTAssertTrue(array.last is A11yContainer)
     }
     
+    // MARK: - Containers
+    func test_wrapElementFromOneContainer_shouldMoveItFromContainer() throws {
+        array = [item1, A11yContainer(elements: [item2, item3], frame: .zero, label: "Test")]
+        
+        array.wrapInContainer([item1, item2], label: "Test")
+        
+        XCTAssertEqual(array.count, 2)
+        let container1 = try XCTUnwrap(array.first as? A11yContainer)
+        XCTAssertEqual(container1.elements, [item1, item2])
+        
+        let container2 = try XCTUnwrap(array.last as? A11yContainer)
+        XCTAssertEqual(container2.elements, [item3])
+    }
+    
     // MARK: - Frame
     func test_wrapTwoElements_shouldUnionFrames() {
         let item1 = A11yDescription.testMake(
@@ -70,7 +84,4 @@ final class AccessibilityViewArrayGroupingTests: XCTestCase {
         XCTAssertEqual(array.first?.frame,
                       CGRect(x: 10, y: 10, width: 20, height: 20))
     }
-    
-    // MARK: - Containers
-    // TODO: Index inside container
 }

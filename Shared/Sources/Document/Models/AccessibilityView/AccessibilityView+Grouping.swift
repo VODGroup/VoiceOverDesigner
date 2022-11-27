@@ -11,12 +11,12 @@ extension Array where Element == any AccessibilityView {
 
         var insertIndex: Int?
         for item in items.reversed() {
-            guard let index = remove(item) else {
+            guard let index = remove(item) ?? removeFromContainers(item) else {
                 continue
             }
-                
-            insertIndex = index // We used reversed order and the last set will be first index
             
+            insertIndex = index // We used reversed order and the last set will be first index
+                
             extractedElements.append(item)
         }
 
@@ -30,6 +30,7 @@ extension Array where Element == any AccessibilityView {
         insert(container, at: insertIndex ?? 0)
     }
     
+    /// - Returns: Element index
     mutating func remove(_ item: A11yDescription) -> Int? {
         guard let index = firstIndex(where: { element in
             element === item
@@ -39,6 +40,22 @@ extension Array where Element == any AccessibilityView {
         
         remove(at: index)
         return index
+    }
+    
+    /// - Returns: Container index
+    mutating func removeFromContainers(_ item: A11yDescription) -> Int? {
+        for (containerIndex, view) in reversed().enumerated() {
+            guard let container = view as? A11yContainer
+            else { continue }
+            
+            guard let _ = container.elements
+                .remove(item)
+            else { continue }
+            
+            return containerIndex
+        }
+        
+        return nil
     }
 }
 
@@ -51,5 +68,20 @@ extension Array where Element == CGRect {
         }
         
         return result
+    }
+}
+
+extension Array where Element == A11yDescription {
+    
+    /// - Returns: Element index
+    mutating func remove(_ item: A11yDescription) -> Int? {
+        guard let index = firstIndex(where: { element in
+            element === item
+        }) else {
+            return nil
+        }
+        
+        remove(at: index)
+        return index
     }
 }
