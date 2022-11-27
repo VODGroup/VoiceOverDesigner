@@ -7,22 +7,6 @@ public protocol TextBasedPresenter {
 }
 
 public class TextRepresentationController: NSViewController {
-    public static func fromStoryboard(
-        document: VODesignDocument,
-        presenter: TextBasedPresenter
-    ) -> TextRepresentationController {
-        let controller = NSStoryboard(
-            name: "TextRepresentationController",
-            bundle: Bundle.module
-        ).instantiateInitialController() as! TextRepresentationController
-        
-        controller.inject(
-            document: document,
-            presenter: presenter
-        )
-        
-        return controller
-    }
     
     var presenter: TextBasedPresenter!
     
@@ -147,3 +131,21 @@ extension TextRepresentationController: NSOutlineViewDelegate {
     }
 }
 
+extension TextRepresentationController {
+    public static func fromStoryboard(
+        document: VODesignDocument,
+        presenter: TextBasedPresenter
+    ) -> TextRepresentationController {
+        let controller = NSStoryboard(
+            name: "TextRepresentationController",
+            bundle: Bundle.module
+        ).instantiateInitialController() as! TextRepresentationController
+        
+        controller.inject(
+            document: document,
+            presenter: presenter
+        )
+        
+        return controller
+    }
+}
