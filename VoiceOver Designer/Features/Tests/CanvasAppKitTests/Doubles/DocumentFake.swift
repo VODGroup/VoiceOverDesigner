@@ -4,9 +4,9 @@ import Combine
 import Document
 
 class DocumentFake: VODesignDocumentProtocol {
-    var controlsPublisher: PassthroughSubject<[A11yDescription], Never> = .init()
+    var controlsPublisher: PassthroughSubject<[any AccessibilityView], Never> = .init()
     
-    var controls: [A11yDescription] = [] {
+    var controls: [any AccessibilityView] = [] {
         didSet {
             controlsPublisher.send(controls)
         }

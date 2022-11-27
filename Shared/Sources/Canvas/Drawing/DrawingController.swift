@@ -22,9 +22,11 @@ public class DrawingController {
     // MARK: Drawn from existed controls
     
     public func drawControls(
-        _ descriptions: [A11yDescription]
+        _ descriptions: [any AccessibilityView]
     ) {
-        descriptions.forEach { description in
+        descriptions
+            .extractElements()
+            .forEach { description in
             drawControl(from: description, scale: 1)
         }
     }

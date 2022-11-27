@@ -56,7 +56,7 @@ extension CanvasPresenterTests {
         drawnControls.count
     }
     
-    var documentControls: [A11yDescription] {
+    var documentControls: [any AccessibilityView] {
         sut.document.controls
     }
     

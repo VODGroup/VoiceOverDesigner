@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="bU7-R8-ocO">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="bU7-R8-ocO">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21225"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -14,13 +15,13 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mqU-N5-NAr">
-                                <rect key="frame" x="0.0" y="0.0" width="450" height="135"/>
+                                <rect key="frame" x="0.0" y="0.0" width="450" height="99"/>
                                 <clipView key="contentView" drawsBackground="NO" id="JaH-Gf-ck7">
-                                    <rect key="frame" x="1" y="1" width="448" height="133"/>
+                                    <rect key="frame" x="1" y="1" width="448" height="97"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="fullWidth" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" usesAutomaticRowHeights="YES" viewBased="YES" autoresizesOutlineColumn="YES" outlineTableColumn="3vj-vX-1Fu" id="IqG-75-ntI">
-                                            <rect key="frame" x="0.0" y="0.0" width="448" height="133"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="448" height="97"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="17" height="0.0"/>
                                             <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -59,6 +60,29 @@
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="textField" destination="jbJ-hm-5F3" id="jTn-hi-khQ"/>
+                                                            </connections>
+                                                        </tableCellView>
+                                                        <tableCellView identifier="Container" misplaced="YES" id="lbF-C0-O7L">
+                                                            <rect key="frame" x="8" y="44" width="431" height="44"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="ikH-WD-l5w">
+                                                                    <rect key="frame" x="-2" y="8" width="435" height="16"/>
+                                                                    <textFieldCell key="cell" controlSize="large" sendsActionOnEndEditing="YES" title="Table View Cell" id="PWe-2u-kyL">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="ikH-WD-l5w" firstAttribute="leading" secondItem="lbF-C0-O7L" secondAttribute="leading" id="DI3-Qd-qLW"/>
+                                                                <constraint firstItem="ikH-WD-l5w" firstAttribute="centerX" secondItem="lbF-C0-O7L" secondAttribute="centerX" id="IFp-vG-fri"/>
+                                                                <constraint firstItem="ikH-WD-l5w" firstAttribute="top" secondItem="lbF-C0-O7L" secondAttribute="top" constant="8" id="oi0-dM-bDV"/>
+                                                                <constraint firstItem="ikH-WD-l5w" firstAttribute="centerY" secondItem="lbF-C0-O7L" secondAttribute="centerY" id="xqI-QR-I8W"/>
+                                                            </constraints>
+                                                            <connections>
+                                                                <outlet property="textField" destination="ikH-WD-l5w" id="tKH-QZ-2Zk"/>
                                                             </connections>
                                                         </tableCellView>
                                                     </prototypeCellViews>

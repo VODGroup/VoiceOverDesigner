@@ -54,13 +54,13 @@ public class CanvasPresenter: DocumentPresenter {
             .store(in: &cancellables)
     }
     
-    private func redraw(controls: [A11yDescription]) {
+    private func redraw(controls: [any AccessibilityView]) {
         drawingController.view.removeAll()
         draw(controls: controls)
         updateSelectedControl(selectedPublisher.value)
     }
     
-    public func draw(controls: [A11yDescription]) {
+    public func draw(controls: [any AccessibilityView]) {
         drawingController.drawControls(controls)
     }
     

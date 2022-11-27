@@ -1,6 +1,6 @@
 import Document
 
-extension Array where Element == A11yDescription {
+extension Array where Element == any AccessibilityView {
     /// - Returns: From and To indexes
     @discardableResult
     mutating func move(_ element: Element, to: Int) -> Bool {

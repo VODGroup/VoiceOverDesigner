@@ -4,15 +4,15 @@ import XCTest
 
 class A11yDescriptionArrayTests: XCTestCase {
     
-    var sut: [A11yDescription] = []
+    var sut: [any AccessibilityView] = []
     
     override func setUp() {
         super.setUp()
         
         sut = [
-            .make(label: "1"),
-            .make(label: "2"),
-            .make(label: "3"),
+            A11yDescription.make(label: "1"),
+            A11yDescription.make(label: "2"),
+            A11yDescription.make(label: "3"),
         ]
     }
     
@@ -105,9 +105,11 @@ class A11yDescriptionArrayTests: XCTestCase {
     }
 }
 
+// TODO: Remove duplicate
 extension A11yDescription {
     static func make(label: String) -> A11yDescription {
         A11yDescription(
+            isAccessibilityElement: true,
             label: label,
             value: "",
             hint: "",

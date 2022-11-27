@@ -22,7 +22,7 @@ public class A11yDescription: Codable, Equatable {
     }
     
     public init(
-        isAccessibilityElement: Bool = true,
+        isAccessibilityElement: Bool,
         label: String,
         value: String,
         hint: String,
@@ -47,6 +47,9 @@ public class A11yDescription: Codable, Equatable {
     public var hint: String
     public var trait: A11yTraits
     public var frame: CGRect
+    
+    @DecodableDefault.ElementAccessibilityViewType
+    public var type: AccessibilityViewType
     
     // MARK: - Adjustable
     public internal(set) var adjustableOptions: AdjustableOptions // Not optional because user can input values, disable adjustable, but reenable after time. The app will keep data :-)
@@ -82,6 +85,7 @@ public class A11yDescription: Codable, Equatable {
     
     public static func empty(frame: CGRect) -> A11yDescription {
         A11yDescription(
+            isAccessibilityElement: true,
             label: "",
             value: "",
             hint: "",
@@ -105,3 +109,5 @@ public class A11yDescription: Codable, Equatable {
         )
     }
 }
+
+extension A11yDescription: AccessibilityElement {}

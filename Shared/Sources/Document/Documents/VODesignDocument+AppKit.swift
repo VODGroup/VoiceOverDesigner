@@ -13,9 +13,9 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     // MARK: - Data
     public var image: Image?
     
-    public let controlsPublisher: PassthroughSubject<[A11yDescription], Never> = .init()
+    public let controlsPublisher: PassthroughSubject<[any AccessibilityView], Never> = .init()
     
-    public var controls: [A11yDescription] = [] {
+    public var controls: [any AccessibilityView] = [] {
         didSet {
             Swift.print(controls.map(\.label))
             undoManager?.registerUndo(withTarget: self, handler: { document in
@@ -35,6 +35,8 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         
         fileType = Self.vodesign
     }
+    
+    private let codingService = AccessibilityViewCodingService()
     
     public convenience init(file: URL) {
         do {
@@ -63,12 +65,13 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         let package = FileWrapper(directoryWithFileWrappers: [:])
         
         package.addFileWrapper(try controlsWrapper())
-
         
+        // TODO: Save only if image has been changed. It should simplify iCloud sync
         if let imageWrapper = imageWrapper() {
             package.addFileWrapper(imageWrapper)
         }
         
+        // TODO: Save only if image has been changed. It should simplify iCloud sync
         if let previewWrapper = previewWrapper() {
             package.addFileWrapper(previewWrapper)
         }
@@ -77,7 +80,7 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     }
     
     private func controlsWrapper() throws -> FileWrapper {
-        let wrapper = FileWrapper(regularFileWithContents: try JSONEncoder().encode(controls))
+        let wrapper = FileWrapper(regularFileWithContents: try codingService.data(from: controls))
         wrapper.preferredFilename = "controls.json"
         return wrapper
     }
@@ -111,7 +114,8 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         defer { undoManager?.enableUndoRegistration() }
         undoManager?.disableUndoRegistration()
         
-        controls = try DocumentSaveService(fileURL: url.appendingPathComponent("controls.json")).loadControls()
+        let documentSaveService = DocumentSaveService(fileURL: url.appendingPathComponent("controls.json"))
+        controls = try documentSaveService.loadControls()
         
         image = try? ImageSaveService().load(from: url)
     }

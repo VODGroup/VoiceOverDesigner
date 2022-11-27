@@ -18,7 +18,4 @@
          location = "group:VoiceOver Preview/VoiceOver Preview.xcodeproj">
       </FileRef>
    </Group>
-   <FileRef
-      location = "group:Shared">
-   </FileRef>
 </Workspace>
