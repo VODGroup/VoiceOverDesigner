@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import Document
+import Canvas
 
 class VODesignPreviewView: UIView {
     @IBOutlet weak var scrollView: UIScrollView!

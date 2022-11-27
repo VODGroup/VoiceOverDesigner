@@ -8,10 +8,9 @@ let package = Package(
     defaultLocalization: "en",
     platforms: [.macOS(.v12)],
     products: [
-        // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
-            name: "Editor",
-            targets: ["Editor"]),
+            name: "CanvasAppKit",
+            targets: ["CanvasAppKit"]),
         .library(
             name: "TextUI",
             targets: ["TextUI"]),
@@ -32,28 +31,29 @@ let package = Package(
             url: "git@github.com:pointfreeco/swift-snapshot-testing.git",
             branch: "main"
         ),
-        .package(name: "Document", path: "./../../Document")
+        .package(name: "Shared", path: "./../../Shared")
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
-            name: "Editor",
+            name: "CanvasAppKit",
             dependencies: [
-                "Document",
+                .product(name: "Document", package: "Shared"),
                 "CommonUI",
-                "TextRecognition",
+                .product(name: "Canvas", package: "Shared"),
+                .product(name: "TextRecognition", package: "Shared"),
             ]
         ),
-        .target(
-            name: "TextRecognition",
+        .testTarget(
+            name: "CanvasAppKitTests",
             dependencies: [
-            ]
-        ),
+                "CanvasAppKit",
+                .product(name: "DocumentTestHelpers", package: "Shared"),
+            ]),
+
         .target(
             name: "TextUI",
             dependencies: [
-                "Document",
+                .product(name: "Document", package: "Shared"),
                 "CommonUI",
             ]
         ),
@@ -61,34 +61,28 @@ let package = Package(
             name: "Recent",
             dependencies: [
                 "CommonUI",
-                "Document",
+                .product(name: "Document", package: "Shared"),
             ]
         ),
         .target(
             name: "Settings",
             dependencies: [
-                "Document",
-                "TextRecognition"
+                .product(name: "Document", package: "Shared"),
+                .product(name: "TextRecognition", package: "Shared"),
             ]
         ),
         .target(
             name: "CommonUI",
             dependencies: []
         ),
-        
-        .testTarget(
-            name: "EditorTests",
-            dependencies: [
-                "Editor",
-                .product(
-                    name: "DocumentTestHelpers",
-                    package: "Document"),
-            ]),
+
+
         .testTarget(
             name: "SettingsTests",
             dependencies: [
                 "Settings",
-                "Document",
+                .product(name: "Document", package: "Shared"),
+                .product(name: "Canvas", package: "Shared"),
                 .product(name: "SnapshotTesting",
                          package: "swift-snapshot-testing"),
             ],
@@ -98,14 +92,14 @@ let package = Package(
             name: "RecentTests",
             dependencies: [
                 "Recent",
-                "Document",
+                .product(name: "Document", package: "Shared"),
             ]
         ),
         .testTarget(
             name: "TextUITests",
             dependencies: [
                 "TextUI",
-                "Document",
+                .product(name: "Document", package: "Shared"),
             ]
         ),
     ]

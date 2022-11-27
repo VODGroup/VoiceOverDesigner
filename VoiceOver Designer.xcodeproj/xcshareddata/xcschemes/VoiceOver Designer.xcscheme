@@ -84,6 +84,16 @@
                ReferencedContainer = "container:VoiceOver Designer/Features">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CanvasTests"
+               BuildableName = "CanvasTests"
+               BlueprintName = "CanvasTests"
+               ReferencedContainer = "container:VoiceOver Designer/Features">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
