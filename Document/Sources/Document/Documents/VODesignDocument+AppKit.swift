@@ -45,7 +45,7 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         fileType = Self.vodesign
     }
     
-    private lazy var documentSaveService = DocumentSaveService(fileURL: fileURL!.appendingPathComponent("controls.json"))
+    private let codingService = AccessibilityViewCodingService()
     
     public convenience init(file: URL) {
         do {
@@ -89,7 +89,7 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     }
     
     private func controlsWrapper() throws -> FileWrapper {
-        let wrapper = FileWrapper(regularFileWithContents: try documentSaveService.data(from: controls))
+        let wrapper = FileWrapper(regularFileWithContents: try codingService.data(from: controls))
         wrapper.preferredFilename = "controls.json"
         return wrapper
     }
@@ -121,6 +121,7 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     public override func read(from url: URL, ofType typeName: String) throws {
         Swift.print("Read from \(url)")
         
+        let documentSaveService = DocumentSaveService(fileURL: url.appendingPathComponent("controls.json"))
         controls = try documentSaveService.loadControls()
         
         image = try? ImageSaveService().load(from: url)

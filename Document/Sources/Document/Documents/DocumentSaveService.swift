@@ -43,56 +43,21 @@ class DocumentSaveService {
     private let dataProvier: DataProvier
     
     func save(controls: [any AccessibilityView]) throws {
-        let data = try data(from: controls)
+        let data = try codingService.data(from: controls)
         try dataProvier.save(data: data)
-    }
-    
-    func data(from controls: [any AccessibilityView]) throws -> Data {
-        let encodableWrapper = controls.map(AccessibilityViewDecodable.init(view:))
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted
-        let data = try! encoder.encode(encodableWrapper)
-        return data
     }
     
     func loadControls() throws -> [any AccessibilityView] {
         let data = try dataProvier.read()
-        let controls = try JSONDecoder().decode([AccessibilityViewDecodable].self, from: data)
         
-        return controls.map(\.view)
-    }
-}
-
-class AccessibilityViewDecodable: Codable {
-    init(view: any AccessibilityView) {
-        self.view = view
+        return try codingService.controls(from: data)
     }
     
-    var view: any AccessibilityView
-    
-    // MARK: Codable
-    enum CodingKeys: CodingKey {
-        case type
-    }
-    
-    required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        let type = (try? container.decode(AccessibilityViewType.self, forKey: .type)) ?? .element // Default value is element
+    func loadControls(url: URL) throws -> [any AccessibilityView] {
+        let data = try Data(contentsOf: url)
         
-        switch type {
-        case .element:
-            self.view = try A11yDescription(from: decoder)
-        case .container:
-            self.view = try A11yContainer(from: decoder)
-        }
+        return try codingService.controls(from: data)
     }
     
-    func encode(to encoder: Encoder) throws {
-        switch view.type {
-        case .element:
-            try (view as? A11yDescription).encode(to: encoder)
-        case .container:
-            try (view as? A11yContainer).encode(to: encoder)
-        }
-    }
+    let codingService = AccessibilityViewCodingService()
 }
