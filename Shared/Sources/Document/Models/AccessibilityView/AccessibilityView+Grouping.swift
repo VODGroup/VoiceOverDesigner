@@ -1,22 +1,28 @@
 import Foundation
 
 extension Array where Element == any AccessibilityView {
-    public mutating func wrapInContainer(indexes: IndexSet) {
-        guard indexes.count > 0 else { return }
-        
+    public mutating func wrapInContainer(_ items: [any AccessibilityView], label:  String) {
+        guard items.count > 0 else { return }
+
         var extractedElements = [A11yDescription]()
-        
-        for index in indexes.reversed() {
+
+        for item in items.reversed() {
+            guard let index = firstIndex(where: { element in
+                element === item
+            }) else {
+                continue
+            }
+            
             let element = remove(at: index) as! A11yDescription
             extractedElements.append(element)
         }
-        
+
         let container = A11yContainer(
             elements: extractedElements,
             frame: extractedElements.map(\.frame).commonFrame,
-            label: "Test")
-        
-        insert(container, at: indexes.first!)
+            label: label)
+
+        insert(container, at: 0)
     }
 }
 

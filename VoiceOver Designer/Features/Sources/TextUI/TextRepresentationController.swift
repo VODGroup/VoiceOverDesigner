@@ -51,9 +51,7 @@ public class TextRepresentationController: NSViewController {
             return
         }
         
-        guard let index = document.controls.firstIndex(where: { aModel in
-            aModel === model
-        }) else { return }
+        let index = outlineView.row(forItem: model)
         
         updateAttributedLabel(for: model, isSelected: true)
         
@@ -64,10 +62,7 @@ public class TextRepresentationController: NSViewController {
     private func updateAttributedLabel(for model: (any AccessibilityView)?, isSelected: Bool) {
         guard let model else { return }
         
-        let index = document.controls.firstIndex(where: { aView in
-            aView === model
-        })
-        guard let index else { return }
+        let index = outlineView.row(forItem: model)
         
         guard let rowView = outlineView.rowView(atRow: index, makeIfNecessary: false) else { return }
         guard let cell = rowView.view(atColumn: 0) as? ElementCell else { return }
@@ -78,8 +73,14 @@ public class TextRepresentationController: NSViewController {
     @IBOutlet var groupButton: NSButton!
     
     @IBAction func groupSelection(_ sender: AnyObject) {
-        let indexes = outlineView.selectedRowIndexes
-        document.controls.wrapInContainer(indexes: indexes)
+        let selectedItems = outlineView.selectedRowIndexes
+            .map { row in
+                outlineView.item(atRow: row)
+            } as! [any AccessibilityView]
+        
+        document.controls.wrapInContainer(
+            selectedItems,
+            label: "Container")
     }
 }
 
@@ -138,9 +139,12 @@ extension TextRepresentationController: NSOutlineViewDelegate {
         }
         groupButton.isEnabled = false
         
-        if let model = outlineView.item(atRow: outlineView.selectedRow) as? A11yDescription {
-            updateAttributedLabel(for: model, isSelected: true)
-            presenter.selectedPublisher.send(model)
+
+        
+        let selectedItem = outlineView.item(atRow: outlineView.selectedRow)
+        if let element = selectedItem as? A11yDescription {
+            updateAttributedLabel(for: element, isSelected: true)
+            presenter.selectedPublisher.send(element)
         }
     }
 }
