@@ -16,7 +16,8 @@ open class DocumentPresenter {
         let descriptions = ui.drawnControls.compactMap { control in
             control.a11yDescription
         }
-        
+       
+        // TODO: save containers
         document.controls = descriptions
     }
     
