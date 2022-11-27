@@ -79,7 +79,7 @@ public class TextRepresentationController: NSViewController {
             } as! [any AccessibilityView]
         
         document.controls.wrapInContainer(
-            selectedItems,
+            selectedItems.extractElements(),
             label: "Container")
     }
 }
