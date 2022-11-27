@@ -17,7 +17,7 @@ class VODesignPreviewView: UIView {
    
     func setup(image: UIImage?, controls: [any AccessibilityView]) {
         self.image = image
-        self.controls = controls.compactMap({ $0 as? A11yDescription })
+        self.controls = controls.extractElements()
     }
     
     private var image: UIImage? {

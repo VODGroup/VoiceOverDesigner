@@ -86,7 +86,7 @@ public class EditorPresenter: DocumentPresenter {
         document
             .controlsPublisher
             .map({
-                $0.compactMap({ $0 as? A11yDescription })
+                $0.extractElements()
             })
             .sink(receiveValue: redraw(controls:))
             .store(in: &cancellables)
