@@ -7,6 +7,8 @@ final class AccessibilityViewArrayGroupingTests: XCTestCase {
     var item2: A11yDescription!
     var item3: A11yDescription!
     
+    var array: [any AccessibilityView]!
+    
     override func setUp() {
         super.setUp()
         
@@ -16,8 +18,7 @@ final class AccessibilityViewArrayGroupingTests: XCTestCase {
     }
     
     func test_wrapSingleElementInContainer() throws {
-        var array = [any AccessibilityView]()
-        array.append(item1)
+        array = [item1]
         
         array.wrapInContainer([item1], label: "Test")
         
@@ -28,9 +29,7 @@ final class AccessibilityViewArrayGroupingTests: XCTestCase {
     }
     
     func test_wrapTwoElementsInContainer() {
-        var array = [any AccessibilityView]()
-        array.append(item1)
-        array.append(item2)
+        array = [item1, item2]
 
         array.wrapInContainer([item1, item2], label: "Test")
 
@@ -39,25 +38,31 @@ final class AccessibilityViewArrayGroupingTests: XCTestCase {
     }
 
     func test_wrapTwoElementsOfThree_shouldPlaceContainerToFirstPosition() {
-        var array = [any AccessibilityView]()
-        array.append(item1)
-        array.append(item2)
-        array.append(item3)
+        array = [item1, item2, item3]
 
         array.wrapInContainer([item1, item2], label: "Test")
 
         XCTAssertEqual(array.count, 2)
         XCTAssertTrue(array.first is A11yContainer)
     }
-
+    
+    func test_wrapTwoLastElementsOfThree_shouldPlaceContainerToSecondPosition() {
+        array = [item1, item2, item3]
+        
+        array.wrapInContainer([item2, item3], label: "Test")
+        
+        XCTAssertEqual(array.count, 2)
+        XCTAssertFalse(array.first is A11yContainer)
+        XCTAssertTrue(array.last is A11yContainer)
+    }
+    
+    // MARK: - Frame
     func test_wrapTwoElements_shouldUnionFrames() {
         let item1 = A11yDescription.testMake(
             frame: CGRect(x: 10, y: 10, width: 10, height: 10))
         let item2 = A11yDescription.testMake(
             frame: CGRect(x: 20, y: 20, width: 10, height: 10))
-        var array = [any AccessibilityView]()
-        array.append(item1)
-        array.append(item2)
+        array = [item1, item2]
 
         array.wrapInContainer([item1, item2], label: "Test")
 
@@ -66,5 +71,6 @@ final class AccessibilityViewArrayGroupingTests: XCTestCase {
                       CGRect(x: 10, y: 10, width: 20, height: 20))
     }
     
+    // MARK: - Containers
     // TODO: Index inside container
 }

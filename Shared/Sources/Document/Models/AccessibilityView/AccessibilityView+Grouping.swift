@@ -6,12 +6,15 @@ extension Array where Element == any AccessibilityView {
 
         var extractedElements = [A11yDescription]()
 
+        var insertIndex: Int?
         for item in items.reversed() {
             guard let index = firstIndex(where: { element in
                 element === item
             }) else {
                 continue
             }
+            
+            insertIndex = index // We used reversed order and the last set will be first index
             
             let element = remove(at: index) as! A11yDescription
             extractedElements.append(element)
@@ -22,7 +25,7 @@ extension Array where Element == any AccessibilityView {
             frame: extractedElements.map(\.frame).commonFrame,
             label: label)
 
-        insert(container, at: 0)
+        insert(container, at: insertIndex ?? 0)
     }
 }
 
