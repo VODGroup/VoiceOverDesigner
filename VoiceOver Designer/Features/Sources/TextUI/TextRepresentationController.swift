@@ -85,23 +85,9 @@ public class TextRepresentationController: NSViewController {
         guard let index else { return }
         
         guard let rowView = outlineView.rowView(atRow: index, makeIfNecessary: false) else { return }
-        guard let cell = rowView.view(atColumn: 0) as? NSTableCellView else { return }
+        guard let cell = rowView.view(atColumn: 0) as? ElementCell else { return }
         
-        if isSelected {
-            if let attributedString = cell.textField?.attributedStringValue {
-                let stringToDeselect = NSMutableAttributedString(attributedString: attributedString)
-                stringToDeselect.addAttribute(.foregroundColor, value: Color.white, range: NSRange(location: 0, length: stringToDeselect.length))
-                cell.textField?.attributedStringValue = stringToDeselect
-            }
-        } else {
-            if let element = model as? A11yDescription {
-                cell.textField?.attributedStringValue = element.voiceOverTextAttributed(font: cell.textField?.font)
-            } else if let container = model as? A11yContainer {
-                cell.textField?.stringValue = container.label // TODO: Make bold?
-            } else {
-                cell.textField?.stringValue = NSLocalizedString("Unknown element", comment: "")
-            }
-        }
+        cell.setup(model: model, isSelected: isSelected)
     }
 }
 
@@ -136,31 +122,13 @@ extension TextRepresentationController: NSOutlineViewDataSource {
 
 extension TextRepresentationController: NSOutlineViewDelegate {
     public func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
-        switch item {
-        case let control as A11yDescription:
-            return a11yDescriptionCell(control, outlineView: outlineView)
-        case let container as A11yContainer:
-            return a11yContainerCell(container, outlineView: outlineView)
-        default:
-            return nil
-        }
-    }
-    
-    private func a11yDescriptionCell(_ descr: A11yDescription, outlineView: NSOutlineView) -> NSView? {
         let id = NSUserInterfaceItemIdentifier("Element")
-        let view = outlineView.makeView(withIdentifier: id, owner: self) as! NSTableCellView
         
-        view.textField?.attributedStringValue = descr.voiceOverTextAttributed(font: view.textField?.font)
+        let view = outlineView.makeView(withIdentifier: id, owner: self) as! ElementCell
         
-        return view
-    }
-    
-    private func a11yContainerCell(_ container: A11yContainer, outlineView: NSOutlineView) -> NSView? {
-        let id = NSUserInterfaceItemIdentifier("Container")
-        
-        let view = outlineView.makeView(withIdentifier: id, owner: self) as! NSTableCellView
-        
-        view.textField?.stringValue = container.label
+        let model = item as? any AccessibilityView
+        view.setup(model: model,
+                   isSelected: false)
         
         return view
     }
@@ -173,7 +141,9 @@ extension TextRepresentationController: NSOutlineViewDelegate {
         updateAttributedLabel(for: previousSelection, isSelected: false)
         
         if let model = outlineView.item(atRow: outlineView.selectedRow) as? A11yDescription {
+            updateAttributedLabel(for: model, isSelected: true)
             presenter.selectedPublisher.send(model)
         }
     }
 }
+
