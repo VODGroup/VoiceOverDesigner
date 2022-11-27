@@ -46,6 +46,8 @@ extension A11yDescription {
                 let trait = traitsDescription.joined(separator: " ")
                 result += trait.markdown(color: .color(for: self))
             }
+        } else {
+            result.addAttribute(.foregroundColor, value: Color.white, range: result.string.fullRange)
         }
         
         if let font = font {
