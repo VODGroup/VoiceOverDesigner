@@ -33,26 +33,6 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DocumentTests"
-               BuildableName = "DocumentTests"
-               BlueprintName = "DocumentTests"
-               ReferencedContainer = "container:Document">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EditorTests"
-               BuildableName = "EditorTests"
-               BlueprintName = "EditorTests"
-               ReferencedContainer = "container:VoiceOver Designer/Features">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "SettingsTests"
                BuildableName = "SettingsTests"
                BlueprintName = "SettingsTests"
@@ -88,10 +68,30 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CanvasAppKitTests"
+               BuildableName = "CanvasAppKitTests"
+               BlueprintName = "CanvasAppKitTests"
+               ReferencedContainer = "container:VoiceOver Designer/Features">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "CanvasTests"
                BuildableName = "CanvasTests"
                BlueprintName = "CanvasTests"
-               ReferencedContainer = "container:VoiceOver Designer/Features">
+               ReferencedContainer = "container:Shared">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "DocumentTests"
+               BuildableName = "DocumentTests"
+               BlueprintName = "DocumentTests"
+               ReferencedContainer = "container:Shared">
             </BuildableReference>
          </TestableReference>
       </Testables>

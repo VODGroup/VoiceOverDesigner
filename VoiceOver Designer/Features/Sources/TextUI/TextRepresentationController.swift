@@ -7,22 +7,6 @@ public protocol TextBasedPresenter {
 }
 
 public class TextRepresentationController: NSViewController {
-    public static func fromStoryboard(
-        document: VODesignDocument,
-        presenter: TextBasedPresenter
-    ) -> TextRepresentationController {
-        let controller = NSStoryboard(
-            name: "TextRepresentationController",
-            bundle: Bundle.module
-        ).instantiateInitialController() as! TextRepresentationController
-        
-        controller.inject(
-            document: document,
-            presenter: presenter
-        )
-        
-        return controller
-    }
     
     var presenter: TextBasedPresenter!
     
@@ -48,6 +32,7 @@ public class TextRepresentationController: NSViewController {
         observe()
         
         outlineView.style = .sourceList
+        outlineView.allowsMultipleSelection = true
     }
     
     private func observe() {
@@ -66,9 +51,7 @@ public class TextRepresentationController: NSViewController {
             return
         }
         
-        guard let index = document.controls.firstIndex(where: { aModel in
-            aModel === model
-        }) else { return }
+        let index = outlineView.row(forItem: model)
         
         updateAttributedLabel(for: model, isSelected: true)
         
@@ -79,29 +62,25 @@ public class TextRepresentationController: NSViewController {
     private func updateAttributedLabel(for model: (any AccessibilityView)?, isSelected: Bool) {
         guard let model else { return }
         
-        let index = document.controls.firstIndex(where: { aView in
-            aView === model
-        })
-        guard let index else { return }
+        let index = outlineView.row(forItem: model)
         
         guard let rowView = outlineView.rowView(atRow: index, makeIfNecessary: false) else { return }
-        guard let cell = rowView.view(atColumn: 0) as? NSTableCellView else { return }
+        guard let cell = rowView.view(atColumn: 0) as? ElementCell else { return }
         
-        if isSelected {
-            if let attributedString = cell.textField?.attributedStringValue {
-                let stringToDeselect = NSMutableAttributedString(attributedString: attributedString)
-                stringToDeselect.addAttribute(.foregroundColor, value: Color.white, range: NSRange(location: 0, length: stringToDeselect.length))
-                cell.textField?.attributedStringValue = stringToDeselect
-            }
-        } else {
-            if let element = model as? A11yDescription {
-                cell.textField?.attributedStringValue = element.voiceOverTextAttributed(font: cell.textField?.font)
-            } else if let container = model as? A11yContainer {
-                cell.textField?.stringValue = container.label // TODO: Make bold?
-            } else {
-                cell.textField?.stringValue = NSLocalizedString("Unknown element", comment: "")
-            }
-        }
+        cell.setup(model: model, isSelected: isSelected)
+    }
+    
+    @IBOutlet var groupButton: NSButton!
+    
+    @IBAction func groupSelection(_ sender: AnyObject) {
+        let selectedItems = outlineView.selectedRowIndexes
+            .map { row in
+                outlineView.item(atRow: row)
+            } as! [any AccessibilityView]
+        
+        document.controls.wrapInContainer(
+            selectedItems.extractElements(),
+            label: "Container")
     }
 }
 
@@ -136,31 +115,13 @@ extension TextRepresentationController: NSOutlineViewDataSource {
 
 extension TextRepresentationController: NSOutlineViewDelegate {
     public func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
-        switch item {
-        case let control as A11yDescription:
-            return a11yDescriptionCell(control, outlineView: outlineView)
-        case let container as A11yContainer:
-            return a11yContainerCell(container, outlineView: outlineView)
-        default:
-            return nil
-        }
-    }
-    
-    private func a11yDescriptionCell(_ descr: A11yDescription, outlineView: NSOutlineView) -> NSView? {
         let id = NSUserInterfaceItemIdentifier("Element")
-        let view = outlineView.makeView(withIdentifier: id, owner: self) as! NSTableCellView
         
-        view.textField?.attributedStringValue = descr.voiceOverTextAttributed(font: view.textField?.font)
+        let view = outlineView.makeView(withIdentifier: id, owner: self) as! ElementCell
         
-        return view
-    }
-    
-    private func a11yContainerCell(_ container: A11yContainer, outlineView: NSOutlineView) -> NSView? {
-        let id = NSUserInterfaceItemIdentifier("Container")
-        
-        let view = outlineView.makeView(withIdentifier: id, owner: self) as! NSTableCellView
-        
-        view.textField?.stringValue = container.label
+        let model = item as? any AccessibilityView
+        view.setup(model: model,
+                   isSelected: false)
         
         return view
     }
@@ -172,8 +133,37 @@ extension TextRepresentationController: NSOutlineViewDelegate {
         let previousSelection = presenter.selectedPublisher.value
         updateAttributedLabel(for: previousSelection, isSelected: false)
         
-        if let model = outlineView.item(atRow: outlineView.selectedRow) as? A11yDescription {
-            presenter.selectedPublisher.send(model)
+        guard outlineView.selectedRowIndexes.count == 1 else {
+            groupButton.isEnabled = true
+            return // Not farward multiple seleciton to whole app
         }
+        groupButton.isEnabled = false
+        
+
+        
+        let selectedItem = outlineView.item(atRow: outlineView.selectedRow)
+        if let element = selectedItem as? A11yDescription {
+            updateAttributedLabel(for: element, isSelected: true)
+            presenter.selectedPublisher.send(element)
+        }
+    }
+}
+
+extension TextRepresentationController {
+    public static func fromStoryboard(
+        document: VODesignDocument,
+        presenter: TextBasedPresenter
+    ) -> TextRepresentationController {
+        let controller = NSStoryboard(
+            name: "TextRepresentationController",
+            bundle: Bundle.module
+        ).instantiateInitialController() as! TextRepresentationController
+        
+        controller.inject(
+            document: document,
+            presenter: presenter
+        )
+        
+        return controller
     }
 }

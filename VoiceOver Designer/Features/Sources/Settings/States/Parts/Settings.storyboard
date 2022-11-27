@@ -31,14 +31,14 @@
                                 <clipView key="contentView" ambiguous="YES" drawsBackground="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RRR-wz-1X7">
                                     <rect key="frame" x="0.0" y="0.0" width="390" height="902"/>
                                     <subviews>
-                                        <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalHuggingPriority="251" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LGK-Fp-or4" customClass="FlippedStackView" customModule="Editor">
-                                            <rect key="frame" x="0.0" y="191" width="405" height="711"/>
+                                        <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalHuggingPriority="251" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LGK-Fp-or4" customClass="FlippedStackView" customModule="Settings">
+                                            <rect key="frame" x="0.0" y="192" width="405" height="710"/>
                                             <subviews>
                                                 <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7lc-fy-0gJ">
-                                                    <rect key="frame" x="0.0" y="661" width="405" height="50"/>
+                                                    <rect key="frame" x="0.0" y="661" width="405" height="49"/>
                                                     <subviews>
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fAf-ES-vjT">
-                                                            <rect key="frame" x="-2" y="34" width="40" height="16"/>
+                                                            <rect key="frame" x="-2" y="33" width="40" height="16"/>
                                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="Nlv-IC-RPW">
                                                                 <font key="font" textStyle="headline" name=".SFNS-Bold"/>
                                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -46,7 +46,7 @@
                                                             </textFieldCell>
                                                         </textField>
                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UxK-Iq-lOc">
-                                                            <rect key="frame" x="336" y="33" width="69" height="18"/>
+                                                            <rect key="frame" x="336" y="32" width="69" height="18"/>
                                                             <buttonCell key="cell" type="check" title="Autofill" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="eaD-ft-sSb">
                                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                 <font key="font" metaFont="system"/>
@@ -56,7 +56,7 @@
                                                             </connections>
                                                         </button>
                                                         <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="M0e-ss-Ln5" customClass="TextRecognitionComboBox" customModule="Settings">
-                                                            <rect key="frame" x="0.0" y="5" width="408" height="27"/>
+                                                            <rect key="frame" x="-1" y="7" width="409" height="23"/>
                                                             <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" bezelStyle="round" completes="NO" numberOfVisibleItems="5" id="kuu-od-JMi">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -213,7 +213,7 @@ CA
                                 </clipView>
                                 <edgeInsets key="contentInsets" left="20" right="20" top="0.0" bottom="0.0"/>
                                 <edgeInsets key="scrollerInsets" left="0.0" right="-20" top="0.0" bottom="0.0"/>
-                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="UEA-1D-l4Q">
+                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="UEA-1D-l4Q">
                                     <rect key="frame" x="20" y="886" width="370" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>

@@ -1,5 +1,5 @@
 import XCTest
-@testable import Canvas
+@testable import CanvasAppKit
 
 class EmptyViewController: NSViewController {
     
