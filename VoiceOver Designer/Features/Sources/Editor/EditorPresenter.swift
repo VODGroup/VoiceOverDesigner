@@ -72,9 +72,7 @@ public class EditorPresenter: DocumentPresenter {
         self.screenUI = screenUI
         self.drawingController = DrawingController(view: ui)
         
-        let controls = document.controls.compactMap({
-            $0 as? A11yDescription
-        })
+        let controls = document.controls.extractElements()
         
         draw(controls: controls)
         redrawOnControlChanges()
