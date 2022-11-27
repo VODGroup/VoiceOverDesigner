@@ -74,6 +74,13 @@ public class TextRepresentationController: NSViewController {
         
         cell.setup(model: model, isSelected: isSelected)
     }
+    
+    @IBOutlet var groupButton: NSButton!
+    
+    @IBAction func groupSelection(_ sender: AnyObject) {
+        let indexes = outlineView.selectedRowIndexes
+        document.controls.wrapInContainer(indexes: indexes)
+    }
 }
 
 extension TextRepresentationController: NSOutlineViewDataSource {
@@ -126,8 +133,10 @@ extension TextRepresentationController: NSOutlineViewDelegate {
         updateAttributedLabel(for: previousSelection, isSelected: false)
         
         guard outlineView.selectedRowIndexes.count == 1 else {
+            groupButton.isEnabled = true
             return // Not farward multiple seleciton to whole app
         }
+        groupButton.isEnabled = false
         
         if let model = outlineView.item(atRow: outlineView.selectedRow) as? A11yDescription {
             updateAttributedLabel(for: model, isSelected: true)
