@@ -47,6 +47,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
     // - aligned to 3rd element
     
     func test_CopyControlShouldDrawNewControlAndHaveSameProperties() async throws {
+        throw XCTSkip()
         let copyCommand = ManualCopyCommand()
         
         await MainActor.run {
