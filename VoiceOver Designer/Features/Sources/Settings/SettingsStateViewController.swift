@@ -3,8 +3,19 @@ import AppKit
 import Document
 
 public enum DetailsState: StateProtocol {
+    public static func == (lhs: DetailsState, rhs: DetailsState) -> Bool {
+        switch (lhs, rhs) {
+        case (.empty, .empty):
+            return true
+        case (.control(let lhs), .control(let rhs)):
+            return lhs === rhs
+        default:
+            return false
+        }
+    }
+    
     case empty
-    case control(A11yDescription)
+    case control(any AccessibilityView)
     
     public static var `default`: Self = .empty
 }
