@@ -26,6 +26,7 @@ extension Array where Element == any AccessibilityView {
     }
 }
 
+// TODO: Remove duplication of functions
 extension Array where Element == A11yDescription {
     /// - Returns: From and To indexes
     @discardableResult
