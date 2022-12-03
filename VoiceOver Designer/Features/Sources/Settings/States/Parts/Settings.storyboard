@@ -29,10 +29,10 @@
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LG9-7o-bxA">
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="902"/>
                                 <clipView key="contentView" ambiguous="YES" drawsBackground="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RRR-wz-1X7">
-                                    <rect key="frame" x="0.0" y="0.0" width="390" height="902"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="390" height="887"/>
                                     <subviews>
                                         <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalHuggingPriority="251" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LGK-Fp-or4" customClass="FlippedStackView" customModule="Canvas">
-                                            <rect key="frame" x="0.0" y="192" width="405" height="710"/>
+                                            <rect key="frame" x="0.0" y="177" width="405" height="710"/>
                                             <subviews>
                                                 <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7lc-fy-0gJ">
                                                     <rect key="frame" x="0.0" y="661" width="405" height="49"/>
@@ -211,14 +211,14 @@ CA
                                         <constraint firstItem="LGK-Fp-or4" firstAttribute="width" secondItem="RRR-wz-1X7" secondAttribute="width" multiplier="0.987179" id="u6b-yc-jDw"/>
                                     </constraints>
                                 </clipView>
-                                <edgeInsets key="contentInsets" left="20" right="20" top="0.0" bottom="0.0"/>
+                                <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                 <edgeInsets key="scrollerInsets" left="0.0" right="-20" top="0.0" bottom="0.0"/>
                                 <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="UEA-1D-l4Q">
-                                    <rect key="frame" x="20" y="886" width="370" height="16"/>
+                                    <rect key="frame" x="0.0" y="887" width="395" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="3QC-EC-gsl">
-                                    <rect key="frame" x="374" y="0.0" width="16" height="902"/>
+                                    <rect key="frame" x="395" y="0.0" width="15" height="887"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
