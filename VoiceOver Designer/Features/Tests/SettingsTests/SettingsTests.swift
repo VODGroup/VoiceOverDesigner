@@ -18,7 +18,7 @@ class SettingsTests: XCTestCase {
         let model = A11yDescription.empty(frame: .zero)
         
         let control = A11yControl()
-        control.a11yDescription = model
+        control.model = model
         
         let sut = SettingsPresenter(
             model: model,
@@ -36,7 +36,7 @@ class SettingsTests: XCTestCase {
         let model = A11yDescription.empty(frame: .zero)
         
         let control = A11yControl()
-        control.a11yDescription = model
+        control.model = model
         
         let sut = SettingsPresenter(
             model: model,
@@ -58,7 +58,7 @@ class SettingsDelegateMock: SettingsDelegate {
         
     }
     
-    func delete(model: A11yDescription) {
+    func delete(model: any AccessibilityView) {
         
     }
 }
