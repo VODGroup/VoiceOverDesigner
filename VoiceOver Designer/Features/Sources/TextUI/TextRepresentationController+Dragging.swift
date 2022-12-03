@@ -34,10 +34,32 @@ extension TextRepresentationController {
     public func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex toIndex: Int) -> Bool {
         guard toIndex != NSOutlineViewDropOnItemIndex else { return false } // When place over item, check `item` for this case. Will help lately when deal with container
         
+        guard let element = draggedNode else { return false }
+        
+        let currentParent = outlineView.parent(forItem: draggedNode) as? A11yContainer
+        
+//        document.controls.move(element, fromContainer: currentParent,
+//                               toIndex: toIndex, toContainer: item as? A11yContainer)
+        
+        if let container = item as? A11yContainer {
+            if let element = draggedNode {
+                // Remove from list
+                if let from = document.controls.firstIndex(where: { control in
+                    control === element
+                }) {
+                    document.controls.remove(at: from)
+                }
+
+                // Insert in container
+                container.elements.insert(element, at: toIndex)
+                outlineView.reloadData()
+                return true
+            }
+        }
+
         guard document.controls.move(draggedNode!, to: toIndex) else {
             print("did not move to \(toIndex)")
             return false
-            
         }
         
         //        outlineView.moveItem(at: fromIndex, inParent: nil,
