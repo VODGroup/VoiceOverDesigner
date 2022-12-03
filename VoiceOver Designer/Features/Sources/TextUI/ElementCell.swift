@@ -13,11 +13,12 @@ class ElementCell: NSTableCellView {
     private var model: (any AccessibilityView)?
     
     private func update(model: (any AccessibilityView)?) {
-        if let element = model as? A11yDescription {
-            textField?.attributedStringValue = element.voiceOverTextAttributed(font: textField?.font)
-        } else if let container = model as? A11yContainer {
+        switch model?.cast {
+        case .container(let container):
             textField?.stringValue = container.label // TODO: Make bold?
-        } else {
+        case .element(let element):
+            textField?.attributedStringValue = element.voiceOverTextAttributed(font: textField?.font)
+        case .none:
             textField?.stringValue = NSLocalizedString("Unknown element", comment: "")
         }
     }

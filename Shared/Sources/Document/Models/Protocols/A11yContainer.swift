@@ -16,7 +16,7 @@ public class A11yContainer: Codable, AccessibilityContainer {
     public var elements: [A11yDescription]
     public var frame: CGRect
     public var label: String
-    public var type: AccessibilityViewType = .container
+    public var type: AccessibilityViewTypeDto = .container
     
     public static func copy(from model: A11yContainer) -> A11yContainer {
         A11yContainer(
@@ -34,12 +34,11 @@ public enum A11yElement: Codable {
 }
 extension AccessibilityView {
     public func copy() -> any AccessibilityView {
-        if let container = self as? A11yContainer {
+        switch self.cast {
+        case .container(let container):
             return A11yContainer.copy(from: container)
-        } else if let element = self as? A11yDescription {
+        case .element(let element):
             return A11yDescription.copy(from: element)
-        } else {
-            fatalError()
         }
     }
 }

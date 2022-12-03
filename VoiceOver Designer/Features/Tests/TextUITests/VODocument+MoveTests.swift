@@ -37,15 +37,18 @@ extension Array where Element == any AccessibilityView {
     
     func recursiveDescription() -> [String] {
         map { view in
-            if let container = view as? A11yContainer {
+            switch view.cast {
+            case .container(let container):
                 if container.elements.isEmpty {
                     return container.label
                 }
                 
-                let elementsDescription = (container.elements as [any AccessibilityView]).recursiveDescription().joined(separator: ", ")
+                let elementsDescription = (container.elements as [any AccessibilityView])
+                    .recursiveDescription()
+                    .joined(separator: ", ")
                 return "\(container.label): \(elementsDescription)"
-            } else {
-                return view.label
+            case .element(let element):
+                return element.label
             }
         }
     }

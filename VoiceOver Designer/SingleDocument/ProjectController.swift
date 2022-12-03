@@ -91,7 +91,12 @@ extension ProjectController {
     }
 
     func showSettings(for model: any AccessibilityView) {
-        settings.state = .control(model)
+        switch model.cast {
+        case .container(let container):
+            settings.state = .container(container)
+        case .element(let element):
+            settings.state = .control(element)
+        }
     }
     
     func hideSettings() {
