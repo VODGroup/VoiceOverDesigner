@@ -117,7 +117,7 @@ public class A11yControl: CALayer {
 }
 
 public extension A11yControl {
-    static func copy(from model: A11yDescription) -> A11yControl {
+    static func copy(from model: any AccessibilityView) -> A11yControl {
         let control = A11yControl()
         control.model = model
         control.backgroundColor = model.color.cgColor
