@@ -33,12 +33,18 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
                 return EmptyViewController.fromStoryboard()
                 
             case .control(let model):
-                let settings = SettingsViewController.fromStoryboard()
-                settings.presenter = SettingsPresenter(
-                    model: model,
-                    delegate: self.settingsDelegate)
-                
-                return settings
+                if let container = model as? A11yContainer {
+                    // TODO: Show container settings
+                    return NSViewController()
+                } else if let element = model as? A11yDescription {
+                    let settings = SettingsViewController.fromStoryboard()
+                    settings.presenter = SettingsPresenter(
+                        model: element,
+                        delegate: self.settingsDelegate)
+                    return settings
+                } else {
+                    fatalError()
+                }
             }
         }
     }
