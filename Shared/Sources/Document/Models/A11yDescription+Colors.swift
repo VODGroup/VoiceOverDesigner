@@ -12,3 +12,15 @@ extension A11yDescription {
         .withAlphaComponent(Self.colorAlpha)
     }
 }
+
+extension AccessibilityView {
+    public var color: Color {
+        if self is A11yContainer {
+            return Color.systemGray.withAlphaComponent(A11yDescription.colorAlpha)
+        } else if let element = self as? A11yDescription {
+            return element.color
+        } else {
+            return Color.black.withAlphaComponent(A11yDescription.colorAlpha)
+        }
+    }
+}

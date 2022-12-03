@@ -19,11 +19,11 @@ public class A11yControl: CALayer {
     
     private let config = Config()
     
-    public var a11yDescription: A11yDescription?
+    public var model: (any AccessibilityView)?
     
     public lazy var label: CATextLayer? = {
         let label = CATextLayer()
-        label.string = a11yDescription?.label
+        label.string = model?.label
         label.fontSize = config.fontSize
         label.foregroundColor = Color.white.cgColor
         label.backgroundColor = Color.systemGray.withAlphaComponent(0.7).cgColor
@@ -55,13 +55,13 @@ public class A11yControl: CALayer {
     }
     
     public func updateColor() {
-        backgroundColor = a11yDescription?.color.cgColor
-        borderColor = a11yDescription?.color.cgColor.copy(alpha: 0)
+        backgroundColor = model?.color.cgColor
+        borderColor = model?.color.cgColor.copy(alpha: 0)
     }
     
     public override var frame: CGRect {
         didSet {
-            a11yDescription?.frame = frame
+            model?.frame = frame
         }
     }
     
@@ -119,7 +119,7 @@ public class A11yControl: CALayer {
 public extension A11yControl {
     static func copy(from model: A11yDescription) -> A11yControl {
         let control = A11yControl()
-        control.a11yDescription = model
+        control.model = model
         control.backgroundColor = model.color.cgColor
         control.frame = model.frame
         return control

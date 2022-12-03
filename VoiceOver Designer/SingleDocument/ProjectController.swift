@@ -67,7 +67,7 @@ class ProjectController: NSSplitViewController {
     
     private func updateTextRecognition(_ result: RecognitionResult?) {
         guard case .control(let model) = settings.state else { return }
-        guard model == result?.control.a11yDescription else { return }
+        guard model === result?.control.model else { return }
         
         guard let currentController = settings.currentController as? SettingsViewController else { return }
        
@@ -82,7 +82,7 @@ class ProjectController: NSSplitViewController {
 
 // MARK: Settings visibility
 extension ProjectController {
-    private func updateSelection(_ selectedModel: A11yDescription?) {
+    private func updateSelection(_ selectedModel: (any AccessibilityView)?) {
         if let selectedModel = selectedModel {
             showSettings(for: selectedModel)
         } else {
@@ -90,7 +90,7 @@ extension ProjectController {
         }
     }
 
-    func showSettings(for model: A11yDescription) {
+    func showSettings(for model: any AccessibilityView) {
         settings.state = .control(model)
     }
     
@@ -104,7 +104,7 @@ extension ProjectController: SettingsDelegate {
         canvas.save()
     }
     
-    public func delete(model: A11yDescription) {
+    public func delete(model: any AccessibilityView) {
         canvas.delete(model: model)
         settings.state = .empty
     }

@@ -26,7 +26,8 @@ extension Array where Element == any AccessibilityView {
             elements: extractedElements,
             frame: extractedElements
                 .map(\.frame)
-                .commonFrame,
+                .commonFrame
+                .insetBy(dx: -20, dy: -20),
             label: label)
 
         insert(container, at: insertIndex ?? 0)
