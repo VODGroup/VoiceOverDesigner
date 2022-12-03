@@ -2,12 +2,30 @@
   "object": {
     "pins": [
       {
+        "package": "swift-custom-dump",
+        "repositoryURL": "git@github.com:pointfreeco/swift-custom-dump.git",
+        "state": {
+          "branch": null,
+          "revision": "ead7d30cc224c3642c150b546f4f1080d1c411a8",
+          "version": "0.6.1"
+        }
+      },
+      {
         "package": "swift-snapshot-testing",
         "repositoryURL": "git@github.com:pointfreeco/swift-snapshot-testing.git",
         "state": {
-          "branch": "main",
-          "revision": "ad2c83170e82954d9504e4db205c43a3f493bc55",
-          "version": null
+          "branch": null,
+          "revision": "f29e2014f6230cf7d5138fc899da51c7f513d467",
+          "version": "1.10.0"
+        }
+      },
+      {
+        "package": "xctest-dynamic-overlay",
+        "repositoryURL": "https://github.com/pointfreeco/xctest-dynamic-overlay",
+        "state": {
+          "branch": null,
+          "revision": "5a5457a744239896e9b0b03a8e1a5069c3e7b91f",
+          "version": "0.6.0"
         }
       }
     ]
