@@ -20,7 +20,7 @@ public class TextRepresentationController: NSViewController {
     }
     
     var document: VODesignDocument!
-    var draggedNode: A11yDescription?
+    var draggedNode: (any AccessibilityView)?
     
     private var cancellables = Set<AnyCancellable>()
     

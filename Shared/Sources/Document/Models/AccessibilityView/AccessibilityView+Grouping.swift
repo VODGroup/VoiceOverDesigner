@@ -1,11 +1,13 @@
 import Foundation
 
 extension Array where Element == any AccessibilityView {
+    
+    @discardableResult
     public mutating func wrapInContainer(
         _ items: [A11yDescription],
         label:  String
-    ) {
-        guard items.count > 0 else { return }
+    ) -> A11yContainer? {
+        guard items.count > 0 else { return nil }
 
         var extractedElements = [A11yDescription]()
 
@@ -30,6 +32,8 @@ extension Array where Element == any AccessibilityView {
         insert(container, at: insertIndex ?? 0)
         
         removeEmptyContainers()
+        
+        return container
     }
     
     /// - Returns: Element index
