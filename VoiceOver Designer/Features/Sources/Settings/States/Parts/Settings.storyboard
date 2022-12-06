@@ -37,7 +37,7 @@
                                                 <containerView ambiguous="YES" placeholderIntrinsicWidth="385" placeholderIntrinsicHeight="146" translatesAutoresizingMaskIntoConstraints="NO" id="kVb-Wm-KCR" userLabel="Label">
                                                     <rect key="frame" x="0.0" y="661" width="405" height="146"/>
                                                     <connections>
-                                                        <segue destination="zdE-81-16s" kind="embed" id="Zma-c7-tyk"/>
+                                                        <segue destination="rcW-MN-eUb" kind="embed" id="PP1-S4-AH5"/>
                                                     </connections>
                                                 </containerView>
                                                 <containerView ambiguous="YES" placeholderIntrinsicWidth="385" placeholderIntrinsicHeight="146" translatesAutoresizingMaskIntoConstraints="NO" id="cWG-yH-GJd" userLabel="A11y Value View">
@@ -217,64 +217,6 @@ CA
             </objects>
             <point key="canvasLocation" x="457" y="337"/>
         </scene>
-        <!--Label View Controller-->
-        <scene sceneID="ggO-b2-rAF">
-            <objects>
-                <viewController id="zdE-81-16s" customClass="LabelViewController" customModule="Settings" sceneMemberID="viewController">
-                    <view key="view" id="34L-0t-KmR" customClass="LabelView" customModule="Settings">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="50"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Egy-NQ-Qky">
-                                <rect key="frame" x="-2" y="34" width="40" height="16"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="ptF-bG-UL2">
-                                    <font key="font" textStyle="headline" name=".SFNS-Bold"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Pw0-cP-Vet">
-                                <rect key="frame" x="381" y="33" width="69" height="18"/>
-                                <buttonCell key="cell" type="check" title="Autofill" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="tGa-UA-r2p">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="isAutofillDidChanged:" target="zdE-81-16s" id="RKP-nT-RKJ"/>
-                                </connections>
-                            </button>
-                            <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uUV-fL-Yz3" customClass="TextRecognitionComboBox" customModule="Settings">
-                                <rect key="frame" x="-1" y="-2" width="454" height="23"/>
-                                <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" bezelStyle="round" completes="NO" numberOfVisibleItems="5" id="kzP-e1-of1">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </comboBoxCell>
-                                <connections>
-                                    <action selector="labelDidChange:" target="zdE-81-16s" id="dlO-rd-iH7"/>
-                                </connections>
-                            </comboBox>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="Pw0-cP-Vet" firstAttribute="firstBaseline" secondItem="Egy-NQ-Qky" secondAttribute="firstBaseline" id="3K8-Pl-EpW"/>
-                            <constraint firstAttribute="bottom" secondItem="uUV-fL-Yz3" secondAttribute="bottom" id="663-u0-lK9"/>
-                            <constraint firstItem="uUV-fL-Yz3" firstAttribute="top" secondItem="Egy-NQ-Qky" secondAttribute="bottom" constant="14" id="7qr-To-4ee"/>
-                            <constraint firstAttribute="trailing" secondItem="uUV-fL-Yz3" secondAttribute="trailing" id="jEG-Xv-btd"/>
-                            <constraint firstItem="Pw0-cP-Vet" firstAttribute="trailing" secondItem="uUV-fL-Yz3" secondAttribute="trailing" id="n13-5U-6vX"/>
-                            <constraint firstItem="uUV-fL-Yz3" firstAttribute="leading" secondItem="Egy-NQ-Qky" secondAttribute="leading" id="oAS-A8-NKA"/>
-                            <constraint firstItem="Egy-NQ-Qky" firstAttribute="leading" secondItem="34L-0t-KmR" secondAttribute="leading" id="pty-hM-tKa"/>
-                            <constraint firstItem="Egy-NQ-Qky" firstAttribute="top" secondItem="34L-0t-KmR" secondAttribute="top" id="uDM-FN-ewT"/>
-                        </constraints>
-                        <connections>
-                            <outlet property="isAutofillEnabledButton" destination="Pw0-cP-Vet" id="DRn-1j-HvK"/>
-                            <outlet property="label" destination="uUV-fL-Yz3" id="SMH-UI-MK5"/>
-                        </connections>
-                    </view>
-                </viewController>
-                <customObject id="WKo-1j-QHE" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="603" y="166"/>
-        </scene>
         <!--A11yValueViewController-->
         <scene sceneID="baF-kN-RUG">
             <objects>
@@ -298,6 +240,14 @@ CA
                 <customObject id="6Ol-1q-Jhp" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="501" y="441"/>
+        </scene>
+        <!--LabelViewController-->
+        <scene sceneID="ny7-Y3-u18">
+            <objects>
+                <controllerPlaceholder storyboardName="LabelViewController" id="rcW-MN-eUb" sceneMemberID="viewController"/>
+                <customObject id="IdM-bW-lz2" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="452" y="234"/>
         </scene>
     </scenes>
 </document>
