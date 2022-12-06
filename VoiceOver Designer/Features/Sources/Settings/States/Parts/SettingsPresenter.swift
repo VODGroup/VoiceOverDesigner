@@ -10,7 +10,7 @@ import Document
 
 public protocol SettingsDelegate: AnyObject {
     func didUpdateValue()
-    func delete(model: A11yDescription)
+    func delete(model: any AccessibilityView)
 }
 
 public class SettingsPresenter {

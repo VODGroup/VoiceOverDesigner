@@ -48,8 +48,8 @@ extension CanvasPresenterTests {
                     screenUI: canvasUI)
     }
     
-    var drawnControls: [A11yDescription] {
-        controller.controlsView.drawnControls.compactMap(\.a11yDescription)
+    var drawnControls: [any AccessibilityView] {
+        controller.controlsView.drawnControls.compactMap(\.model)
     }
     
     var numberOfDrawnViews: Int {
@@ -86,7 +86,7 @@ extension CanvasPresenterTests {
     
     func awaitSelected(file: StaticString = #file,
                        line: UInt = #line
-    ) async throws -> A11yDescription? {
+    ) async throws -> (any AccessibilityView)? {
         return try await awaitPublisher(sut.selectedPublisher,
                                         file: file, line: line)
     }

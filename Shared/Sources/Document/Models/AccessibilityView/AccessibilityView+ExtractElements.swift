@@ -12,5 +12,11 @@ extension Array where Element == any AccessibilityView {
             return newResult
         }
     }
+    
+    public func extractContainers() -> [A11yContainer] {
+        compactMap { view in
+            view as? A11yContainer
+        }
+    }
 }
 

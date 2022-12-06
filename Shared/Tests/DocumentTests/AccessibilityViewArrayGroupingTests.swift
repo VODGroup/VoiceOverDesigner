@@ -92,7 +92,8 @@ final class AccessibilityViewArrayGroupingTests: XCTestCase {
         array.wrapInContainer([item1, item2], label: "Test")
 
         XCTAssertTrue(array.first is A11yContainer)
+        let uninFrame = CGRect(x: 10, y: 10, width: 20, height: 20)
         XCTAssertEqual(array.first?.frame,
-                      CGRect(x: 10, y: 10, width: 20, height: 20))
+                       uninFrame.insetBy(dx: -20, dy: -20))
     }
 }

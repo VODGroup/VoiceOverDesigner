@@ -88,10 +88,10 @@ public class CanvasPresenter: DocumentPresenter {
         switch action {
         case let new as NewControlAction:
             document.undoManager?.registerUndo(withTarget: self, handler: { target in
-                target.delete(model: new.control.a11yDescription!)
+                target.delete(model: new.control.model!)
             })
-            
-            save()
+           
+            append(control: new.control.model!)
             select(control: new.control)
             return new.control
             
@@ -107,7 +107,7 @@ public class CanvasPresenter: DocumentPresenter {
             return click.control
         case let copy as CopyAction:
             document.undoManager?.registerUndo(withTarget: self, handler: { target in
-                target.delete(model: copy.control.a11yDescription!)
+                target.delete(model: copy.control.model!)
             })
             save()
             return copy.control
@@ -116,6 +116,7 @@ public class CanvasPresenter: DocumentPresenter {
                 resize.control.frame = resize.initialFrame
             })
             return resize.control
+            // TODO: Register resize as file change
         case .none:
             deselect()
             return nil
@@ -129,14 +130,14 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     // MARK: - Selection
-    private func updateSelectedControl(_ selectedDescription: A11yDescription?) {
+    private func updateSelectedControl(_ selectedDescription: (any AccessibilityView)?) {
         guard let selected = selectedDescription else {
             selectedControl = nil
             return
         }
         
         let selectedControl = ui.drawnControls.first(where: { control in
-            control.a11yDescription?.frame == selected.frame
+            control.model?.frame == selected.frame
         })
             
         self.selectedControl = selectedControl
@@ -151,7 +152,7 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     public func select(control: A11yControl) {
-        selectedPublisher.send(control.a11yDescription)
+        selectedPublisher.send(control.model)
     }
     
     func deselect() {
@@ -168,19 +169,19 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     // MARK: - Deletion
-    public func delete(model: A11yDescription) {
+    public func delete(model: any AccessibilityView) {
         guard let control = control(for: model) else {
             return
         }
         
+        // TODO: Delete control from document.elements
         ui.delete(control: control)
-        
         save()
     }
     
-    private func control(for model: A11yDescription) -> A11yControl? {
+    private func control(for model: any AccessibilityView) -> A11yControl? {
         ui.drawnControls.first { control in
-            control.a11yDescription?.frame == model.frame
+            control.model?.frame == model.frame
         }
     }
     

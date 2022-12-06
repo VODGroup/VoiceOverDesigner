@@ -45,7 +45,7 @@ public class TextRepresentationController: NSViewController {
             .store(in: &cancellables)
     }
     
-    private func select(model: A11yDescription?) {
+    private func select(model: (any AccessibilityView)?) {
         guard let model = model else {
             outlineView.deselectAll(self)
             return
@@ -142,7 +142,7 @@ extension TextRepresentationController: NSOutlineViewDelegate {
 
         
         let selectedItem = outlineView.item(atRow: outlineView.selectedRow)
-        if let element = selectedItem as? A11yDescription {
+        if let element = selectedItem as? any AccessibilityView  {
             updateAttributedLabel(for: element, isSelected: true)
             presenter.selectedPublisher.send(element)
         }

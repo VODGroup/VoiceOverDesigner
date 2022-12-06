@@ -134,7 +134,7 @@ public class CanvasViewController: NSViewController {
     
     public func select(_ model: A11yDescription) {
         guard let control = view().controlsView.drawnControls.first(where: { control in
-            control.a11yDescription === model
+            control.model === model
         }) else { return }
         
         presenter.select(control: control)
@@ -144,7 +144,7 @@ public class CanvasViewController: NSViewController {
         presenter.save()
     }
     
-    public func delete(model: A11yDescription) {
+    public func delete(model: any AccessibilityView) {
         presenter.delete(model: model)
     }
     
