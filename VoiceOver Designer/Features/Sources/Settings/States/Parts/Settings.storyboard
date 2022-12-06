@@ -31,7 +31,7 @@
                                 <clipView key="contentView" ambiguous="YES" drawsBackground="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RRR-wz-1X7">
                                     <rect key="frame" x="0.0" y="0.0" width="390" height="902"/>
                                     <subviews>
-                                        <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalHuggingPriority="251" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LGK-Fp-or4" customClass="FlippedStackView" customModule="Canvas">
+                                        <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalHuggingPriority="251" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LGK-Fp-or4" customClass="FlippedStackView" customModule="CanvasAppKit">
                                             <rect key="frame" x="0.0" y="95" width="405" height="807"/>
                                             <subviews>
                                                 <containerView ambiguous="YES" placeholderIntrinsicWidth="385" placeholderIntrinsicHeight="146" translatesAutoresizingMaskIntoConstraints="NO" id="kVb-Wm-KCR" userLabel="Label">
