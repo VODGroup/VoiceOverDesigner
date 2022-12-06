@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="U2f-R7-Q2a">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="U2f-R7-Q2a">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21225"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
         <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -29,56 +29,17 @@
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LG9-7o-bxA">
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="902"/>
                                 <clipView key="contentView" ambiguous="YES" drawsBackground="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RRR-wz-1X7">
-                                    <rect key="frame" x="0.0" y="0.0" width="390" height="887"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="390" height="902"/>
                                     <subviews>
                                         <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalHuggingPriority="251" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LGK-Fp-or4" customClass="FlippedStackView" customModule="Canvas">
-                                            <rect key="frame" x="0.0" y="177" width="405" height="710"/>
+                                            <rect key="frame" x="0.0" y="95" width="405" height="807"/>
                                             <subviews>
-                                                <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7lc-fy-0gJ">
-                                                    <rect key="frame" x="0.0" y="661" width="405" height="49"/>
-                                                    <subviews>
-                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fAf-ES-vjT">
-                                                            <rect key="frame" x="-2" y="33" width="40" height="16"/>
-                                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="Nlv-IC-RPW">
-                                                                <font key="font" textStyle="headline" name=".SFNS-Bold"/>
-                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                            </textFieldCell>
-                                                        </textField>
-                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UxK-Iq-lOc">
-                                                            <rect key="frame" x="336" y="32" width="69" height="18"/>
-                                                            <buttonCell key="cell" type="check" title="Autofill" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="eaD-ft-sSb">
-                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                                <font key="font" metaFont="system"/>
-                                                            </buttonCell>
-                                                            <connections>
-                                                                <action selector="isAutofillDidChanged:" target="U2f-R7-Q2a" id="4Bb-lW-Y7Q"/>
-                                                            </connections>
-                                                        </button>
-                                                        <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="M0e-ss-Ln5" customClass="TextRecognitionComboBox" customModule="Settings">
-                                                            <rect key="frame" x="-1" y="7" width="409" height="23"/>
-                                                            <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" bezelStyle="round" completes="NO" numberOfVisibleItems="5" id="kuu-od-JMi">
-                                                                <font key="font" metaFont="system"/>
-                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                            </comboBoxCell>
-                                                            <connections>
-                                                                <action selector="labelDidChange:" target="U2f-R7-Q2a" id="rr6-Bk-oRV"/>
-                                                            </connections>
-                                                        </comboBox>
-                                                    </subviews>
-                                                    <constraints>
-                                                        <constraint firstItem="UxK-Iq-lOc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fAf-ES-vjT" secondAttribute="trailing" constant="16" id="2dF-ve-Vwm"/>
-                                                        <constraint firstItem="M0e-ss-Ln5" firstAttribute="top" secondItem="fAf-ES-vjT" secondAttribute="bottom" constant="4" id="7tD-Ni-lWc"/>
-                                                        <constraint firstItem="UxK-Iq-lOc" firstAttribute="firstBaseline" secondItem="fAf-ES-vjT" secondAttribute="firstBaseline" id="bXF-Lp-oK9"/>
-                                                        <constraint firstItem="fAf-ES-vjT" firstAttribute="leading" secondItem="7lc-fy-0gJ" secondAttribute="leading" id="dTt-X6-r1G"/>
-                                                        <constraint firstItem="fAf-ES-vjT" firstAttribute="top" secondItem="7lc-fy-0gJ" secondAttribute="top" id="gjo-TG-Y0B"/>
-                                                        <constraint firstItem="M0e-ss-Ln5" firstAttribute="leading" secondItem="fAf-ES-vjT" secondAttribute="leading" id="no2-SE-8rx"/>
-                                                        <constraint firstAttribute="bottom" secondItem="M0e-ss-Ln5" secondAttribute="bottom" constant="9" id="sdI-73-c9a"/>
-                                                        <constraint firstAttribute="trailing" secondItem="UxK-Iq-lOc" secondAttribute="trailing" id="v41-fZ-kqj"/>
-                                                        <constraint firstItem="M0e-ss-Ln5" firstAttribute="width" secondItem="7lc-fy-0gJ" secondAttribute="width" id="vaX-r3-tXX"/>
-                                                    </constraints>
-                                                </customView>
+                                                <containerView ambiguous="YES" placeholderIntrinsicWidth="385" placeholderIntrinsicHeight="146" translatesAutoresizingMaskIntoConstraints="NO" id="kVb-Wm-KCR" userLabel="Label">
+                                                    <rect key="frame" x="0.0" y="661" width="405" height="146"/>
+                                                    <connections>
+                                                        <segue destination="zdE-81-16s" kind="embed" id="Zma-c7-tyk"/>
+                                                    </connections>
+                                                </containerView>
                                                 <containerView ambiguous="YES" placeholderIntrinsicWidth="385" placeholderIntrinsicHeight="146" translatesAutoresizingMaskIntoConstraints="NO" id="cWG-yH-GJd" userLabel="A11y Value View">
                                                     <rect key="frame" x="0.0" y="507" width="405" height="146"/>
                                                     <connections>
@@ -176,13 +137,14 @@ CA
                                             </subviews>
                                             <edgeInsets key="edgeInsets" left="0.0" right="0.0" top="0.0" bottom="50"/>
                                             <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="kVb-Wm-KCR" secondAttribute="trailing" id="4Zn-dn-ppP"/>
                                                 <constraint firstAttribute="trailing" secondItem="3pr-Nv-IXY" secondAttribute="trailing" id="54e-9D-B3z"/>
                                                 <constraint firstItem="3pr-Nv-IXY" firstAttribute="leading" secondItem="LGK-Fp-or4" secondAttribute="leading" id="6j4-Pd-Q7D"/>
+                                                <constraint firstItem="kVb-Wm-KCR" firstAttribute="leading" secondItem="LGK-Fp-or4" secondAttribute="leading" id="B6I-OB-2aS"/>
                                                 <constraint firstItem="KY5-VV-oG4" firstAttribute="leading" secondItem="LGK-Fp-or4" secondAttribute="leading" id="OBe-E5-q0t"/>
                                                 <constraint firstItem="lm7-oJ-ukt" firstAttribute="width" secondItem="LGK-Fp-or4" secondAttribute="width" id="PAe-1J-eVh"/>
                                                 <constraint firstItem="WVl-fD-uJl" firstAttribute="width" secondItem="LGK-Fp-or4" secondAttribute="width" id="Y5l-iJ-iNc"/>
                                                 <constraint firstAttribute="trailing" secondItem="g95-0u-h7J" secondAttribute="trailing" id="eCj-pp-Gis"/>
-                                                <constraint firstItem="7lc-fy-0gJ" firstAttribute="width" secondItem="LGK-Fp-or4" secondAttribute="width" id="hkI-wW-IQH"/>
                                                 <constraint firstItem="cWG-yH-GJd" firstAttribute="leading" secondItem="LGK-Fp-or4" secondAttribute="leading" id="imA-Yr-Mzj"/>
                                                 <constraint firstAttribute="trailing" secondItem="cWG-yH-GJd" secondAttribute="trailing" id="mli-74-Etw"/>
                                                 <constraint firstAttribute="trailing" secondItem="KY5-VV-oG4" secondAttribute="trailing" id="r8K-3U-gtJ"/>
@@ -213,12 +175,12 @@ CA
                                 </clipView>
                                 <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                 <edgeInsets key="scrollerInsets" left="0.0" right="-20" top="0.0" bottom="0.0"/>
-                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="UEA-1D-l4Q">
-                                    <rect key="frame" x="0.0" y="887" width="395" height="15"/>
+                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="UEA-1D-l4Q">
+                                    <rect key="frame" x="0.0" y="886" width="410" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="3QC-EC-gsl">
-                                    <rect key="frame" x="395" y="0.0" width="15" height="887"/>
+                                    <rect key="frame" x="394" y="0.0" width="16" height="902"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
@@ -237,8 +199,6 @@ CA
                         <connections>
                             <outlet property="hint" destination="9A8-ed-t5M" id="swz-kZ-ayG"/>
                             <outlet property="isAccessibilityElementButton" destination="I0u-MB-fxF" id="Aej-vg-dOE"/>
-                            <outlet property="isAutofillEnabledButton" destination="UxK-Iq-lOc" id="kkV-SZ-j6w"/>
-                            <outlet property="label" destination="M0e-ss-Ln5" id="20l-9T-vp0"/>
                             <outlet property="mainStack" destination="LGK-Fp-or4" id="98L-rt-K2Y"/>
                             <outlet property="resultLabel" destination="JZg-MT-gb1" id="9KW-0b-cmE"/>
                             <outlet property="scrollView" destination="LG9-7o-bxA" id="vI4-tw-LOb"/>
@@ -256,6 +216,64 @@ CA
                 <customObject id="8Hj-gn-Gld" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="457" y="337"/>
+        </scene>
+        <!--Label View Controller-->
+        <scene sceneID="ggO-b2-rAF">
+            <objects>
+                <viewController id="zdE-81-16s" customClass="LabelViewController" customModule="Settings" sceneMemberID="viewController">
+                    <view key="view" id="34L-0t-KmR" customClass="LabelView" customModule="Settings">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="50"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Egy-NQ-Qky">
+                                <rect key="frame" x="-2" y="34" width="40" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="ptF-bG-UL2">
+                                    <font key="font" textStyle="headline" name=".SFNS-Bold"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Pw0-cP-Vet">
+                                <rect key="frame" x="381" y="33" width="69" height="18"/>
+                                <buttonCell key="cell" type="check" title="Autofill" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="tGa-UA-r2p">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="isAutofillDidChanged:" target="zdE-81-16s" id="RKP-nT-RKJ"/>
+                                </connections>
+                            </button>
+                            <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uUV-fL-Yz3" customClass="TextRecognitionComboBox" customModule="Settings">
+                                <rect key="frame" x="-1" y="-2" width="454" height="23"/>
+                                <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" bezelStyle="round" completes="NO" numberOfVisibleItems="5" id="kzP-e1-of1">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </comboBoxCell>
+                                <connections>
+                                    <action selector="labelDidChange:" target="zdE-81-16s" id="dlO-rd-iH7"/>
+                                </connections>
+                            </comboBox>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="Pw0-cP-Vet" firstAttribute="firstBaseline" secondItem="Egy-NQ-Qky" secondAttribute="firstBaseline" id="3K8-Pl-EpW"/>
+                            <constraint firstAttribute="bottom" secondItem="uUV-fL-Yz3" secondAttribute="bottom" id="663-u0-lK9"/>
+                            <constraint firstItem="uUV-fL-Yz3" firstAttribute="top" secondItem="Egy-NQ-Qky" secondAttribute="bottom" constant="14" id="7qr-To-4ee"/>
+                            <constraint firstAttribute="trailing" secondItem="uUV-fL-Yz3" secondAttribute="trailing" id="jEG-Xv-btd"/>
+                            <constraint firstItem="Pw0-cP-Vet" firstAttribute="trailing" secondItem="uUV-fL-Yz3" secondAttribute="trailing" id="n13-5U-6vX"/>
+                            <constraint firstItem="uUV-fL-Yz3" firstAttribute="leading" secondItem="Egy-NQ-Qky" secondAttribute="leading" id="oAS-A8-NKA"/>
+                            <constraint firstItem="Egy-NQ-Qky" firstAttribute="leading" secondItem="34L-0t-KmR" secondAttribute="leading" id="pty-hM-tKa"/>
+                            <constraint firstItem="Egy-NQ-Qky" firstAttribute="top" secondItem="34L-0t-KmR" secondAttribute="top" id="uDM-FN-ewT"/>
+                        </constraints>
+                        <connections>
+                            <outlet property="isAutofillEnabledButton" destination="Pw0-cP-Vet" id="DRn-1j-HvK"/>
+                            <outlet property="label" destination="uUV-fL-Yz3" id="SMH-UI-MK5"/>
+                        </connections>
+                    </view>
+                </viewController>
+                <customObject id="WKo-1j-QHE" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="603" y="166"/>
         </scene>
         <!--A11yValueViewController-->
         <scene sceneID="baF-kN-RUG">

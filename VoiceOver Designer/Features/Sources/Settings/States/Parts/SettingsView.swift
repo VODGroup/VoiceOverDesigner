@@ -7,31 +7,10 @@ class TraitCheckBox: NSButton {
 
 class SettingsView: NSView {
     @IBOutlet weak var resultLabel: NSTextField!
-    
     @IBOutlet weak var scrollView: NSScrollView!
     @IBOutlet weak var mainStack: NSStackView!
-    @IBOutlet weak var label: TextRecognitionComboBox!
-    var labelText: String {
-        get {
-            label.stringValue
-        }
-        set {
-            label.stringValue = newValue
-        }
-    }
     @IBOutlet weak var hint: NSTextField!
-    
     @IBOutlet weak var isAccessibilityElementButton: NSButton!
-    @IBOutlet weak var isAutofillEnabledButton: NSButton!
-    var isAutofillEnabled: Bool {
-        get {
-            isAutofillEnabledButton.state == .on
-        }
-        
-        set {
-            isAutofillEnabledButton.state = newValue ? .on: .off
-        }
-    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -45,7 +24,6 @@ class SettingsView: NSView {
         
         updateText(from: descr)
         
-        labelText = descr.label
         hint.stringValue  = descr.hint
         isAccessibilityElementButton.state = descr.isAccessibilityElement ? .on: .off
     }
