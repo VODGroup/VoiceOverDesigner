@@ -98,10 +98,4 @@ extension ProjectController: SettingsDelegate {
     }
 }
 
-extension CanvasViewController: RecognitionImageSource {
-    public func image(
-        for model: any AccessibilityView
-    ) async -> CGImage {
-        fatalError()
-    }
-}
+extension CanvasViewController: RecognitionImageSource {}
