@@ -22,6 +22,8 @@ class ProjectController: NSSplitViewController {
         canvas.inject(presenter: canvasPresenter)
         
         settings = SettingsStateViewController.fromStoryboard()
+        settings.textRecognitionCoordinator = TextRecognitionCoordinator(
+            imageSource: canvas)
         
         super.init(nibName: nil, bundle: nil)
         
@@ -57,44 +59,6 @@ class ProjectController: NSSplitViewController {
             .selectedPublisher
             .sink(receiveValue: updateSelection(_:))
             .store(in: &cancellables)
-        
-        canvas.presenter
-            .recognitionPublisher
-            .receive(on: DispatchQueue.main)
-            .sink(receiveValue: updateTextRecognition(_:))
-            .store(in: &cancellables)
-    }
-    
-    private func updateTextRecognition(_ result: RecognitionResult?) {
-        guard isSameControlSelected(result) else { return }
-        
-        guard let currentController = settings.currentController as? TextRecogitionReceiver else { return }
-       
-        var alternatives = result?.text ?? []
-        if alternatives.count > 1 {
-            let combined = alternatives.joined(separator: " ")
-            alternatives.append(combined)
-        }
-        
-        print("Recognition results \(alternatives)")
-        currentController.presentTextRecognition(alternatives)
-    }
-    
-    func isSameControlSelected(_ result: RecognitionResult?) -> Bool {
-        switch settings.state {
-        case .container(let container):
-            if let selectedContainer = result?.control.model as? A11yContainer {
-                return container == selectedContainer
-            }
-        case .control(let element):
-            if let selectedElement = result?.control.model as? A11yDescription {
-                return element == selectedElement
-            }
-        case .empty:
-            return false
-        }
-        
-        return false
     }
 }
 
@@ -132,3 +96,5 @@ extension ProjectController: SettingsDelegate {
         settings.state = .empty
     }
 }
+
+extension CanvasViewController: RecognitionImageSource {}

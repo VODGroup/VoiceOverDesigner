@@ -17,7 +17,6 @@ open class DocumentPresenter {
     }
     
     public let selectedPublisher = OptionalDescriptionSubject(nil)
-    public let recognitionPublisher = TextRecognitionSubject(nil)
     
     public func update(image: Image) {
         document.image = image
@@ -29,9 +28,5 @@ open class DocumentPresenter {
     
     func append(control: any AccessibilityView) {
         document.controls.append(control)
-    }
-    
-    func publish(textRecognition: RecognitionResult) {
-        recognitionPublisher.send(textRecognition)
     }
 }

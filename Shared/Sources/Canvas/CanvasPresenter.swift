@@ -10,31 +10,12 @@ import CoreText
 import Combine
 import TextRecognition
 
-public protocol CanvasPresenterUIProtocol: AnyObject {
-    func image(at frame: CGRect) async -> CGImage?
-}
-
 public class CanvasPresenter: DocumentPresenter {
-   
-    public override convenience init(document: VODesignDocumentProtocol) {
-        self.init(document: document,
-             textRecognition: TextRecognitionService())
-    }
     
-    init(
-        document: VODesignDocumentProtocol,
-        textRecognition: TextRecognitionServiceProtocol)
-    {
-        self.textRecognition = textRecognition
-        
-        super.init(document: document)
-    }
-    
-    weak var screenUI: CanvasPresenterUIProtocol!
-    
-    public func didLoad(ui: DrawingView, screenUI: CanvasPresenterUIProtocol) {
+    public func didLoad(
+        ui: DrawingView
+    ) {
         self.ui = ui
-        self.screenUI = screenUI
         self.drawingController = DrawingController(view: ui)
         
         draw(controls: document.controls)
@@ -78,10 +59,6 @@ public class CanvasPresenter: DocumentPresenter {
         let action = drawingController.end(coordinate: location)
         
         let control = finishAciton(action)
-        
-        if let control = control {
-            recongizeText(under: control)
-        }
     }
     
     private func finishAciton(_ action: DraggingAction?) -> A11yControl? {
@@ -182,32 +159,6 @@ public class CanvasPresenter: DocumentPresenter {
     private func control(for model: any AccessibilityView) -> A11yControl? {
         ui.drawnControls.first { control in
             control.model?.frame == model.frame
-        }
-    }
-    
-    // MARK: Text recognition
-    
-    private let textRecognition: TextRecognitionServiceProtocol
-    
-    private func recongizeText(under control: A11yControl) {
-        Task {
-            guard let backImage = await screenUI.image(
-                at: control.frame)
-            else { return }
-            
-            await recognizeText(image: backImage, control: control)
-        }
-    }
-    
-    func recognizeText(image: CGImage, control: A11yControl) async {
-        do {
-            let recognitionResults = try await textRecognition.processImage(image: image)
-            let results = RecognitionResult(control: control,
-                                            text: recognitionResults)
-            
-            publish(textRecognition: results)
-        } catch let error {
-            print(error)
         }
     }
 }

@@ -34,18 +34,37 @@ let package = Package(
         .target(
             name: "DocumentTestHelpers",
             dependencies: ["Document"],
-            path: "TestHelpers"),
+            path: "TestHelpers/DocumentTestHelpers"),
         .testTarget(
             name: "DocumentTests",
             dependencies: [
                 "Document",
-                "DocumentTestHelpers"]),
+                "DocumentTestHelpers",
+            ]),
         
         .target(
             name: "TextRecognition",
             dependencies: [
+                "Document",
             ]
         ),
+        .target(
+            name: "TextRecognitionTestHelpers",
+            dependencies: [
+                "Document",
+                "TextRecognition",
+            ],
+            path: "TestHelpers/TextRecognitionTestHelpers",
+            resources: [.process("RecognitionSample.png")]
+        ),
+        .testTarget(
+            name: "TextRecognitionTests",
+            dependencies: [
+                "TextRecognition",
+                "TextRecognitionTestHelpers",
+                "DocumentTestHelpers",
+            ]),
+        
         .target(
             name: "Canvas",
             dependencies: [
@@ -55,6 +74,8 @@ let package = Package(
         ),
         .testTarget(
             name: "CanvasTests",
-            dependencies: ["Canvas"]),
+            dependencies: [
+                "Canvas",
+            ]),
     ]
 )

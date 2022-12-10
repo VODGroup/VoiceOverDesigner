@@ -84,6 +84,7 @@ let package = Package(
             dependencies: [
                 "Settings",
                 .product(name: "Document", package: "Shared"),
+                .product(name: "DocumentTestHelpers", package: "Shared"),
                 .product(name: "Canvas", package: "Shared"),
                 .product(name: "SnapshotTesting",
                          package: "swift-snapshot-testing"),
