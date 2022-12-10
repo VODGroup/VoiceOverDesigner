@@ -23,7 +23,6 @@ class ProjectController: NSSplitViewController {
         
         settings = SettingsStateViewController.fromStoryboard()
         settings.textRecognitionCoordinator = TextRecognitionCoordinator(
-            textRecognition: TextRecognitionService(),
             imageSource: canvas)
         
         super.init(nibName: nil, bundle: nil)

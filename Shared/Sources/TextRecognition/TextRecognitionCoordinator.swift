@@ -7,21 +7,19 @@ public protocol RecognitionImageSource: AnyObject {
 
 public class TextRecognitionCoordinator {
     public init(
-        textRecognition: TextRecognitionServiceProtocol,
         imageSource: RecognitionImageSource?
     ) {
-        self.textRecognition = textRecognition
         self.imageSource = imageSource
     }
     
-    private let textRecognition: TextRecognitionServiceProtocol
+    private let textRecognition = TextRecognitionService()
     private weak var imageSource: RecognitionImageSource?
     
     public func recongizeText(
         for model: any AccessibilityView
     ) async throws -> RecognitionResult {
         guard let backImage = await imageSource?.image(for: model)
-        else { throw ReconitionImageError.cantExtractImage }
+        else { throw RecognitionImageError.cantExtractImage }
         
         let recognitionResults = try await textRecognition.processImage(image: backImage)
         
@@ -32,7 +30,7 @@ public class TextRecognitionCoordinator {
         return results
     }
     
-    enum ReconitionImageError: Error {
+    public enum RecognitionImageError: Error {
         case cantExtractImage
     }
 }
