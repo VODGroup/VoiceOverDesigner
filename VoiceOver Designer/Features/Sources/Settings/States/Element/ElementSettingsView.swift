@@ -5,7 +5,7 @@ class TraitCheckBox: NSButton {
     var trait: A11yTraits!
 }
 
-class SettingsView: NSView {
+class ElementSettingsView: NSView {
     @IBOutlet weak var resultLabel: NSTextField!
     @IBOutlet weak var scrollView: NSScrollView!
     @IBOutlet weak var mainStack: NSStackView!

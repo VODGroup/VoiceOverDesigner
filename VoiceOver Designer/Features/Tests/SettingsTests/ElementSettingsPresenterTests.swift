@@ -15,7 +15,7 @@ class SettingsTests: XCTestCase {
 
     var model: A11yDescription!
     var control: A11yControl!
-    var sut: SettingsPresenter!
+    var sut: ElementSettingsPresenter!
     var delegate: FakeSettingsDelegate!
     
     override func setUp() {
@@ -26,7 +26,7 @@ class SettingsTests: XCTestCase {
         
         delegate = FakeSettingsDelegate()
         
-        sut = SettingsPresenter(
+        sut = ElementSettingsPresenter(
             element: model,
             delegate: delegate)
     }

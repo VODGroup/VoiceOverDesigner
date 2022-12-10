@@ -24,8 +24,8 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
                 return EmptyViewController.fromStoryboard()
                 
             case .control(let model):
-                let settings = SettingsViewController.fromStoryboard()
-                settings.presenter = SettingsPresenter(
+                let settings = ElementSettingsViewController.fromStoryboard()
+                settings.presenter = ElementSettingsPresenter(
                     element: model,
                     delegate: self.settingsDelegate)
                 return settings

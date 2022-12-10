@@ -10,7 +10,7 @@ import Document
 
 class CustomDescriptionsViewController: NSViewController {
     
-    var presenter: SettingsPresenter!
+    var presenter: ElementSettingsPresenter!
     
     var descr: A11yDescription {
         presenter.element

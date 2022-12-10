@@ -25,7 +25,7 @@ class A11yValueViewController: NSViewController {
         return controller
     }
     
-    var presenter: SettingsPresenter!
+    var presenter: ElementSettingsPresenter!
     weak var delegate: A11yValueDelegate?
     
     var descr: A11yDescription {

@@ -9,9 +9,9 @@ import AppKit
 import Document
 import TextRecognition
 
-public class SettingsViewController: NSViewController {
+public class ElementSettingsViewController: NSViewController {
 
-    public var presenter: SettingsPresenter!
+    public var presenter: ElementSettingsPresenter!
     
     var descr: A11yDescription {
         presenter.element
@@ -24,8 +24,8 @@ public class SettingsViewController: NSViewController {
         view().setup(from: descr)
     }
     
-    func view() -> SettingsView {
-        view as! SettingsView
+    func view() -> ElementSettingsView {
+        view as! ElementSettingsView
     }
     
     weak var labelViewController: LabelViewController?
@@ -75,15 +75,15 @@ public class SettingsViewController: NSViewController {
         presenter.setIsAccessibleElement(sender.state == .on)
     }
     
-    public static func fromStoryboard() -> SettingsViewController {
-        let storyboard = NSStoryboard(name: "Settings", bundle: .module)
-        return storyboard.instantiateInitialController() as! SettingsViewController
+    public static func fromStoryboard() -> ElementSettingsViewController {
+        let storyboard = NSStoryboard(name: "ElementSettingsViewController", bundle: .module)
+        return storyboard.instantiateInitialController() as! ElementSettingsViewController
     }
 }
 
 // MARK: Text Recognition
 
-extension SettingsViewController: TextRecogitionReceiver {
+extension ElementSettingsViewController: TextRecogitionReceiver {
     
     public func presentTextRecognition(_ alternatives: [String]) {
         guard labelViewController?.view().isAutofillEnabled ?? false else { return }
@@ -93,7 +93,7 @@ extension SettingsViewController: TextRecogitionReceiver {
     }
 }
 
-extension SettingsViewController: A11yValueDelegate, SettingsUI {
+extension ElementSettingsViewController: A11yValueDelegate, SettingsUI {
     public func updateTitle() {
         view().updateTitle(from: descr)
     }

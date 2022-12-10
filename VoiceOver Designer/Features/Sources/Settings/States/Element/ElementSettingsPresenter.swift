@@ -17,7 +17,7 @@ public protocol SettingsUI: AnyObject {
     func updateTitle()
 }
 
-public class SettingsPresenter {
+public class ElementSettingsPresenter {
     public init(
         element: A11yDescription,
         delegate: SettingsDelegate
@@ -54,14 +54,14 @@ public class SettingsPresenter {
     }
 }
 
-extension SettingsPresenter: LabelDelegate {
+extension ElementSettingsPresenter: LabelDelegate {
     func updateLabel(to text: String) {
         element.label = text
         notifyDelegates()
     }
 }
 
-extension SettingsPresenter: TraitsViewControllerDelegate {
+extension ElementSettingsPresenter: TraitsViewControllerDelegate {
     func didChangeTrait(_ trait: A11yTraits, state: Bool) {
         changeTrait(trait, state: state)
         notifyDelegates()

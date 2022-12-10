@@ -11,7 +11,7 @@ import AppKit
 
 class CustomActionsViewController: NSViewController {
     
-    var presenter: SettingsPresenter!
+    var presenter: ElementSettingsPresenter!
     
     var descr: A11yDescription {
         presenter.element

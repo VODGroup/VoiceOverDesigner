@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="U2f-R7-Q2a">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
         <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Settings View Controller-->
+        <!--Element Settings View Controller-->
         <scene sceneID="XOO-ii-QJZ">
             <objects>
-                <viewController id="U2f-R7-Q2a" customClass="SettingsViewController" customModule="Settings" sceneMemberID="viewController">
-                    <view key="view" id="cLK-md-r8c" customClass="SettingsView" customModule="Settings">
+                <viewController id="U2f-R7-Q2a" customClass="ElementSettingsViewController" customModule="Settings" sceneMemberID="viewController">
+                    <view key="view" id="cLK-md-r8c" customClass="ElementSettingsView" customModule="Settings">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="1025"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
@@ -29,10 +28,10 @@
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LG9-7o-bxA">
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="902"/>
                                 <clipView key="contentView" ambiguous="YES" drawsBackground="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RRR-wz-1X7">
-                                    <rect key="frame" x="0.0" y="0.0" width="390" height="902"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="390" height="887"/>
                                     <subviews>
                                         <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalHuggingPriority="251" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LGK-Fp-or4" customClass="FlippedStackView" customModule="CanvasAppKit">
-                                            <rect key="frame" x="0.0" y="95" width="405" height="807"/>
+                                            <rect key="frame" x="0.0" y="80" width="405" height="807"/>
                                             <subviews>
                                                 <containerView ambiguous="YES" placeholderIntrinsicWidth="385" placeholderIntrinsicHeight="146" translatesAutoresizingMaskIntoConstraints="NO" id="kVb-Wm-KCR" userLabel="Label">
                                                     <rect key="frame" x="0.0" y="661" width="405" height="146"/>
@@ -175,12 +174,12 @@ CA
                                 </clipView>
                                 <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                 <edgeInsets key="scrollerInsets" left="0.0" right="-20" top="0.0" bottom="0.0"/>
-                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="UEA-1D-l4Q">
-                                    <rect key="frame" x="0.0" y="886" width="410" height="16"/>
+                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="UEA-1D-l4Q">
+                                    <rect key="frame" x="0.0" y="887" width="395" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="3QC-EC-gsl">
-                                    <rect key="frame" x="394" y="0.0" width="16" height="902"/>
+                                    <rect key="frame" x="395" y="0.0" width="15" height="887"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
