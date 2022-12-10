@@ -36,7 +36,8 @@ class CanvasPresenterTests: XCTestCase {
 
 extension CanvasPresenterTests {
     func didLoad() {
-        sut.didLoad(ui: controller.controlsView)
+        sut.didLoad(ui: controller.controlsView,
+                    scale: 1)
     }
     
     var drawnControls: [any AccessibilityView] {
