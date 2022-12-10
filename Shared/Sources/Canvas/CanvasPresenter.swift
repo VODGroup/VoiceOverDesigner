@@ -13,14 +13,18 @@ import TextRecognition
 public class CanvasPresenter: DocumentPresenter {
     
     public func didLoad(
-        ui: DrawingView
+        ui: DrawingView,
+        scale: CGFloat
     ) {
         self.ui = ui
+        self.scale = scale
         self.drawingController = DrawingController(view: ui)
         
         draw(controls: document.controls)
         redrawOnControlChanges()
     }
+    
+    private var scale: CGFloat = 1
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -42,7 +46,8 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     public func draw(controls: [any AccessibilityView]) {
-        drawingController.drawControls(controls)
+        drawingController.drawControls(controls, scale: scale)
+        
     }
     
     // MARK: Mouse
@@ -58,7 +63,7 @@ public class CanvasPresenter: DocumentPresenter {
     public func mouseUp(on location: CGPoint) {
         let action = drawingController.end(coordinate: location)
         
-        let control = finishAciton(action)
+        let _ = finishAciton(action)
     }
     
     private func finishAciton(_ action: DraggingAction?) -> A11yControl? {

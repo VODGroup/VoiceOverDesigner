@@ -1,10 +1,3 @@
-//
-//  PreviewView.swift
-//  VoiceOver Preview
-//
-//  Created by Andrey Plotnikov on 22.07.2022.
-//
-
 import Foundation
 import UIKit
 import Document
@@ -16,10 +9,14 @@ class VODesignPreviewView: UIView {
     @IBOutlet weak var backgroundImageHeight: NSLayoutConstraint!
     @IBOutlet weak var canvas: Canvas!
    
-    func setup(image: UIImage?, controls: [any AccessibilityView]) {
+    func setup(
+        image: UIImage?,
+        controls: [any AccessibilityView]
+    ) {
         self.image = image
-        // TODO: Pass any AccessibilityView 
-        self.controls = controls.extractElements()
+        self.controls = controls
+        
+        scrollView.delegate = self
     }
     
     private var image: UIImage? {
@@ -37,35 +34,30 @@ class VODesignPreviewView: UIView {
         }
     }
     
-    private var controls: [A11yDescription] = [] {
+    private var controls: [any AccessibilityView] = [] {
         didSet {
-            for control in controls {
-                drawingController.draw(control, scale: canvas.scale)
-            }
+            drawingController.drawControls(
+                controls,
+                scale: canvas.scale)
             
-            canvas.layout = VoiceOverLayout(
-                controls: controls,
-                container: scrollView)
+            updateVoiceOverLayoutForCanvas()
         }
     }
     
     private lazy var drawingController = DrawingController(view: canvas)
 }
 
-class Canvas: UIView, DrawingView {
-    var escListener: EscModifierAction = EmptyEscModifierAction()
-    
-    var drawnControls: [A11yControl] = []
-    
-    var alignmentOverlay: AlignmentOverlayProtocol = NoAlignmentOverlay()
-    
-    var layout: VoiceOverLayout? {
-        didSet {
-            accessibilityElements = layout?.accessibilityElements
-        }
+extension VODesignPreviewView: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        updateVoiceOverLayoutForCanvas()
     }
     
-    var scale: CGFloat = 1
-    
-    var copyListener: CopyModifierProtocol = ManualCopyCommand()
+    private func updateVoiceOverLayoutForCanvas() {
+        let offset = scrollView.frame.minY - scrollView.bounds.minY
+        
+        canvas.layout = VoiceOverLayout(
+            controls: controls,
+            container: canvas,
+            yOffset: offset)
+    }
 }

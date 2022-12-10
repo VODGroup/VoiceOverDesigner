@@ -21,21 +21,25 @@ public class DrawingController {
     
     // MARK: Drawn from existed controls
     
+    /// Draw all elements and containers on screen
+    /// - Parameters:
+    ///   - scale: Relative scale to fit controls on screen. Is neede for Preview
     public func drawControls(
-        _ models: [any AccessibilityView]
+        _ models: [any AccessibilityView],
+        scale: CGFloat
     ) {
         // Draw containers under elements
         models
             .extractContainers()
             .forEach { model in
-                draw(model, scale: 1)
+                draw(model, scale: scale)
             }
        
         // Extract inner elements from containers
         models
             .extractElements()
             .forEach { model in
-                draw(model, scale: 1)
+                draw(model, scale: scale)
             }
     }
     

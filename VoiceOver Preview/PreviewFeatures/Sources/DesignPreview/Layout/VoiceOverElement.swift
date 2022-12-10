@@ -1,10 +1,3 @@
-//
-//  VoiceOverElement.swift
-//  VoiceOver Preview
-//
-//  Created by Andrey Plotnikov on 21.07.2022.
-//
-
 import Foundation
 import Document
 import UIKit
@@ -16,8 +9,15 @@ class VoiceOverElement: UIAccessibilityElement {
         }
     }
     
-    init(control: A11yDescription, accessibilityContainer: Any) {
+    var frameInContainerSpace: CGRect
+    
+    init(
+        control: A11yDescription,
+        accessibilityContainer: Any,
+        frameInContainerSpace: CGRect
+    ) {
         self.control = control
+        self.frameInContainerSpace = frameInContainerSpace
         super.init(accessibilityContainer: accessibilityContainer)
         setup(from: control)
     }
@@ -27,7 +27,7 @@ class VoiceOverElement: UIAccessibilityElement {
         accessibilityLabel = model.label
         accessibilityValue = model.value
         accessibilityHint = model.hint
-        accessibilityFrameInContainerSpace = model.frame
+        accessibilityFrameInContainerSpace = frameInContainerSpace
         accessibilityTraits = model.trait.accessibilityTrait
     }
     
@@ -49,11 +49,8 @@ class VoiceOverElement: UIAccessibilityElement {
                 })
             })
         }
-        set {
-            
-        }
+        set {}
     }
-    
 }
 
 
