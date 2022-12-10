@@ -1,11 +1,11 @@
 import CanvasAppKit
 import Canvas
-
 import TextUI
 import Settings
 import AppKit
 import Document
 import Combine
+import TextRecognition
 
 extension CanvasPresenter: TextBasedPresenter {}
 
@@ -47,7 +47,7 @@ class ProjectController: NSSplitViewController {
         textSidebar.allowsFullHeightLayout = true
         textSidebar.isSpringLoaded = true
         
-        let settingsSidebar = NSSplitViewItem(sidebarWithViewController: settings)
+        let settingsSidebar = NSSplitViewItem(viewController: settings)
         
         addSplitViewItem(textSidebar)
         addSplitViewItem(NSSplitViewItem(viewController: canvas))
@@ -66,17 +66,35 @@ class ProjectController: NSSplitViewController {
     }
     
     private func updateTextRecognition(_ result: RecognitionResult?) {
-        guard case .control(let model) = settings.state else { return }
-        guard model === result?.control.model else { return }
+        guard isSameControlSelected(result) else { return }
         
-        guard let currentController = settings.currentController as? SettingsViewController else { return }
+        guard let currentController = settings.currentController as? TextRecogitionReceiver else { return }
        
         var alternatives = result?.text ?? []
         if alternatives.count > 1 {
             let combined = alternatives.joined(separator: " ")
             alternatives.append(combined)
         }
+        
+        print("Recognition results \(alternatives)")
         currentController.presentTextRecognition(alternatives)
+    }
+    
+    func isSameControlSelected(_ result: RecognitionResult?) -> Bool {
+        switch settings.state {
+        case .container(let container):
+            if let selectedContainer = result?.control.model as? A11yContainer {
+                return container == selectedContainer
+            }
+        case .control(let element):
+            if let selectedElement = result?.control.model as? A11yDescription {
+                return element == selectedElement
+            }
+        case .empty:
+            return false
+        }
+        
+        return false
     }
 }
 
@@ -91,7 +109,12 @@ extension ProjectController {
     }
 
     func showSettings(for model: any AccessibilityView) {
-        settings.state = .control(model)
+        switch model.cast {
+        case .container(let container):
+            settings.state = .container(container)
+        case .element(let element):
+            settings.state = .control(element)
+        }
     }
     
     func hideSettings() {
@@ -100,7 +123,7 @@ extension ProjectController {
 }
 
 extension ProjectController: SettingsDelegate {
-    public func didUpdateValue() {
+    public func updateValue() {
         canvas.save()
     }
     

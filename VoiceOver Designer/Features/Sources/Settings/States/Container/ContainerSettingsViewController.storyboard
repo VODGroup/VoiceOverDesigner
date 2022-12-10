@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="bU7-R8-ocO">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Container Settings View Controller-->
+        <scene sceneID="PEd-7d-5j0">
+            <objects>
+                <viewController id="bU7-R8-ocO" customClass="ContainerSettingsViewController" customModule="Settings" sceneMemberID="viewController">
+                    <view key="view" id="tOy-S4-hL0">
+                        <rect key="frame" x="0.0" y="0.0" width="379" height="500"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nvX-Vd-wd7">
+                                <rect key="frame" x="18" y="263" width="48" height="18"/>
+                                <buttonCell key="cell" type="check" title="Tab" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="fL2-m1-GvY">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zLt-0M-R2x">
+                                <rect key="frame" x="18" y="241" width="73" height="18"/>
+                                <buttonCell key="cell" type="check" title="isModal" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="FoF-vG-Omr">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xS2-xz-2A9">
+                                <rect key="frame" x="15" y="389" width="349" height="40"/>
+                                <segmentedCell key="cell" controlSize="large" enabled="NO" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="rng-Va-DWt">
+                                    <font key="font" metaFont="system"/>
+                                    <segments>
+                                        <segment label="Semantic group" selected="YES"/>
+                                        <segment label="List" tag="1"/>
+                                        <segment label="Landmark"/>
+                                    </segments>
+                                </segmentedCell>
+                            </segmentedControl>
+                            <containerView placeholderIntrinsicWidth="339" placeholderIntrinsicHeight="70" translatesAutoresizingMaskIntoConstraints="NO" id="vJB-Wz-rML">
+                                <rect key="frame" x="20" y="304" width="339" height="70"/>
+                                <connections>
+                                    <segue destination="0Ms-Kr-khm" kind="embed" id="TGC-ha-V8X"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="zLt-0M-R2x" firstAttribute="leading" secondItem="nvX-Vd-wd7" secondAttribute="leading" id="0A3-Hh-YZl"/>
+                            <constraint firstItem="xS2-xz-2A9" firstAttribute="centerX" secondItem="xgy-mf-F46" secondAttribute="centerX" id="L8V-F8-irk"/>
+                            <constraint firstItem="nvX-Vd-wd7" firstAttribute="top" secondItem="vJB-Wz-rML" secondAttribute="bottom" constant="24" id="Zma-jx-zpY"/>
+                            <constraint firstItem="xS2-xz-2A9" firstAttribute="leading" secondItem="xgy-mf-F46" secondAttribute="leading" id="afy-8a-n6R"/>
+                            <constraint firstItem="vJB-Wz-rML" firstAttribute="leading" secondItem="xS2-xz-2A9" secondAttribute="leading" id="bPl-q2-jka"/>
+                            <constraint firstItem="xS2-xz-2A9" firstAttribute="top" secondItem="xgy-mf-F46" secondAttribute="top" constant="4" id="cUU-74-63f"/>
+                            <constraint firstItem="zLt-0M-R2x" firstAttribute="top" secondItem="nvX-Vd-wd7" secondAttribute="bottom" constant="6" symbolic="YES" id="gG1-op-W4X"/>
+                            <constraint firstItem="nvX-Vd-wd7" firstAttribute="leading" secondItem="vJB-Wz-rML" secondAttribute="leading" id="l5A-da-vQp"/>
+                            <constraint firstItem="vJB-Wz-rML" firstAttribute="top" secondItem="xS2-xz-2A9" secondAttribute="bottom" constant="20" id="lN7-ro-qr5"/>
+                            <constraint firstItem="vJB-Wz-rML" firstAttribute="centerX" secondItem="xS2-xz-2A9" secondAttribute="centerX" id="n5O-Cu-8Ql"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="AN8-Iy-kdy"/>
+                        <viewLayoutGuide key="layoutMargins" id="xgy-mf-F46"/>
+                    </view>
+                </viewController>
+                <customObject id="9uD-mB-xHs" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="29.5" y="82"/>
+        </scene>
+        <!--LabelViewController-->
+        <scene sceneID="mSi-oq-9zP">
+            <objects>
+                <controllerPlaceholder storyboardName="LabelViewController" id="0Ms-Kr-khm" sceneMemberID="viewController"/>
+                <customObject id="NFL-uM-0bi" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="403" y="82"/>
+        </scene>
+    </scenes>
+</document>

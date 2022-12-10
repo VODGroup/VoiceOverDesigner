@@ -4,9 +4,11 @@ extension Array where Element == any AccessibilityView {
     public func extractElements() -> [A11yDescription] {
         reduce([A11yDescription]()) { result, next in
             var newResult = result
-            if let container = next as? A11yContainer {
+            
+            switch next.cast {
+            case .container(let container):
                 newResult.append(contentsOf: container.elements)
-            } else if let element = next as? A11yDescription {
+            case .element(let element):
                 newResult.append(element)
             }
             return newResult

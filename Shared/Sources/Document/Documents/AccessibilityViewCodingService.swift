@@ -33,7 +33,7 @@ class AccessibilityViewDecodable: Codable {
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let type = (try? container.decode(AccessibilityViewType.self, forKey: .type)) ?? .element // Default value is element
+        let type = (try? container.decode(AccessibilityViewTypeDto.self, forKey: .type)) ?? .element // Default value is element
         
         switch type {
         case .element:
@@ -44,11 +44,11 @@ class AccessibilityViewDecodable: Codable {
     }
     
     func encode(to encoder: Encoder) throws {
-        switch view.type {
-        case .element:
-            try (view as? A11yDescription).encode(to: encoder)
-        case .container:
-            try (view as? A11yContainer).encode(to: encoder)
+        switch view.cast {
+        case .element(let element):
+            try element.encode(to: encoder)
+        case .container(let container):
+            try container.encode(to: encoder)
         }
     }
 }

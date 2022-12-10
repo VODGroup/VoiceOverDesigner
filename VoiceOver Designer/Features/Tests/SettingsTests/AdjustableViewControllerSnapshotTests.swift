@@ -78,8 +78,8 @@ class AdjustableViewControllerSnapshotTests: XCTestCase {
     private func sut(descr: A11yDescription) -> A11yValueViewController {
         let sut = A11yValueViewController.fromStoryboard()
         
-        sut.presenter = .init(model: descr,
-                              delegate: SettingsDelegateMock())
+        sut.presenter = .init(element: descr,
+                              delegate: FakeSettingsDelegate())
         
         sut.view.wantsLayer = true
         sut.view.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor

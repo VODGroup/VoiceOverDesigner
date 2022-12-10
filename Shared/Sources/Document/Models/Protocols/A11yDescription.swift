@@ -49,7 +49,7 @@ public class A11yDescription: Codable, Equatable {
     public var frame: CGRect
     
     @DecodableDefault.ElementAccessibilityViewType
-    public var type: AccessibilityViewType
+    public var type: AccessibilityViewTypeDto
     
     // MARK: - Adjustable
     public internal(set) var adjustableOptions: AdjustableOptions // Not optional because user can input values, disable adjustable, but reenable after time. The app will keep data :-)
