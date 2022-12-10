@@ -40,7 +40,7 @@ class VODesignPreviewView: UIView {
     private var controls: [A11yDescription] = [] {
         didSet {
             for control in controls {
-                drawingController.drawControl(from: control, scale: canvas.scale)
+                drawingController.draw(control, scale: canvas.scale)
             }
             
             canvas.layout = VoiceOverLayout(
