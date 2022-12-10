@@ -1,6 +1,6 @@
 import CanvasAppKit
 import Canvas
-import TextUI
+import Navigator
 import Settings
 import AppKit
 import Document
@@ -14,7 +14,7 @@ class ProjectController: NSSplitViewController {
     init(document: VODesignDocument) {
         let canvasPresenter = CanvasPresenter(document: document)
         
-        textContent = TextRepresentationController.fromStoryboard(
+        navigator = NavigatorController.fromStoryboard(
             document: document,
             presenter: canvasPresenter)
         
@@ -34,7 +34,7 @@ class ProjectController: NSSplitViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private let textContent: TextRepresentationController
+    private let navigator: NavigatorController
     let canvas: CanvasViewController
     private let settings: SettingsStateViewController
     
@@ -44,7 +44,7 @@ class ProjectController: NSSplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let textSidebar = NSSplitViewItem(sidebarWithViewController: textContent)
+        let textSidebar = NSSplitViewItem(sidebarWithViewController: navigator)
         textSidebar.minimumThickness = 250
         textSidebar.allowsFullHeightLayout = true
         textSidebar.isSpringLoaded = true

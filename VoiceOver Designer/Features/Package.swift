@@ -12,8 +12,8 @@ let package = Package(
             name: "CanvasAppKit",
             targets: ["CanvasAppKit"]),
         .library(
-            name: "TextUI",
-            targets: ["TextUI"]),
+            name: "Navigator",
+            targets: ["Navigator"]),
         .library(
             name: "Settings",
             targets: ["Settings"]),
@@ -53,7 +53,7 @@ let package = Package(
             ]),
 
         .target(
-            name: "TextUI",
+            name: "Navigator",
             dependencies: [
                 .product(name: "Document", package: "Shared"),
                 "CommonUI",
@@ -99,9 +99,9 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "TextUITests",
+            name: "NavigatorTests",
             dependencies: [
-                "TextUI",
+                "Navigator",
                 .productItem(name: "CustomDump", package: "swift-custom-dump"),
                 .product(name: "Document", package: "Shared"),
             ]

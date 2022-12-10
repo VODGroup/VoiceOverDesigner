@@ -6,7 +6,7 @@ public protocol TextBasedPresenter {
     var selectedPublisher: OptionalDescriptionSubject { get }
 }
 
-public class TextRepresentationController: NSViewController {
+public class NavigatorController: NSViewController {
     
     var presenter: TextBasedPresenter!
     
@@ -84,7 +84,7 @@ public class TextRepresentationController: NSViewController {
     }
 }
 
-extension TextRepresentationController: NSOutlineViewDataSource {
+extension NavigatorController: NSOutlineViewDataSource {
     public func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
         if let container = item as? A11yContainer {
             return container.elements.count
@@ -113,7 +113,7 @@ extension TextRepresentationController: NSOutlineViewDataSource {
     }
 }
 
-extension TextRepresentationController: NSOutlineViewDelegate {
+extension NavigatorController: NSOutlineViewDelegate {
     public func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
         let id = NSUserInterfaceItemIdentifier("Element")
         
@@ -149,15 +149,15 @@ extension TextRepresentationController: NSOutlineViewDelegate {
     }
 }
 
-extension TextRepresentationController {
+extension NavigatorController {
     public static func fromStoryboard(
         document: VODesignDocument,
         presenter: TextBasedPresenter
-    ) -> TextRepresentationController {
+    ) -> NavigatorController {
         let controller = NSStoryboard(
-            name: "TextRepresentationController",
+            name: "NavigatorController",
             bundle: Bundle.module
-        ).instantiateInitialController() as! TextRepresentationController
+        ).instantiateInitialController() as! NavigatorController
         
         controller.inject(
             document: document,
