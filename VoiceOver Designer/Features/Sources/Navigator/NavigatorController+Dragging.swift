@@ -1,9 +1,9 @@
 import AppKit
 import Document
 
-let REORDER_PASTEBOARD_TYPE = NSPasteboard.PasteboardType(rawValue: "com.kinematicsystems.outline.item")
+let REORDER_PASTEBOARD_TYPE = NSPasteboard.PasteboardType(rawValue: "com.akaDuality.VoiceOver-Designer")
 
-extension TextRepresentationController {
+extension NavigatorController {
     
     func enableDragging() {
         // Register for the dropped object types we can accept.
@@ -63,7 +63,7 @@ extension TextRepresentationController {
     }
 }
 
-extension TextRepresentationController: NSPasteboardItemDataProvider {
+extension NavigatorController: NSPasteboardItemDataProvider {
     public func pasteboard(_ pasteboard: NSPasteboard?, item: NSPasteboardItem, provideDataForType type: NSPasteboard.PasteboardType) {
         let s = "Outline Pasteboard Item"
         item.setString(s, forType: type)
