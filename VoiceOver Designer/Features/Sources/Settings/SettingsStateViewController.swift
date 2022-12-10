@@ -26,12 +26,16 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
             case .control(let model):
                 let settings = SettingsViewController.fromStoryboard()
                 settings.presenter = SettingsPresenter(
-                    model: model,
+                    element: model,
                     delegate: self.settingsDelegate)
                 return settings
                 
             case .container(let container):
-                return ContainerSettingsViewController.fromStoryboard()
+                let containerSettings = ContainerSettingsViewController.fromStoryboard()
+                containerSettings.presenter = ContainerSettingsPresenter(
+                    container: container,
+                    delegate: self.settingsDelegate)
+                return containerSettings
             }
         }
     }

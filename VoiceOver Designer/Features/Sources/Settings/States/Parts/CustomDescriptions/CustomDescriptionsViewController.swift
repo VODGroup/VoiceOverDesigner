@@ -13,7 +13,7 @@ class CustomDescriptionsViewController: NSViewController {
     var presenter: SettingsPresenter!
     
     var descr: A11yDescription {
-        presenter.model
+        presenter.element
     }
     
     @IBAction func addCustomDescription(_ sender: Any) {

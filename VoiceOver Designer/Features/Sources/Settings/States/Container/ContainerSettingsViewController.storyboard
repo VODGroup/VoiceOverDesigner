@@ -17,14 +17,14 @@
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nvX-Vd-wd7">
                                 <rect key="frame" x="18" y="263" width="48" height="18"/>
-                                <buttonCell key="cell" type="check" title="Tab" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="fL2-m1-GvY">
+                                <buttonCell key="cell" type="check" title="Tab" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="fL2-m1-GvY">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zLt-0M-R2x">
                                 <rect key="frame" x="18" y="241" width="73" height="18"/>
-                                <buttonCell key="cell" type="check" title="isModal" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="FoF-vG-Omr">
+                                <buttonCell key="cell" type="check" title="isModal" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="FoF-vG-Omr">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>

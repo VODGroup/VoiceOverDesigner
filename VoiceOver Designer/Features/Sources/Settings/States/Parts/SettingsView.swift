@@ -22,13 +22,13 @@ class SettingsView: NSView {
     func setup(from descr: A11yDescription) {
         self.descr = descr
         
-        updateText(from: descr)
+        updateTitle(from: descr)
         
         hint.stringValue  = descr.hint
         isAccessibilityElementButton.state = descr.isAccessibilityElement ? .on: .off
     }
     
-    func updateText(from descr: A11yDescription) {
+    func updateTitle(from descr: A11yDescription) {
         resultLabel.attributedStringValue = descr.voiceOverTextAttributed(font: resultLabel.font)
     }
 }

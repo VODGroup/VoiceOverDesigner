@@ -14,12 +14,13 @@ public class SettingsViewController: NSViewController {
     public var presenter: SettingsPresenter!
     
     var descr: A11yDescription {
-        presenter.model
+        presenter.element
     }
 
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        presenter.viewDidLoad(ui: self)
         view().setup(from: descr)
     }
     
@@ -36,20 +37,20 @@ public class SettingsViewController: NSViewController {
         switch segue.destinationController {
         case let labelViewController as LabelViewController:
             self.labelViewController = labelViewController
-            labelViewController.delegate = self
+            labelViewController.delegate = presenter
             labelViewController.view().labelText = descr.label
             
         case let valueViewController as A11yValueViewController:
             self.valueViewController = valueViewController
             valueViewController.presenter = presenter
-            valueViewController.delegate = self
+            valueViewController.delegate = self // TODO: Delegate to presenter
             
         case let customActionViewController as CustomActionsViewController:
             actionsViewController = customActionViewController
             actionsViewController?.presenter = presenter
             
         case let traitsViewController as TraitsViewController:
-            traitsViewController.delegate = self
+            traitsViewController.delegate = presenter
             traitsViewController.view().setup(from: descr)
             
         case let customDescriptionsViewController as CustomDescriptionsViewController:
@@ -63,28 +64,28 @@ public class SettingsViewController: NSViewController {
     // MARK: Actions
     
     @IBAction func hintDidChange(_ sender: NSTextField) {
-        descr.hint = sender.stringValue
-        updateTitle()
+        presenter.changeHint(to: sender.stringValue)
     }
     
     @IBAction func delete(_ sender: Any) {
-        presenter.delegate?.delete(model: presenter.model)
+        presenter.delete()
     }
     
     @IBAction func isAccessibleElementDidChanged(_ sender: NSButton) {
-        descr.isAccessibilityElement = sender.state == .on
-        presenter.delegate?.didUpdateValue()
+        presenter.setIsAccessibleElement(sender.state == .on)
     }
     
     public static func fromStoryboard() -> SettingsViewController {
         let storyboard = NSStoryboard(name: "Settings", bundle: .module)
         return storyboard.instantiateInitialController() as! SettingsViewController
     }
+}
+
+// MARK: Text Recognition
+
+extension SettingsViewController: TextRecogitionReceiver {
     
-    // MARK: Text Recognition
     public func presentTextRecognition(_ alternatives: [String]) {
-        print("Recognition results \(alternatives)")
-        
         guard labelViewController?.view().isAutofillEnabled ?? false else { return }
         
         labelViewController?.presentTextRecognition(alternatives)
@@ -92,28 +93,9 @@ public class SettingsViewController: NSViewController {
     }
 }
 
-extension SettingsViewController: LabelDelegate {
-    func updateLabel(to text: String) {
-        presenter.updateLabel(to: text)
-        updateTitle()
+extension SettingsViewController: A11yValueDelegate, SettingsUI {
+    public func updateTitle() {
+        view().updateTitle(from: descr)
     }
 }
 
-extension SettingsViewController: A11yValueDelegate {
-    func updateTitle() {
-        view().updateText(from: descr)
-        
-        presenter.delegate?.didUpdateValue()
-    }
-}
-
-extension SettingsViewController: TraitsViewControllerDelegate {
-    func didChangeTrait(_ trait: A11yTraits, state: Bool) {
-        if state {
-            descr.trait.formUnion(trait)
-        } else {
-            descr.trait.subtract(trait)
-        }
-        updateTitle()
-    }
-}

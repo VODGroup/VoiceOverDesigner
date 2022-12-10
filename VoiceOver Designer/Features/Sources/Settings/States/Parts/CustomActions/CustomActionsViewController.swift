@@ -14,7 +14,7 @@ class CustomActionsViewController: NSViewController {
     var presenter: SettingsPresenter!
     
     var descr: A11yDescription {
-        presenter.model
+        presenter.element
     }
 
     func view() -> CustomActionsView {
