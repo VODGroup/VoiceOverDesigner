@@ -31,7 +31,7 @@
                             </button>
                             <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xS2-xz-2A9">
                                 <rect key="frame" x="15" y="389" width="349" height="40"/>
-                                <segmentedCell key="cell" controlSize="large" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="rng-Va-DWt">
+                                <segmentedCell key="cell" controlSize="large" enabled="NO" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="rng-Va-DWt">
                                     <font key="font" metaFont="system"/>
                                     <segments>
                                         <segment label="Semantic group" selected="YES"/>
