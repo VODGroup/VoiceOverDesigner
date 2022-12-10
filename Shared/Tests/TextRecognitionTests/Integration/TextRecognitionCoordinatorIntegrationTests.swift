@@ -6,7 +6,7 @@ import TextRecognitionTestHelpers
 import Document
 import DocumentTestHelpers
 
-class TextRecognitionCoordinatorTests: XCTestCase {
+class TextRecognitionCoordinatorIntegrationTests: XCTestCase {
     
     var sut: TextRecognitionCoordinator!
     var imageSource: FakeRecognitionImageSource!
