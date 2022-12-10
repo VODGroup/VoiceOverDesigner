@@ -2,7 +2,7 @@ import Document
 import CoreGraphics
 
 public protocol RecognitionImageSource: AnyObject {
-    func image(for model: any AccessibilityView) async -> CGImage
+    func image(for model: any AccessibilityView) async -> CGImage?
 }
 
 public class TextRecognitionCoordinator {
@@ -24,8 +24,11 @@ public class TextRecognitionCoordinator {
         else { throw ReconitionImageError.cantExtractImage }
         
         let recognitionResults = try await textRecognition.processImage(image: backImage)
-        let results = RecognitionResult(control: model,
-                                        text: recognitionResults)
+        
+        let results = RecognitionResult(
+            control: model,
+            text: recognitionResults)
+        
         return results
     }
     

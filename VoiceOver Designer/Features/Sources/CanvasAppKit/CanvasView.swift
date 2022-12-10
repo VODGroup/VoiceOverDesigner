@@ -126,6 +126,15 @@ class CanvasView: FlippedView {
         
         return cgImage
     }
+    
+    func control(
+        for model: any AccessibilityView
+    ) -> A11yControl? {
+        return controlsView.drawnControls
+            .first(where: { control in
+                control.model === model
+            })
+    }
 }
 
 extension NSEdgeInsets {
