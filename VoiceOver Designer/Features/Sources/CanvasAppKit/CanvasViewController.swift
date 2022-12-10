@@ -45,8 +45,7 @@ public class CanvasViewController: NSViewController {
         view.window?.delegate = self
         DispatchQueue.main.async {
             self.presenter.didLoad(
-                ui: self.view().controlsView,
-                screenUI: self.view()
+                ui: self.view().controlsView
             )
             
             self.setImage()

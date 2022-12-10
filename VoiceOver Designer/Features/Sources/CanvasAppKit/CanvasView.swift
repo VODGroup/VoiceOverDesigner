@@ -21,7 +21,7 @@ class ControlsView: FlippedView, DrawingView {
     var escListener = EscModifierFactory().make()
 }
 
-class CanvasView: FlippedView, CanvasPresenterUIProtocol {
+class CanvasView: FlippedView {
     
     @IBOutlet weak var scrollView: NSScrollView!
     

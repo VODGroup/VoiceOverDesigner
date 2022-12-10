@@ -44,6 +44,7 @@ let package = Package(
         .target(
             name: "TextRecognition",
             dependencies: [
+                "Document",
             ]
         ),
         .target(
