@@ -10,7 +10,7 @@
         <scene sceneID="K6D-2L-DVD">
             <objects>
                 <viewController id="zsM-MB-gjb" customClass="LabelViewController" customModule="Settings" sceneMemberID="viewController">
-                    <view key="view" misplaced="YES" id="ePU-0X-RNS" customClass="LabelView" customModule="Settings">
+                    <view key="view" id="ePU-0X-RNS" customClass="LabelView" customModule="Settings">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="52"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>

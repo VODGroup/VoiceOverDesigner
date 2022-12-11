@@ -16,21 +16,21 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nvX-Vd-wd7">
-                                <rect key="frame" x="18" y="263" width="48" height="18"/>
+                                <rect key="frame" x="18" y="239" width="48" height="18"/>
                                 <buttonCell key="cell" type="check" title="Tab" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="fL2-m1-GvY">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zLt-0M-R2x">
-                                <rect key="frame" x="18" y="241" width="73" height="18"/>
+                                <rect key="frame" x="18" y="217" width="73" height="18"/>
                                 <buttonCell key="cell" type="check" title="isModal" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="FoF-vG-Omr">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
                             <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xS2-xz-2A9">
-                                <rect key="frame" x="15" y="389" width="349" height="40"/>
+                                <rect key="frame" x="15" y="365" width="349" height="40"/>
                                 <segmentedCell key="cell" controlSize="large" enabled="NO" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="rng-Va-DWt">
                                     <font key="font" metaFont="system"/>
                                     <segments>
@@ -41,23 +41,77 @@
                                 </segmentedCell>
                             </segmentedControl>
                             <containerView placeholderIntrinsicWidth="339" placeholderIntrinsicHeight="70" translatesAutoresizingMaskIntoConstraints="NO" id="vJB-Wz-rML">
-                                <rect key="frame" x="20" y="304" width="339" height="70"/>
+                                <rect key="frame" x="20" y="280" width="339" height="70"/>
                                 <connections>
                                     <segue destination="0Ms-Kr-khm" kind="embed" id="TGC-ha-V8X"/>
                                 </connections>
                             </containerView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wjh-C3-xLo">
+                                <rect key="frame" x="18" y="408" width="36" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Type" id="PqW-Pv-riZ">
+                                    <font key="font" textStyle="headline" name=".SFNS-Bold"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="63H-i2-nLD">
+                                <rect key="frame" x="15" y="135" width="349" height="40"/>
+                                <segmentedCell key="cell" controlSize="large" enabled="NO" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="xNW-sw-X7R">
+                                    <font key="font" metaFont="system"/>
+                                    <segments>
+                                        <segment label="Automatic" selected="YES"/>
+                                        <segment label="Separate" tag="1"/>
+                                        <segment label="Combined"/>
+                                    </segments>
+                                </segmentedCell>
+                            </segmentedControl>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="D9m-kg-Jsx">
+                                <rect key="frame" x="18" y="178" width="109" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Navigation style" id="ah5-5A-W5G">
+                                    <font key="font" textStyle="headline" name=".SFNS-Bold"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="d0M-US-5uB">
+                                <rect key="frame" x="131" y="178" width="98" height="13"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Switch Control only" id="la9-qt-hrH">
+                                    <font key="font" textStyle="footnote" name=".SFNS-Regular"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zkR-5S-jn0">
+                                <rect key="frame" x="97" y="218" width="174" height="13"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Don't forget to add escape gesture" id="miT-rD-22x">
+                                    <font key="font" textStyle="footnote" name=".SFNS-Regular"/>
+                                    <color key="textColor" name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="zLt-0M-R2x" firstAttribute="leading" secondItem="nvX-Vd-wd7" secondAttribute="leading" id="0A3-Hh-YZl"/>
+                            <constraint firstItem="D9m-kg-Jsx" firstAttribute="top" secondItem="zLt-0M-R2x" secondAttribute="bottom" constant="24" id="2Ja-5b-Bb4"/>
+                            <constraint firstItem="D9m-kg-Jsx" firstAttribute="leading" secondItem="Wjh-C3-xLo" secondAttribute="leading" id="4ib-BW-wrn"/>
+                            <constraint firstItem="63H-i2-nLD" firstAttribute="leading" secondItem="D9m-kg-Jsx" secondAttribute="leading" id="Ku0-Tp-38O"/>
                             <constraint firstItem="xS2-xz-2A9" firstAttribute="centerX" secondItem="xgy-mf-F46" secondAttribute="centerX" id="L8V-F8-irk"/>
+                            <constraint firstItem="63H-i2-nLD" firstAttribute="trailing" secondItem="xS2-xz-2A9" secondAttribute="trailing" id="PbX-og-o2T"/>
+                            <constraint firstItem="Wjh-C3-xLo" firstAttribute="leading" secondItem="xS2-xz-2A9" secondAttribute="leading" id="QCa-ZW-ca5"/>
+                            <constraint firstItem="63H-i2-nLD" firstAttribute="top" secondItem="D9m-kg-Jsx" secondAttribute="bottom" constant="8" symbolic="YES" id="VVW-Ek-kg6"/>
                             <constraint firstItem="nvX-Vd-wd7" firstAttribute="top" secondItem="vJB-Wz-rML" secondAttribute="bottom" constant="24" id="Zma-jx-zpY"/>
                             <constraint firstItem="xS2-xz-2A9" firstAttribute="leading" secondItem="xgy-mf-F46" secondAttribute="leading" id="afy-8a-n6R"/>
                             <constraint firstItem="vJB-Wz-rML" firstAttribute="leading" secondItem="xS2-xz-2A9" secondAttribute="leading" id="bPl-q2-jka"/>
-                            <constraint firstItem="xS2-xz-2A9" firstAttribute="top" secondItem="xgy-mf-F46" secondAttribute="top" constant="4" id="cUU-74-63f"/>
+                            <constraint firstItem="d0M-US-5uB" firstAttribute="leading" secondItem="D9m-kg-Jsx" secondAttribute="trailing" constant="8" symbolic="YES" id="bTD-db-Ih6"/>
+                            <constraint firstItem="zkR-5S-jn0" firstAttribute="leading" secondItem="zLt-0M-R2x" secondAttribute="trailing" constant="8" symbolic="YES" id="eSK-2i-VVz"/>
                             <constraint firstItem="zLt-0M-R2x" firstAttribute="top" secondItem="nvX-Vd-wd7" secondAttribute="bottom" constant="6" symbolic="YES" id="gG1-op-W4X"/>
                             <constraint firstItem="nvX-Vd-wd7" firstAttribute="leading" secondItem="vJB-Wz-rML" secondAttribute="leading" id="l5A-da-vQp"/>
+                            <constraint firstItem="xgy-mf-F46" firstAttribute="top" secondItem="Wjh-C3-xLo" secondAttribute="top" constant="-4" id="l68-v7-PAI"/>
                             <constraint firstItem="vJB-Wz-rML" firstAttribute="top" secondItem="xS2-xz-2A9" secondAttribute="bottom" constant="20" id="lN7-ro-qr5"/>
+                            <constraint firstItem="xS2-xz-2A9" firstAttribute="top" secondItem="Wjh-C3-xLo" secondAttribute="bottom" constant="8" symbolic="YES" id="lui-Pr-UPT"/>
                             <constraint firstItem="vJB-Wz-rML" firstAttribute="centerX" secondItem="xS2-xz-2A9" secondAttribute="centerX" id="n5O-Cu-8Ql"/>
+                            <constraint firstItem="d0M-US-5uB" firstAttribute="firstBaseline" secondItem="D9m-kg-Jsx" secondAttribute="firstBaseline" id="osi-Jz-4kI"/>
+                            <constraint firstItem="zkR-5S-jn0" firstAttribute="firstBaseline" secondItem="zLt-0M-R2x" secondAttribute="firstBaseline" id="zhl-9J-Hqh"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="AN8-Iy-kdy"/>
                         <viewLayoutGuide key="layoutMargins" id="xgy-mf-F46"/>
