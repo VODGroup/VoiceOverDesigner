@@ -67,25 +67,18 @@
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zLt-0M-R2x">
-                                        <rect key="frame" x="-2" y="47" width="73" height="18"/>
-                                        <buttonCell key="cell" type="check" title="isModal" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="FoF-vG-Omr">
-                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                    </button>
                                     <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Ze-Nm-KKg">
-                                        <rect key="frame" x="0.0" y="24" width="224" height="16"/>
+                                        <rect key="frame" x="0.0" y="48" width="271" height="16"/>
                                         <subviews>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nvX-Vd-wd7">
-                                                <rect key="frame" x="-2" y="-1" width="48" height="18"/>
-                                                <buttonCell key="cell" type="check" title="Tab" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="fL2-m1-GvY">
+                                                <rect key="frame" x="-2" y="-1" width="95" height="18"/>
+                                                <buttonCell key="cell" type="check" title="Modal view" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="fL2-m1-GvY">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
                                             </button>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zkR-5S-jn0">
-                                                <rect key="frame" x="52" y="0.0" width="174" height="13"/>
+                                                <rect key="frame" x="99" y="0.0" width="174" height="13"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Don't forget to add escape gesture" id="miT-rD-22x">
                                                     <font key="font" textStyle="footnote" name=".SFNS-Regular"/>
                                                     <color key="textColor" name="tertiaryLabelColor" catalog="System" colorSpace="catalog"/>
@@ -105,6 +98,13 @@
                                             <real value="3.4028234663852886e+38"/>
                                         </customSpacing>
                                     </stackView>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zLt-0M-R2x">
+                                        <rect key="frame" x="-2" y="23" width="96" height="18"/>
+                                        <buttonCell key="cell" type="check" title="Tab section" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="FoF-vG-Omr">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oGz-SO-dDA">
                                         <rect key="frame" x="-2" y="-1" width="150" height="18"/>
                                         <buttonCell key="cell" type="check" title="Enumerate elements" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="0FO-8S-Eiw">
