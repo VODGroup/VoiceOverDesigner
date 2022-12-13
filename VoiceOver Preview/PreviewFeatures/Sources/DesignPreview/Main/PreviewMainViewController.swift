@@ -1,5 +1,6 @@
 import UIKit
 import Document
+import CanvasUIKit
 import Canvas
 import Combine
 

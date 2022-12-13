@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 import Document
+import VoiceOverLayout
 import Canvas
 
 class VODesignPreviewView: UIView {

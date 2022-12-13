@@ -11,7 +11,9 @@ let package = Package(
             name: "DesignPreview",
             targets: [
                 "DesignPreview",
-                "SettingsSwiftUI"
+                "VoiceOverLayout",
+                "SettingsSwiftUI",
+                "CanvasUIKit"
             ]),
     ],
     dependencies: [
@@ -22,13 +24,21 @@ let package = Package(
             name: "DesignPreview",
             dependencies: [
                 .product(name: "Document", package: "Shared"),
-                .product(name: "Canvas", package: "Shared"),
+                "CanvasUIKit",
             ]),
+        .target(name: "VoiceOverLayout",
+               dependencies: [
+                .product(name: "Document", package: "Shared"),
+               ]),
+        .target(name: "CanvasUIKit",
+               dependencies: [
+                .product(name: "Canvas", package: "Shared"),
+                "VoiceOverLayout"
+               ]),
         .target(
             name: "SettingsSwiftUI",
             dependencies: [
                 .product(name: "Document", package: "Shared"),
-//                .product(name: "Canvas", package: "Shared"),
             ]),
     ]
 )
