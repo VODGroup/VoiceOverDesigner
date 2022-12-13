@@ -1,11 +1,11 @@
 import CanvasAppKit
 import Canvas
-
-import TextUI
+import Navigator
 import Settings
 import AppKit
 import Document
 import Combine
+import TextRecognition
 
 extension CanvasPresenter: TextBasedPresenter {}
 
@@ -14,7 +14,7 @@ class ProjectController: NSSplitViewController {
     init(document: VODesignDocument) {
         let canvasPresenter = CanvasPresenter(document: document)
         
-        textContent = TextRepresentationController.fromStoryboard(
+        navigator = NavigatorController.fromStoryboard(
             document: document,
             presenter: canvasPresenter)
         
@@ -22,6 +22,8 @@ class ProjectController: NSSplitViewController {
         canvas.inject(presenter: canvasPresenter)
         
         settings = SettingsStateViewController.fromStoryboard()
+        settings.textRecognitionCoordinator = TextRecognitionCoordinator(
+            imageSource: canvas)
         
         super.init(nibName: nil, bundle: nil)
         
@@ -32,7 +34,7 @@ class ProjectController: NSSplitViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private let textContent: TextRepresentationController
+    private let navigator: NavigatorController
     let canvas: CanvasViewController
     private let settings: SettingsStateViewController
     
@@ -42,12 +44,12 @@ class ProjectController: NSSplitViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let textSidebar = NSSplitViewItem(sidebarWithViewController: textContent)
+        let textSidebar = NSSplitViewItem(sidebarWithViewController: navigator)
         textSidebar.minimumThickness = 250
         textSidebar.allowsFullHeightLayout = true
         textSidebar.isSpringLoaded = true
         
-        let settingsSidebar = NSSplitViewItem(sidebarWithViewController: settings)
+        let settingsSidebar = NSSplitViewItem(viewController: settings)
         
         addSplitViewItem(textSidebar)
         addSplitViewItem(NSSplitViewItem(viewController: canvas))
@@ -57,32 +59,12 @@ class ProjectController: NSSplitViewController {
             .selectedPublisher
             .sink(receiveValue: updateSelection(_:))
             .store(in: &cancellables)
-        
-        canvas.presenter
-            .recognitionPublisher
-            .receive(on: DispatchQueue.main)
-            .sink(receiveValue: updateTextRecognition(_:))
-            .store(in: &cancellables)
-    }
-    
-    private func updateTextRecognition(_ result: RecognitionResult?) {
-        guard case .control(let model) = settings.state else { return }
-        guard model == result?.control.a11yDescription else { return }
-        
-        guard let currentController = settings.currentController as? SettingsViewController else { return }
-       
-        var alternatives = result?.text ?? []
-        if alternatives.count > 1 {
-            let combined = alternatives.joined(separator: " ")
-            alternatives.append(combined)
-        }
-        currentController.presentTextRecognition(alternatives)
     }
 }
 
 // MARK: Settings visibility
 extension ProjectController {
-    private func updateSelection(_ selectedModel: A11yDescription?) {
+    private func updateSelection(_ selectedModel: (any AccessibilityView)?) {
         if let selectedModel = selectedModel {
             showSettings(for: selectedModel)
         } else {
@@ -90,8 +72,13 @@ extension ProjectController {
         }
     }
 
-    func showSettings(for model: A11yDescription) {
-        settings.state = .control(model)
+    func showSettings(for model: any AccessibilityView) {
+        switch model.cast {
+        case .container(let container):
+            settings.state = .container(container)
+        case .element(let element):
+            settings.state = .control(element)
+        }
     }
     
     func hideSettings() {
@@ -100,12 +87,14 @@ extension ProjectController {
 }
 
 extension ProjectController: SettingsDelegate {
-    public func didUpdateValue() {
+    public func updateValue() {
         canvas.save()
     }
     
-    public func delete(model: A11yDescription) {
+    public func delete(model: any AccessibilityView) {
         canvas.delete(model: model)
         settings.state = .empty
     }
 }
+
+extension CanvasViewController: RecognitionImageSource {}

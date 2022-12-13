@@ -7,6 +7,7 @@
 
 import XCTest
 import SnapshotTesting
+import DocumentTestHelpers
 
 @testable import Settings
 
@@ -78,49 +79,12 @@ class AdjustableViewControllerSnapshotTests: XCTestCase {
     private func sut(descr: A11yDescription) -> A11yValueViewController {
         let sut = A11yValueViewController.fromStoryboard()
         
-        sut.presenter = .init(model: descr,
-                              delegate: SettingsDelegateMock())
+        sut.presenter = .init(element: descr,
+                              delegate: FakeSettingsDelegate())
         
         sut.view.wantsLayer = true
         sut.view.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
         
         return sut
-    }
-}
-
-// TODO: Remove duplicate
-extension A11yDescription {
-    public static func testMake(
-        label: String = "",
-        value: String = "",
-        hint: String = "",
-        trait: A11yTraits = .none,
-        frame: CGRect = .zero,
-        adjustableOption: AdjustableOptions = .testMake(),
-        customActions: A11yCustomActions = .testMake()
-    ) -> A11yDescription {
-        A11yDescription(label: label,
-                        value: value,
-                        hint: hint,
-                        trait: trait,
-                        frame: frame,
-                        adjustableOptions: adjustableOption,
-                        customActions: customActions
-        )
-    }
-}
-
-extension AdjustableOptions {
-    public static func testMake(
-        options: [String] = [],
-        currentIndex: Int? = nil
-    ) -> AdjustableOptions {
-        AdjustableOptions(options: options, currentIndex: currentIndex)
-    }
-}
-
-extension A11yCustomActions {
-    public static func testMake(names: [String] = []) -> A11yCustomActions {
-        A11yCustomActions(names: names)
     }
 }

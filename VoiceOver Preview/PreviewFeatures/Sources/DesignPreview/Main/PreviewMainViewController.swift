@@ -50,7 +50,9 @@ public class PreviewMainViewController: UIViewController {
     }
    
     private var sideTransition = SideTransition()
-    private func presentDetails(for description: A11yDescription) {
+    private func presentDetails(for model: any AccessibilityView) {
+        // TODO: Add support for Container
+        guard let description = model as? A11yDescription else { return }
         
         let onDismiss = { [weak self] in
             guard let self = self else { return }

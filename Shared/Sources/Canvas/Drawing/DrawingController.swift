@@ -21,20 +21,37 @@ public class DrawingController {
     
     // MARK: Drawn from existed controls
     
+    /// Draw all elements and containers on screen
+    /// - Parameters:
+    ///   - scale: Relative scale to fit controls on screen. Is neede for Preview
     public func drawControls(
-        _ descriptions: [A11yDescription]
+        _ models: [any AccessibilityView],
+        scale: CGFloat
     ) {
-        descriptions.forEach { description in
-            drawControl(from: description, scale: 1)
-        }
+        // Draw containers under elements
+        models
+            .extractContainers()
+            .forEach { model in
+                draw(model, scale: scale)
+            }
+       
+        // Extract inner elements from containers
+        models
+            .extractElements()
+            .forEach { model in
+                draw(model, scale: scale)
+            }
     }
     
     @discardableResult
-    public func drawControl(from description: A11yDescription, scale: CGFloat) -> A11yControl {
+    public func draw(
+        _ model: any AccessibilityView,
+        scale: CGFloat
+    ) -> A11yControl {
         let control = A11yControl()
-        control.a11yDescription = description
-        control.frame = description.frame.scaled(scale)
-        control.backgroundColor = description.color.cgColor
+        control.model = model
+        control.frame = model.frame.scaled(scale)
+        control.backgroundColor = model.color.cgColor
         
         view.add(control: control)
         return control
@@ -62,7 +79,7 @@ public class DrawingController {
     }
     
     private func startDrawing(coordinate: CGPoint) {
-        let control = drawControl(from: .empty(frame: .zero), scale: 1)
+        let control = draw(A11yDescription.empty(frame: .zero), scale: 1)
         
         self.action = NewControlAction(view: view, control: control, coordinate: coordinate)
     }
@@ -81,8 +98,6 @@ public class DrawingController {
         
         return action?.end(at: coordinate)
     }
-    
-    
 }
 
 extension DrawingController: EscModifierActionDelegate {

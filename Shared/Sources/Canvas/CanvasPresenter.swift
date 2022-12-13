@@ -10,39 +10,21 @@ import CoreText
 import Combine
 import TextRecognition
 
-public protocol CanvasPresenterUIProtocol: AnyObject {
-    func image(at frame: CGRect) async -> CGImage?
-}
-
 public class CanvasPresenter: DocumentPresenter {
-   
-    public override convenience init(document: VODesignDocumentProtocol) {
-        self.init(document: document,
-             textRecognition: TextRecognitionService())
-    }
-    
-    init(
-        document: VODesignDocumentProtocol,
-        textRecognition: TextRecognitionServiceProtocol)
-    {
-        self.textRecognition = textRecognition
-        
-        super.init(document: document)
-    }
-    
-    weak var screenUI: CanvasPresenterUIProtocol!
     
     public func didLoad(
         ui: DrawingView,
-        screenUI: CanvasPresenterUIProtocol
+        scale: CGFloat
     ) {
         self.ui = ui
-        self.screenUI = screenUI
+        self.scale = scale
         self.drawingController = DrawingController(view: ui)
         
         draw(controls: document.controls)
         redrawOnControlChanges()
     }
+    
+    private var scale: CGFloat = 1
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -57,14 +39,15 @@ public class CanvasPresenter: DocumentPresenter {
             .store(in: &cancellables)
     }
     
-    public func redraw(controls: [A11yDescription]) {
+    public func redraw(controls: [any AccessibilityView]) {
         drawingController.view.removeAll()
         draw(controls: controls)
         updateSelectedControl(selectedPublisher.value)
     }
     
-    public func draw(controls: [A11yDescription]) {
-        drawingController.drawControls(controls)
+    public func draw(controls: [any AccessibilityView]) {
+        drawingController.drawControls(controls, scale: scale)
+        
     }
     
     // MARK: Mouse
@@ -80,26 +63,22 @@ public class CanvasPresenter: DocumentPresenter {
     public func mouseUp(on location: CGPoint) {
         let action = drawingController.end(coordinate: location)
         
-        let control = finishAciton(action)
-        
-        if let control = control {
-            recongizeText(under: control)
-        }
+        let _ = finishAciton(action)
     }
     
     private func finishAciton(_ action: DraggingAction?) -> A11yControl? {
         switch action {
         case let new as NewControlAction:
-            document.undo.registerUndo(withTarget: self, handler: { target in
-                target.delete(model: new.control.a11yDescription!)
+            document.undo?.registerUndo(withTarget: self, handler: { target in
+                target.delete(model: new.control.model!)
             })
-            
-            save()
+           
+            append(control: new.control.model!)
             select(control: new.control)
             return new.control
             
         case let translate as TranslateAction:
-            document.undo.registerUndo(withTarget: self, handler: { target in
+            document.undo?.registerUndo(withTarget: self, handler: { target in
                 translate.undo()
             })
             save()
@@ -109,16 +88,17 @@ public class CanvasPresenter: DocumentPresenter {
             select(control: click.control)
             return click.control
         case let copy as CopyAction:
-            document.undo.registerUndo(withTarget: self, handler: { target in
-                target.delete(model: copy.control.a11yDescription!)
+            document.undo?.registerUndo(withTarget: self, handler: { target in
+                target.delete(model: copy.control.model!)
             })
             save()
             return copy.control
         case let resize as ResizeAction:
-            document.undo.registerUndo(withTarget: self, handler: { target in
+            document.undo?.registerUndo(withTarget: self, handler: { target in
                 resize.control.frame = resize.initialFrame
             })
             return resize.control
+            // TODO: Register resize as file change
         case .none:
             deselect()
             return nil
@@ -132,14 +112,14 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     // MARK: - Selection
-    private func updateSelectedControl(_ selectedDescription: A11yDescription?) {
+    private func updateSelectedControl(_ selectedDescription: (any AccessibilityView)?) {
         guard let selected = selectedDescription else {
             selectedControl = nil
             return
         }
         
         let selectedControl = ui.drawnControls.first(where: { control in
-            control.a11yDescription?.frame == selected.frame
+            control.model?.frame == selected.frame
         })
             
         self.selectedControl = selectedControl
@@ -154,7 +134,7 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     public func select(control: A11yControl) {
-        selectedPublisher.send(control.a11yDescription)
+        selectedPublisher.send(control.model)
     }
     
     func deselect() {
@@ -171,45 +151,19 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     // MARK: - Deletion
-    public func delete(model: A11yDescription) {
+    public func delete(model: any AccessibilityView) {
         guard let control = control(for: model) else {
             return
         }
         
+        // TODO: Delete control from document.elements
         ui.delete(control: control)
-        
         save()
     }
     
-    private func control(for model: A11yDescription) -> A11yControl? {
+    private func control(for model: any AccessibilityView) -> A11yControl? {
         ui.drawnControls.first { control in
-            control.a11yDescription?.frame == model.frame
-        }
-    }
-    
-    // MARK: Text recognition
-    
-    private let textRecognition: TextRecognitionServiceProtocol
-    
-    private func recongizeText(under control: A11yControl) {
-        Task {
-            guard let backImage = await screenUI.image(
-                at: control.frame)
-            else { return }
-            
-            await recognizeText(image: backImage, control: control)
-        }
-    }
-    
-    func recognizeText(image: CGImage, control: A11yControl) async {
-        do {
-            let recognitionResults = try await textRecognition.processImage(image: image)
-            let results = RecognitionResult(control: control,
-                                            text: recognitionResults)
-            
-            publish(textRecognition: results)
-        } catch let error {
-            print(error)
+            control.model?.frame == model.frame
         }
     }
 }

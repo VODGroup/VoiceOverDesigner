@@ -4,11 +4,13 @@ public typealias Document = UIDocument
 import Combine
 
 public class VODesignDocument: Document, VODesignDocumentProtocol {
-    public var undo: UndoManager {
+    public var undo: UndoManager? {
         undoManager
     }
     
-    public let controlsPublisher: PassthroughSubject<[A11yDescription], Never> = .init()
+    
+    
+    public let controlsPublisher: PassthroughSubject<[any AccessibilityView], Never> = .init()
     
     public convenience init(fileName: String,
                             rootPath: URL = iCloudContainer) {
@@ -24,7 +26,7 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         self.init(fileURL: dir)
     }
     
-    public var controls: [A11yDescription] = []
+    public var controls: [any AccessibilityView] = []
     public var image: Image?
     
     lazy var saveService: DocumentSaveService = DocumentSaveService(fileURL: fileURL
@@ -47,7 +49,7 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     public override func save(to url: URL, for saveOperation: Document.SaveOperation) async -> Bool {
         
         do {
-            saveService.save(controls: controls)
+            try saveService.save(controls: controls)
             return true
         } catch let error {
             print(error)

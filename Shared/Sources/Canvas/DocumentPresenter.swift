@@ -13,15 +13,10 @@ open class DocumentPresenter {
     public weak var ui: DrawingView!
     
     public func save() {
-        let descriptions = ui.drawnControls.compactMap { control in
-            control.a11yDescription
-        }
-        
-        document.controls = descriptions
+        document.controlsPublisher.send(document.controls)
     }
     
     public let selectedPublisher = OptionalDescriptionSubject(nil)
-    public let recognitionPublisher = TextRecognitionSubject(nil)
     
     public func update(image: Image) {
         document.image = image
@@ -31,7 +26,7 @@ open class DocumentPresenter {
         document.controls = controls
     }
     
-    func publish(textRecognition: RecognitionResult) {
-        recognitionPublisher.send(textRecognition)
+    func append(control: any AccessibilityView) {
+        document.controls.append(control)
     }
 }

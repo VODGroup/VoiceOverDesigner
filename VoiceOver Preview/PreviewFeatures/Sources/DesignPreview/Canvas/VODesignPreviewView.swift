@@ -1,10 +1,3 @@
-//
-//  PreviewView.swift
-//  VoiceOver Preview
-//
-//  Created by Andrey Plotnikov on 22.07.2022.
-//
-
 import Foundation
 import UIKit
 import Document
@@ -15,6 +8,16 @@ class VODesignPreviewView: UIView {
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var backgroundImageHeight: NSLayoutConstraint!
     @IBOutlet weak var canvas: Canvas!
+   
+    func setup(
+        image: UIImage?,
+        controls: [any AccessibilityView]
+    ) {
+        self.image = image
+        self.controls = controls
+        
+        scrollView.delegate = self
+    }
     
     var image: UIImage? {
         didSet {
@@ -30,28 +33,33 @@ class VODesignPreviewView: UIView {
             canvas.scale = scale
         }
     }
-}
-
-extension VODesignPreviewView: CanvasPresenterUIProtocol {
-    func image(at frame: CGRect) async -> CGImage? {
-        return nil // TODO: calculate image
-    }
-}
-
-class Canvas: UIView, DrawingView {
-    var escListener: EscModifierAction = EmptyEscModifierAction()
     
-    var drawnControls: [A11yControl] = []
     
-    var alignmentOverlay: AlignmentOverlayProtocol = NoAlignmentOverlay()
-    
-    var layout: VoiceOverLayout? {
+    private var controls: [any AccessibilityView] = [] {
         didSet {
-            accessibilityElements = layout?.accessibilityElements
+            
+            drawingController.drawControls(
+                controls,
+                scale: canvas.scale)
+            
+            updateVoiceOverLayoutForCanvas()
         }
     }
     
-    var scale: CGFloat = 1
+        private lazy var drawingController = DrawingController(view: canvas)
+}
+
+extension VODesignPreviewView: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        updateVoiceOverLayoutForCanvas()
+    }
     
-    var copyListener: CopyModifierProtocol = ManualCopyCommand()
+    private func updateVoiceOverLayoutForCanvas() {
+        let offset = scrollView.frame.minY - scrollView.bounds.minY
+        
+        canvas.layout = VoiceOverLayout(
+            controls: controls,
+            container: canvas,
+            yOffset: offset)
+    }
 }

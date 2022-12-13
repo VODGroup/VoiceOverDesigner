@@ -1,3 +1,3 @@
 import Combine
 
-public typealias OptionalDescriptionSubject = CurrentValueSubject<A11yDescription?, Never>
+public typealias OptionalDescriptionSubject = CurrentValueSubject<(any AccessibilityView)?, Never>

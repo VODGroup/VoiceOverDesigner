@@ -21,7 +21,7 @@ class ControlsView: FlippedView, DrawingView {
     var escListener = EscModifierFactory().make()
 }
 
-class CanvasView: FlippedView, CanvasPresenterUIProtocol {
+class CanvasView: FlippedView {
     
     @IBOutlet weak var scrollView: NSScrollView!
     
@@ -125,6 +125,15 @@ class CanvasView: FlippedView, CanvasPresenterUIProtocol {
             .cropping(to: frame)
         
         return cgImage
+    }
+    
+    func control(
+        for model: any AccessibilityView
+    ) -> A11yControl? {
+        return controlsView.drawnControls
+            .first(where: { control in
+                control.model === model
+            })
     }
 }
 

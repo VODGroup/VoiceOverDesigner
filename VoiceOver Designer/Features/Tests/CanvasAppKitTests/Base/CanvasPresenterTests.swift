@@ -7,24 +7,16 @@ class CanvasPresenterTests: XCTestCase {
     
     var sut: CanvasPresenter!
     var controller: EmptyViewController!
-    var canvasUI: FakeCanvasUI!
-    var textRecognition: FakeTextRecognitionService!
     var document: VODesignDocumentProtocol!
     
     override func setUp() {
         super.setUp()
         
         controller = EmptyViewController()
-        canvasUI = FakeCanvasUI()
-        textRecognition = FakeTextRecognitionService()
         document = DocumentFake()
         document.image = Image()
         
-        sut = CanvasPresenter(document: document,
-                              textRecognition: textRecognition)
-//        VODesignDocument.testDocument(name: "Test",
-//                                      saveImmediately: true,
-//                                      testCase: self)
+        sut = CanvasPresenter(document: document)
     }
     
     override func tearDownWithError() throws {
@@ -45,18 +37,18 @@ class CanvasPresenterTests: XCTestCase {
 extension CanvasPresenterTests {
     func didLoad() {
         sut.didLoad(ui: controller.controlsView,
-                    screenUI: canvasUI)
+                    scale: 1)
     }
     
-    var drawnControls: [A11yDescription] {
-        controller.controlsView.drawnControls.compactMap(\.a11yDescription)
+    var drawnControls: [any AccessibilityView] {
+        controller.controlsView.drawnControls.compactMap(\.model)
     }
     
     var numberOfDrawnViews: Int {
         drawnControls.count
     }
     
-    var documentControls: [A11yDescription] {
+    var documentControls: [any AccessibilityView] {
         sut.document.controls
     }
     
@@ -86,7 +78,7 @@ extension CanvasPresenterTests {
     
     func awaitSelected(file: StaticString = #file,
                        line: UInt = #line
-    ) async throws -> A11yDescription? {
+    ) async throws -> (any AccessibilityView)? {
         return try await awaitPublisher(sut.selectedPublisher,
                                         file: file, line: line)
     }

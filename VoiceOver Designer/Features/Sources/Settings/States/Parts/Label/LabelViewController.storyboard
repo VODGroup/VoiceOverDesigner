@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="zsM-MB-gjb">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Label View Controller-->
+        <scene sceneID="K6D-2L-DVD">
+            <objects>
+                <viewController id="zsM-MB-gjb" customClass="LabelViewController" customModule="Settings" sceneMemberID="viewController">
+                    <view key="view" id="ePU-0X-RNS" customClass="LabelView" customModule="Settings">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="52"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Zye-oK-EQy">
+                                <rect key="frame" x="-2" y="36" width="40" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="WIW-mh-0b0">
+                                    <font key="font" textStyle="headline" name=".SFNS-Bold"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qQB-8M-3uJ">
+                                <rect key="frame" x="381" y="35" width="69" height="18"/>
+                                <buttonCell key="cell" type="check" title="Autofill" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ASH-gh-hPE">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="isAutofillDidChanged:" target="zsM-MB-gjb" id="WCa-be-Kiu"/>
+                                </connections>
+                            </button>
+                            <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FvD-0a-pbi" customClass="TextRecognitionComboBox" customModule="Settings">
+                                <rect key="frame" x="-1" y="6" width="454" height="23"/>
+                                <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" bezelStyle="round" completes="NO" numberOfVisibleItems="5" id="J72-al-K12">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </comboBoxCell>
+                                <connections>
+                                    <action selector="labelDidChange:" target="zsM-MB-gjb" id="hVL-eY-JBb"/>
+                                </connections>
+                            </comboBox>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="qQB-8M-3uJ" firstAttribute="trailing" secondItem="FvD-0a-pbi" secondAttribute="trailing" id="4H3-tE-OV8"/>
+                            <constraint firstItem="Zye-oK-EQy" firstAttribute="top" secondItem="ePU-0X-RNS" secondAttribute="top" id="Ctc-zL-qqG"/>
+                            <constraint firstItem="FvD-0a-pbi" firstAttribute="leading" secondItem="Zye-oK-EQy" secondAttribute="leading" id="RH1-cR-Rjx"/>
+                            <constraint firstAttribute="trailing" secondItem="FvD-0a-pbi" secondAttribute="trailing" id="TF8-Wf-s3b"/>
+                            <constraint firstItem="qQB-8M-3uJ" firstAttribute="firstBaseline" secondItem="Zye-oK-EQy" secondAttribute="firstBaseline" id="bYZ-pZ-2pp"/>
+                            <constraint firstItem="FvD-0a-pbi" firstAttribute="top" secondItem="Zye-oK-EQy" secondAttribute="bottom" constant="8" symbolic="YES" id="eov-Sm-4Gb"/>
+                            <constraint firstAttribute="bottom" secondItem="FvD-0a-pbi" secondAttribute="bottom" constant="8" id="uPO-JW-Q9O"/>
+                            <constraint firstItem="Zye-oK-EQy" firstAttribute="leading" secondItem="ePU-0X-RNS" secondAttribute="leading" id="wQC-2z-Rwz"/>
+                        </constraints>
+                        <connections>
+                            <outlet property="isAutofillEnabledButton" destination="qQB-8M-3uJ" id="bkJ-Uw-DRZ"/>
+                            <outlet property="label" destination="FvD-0a-pbi" id="2vR-Rs-eLR"/>
+                        </connections>
+                    </view>
+                </viewController>
+                <customObject id="NF7-vo-zfN" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="603" y="166"/>
+        </scene>
+    </scenes>
+</document>

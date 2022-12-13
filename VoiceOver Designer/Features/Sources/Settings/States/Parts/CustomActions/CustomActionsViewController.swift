@@ -11,10 +11,10 @@ import AppKit
 
 class CustomActionsViewController: NSViewController {
     
-    var presenter: SettingsPresenter!
+    var presenter: ElementSettingsPresenter!
     
     var descr: A11yDescription {
-        presenter.model
+        presenter.element
     }
 
     func view() -> CustomActionsView {

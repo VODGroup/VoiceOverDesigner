@@ -45,7 +45,7 @@ extension VODesignPreviewViewController {
         
         presenter.didLoad(
             ui: view().canvas,
-            screenUI: view())
+            scale: 1)
         
         view().image = presenter.document.image
     }

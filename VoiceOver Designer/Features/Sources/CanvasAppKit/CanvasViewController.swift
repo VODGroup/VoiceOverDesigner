@@ -46,7 +46,8 @@ public class CanvasViewController: NSViewController {
         DispatchQueue.main.async {
             self.presenter.didLoad(
                 ui: self.view().controlsView,
-                screenUI: self.view()
+                scale: 1 // Will be scaled by scrollView
+                // TODO: Scale Preview also by UIScrollView?
             )
             
             self.setImage()
@@ -133,9 +134,11 @@ public class CanvasViewController: NSViewController {
     }
     
     public func select(_ model: A11yDescription) {
-        guard let control = view().controlsView.drawnControls.first(where: { control in
-            control.a11yDescription === model
-        }) else { return }
+        guard let control = view().controlsView.drawnControls
+            .first(where: { control in
+                control.model === model
+            })
+        else { return }
         
         presenter.select(control: control)
     }
@@ -144,7 +147,7 @@ public class CanvasViewController: NSViewController {
         presenter.save()
     }
     
-    public func delete(model: A11yDescription) {
+    public func delete(model: any AccessibilityView) {
         presenter.delete(model: model)
     }
     
@@ -174,6 +177,17 @@ public class CanvasViewController: NSViewController {
         view().setImage(image)
         view().backgroundImageView.image = image
         presenter.save()
+    }
+}
+
+extension CanvasViewController {
+    public func image(
+        for model: any AccessibilityView
+    ) async -> CGImage? {
+        guard let control = view().control(for: model)
+        else { return nil }
+        
+        return await view().image(at: control.frame)
     }
 }
 

@@ -12,8 +12,8 @@ let package = Package(
             name: "CanvasAppKit",
             targets: ["CanvasAppKit"]),
         .library(
-            name: "TextUI",
-            targets: ["TextUI"]),
+            name: "Navigator",
+            targets: ["Navigator"]),
         .library(
             name: "Settings",
             targets: ["Settings"]),
@@ -29,8 +29,10 @@ let package = Package(
     dependencies: [
         .package(
             url: "git@github.com:pointfreeco/swift-snapshot-testing.git",
-            branch: "main"
+            .upToNextMajor(from: "1.10.0")
         ),
+        .package(url: "git@github.com:pointfreeco/swift-custom-dump.git",
+                 .upToNextMajor(from: "0.6.1")),
         .package(name: "Shared", path: "./../../Shared")
     ],
     targets: [
@@ -51,7 +53,7 @@ let package = Package(
             ]),
 
         .target(
-            name: "TextUI",
+            name: "Navigator",
             dependencies: [
                 .product(name: "Document", package: "Shared"),
                 "CommonUI",
@@ -82,6 +84,7 @@ let package = Package(
             dependencies: [
                 "Settings",
                 .product(name: "Document", package: "Shared"),
+                .product(name: "DocumentTestHelpers", package: "Shared"),
                 .product(name: "Canvas", package: "Shared"),
                 .product(name: "SnapshotTesting",
                          package: "swift-snapshot-testing"),
@@ -96,9 +99,10 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "TextUITests",
+            name: "NavigatorTests",
             dependencies: [
-                "TextUI",
+                "Navigator",
+                .productItem(name: "CustomDump", package: "swift-custom-dump"),
                 .product(name: "Document", package: "Shared"),
             ]
         ),

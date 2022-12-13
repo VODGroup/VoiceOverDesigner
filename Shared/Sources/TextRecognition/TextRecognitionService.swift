@@ -5,6 +5,10 @@ public protocol TextRecognitionServiceProtocol {
     func processImage(image: CGImage) async throws -> [String]
 }
 
+public protocol TextRecogitionReceiver {
+    func presentTextRecognition(_ alternatives: [String])
+}
+
 public class TextRecognitionService: TextRecognitionServiceProtocol {
     public init() {}
     
