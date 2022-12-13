@@ -39,15 +39,19 @@ public class CanvasPresenter: DocumentPresenter {
             .store(in: &cancellables)
     }
     
-    public func redraw(controls: [any AccessibilityView]) {
+    private func redraw(controls: [any AccessibilityView]) {
         drawingController.view.removeAll()
         draw(controls: controls)
         updateSelectedControl(selectedPublisher.value)
     }
     
+    public func redraw(control: any AccessibilityView) {
+        drawingController.view.remove(control)
+        drawingController.draw(control, scale: scale)
+    }
+    
     public func draw(controls: [any AccessibilityView]) {
         drawingController.drawControls(controls, scale: scale)
-        
     }
     
     // MARK: Mouse
@@ -137,7 +141,7 @@ public class CanvasPresenter: DocumentPresenter {
         selectedPublisher.send(control.model)
     }
     
-    func deselect() {
+    public func deselect() {
         selectedPublisher.send(nil)
     }
     

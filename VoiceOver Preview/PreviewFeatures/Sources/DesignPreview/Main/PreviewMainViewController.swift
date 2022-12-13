@@ -56,8 +56,8 @@ public class PreviewMainViewController: UIViewController {
         
         let onDismiss = { [weak self] in
             guard let self = self else { return }
-            // TODO: redraw only changed control?
-            self.presenter.redraw(controls: self.document.controls)
+            self.presenter.redraw(control: description)
+            self.presenter.deselect()
         }
         
         let onDelete = { [weak self] in

@@ -9,27 +9,18 @@ class VODesignPreviewView: UIView {
     @IBOutlet weak var backgroundImageHeight: NSLayoutConstraint!
     @IBOutlet weak var canvas: Canvas!
    
-    func setup(
-        image: UIImage?,
-        controls: [any AccessibilityView]
-    ) {
-        self.image = image
-        self.controls = controls
-        
-        scrollView.delegate = self
-    }
-    
     var image: UIImage? {
         didSet {
             backgroundImageView.image = image
             
             guard let image = image else { return }
             
-            guard image.size.width != 0 else { return }
-            let aspectRatio = bounds.width / image.size.width
+            guard image.size.height != 0 else { return }
+            let aspectRatio = bounds.height / image.size.height
             backgroundImageHeight.constant = image.size.height * aspectRatio
             
-            let scale = frame.width / image.size.width
+            
+            let scale = frame.height / image.size.height
             canvas.scale = scale
         }
     }
