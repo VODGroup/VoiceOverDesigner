@@ -32,12 +32,14 @@ public struct SettingsView: View {
                 TextValue(title: "Hint", value: $element.hint)
                 Toggle("Is accessible?", isOn: $element.isAccessibilityElement)
                 
-                Button(action: delete, label: {
+                Button(role: .destructive, action: delete, label: {
                     Text("Delete")
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity, idealHeight: 40)
-                        .background(.red, in: Capsule(style: .continuous))
+                    
                 })
+                .buttonStyle(.borderedProminent)
+                
                 
             }
             .padding()

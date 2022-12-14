@@ -57,11 +57,19 @@ extension VODesignPreviewViewController {
         let pencilDrawingGesture = UIPanGestureRecognizer(
             target: self,
             action: #selector(didPan(gesture:)))
+        // It is impossible to recognize Apple Pencil touches in sumulator
+        #if targetEnvironment(simulator)
+        pencilDrawingGesture.allowedPressTypes = [NSNumber(value: UITouch.TouchType.direct.rawValue)]
+        #else
         pencilDrawingGesture.allowedTouchTypes = [
+            
+
             NSNumber(value: UITouch.TouchType.pencil.rawValue)
+            
             // Should we disable pencil touches for scrollView?
             // See also https://www.swiftbysundell.com/articles/building-ipad-pro-features-in-swift/
         ]
+        #endif
         view().canvas.addGestureRecognizer(pencilDrawingGesture)
         
         let selectionGesture = UITapGestureRecognizer(
