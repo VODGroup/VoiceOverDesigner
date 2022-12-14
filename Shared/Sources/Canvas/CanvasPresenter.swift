@@ -14,13 +14,16 @@ public class CanvasPresenter: DocumentPresenter {
     
     public func didLoad(
         ui: DrawingView,
-        scale: CGFloat
+        initialScale: CGFloat
     ) {
+        // preventing of shrink/growth as all further redraws will use scale
+        defer { self.scale = 1 }
         self.ui = ui
-        self.scale = scale
+        self.scale = initialScale
         self.drawingController = DrawingController(view: ui)
         
         draw(controls: document.controls)
+        
         redrawOnControlChanges()
     }
     
