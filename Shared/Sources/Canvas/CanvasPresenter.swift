@@ -67,10 +67,10 @@ public class CanvasPresenter: DocumentPresenter {
     public func mouseUp(on location: CGPoint) {
         let action = drawingController.end(coordinate: location)
         
-        let _ = finishAciton(action)
+        let _ = finish(action)
     }
     
-    private func finishAciton(_ action: DraggingAction?) -> A11yControl? {
+    private func finish(_ action: DraggingAction?) -> A11yControl? {
         switch action {
         case let new as NewControlAction:
             document.undo?.registerUndo(withTarget: self, handler: { target in

@@ -34,17 +34,17 @@ public class PreviewMainViewController: UIViewController {
         document.open { isSuccess in
             if isSuccess {
                 self.embedCanvas()
-                self.subsribeToSelection()
+                self.subscribeToSelection()
             } else {
                 fatalError() // TODO: Present something to user
             }
         }
     }
     
-    private func subsribeToSelection() {
+    private func subscribeToSelection() {
         presenter.selectedPublisher.sink { description in
             guard let description = description
-            else { return } // TODO: Deselect on dismiss
+            else { return }
             
             self.presentDetails(for: description)
         }.store(in: &cancellables)
