@@ -27,18 +27,14 @@ class VODesignPreviewView: UIView {
     }
     
     
-    private var controls: [any AccessibilityView] = [] {
+    var controls: [any AccessibilityView] = [] {
         didSet {
-            
-            drawingController.drawControls(
-                controls,
-                scale: canvas.scale)
-            
             updateVoiceOverLayoutForCanvas()
         }
     }
     
-        private lazy var drawingController = DrawingController(view: canvas)
+
+
 }
 
 extension VODesignPreviewView: UIScrollViewDelegate {
@@ -52,6 +48,7 @@ extension VODesignPreviewView: UIScrollViewDelegate {
         canvas.layout = VoiceOverLayout(
             controls: controls,
             container: canvas,
-            yOffset: offset)
+            yOffset: offset,
+            scale: canvas.scale)
     }
 }

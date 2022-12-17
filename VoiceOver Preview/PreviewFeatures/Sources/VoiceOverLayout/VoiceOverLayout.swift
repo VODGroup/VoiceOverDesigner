@@ -1,19 +1,23 @@
 import UIKit
+import Canvas
 import Document
 
 public class VoiceOverLayout {
     private let controls: [any AccessibilityView]
     private let container: UIView
     private let yOffset: CGFloat
+    private let scale: CGFloat
     
     public init(
         controls: [any AccessibilityView],
         container: UIView,
-        yOffset: CGFloat
+        yOffset: CGFloat,
+        scale: CGFloat
     ) {
         self.controls = controls
         self.container = container
         self.yOffset = yOffset
+        self.scale = scale
     }
     
     private func accessibilityElement(
@@ -24,13 +28,14 @@ public class VoiceOverLayout {
             return VoiceOverContainer(
                 container: container,
                 accessibilityContainer: container,
-                yOffset: yOffset)
+                yOffset: yOffset,
+                scale: scale)
             
         case .element(let element):
             return VoiceOverElement(
                 control: element,
                 accessibilityContainer: container,
-                frameInContainerSpace: element.frame)
+                frameInContainerSpace: element.frame.scaled(scale))
         }
     }
     
