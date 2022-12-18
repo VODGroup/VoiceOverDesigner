@@ -58,7 +58,10 @@ extension SettingsStateViewController {
     
     func recognizeText(for model: any AccessibilityView) {
         Task {
-            let result = try! await textRecognitionCoordinator.recongizeText(for: model)
+            guard let result = try? await textRecognitionCoordinator.recongizeText(for: model) 
+            else {
+                return // No result, it possible
+            }
             
             print("Recognition results \(result.text)")
             updateTextRecognition(result)
