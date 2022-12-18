@@ -59,13 +59,18 @@ public class NavigatorController: NSViewController {
                                      byExtendingSelection: false)
     }
     
+    private func isValid(row: Int) -> Bool {
+        row != -1
+    }
     private func updateAttributedLabel(for model: (any AccessibilityView)?, isSelected: Bool) {
         guard let model else { return }
         
-        let index = outlineView.row(forItem: model)
+        let row = outlineView.row(forItem: model)
         
-        guard let rowView = outlineView.rowView(atRow: index, makeIfNecessary: false) else { return }
-        guard let cell = rowView.view(atColumn: 0) as? ElementCell else { return }
+        guard isValid(row:row), // TODO: Expand item at this case? Or select this item after expand
+            let rowView = outlineView.rowView(atRow: row, makeIfNecessary: false),
+            let cell = rowView.view(atColumn: 0) as? ElementCell
+        else { return }
         
         cell.setup(model: model, isSelected: isSelected)
     }
