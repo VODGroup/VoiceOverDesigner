@@ -34,7 +34,18 @@ class VoiceOverContainer: NSObject {
                 accessibilityContainer: self,
                 frameInContainerSpace: relativeFrame)
         })
-        accessibilityContainerType = .semanticGroup
+        accessibilityContainerType = .semanticGroup // TODO: Make dynamic
+        
+        accessibilityViewIsModal = container.isModal
+        
+        if container.isTabTrait {
+            accessibilityTraits.formUnion(.tabBar)
+        } else {
+            accessibilityTraits.remove(.tabBar)
+        }
+        
+        // TODO: Add enumeration
+        // TODO: Add Enumeration to child
     }
 }
 
