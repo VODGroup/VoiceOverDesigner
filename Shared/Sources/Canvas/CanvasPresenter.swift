@@ -60,10 +60,12 @@ public class CanvasPresenter: DocumentPresenter {
         drawingController.drag(to: location)
     }
    
-    public func mouseUp(on location: CGPoint) {
+    @discardableResult
+    public func mouseUp(on location: CGPoint) -> A11yControl? {
         let action = drawingController.end(coordinate: location)
         
-        let _ = finishAciton(action)
+        let control = finishAciton(action)
+        return control
     }
     
     private func finishAciton(_ action: DraggingAction?) -> A11yControl? {
