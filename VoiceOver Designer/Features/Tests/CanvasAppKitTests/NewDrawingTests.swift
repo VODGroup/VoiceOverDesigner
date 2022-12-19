@@ -1,10 +1,3 @@
-//
-//  CanvasPresenterTests.swift
-//  VoiceOver DesignerTests
-//
-//  Created by Mikhail Rubanov on 05.05.2022.
-//
-
 import XCTest
 @testable import Canvas
 import Document
