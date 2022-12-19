@@ -26,9 +26,14 @@ class ContainerSettingsViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        renderSettings()
+    }
+    
+    private func renderSettings() {
         view().isModal = presenter.container.isModal
         view().isTabTrait = presenter.container.isTabTrait
         view().isEnumerated = presenter.container.isEnumerated
+        view().isEnumeratedEnabled = !presenter.container.isTabTrait
     }
     
     @IBAction func didChangeContainerType(sender: Any) {
@@ -44,7 +49,15 @@ class ContainerSettingsViewController: NSViewController {
     }
     
     @IBAction func isTabDidChanged(sender: Any) {
-        presenter.container.isTabTrait = view().isTabTrait
+        let isTab = view().isTabTrait
+        presenter.container.isTabTrait = isTab
+        
+        if isTab {
+            // Tab trait enumerates itself
+            presenter.container.isEnumerated = false
+        }
+        
+        renderSettings()
     }
     
     @IBAction func isEnumerateDidChanged(sender: Any) {
@@ -104,6 +117,16 @@ class ContainerSettingsView: NSView {
         
         set {
             isEnumeratedButton.state = newValue ? .on: .off
+        }
+    }
+    
+    var isEnumeratedEnabled: Bool {
+        set {
+            isEnumeratedButton.isEnabled = newValue
+        }
+        
+        get {
+            isEnumeratedButton.isEnabled
         }
     }
     
