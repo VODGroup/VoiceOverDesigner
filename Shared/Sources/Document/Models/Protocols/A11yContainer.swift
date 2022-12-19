@@ -17,6 +17,14 @@ public class A11yContainer: Codable, AccessibilityContainer {
     public var frame: CGRect
     public var label: String
     public var type: AccessibilityViewTypeDto = .container
+    @DecodableDefault.False
+    public var isModal: Bool
+
+    @DecodableDefault.False
+    public var isTabTrait: Bool
+    
+    @DecodableDefault.False
+    public var isEnumerated: Bool
     
     public static func copy(from model: A11yContainer) -> A11yContainer {
         A11yContainer(
