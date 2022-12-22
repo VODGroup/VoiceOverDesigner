@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="ipad12_9rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
@@ -14,37 +14,51 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="VODesignPreviewViewController" customModule="CanvasUIKit" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="VODesignPreviewView" customModule="CanvasUIKit">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8x6-dL-UR9">
-                                <rect key="frame" x="0.0" y="48" width="414" height="814"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" maximumZoomScale="3" translatesAutoresizingMaskIntoConstraints="NO" id="8x6-dL-UR9">
+                                <rect key="frame" x="0.0" y="24" width="1024" height="1322"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="300" translatesAutoresizingMaskIntoConstraints="NO" id="7Pb-jU-hIf">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1000"/>
-                                    </imageView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LHE-cX-Gho" customClass="Canvas" customModule="CanvasUIKit">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1000"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GbO-fk-2fv">
+                                        <rect key="frame" x="0.0" y="0.0" width="1024" height="300"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="1000" verticalHuggingPriority="251" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="300" translatesAutoresizingMaskIntoConstraints="NO" id="7Pb-jU-hIf">
+                                                <rect key="frame" x="305" y="0.0" width="414" height="300"/>
+                                            </imageView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LHE-cX-Gho" customClass="Canvas" customModule="CanvasUIKit">
+                                                <rect key="frame" x="305" y="0.0" width="414" height="300"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="1000" id="AXo-E2-jIq"/>
+                                            <constraint firstItem="LHE-cX-Gho" firstAttribute="leading" secondItem="7Pb-jU-hIf" secondAttribute="leading" id="99u-LI-3gj"/>
+                                            <constraint firstItem="7Pb-jU-hIf" firstAttribute="top" secondItem="GbO-fk-2fv" secondAttribute="top" id="AHW-XW-x6A"/>
+                                            <constraint firstItem="LHE-cX-Gho" firstAttribute="trailing" secondItem="7Pb-jU-hIf" secondAttribute="trailing" id="FhV-TR-Pco"/>
+                                            <constraint firstAttribute="bottom" secondItem="7Pb-jU-hIf" secondAttribute="bottom" id="JTa-cY-azb"/>
+                                            <constraint firstItem="7Pb-jU-hIf" firstAttribute="centerX" secondItem="GbO-fk-2fv" secondAttribute="centerX" priority="999" id="Tuw-G0-n2P"/>
+                                            <constraint firstItem="7Pb-jU-hIf" firstAttribute="leading" secondItem="GbO-fk-2fv" secondAttribute="leading" priority="999" id="bIm-IU-Wbf"/>
+                                            <constraint firstAttribute="trailing" secondItem="7Pb-jU-hIf" secondAttribute="trailing" priority="999" id="irt-1x-7Zm"/>
+                                            <constraint firstItem="LHE-cX-Gho" firstAttribute="top" secondItem="7Pb-jU-hIf" secondAttribute="top" id="k9G-b8-t1H"/>
+                                            <constraint firstItem="LHE-cX-Gho" firstAttribute="height" secondItem="7Pb-jU-hIf" secondAttribute="height" id="mLd-XR-0Gq"/>
                                         </constraints>
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="7Pb-jU-hIf" firstAttribute="top" secondItem="b2d-iV-14h" secondAttribute="top" id="1oj-m1-Y0z"/>
-                                    <constraint firstItem="7Pb-jU-hIf" firstAttribute="height" secondItem="b2d-iV-14h" secondAttribute="height" id="BFm-Jm-p6C"/>
-                                    <constraint firstItem="LHE-cX-Gho" firstAttribute="width" secondItem="7Pb-jU-hIf" secondAttribute="width" id="LKa-LP-9DF"/>
-                                    <constraint firstItem="7Pb-jU-hIf" firstAttribute="bottom" secondItem="b2d-iV-14h" secondAttribute="bottom" id="QCQ-Dc-fyX"/>
-                                    <constraint firstItem="LHE-cX-Gho" firstAttribute="centerX" secondItem="7Pb-jU-hIf" secondAttribute="centerX" id="YYL-9W-dBJ"/>
-                                    <constraint firstItem="7Pb-jU-hIf" firstAttribute="trailing" secondItem="b2d-iV-14h" secondAttribute="trailing" id="fZW-Zz-hep"/>
-                                    <constraint firstItem="7Pb-jU-hIf" firstAttribute="leading" secondItem="b2d-iV-14h" secondAttribute="leading" id="iVC-58-czJ"/>
-                                    <constraint firstItem="7Pb-jU-hIf" firstAttribute="width" secondItem="X0d-ae-NhF" secondAttribute="width" id="pUf-BH-CaF"/>
-                                    <constraint firstItem="LHE-cX-Gho" firstAttribute="height" secondItem="7Pb-jU-hIf" secondAttribute="height" id="qNi-PG-jtM"/>
-                                    <constraint firstItem="LHE-cX-Gho" firstAttribute="centerY" secondItem="7Pb-jU-hIf" secondAttribute="centerY" id="qzo-mC-vvP"/>
+                                    <constraint firstItem="b2d-iV-14h" firstAttribute="bottom" secondItem="GbO-fk-2fv" secondAttribute="bottom" id="Gaf-jA-JNh"/>
+                                    <constraint firstItem="GbO-fk-2fv" firstAttribute="leading" secondItem="8x6-dL-UR9" secondAttribute="leading" id="GsQ-8R-nIy"/>
+                                    <constraint firstAttribute="bottom" secondItem="GbO-fk-2fv" secondAttribute="bottom" id="JMJ-s2-skk"/>
+                                    <constraint firstItem="GbO-fk-2fv" firstAttribute="top" secondItem="b2d-iV-14h" secondAttribute="top" id="l8h-xP-cJu"/>
+                                    <constraint firstAttribute="trailing" secondItem="GbO-fk-2fv" secondAttribute="trailing" id="oPM-eA-1mT"/>
+                                    <constraint firstItem="GbO-fk-2fv" firstAttribute="top" secondItem="8x6-dL-UR9" secondAttribute="top" id="w3O-Qz-cZh"/>
+                                    <constraint firstItem="GbO-fk-2fv" firstAttribute="centerX" secondItem="8x6-dL-UR9" secondAttribute="centerX" id="x2F-JE-3yY"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="b2d-iV-14h"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="X0d-ae-NhF"/>
+                                <connections>
+                                    <outlet property="delegate" destination="8bC-Xf-vdC" id="7RK-6D-C53"/>
+                                </connections>
                             </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -56,9 +70,9 @@
                             <constraint firstItem="8x6-dL-UR9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="s0E-pF-LbQ"/>
                         </constraints>
                         <connections>
-                            <outlet property="backgroundImageHeight" destination="AXo-E2-jIq" id="8BF-De-a4U"/>
                             <outlet property="backgroundImageView" destination="7Pb-jU-hIf" id="XhT-AV-pZh"/>
                             <outlet property="canvas" destination="LHE-cX-Gho" id="MJf-1P-gpL"/>
+                            <outlet property="container" destination="GbO-fk-2fv" id="k8W-iy-wli"/>
                             <outlet property="scrollView" destination="8x6-dL-UR9" id="WOO-Rn-TxA"/>
                         </connections>
                     </view>

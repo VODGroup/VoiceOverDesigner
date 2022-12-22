@@ -9,18 +9,14 @@ class VoiceOverContainer: NSObject {
     }
     
     private var yOffset: CGFloat
-    private let scale: CGFloat
     
     init(
         container: A11yContainer,
         accessibilityContainer: Any,
-        yOffset: CGFloat,
-        scale: CGFloat
+        yOffset: CGFloat
     ) {
         self.container = container
         self.yOffset = yOffset
-        self.scale = scale
-        
         super.init()
         
         setup(from: container)
@@ -36,7 +32,7 @@ class VoiceOverContainer: NSObject {
             return VoiceOverElement(
                 control: element,
                 accessibilityContainer: self,
-                frameInContainerSpace: relativeFrame.scaled(scale))
+                frameInContainerSpace: relativeFrame)
         })
         accessibilityContainerType = .semanticGroup
     }

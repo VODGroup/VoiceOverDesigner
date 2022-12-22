@@ -16,8 +16,6 @@ public class CanvasPresenter: DocumentPresenter {
         ui: DrawingView,
         initialScale: CGFloat
     ) {
-        // preventing of shrink/growth as all further redraws will use scale
-        defer { self.scale = 1 }
         self.ui = ui
         self.scale = initialScale
         self.drawingController = DrawingController(view: ui)

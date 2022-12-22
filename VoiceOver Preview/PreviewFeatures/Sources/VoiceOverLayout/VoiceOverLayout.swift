@@ -6,18 +6,15 @@ public class VoiceOverLayout {
     private let controls: [any AccessibilityView]
     private let container: UIView
     private let yOffset: CGFloat
-    private let scale: CGFloat
     
     public init(
         controls: [any AccessibilityView],
         container: UIView,
-        yOffset: CGFloat,
-        scale: CGFloat
+        yOffset: CGFloat
     ) {
         self.controls = controls
         self.container = container
         self.yOffset = yOffset
-        self.scale = scale
     }
     
     private func accessibilityElement(
@@ -28,14 +25,13 @@ public class VoiceOverLayout {
             return VoiceOverContainer(
                 container: container,
                 accessibilityContainer: container,
-                yOffset: yOffset,
-                scale: scale)
+                yOffset: yOffset)
             
         case .element(let element):
             return VoiceOverElement(
                 control: element,
                 accessibilityContainer: container,
-                frameInContainerSpace: element.frame.scaled(scale))
+                frameInContainerSpace: element.frame)
         }
     }
     
