@@ -56,8 +56,23 @@ public extension DrawingView {
     
     // MARK: Existed
     func control(at coordinate: CGPoint) -> A11yControl? {
-        drawnControls.first { control in
+        let viewsUnderCoordinate = drawnControls.filter({ control in
             control.frame.contains(coordinate)
+        })
+
+        switch viewsUnderCoordinate.count {
+        case 0:
+            return nil
+        case 1:
+            return viewsUnderCoordinate.first
+        default:
+            if let notContainer = viewsUnderCoordinate.first( where: { control in
+                !(control.model is A11yContainer)
+            }) {
+                return notContainer
+            } else {
+                return viewsUnderCoordinate.first
+            }
         }
     }
     

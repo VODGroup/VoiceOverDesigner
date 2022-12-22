@@ -47,26 +47,29 @@ extension CanvasPresenterTests {
     var numberOfDrawnViews: Int {
         drawnControls.count
     }
-    
+
     var documentControls: [any AccessibilityView] {
         sut.document.controls
     }
     
-    func move(from: CGPoint, to: CGPoint) {
+    @discardableResult
+    func move(from: CGPoint, to: CGPoint) -> A11yControl? {
         sut.mouseDown(on: from)
-        sut.mouseUp(on: to)
+        return sut.mouseUp(on: to)
     }
     
-    func drawRect(from: CGPoint, to: CGPoint) {
+    func drawRect(from: CGPoint, to: CGPoint) -> A11yControl?{
         sut.mouseDown(on: from)
-        sut.mouseUp(on: to)
+        return sut.mouseUp(on: to)
     }
     
     func drawRect_10_60(deselect: Bool = true) {
         sut.mouseDown(on: start10)
         sut.mouseUp(on: end60)
         
-        sut.deselect()
+        if deselect {
+            sut.deselect()
+        }
     }
     
     func drag(_ start: CGFloat, _ otherPoints: CGFloat...) {
@@ -74,6 +77,11 @@ extension CanvasPresenterTests {
         for point in otherPoints {
             sut.mouseDragged(on: .coord(point))
         }
+    }
+    
+    func click(_ coordinate: CGPoint) {
+        sut.mouseDown(on: coordinate)
+        sut.mouseUp(on: coordinate)
     }
     
     func awaitSelected(file: StaticString = #file,

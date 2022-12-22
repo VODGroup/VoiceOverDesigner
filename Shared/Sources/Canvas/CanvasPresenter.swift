@@ -65,10 +65,13 @@ public class CanvasPresenter: DocumentPresenter {
         drawingController.drag(to: location)
     }
    
-    public func mouseUp(on location: CGPoint) {
+    @discardableResult
+    public func mouseUp(on location: CGPoint) -> A11yControl? {
         let action = drawingController.end(coordinate: location)
         
-        let _ = finish(action)
+
+        let control = finishAciton(action)
+        return control
     }
     
     private func finish(_ action: DraggingAction?) -> A11yControl? {

@@ -48,16 +48,6 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "TextUITests"
-               BuildableName = "TextUITests"
-               BlueprintName = "TextUITests"
-               ReferencedContainer = "container:VoiceOver Designer/Features">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "RecentTests"
                BuildableName = "RecentTests"
                BlueprintName = "RecentTests"
@@ -91,6 +81,26 @@
                BlueprintIdentifier = "DocumentTests"
                BuildableName = "DocumentTests"
                BlueprintName = "DocumentTests"
+               ReferencedContainer = "container:Shared">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "NavigatorTests"
+               BuildableName = "NavigatorTests"
+               BlueprintName = "NavigatorTests"
+               ReferencedContainer = "container:VoiceOver Designer/Features">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "TextRecognitionTests"
+               BuildableName = "TextRecognitionTests"
+               BlueprintName = "TextRecognitionTests"
                ReferencedContainer = "container:Shared">
             </BuildableReference>
          </TestableReference>
