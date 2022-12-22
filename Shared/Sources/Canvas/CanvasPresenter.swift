@@ -70,7 +70,7 @@ public class CanvasPresenter: DocumentPresenter {
         let action = drawingController.end(coordinate: location)
         
 
-        let control = finishAciton(action)
+        let control = finish(action)
         return control
     }
     
