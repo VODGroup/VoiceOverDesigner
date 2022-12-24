@@ -14,13 +14,14 @@ public class CanvasPresenter: DocumentPresenter {
     
     public func didLoad(
         ui: DrawingView,
-        scale: CGFloat
+        initialScale: CGFloat
     ) {
         self.ui = ui
-        self.scale = scale
+        self.scale = initialScale
         self.drawingController = DrawingController(view: ui)
         
         draw(controls: document.controls)
+        
         redrawOnControlChanges()
     }
     
@@ -45,9 +46,13 @@ public class CanvasPresenter: DocumentPresenter {
         updateSelectedControl(selectedPublisher.value)
     }
     
+    public func redraw(control: any AccessibilityView) {
+        drawingController.view.remove(control)
+        drawingController.draw(control, scale: scale)
+    }
+    
     public func draw(controls: [any AccessibilityView]) {
         drawingController.drawControls(controls, scale: scale)
-        
     }
     
     // MARK: Mouse
@@ -64,14 +69,15 @@ public class CanvasPresenter: DocumentPresenter {
     public func mouseUp(on location: CGPoint) -> A11yControl? {
         let action = drawingController.end(coordinate: location)
         
-        let control = finishAciton(action)
+
+        let control = finish(action)
         return control
     }
     
-    private func finishAciton(_ action: DraggingAction?) -> A11yControl? {
+    private func finish(_ action: DraggingAction?) -> A11yControl? {
         switch action {
         case let new as NewControlAction:
-            document.undoManager?.registerUndo(withTarget: self, handler: { target in
+            document.undo?.registerUndo(withTarget: self, handler: { target in
                 target.delete(model: new.control.model!)
             })
            
@@ -80,7 +86,7 @@ public class CanvasPresenter: DocumentPresenter {
             return new.control
             
         case let translate as TranslateAction:
-            document.undoManager?.registerUndo(withTarget: self, handler: { target in
+            document.undo?.registerUndo(withTarget: self, handler: { target in
                 translate.undo()
             })
             save()
@@ -90,13 +96,13 @@ public class CanvasPresenter: DocumentPresenter {
             select(control: click.control)
             return click.control
         case let copy as CopyAction:
-            document.undoManager?.registerUndo(withTarget: self, handler: { target in
+            document.undo?.registerUndo(withTarget: self, handler: { target in
                 target.delete(model: copy.control.model!)
             })
             save()
             return copy.control
         case let resize as ResizeAction:
-            document.undoManager?.registerUndo(withTarget: self, handler: { target in
+            document.undo?.registerUndo(withTarget: self, handler: { target in
                 resize.control.frame = resize.initialFrame
             })
             return resize.control
@@ -139,7 +145,7 @@ public class CanvasPresenter: DocumentPresenter {
         selectedPublisher.send(control.model)
     }
     
-    func deselect() {
+    public func deselect() {
         selectedPublisher.send(nil)
     }
     

@@ -12,7 +12,7 @@ public struct A11yCustomDescriptions: Codable {
         self.descriptions = descriptions
     }
     
-    public private(set) var descriptions: [A11yCustomDescription]
+    public var descriptions: [A11yCustomDescription]
     
     static var empty: A11yCustomDescriptions {
         A11yCustomDescriptions(descriptions: [])

@@ -101,4 +101,14 @@ public extension DrawingView {
             drawnControls.remove(at: drawnControls.count - 1)
         }
     }
+    
+    func remove(_ model: any AccessibilityView) {
+        guard let index = drawnControls.firstIndex(where: {
+            $0.model === model
+        }), let control = drawnControls.first(where: {
+            $0.model === model
+        }) else { return }
+        control.removeFromSuperlayer()
+        drawnControls.remove(at: index)
+    }
 }

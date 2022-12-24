@@ -1,12 +1,13 @@
 import UIKit
+import Canvas
 import Document
 
-class VoiceOverLayout {
+public class VoiceOverLayout {
     private let controls: [any AccessibilityView]
     private let container: UIView
     private let yOffset: CGFloat
     
-    init(
+    public init(
         controls: [any AccessibilityView],
         container: UIView,
         yOffset: CGFloat
@@ -34,7 +35,7 @@ class VoiceOverLayout {
         }
     }
     
-    var accessibilityElements: [Any] {
+    public var accessibilityElements: [Any] {
         controls.map(accessibilityElement(from:))
     }
 }

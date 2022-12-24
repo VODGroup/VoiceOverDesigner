@@ -34,26 +34,12 @@ class QuickPreviewViewController: UIViewController, QLPreviewingController {
     func preparePreviewOfFile(at url: URL, completionHandler handler: @escaping (Error?) -> Void) {
         
         let document = VODesignDocument(fileURL: url)
-        let preview = VODesignPreviewViewController.controller(for: document)
+        let preview = PreviewMainViewController(document: document)
         
-        addChild(preview)
-        view.addSubview(preview.view)
-        preview.didMove(toParent: self)
-        
-        if let previewView = preview.view {
-            previewView.translatesAutoresizingMaskIntoConstraints = false
-            
-            NSLayoutConstraint.activate([
-                previewView.leftAnchor.constraint(equalTo: view.leftAnchor),
-                previewView.rightAnchor.constraint(equalTo: view.rightAnchor),
-                previewView.topAnchor.constraint(equalTo: view.topAnchor),
-                previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
-        }
+        embedFullFrame(preview)
         
         // Call the completion handler so Quick Look knows that the preview is fully loaded.
         // Quick Look will display a loading spinner while the completion handler is not called.
         handler(nil)
     }
-
 }

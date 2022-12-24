@@ -70,7 +70,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         
         
         // Undo
-        sut.document.undoManager?.undo()
+        sut.document.undo?.undo()
         XCTAssertEqual(sut.document.controls.count, 1, "should remove copy")
     }
     

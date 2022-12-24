@@ -1,6 +1,7 @@
 import UIKit
 import Document
 import Canvas
+import VoiceOverLayout
 
 class Canvas: UIView, DrawingView {
     var escListener: EscModifierAction = EmptyEscModifierAction()

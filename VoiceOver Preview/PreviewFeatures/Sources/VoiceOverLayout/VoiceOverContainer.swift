@@ -17,7 +17,6 @@ class VoiceOverContainer: NSObject {
     ) {
         self.container = container
         self.yOffset = yOffset
-        
         super.init()
         
         setup(from: container)

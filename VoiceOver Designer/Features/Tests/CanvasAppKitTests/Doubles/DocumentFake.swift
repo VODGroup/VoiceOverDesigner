@@ -12,6 +12,6 @@ class DocumentFake: VODesignDocumentProtocol {
         }
     }
     
-    var undoManager: UndoManager? = UndoManager()
+    var undo: UndoManager? = UndoManager()
     var image: Image? = nil
 }

@@ -1,8 +1,17 @@
 #if os(iOS)
 import UIKit
 public typealias Document = UIDocument
+import Combine
 
-public class VODesignDocument: Document {
+public class VODesignDocument: Document, VODesignDocumentProtocol {
+    public var undo: UndoManager? {
+        undoManager
+    }
+    
+    
+    
+    public let controlsPublisher: PassthroughSubject<[any AccessibilityView], Never> = .init()
+    
     public convenience init(fileName: String,
                             rootPath: URL = iCloudContainer) {
         let dir = rootPath.appendingPathComponent(fileName)
@@ -40,7 +49,7 @@ public class VODesignDocument: Document {
     public override func save(to url: URL, for saveOperation: Document.SaveOperation) async -> Bool {
         
         do {
-            try DocumentSaveService(fileURL: url).save(controls: controls)
+            try saveService.save(controls: controls)
             return true
         } catch let error {
             print(error)
@@ -49,7 +58,7 @@ public class VODesignDocument: Document {
     }
     
     public override func read(from url: URL) throws {
-        controls = try DocumentSaveService(fileURL: url.appendingPathComponent("controls.json")).loadControls()
+        controls = try saveService.loadControls()
         image = try? ImageSaveService().load(from: url)
     }
 }
