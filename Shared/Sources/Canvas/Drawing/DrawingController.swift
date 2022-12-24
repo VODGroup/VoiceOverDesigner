@@ -51,7 +51,7 @@ public class DrawingController {
         let control = A11yControlLayer()
         control.model = model
         control.frame = model.frame.scaled(scale)
-        control.backgroundColor = model.color.cgColor
+        control.border.fillColor = model.color.cgColor
         
         view.add(control: control)
         return control
@@ -63,18 +63,20 @@ public class DrawingController {
         scale: CGFloat
     ) -> A11yControlLayer {
         let container = draw(model, scale: scale)
-        container.borderWidth = 10
-        container.borderColor = model.color.cgColor
-        container.cornerCurve = .continuous
-        container.masksToBounds = true
+        container.border.strokeColor = model.color.cgColor
+        container.border.cornerCurve = .continuous
+        container.border.cornerRadius = 20
+        container.border.masksToBounds = true
+         
         return container
     }
     
     // MARK: New drawing
     public func mouseDown(on location: CGPoint) {
         if let existedControl = view.control(at: location) {
-            if location.nearBottomRightCorner(of: existedControl.frame) {
-                startResizing(control: existedControl, startLocation: location)
+            let threshold = Config().resizeMarkerSize
+            if let corner = existedControl.frame.isCorner(at: location, size: threshold) {
+                startResizing(control: existedControl, startLocation: location, corner: corner)
             } else {
                 startDragging(control: existedControl, startLocation: location)
             }
@@ -83,12 +85,19 @@ public class DrawingController {
         }
     }
     
-    private func startDragging(control: A11yControlLayer, startLocation: CGPoint) {
+    private func startDragging(
+        control: A11yControlLayer,
+        startLocation: CGPoint
+    ) {
         action = CopyAndTranslateAction(view: view, sourceControl: control, startLocation: startLocation, offset: .zero, initialFrame: control.frame)
     }
     
-    private func startResizing(control: A11yControlLayer, startLocation: CGPoint) {
-        action = ResizeAction(view: view, control: control, startLocation: startLocation, offset: .zero, initialFrame: control.frame)
+    private func startResizing(
+        control: A11yControlLayer,
+        startLocation: CGPoint,
+        corner: RectCorner
+    ) {
+        action = ResizeAction(view: view, control: control, startLocation: startLocation, offset: .zero, initialFrame: control.frame, corner: corner)
     }
     
     private func startDrawing(coordinate: CGPoint) {

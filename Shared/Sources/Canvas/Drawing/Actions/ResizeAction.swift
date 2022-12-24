@@ -1,12 +1,13 @@
 import CoreGraphics
 
 public class ResizeAction: DraggingAction {
-    init(view: DrawingView, control: A11yControlLayer, startLocation: CGPoint, offset: CGPoint, initialFrame: CGRect) {
+    init(view: DrawingView, control: A11yControlLayer, startLocation: CGPoint, offset: CGPoint, initialFrame: CGRect, corner: RectCorner) {
         self.view = view
         self.control = control
         self.startLocation = startLocation
         self.offset = offset
         self.initialFrame = initialFrame
+        self.corner = corner
     }
     
     private let view: DrawingView
@@ -14,15 +15,19 @@ public class ResizeAction: DraggingAction {
     private let startLocation: CGPoint
     private(set) var offset: CGPoint
     public let initialFrame: CGRect
+    public let corner: RectCorner
     
     public func drag(to coordinate: CGPoint) {
-        let alignedCoordinate = view.alignmentOverlay.alignToAny(control, point: coordinate, drawnControls: view.drawnControls)
+        let alignedCoordinate = view.alignmentOverlay
+            .alignToAny(control,
+                        point: coordinate,
+                        drawnControls: view.drawnControls)
+        
+        let originalCorner = initialFrame.point(at: corner)
         
         control.updateWithoutAnimation {
-            control.frame = CGRect(x: initialFrame.minX,
-                                   y: initialFrame.minY,
-                                   width: alignedCoordinate.x - initialFrame.minX,
-                                   height: alignedCoordinate.y - initialFrame.minY)
+            control.frame = initialFrame
+                .move(corner: corner, to: alignedCoordinate)
         }
     }
     

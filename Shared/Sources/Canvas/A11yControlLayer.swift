@@ -20,14 +20,13 @@ public class A11yControlLayer: CALayer {
     private let config = Config()
     
     public var model: (any AccessibilityView)?
-    private var border = CAShapeLayer()
+    let border = CAShapeLayer()
     
     public override init() {
         super.init()
         
-        border.lineWidth = 10
+        border.fillColor = Color.clear.cgColor
         addSublayer(border)
-        
         
         resizingMarkers.forEach { marker in
             addSublayer(marker)
@@ -67,29 +66,22 @@ public class A11yControlLayer: CALayer {
         
         updateWithoutAnimation {
             layoutResizeMarker()
+            border.path = CGPath(roundedRect: bounds, cornerWidth: cornerRadius, cornerHeight: cornerRadius, transform: nil)
+            border.frame = bounds
         }
-        
-        border.frame = bounds
     }
                                       
     private func layoutResizeMarker() {
-        resizingMarkers[0].frame = markerFrame(center: CGPoint(x: bounds.minX, y: bounds.minY))
-        resizingMarkers[1].frame = markerFrame(center: CGPoint(x: bounds.minX, y: bounds.maxY))
-        resizingMarkers[2].frame = markerFrame(center: CGPoint(x: bounds.maxX, y: bounds.maxY))
-        resizingMarkers[3].frame = markerFrame(center: CGPoint(x: bounds.maxX, y: bounds.minY))
-    }
-    
-    private func markerFrame(center: CGPoint) -> CGRect {
         let size: CGFloat = Config().resizeMarkerSize
-        return CGRect(origin: CGPoint(x: center.x - size/2,
-                                      y: center.y - size/2),
-                      size: CGSize(width: size,
-                                   height: size))
         
+        resizingMarkers[0].frame = bounds.frame(corner: .topLeft, size: size)
+        resizingMarkers[1].frame = bounds.frame(corner: .topRight, size: size)
+        resizingMarkers[2].frame = bounds.frame(corner: .bottomLeft, size: size)
+        resizingMarkers[3].frame = bounds.frame(corner: .bottomRight, size: size)
     }
     
     public func updateColor() {
-        backgroundColor = model?.color.cgColor
+        border.fillColor = model?.color.cgColor
         border.strokeColor = model?.color.cgColor.copy(alpha: 0)
     }
     
@@ -105,7 +97,7 @@ public class A11yControlLayer: CALayer {
             ? config.highlightedAlpha
             : config.normalAlpha
             
-            backgroundColor = backgroundColor?.copy(alpha: alpha)
+            border.fillColor = border.fillColor?.copy(alpha: alpha)
         }
     }
     
@@ -119,7 +111,7 @@ public class A11yControlLayer: CALayer {
     public var isSelected: Bool = false {
         didSet {
             border.lineWidth = isSelected ? config.selectedBorderWidth : 0
-            border.strokeColor = backgroundColor?.copy(alpha: 1)
+            border.strokeColor = border.fillColor?.copy(alpha: 1)
 //            cornerRadius = isSelected ? config.selectedCornerRadius : config.normalCornerRadius
             if #available(macOS 10.15, *) {
                 cornerCurve = .continuous
@@ -146,7 +138,7 @@ public extension A11yControlLayer {
     static func copy(from model: any AccessibilityView) -> A11yControlLayer {
         let control = A11yControlLayer()
         control.model = model
-        control.backgroundColor = model.color.cgColor
+        control.border.fillColor = model.color.cgColor
         control.frame = model.frame
         return control
     }
