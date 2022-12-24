@@ -29,7 +29,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         XCTAssertNil(selected, "should not select after translation")
     }
     
-    func test_whenMoveNearLeftEdgeOnAnyElement_shouldPinToLeftEdge() {
+    func test_whenMoveNearLeftEdgeOnAnyElement_shouldPinToLeftEdge() throws {
         throw XCTSkip()
         drawRect(from: start10, to: end60)
         drawRect(from: .coord(100),
