@@ -116,7 +116,7 @@
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oGz-SO-dDA">
                                         <rect key="frame" x="-2" y="-1" width="150" height="18"/>
-                                        <buttonCell key="cell" type="check" title="Enumerate elements" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="0FO-8S-Eiw">
+                                        <buttonCell key="cell" type="check" title="Enumerate elements" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="0FO-8S-Eiw">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
