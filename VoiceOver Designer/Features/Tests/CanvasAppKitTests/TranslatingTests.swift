@@ -47,7 +47,6 @@ class TranslatingTests: CanvasAfterDidLoadTests {
     // - aligned to 3rd element
     
     func test_CopyControlShouldDrawNewControlAndHaveSameProperties() async throws {
-        throw XCTSkip()
         let copyCommand = ManualCopyCommand()
         
         await MainActor.run {
@@ -58,9 +57,9 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         // Copy
         copyCommand.isCopyHold = true
         sut.mouseDown(on: .coord(15))
-        sut.mouseUp(on: .coord(50))
+        sut.mouseUp(on: .coord(15+35))
         
-        XCTAssertEqual(sut.document.controls.count, 2)
+        XCTAssertEqual(drawnControls.count, 2)
         XCTAssert(sut.document.controls[0] !== sut.document.controls[1], "Not same objects")
         XCTAssertEqual(sut.document.controls[1].frame, rect10to50.offsetBy(dx: 35,
                                                                            dy: 35))
@@ -71,7 +70,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         
         // Undo
         sut.document.undo?.undo()
-        XCTAssertEqual(sut.document.controls.count, 1, "should remove copy")
+        XCTAssertEqual(drawnControls.count, 1, "should remove copy")
     }
     
     // MARK: - Resizing

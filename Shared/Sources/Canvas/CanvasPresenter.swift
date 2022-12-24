@@ -100,6 +100,7 @@ public class CanvasPresenter: DocumentPresenter {
                 target.delete(model: copy.control.model!)
             })
             save()
+            append(control: copy.control.model!)
             return copy.control
         case let resize as ResizeAction:
             document.undo?.registerUndo(withTarget: self, handler: { target in
