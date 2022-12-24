@@ -89,7 +89,7 @@ public class CanvasPresenter: DocumentPresenter {
             document.undo?.registerUndo(withTarget: self, handler: { target in
                 translate.undo()
             })
-            save()
+            publishControlChanges()
             return translate.control
             
         case let click as ClickAction:
@@ -99,8 +99,8 @@ public class CanvasPresenter: DocumentPresenter {
             document.undo?.registerUndo(withTarget: self, handler: { target in
                 target.delete(model: copy.control.model!)
             })
-            save()
             append(control: copy.control.model!)
+            publishControlChanges()
             return copy.control
         case let resize as ResizeAction:
             document.undo?.registerUndo(withTarget: self, handler: { target in
@@ -167,7 +167,8 @@ public class CanvasPresenter: DocumentPresenter {
         
         // TODO: Delete control from document.elements
         ui.delete(control: control)
-        save()
+        remove(control: model)
+        publishControlChanges()
     }
     
     private func control(for model: any AccessibilityView) -> A11yControlLayer? {

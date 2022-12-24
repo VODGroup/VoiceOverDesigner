@@ -88,7 +88,7 @@ extension ProjectController {
 
 extension ProjectController: SettingsDelegate {
     public func updateValue() {
-        canvas.save()
+        canvas.publishControlChanges()
     }
     
     public func delete(model: any AccessibilityView) {

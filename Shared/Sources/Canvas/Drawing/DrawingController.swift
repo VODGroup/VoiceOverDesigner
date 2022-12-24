@@ -82,8 +82,6 @@ public class DrawingController {
             }
         }
         
-        
-        
         if let existedControl = view.control(at: location) {
             startDragging(control: existedControl, startLocation: location)
         } else {
