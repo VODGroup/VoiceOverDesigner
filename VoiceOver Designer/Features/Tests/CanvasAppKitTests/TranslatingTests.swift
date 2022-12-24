@@ -30,6 +30,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
     }
     
     func test_whenMoveNearLeftEdgeOnAnyElement_shouldPinToLeftEdge() {
+        throw XCTSkip()
         drawRect(from: start10, to: end60)
         drawRect(from: .coord(100),
                  to: .coord(150))
