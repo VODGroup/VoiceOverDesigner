@@ -6,7 +6,7 @@ import VoiceOverLayout
 class Canvas: UIView, DrawingView {
     var escListener: EscModifierAction = EmptyEscModifierAction()
     
-    var drawnControls: [A11yControl] = []
+    var drawnControls: [A11yControlLayer] = []
     
     var alignmentOverlay: AlignmentOverlayProtocol = NoAlignmentOverlay()
     

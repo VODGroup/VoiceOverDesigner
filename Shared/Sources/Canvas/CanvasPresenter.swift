@@ -58,7 +58,7 @@ public class CanvasPresenter: DocumentPresenter {
     // MARK: Mouse
     public func mouseDown(on location: CGPoint) {
         guard document.image != nil else { return }
-        drawingController.mouseDown(on: location)
+        drawingController.mouseDown(on: location, selectedControl: selectedControl)
     }
     
     public func mouseDragged(on location: CGPoint) {
@@ -66,7 +66,7 @@ public class CanvasPresenter: DocumentPresenter {
     }
    
     @discardableResult
-    public func mouseUp(on location: CGPoint) -> A11yControl? {
+    public func mouseUp(on location: CGPoint) -> A11yControlLayer? {
         let action = drawingController.end(coordinate: location)
         
 
@@ -74,7 +74,7 @@ public class CanvasPresenter: DocumentPresenter {
         return control
     }
     
-    private func finish(_ action: DraggingAction?) -> A11yControl? {
+    private func finish(_ action: DraggingAction?) -> A11yControlLayer? {
         switch action {
         case let new as NewControlAction:
             document.undo?.registerUndo(withTarget: self, handler: { target in
@@ -89,7 +89,7 @@ public class CanvasPresenter: DocumentPresenter {
             document.undo?.registerUndo(withTarget: self, handler: { target in
                 translate.undo()
             })
-            save()
+            publishControlChanges()
             return translate.control
             
         case let click as ClickAction:
@@ -99,7 +99,8 @@ public class CanvasPresenter: DocumentPresenter {
             document.undo?.registerUndo(withTarget: self, handler: { target in
                 target.delete(model: copy.control.model!)
             })
-            save()
+            append(control: copy.control.model!)
+            publishControlChanges()
             return copy.control
         case let resize as ResizeAction:
             document.undo?.registerUndo(withTarget: self, handler: { target in
@@ -133,7 +134,7 @@ public class CanvasPresenter: DocumentPresenter {
         self.selectedControl = selectedControl
     }
     
-    public private(set) var selectedControl: A11yControl? {
+    public private(set) var selectedControl: A11yControlLayer? {
         didSet {
             oldValue?.isSelected = false
             
@@ -141,7 +142,7 @@ public class CanvasPresenter: DocumentPresenter {
         }
     }
     
-    public func select(control: A11yControl) {
+    public func select(control: A11yControlLayer) {
         selectedPublisher.send(control.model)
     }
     
@@ -166,10 +167,11 @@ public class CanvasPresenter: DocumentPresenter {
         
         // TODO: Delete control from document.elements
         ui.delete(control: control)
-        save()
+        remove(control: model)
+        publishControlChanges()
     }
     
-    private func control(for model: any AccessibilityView) -> A11yControl? {
+    private func control(for model: any AccessibilityView) -> A11yControlLayer? {
         ui.drawnControls.first { control in
             control.model?.frame == model.frame
         }

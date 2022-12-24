@@ -32,7 +32,7 @@ public class DrawingController {
         models
             .extractContainers()
             .forEach { model in
-                draw(model, scale: scale)
+                drawContainer(model, scale: scale)
             }
        
         // Extract inner elements from containers
@@ -47,35 +47,61 @@ public class DrawingController {
     public func draw(
         _ model: any AccessibilityView,
         scale: CGFloat
-    ) -> A11yControl {
-        let control = A11yControl()
+    ) -> A11yControlLayer {
+        let control = A11yControlLayer()
         control.model = model
         control.frame = model.frame.scaled(scale)
-        control.backgroundColor = model.color.cgColor
+        control.border.fillColor = model.color.cgColor
         
         view.add(control: control)
         return control
     }
     
+    @discardableResult
+    public func drawContainer(
+        _ model: any AccessibilityView,
+        scale: CGFloat
+    ) -> A11yControlLayer {
+        let container = draw(model, scale: scale)
+        container.border.strokeColor = model.color.cgColor
+        container.border.cornerCurve = .continuous
+        container.border.cornerRadius = 20
+        container.border.masksToBounds = true
+         
+        return container
+    }
+    
     // MARK: New drawing
-    public func mouseDown(on location: CGPoint) {
-        if let existedControl = view.control(at: location) {
-            if location.nearBottomRightCorner(of: existedControl.frame) {
-                startResizing(control: existedControl, startLocation: location)
-            } else {
-                startDragging(control: existedControl, startLocation: location)
+    public func mouseDown(on location: CGPoint, selectedControl: A11yControlLayer?) {
+        if let selectedControl {
+            let threshold = Config().resizeMarkerSize * 3
+            
+            if let corner = selectedControl.frame.isCorner(at: location, size: threshold) {
+                startResizing(control: selectedControl, startLocation: location, corner: corner)
+                return
             }
+        }
+        
+        if let existedControl = view.control(at: location) {
+            startDragging(control: existedControl, startLocation: location)
         } else {
             startDrawing(coordinate: location)
         }
     }
     
-    private func startDragging(control: A11yControl, startLocation: CGPoint) {
+    private func startDragging(
+        control: A11yControlLayer,
+        startLocation: CGPoint
+    ) {
         action = CopyAndTranslateAction(view: view, sourceControl: control, startLocation: startLocation, offset: .zero, initialFrame: control.frame)
     }
     
-    private func startResizing(control: A11yControl, startLocation: CGPoint) {
-        action = ResizeAction(view: view, control: control, startLocation: startLocation, offset: .zero, initialFrame: control.frame)
+    private func startResizing(
+        control: A11yControlLayer,
+        startLocation: CGPoint,
+        corner: RectCorner
+    ) {
+        action = ResizeAction(view: view, control: control, startLocation: startLocation, offset: .zero, initialFrame: control.frame, corner: corner)
     }
     
     private func startDrawing(coordinate: CGPoint) {

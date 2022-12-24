@@ -1,7 +1,7 @@
 import QuartzCore
 
 public class MoveAction {
-    init(view: DrawingView, control: A11yControl, startLocation: CGPoint, offset: CGPoint, initialFrame: CGRect) {
+    init(view: DrawingView, control: A11yControlLayer, startLocation: CGPoint, offset: CGPoint, initialFrame: CGRect) {
         self.view = view
         self.control = control
         self.startLocation = startLocation
@@ -10,7 +10,7 @@ public class MoveAction {
     }
     
     private let view: DrawingView
-    public let control: A11yControl
+    public let control: A11yControlLayer
     private let startLocation: CGPoint
     private(set) var offset: CGPoint
     let initialFrame: CGRect

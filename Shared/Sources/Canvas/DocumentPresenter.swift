@@ -12,7 +12,7 @@ open class DocumentPresenter {
     var drawingController: DrawingController!
     public weak var ui: DrawingView!
     
-    public func save() {
+    public func publishControlChanges() {
         document.controlsPublisher.send(document.controls)
     }
     
@@ -28,5 +28,13 @@ open class DocumentPresenter {
     
     func append(control: any AccessibilityView) {
         document.controls.append(control)
+    }
+    
+    func remove(control: any AccessibilityView) {
+        guard let index = document.controls.firstIndex(where: { controlInArray in
+            controlInArray === control
+        }) else { return }
+                
+        document.controls.remove(at: index)
     }
 }

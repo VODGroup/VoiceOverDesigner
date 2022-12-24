@@ -40,7 +40,7 @@ extension CGPoint {
     }
     
     private func isNear(to frame: CGRect, edge: AlignmentDirection) -> Bool {
-        let threshold = A11yControl.Config().alignmentThreshold
+        let threshold = Config().alignmentThreshold
         return abs(self.value(edge) - frame.value(edge)) < threshold
     }
     

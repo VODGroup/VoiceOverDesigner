@@ -18,7 +18,7 @@ public class CopyAndTranslateAction: DraggingAction {
         action?.end(at: coordinate)
     }
     
-    init(view: DrawingView, sourceControl: A11yControl, startLocation: CGPoint, offset: CGPoint, initialFrame: CGRect) {
+    init(view: DrawingView, sourceControl: A11yControlLayer, startLocation: CGPoint, offset: CGPoint, initialFrame: CGRect) {
         self.view = view
 
         self.sourceControl = sourceControl
@@ -29,7 +29,7 @@ public class CopyAndTranslateAction: DraggingAction {
     }
     
     private let view: DrawingView
-    public let sourceControl: A11yControl
+    public let sourceControl: A11yControlLayer
     private let startLocation: CGPoint
     private var offset: CGPoint
     private let initialFrame: CGRect
@@ -40,7 +40,7 @@ public class CopyAndTranslateAction: DraggingAction {
         }
         
         let modelCopy = modelToCopy.copy()
-        let newControl = A11yControl.copy(from: modelCopy)
+        let newControl = A11yControlLayer.copy(from: modelCopy)
         view.add(control: newControl)
         
         let action = CopyAction(view: view,

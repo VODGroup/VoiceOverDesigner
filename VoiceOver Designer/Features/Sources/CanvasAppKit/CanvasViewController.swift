@@ -77,7 +77,7 @@ public class CanvasViewController: NSViewController {
         }
     }
     
-    var highlightedControl: A11yControl? {
+    var highlightedControl: A11yControlLayer? {
         didSet {
             if highlightedControl != nil {
                 NSCursor.openHand.push()
@@ -143,8 +143,8 @@ public class CanvasViewController: NSViewController {
         presenter.select(control: control)
     }
     
-    public func save() {
-        presenter.save()
+    public func publishControlChanges() {
+        presenter.publishControlChanges()
     }
     
     public func delete(model: any AccessibilityView) {
@@ -176,7 +176,7 @@ public class CanvasViewController: NSViewController {
         presenter.update(image: image)
         view().setImage(image)
         view().backgroundImageView.image = image
-        presenter.save()
+        presenter.publishControlChanges()
     }
 }
 
@@ -221,7 +221,7 @@ extension CanvasViewController: DragNDropDelegate {
     public func didDrag(image: NSImage) {
         presenter.update(image: image)
         view().setImage(image)
-        presenter.save()
+        presenter.publishControlChanges()
     }
     
     public func didDrag(path: URL) {

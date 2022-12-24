@@ -29,17 +29,17 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         XCTAssertNil(selected, "should not select after translation")
     }
     
-    func test_whenMoveNearLeftEdgeOnAnyElement_shouldPinToLeftEdge() {
+    func test_whenMoveNearLeftEdgeOnAnyElement_shouldPinToLeftEdge() throws {
         drawRect(from: start10, to: end60)
-        drawRect(from: .coord(100),
-                 to: .coord(150))
+        drawRect(from: .coord(200),
+                 to: .coord(300))
         XCTAssertEqual(drawnControls.count, 2)
         
-        sut.mouseDown(on: .coord(101)) // 2nd rect
-        sut.mouseDragged(on: .coord(11))
+        sut.mouseDown(on: .coord(200+30)) // 2nd rect
+        sut.mouseDragged(on: .coord(10+1))
         
         XCTAssertEqual(drawnControls[1].frame,
-                       CGRect(origin: .coord(10), size: .side(50)))
+                       CGRect(origin: .coord(10), size: .side(290)))
     }
     
     // TODO:
@@ -47,7 +47,6 @@ class TranslatingTests: CanvasAfterDidLoadTests {
     // - aligned to 3rd element
     
     func test_CopyControlShouldDrawNewControlAndHaveSameProperties() async throws {
-        throw XCTSkip()
         let copyCommand = ManualCopyCommand()
         
         await MainActor.run {
@@ -58,9 +57,9 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         // Copy
         copyCommand.isCopyHold = true
         sut.mouseDown(on: .coord(15))
-        sut.mouseUp(on: .coord(50))
+        sut.mouseUp(on: .coord(15+35))
         
-        XCTAssertEqual(sut.document.controls.count, 2)
+        XCTAssertEqual(drawnControls.count, 2)
         XCTAssert(sut.document.controls[0] !== sut.document.controls[1], "Not same objects")
         XCTAssertEqual(sut.document.controls[1].frame, rect10to50.offsetBy(dx: 35,
                                                                            dy: 35))
@@ -71,7 +70,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         
         // Undo
         sut.document.undo?.undo()
-        XCTAssertEqual(sut.document.controls.count, 1, "should remove copy")
+        XCTAssertEqual(drawnControls.count, 1, "should remove copy")
     }
     
     // MARK: - Resizing
@@ -79,7 +78,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         drawRect(from: start10, to: end60)
         XCTAssertEqual(drawnControls.count, 1)
         
-        sut.mouseDown(on: .coord(60-1)) // Not inclued border
+        sut.mouseDown(on: .coord(60)) // Not include border
         sut.mouseDragged(on: .coord(20))
         
         XCTAssertEqual(drawnControls.count, 1)
