@@ -6,14 +6,14 @@ public class NewControlAction: DraggingAction {
     }
     
     
-    init(view: DrawingView, control: A11yControl, coordinate: CGPoint) {
+    init(view: DrawingView, control: A11yControlLayer, coordinate: CGPoint) {
         self.view = view
         self.control = control
         self.origin = view.alignmentOverlay.alignToAny(control, point: coordinate, drawnControls: view.drawnControls)
     }
     
     private let view: DrawingView
-    public let control: A11yControl
+    public let control: A11yControlLayer
     private let origin: CGPoint
     
     public func drag(to coordinate: CGPoint) {

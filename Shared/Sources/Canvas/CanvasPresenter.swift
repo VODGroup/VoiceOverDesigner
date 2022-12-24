@@ -66,7 +66,7 @@ public class CanvasPresenter: DocumentPresenter {
     }
    
     @discardableResult
-    public func mouseUp(on location: CGPoint) -> A11yControl? {
+    public func mouseUp(on location: CGPoint) -> A11yControlLayer? {
         let action = drawingController.end(coordinate: location)
         
 
@@ -74,7 +74,7 @@ public class CanvasPresenter: DocumentPresenter {
         return control
     }
     
-    private func finish(_ action: DraggingAction?) -> A11yControl? {
+    private func finish(_ action: DraggingAction?) -> A11yControlLayer? {
         switch action {
         case let new as NewControlAction:
             document.undo?.registerUndo(withTarget: self, handler: { target in
@@ -133,7 +133,7 @@ public class CanvasPresenter: DocumentPresenter {
         self.selectedControl = selectedControl
     }
     
-    public private(set) var selectedControl: A11yControl? {
+    public private(set) var selectedControl: A11yControlLayer? {
         didSet {
             oldValue?.isSelected = false
             
@@ -141,7 +141,7 @@ public class CanvasPresenter: DocumentPresenter {
         }
     }
     
-    public func select(control: A11yControl) {
+    public func select(control: A11yControlLayer) {
         selectedPublisher.send(control.model)
     }
     
@@ -169,7 +169,7 @@ public class CanvasPresenter: DocumentPresenter {
         save()
     }
     
-    private func control(for model: any AccessibilityView) -> A11yControl? {
+    private func control(for model: any AccessibilityView) -> A11yControlLayer? {
         ui.drawnControls.first { control in
             control.model?.frame == model.frame
         }

@@ -12,7 +12,7 @@ import Document
 import Canvas
 
 class ControlsView: FlippedView, DrawingView {
-    var drawnControls: [A11yControl] = []
+    var drawnControls: [A11yControlLayer] = []
     
     lazy var alignmentOverlay = AlignmentOverlayFactory().overlay(for: self)
     
@@ -129,7 +129,7 @@ class CanvasView: FlippedView {
     
     func control(
         for model: any AccessibilityView
-    ) -> A11yControl? {
+    ) -> A11yControlLayer? {
         return controlsView.drawnControls
             .first(where: { control in
                 control.model === model

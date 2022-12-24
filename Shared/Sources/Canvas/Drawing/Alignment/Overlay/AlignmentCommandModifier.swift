@@ -1,8 +1,8 @@
 import CoreGraphics
 
 public protocol AlignmentOverlayProtocol {
-    func alignToAny(_ sourceControl: A11yControl, point: CGPoint, drawnControls: [A11yControl]) -> CGPoint
-    func alignToAny(_ sourceControl: A11yControl, frame: CGRect, drawnControls: [A11yControl]) -> CGRect
+    func alignToAny(_ sourceControl: A11yControlLayer, point: CGPoint, drawnControls: [A11yControlLayer]) -> CGPoint
+    func alignToAny(_ sourceControl: A11yControlLayer, frame: CGRect, drawnControls: [A11yControlLayer]) -> CGRect
     func hideAligningLine()
 }
 
@@ -39,11 +39,11 @@ class AlignmentCommandModifier: AlignmentOverlayProtocol {
     }
     
     // MARK: Proxy
-    func alignToAny(_ sourceControl: A11yControl, point: CGPoint, drawnControls: [A11yControl]) -> CGPoint {
+    func alignToAny(_ sourceControl: A11yControlLayer, point: CGPoint, drawnControls: [A11yControlLayer]) -> CGPoint {
         currentOverlay.alignToAny(sourceControl, point: point, drawnControls: drawnControls)
     }
     
-    func alignToAny(_ sourceControl: A11yControl, frame: CGRect, drawnControls: [A11yControl]) -> CGRect {
+    func alignToAny(_ sourceControl: A11yControlLayer, frame: CGRect, drawnControls: [A11yControlLayer]) -> CGRect {
         currentOverlay.alignToAny(sourceControl, frame: frame, drawnControls: drawnControls)
     }
     

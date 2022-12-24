@@ -32,7 +32,7 @@ public class DrawingController {
         models
             .extractContainers()
             .forEach { model in
-                draw(model, scale: scale)
+                drawContainer(model, scale: scale)
             }
        
         // Extract inner elements from containers
@@ -47,14 +47,27 @@ public class DrawingController {
     public func draw(
         _ model: any AccessibilityView,
         scale: CGFloat
-    ) -> A11yControl {
-        let control = A11yControl()
+    ) -> A11yControlLayer {
+        let control = A11yControlLayer()
         control.model = model
         control.frame = model.frame.scaled(scale)
         control.backgroundColor = model.color.cgColor
         
         view.add(control: control)
         return control
+    }
+    
+    @discardableResult
+    public func drawContainer(
+        _ model: any AccessibilityView,
+        scale: CGFloat
+    ) -> A11yControlLayer {
+        let container = draw(model, scale: scale)
+        container.borderWidth = 10
+        container.borderColor = model.color.cgColor
+        container.cornerCurve = .continuous
+        container.masksToBounds = true
+        return container
     }
     
     // MARK: New drawing
@@ -70,11 +83,11 @@ public class DrawingController {
         }
     }
     
-    private func startDragging(control: A11yControl, startLocation: CGPoint) {
+    private func startDragging(control: A11yControlLayer, startLocation: CGPoint) {
         action = CopyAndTranslateAction(view: view, sourceControl: control, startLocation: startLocation, offset: .zero, initialFrame: control.frame)
     }
     
-    private func startResizing(control: A11yControl, startLocation: CGPoint) {
+    private func startResizing(control: A11yControlLayer, startLocation: CGPoint) {
         action = ResizeAction(view: view, control: control, startLocation: startLocation, offset: .zero, initialFrame: control.frame)
     }
     

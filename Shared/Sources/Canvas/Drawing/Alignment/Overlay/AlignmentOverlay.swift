@@ -26,7 +26,7 @@ class AlignmentOverlay: AlignmentOverlayProtocol {
         alignmentLines = []
     }
     
-    private var alignedControl: A11yControl? {
+    private var alignedControl: A11yControlLayer? {
         didSet {
             if alignedControl != oldValue {
                 vibrate()
@@ -47,9 +47,9 @@ class AlignmentOverlay: AlignmentOverlayProtocol {
     }
     
     func alignToAny(
-        _ sourceControl: A11yControl,
+        _ sourceControl: A11yControlLayer,
         point: CGPoint,
-        drawnControls: [A11yControl]
+        drawnControls: [A11yControlLayer]
     ) -> CGPoint {
         
         hideAligningLine()
@@ -76,9 +76,9 @@ class AlignmentOverlay: AlignmentOverlayProtocol {
     }
     
     func alignToAny(
-        _ sourceControl: A11yControl,
+        _ sourceControl: A11yControlLayer,
         frame: CGRect,
-        drawnControls: [A11yControl]
+        drawnControls: [A11yControlLayer]
     ) -> CGRect {
         
         hideAligningLine()

@@ -1,21 +1,21 @@
 import QuartzCore
 import Document
 
-public class A11yControl: CALayer {
+struct Config {
+    let selectedBorderWidth: CGFloat = 4
+    let selectedCornerRadius: CGFloat = 4
     
-    struct Config {
-        let selectedBorderWidth: CGFloat = 4
-        let selectedCornerRadius: CGFloat = 4
-        
-        let highlightedAlpha: CGFloat = 0.75
-        let normalAlpha: CGFloat = 0.5
-        let normalCornerRadius: CGFloat = 0
-        
-        let fontSize: CGFloat = 10
-        
-        let resizeMarkerSize: CGFloat = 10
-        let alignmentThreshold: CGFloat = 5
-    }
+    let highlightedAlpha: CGFloat = 0.75
+    let normalAlpha: CGFloat = 0.5
+    let normalCornerRadius: CGFloat = 0
+    
+    let fontSize: CGFloat = 10
+    
+    let resizeMarkerSize: CGFloat = 30
+    let alignmentThreshold: CGFloat = 5
+}
+
+public class A11yControlLayer: CAShapeLayer {
     
     private let config = Config()
     
@@ -48,8 +48,8 @@ public class A11yControl: CALayer {
                                       
     private func layoutResizeMarker() {
         let size: CGFloat = Config().resizeMarkerSize
-        resizingMarker.frame = CGRect(origin: CGPoint(x: bounds.maxX - size,
-                                                      y: bounds.maxY - size),
+        resizingMarker.frame = CGRect(origin: CGPoint(x: bounds.maxX - size/2,
+                                                      y: bounds.maxY - size/2),
                                       size: CGSize(width: size,
                                                    height: size))
     }
@@ -72,25 +72,15 @@ public class A11yControl: CALayer {
             : config.normalAlpha
             
             backgroundColor = backgroundColor?.copy(alpha: alpha)
-            
-            resizingMarker.isHidden = !isHiglighted
         }
     }
     
     private lazy var resizingMarker: CALayer = {
-        let size = Config().resizeMarkerSize
-        
-        var triangle = CGMutablePath()
-        triangle.move(to: CGPoint(x: size, y: 0))
-        triangle.addLine(to: CGPoint(x: size, y: size))
-        triangle.addLine(to: CGPoint(x: 0, y: size))
-        triangle.closeSubpath()
-        
-        let marker = CAShapeLayer()
-        marker.path = triangle
-        marker.fillColor = CGColor(gray: 0, alpha: 0.25)
-        addSublayer(marker)
+        let marker = ResizeMarker()
         marker.isHidden = true
+        
+        addSublayer(marker)
+        
         return marker
     }()
     
@@ -98,10 +88,12 @@ public class A11yControl: CALayer {
         didSet {
             borderWidth = isSelected ? config.selectedBorderWidth : 0
             borderColor = backgroundColor?.copy(alpha: 1)
-            cornerRadius = isSelected ? config.selectedCornerRadius : config.normalCornerRadius
+//            cornerRadius = isSelected ? config.selectedCornerRadius : config.normalCornerRadius
             if #available(macOS 10.15, *) {
                 cornerCurve = .continuous
             }
+            
+            resizingMarker.isHidden = !isSelected
         }
     }
     
@@ -116,12 +108,13 @@ public class A11yControl: CALayer {
     }
 }
 
-public extension A11yControl {
-    static func copy(from model: any AccessibilityView) -> A11yControl {
-        let control = A11yControl()
+public extension A11yControlLayer {
+    static func copy(from model: any AccessibilityView) -> A11yControlLayer {
+        let control = A11yControlLayer()
         control.model = model
         control.backgroundColor = model.color.cgColor
         control.frame = model.frame
         return control
     }
 }
+

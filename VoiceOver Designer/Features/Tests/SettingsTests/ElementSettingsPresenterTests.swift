@@ -14,14 +14,14 @@ import Canvas
 class SettingsTests: XCTestCase {
 
     var model: A11yDescription!
-    var control: A11yControl!
+    var control: A11yControlLayer!
     var sut: ElementSettingsPresenter!
     var delegate: FakeSettingsDelegate!
     
     override func setUp() {
         model = A11yDescription.empty(frame: .zero)
         
-        control = A11yControl()
+        control = A11yControlLayer()
         control.model = model
         
         delegate = FakeSettingsDelegate()

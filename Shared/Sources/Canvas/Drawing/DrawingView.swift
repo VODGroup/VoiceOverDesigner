@@ -37,7 +37,7 @@ extension CALayer {
 }
 
 public protocol DrawingView: View {
-    var drawnControls: [A11yControl] { get set }
+    var drawnControls: [A11yControlLayer] { get set }
     
     var alignmentOverlay: AlignmentOverlayProtocol { get }
     
@@ -48,14 +48,14 @@ public protocol DrawingView: View {
 
 public extension DrawingView {
     
-    func add(control: A11yControl) {
+    func add(control: A11yControlLayer) {
         control.contentsScale = contentScale
         addSublayer(control)
         drawnControls.append(control)
     }
     
     // MARK: Existed
-    func control(at coordinate: CGPoint) -> A11yControl? {
+    func control(at coordinate: CGPoint) -> A11yControlLayer? {
         let viewsUnderCoordinate = drawnControls.filter({ control in
             control.frame.contains(coordinate)
         })
@@ -76,7 +76,7 @@ public extension DrawingView {
         }
     }
     
-    func delete(control: A11yControl) {
+    func delete(control: A11yControlLayer) {
         control.removeFromSuperlayer()
         
         if let index = drawnControls.firstIndex(of: control) {

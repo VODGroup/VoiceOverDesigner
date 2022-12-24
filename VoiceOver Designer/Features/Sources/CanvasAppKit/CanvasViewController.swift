@@ -77,7 +77,7 @@ public class CanvasViewController: NSViewController {
         }
     }
     
-    var highlightedControl: A11yControl? {
+    var highlightedControl: A11yControlLayer? {
         didSet {
             if highlightedControl != nil {
                 NSCursor.openHand.push()
