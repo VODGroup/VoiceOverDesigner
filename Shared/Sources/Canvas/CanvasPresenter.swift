@@ -58,7 +58,7 @@ public class CanvasPresenter: DocumentPresenter {
     // MARK: Mouse
     public func mouseDown(on location: CGPoint) {
         guard document.image != nil else { return }
-        drawingController.mouseDown(on: location)
+        drawingController.mouseDown(on: location, selectedControl: selectedControl)
     }
     
     public func mouseDragged(on location: CGPoint) {
