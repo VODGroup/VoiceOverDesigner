@@ -59,24 +59,49 @@ extension CGRect {
         corner: RectCorner,
         to newLocation: CGPoint
     ) -> CGRect {
-        
         switch corner {
-        case .bottomLeft: return .zero
-        case .bottomRight: return .zero
+        case .bottomLeft:
+            let offset = CGPoint(
+                x: newLocation.x - origin.x,
+                y: newLocation.y - (origin.y + height))
+            
+            let origin = CGPoint(x: newLocation.x,
+                                 y: origin.y)
+            
+            let size = CGSize(
+                width: width - offset.x,
+                height: height + offset.y)
+            
+            return CGRect(origin: origin, size: size)
+            
+        case .bottomRight:
+            let size = CGSize(
+                width: newLocation.x - origin.x,
+                height: newLocation.y - origin.y)
+            
+            return CGRect(origin: origin, size: size)
+            
         case .topLeft:
             let offset = CGPoint(
                 x: newLocation.x - origin.x,
                 y: newLocation.y - origin.y)
             
             let size = CGSize(width: width - offset.x,
-                              height: width - offset.y)
+                              height: height - offset.y)
             
             return CGRect(origin: newLocation, size: size)
             
         case .topRight:
+            let offset = CGPoint(
+                x: newLocation.x - (origin.x + width),
+                y: newLocation.y - origin.y)
+            
+            let origin = CGPoint(x: origin.x,
+                                 y: newLocation.y)
+            
             let size = CGSize(
-                width: newLocation.x - origin.x,
-                height: newLocation.y - origin.y)
+                width: width + offset.x,
+                height: height - offset.y)
             
             return CGRect(origin: origin, size: size)
         }

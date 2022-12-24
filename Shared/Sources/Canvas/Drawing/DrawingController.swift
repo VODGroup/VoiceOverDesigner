@@ -74,8 +74,9 @@ public class DrawingController {
     // MARK: New drawing
     public func mouseDown(on location: CGPoint) {
         if let existedControl = view.control(at: location) {
-            let threshold = Config().resizeMarkerSize
-            if let corner = existedControl.frame.isCorner(at: location, size: threshold) {
+            let threshold = Config().resizeMarkerSize * 3
+            if let corner = existedControl.frame
+                .isCorner(at: location, size: threshold) {
                 startResizing(control: existedControl, startLocation: location, corner: corner)
             } else {
                 startDragging(control: existedControl, startLocation: location)

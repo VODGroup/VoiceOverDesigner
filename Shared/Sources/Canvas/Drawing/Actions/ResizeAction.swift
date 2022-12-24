@@ -22,9 +22,7 @@ public class ResizeAction: DraggingAction {
             .alignToAny(control,
                         point: coordinate,
                         drawnControls: view.drawnControls)
-        
-        let originalCorner = initialFrame.point(at: corner)
-        
+
         control.updateWithoutAnimation {
             control.frame = initialFrame
                 .move(corner: corner, to: alignedCoordinate)
