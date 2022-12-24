@@ -57,8 +57,9 @@ extension CanvasPresenterTests {
         sut.mouseDown(on: from)
         return sut.mouseUp(on: to)
     }
-    
-    func drawRect(from: CGPoint, to: CGPoint) -> A11yControlLayer?{
+   
+    @discardableResult
+    func drawRect(from: CGPoint, to: CGPoint) -> A11yControlLayer? {
         sut.mouseDown(on: from)
         return sut.mouseUp(on: to)
     }
