@@ -15,11 +15,35 @@ struct Config {
     let alignmentThreshold: CGFloat = 5
 }
 
-public class A11yControlLayer: CAShapeLayer {
+public class A11yControlLayer: CALayer {
     
     private let config = Config()
     
     public var model: (any AccessibilityView)?
+    private var border = CAShapeLayer()
+    
+    public override init() {
+        super.init()
+        
+        border.lineWidth = 10
+        addSublayer(border)
+        
+        
+        resizingMarkers.forEach { marker in
+            addSublayer(marker)
+            marker.isHidden = true
+        }
+    }
+    
+    public override init(layer: Any) {
+        super.init(layer: layer)
+        let layer = layer as! A11yControlLayer
+        self.model = layer.model
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     public lazy var label: CATextLayer? = {
         let label = CATextLayer()
@@ -44,19 +68,29 @@ public class A11yControlLayer: CAShapeLayer {
         updateWithoutAnimation {
             layoutResizeMarker()
         }
+        
+        border.frame = bounds
     }
                                       
     private func layoutResizeMarker() {
+        resizingMarkers[0].frame = markerFrame(center: CGPoint(x: bounds.minX, y: bounds.minY))
+        resizingMarkers[1].frame = markerFrame(center: CGPoint(x: bounds.minX, y: bounds.maxY))
+        resizingMarkers[2].frame = markerFrame(center: CGPoint(x: bounds.maxX, y: bounds.maxY))
+        resizingMarkers[3].frame = markerFrame(center: CGPoint(x: bounds.maxX, y: bounds.minY))
+    }
+    
+    private func markerFrame(center: CGPoint) -> CGRect {
         let size: CGFloat = Config().resizeMarkerSize
-        resizingMarker.frame = CGRect(origin: CGPoint(x: bounds.maxX - size/2,
-                                                      y: bounds.maxY - size/2),
-                                      size: CGSize(width: size,
-                                                   height: size))
+        return CGRect(origin: CGPoint(x: center.x - size/2,
+                                      y: center.y - size/2),
+                      size: CGSize(width: size,
+                                   height: size))
+        
     }
     
     public func updateColor() {
         backgroundColor = model?.color.cgColor
-        borderColor = model?.color.cgColor.copy(alpha: 0)
+        border.strokeColor = model?.color.cgColor.copy(alpha: 0)
     }
     
     public override var frame: CGRect {
@@ -75,25 +109,25 @@ public class A11yControlLayer: CAShapeLayer {
         }
     }
     
-    private lazy var resizingMarker: CALayer = {
-        let marker = ResizeMarker()
-        marker.isHidden = true
-        
-        addSublayer(marker)
-        
-        return marker
-    }()
+    private var resizingMarkers: [CALayer] = [
+        ResizeMarker(),
+        ResizeMarker(),
+        ResizeMarker(),
+        ResizeMarker(),
+    ]
     
     public var isSelected: Bool = false {
         didSet {
-            borderWidth = isSelected ? config.selectedBorderWidth : 0
-            borderColor = backgroundColor?.copy(alpha: 1)
+            border.lineWidth = isSelected ? config.selectedBorderWidth : 0
+            border.strokeColor = backgroundColor?.copy(alpha: 1)
 //            cornerRadius = isSelected ? config.selectedCornerRadius : config.normalCornerRadius
             if #available(macOS 10.15, *) {
                 cornerCurve = .continuous
             }
             
-            resizingMarker.isHidden = !isSelected
+            resizingMarkers.forEach { marker in
+                marker.isHidden = !isSelected
+            }
         }
     }
     
