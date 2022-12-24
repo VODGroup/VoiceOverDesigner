@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 import Document
 
 class VoiceOverContainer: NSObject {
@@ -34,7 +35,19 @@ class VoiceOverContainer: NSObject {
                 accessibilityContainer: self,
                 frameInContainerSpace: relativeFrame)
         })
-        accessibilityContainerType = .semanticGroup
+        accessibilityContainerType = container.containerType.uiKit
+        accessibilityNavigationStyle = container.navigationStyle.uiKit
+        
+        accessibilityViewIsModal = container.isModal
+        
+        if container.isTabTrait {
+            accessibilityTraits.formUnion(.tabBar)
+        } else {
+            accessibilityTraits.remove(.tabBar)
+        }
+        
+        // TODO: Add enumeration
+        // TODO: Add Enumeration to child
     }
 }
 
@@ -48,5 +61,25 @@ extension CGRect {
         return CGRect(
             origin: origin,
             size: size)
+    }
+}
+
+extension A11yContainer.ContainerType {
+    var uiKit: UIAccessibilityContainerType {
+        switch self {
+        case .landmark: return .landmark
+        case .list: return .list
+        case .semanticGroup: return .semanticGroup
+        }
+    }
+}
+
+extension A11yContainer.NavigationStyle {
+    var uiKit: UIAccessibilityNavigationStyle {
+        switch self {
+        case .automatic: return .automatic
+        case .combined: return .combined
+        case .separate: return .separate
+        }
     }
 }

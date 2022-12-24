@@ -11,7 +11,7 @@
         <scene sceneID="PEd-7d-5j0">
             <objects>
                 <viewController id="bU7-R8-ocO" customClass="ContainerSettingsViewController" customModule="Settings" sceneMemberID="viewController">
-                    <view key="view" id="tOy-S4-hL0">
+                    <view key="view" id="tOy-S4-hL0" customClass="ContainerSettingsView" customModule="Settings">
                         <rect key="frame" x="0.0" y="0.0" width="396" height="500"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
@@ -28,7 +28,7 @@
                                     </textField>
                                     <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xS2-xz-2A9">
                                         <rect key="frame" x="-5" y="-5" width="366" height="40"/>
-                                        <segmentedCell key="cell" controlSize="large" enabled="NO" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="rng-Va-DWt">
+                                        <segmentedCell key="cell" controlSize="large" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="rng-Va-DWt">
                                             <font key="font" metaFont="system"/>
                                             <segments>
                                                 <segment label="Semantic group" selected="YES"/>
@@ -36,6 +36,9 @@
                                                 <segment label="Landmark"/>
                                             </segments>
                                         </segmentedCell>
+                                        <connections>
+                                            <action selector="didChangeContainerTypeWithSender:" target="bU7-R8-ocO" id="F6i-Rp-VRH"/>
+                                        </connections>
                                     </segmentedControl>
                                 </subviews>
                                 <constraints>
@@ -72,10 +75,13 @@
                                         <subviews>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nvX-Vd-wd7">
                                                 <rect key="frame" x="-2" y="-1" width="95" height="18"/>
-                                                <buttonCell key="cell" type="check" title="Modal view" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="fL2-m1-GvY">
+                                                <buttonCell key="cell" type="check" title="Modal view" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="fL2-m1-GvY">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
+                                                <connections>
+                                                    <action selector="isModalDidChangedWithSender:" target="bU7-R8-ocO" id="P2g-Pt-PLu"/>
+                                                </connections>
                                             </button>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zkR-5S-jn0">
                                                 <rect key="frame" x="99" y="0.0" width="174" height="13"/>
@@ -100,10 +106,13 @@
                                     </stackView>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zLt-0M-R2x">
                                         <rect key="frame" x="-2" y="23" width="96" height="18"/>
-                                        <buttonCell key="cell" type="check" title="Tab section" bezelStyle="regularSquare" imagePosition="left" enabled="NO" state="on" inset="2" id="FoF-vG-Omr">
+                                        <buttonCell key="cell" type="check" title="Tab section" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="FoF-vG-Omr">
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="isTabDidChangedWithSender:" target="bU7-R8-ocO" id="0IK-xu-NEs"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oGz-SO-dDA">
                                         <rect key="frame" x="-2" y="-1" width="150" height="18"/>
@@ -111,6 +120,9 @@
                                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="isEnumerateDidChangedWithSender:" target="bU7-R8-ocO" id="366-kp-mKE"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <visibilityPriorities>
@@ -139,7 +151,7 @@
                                     </textField>
                                     <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="63H-i2-nLD">
                                         <rect key="frame" x="-5" y="-5" width="366" height="40"/>
-                                        <segmentedCell key="cell" controlSize="large" enabled="NO" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="xNW-sw-X7R">
+                                        <segmentedCell key="cell" controlSize="large" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="xNW-sw-X7R">
                                             <font key="font" metaFont="system"/>
                                             <segments>
                                                 <segment label="Automatic" selected="YES"/>
@@ -147,6 +159,9 @@
                                                 <segment label="Combined"/>
                                             </segments>
                                         </segmentedCell>
+                                        <connections>
+                                            <action selector="didChangeNavigationStyleWithSender:" target="bU7-R8-ocO" id="Lfj-8a-YjR"/>
+                                        </connections>
                                     </segmentedControl>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="d0M-US-5uB">
                                         <rect key="frame" x="111" y="38" width="98" height="13"/>
@@ -185,6 +200,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="AN8-Iy-kdy"/>
                         <viewLayoutGuide key="layoutMargins" id="xgy-mf-F46"/>
+                        <connections>
+                            <outlet property="containerTypeSegmentedControl" destination="xS2-xz-2A9" id="rUU-4x-IHW"/>
+                            <outlet property="isEnumeratedButton" destination="oGz-SO-dDA" id="tSg-EW-Ugc"/>
+                            <outlet property="isModalButton" destination="nvX-Vd-wd7" id="sCp-1p-AXy"/>
+                            <outlet property="isTabTraitButton" destination="zLt-0M-R2x" id="s19-TA-r1t"/>
+                            <outlet property="navigationStyleSegmentedControl" destination="63H-i2-nLD" id="mPs-kL-yFB"/>
+                        </connections>
                     </view>
                 </viewController>
                 <customObject id="9uD-mB-xHs" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
