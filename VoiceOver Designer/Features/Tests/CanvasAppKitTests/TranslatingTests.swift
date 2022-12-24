@@ -30,17 +30,16 @@ class TranslatingTests: CanvasAfterDidLoadTests {
     }
     
     func test_whenMoveNearLeftEdgeOnAnyElement_shouldPinToLeftEdge() throws {
-        throw XCTSkip()
         drawRect(from: start10, to: end60)
-        drawRect(from: .coord(100),
-                 to: .coord(150))
+        drawRect(from: .coord(200),
+                 to: .coord(300))
         XCTAssertEqual(drawnControls.count, 2)
         
-        sut.mouseDown(on: .coord(101)) // 2nd rect
-        sut.mouseDragged(on: .coord(11))
+        sut.mouseDown(on: .coord(200+30)) // 2nd rect
+        sut.mouseDragged(on: .coord(10+1))
         
         XCTAssertEqual(drawnControls[1].frame,
-                       CGRect(origin: .coord(10), size: .side(50)))
+                       CGRect(origin: .coord(10), size: .side(290)))
     }
     
     // TODO:
@@ -80,7 +79,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         drawRect(from: start10, to: end60)
         XCTAssertEqual(drawnControls.count, 1)
         
-        sut.mouseDown(on: .coord(60-1)) // Not inclued border
+        sut.mouseDown(on: .coord(60)) // Not include border
         sut.mouseDragged(on: .coord(20))
         
         XCTAssertEqual(drawnControls.count, 1)
