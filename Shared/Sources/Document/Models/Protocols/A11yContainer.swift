@@ -63,11 +63,11 @@ public class A11yContainer: Codable, AccessibilityContainer {
     }
     
     public enum ContainerType: String, Codable, CaseIterable {
-        case none
-        //    case dataTable
+//        case none
+//        case dataTable
+        case semanticGroup
         case list
         case landmark
-        case semanticGroup
     }
     
     public enum NavigationStyle: String, Codable, CaseIterable  {

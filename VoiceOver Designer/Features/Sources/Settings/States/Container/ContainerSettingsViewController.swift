@@ -29,19 +29,16 @@ class ContainerSettingsViewController: NSViewController {
         renderSettings()
     }
     
-    private func renderSettings() {
-        view().isModal = presenter.container.isModal
-        view().isTabTrait = presenter.container.isTabTrait
-        view().isEnumerated = presenter.container.isEnumerated
-        view().isEnumeratedEnabled = !presenter.container.isTabTrait
+    func renderSettings() {
+        view().renderSettings(container: presenter.container)
     }
     
     @IBAction func didChangeContainerType(sender: Any) {
-        
+        presenter.container.containerType = view().containerType
     }
     
     @IBAction func didChangeNavigationStyle(sender: Any) {
-        
+        presenter.container.navigationStyle = view().navigationStyle
     }
     
     @IBAction func isModalDidChanged(sender: Any) {
@@ -86,53 +83,4 @@ extension ContainerSettingsViewController {
                                       bundle: .module)
         return storyboard.instantiateInitialController() as! ContainerSettingsViewController
     }
-}
-
-class ContainerSettingsView: NSView {
-    
-    var isModal: Bool {
-        get {
-            isModalButton.state == .on
-        }
-        
-        set {
-            isModalButton.state = newValue ? .on: .off
-        }
-    }
-    
-    var isTabTrait: Bool {
-        get {
-            isTabTraitButton.state == .on
-        }
-        
-        set {
-            isTabTraitButton.state = newValue ? .on: .off
-        }
-    }
-    
-    var isEnumerated: Bool {
-        get {
-            isEnumeratedButton.state == .on
-        }
-        
-        set {
-            isEnumeratedButton.state = newValue ? .on: .off
-        }
-    }
-    
-    var isEnumeratedEnabled: Bool {
-        set {
-            isEnumeratedButton.isEnabled = newValue
-        }
-        
-        get {
-            isEnumeratedButton.isEnabled
-        }
-    }
-    
-    @IBOutlet private var containerTypeSegmentedControl: NSSegmentedControl!
-    @IBOutlet private var navigationStyleSegmentedControl: NSSegmentedControl!
-    @IBOutlet private var isModalButton: NSButton!
-    @IBOutlet private var isTabTraitButton: NSButton!
-    @IBOutlet private var isEnumeratedButton: NSButton!
 }

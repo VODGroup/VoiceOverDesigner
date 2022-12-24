@@ -28,7 +28,7 @@
                                     </textField>
                                     <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xS2-xz-2A9">
                                         <rect key="frame" x="-5" y="-5" width="366" height="40"/>
-                                        <segmentedCell key="cell" controlSize="large" enabled="NO" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="rng-Va-DWt">
+                                        <segmentedCell key="cell" controlSize="large" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="rng-Va-DWt">
                                             <font key="font" metaFont="system"/>
                                             <segments>
                                                 <segment label="Semantic group" selected="YES"/>
@@ -151,10 +151,10 @@
                                     </textField>
                                     <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="63H-i2-nLD">
                                         <rect key="frame" x="-5" y="-5" width="366" height="40"/>
-                                        <segmentedCell key="cell" controlSize="large" enabled="NO" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="xNW-sw-X7R">
+                                        <segmentedCell key="cell" controlSize="large" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="rounded" trackingMode="selectOne" id="xNW-sw-X7R">
                                             <font key="font" metaFont="system"/>
                                             <segments>
-                                                <segment label="Automatic" enabled="NO" selected="YES"/>
+                                                <segment label="Automatic" selected="YES"/>
                                                 <segment label="Separate" tag="1"/>
                                                 <segment label="Combined"/>
                                             </segments>
