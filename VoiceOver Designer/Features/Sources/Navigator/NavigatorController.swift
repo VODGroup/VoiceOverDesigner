@@ -56,28 +56,32 @@ public class NavigatorController: NSViewController {
         updateAttributedLabel(for: model, isSelected: true)
         
         
+        guard isValid(row: index) else {
+            return expandAndSelect(model)
+        }
+        
+        
         outlineView.selectRowIndexes(IndexSet(integer: index),
                                      byExtendingSelection: false)
         
-        expandAndSelect(model)
+        
         
         
     }
     
     private func expandAndSelect(_ element: any AccessibilityView) {
+        
         guard case let .element(description) = element.cast else { return }
-        guard let container = document.controls.extractContainers()
-            .first(where: { $0.contains(description) }),
-        let childIndex = container.elements.firstIndex(of: description) else { return }
+        guard let container = document.container(for: description) else { return }
         // Expanding Container
         outlineView.expandItem(container, expandChildren: false)
         
         
         // Selecting element inside of container
-        let childItem = outlineView.child(childIndex, ofItem: container)
-        let indexToSelect = outlineView.row(forItem: childItem)
+        let rowToSelect = outlineView.row(forItem: description)
+        guard isValid(row: rowToSelect) else { return }
         
-        outlineView.selectRowIndexes(IndexSet(integer: indexToSelect), byExtendingSelection: false)
+        outlineView.selectRowIndexes(IndexSet(integer: rowToSelect), byExtendingSelection: false)
         
     }
 
