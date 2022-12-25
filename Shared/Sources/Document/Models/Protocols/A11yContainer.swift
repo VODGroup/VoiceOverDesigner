@@ -75,6 +75,12 @@ public class A11yContainer: Codable, AccessibilityContainer {
         case separate
         case combined
     }
+    
+    
+    public func contains(_ element: A11yDescription) -> Bool {
+        elements.contains(element)
+    }
+    
 }
 
 public enum A11yElement: Codable {
