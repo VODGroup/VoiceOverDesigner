@@ -111,7 +111,7 @@ class CanvasView: FlippedView {
     private var fitingMagnification: CGFloat? {
         guard let image = backgroundImageView.image else { return nil }
         
-        let scrollViewVisibleHeight = scrollView.frame.height - scrollView.contentInsets.verticals
+        let scrollViewVisibleHeight = scrollView.frame.height// - scrollView.contentInsets.verticals
         return scrollViewVisibleHeight / image.size.height
     }
     

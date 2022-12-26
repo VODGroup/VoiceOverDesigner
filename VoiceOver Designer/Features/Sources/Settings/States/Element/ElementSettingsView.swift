@@ -7,16 +7,10 @@ class TraitCheckBox: NSButton {
 
 class ElementSettingsView: NSView {
     @IBOutlet weak var resultLabel: NSTextField!
-    @IBOutlet weak var scrollView: NSScrollView!
+    
     @IBOutlet weak var mainStack: NSStackView!
     @IBOutlet weak var hint: NSTextField!
     @IBOutlet weak var isAccessibilityElementButton: NSButton!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        scrollView.documentView = mainStack
-    }
     
     var descr: A11yDescription?
     func setup(from descr: A11yDescription) {

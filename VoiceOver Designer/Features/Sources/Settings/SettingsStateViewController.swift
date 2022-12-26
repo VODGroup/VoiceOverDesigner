@@ -32,7 +32,10 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
                 
                 self.recognizeText(for: element)
                 
-                return settings
+                let scrollViewController = ScrollViewController.fromStoryboard()
+                scrollViewController.embed(settings)
+                
+                return scrollViewController
                 
             case .container(let container):
                 let containerSettings = ContainerSettingsViewController.fromStoryboard()

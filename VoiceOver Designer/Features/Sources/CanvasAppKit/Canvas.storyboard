@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -12,23 +13,23 @@
             <objects>
                 <viewController storyboardIdentifier="canvas" id="LVp-Pr-lAJ" customClass="CanvasViewController" customModule="CanvasAppKit" sceneMemberID="viewController">
                     <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="ndy-hA-WOO" customClass="CanvasView" customModule="CanvasAppKit">
-                        <rect key="frame" x="0.0" y="0.0" width="800" height="814"/>
+                        <rect key="frame" x="0.0" y="0.0" width="800" height="906"/>
                         <subviews>
-                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" maxMagnification="6" minMagnification="0.01" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHg-wh-ieX" customClass="CanvasScrollView" customModule="CanvasAppKit">
-                                <rect key="frame" x="0.0" y="0.0" width="800" height="814"/>
-                                <clipView key="contentView" id="lki-H1-X1O" customClass="CenteredClipView" customModule="CanvasAppKit">
-                                    <rect key="frame" x="1" y="1" width="783" height="758"/>
+                            <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" allowsMagnification="YES" maxMagnification="6" minMagnification="0.01" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JHg-wh-ieX" customClass="CanvasScrollView" customModule="CanvasAppKit">
+                                <rect key="frame" x="0.0" y="40" width="800" height="814"/>
+                                <clipView key="contentView" drawsBackground="NO" id="lki-H1-X1O" customClass="CenteredClipView" customModule="CanvasAppKit">
+                                    <rect key="frame" x="0.0" y="0.0" width="800" height="814"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <view ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JlK-Oy-LgO" customClass="FlippedView" customModule="CanvasAppKit">
-                                            <rect key="frame" x="0.0" y="-54" width="784" height="812"/>
+                                            <rect key="frame" x="0.0" y="2" width="784" height="812"/>
                                             <subviews>
-                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="812" translatesAutoresizingMaskIntoConstraints="NO" id="kiH-h5-aG4">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="800" translatesAutoresizingMaskIntoConstraints="NO" id="kiH-h5-aG4">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="800"/>
                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="vuC-bS-HZw"/>
                                                 </imageView>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="L7U-F0-kOc" customClass="ControlsView" customModule="CanvasAppKit">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="800"/>
                                                 </customView>
                                             </subviews>
                                             <constraints>
@@ -45,21 +46,21 @@
                                     </subviews>
                                     <color key="backgroundColor" name="windowBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
-                                <edgeInsets key="contentInsets" left="0.0" right="0.0" top="52" bottom="40"/>
-                                <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="RkM-Hh-eZx">
-                                    <rect key="frame" x="1" y="759" width="783" height="15"/>
+                                <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="RkM-Hh-eZx">
+                                    <rect key="frame" x="-100" y="-100" width="785" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.48571428571428577" horizontal="NO" id="96e-u8-vjE">
-                                    <rect key="frame" x="784" y="52" width="15" height="707"/>
+                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="96e-u8-vjE">
+                                    <rect key="frame" x="-100" y="-100" width="15" height="814"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
                             <customView horizontalHuggingPriority="1" verticalHuggingPriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="dHk-Q5-FAZ" customClass="DragNDropImageView" customModule="CommonUI">
-                                <rect key="frame" x="0.0" y="0.0" width="800" height="814"/>
+                                <rect key="frame" x="0.0" y="0.0" width="800" height="906"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cii-yh-9Te">
-                                        <rect key="frame" x="344" y="337" width="113" height="40"/>
+                                        <rect key="frame" x="344" y="383" width="113" height="40"/>
                                         <buttonCell key="cell" type="push" title="Add Image" bezelStyle="rounded" image="plus" catalog="system" imagePosition="leading" alignment="center" controlSize="large" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="exO-s4-81h">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -153,19 +154,19 @@
                         </subviews>
                         <constraints>
                             <constraint firstItem="xXt-RS-DEx" firstAttribute="leading" secondItem="ndy-hA-WOO" secondAttribute="leading" id="50A-G8-3U4"/>
-                            <constraint firstItem="dHk-Q5-FAZ" firstAttribute="centerX" secondItem="ndy-hA-WOO" secondAttribute="centerX" id="7uK-4x-5KY"/>
                             <constraint firstAttribute="trailing" secondItem="dHk-Q5-FAZ" secondAttribute="trailing" id="NaE-nh-KJy"/>
-                            <constraint firstItem="xXt-RS-DEx" firstAttribute="centerX" secondItem="ndy-hA-WOO" secondAttribute="centerX" id="OgB-lN-rxP"/>
-                            <constraint firstItem="JHg-wh-ieX" firstAttribute="top" secondItem="ndy-hA-WOO" secondAttribute="top" id="Qiz-Tv-2ML"/>
+                            <constraint firstItem="xXt-RS-DEx" firstAttribute="centerX" secondItem="QBA-NU-qhe" secondAttribute="centerX" id="OgB-lN-rxP"/>
+                            <constraint firstItem="JHg-wh-ieX" firstAttribute="top" secondItem="t1D-JO-b7t" secondAttribute="top" id="Qiz-Tv-2ML"/>
                             <constraint firstItem="dHk-Q5-FAZ" firstAttribute="top" secondItem="ndy-hA-WOO" secondAttribute="top" id="USZ-Do-ccr"/>
                             <constraint firstItem="dHk-Q5-FAZ" firstAttribute="leading" secondItem="ndy-hA-WOO" secondAttribute="leading" id="VVn-CA-TLV"/>
                             <constraint firstAttribute="trailing" secondItem="JHg-wh-ieX" secondAttribute="trailing" id="as5-CT-2Dr"/>
                             <constraint firstItem="JHg-wh-ieX" firstAttribute="leading" secondItem="ndy-hA-WOO" secondAttribute="leading" id="df2-t2-QcY"/>
                             <constraint firstAttribute="bottom" secondItem="dHk-Q5-FAZ" secondAttribute="bottom" id="fNE-dY-vWd"/>
-                            <constraint firstItem="dHk-Q5-FAZ" firstAttribute="centerY" secondItem="ndy-hA-WOO" secondAttribute="centerY" id="gJX-CH-1CF"/>
                             <constraint firstAttribute="bottom" secondItem="xXt-RS-DEx" secondAttribute="bottom" id="hAO-b7-9K7"/>
-                            <constraint firstAttribute="bottom" secondItem="JHg-wh-ieX" secondAttribute="bottom" id="im7-2p-KCV"/>
+                            <constraint firstAttribute="bottom" secondItem="JHg-wh-ieX" secondAttribute="bottom" constant="40" id="im7-2p-KCV"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="t1D-JO-b7t"/>
+                        <viewLayoutGuide key="layoutMargins" id="QBA-NU-qhe"/>
                         <connections>
                             <outlet property="addImageButton" destination="Cii-yh-9Te" id="Y6C-qb-AAD"/>
                             <outlet property="backgroundImageView" destination="kiH-h5-aG4" id="7f8-09-iTJ"/>

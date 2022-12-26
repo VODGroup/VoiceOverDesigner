@@ -98,4 +98,3 @@ extension ElementSettingsViewController: A11yValueDelegate, SettingsUI {
         view().updateTitle(from: descr)
     }
 }
-
