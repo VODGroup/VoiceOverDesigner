@@ -48,6 +48,7 @@ public class NavigatorController: NSViewController {
     private func select(model: (any AccessibilityView)?) {
         guard let model = model else {
             outlineView.deselectAll(self)
+            deselectCells()
             return
         }
         
@@ -100,6 +101,20 @@ public class NavigatorController: NSViewController {
         else { return }
         
         cell.setup(model: model, isSelected: isSelected)
+    }
+    
+    private func deselectCells() {
+        for control in document.controls {
+            switch control.cast {
+            case let .element(element):
+                updateAttributedLabel(for: element, isSelected: false)
+            case let .container(container):
+                container.flattenWithElements()
+                    .forEach {
+                        updateAttributedLabel(for: $0, isSelected: false)
+                    }                
+            }
+        }
     }
     
     @IBOutlet var groupButton: NSButton!
