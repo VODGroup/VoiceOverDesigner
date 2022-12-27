@@ -64,6 +64,12 @@ public class CanvasPresenter: DocumentPresenter {
     public func mouseDragged(on location: CGPoint) {
         drawingController.drag(to: location)
     }
+    
+    
+    public func mouseMoved(on location: CGPoint) {
+        guard document.image != nil else { return }
+        drawingController.mouseMoved(on: location, selectedControl: selectedControl)
+    }
    
     @discardableResult
     public func mouseUp(on location: CGPoint) -> A11yControlLayer? {
@@ -157,6 +163,10 @@ public class CanvasPresenter: DocumentPresenter {
     
     public func hideLabels() {
         ui.removeLabels()
+    }
+    
+    public var pointerPublisher: AnyPublisher<DrawingController.Pointer?, Never> {
+        drawingController.pointerPublisher
     }
     
     // MARK: - Deletion
