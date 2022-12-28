@@ -4,10 +4,9 @@ import Document
 
 class ElementCell: NSTableCellView {
     
-    func setup(model: (any AccessibilityView)?, isSelected: Bool) {
+    func setup(model: (any AccessibilityView)?) {
         self.model = model
-        self.isSelected = isSelected
-        
+        deselect()
     }
     
     private var model: (any AccessibilityView)?
@@ -23,20 +22,18 @@ class ElementCell: NSTableCellView {
         }
     }
     
-    var isSelected: Bool = false {
-        didSet {
-            if isSelected {
-                if let attributedString = textField?.attributedStringValue {
-                    let stringToDeselect = NSMutableAttributedString(attributedString: attributedString)
-                    stringToDeselect.addAttribute(.foregroundColor,
-                                                  value: Color.white,
-                                                  range: NSRange(location: 0, length: stringToDeselect.length))
-                    
-                    textField?.attributedStringValue = stringToDeselect
-                }
-            } else {
-                update(model: model)
-            }
+    public func select() {
+        if let attributedString = textField?.attributedStringValue {
+            let stringToDeselect = NSMutableAttributedString(attributedString: attributedString)
+            stringToDeselect.addAttribute(.foregroundColor,
+                                          value: Color.white,
+                                          range: NSRange(location: 0, length: stringToDeselect.length))
+            
+            textField?.attributedStringValue = stringToDeselect
         }
+    }
+    
+    public func deselect() {
+        update(model: model)
     }
 }
