@@ -48,33 +48,29 @@ public class CanvasViewController: NSViewController {
     }
     
     private func updateCursor(_ value: DrawingController.Pointer?) {
+        NSCursor.current.pop()
         guard let value else { return NSCursor.arrow.push() }
         switch value {
         case .dragging:
             NSCursor.closedHand.push()
-        case .movable:
+        case .hover:
             NSCursor.openHand.push()
         case .resize(let corner):
             
+            // There's no system resizing images so takes from WebKit
+            // see or should take custom image/private cursor: https://stackoverflow.com/questions/49297201/diagonal-resizing-mouse-pointer
             let image: NSImage = {
                 
-                let original = NSImage(
-                    systemSymbolName: "arrow.up.left.and.arrow.down.right",
-                    accessibilityDescription: nil)!
                 switch corner {
-                case .topLeft:
-                    return original
+                case .topLeft, .bottomRight:
+                    return NSImage(byReferencingFile: "/System/Library/Frameworks/WebKit.framework/Versions/Current/Frameworks/WebCore.framework/Resources/northWestSouthEastResizeCursor.png")!
                     
-                case .topRight:
-                    return original
-                case .bottomLeft:
-                    return original
-                case .bottomRight:
-                    return original
+                case .topRight, .bottomLeft:
+                    return NSImage(byReferencingFile: "/System/Library/Frameworks/WebKit.framework/Versions/Current/Frameworks/WebCore.framework/Resources/northEastSouthWestResizeCursor.png")!
                 }
             }()
             
-            NSCursor(image: image, hotSpot: image.alignmentRect.center).push()
+            NSCursor(image: image, hotSpot: NSPoint(x: 8, y: 8)).push()
             
         case .crosshair:
             NSCursor.crosshair.push()

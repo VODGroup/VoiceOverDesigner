@@ -6,7 +6,7 @@ import Document
 public class DrawingController {
     
     public enum Pointer: Equatable {
-        case movable
+        case hover
         case dragging
         case resize(RectCorner)
         case crosshair
@@ -115,7 +115,7 @@ public class DrawingController {
         }
         
         if view.control(at: location) != nil {
-            pointerSubject.send(view.copyListener.isCopyHold ? .copy : .movable)
+            pointerSubject.send(view.copyListener.isCopyHold ? .copy : .hover)
         } else {
             pointerSubject.send(nil)
         }
