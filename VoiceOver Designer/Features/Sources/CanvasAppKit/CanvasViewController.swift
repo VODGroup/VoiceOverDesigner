@@ -9,6 +9,7 @@ import Cocoa
 import Document
 import CommonUI
 import Canvas
+import Combine
 
 public class CanvasViewController: NSViewController {
     
@@ -17,6 +18,7 @@ public class CanvasViewController: NSViewController {
     }
     
     public var presenter: CanvasPresenter!
+    private var cancellables: Set<AnyCancellable> = []
     
     var trackingArea: NSTrackingArea!
     
@@ -37,6 +39,46 @@ public class CanvasViewController: NSViewController {
         view.addTrackingArea(trackingArea)
     }
     
+    private func observe() {
+        presenter
+            .pointerPublisher
+            .removeDuplicates()
+            .sink(receiveValue: updateCursor)
+            .store(in: &cancellables)
+    }
+    
+    private func updateCursor(_ value: DrawingController.Pointer?) {
+        NSCursor.current.pop()
+        guard let value else { return NSCursor.arrow.push() }
+        switch value {
+        case .dragging:
+            NSCursor.closedHand.push()
+        case .hover:
+            NSCursor.openHand.push()
+        case .resize(let corner):
+            
+            // There's no system resizing images so takes from WebKit
+            // see or should take custom image/private cursor: https://stackoverflow.com/questions/49297201/diagonal-resizing-mouse-pointer
+            let image: NSImage = {
+                
+                switch corner {
+                case .topLeft, .bottomRight:
+                    return NSImage(byReferencingFile: "/System/Library/Frameworks/WebKit.framework/Versions/Current/Frameworks/WebCore.framework/Resources/northWestSouthEastResizeCursor.png")!
+                    
+                case .topRight, .bottomLeft:
+                    return NSImage(byReferencingFile: "/System/Library/Frameworks/WebKit.framework/Versions/Current/Frameworks/WebCore.framework/Resources/northEastSouthWestResizeCursor.png")!
+                }
+            }()
+            
+            NSCursor(image: image, hotSpot: NSPoint(x: 8, y: 8)).push()
+            
+        case .crosshair:
+            NSCursor.crosshair.push()
+        case .copy:
+            NSCursor.dragCopy.push()
+        }
+    }
+    
     public override func viewDidAppear() {
         super.viewDidAppear()
         view().addImageButton.action = #selector(addImageButtonTapped)
@@ -53,6 +95,7 @@ public class CanvasViewController: NSViewController {
             self.setImage()
             self.addMouseTracking()
             self.addMenuItem()
+            self.observe()
         }
     }
     
@@ -73,22 +116,16 @@ public class CanvasViewController: NSViewController {
     
     public override var representedObject: Any? {
         didSet {
-        // Update the view, if already loaded.
+            // Update the view, if already loaded.
         }
     }
     
-    var highlightedControl: A11yControlLayer? {
-        didSet {
-            if highlightedControl != nil {
-                NSCursor.openHand.push()
-            } else {
-                NSCursor.openHand.pop()
-            }
-        }
-    }
+    var highlightedControl: A11yControlLayer?
+    
     public override func mouseMoved(with event: NSEvent) {
         highlightedControl?.isHiglighted = false
         highlightedControl = nil
+        presenter.mouseMoved(on: location(from: event))
         
         // TODO: Can crash if happend before document loading
         guard let control = presenter.ui.control(at: location(from: event)) else {
@@ -99,9 +136,9 @@ public class CanvasViewController: NSViewController {
         
         control.isHiglighted = true
         
-//        NSCursor.current.set = NSImage(
-//            systemSymbolName: "arrow.up.and.down.and.arrow.left.and.right",
-//            accessibilityDescription: nil)!
+        
+        
+        
     }
     
     func location(from event: NSEvent) -> CGPoint {

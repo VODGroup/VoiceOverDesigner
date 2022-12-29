@@ -1,8 +1,17 @@
 import CoreGraphics
 import QuartzCore
+import Combine
 import Document
 
 public class DrawingController {
+    
+    public enum Pointer: Equatable {
+        case hover
+        case dragging
+        case resize(RectCorner)
+        case crosshair
+        case copy
+    }
 
     
     public init(view: DrawingView) {
@@ -17,6 +26,12 @@ public class DrawingController {
     
     public let view: DrawingView
     private var action: DraggingAction?
+    public var pointerPublisher: AnyPublisher<Pointer?, Never> {
+        pointerSubject
+            .eraseToAnyPublisher()
+    }
+    private var pointerSubject = PassthroughSubject<Pointer?, Never>()
+    
 
     
     // MARK: Drawn from existed controls
@@ -89,6 +104,24 @@ public class DrawingController {
         }
     }
     
+    public func mouseMoved(on location: CGPoint, selectedControl: A11yControlLayer?) {
+        if let selectedControl {
+            let threshold = Config().resizeMarkerSize * 3
+            
+            if let corner = selectedControl.frame.isCorner(at: location, size: threshold) {
+                pointerSubject.send(.resize(corner))
+                return
+            }
+        }
+        
+        if view.control(at: location) != nil {
+            pointerSubject.send(view.copyListener.isCopyHold ? .copy : .hover)
+        } else {
+            pointerSubject.send(nil)
+        }
+        
+    }
+    
     private func startDragging(
         control: A11yControlLayer,
         startLocation: CGPoint
@@ -108,10 +141,17 @@ public class DrawingController {
         let control = draw(A11yDescription.empty(frame: .zero), scale: 1)
         
         self.action = NewControlAction(view: view, control: control, coordinate: coordinate)
+        pointerSubject.send(.crosshair)
     }
     
     public func drag(to coordinate: CGPoint) {
         action?.drag(to: coordinate)
+        updateDragCursor()
+    }
+    
+    private func updateDragCursor() {
+        guard action is CopyAndTranslateAction else { return }
+        pointerSubject.send(view.copyListener.isCopyHold ? .copy : .dragging)
     }
     
     public func end(coordinate: CGPoint) -> DraggingAction? {
