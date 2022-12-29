@@ -83,6 +83,16 @@ public class A11yContainer: Codable, AccessibilityContainer {
     
 }
 
+extension A11yContainer {
+    /**
+     Flattens container to array of ``AccessibilityView``
+     - returns: An array of any AccessibilityView
+     */
+    public func flattenWithElements() -> [any AccessibilityView] {
+        [self] + elements
+    }
+}
+
 public enum A11yElement: Codable {
     case description(A11yDescription)
     case container(A11yContainer)

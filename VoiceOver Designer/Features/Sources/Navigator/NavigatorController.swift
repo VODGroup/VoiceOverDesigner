@@ -41,8 +41,21 @@ public class NavigatorController: NSViewController {
         }.store(in: &cancellables)
         
         presenter.selectedPublisher
+            .scan(nil, deselect(current:next:))
             .sink(receiveValue: select(model:))
             .store(in: &cancellables)
+    }
+    
+    /**
+     Deselects current element and passes next upstream
+        - parameters:
+            - current: A currently selected ``AccessibilityView`` in the upstream
+            - next: A new value to select in the upstream
+        - returns: A next value to select
+     */
+    private func deselect(current: (any AccessibilityView)?, next: (any AccessibilityView)?) -> (any AccessibilityView)? {
+        updateCell(for: current, shouldSelect: false)
+        return next
     }
     
     private func select(model: (any AccessibilityView)?) {
@@ -53,7 +66,7 @@ public class NavigatorController: NSViewController {
         
         let index = outlineView.row(forItem: model)
         
-        updateAttributedLabel(for: model, isSelected: true)
+        updateCell(for: model, shouldSelect: true)
         
         
         guard isValid(row: index) else {
@@ -63,10 +76,6 @@ public class NavigatorController: NSViewController {
         
         outlineView.selectRowIndexes(IndexSet(integer: index),
                                      byExtendingSelection: false)
-        
-        
-        
-        
     }
     
     private func expandAndSelect(_ element: any AccessibilityView) {
@@ -85,11 +94,17 @@ public class NavigatorController: NSViewController {
         
     }
 
-    
+    /**
+        Checks if is row valid based on value ``NSOutlineView/row(forItem:)``
+        - parameters:
+            - row: An integer value
+        - returns: A Boolean that indicates is row valid or not
+     */
     private func isValid(row: Int) -> Bool {
         row != -1
     }
-    private func updateAttributedLabel(for model: (any AccessibilityView)?, isSelected: Bool) {
+    
+    private func updateCell(for model: (any AccessibilityView)?, shouldSelect: Bool) {
         guard let model else { return }
         
         let row = outlineView.row(forItem: model)
@@ -99,7 +114,7 @@ public class NavigatorController: NSViewController {
             let cell = rowView.view(atColumn: 0) as? ElementCell
         else { return }
         
-        cell.setup(model: model, isSelected: isSelected)
+        shouldSelect ? cell.select() : cell.deselect()
     }
     
     @IBOutlet var groupButton: NSButton!
@@ -152,30 +167,23 @@ extension NavigatorController: NSOutlineViewDelegate {
         let view = outlineView.makeView(withIdentifier: id, owner: self) as! ElementCell
         
         let model = item as? any AccessibilityView
-        view.setup(model: model,
-                   isSelected: false)
+        view.setup(model: model)
         
         return view
     }
     
+    
     public func outlineViewSelectionDidChange(_ notification: Notification) {
         guard let outlineView = notification.object as? NSOutlineView else { return }
         
-        // Deselection of previous value
-        let previousSelection = presenter.selectedPublisher.value
-        updateAttributedLabel(for: previousSelection, isSelected: false)
-        
         guard outlineView.selectedRowIndexes.count == 1 else {
             groupButton.isEnabled = true
-            return // Not farward multiple seleciton to whole app
+            return // Not forward multiple selection to whole app
         }
         groupButton.isEnabled = false
         
-
-        
         let selectedItem = outlineView.item(atRow: outlineView.selectedRow)
         if let element = selectedItem as? any AccessibilityView  {
-            updateAttributedLabel(for: element, isSelected: true)
             presenter.selectedPublisher.send(element)
         }
     }
