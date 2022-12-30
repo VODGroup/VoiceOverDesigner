@@ -31,8 +31,6 @@ let package = Package(
             url: "git@github.com:pointfreeco/swift-snapshot-testing.git",
             .upToNextMajor(from: "1.10.0")
         ),
-        .package(url: "git@github.com:pointfreeco/swift-custom-dump.git",
-                 .upToNextMajor(from: "0.6.1")),
         .package(name: "Shared", path: "./../../Shared")
     ],
     targets: [
@@ -102,8 +100,6 @@ let package = Package(
             name: "NavigatorTests",
             dependencies: [
                 "Navigator",
-                .productItem(name: "CustomDump", package: "swift-custom-dump"),
-                .product(name: "Document", package: "Shared"),
             ]
         ),
     ]

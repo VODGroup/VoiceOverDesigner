@@ -25,12 +25,15 @@ let package = Package(
         
     ],
     dependencies: [
-        
+        .package(url: "git@github.com:pointfreeco/swift-custom-dump.git",
+                 .upToNextMajor(from: "0.6.1")),
     ],
     targets: [
         .target(
             name: "Document",
-            dependencies: []),
+            dependencies: [
+                .productItem(name: "CustomDump", package: "swift-custom-dump"),
+            ]),
         .target(
             name: "DocumentTestHelpers",
             dependencies: ["Document"],
@@ -76,6 +79,8 @@ let package = Package(
             name: "CanvasTests",
             dependencies: [
                 "Canvas",
+                "Document",
+                "DocumentTestHelpers",
             ]),
     ]
 )

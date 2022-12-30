@@ -4,6 +4,7 @@ import Document
 
 public protocol TextBasedPresenter {
     var selectedPublisher: OptionalDescriptionSubject { get }
+    func wrapInContainer(_ elements: [any AccessibilityView]) -> A11yContainer?
 }
 
 public class NavigatorController: NSViewController {
@@ -125,10 +126,8 @@ public class NavigatorController: NSViewController {
                 outlineView.item(atRow: row)
             } as! [any AccessibilityView]
         
-        let container = document.controls.wrapInContainer(
-            selectedItems.extractElements(),
-            label: "Container")
-        
+        let container = presenter.wrapInContainer(selectedItems)
+
         select(model: container)
     }
 }

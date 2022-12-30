@@ -22,19 +22,44 @@ open class DocumentPresenter {
         document.image = image
     }
     
-    func update(controls: [A11yDescription]) {
+    public func update(controls: [A11yDescription]) {
         document.controls = controls
     }
     
-    func append(control: any AccessibilityView) {
+    public func append(control: any AccessibilityView) {
         document.controls.append(control)
     }
     
-    func remove(control: any AccessibilityView) {
-        guard let index = document.controls.firstIndex(where: { controlInArray in
-            controlInArray === control
-        }) else { return }
-                
-        document.controls.remove(at: index)
+    public func add(_ model: any AccessibilityView) {
+        append(control: model)
+        
+        publishControlChanges()
+    }
+    
+    public func remove(_ model: any AccessibilityView) {
+        let removedIndex = document.controls.remove(model)
+        
+        if let _ = removedIndex {
+            return
+        }
+        
+        for container in document.controls.extractContainers() {
+            let removedIndex = container.remove(model as! A11yDescription)
+            
+            if let _ = removedIndex {
+                return
+            }
+        }
+        
+        publishControlChanges()
+    }
+    
+    @discardableResult
+    public func wrapInContainer(
+        _ elements: [any AccessibilityView]
+    ) -> A11yContainer? {
+        document.controls.wrapInContainer(
+            elements.extractElements(),
+            label: "Container")
     }
 }

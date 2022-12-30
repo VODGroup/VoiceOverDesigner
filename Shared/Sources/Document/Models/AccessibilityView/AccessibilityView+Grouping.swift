@@ -17,7 +17,7 @@ extension Array where Element == any AccessibilityView {
                 continue
             }
             
-            insertIndex = index // We used reversed order and the last set will be first index
+            insertIndex = index // We used reveersed order and the last set will be first index
                 
             extractedElements.append(item)
         }
@@ -37,26 +37,13 @@ extension Array where Element == any AccessibilityView {
         return container
     }
     
-    /// - Returns: Element index
-    mutating func remove(_ item: A11yDescription) -> Int? {
-        guard let index = firstIndex(where: { element in
-            element === item
-        }) else {
-            return nil
-        }
-        
-        remove(at: index)
-        return index
-    }
-    
     /// - Returns: Container index
     mutating func removeFromContainers(_ item: A11yDescription) -> Int? {
         for (containerIndex, view) in enumerated().reversed() {
             guard let container = view as? A11yContainer
             else { continue }
             
-            guard let _ = container.elements
-                .remove(item)
+            guard let _ = container.remove(item)
             else { continue }
             
             return containerIndex
@@ -97,17 +84,17 @@ extension Array where Element == CGRect {
     }
 }
 
-extension Array where Element == A11yDescription {
-    
-    /// - Returns: Element index
-    mutating func remove(_ item: A11yDescription) -> Int? {
-        guard let index = firstIndex(where: { element in
-            element === item
-        }) else {
-            return nil
-        }
-        
-        remove(at: index)
-        return index
-    }
-}
+//extension Array where Element == A11yDescription {
+//
+//    /// - Returns: Element index
+//    mutating func remove(_ item: A11yDescription) -> Int? {
+//        guard let index = firstIndex(where: { element in
+//            element === item
+//        }) else {
+//            return nil
+//        }
+//
+//        remove(at: index)
+//        return index
+//    }
+//}
