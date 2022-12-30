@@ -3,7 +3,10 @@ import AppKit
 
 public class ScrollViewController: NSViewController {
     
+    var child: NSViewController?
+    
     func embed(_ child: NSViewController) {
+        self.child = child
         addChild(child)
         view().addSubviewAndConstraints(child.view)
     }

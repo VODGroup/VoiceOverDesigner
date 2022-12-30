@@ -75,9 +75,25 @@ extension SettingsStateViewController {
     private func updateTextRecognition(_ result: RecognitionResult) {
         guard isSameControlSelected(result) else { return }
         
-        guard let currentController = currentController as? TextRecogitionReceiver else { return }
+        guard let currentController = textRecognitionReceiver() else {
+            print("Not found TextRecogitionReceiver")
+            return
+        }
         
         currentController.presentTextRecognition(result.text)
+    }
+    
+    private func textRecognitionReceiver() -> TextRecogitionReceiver? {
+        if let receiver = currentController as? TextRecogitionReceiver {
+            return receiver
+        }
+        
+        if let scrollViewController = currentController as? ScrollViewController,
+           let contentReceiver = scrollViewController.child as? TextRecogitionReceiver {
+            return contentReceiver
+        }
+        
+        return nil
     }
     
     private func isSameControlSelected(_ result: RecognitionResult?) -> Bool {
