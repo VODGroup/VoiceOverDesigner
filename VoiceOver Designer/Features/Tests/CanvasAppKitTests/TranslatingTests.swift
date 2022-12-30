@@ -35,7 +35,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
                  to: .coord(300))
         XCTAssertEqual(drawnControls.count, 2)
         
-        sut.mouseDown(on: .coord(200+30)) // 2nd rect
+        sut.mouseDown(on: .coord(200+5)) // 2nd rect
         sut.mouseDragged(on: .coord(10+1))
         
         XCTAssertEqual(drawnControls[1].frame,
@@ -83,6 +83,6 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         
         XCTAssertEqual(drawnControls.count, 1)
         XCTAssertEqual(drawnControls[0].frame,
-                       CGRect(origin: .coord(10), size: .side(10)))
+                       CGRect(origin: start10, size: .side(10)))
     }
 }
