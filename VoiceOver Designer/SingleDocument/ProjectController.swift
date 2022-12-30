@@ -49,6 +49,10 @@ class ProjectController: NSSplitViewController {
         textSidebar.allowsFullHeightLayout = true
         textSidebar.isSpringLoaded = true
         
+        settings.view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            settings.view.widthAnchor.constraint(equalToConstant: 400),
+        ])
         let settingsSidebar = NSSplitViewItem(viewController: settings)
         
         addSplitViewItem(textSidebar)
