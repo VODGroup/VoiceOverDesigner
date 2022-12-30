@@ -125,9 +125,11 @@ public class NavigatorController: NSViewController {
                 outlineView.item(atRow: row)
             } as! [any AccessibilityView]
         
-        document.controls.wrapInContainer(
+        let container = document.controls.wrapInContainer(
             selectedItems.extractElements(),
             label: "Container")
+        
+        select(model: container)
     }
 }
 
