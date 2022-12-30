@@ -31,10 +31,15 @@ open class DocumentPresenter {
     }
     
     func remove(control: any AccessibilityView) {
-        guard let index = document.controls.firstIndex(where: { controlInArray in
-            controlInArray === control
-        }) else { return }
-                
-        document.controls.remove(at: index)
+        
+        switch control.cast {
+            
+        case .element(let description):
+            document.delete(description)
+        case .container(let container):
+            document.delete(container)
+        }
+        
+
     }
 }

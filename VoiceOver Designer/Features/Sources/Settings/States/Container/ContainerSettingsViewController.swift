@@ -60,6 +60,10 @@ class ContainerSettingsViewController: NSViewController {
     @IBAction func isEnumerateDidChanged(sender: Any) {
         presenter.container.isEnumerated = view().isEnumerated
     }
+    
+    @IBAction func delete(sender: Any) {
+        presenter.delete()
+    }
 }
 
 extension ContainerSettingsViewController: LabelDelegate {
