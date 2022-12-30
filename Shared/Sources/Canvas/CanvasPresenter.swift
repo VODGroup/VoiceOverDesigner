@@ -82,42 +82,33 @@ public class CanvasPresenter: DocumentPresenter {
     
     private func finish(_ action: DraggingAction?) -> A11yControlLayer? {
         switch action {
+        case let click as ClickAction:
+            select(control: click.control)
+            
         case let new as NewControlAction:
             add(new.control.model!)
             select(control: new.control)
-            return new.control
             
-        case let translate as TranslateAction:
-            document.undo?.registerUndo(withTarget: self, handler: { target in
-                translate.undo()
-                target.publishControlChanges()
-            })
-            publishControlChanges()
-            return translate.control
-            
-        case let click as ClickAction:
-            select(control: click.control)
-            return click.control
         case let copy as CopyAction:
             add(copy.control.model!)
+            select(control: copy.control)
+            
+        case let translate as TranslateAction:
+            registeUndo(for: translate)
             publishControlChanges()
-            return copy.control
+            
         case let resize as ResizeAction:
-            document.undo?.registerUndo(withTarget: self, handler: { target in
-                resize.control.frame = resize.initialFrame
-            })
-            return resize.control
-            // TODO: Register resize as file change
+            registeUndo(for: resize)
+            publishControlChanges()
+            
         case .none:
             deselect()
-            return nil
             
         default:
             assert(false, "Handle new type here")
-            return nil
         }
         
-        // TODO: Extract control from action
+        return action?.control
     }
     
     // MARK: - Selection
@@ -180,4 +171,18 @@ public class CanvasPresenter: DocumentPresenter {
             control.model === model
         }
     }
+}
+
+// MARK: - Undo
+extension CanvasPresenter {
+    func registeUndo(for action: Undoable) {
+        document.undo?.registerUndo(withTarget: self, handler: { target in
+            action.undo()
+            target.publishControlChanges()
+        })
+    }
+}
+
+protocol Undoable {
+    func undo()
 }

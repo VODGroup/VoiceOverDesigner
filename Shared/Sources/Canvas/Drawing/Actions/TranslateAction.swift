@@ -14,13 +14,15 @@ public class TranslateAction: MoveAction, DraggingAction {
         return self
     }
     
-    public func undo() {
-        control.frame = initialFrame
-    }
-    
     public func cancel() {
         control.updateWithoutAnimation {
             control.frame = initialFrame
         }
+    }
+}
+
+extension TranslateAction: Undoable {
+    public func undo() {
+        control.frame = initialFrame
     }
 }
