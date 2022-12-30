@@ -197,7 +197,6 @@
                                                     <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
-                                                    <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                                                 </buttonCell>
                                                 <connections>
                                                     <action selector="deleteDidPressed:" target="bU7-R8-ocO" id="u1v-g4-iZp"/>
