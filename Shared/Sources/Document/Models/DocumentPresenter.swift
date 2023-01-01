@@ -73,7 +73,11 @@ open class DocumentPresenter {
             }
             
         case .container(let container):
-            document.delete(container)
+            if let topLevelIndex = document.controls.delete(container) {
+                document.undo?.registerUndo(withTarget: self, handler: { presenter in
+                    presenter.insert(model: container, at: topLevelIndex)
+                })
+            }
         }
         
         publishControlChanges()
@@ -89,7 +93,7 @@ open class DocumentPresenter {
     }
     
     private func insert(
-        model: A11yDescription,
+        model: any AccessibilityView,
         at instertionIndex: Int
     ) {
         document.controls.insert(model, at: instertionIndex)

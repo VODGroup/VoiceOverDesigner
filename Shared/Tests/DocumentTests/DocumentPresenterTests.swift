@@ -92,6 +92,9 @@ final class DocumentPresenterTests: XCTestCase {
 
         sut.remove(container)
         XCTAssertTrue(sut.document.controls.isEmpty)
+        
+        sut.undo()
+        XCTAssertEqual(sut.document.controls.count, 1)
     }
 }
 
