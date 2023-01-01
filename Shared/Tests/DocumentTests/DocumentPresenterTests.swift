@@ -1,5 +1,4 @@
 import XCTest
-import Canvas
 import Document
 import DocumentTestHelpers
 
