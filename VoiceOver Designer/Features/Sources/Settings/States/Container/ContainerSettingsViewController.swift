@@ -61,7 +61,7 @@ class ContainerSettingsViewController: NSViewController {
         presenter.container.isEnumerated = view().isEnumerated
     }
     
-    @IBAction func deleteDidPressed(_ sender: Any) {
+    @IBAction func delete(sender: Any) {
         presenter.delete()
     }
 }

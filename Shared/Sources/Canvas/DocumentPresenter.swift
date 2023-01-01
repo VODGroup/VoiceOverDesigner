@@ -37,18 +37,11 @@ open class DocumentPresenter {
     }
     
     public func remove(_ model: any AccessibilityView) {
-        let removedIndex = document.controls.remove(model)
-        
-        if let _ = removedIndex {
-            return
-        }
-        
-        for container in document.controls.extractContainers() {
-            let removedIndex = container.remove(model as! A11yDescription)
-            
-            if let _ = removedIndex {
-                return
-            }
+        switch model.cast {
+        case .element(let description):
+            document.delete(description)
+        case .container(let container):
+            document.delete(container)
         }
         
         publishControlChanges()

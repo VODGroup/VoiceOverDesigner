@@ -84,17 +84,38 @@ extension Array where Element == CGRect {
     }
 }
 
-//extension Array where Element == A11yDescription {
-//
-//    /// - Returns: Element index
-//    mutating func remove(_ item: A11yDescription) -> Int? {
-//        guard let index = firstIndex(where: { element in
-//            element === item
-//        }) else {
-//            return nil
-//        }
-//
-//        remove(at: index)
-//        return index
-//    }
-//}
+public extension Array where Element == any AccessibilityView {
+    func container(for description: A11yDescription) -> A11yContainer? {
+        extractContainers().first(where: {
+            $0.contains(description)
+        })
+    }
+}
+
+
+public extension Array where Element == any AccessibilityView {
+    mutating func delete(_ description: A11yDescription) {
+        guard let indexToDelete = firstIndex(where: {
+            $0 === description
+        }) else {
+            //Try to remove from containing container
+            guard let container = container(for: description) else { return }
+            let _ = container.elements.remove(description)
+            if container.elements.isEmpty {
+                delete(container)
+            }
+            return
+        }
+        
+        remove(at: indexToDelete)
+    }
+    
+    #warning("Should it delete children or ungroup before deleting?")
+    mutating func delete(_ container: A11yContainer) {
+        guard let indexToDelete = firstIndex(where: {
+            $0 === container
+        }) else { return }
+        
+        remove(at: indexToDelete)
+    }
+}
