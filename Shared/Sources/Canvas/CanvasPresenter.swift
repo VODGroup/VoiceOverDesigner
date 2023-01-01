@@ -12,6 +12,9 @@ import TextRecognition
 
 public class CanvasPresenter: DocumentPresenter {
     
+    public weak var ui: DrawingView!
+    var drawingController: DrawingController!
+    
     public func didLoad(
         ui: DrawingView,
         initialScale: CGFloat
@@ -30,8 +33,7 @@ public class CanvasPresenter: DocumentPresenter {
     private var cancellables = Set<AnyCancellable>()
     
     private func redrawOnControlChanges() {
-        document
-            .controlsPublisher
+        controlsPublisher
             .sink(receiveValue: redraw(controls:))
             .store(in: &cancellables)
         

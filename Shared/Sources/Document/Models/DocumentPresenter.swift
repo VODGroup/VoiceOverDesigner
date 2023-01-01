@@ -1,30 +1,42 @@
 import Foundation
-import Document
+import Combine
 
 /**
  Top level object that controls abstract VODesignDocumentProtocol
  
  Allowh to publishControlChanges after any changes on controls level to initiate UI update of any ViewController
  Also manages undo changes on controls level
-
  */
 open class DocumentPresenter {
     
     public init(document: VODesignDocumentProtocol) {
         self.document = document
     }
-    
     public private(set) var document: VODesignDocumentProtocol
     
-    var drawingController: DrawingController!
-    public weak var ui: DrawingView!
+    // MARK: - Contols update
+    public let controlsPublisher: PassthroughSubject<[any AccessibilityView], Never> = .init()
+    
+    /// Conrols should be changed only from this presenter to suppont undoing
+    private(set) var controls: [any AccessibilityView] = [] {
+        didSet {
+            Swift.print("Set contorls: \(controls.map(\.label))")
+            
+            document.undo?.registerUndo(withTarget: self, handler: { presenter in
+                presenter.controls = oldValue
+            })
+            
+            controlsPublisher.send(controls)
+        }
+    }
     
     public func publishControlChanges() {
-        document.controlsPublisher.send(document.controls)
+        controlsPublisher.send(document.controls)
     }
     
     public let selectedPublisher = OptionalDescriptionSubject(nil)
     
+    // MARK:
     public func update(image: Image) {
         document.image = image
     }
@@ -43,7 +55,7 @@ open class DocumentPresenter {
         publishControlChanges()
     }
     
-    public func remove(_ model: any AccessibilityView) {
+    open func remove(_ model: any AccessibilityView) {
         switch model.cast {
         case .element(let element):
             if let topLevelIndex = document.controls.delete(element) {
