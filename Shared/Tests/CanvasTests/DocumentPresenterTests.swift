@@ -49,7 +49,7 @@ final class DocumentPresenterTests: XCTestCase {
         XCTAssertTrue(sut.document.controls.first is A11yContainer)
         XCTAssertEqual(container?.elements.count, 2)
         
-        // TODO: Test undo
+       
     }
     
     // MARK: - Delete
@@ -75,12 +75,13 @@ final class DocumentPresenterTests: XCTestCase {
     func test_container_whenRemove1stElementInContainer_shouldRemove() {
         sut.append(control: element1)
         sut.append(control: element2)
-
         let container = sut.wrapInContainer([element1, element2])
 
         sut.remove(element1)
-
         XCTAssertEqual(container?.elements.count, 1)
+        
+        sut.undo()
+        XCTAssertEqual(container?.elements.count, 2)
     }
     
     func test_container_whenRemoveContainer_shouldRemoveEverything() throws {
@@ -90,7 +91,12 @@ final class DocumentPresenterTests: XCTestCase {
         let container = try XCTUnwrap(sut.wrapInContainer([element1, element2]))
 
         sut.remove(container)
-
         XCTAssertTrue(sut.document.controls.isEmpty)
+    }
+}
+
+extension DocumentPresenter {
+    func undo() {
+        document.undo?.undo()
     }
 }

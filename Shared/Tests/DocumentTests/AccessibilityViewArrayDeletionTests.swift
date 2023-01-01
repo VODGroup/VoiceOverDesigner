@@ -30,10 +30,10 @@ final class AccessibilityViewArrayDeletionTests: XCTestCase {
     func test_deletion_inside_container() throws {
         container1 = .testMake(elements: [item1, item2])
         array = [container1, item3]
-        
         XCTAssertEqual(array.count, 2)
+        
         array.delete(item1)
-        XCTAssertEqual(container1.elements.count, 1)
+        XCTAssertEqual(container1.elements.count, 2, "delete only top-level objects for defined undoing")
         XCTAssertEqual(array.count, 2)
     }
     
@@ -56,20 +56,4 @@ final class AccessibilityViewArrayDeletionTests: XCTestCase {
         array.delete(item3)
         XCTAssertEqual(array.count, 1)
     }
-    
-    func test_last_deleted_element_in_container_should_delete_container() throws {
-        container1 = .testMake(elements: [item1, item2, item3])
-        array = [container1]
-        
-        XCTAssertEqual(container1.elements.count, 3)
-        XCTAssertEqual(array.count, 1)
-        array.delete(item1)
-        XCTAssertEqual(container1.elements.count, 2)
-        array.delete(item2)
-        XCTAssertEqual(container1.elements.count, 1)
-        array.delete(item3)
-        XCTAssertTrue(container1.elements.isEmpty)
-        XCTAssertTrue(array.isEmpty)
-    }
-
 }
