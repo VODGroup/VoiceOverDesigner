@@ -64,9 +64,8 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         XCTAssertEqual(sut.document.controls[1].frame, rect10to50.offsetBy(dx: 35,
                                                                            dy: 35))
         
-        let selected = try await awaitSelected()
-        XCTAssertNil(selected, "should not select after translation")
-        
+        let selected = try await awaitSelected() as! A11yDescription
+        XCTAssertEqual(selected, sut.document.controls[1] as! A11yDescription)
         
         // Undo
         sut.document.undo?.undo()
