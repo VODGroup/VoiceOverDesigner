@@ -65,17 +65,4 @@ class VODesignDocumentPersistanceTests: XCTestCase {
     }
 }
 
-class VODesignDocumentUndoTests: XCTestCase {
-    
-    func test_undoForArray() {
-        let document = VODesignDocument.with2Controls(name: "TestFile1", testCase: self)
-        XCTAssertEqual(document.controls.count, 2)
-        
-        document.undoManager?.undo()
-        XCTAssertTrue(document.controls.isEmpty)
-        
-        document.undoManager?.redo()
-        XCTAssertEqual(document.controls.count, 2)
-    }
-}
 #endif

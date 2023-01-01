@@ -25,7 +25,7 @@ class ContainerSelectionTests: CanvasAfterDidLoadTests {
     }
     
     func wrapInContainer(_ items: [A11yDescription]) {
-        document.controls.wrapInContainer(items, label: "Container")
+        sut.wrapInContainer(items)
     }
     
     func drawElement(

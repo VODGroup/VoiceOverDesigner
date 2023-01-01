@@ -84,11 +84,13 @@ final class DocumentPresenterTests: XCTestCase {
     }
     
     func test_container_whenRemoveContainer_shouldRemoveEverything() throws {
+        sut.document.undo?.disableUndoRegistration()
         sut.append(control: element1)
         sut.append(control: element2)
 
         let container = try XCTUnwrap(sut.wrapInContainer([element1, element2]))
-
+        sut.document.undo?.enableUndoRegistration()
+        
         sut.remove(container)
         XCTAssertTrue(sut.document.controls.isEmpty)
         

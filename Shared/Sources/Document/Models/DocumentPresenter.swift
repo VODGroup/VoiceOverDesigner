@@ -18,15 +18,22 @@ open class DocumentPresenter {
     public let controlsPublisher: PassthroughSubject<[any AccessibilityView], Never> = .init()
     
     /// Conrols should be changed only from this presenter to suppont undoing
-    private(set) var controls: [any AccessibilityView] = [] {
-        didSet {
-            Swift.print("Set contorls: \(controls.map(\.label))")
+    private(set) var controls: [any AccessibilityView] {
+        set {
+            let oldValue = document.controls
+            
+            document.controls = newValue
+            Swift.print("Set controls: \(controls.map(\.label))")
             
             document.undo?.registerUndo(withTarget: self, handler: { presenter in
                 presenter.controls = oldValue
             })
             
             controlsPublisher.send(controls)
+        }
+        
+        get {
+            document.controls
         }
     }
     
@@ -42,28 +49,26 @@ open class DocumentPresenter {
     }
     
     public func update(controls: [A11yDescription]) {
-        document.controls = controls
+        self.controls = controls
     }
     
     public func append(control: any AccessibilityView) {
-        document.controls.append(control)
+        controls.append(control)
     }
     
     public func add(_ model: any AccessibilityView) {
         append(control: model)
-        
-        publishControlChanges()
     }
     
     open func remove(_ model: any AccessibilityView) {
         switch model.cast {
         case .element(let element):
-            if let topLevelIndex = document.controls.delete(element) {
+            if let topLevelIndex = controls.delete(element) {
                 document.undo?.registerUndo(withTarget: self, handler: { presenter in
                     presenter.insert(model: element, at: topLevelIndex)
                 })
             } else {
-                guard let container = document.controls.container(for: element),
+                guard let container = controls.container(for: element),
                       let containerIndex = container.elements.remove(element)
                 else { return }
                 
@@ -73,7 +78,7 @@ open class DocumentPresenter {
             }
             
         case .container(let container):
-            if let topLevelIndex = document.controls.delete(container) {
+            if let topLevelIndex = controls.delete(container) {
                 document.undo?.registerUndo(withTarget: self, handler: { presenter in
                     presenter.insert(model: container, at: topLevelIndex)
                 })
@@ -96,7 +101,7 @@ open class DocumentPresenter {
         model: any AccessibilityView,
         at instertionIndex: Int
     ) {
-        document.controls.insert(model, at: instertionIndex)
+        controls.insert(model, at: instertionIndex)
         publishControlChanges()
     }
     
@@ -104,7 +109,7 @@ open class DocumentPresenter {
     public func wrapInContainer(
         _ elements: [any AccessibilityView]
     ) -> A11yContainer? {
-        document.controls.wrapInContainer(
+        controls.wrapInContainer(
             elements.extractElements(),
             label: "Container")
     }
