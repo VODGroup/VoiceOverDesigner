@@ -30,6 +30,10 @@ class WindowManager: NSObject {
     private func showDocumentSelector() {
         projectsWindowController.window?.makeKeyAndOrderFront(self)
     }
+    
+    private func hideDocumentSelector() {
+        projectsWindowController.window?.close()
+    }
 }
 
 extension WindowManager: NSWindowDelegate {
@@ -52,12 +56,22 @@ extension WindowManager: RecentDelegate {
     func createNewDocumentWindow(
         document: VODesignDocument
     ) {
-        let window = presenteWindow(for: document)
+        let window = presentWindow(for: document)
         documentWindows.append(window)
-        projectsWindowController.window?.close()
+        
+        hideDocumentSelector()
     }
     
-    func presenteWindow(for document: VODesignDocument) -> NSWindow {
+    private func presentWindow(for document: VODesignDocument) -> NSWindow {
+        let window = window(for: document)
+        
+        let windowContorller = RecentWindowController(window: window)
+        document.addWindowController(windowContorller)
+        
+        return window
+    }
+    
+    private func window(for document: VODesignDocument) -> NSWindow {
         let split = ProjectController(document: document)
         
         let window = NSWindow(contentViewController: split)
@@ -66,13 +80,9 @@ extension WindowManager: RecentDelegate {
         window.title = document.displayName
         window.styleMask.formUnion(.fullSizeContentView)
         
-        let windowContorller = RecentWindowController(window: window)
-        document.addWindowController(windowContorller)
-        
         let toolbar: NSToolbar = NSToolbar()
         toolbar.delegate = split
-        
-        windowContorller.window?.toolbar = toolbar
+        window.toolbar = toolbar
         
         return window
     }
