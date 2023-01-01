@@ -10,10 +10,12 @@ class WindowManager: NSObject {
     lazy var projectsWindowController: RecentWindowController =  .fromStoryboard(delegate: self)
     
     func start() {
-        if hasRecentDocuments {
-            showDocumentSelector()
-        } else if documentWindows.isEmpty {
-            showNewDocument()
+        if documentWindows.isEmpty {
+            if hasRecentDocuments {
+                showDocumentSelector()
+            } else {
+                showNewDocument()
+            }
         } else {
             // Do nothing, the user open document directly
         }
