@@ -175,7 +175,7 @@ public class CanvasPresenter: DocumentPresenter {
             return
         }
         
-        // TODO: Delete control from document.elements
+        // TODO: Register Delete Undo on child
         ui.delete(control: control)
         remove(control: model)
         publishControlChanges()
