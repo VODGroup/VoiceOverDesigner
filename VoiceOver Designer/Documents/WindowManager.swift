@@ -56,19 +56,19 @@ extension WindowManager: RecentDelegate {
     func createNewDocumentWindow(
         document: VODesignDocument
     ) {
-        let window = presentWindow(for: document)
-        documentWindows.append(window)
+        presentWindow(for: document)
         
         hideDocumentSelector()
     }
     
-    private func presentWindow(for document: VODesignDocument) -> NSWindow {
+    private func presentWindow(for document: VODesignDocument) {
         let window = window(for: document)
         
         let windowContorller = RecentWindowController(window: window)
         document.addWindowController(windowContorller)
         
-        return window
+        window.makeKeyAndOrderFront(window)
+        documentWindows.append(window)
     }
     
     private func window(for document: VODesignDocument) -> NSWindow {
@@ -76,7 +76,7 @@ extension WindowManager: RecentDelegate {
         
         let window = NSWindow(contentViewController: split)
         window.delegate = self
-        window.makeKeyAndOrderFront(window)
+        
         window.title = document.displayName
         window.styleMask.formUnion(.fullSizeContentView)
         
