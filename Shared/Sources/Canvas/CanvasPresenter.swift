@@ -96,11 +96,11 @@ public class CanvasPresenter: DocumentPresenter {
             select(control: copy.control)
             
         case let translate as TranslateAction:
-            registeUndo(for: translate)
+            registerUndo(for: translate)
             publishControlChanges()
             
         case let resize as ResizeAction:
-            registeUndo(for: resize)
+            registerUndo(for: resize)
             publishControlChanges()
             
         case .none:
@@ -177,7 +177,7 @@ public class CanvasPresenter: DocumentPresenter {
 
 // MARK: - Undo
 extension CanvasPresenter {
-    func registeUndo(for action: Undoable) {
+    func registerUndo(for action: Undoable) {
         document.undo?.registerUndo(withTarget: self, handler: { target in
             action.undo()
             target.publishControlChanges()
