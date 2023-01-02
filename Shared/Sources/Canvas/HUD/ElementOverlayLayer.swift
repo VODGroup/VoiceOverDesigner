@@ -3,17 +3,6 @@ import Document
 
 class ElementOverlayLayer: CALayer {
     
-    static func lineWidth(for scale: CGFloat) -> CGFloat {
-        4 * scale
-    }
-    
-    var scale: CGFloat = 1 {
-        didSet {
-            print("Set scale \(scale)")
-            setNeedsLayout()
-        }
-    }
-    
     var tintColor: CGColor? {
         didSet {
             updateWithoutAnimation {
@@ -22,7 +11,7 @@ class ElementOverlayLayer: CALayer {
         }
     }
     
-    private let border = CAShapeLayer()
+    let border = CAShapeLayer()
     private var resizingMarkers: [ResizeMarker] = [
         ResizeMarker(),
         ResizeMarker(),
@@ -30,12 +19,15 @@ class ElementOverlayLayer: CALayer {
         ResizeMarker(),
     ]
     
-    public init(scale: CGFloat) {
+    public override init() {
+        self.tintColor = Color.black.cgColor
+        self.resizeMarkerSize = 4
+        self.resizeMarkerLineWidth = 2
+        self.borderLineWidth = 1
+        
         super.init()
         
-        self.scale = scale
         border.fillColor = Color.clear.cgColor
-        border.lineWidth = Self.lineWidth(for: scale)
         addSublayer(border)
         
         resizingMarkers.forEach { marker in
@@ -48,18 +40,20 @@ class ElementOverlayLayer: CALayer {
     }
     
     override init(layer: Any) {
-        super.init(layer: layer)
-        
         let layer = layer as! ElementOverlayLayer
-        self.scale = layer.scale
-        // TODO: Copy any data if needed
+        self.tintColor = layer.tintColor
+        self.resizeMarkerSize = layer.resizeMarkerSize
+        self.resizeMarkerLineWidth = layer.resizeMarkerLineWidth
+        self.borderLineWidth = layer.borderLineWidth
+        
+        super.init(layer: layer)
     }
     
     override public func layoutSublayers() {
         super.layoutSublayers()
         
         updateWithoutAnimation {
-            border.lineWidth = Self.lineWidth(for: scale)
+            border.lineWidth = borderLineWidth
             
             layoutResizeMarker()
             border.path = CGPath(roundedRect: bounds,
@@ -69,17 +63,33 @@ class ElementOverlayLayer: CALayer {
             border.frame = bounds
         }
     }
+    
+    var resizeMarkerSize: CGFloat {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
+    var resizeMarkerLineWidth: CGFloat {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
+    var borderLineWidth: CGFloat {
+        didSet {
+            setNeedsLayout()
+        }
+    }
                                       
     private func layoutResizeMarker() {
-        let size: CGFloat = Config().resizeMarkerSize * scale
-        
-        resizingMarkers[0].frame = bounds.frame(corner: .topLeft, size: size)
-        resizingMarkers[1].frame = bounds.frame(corner: .topRight, size: size)
-        resizingMarkers[2].frame = bounds.frame(corner: .bottomLeft, size: size)
-        resizingMarkers[3].frame = bounds.frame(corner: .bottomRight, size: size)
+        resizingMarkers[0].frame = bounds.frame(corner: .topLeft, size: resizeMarkerSize)
+        resizingMarkers[1].frame = bounds.frame(corner: .topRight, size: resizeMarkerSize)
+        resizingMarkers[2].frame = bounds.frame(corner: .bottomLeft, size: resizeMarkerSize)
+        resizingMarkers[3].frame = bounds.frame(corner: .bottomRight, size: resizeMarkerSize)
         
         for marker in resizingMarkers {
-            marker.lineWidth = 2 * scale
+            marker.lineWidth = resizeMarkerLineWidth
         }
     }
 }

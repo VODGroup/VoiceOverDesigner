@@ -60,7 +60,9 @@ public class CanvasPresenter: DocumentPresenter {
     // MARK: Mouse
     public func mouseDown(on location: CGPoint) {
         guard document.image != nil else { return }
-        drawingController.mouseDown(on: location, selectedControl: selectedControl)
+        drawingController.mouseDown(on: location,
+                                    selectedControl: selectedControl,
+                                    resizeMarkerSize: ui.hud.resizeMarkerSize)
     }
     
     public func mouseDragged(on location: CGPoint) {
@@ -70,7 +72,10 @@ public class CanvasPresenter: DocumentPresenter {
     
     public func mouseMoved(on location: CGPoint) {
         guard document.image != nil else { return }
-        drawingController.mouseMoved(on: location, selectedControl: selectedControl)
+        
+        drawingController.mouseMoved(on: location,
+                                     selectedControl: selectedControl,
+                                     resizeMarkerSize: ui.hud.resizeMarkerSize)
     }
    
     @discardableResult

@@ -5,8 +5,18 @@ public class HUDLayer: CALayer {
     
     public var scale: CGFloat {
         didSet {
-            elementOverlay.scale = scale
+            elementOverlay.resizeMarkerSize = resizeMarkerSize
+            elementOverlay.resizeMarkerLineWidth = 2 * scale // TODO: Move 2 to config
+            elementOverlay.borderLineWidth = lineWidth(for: scale)
         }
+    }
+    
+    private func lineWidth(for scale: CGFloat) -> CGFloat {
+        4 * scale
+    }
+    
+    var resizeMarkerSize: CGFloat {
+        Config().resizeMarkerSize * scale
     }
     
     public var selectedControlFrame: CGRect? {
@@ -27,7 +37,7 @@ public class HUDLayer: CALayer {
     
     public override init() {
         self.scale = 1
-        self.elementOverlay = ElementOverlayLayer(scale: 1)
+        self.elementOverlay = ElementOverlayLayer()
         super.init()
         
         addSublayer(elementOverlay)
@@ -42,7 +52,7 @@ public class HUDLayer: CALayer {
         
         self.selectedControlFrame = layer.selectedControlFrame
         self.scale = layer.scale
-        self.elementOverlay = ElementOverlayLayer(scale: layer.scale)
+        self.elementOverlay = ElementOverlayLayer()
         self.tintColor = layer.tintColor
         super.init()
     }
