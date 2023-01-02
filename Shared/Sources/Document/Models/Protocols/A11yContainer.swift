@@ -81,6 +81,10 @@ public class A11yContainer: Codable, AccessibilityContainer {
         elements.contains(element)
     }
     
+    @discardableResult
+    public func remove(_ element: A11yDescription) -> Int? {
+        elements.remove(element)
+    }
 }
 
 extension A11yContainer {

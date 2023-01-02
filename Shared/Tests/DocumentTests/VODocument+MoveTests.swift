@@ -1,6 +1,5 @@
 import Document
 import XCTest
-@testable import Navigator
 import CustomDump
 
 class A11yDescriptionArrayTests: XCTestCase {

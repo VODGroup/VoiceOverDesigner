@@ -13,7 +13,6 @@ public class ContainerSettingsPresenter {
     public var container: A11yContainer
     public weak var delegate: SettingsDelegate?
     
-    
     func delete() {
         delegate?.delete(model: container)
     }

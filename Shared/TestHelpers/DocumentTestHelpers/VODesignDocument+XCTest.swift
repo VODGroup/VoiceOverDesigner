@@ -39,7 +39,7 @@ extension VODesignDocument {
     
     public func save(testCase: XCTestCase, fileName: String) {
         let expectation = testCase.expectation(description: "Save file")
-        save(to: Self.testURL(name: fileName), ofType: Self.vodesign, for: .saveOperation) { error in
+        save(to: Self.testURL(name: fileName), ofType: vodesign, for: .saveOperation) { error in
             if let error = error {
                 Swift.print("saving error: \(error)")
             } else {
@@ -54,7 +54,7 @@ extension VODesignDocument {
     }
     
     public func read() throws {
-        try read(from: fileURL!, ofType: Self.vodesign)
+        try read(from: fileURL!, ofType: vodesign)
     }
 }
 #endif

@@ -39,3 +39,9 @@ public class ResizeAction: DraggingAction {
         }
     }
 }
+
+extension ResizeAction: Undoable {
+    public func undo() {
+        control.frame = initialFrame
+    }
+}

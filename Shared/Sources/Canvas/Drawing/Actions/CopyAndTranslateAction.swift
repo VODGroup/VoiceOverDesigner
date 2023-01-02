@@ -7,15 +7,15 @@ public class CopyAndTranslateAction: DraggingAction {
             view.delete(control: copy.control)
         }
         
-        action?.cancel()
+        action.cancel()
     }
     
     public func drag(to coordinate: CGPoint) {
-        action?.drag(to: coordinate)
+        action.drag(to: coordinate)
     }
     
     public func end(at coordinate: CGPoint) -> DraggingAction? {
-        action?.end(at: coordinate)
+        action.end(at: coordinate)
     }
     
     init(view: DrawingView, sourceControl: A11yControlLayer, startLocation: CGPoint, offset: CGPoint, initialFrame: CGRect) {
@@ -25,7 +25,6 @@ public class CopyAndTranslateAction: DraggingAction {
         self.startLocation = startLocation
         self.offset = offset
         self.initialFrame = initialFrame
-        
     }
     
     private let view: DrawingView
@@ -34,10 +33,8 @@ public class CopyAndTranslateAction: DraggingAction {
     private var offset: CGPoint
     private let initialFrame: CGRect
     
-    private lazy var copyAction: CopyAction? = {
-        guard let modelToCopy = sourceControl.model else {
-            return nil
-        }
+    private lazy var copyAction: CopyAction = {
+        let modelToCopy = sourceControl.model!
         
         let modelCopy = modelToCopy.copy()
         let newControl = A11yControlLayer.copy(from: modelCopy)
@@ -53,11 +50,15 @@ public class CopyAndTranslateAction: DraggingAction {
     
     private lazy var translateAction: TranslateAction = TranslateAction(view: view, control: sourceControl, startLocation: startLocation, offset: offset, initialFrame: initialFrame)
     
-    var action: DraggingAction? {
+    var action: DraggingAction {
         if view.copyListener.isCopyHold {
             return copyAction
         } else {
             return translateAction
         }
+    }
+    
+    public var control: A11yControlLayer {
+        return action.control
     }
 }

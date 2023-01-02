@@ -89,7 +89,7 @@ public class DrawingController {
     // MARK: New drawing
     public func mouseDown(on location: CGPoint, selectedControl: A11yControlLayer?) {
         if let selectedControl {
-            let threshold = Config().resizeMarkerSize * 3
+            let threshold = Config().resizeMarkerSize
             
             if let corner = selectedControl.frame.isCorner(at: location, size: threshold) {
                 startResizing(control: selectedControl, startLocation: location, corner: corner)
@@ -106,7 +106,7 @@ public class DrawingController {
     
     public func mouseMoved(on location: CGPoint, selectedControl: A11yControlLayer?) {
         if let selectedControl {
-            let threshold = Config().resizeMarkerSize * 3
+            let threshold = Config().resizeMarkerSize
             
             if let corner = selectedControl.frame.isCorner(at: location, size: threshold) {
                 pointerSubject.send(.resize(corner))

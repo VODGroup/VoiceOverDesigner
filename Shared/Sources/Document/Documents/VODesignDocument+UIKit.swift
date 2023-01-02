@@ -4,13 +4,16 @@ public typealias Document = UIDocument
 import Combine
 
 public class VODesignDocument: Document, VODesignDocumentProtocol {
+    
+    // MARK: - Data
+    public var controls: [any AccessibilityView] = []
+    public var image: Image?
+    
+    // MARK: -
+    
     public var undo: UndoManager? {
         undoManager
     }
-    
-    
-    
-    public let controlsPublisher: PassthroughSubject<[any AccessibilityView], Never> = .init()
     
     public convenience init(fileName: String,
                             rootPath: URL = iCloudContainer) {
@@ -25,9 +28,6 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         
         self.init(fileURL: dir)
     }
-    
-    public var controls: [any AccessibilityView] = []
-    public var image: Image?
     
     lazy var saveService: DocumentSaveService = DocumentSaveService(fileURL: fileURL
         .appendingPathComponent("controls.json"))
@@ -46,8 +46,9 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         }
     }
     
+    // MARK: - Override
+    // TODO: AppKit version uses filewrappers. Extract and reuse them?
     public override func save(to url: URL, for saveOperation: Document.SaveOperation) async -> Bool {
-        
         do {
             try saveService.save(controls: controls)
             return true

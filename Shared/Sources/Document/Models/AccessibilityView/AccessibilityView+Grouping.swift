@@ -17,7 +17,7 @@ extension Array where Element == any AccessibilityView {
                 continue
             }
             
-            insertIndex = index // We used reversed order and the last set will be first index
+            insertIndex = index // We used reveersed order and the last set will be first index
                 
             extractedElements.append(item)
         }
@@ -37,26 +37,13 @@ extension Array where Element == any AccessibilityView {
         return container
     }
     
-    /// - Returns: Element index
-    mutating func remove(_ item: A11yDescription) -> Int? {
-        guard let index = firstIndex(where: { element in
-            element === item
-        }) else {
-            return nil
-        }
-        
-        remove(at: index)
-        return index
-    }
-    
     /// - Returns: Container index
     mutating func removeFromContainers(_ item: A11yDescription) -> Int? {
         for (containerIndex, view) in enumerated().reversed() {
             guard let container = view as? A11yContainer
             else { continue }
             
-            guard let _ = container.elements
-                .remove(item)
+            guard let _ = container.remove(item)
             else { continue }
             
             return containerIndex
@@ -97,21 +84,6 @@ extension Array where Element == CGRect {
     }
 }
 
-extension Array where Element == A11yDescription {
-    
-    /// - Returns: Element index
-    mutating func remove(_ item: A11yDescription) -> Int? {
-        guard let index = firstIndex(where: { element in
-            element === item
-        }) else {
-            return nil
-        }
-        
-        remove(at: index)
-        return index
-    }
-}
-
 public extension Array where Element == any AccessibilityView {
     func container(for description: A11yDescription) -> A11yContainer? {
         extractContainers().first(where: {
@@ -122,28 +94,30 @@ public extension Array where Element == any AccessibilityView {
 
 
 public extension Array where Element == any AccessibilityView {
-    mutating func delete(_ description: A11yDescription) {
-        guard let indexToDelete = firstIndex(where: {
+    
+    // Delete only top-level elements
+    @discardableResult
+    mutating func delete(_ description: A11yDescription) -> Int?  {
+        let indexToDelete = firstIndex(where: {
             $0 === description
-        }) else {
-            //Try to remove from containing container
-            guard let container = container(for: description) else { return }
-            let _ = container.elements.remove(description)
-            if container.elements.isEmpty {
-                delete(container)
-            }
-            return
-        }
+        })
         
+        guard let indexToDelete
+        else { return nil }
+        
+        // Delete on top level
         remove(at: indexToDelete)
+        return indexToDelete
     }
     
-    #warning("Should it delete children or ungroup before deleting?")
-    mutating func delete(_ container: A11yContainer) {
+    // Deletes children
+    @discardableResult
+    mutating func delete(_ container: A11yContainer) -> Int? {
         guard let indexToDelete = firstIndex(where: {
             $0 === container
-        }) else { return }
+        }) else { return nil }
         
         remove(at: indexToDelete)
+        return indexToDelete
     }
 }

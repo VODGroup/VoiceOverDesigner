@@ -4,40 +4,30 @@ import AppKit
 public typealias Document = NSDocument
 
 import os
-import Combine
+
+public let vodesign = "vodesign"
+public let uti = "com.akaDuality.vodesign"
 
 public class VODesignDocument: Document, VODesignDocumentProtocol {
+    
+    // MARK: - Data
+    public var image: Image?
+    public var controls: [any AccessibilityView] = []
+    
+    // MARK:
+    
     public var undo: UndoManager? {
         undoManager
     }
     
-    public static var vodesign = "vodesign"
-    public static var uti = "com.akaDuality.vodesign"
-    
-    // MARK: - Data
-    public var image: Image?
-    
-    public let controlsPublisher: PassthroughSubject<[any AccessibilityView], Never> = .init()
-    
-    public var controls: [any AccessibilityView] = [] {
-        didSet {
-            Swift.print(controls.map(\.label))
-            undo?.registerUndo(withTarget: self, handler: { document in
-                document.controls = oldValue
-            })
-            
-            controlsPublisher.send(controls)
-        }
-    }
-
     // MARK: - Constructors
     public convenience init(fileName: String,
                             rootPath: URL = iCloudContainer) {
-        let file = rootPath.appendingPathComponent(fileName).appendingPathExtension(Self.vodesign)
+        let file = rootPath.appendingPathComponent(fileName).appendingPathExtension(vodesign)
         
         self.init(file: file)
         
-        fileType = Self.vodesign
+        fileType = vodesign
     }
     
     private let codingService = AccessibilityViewCodingService()
@@ -45,11 +35,11 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     public convenience init(file: URL) {
         do {
             try self.init(contentsOf: file,
-                          ofType: Self.vodesign)
+                          ofType: vodesign)
         } catch let error {
             Swift.print(error)
             // TODO: Is it ok?
-            try! self.init(type: Self.vodesign)
+            try! self.init(type: vodesign)
         }
     }
     
@@ -58,11 +48,7 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         self.image = image
     }
     
-    // MARK: - File managment
-    
-    public override class var autosavesInPlace: Bool {
-        return true
-    }
+    // MARK: - Override
     
     public override func fileWrapper(ofType typeName: String) throws -> FileWrapper {
         Swift.print("Will save")
@@ -83,6 +69,47 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         return package
     }
     
+    public override func read(from url: URL, ofType typeName: String) throws {
+        Swift.print("Read from \(url)")
+        defer { undoManager?.enableUndoRegistration() }
+        undoManager?.disableUndoRegistration()
+        
+        let documentSaveService = DocumentSaveService(fileURL: url.appendingPathComponent("controls.json"))
+        controls = try documentSaveService.loadControls()
+        
+        image = try? ImageSaveService().load(from: url)
+    }
+    
+    // MARK: Static
+    public override class var autosavesInPlace: Bool {
+        return true
+    }
+    
+    public static func image(from url: URL) -> Image? {
+        try? ImageSaveService().load(from: url)
+    }
+    
+    public override class var readableTypes: [String] {
+        [uti]
+    }
+    
+    public override class var writableTypes: [String] {
+        [uti]
+    }
+    
+    public override func writableTypes(for saveOperation: NSDocument.SaveOperationType) -> [String] {
+        fileType = uti
+        return super.writableTypes(for: saveOperation)
+    }
+    
+    public override func prepareSavePanel(_ savePanel: NSSavePanel) -> Bool {
+        savePanel.isExtensionHidden = false
+        return true
+    }
+}
+
+// MARK: - File wrappers
+extension VODesignDocument {
     private func controlsWrapper() throws -> FileWrapper {
         let wrapper = FileWrapper(regularFileWithContents: try codingService.data(from: controls))
         wrapper.preferredFilename = "controls.json"
@@ -112,36 +139,5 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         quicklookFolder.preferredFilename = QuickLookFolderName
         return quicklookFolder
     }
-    
-    public override func read(from url: URL, ofType typeName: String) throws {
-        Swift.print("Read from \(url)")
-        defer { undoManager?.enableUndoRegistration() }
-        undoManager?.disableUndoRegistration()
-        
-        let documentSaveService = DocumentSaveService(fileURL: url.appendingPathComponent("controls.json"))
-        controls = try documentSaveService.loadControls()
-        
-        image = try? ImageSaveService().load(from: url)
-    }
-    
-    public static func image(from url: URL) -> Image? {
-        try? ImageSaveService().load(from: url)
-    }
-    public override class var readableTypes: [String] {
-        [uti]
-    }
-    public override class var writableTypes: [String] {
-        [uti]
-    }
-    public override func writableTypes(for saveOperation: NSDocument.SaveOperationType) -> [String] {
-        fileType = Self.uti
-        return super.writableTypes(for: saveOperation)
-    }
-    public override func prepareSavePanel(_ savePanel: NSSavePanel) -> Bool {
-        
-        savePanel.isExtensionHidden = false
-        return true
-    }
-    
 }
 #endif

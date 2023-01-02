@@ -185,7 +185,7 @@ public class CanvasViewController: NSViewController {
     }
     
     public func delete(model: any AccessibilityView) {
-        presenter.delete(model: model)
+        presenter.remove(model)
     }
     
     @objc func addImageButtonTapped() {

@@ -35,7 +35,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
                  to: .coord(300))
         XCTAssertEqual(drawnControls.count, 2)
         
-        sut.mouseDown(on: .coord(200+30)) // 2nd rect
+        sut.mouseDown(on: .coord(200+5)) // 2nd rect
         sut.mouseDragged(on: .coord(10+1))
         
         XCTAssertEqual(drawnControls[1].frame,
@@ -64,9 +64,8 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         XCTAssertEqual(sut.document.controls[1].frame, rect10to50.offsetBy(dx: 35,
                                                                            dy: 35))
         
-        let selected = try await awaitSelected()
-        XCTAssertNil(selected, "should not select after translation")
-        
+        let selected = try await awaitSelected() as! A11yDescription
+        XCTAssertEqual(selected, sut.document.controls[1] as! A11yDescription)
         
         // Undo
         sut.document.undo?.undo()
@@ -83,6 +82,6 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         
         XCTAssertEqual(drawnControls.count, 1)
         XCTAssertEqual(drawnControls[0].frame,
-                       CGRect(origin: .coord(10), size: .side(10)))
+                       CGRect(origin: start10, size: .side(10)))
     }
 }

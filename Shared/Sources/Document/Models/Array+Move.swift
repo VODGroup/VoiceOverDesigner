@@ -1,9 +1,7 @@
-import Document
-
 extension Array where Element == any AccessibilityView {
     /// - Returns: From and To indexes
     @discardableResult
-    mutating func move(_ element: Element, to: Int) -> Bool {
+    public mutating func move(_ element: Element, to: Int) -> Bool {
         guard let from = firstIndex(where: { control in
             control === element
         }) else { return false }
@@ -30,7 +28,7 @@ extension Array where Element == any AccessibilityView {
 extension Array where Element == A11yDescription {
     /// - Returns: From and To indexes
     @discardableResult
-    mutating func move(_ element: Element, to: Int) -> Bool {
+    public mutating func move(_ element: Element, to: Int) -> Bool {
         guard let from = firstIndex(where: { control in
             control === element
         }) else { return false }
@@ -55,7 +53,7 @@ extension Array where Element == A11yDescription {
 
 extension Array where Element == any AccessibilityView {
     /// - Returns: From and To indexes
-    mutating func move(
+    public mutating func move(
         _ element: A11yDescription, fromContainer: A11yContainer?,
         toIndex: Int, toContainer: A11yContainer?
     ) {
@@ -76,28 +74,43 @@ extension Array where Element == any AccessibilityView {
         }
         
         if let fromContainer {
-            fromContainer.elements.remove(element)
+            fromContainer.remove(element)
         } else {
             remove(element)
         }
     }
     
-    mutating func remove(_ element: Element) {
-        if let from = firstIndex(where: { control in
+    /// - Returns: Element index
+    @discardableResult
+    public mutating func remove(_ element: Element) -> Int? {
+        let from = firstIndex(where: { control in
             control === element
-        }) {
+        })
+        
+        if let from {
             remove(at: from)
+            return from
         }
+        
+        return nil
     }
 }
         
 extension Array where Element == A11yDescription {
-    mutating func remove(_ element: Element) {
-        if let from = firstIndex(where: { control in
+
+    /// - Returns: Element index
+    @discardableResult
+    public mutating func remove(_ element: Element) -> Int? {
+        let fromIndex = firstIndex(where: { control in
             control === element
-        }) {
-            remove(at: from)
+        })
+
+        if let fromIndex {
+            remove(at: fromIndex)
+            return fromIndex
         }
+
+        return nil
     }
 }
 

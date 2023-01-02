@@ -48,7 +48,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private func openFile(url: URL) {
         let document: VODesignDocument
         
-        if url.pathExtension == VODesignDocument.vodesign {
+        if url.pathExtension == vodesign {
             document = VODesignDocument(file: url)
         } else {
             let image = NSImage(byReferencing: url)

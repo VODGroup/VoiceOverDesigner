@@ -70,7 +70,7 @@
         <scene sceneID="EK0-SY-BOJ">
             <objects>
                 <viewController id="6l9-zf-wkv" customClass="ElementSettingsViewController" customModule="Settings" sceneMemberID="viewController">
-                    <view key="view" misplaced="YES" id="sJP-cf-aea" customClass="ElementSettingsView" customModule="Settings">
+                    <view key="view" id="sJP-cf-aea" customClass="ElementSettingsView" customModule="Settings">
                         <rect key="frame" x="0.0" y="0.0" width="455" height="846"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
@@ -152,7 +152,7 @@
                                         </constraints>
                                     </customView>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="QgT-FM-ME0">
-                                        <rect key="frame" x="0.0" y="50" width="390" height="34"/>
+                                        <rect key="frame" x="0.0" y="50" width="405" height="34"/>
                                         <subviews>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fwH-ju-PDF">
                                                 <rect key="frame" x="0.0" y="0.0" width="46" height="18"/>
@@ -162,14 +162,13 @@
                                                     <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
-                                                    <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                                                 </buttonCell>
                                                 <connections>
                                                     <action selector="delete:" target="6l9-zf-wkv" id="jiA-L9-Z1V"/>
                                                 </connections>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="aP1-3I-ddb">
-                                                <rect key="frame" x="286" y="1" width="104" height="18"/>
+                                                <rect key="frame" x="301" y="1" width="104" height="18"/>
                                                 <buttonCell key="cell" type="check" title="Is accessible" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="nSE-RE-mIF">
                                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                     <font key="font" metaFont="system"/>
@@ -194,6 +193,7 @@ CA
                                     <constraint firstAttribute="trailing" secondItem="UKp-gN-tMY" secondAttribute="trailing" id="6DL-Lg-4pt"/>
                                     <constraint firstAttribute="trailing" secondItem="WKs-Fa-hRc" secondAttribute="trailing" id="6IV-XT-iRd"/>
                                     <constraint firstItem="ddW-TI-EUC" firstAttribute="leading" secondItem="fBF-Lg-mkf" secondAttribute="leading" id="DZC-Fz-qno"/>
+                                    <constraint firstItem="QgT-FM-ME0" firstAttribute="width" secondItem="WKs-Fa-hRc" secondAttribute="width" id="InZ-lz-XpJ"/>
                                     <constraint firstAttribute="trailing" secondItem="jUl-jG-lyA" secondAttribute="trailing" id="TtL-7k-pLZ"/>
                                     <constraint firstItem="jUl-jG-lyA" firstAttribute="leading" secondItem="fBF-Lg-mkf" secondAttribute="leading" id="bxS-qZ-0Hr"/>
                                     <constraint firstItem="UKp-gN-tMY" firstAttribute="leading" secondItem="fBF-Lg-mkf" secondAttribute="leading" id="nOB-pU-heZ"/>

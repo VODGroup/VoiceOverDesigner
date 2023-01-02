@@ -10,10 +10,12 @@ class WindowManager: NSObject {
     lazy var projectsWindowController: RecentWindowController =  .fromStoryboard(delegate: self)
     
     func start() {
-        if hasRecentDocuments {
-            showDocumentSelector()
-        } else if documentWindows.isEmpty {
-            showNewDocument()
+        if documentWindows.isEmpty {
+            if hasRecentDocuments {
+                showDocumentSelector()
+            } else {
+                showNewDocument()
+            }
         } else {
             // Do nothing, the user open document directly
         }
@@ -29,6 +31,10 @@ class WindowManager: NSObject {
      
     private func showDocumentSelector() {
         projectsWindowController.window?.makeKeyAndOrderFront(self)
+    }
+    
+    private func hideDocumentSelector() {
+        projectsWindowController.window?.close()
     }
 }
 
@@ -52,27 +58,33 @@ extension WindowManager: RecentDelegate {
     func createNewDocumentWindow(
         document: VODesignDocument
     ) {
-        let window = presenteWindow(for: document)
-        documentWindows.append(window)
-        projectsWindowController.window?.close()
+        presentWindow(for: document)
+        
+        hideDocumentSelector()
     }
     
-    func presenteWindow(for document: VODesignDocument) -> NSWindow {
-        let split = ProjectController(document: document)
-        
-        let window = NSWindow(contentViewController: split)
-        window.delegate = self
-        window.makeKeyAndOrderFront(window)
-        window.title = document.displayName
-        window.styleMask.formUnion(.fullSizeContentView)
+    private func presentWindow(for document: VODesignDocument) {
+        let window = window(for: document)
         
         let windowContorller = RecentWindowController(window: window)
         document.addWindowController(windowContorller)
         
+        window.makeKeyAndOrderFront(window)
+        documentWindows.append(window)
+    }
+    
+    private func window(for document: VODesignDocument) -> NSWindow {
+        let split = ProjectController(document: document)
+        
+        let window = NSWindow(contentViewController: split)
+        window.delegate = self
+        
+        window.title = document.displayName
+        window.styleMask.formUnion(.fullSizeContentView)
+        
         let toolbar: NSToolbar = NSToolbar()
         toolbar.delegate = split
-        
-        windowContorller.window?.toolbar = toolbar
+        window.toolbar = toolbar
         
         return window
     }

@@ -63,7 +63,7 @@ public class PreviewMainViewController: UIViewController {
         
         let onDelete = { [weak self] in
             guard let self = self else { return }
-            self.presenter.delete(model: description)
+            self.presenter.remove(description)
         }
         
         let details = UIHostingController(rootView: SettingsView(element: description, deleteAction: onDelete)

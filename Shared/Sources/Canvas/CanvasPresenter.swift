@@ -12,6 +12,9 @@ import TextRecognition
 
 public class CanvasPresenter: DocumentPresenter {
     
+    public weak var ui: DrawingView!
+    var drawingController: DrawingController!
+    
     public func didLoad(
         ui: DrawingView,
         initialScale: CGFloat
@@ -30,8 +33,7 @@ public class CanvasPresenter: DocumentPresenter {
     private var cancellables = Set<AnyCancellable>()
     
     private func redrawOnControlChanges() {
-        document
-            .controlsPublisher
+        controlsPublisher
             .sink(receiveValue: redraw(controls:))
             .store(in: &cancellables)
         
@@ -82,48 +84,33 @@ public class CanvasPresenter: DocumentPresenter {
     
     private func finish(_ action: DraggingAction?) -> A11yControlLayer? {
         switch action {
-        case let new as NewControlAction:
-            document.undo?.registerUndo(withTarget: self, handler: { target in
-                target.delete(model: new.control.model!)
-            })
-           
-            append(control: new.control.model!)
-            select(control: new.control)
-            return new.control
-            
-        case let translate as TranslateAction:
-            document.undo?.registerUndo(withTarget: self, handler: { target in
-                translate.undo()
-            })
-            publishControlChanges()
-            return translate.control
-            
         case let click as ClickAction:
             select(control: click.control)
-            return click.control
+            
+        case let new as NewControlAction:
+            add(new.control.model!)
+            select(control: new.control)
+            
         case let copy as CopyAction:
-            document.undo?.registerUndo(withTarget: self, handler: { target in
-                target.delete(model: copy.control.model!)
-            })
-            append(control: copy.control.model!)
+            add(copy.control.model!)
+            select(control: copy.control)
+            
+        case let translate as TranslateAction:
+            registerUndo(for: translate)
             publishControlChanges()
-            return copy.control
+            
         case let resize as ResizeAction:
-            document.undo?.registerUndo(withTarget: self, handler: { target in
-                resize.control.frame = resize.initialFrame
-            })
-            return resize.control
-            // TODO: Register resize as file change
+            registerUndo(for: resize)
+            publishControlChanges()
+            
         case .none:
             deselect()
-            return nil
             
         default:
             assert(false, "Handle new type here")
-            return nil
         }
         
-        // TODO: Extract control from action
+        return action?.control
     }
     
     // MARK: - Selection
@@ -170,20 +157,34 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     // MARK: - Deletion
-    public func delete(model: any AccessibilityView) {
+    override public func remove(_ model: any AccessibilityView) {
         guard let control = control(for: model) else {
             return
         }
         
         // TODO: Register Delete Undo on child
         ui.delete(control: control)
-        remove(control: model)
-        publishControlChanges()
+        
+        super.remove(model)
     }
     
     private func control(for model: any AccessibilityView) -> A11yControlLayer? {
         ui.drawnControls.first { control in
-            control.model?.frame == model.frame
+            control.model === model
         }
     }
+}
+
+// MARK: - Undo
+extension CanvasPresenter {
+    func registerUndo(for action: Undoable) {
+        document.undo?.registerUndo(withTarget: self, handler: { target in
+            action.undo()
+            target.publishControlChanges()
+        })
+    }
+}
+
+protocol Undoable {
+    func undo()
 }
