@@ -113,4 +113,8 @@ open class DocumentPresenter {
             elements.extractElements(),
             label: "Container")
     }
+    
+    public func unwrapContainer(_ container: A11yContainer) {
+        controls.unwrapContainer(container)
+    }
 }

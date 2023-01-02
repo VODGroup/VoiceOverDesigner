@@ -39,6 +39,7 @@ public class NavigatorController: NSViewController {
     private func observe() {
         presenter.controlsPublisher.sink { [weak self] _ in
             self?.outlineView.reloadData()
+            self?.updateToolbarButton()
         }.store(in: &cancellables)
         
         presenter.selectedPublisher
@@ -120,7 +121,7 @@ public class NavigatorController: NSViewController {
     
     @IBOutlet var groupButton: NSButton!
     
-    @IBAction func groupSelection(_ sender: AnyObject) {
+    @objc func groupSelection() {
         let selectedItems = outlineView.selectedRowIndexes
             .map { row in
                 outlineView.item(atRow: row)
@@ -129,6 +130,13 @@ public class NavigatorController: NSViewController {
         let container = presenter.wrapInContainer(selectedItems)
 
         select(model: container)
+    }
+    
+    @objc func ungroup() {
+        guard outlineView.selectedRowIndexes.count == 1 else { return }
+        guard let container = outlineView.item(atRow: outlineView.selectedRow) as? A11yContainer else { return }
+        presenter.unwrapContainer(container)
+        select(model: container.elements.last)
     }
 }
 
@@ -175,19 +183,36 @@ extension NavigatorController: NSOutlineViewDelegate {
     
     
     public func outlineViewSelectionDidChange(_ notification: Notification) {
+        defer { updateToolbarButton() }
         guard let outlineView = notification.object as? NSOutlineView else { return }
         
         guard outlineView.selectedRowIndexes.count == 1 else {
-            groupButton.isEnabled = true
             return // Not forward multiple selection to whole app
         }
-        groupButton.isEnabled = false
+        
+    
         
         let selectedItem = outlineView.item(atRow: outlineView.selectedRow)
         if let element = selectedItem as? any AccessibilityView  {
             presenter.selectedPublisher.send(element)
         }
     }
+    
+    func updateToolbarButton() {
+        let selectedCount = outlineView.selectedRowIndexes.count
+
+        groupButton.isEnabled = selectedCount != 0
+        
+        if selectedCount == 1, outlineView.item(atRow: outlineView.selectedRow) is A11yContainer {
+            groupButton.action = #selector(ungroup)
+            groupButton.title = "Ungroup Container"
+        } else {
+            groupButton.action = #selector(groupSelection)
+            groupButton.title = "Group in Container"
+        }
+    }
+    
+    
 }
 
 extension NavigatorController {
