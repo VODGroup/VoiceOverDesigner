@@ -37,14 +37,10 @@ extension Array where Element == any AccessibilityView {
         return container
     }
     
-    @discardableResult
-    public mutating func unwrapContainer(_ container: A11yContainer) -> Int? {
-        guard let containerIndex = firstIndex(where: {
-            $0 === container
-        }) else { return nil }
-        remove(container)
+    
+    public mutating func unwrapContainer(_ container: A11yContainer) {
+        guard let containerIndex = remove(container) else { return }
         insert(contentsOf: container.elements.reversed(), at: containerIndex)
-        return containerIndex
     }
     
     /// - Returns: Container index
