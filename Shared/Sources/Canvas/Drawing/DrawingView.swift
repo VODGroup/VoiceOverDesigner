@@ -44,6 +44,8 @@ public protocol DrawingView: View {
     var copyListener: CopyModifierProtocol { get set }
     
     var escListener: EscModifierAction { get }
+    
+    var hud: HUDLayer { get }
 }
 
 public extension DrawingView {

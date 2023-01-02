@@ -4,24 +4,29 @@ import Document
 class ResizeMarker: CAShapeLayer {
     override init() {
         super.init()
-        let size = Config().resizeMarkerSize
-        let circle = CGPath(ellipseIn: CGRect(origin: .zero,
-                                              size: CGSize(width: size, height: size)),
-                            transform: nil)
+        
+        fillColor = Color.systemBlue.cgColor
+        strokeColor = Color.white.cgColor
+    }
+    
+    override func layoutSublayers() {
+        super.layoutSublayers()
+        
+        let sideSize = bounds.width
+        let size = CGSize(width: sideSize, height: sideSize)
+        let rect = CGRect(origin: .zero, size: size)
+        let circle = CGPath(ellipseIn: rect, transform: nil)
         
         path = circle
-        fillColor = Color.systemBlue.cgColor
-        lineWidth = 4
-        strokeColor = Color.white.cgColor
     }
     
     override init(layer: Any) {
         super.init(layer: layer)
     }
-    
-    // TODO: Init with layer
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+

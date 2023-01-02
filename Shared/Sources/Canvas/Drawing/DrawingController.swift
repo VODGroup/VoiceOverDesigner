@@ -66,7 +66,7 @@ public class DrawingController {
         let control = A11yControlLayer()
         control.model = model
         control.frame = model.frame.scaled(scale)
-        control.border.fillColor = model.color.cgColor
+        control.backgroundColor = model.color.cgColor
         
         view.add(control: control)
         return control
@@ -78,10 +78,10 @@ public class DrawingController {
         scale: CGFloat
     ) -> A11yControlLayer {
         let container = draw(model, scale: scale)
-        container.border.strokeColor = model.color.cgColor
-        container.border.cornerCurve = .continuous
-        container.border.cornerRadius = 20
-        container.border.masksToBounds = true
+//        container.strokeColor = model.color.cgColor
+        container.cornerCurve = .continuous
+        container.cornerRadius = 20
+        container.masksToBounds = true
          
         return container
     }

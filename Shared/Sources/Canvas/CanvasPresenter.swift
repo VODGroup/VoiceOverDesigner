@@ -129,9 +129,8 @@ public class CanvasPresenter: DocumentPresenter {
     
     public private(set) var selectedControl: A11yControlLayer? {
         didSet {
-            oldValue?.isSelected = false
-            
-            selectedControl?.isSelected = true
+            ui.hud.selectedControlFrame = selectedControl?.frame
+            ui.hud.tintColor = selectedControl?.model?.color.cgColor.copy(alpha: 1)
         }
     }
     
@@ -187,4 +186,10 @@ extension CanvasPresenter {
 
 protocol Undoable {
     func undo()
+}
+
+extension CGRect {
+    var center: CGPoint {
+        CGPoint(x: midX, y: midY)
+    }
 }
