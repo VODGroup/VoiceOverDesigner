@@ -3,6 +3,10 @@ import QuartzCore
 /// The HUD lives in coordinate spec of drawing element and update according to current magnifictation level
 public class HUDLayer: CALayer {
     
+    public func corner(for location: CGPoint) -> RectCorner? {
+        selectedControlFrame?.isCorner(at: location, size: resizeMarkerSize)
+    }
+    
     public var scale: CGFloat {
         didSet {
             elementOverlay.resizeMarkerSize = resizeMarkerSize

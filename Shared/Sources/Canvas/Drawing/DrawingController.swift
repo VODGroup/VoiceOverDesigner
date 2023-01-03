@@ -89,11 +89,10 @@ public class DrawingController {
     // MARK: New drawing
     public func mouseDown(
         on location: CGPoint,
-        selectedControl: A11yControlLayer?,
-        resizeMarkerSize: CGFloat
+        selectedControl: A11yControlLayer?
     ) {
         if let selectedControl {
-            if let corner = selectedControl.frame.isCorner(at: location, size: resizeMarkerSize) {
+            if let corner = view.hud.corner(for: location) {
                 startResizing(control: selectedControl, startLocation: location, corner: corner)
                 return
             }
@@ -108,14 +107,11 @@ public class DrawingController {
     
     public func mouseMoved(
         on location: CGPoint,
-        selectedControl: A11yControlLayer?,
-        resizeMarkerSize: CGFloat
+        selectedControl: A11yControlLayer?
     ) {
-        if let selectedControl {
-            if let corner = selectedControl.frame.isCorner(at: location, size: resizeMarkerSize) {
-                pointerSubject.send(.resize(corner))
-                return
-            }
+        if let corner = view.hud.corner(for: location) {
+            pointerSubject.send(.resize(corner))
+            return
         }
         
         if view.control(at: location) != nil {
@@ -123,7 +119,6 @@ public class DrawingController {
         } else {
             pointerSubject.send(nil)
         }
-        
     }
     
     private func startDragging(
