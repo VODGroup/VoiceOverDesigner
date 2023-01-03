@@ -205,14 +205,12 @@ extension NavigatorController: NSOutlineViewDelegate {
         
         if selectedCount == 1, outlineView.item(atRow: outlineView.selectedRow) is A11yContainer {
             groupButton.action = #selector(ungroup)
-            groupButton.title = "Ungroup Container"
+            groupButton.title = NSLocalizedString("Ungroup Container", comment: "")
         } else {
             groupButton.action = #selector(groupSelection)
-            groupButton.title = "Group in Container"
+            groupButton.title = NSLocalizedString("Group in Container", comment: "")
         }
     }
-    
-    
 }
 
 extension NavigatorController {
