@@ -57,6 +57,7 @@ class SideTransitionPresentationController: UIPresentationController {
             target: self,
             action: #selector(dismiss))
         dismissingView.addGestureRecognizer(dismissingTap)
+        container.bringSubviewToFront(presentedView!)
     }
 }
 
