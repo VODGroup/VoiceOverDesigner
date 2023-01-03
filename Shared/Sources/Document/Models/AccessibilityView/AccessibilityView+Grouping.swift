@@ -37,6 +37,12 @@ extension Array where Element == any AccessibilityView {
         return container
     }
     
+    
+    public mutating func unwrapContainer(_ container: A11yContainer) {
+        guard let containerIndex = remove(container) else { return }
+        insert(contentsOf: container.elements.reversed(), at: containerIndex)
+    }
+    
     /// - Returns: Container index
     mutating func removeFromContainers(_ item: A11yDescription) -> Int? {
         for (containerIndex, view) in enumerated().reversed() {

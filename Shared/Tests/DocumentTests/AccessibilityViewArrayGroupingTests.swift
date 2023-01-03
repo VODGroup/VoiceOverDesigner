@@ -81,6 +81,23 @@ final class AccessibilityViewArrayGroupingTests: XCTestCase {
         XCTAssertEqual(container1.elements, [item1, item2, item3])
     }
     
+    func test_unwrapContainer_addsElementsCorrectly_andRemovesContainer() throws {
+        
+        let container: A11yContainer = .testMake(elements: [item2, item3])
+        
+        array = [item1, container]
+        XCTAssertEqual(array.count, 2)
+        array.unwrapContainer(container)
+        
+        XCTAssertEqual(array.count, 3)
+        XCTAssertEqual(array[1] as? A11yDescription, item3)
+        XCTAssertEqual(array[2] as? A11yDescription, item2)
+        
+        XCTAssertFalse(array.contains(where: {
+            $0 === container
+        }))
+    }
+    
     // MARK: - Frame
     func test_wrapTwoElements_shouldUnionFrames() {
         let item1 = A11yDescription.testMake(
