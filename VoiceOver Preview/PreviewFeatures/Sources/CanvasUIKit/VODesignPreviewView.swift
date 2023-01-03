@@ -22,18 +22,9 @@ class VODesignPreviewView: UIView {
     
     var controls: [any AccessibilityView] = [] {
         didSet {
-            updateVoiceOverLayoutForCanvas()
+            // TODO: Is it correct to path 0?
+            updateAccessilibityLayout(yOffset: 0)
         }
-    }
-    
-    private func updateVoiceOverLayoutForCanvas() {
-        // TODO: Restore
-//        let offset = scrollView.frame.minY - scrollView.bounds.minY
-        
-//        canvas.layout = VoiceOverLayout(
-//            controls: controls,
-//            container: canvas,
-//            yOffset: offset)
     }
     
     override var intrinsicContentSize: CGSize {
@@ -42,5 +33,12 @@ class VODesignPreviewView: UIView {
         }
         
         set {}
+    }
+    
+    func updateAccessilibityLayout(yOffset: CGFloat) {
+        canvas.layout = VoiceOverLayout(
+            controls: controls,
+            container: canvas,
+            yOffset: yOffset)
     }
 }

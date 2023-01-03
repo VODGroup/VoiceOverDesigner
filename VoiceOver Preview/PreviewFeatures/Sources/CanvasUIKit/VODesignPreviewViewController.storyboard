@@ -4,7 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,15 +12,15 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ScrollViewController" customModule="CanvasUIKit" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" customClass="ScrollView" customModule="CanvasUIKit">
+                    <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="8bC-Xf-vdC" customClass="ScrollView" customModule="CanvasUIKit">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" maximumZoomScale="3" translatesAutoresizingMaskIntoConstraints="NO" id="8x6-dL-UR9">
-                                <rect key="frame" x="0.0" y="24" width="1024" height="1322"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" maximumZoomScale="3" translatesAutoresizingMaskIntoConstraints="NO" id="8x6-dL-UR9">
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                                 <subviews>
                                     <containerView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="400" translatesAutoresizingMaskIntoConstraints="NO" id="p1a-B4-5Kg">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="400"/>
+                                        <rect key="frame" x="0.0" y="44" width="600" height="400"/>
                                         <connections>
                                             <segue destination="Q5T-lJ-gfa" kind="embed" id="ynA-E9-E2R"/>
                                         </connections>
@@ -40,13 +39,12 @@
                                 </connections>
                             </scrollView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="8x6-dL-UR9" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="G6F-xD-2Dg"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8x6-dL-UR9" secondAttribute="trailing" id="bln-oM-OBJ"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="8x6-dL-UR9" secondAttribute="bottom" id="e8t-gE-dr9"/>
-                            <constraint firstItem="8x6-dL-UR9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="s0E-pF-LbQ"/>
+                            <constraint firstItem="8x6-dL-UR9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="G6F-xD-2Dg"/>
+                            <constraint firstAttribute="trailing" secondItem="8x6-dL-UR9" secondAttribute="trailing" id="bln-oM-OBJ"/>
+                            <constraint firstAttribute="bottom" secondItem="8x6-dL-UR9" secondAttribute="bottom" id="e8t-gE-dr9"/>
+                            <constraint firstItem="8x6-dL-UR9" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="s0E-pF-LbQ"/>
                         </constraints>
                         <connections>
                             <outlet property="container" destination="p1a-B4-5Kg" id="gFn-1o-q4c"/>
