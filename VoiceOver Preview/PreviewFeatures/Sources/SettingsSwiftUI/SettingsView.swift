@@ -86,31 +86,6 @@ struct TextValue: View {
 
 
 
-struct CustomDescriptionView: View {
-    
-    @Binding var selection: A11yCustomDescriptions
-    
-    public var body: some View {
-        
-        Section(content: {
-            VStack(alignment: .leading) {
-                ForEach($selection.descriptions, id: \.value) { $customDescription in
-                    GroupBox {
-                        TextField("Label:", text: $customDescription.label)
-                        TextField("Value:", text: $customDescription.value)
-                    }
-                }
-            }
-            Button("+ Add custom description") {
-                selection.addNewCustomDescription(.empty)
-            }
-            .buttonStyle(.bordered)
-            .buttonBorderShape(.roundedRectangle)
-        }, header: {
-            SectionTitle("Custom description")
-        })
-    }
-}
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {

@@ -1,4 +1,5 @@
 // https://www.swiftbysundell.com/tips/default-decoding-values/
+import Foundation
 
 public protocol DecodableDefaultSource {
     associatedtype Value: Decodable
@@ -49,6 +50,10 @@ extension DecodableDefault {
             public static var defaultValue: String { "" }
         }
         
+        public enum RandomUUID: Source {
+            public static var defaultValue: UUID { .init() }
+        }
+        
         public enum EmptyList<T: List>: Source {
             public static var defaultValue: T { [] }
         }
@@ -65,12 +70,17 @@ extension A11yCustomActions: DecodableDefaultSource {
     public typealias Value = A11yCustomActions
 }
 
+extension UUID: DecodableDefaultSource {
+    public static var defaultValue: UUID = UUID()
+}
+
 extension DecodableDefault {
     public typealias True = Wrapper<Sources.True>
     public typealias False = Wrapper<Sources.False>
     public typealias EmptyString = Wrapper<Sources.EmptyString>
     public typealias EmptyList<T: List> = Wrapper<Sources.EmptyList<T>>
     public typealias EmptyMap<T: Map> = Wrapper<Sources.EmptyMap<T>>
+    public typealias RandomUUID = Wrapper<Sources.RandomUUID>
 }
 
 extension DecodableDefault.Wrapper: Equatable where Value: Equatable {}
