@@ -26,9 +26,6 @@ class ControlsView: FlippedView, DrawingView {
         super.layout()
         
         hud.frame = bounds
-        
-        // TODO: Find better place to add
-        addHUD()
     }
 }
 
@@ -58,6 +55,7 @@ class CanvasView: FlippedView {
         scrollView.verticalScrollElasticity = .none
         scrollView.horizontalScrollElasticity = .none
         scrollView.hud = controlsView.hud
+        controlsView.wantsLayer = true
         controlsView.addHUD()
         
         zoomOutButton.toolTip = "⌘-"
