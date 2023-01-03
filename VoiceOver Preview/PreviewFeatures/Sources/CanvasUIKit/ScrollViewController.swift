@@ -26,14 +26,10 @@ public class ScrollViewController: UIViewController {
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        fitZoomScaleToImageSize() // Update after rotation
+        let imageSize = presenter.document.image?.size ?? UIScreen.main.bounds.size
+        view().scrollView.centerAndScaleToFit(contentSize: imageSize)
     }
 
-    
-    private func fitZoomScaleToImageSize() {
-        let imageSize = presenter.document.image?.size ?? UIScreen.main.bounds.size
-        view().fitZoomScale(imageSize: imageSize)
-    }
     
     func view() -> ScrollView {
         view as! ScrollView
@@ -52,9 +48,9 @@ class ScrollView: UIView {
         scrollView.maximumZoomScale = 4
     }
     
-    func fitZoomScale(imageSize: CGSize) {
-        let widthScale = scrollView.bounds.width / imageSize.width
-        let heightScale = scrollView.bounds.height / imageSize.height
+    func fitZoomScale() {
+        let widthScale = scrollView.bounds.width / scrollView.contentSize.width
+        let heightScale = scrollView.bounds.height / scrollView.contentSize.height
         let minScale = min(widthScale, heightScale)
         scrollView.minimumZoomScale = minScale
         scrollView.zoomScale = minScale
@@ -70,9 +66,44 @@ extension ScrollView: UIScrollViewDelegate {
         container
     }
     
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+//        scrollView.updateContentInsetToCenterContent()
+    }
+    
     private func updateVoiceOverLayoutForCanvas() {
         let yOffset = scrollView.frame.minY - scrollView.bounds.minY
         
         canvas?.updateAccessilibityLayout(yOffset: yOffset)
+    }
+}
+
+extension UIScrollView {
+    
+    func centerAndScaleToFit(contentSize: CGSize) {
+        self.contentSize = contentSize
+        
+        let scale = updateZoomScaleToFitContent()
+        
+        // We had to calculate manually because first layout do it wrong
+        let scaledContentSize = CGSize(width: contentSize.width * scale,
+                                       height: contentSize.height * scale)
+        updateContentInsetToCenterContent(contentSize: scaledContentSize)
+    }
+    
+    func updateContentInsetToCenterContent(contentSize: CGSize) {
+        let offsetX = max((bounds.width  - contentSize.width)  * 0.5, 0)
+        let offsetY = max((bounds.height - contentSize.height) * 0.5, 0)
+    
+        contentInset = UIEdgeInsets(top: offsetY, left: offsetX, bottom: 0, right: 0)
+    }
+    
+    func updateZoomScaleToFitContent() -> CGFloat {
+        let widthScale  = bounds.width  / contentSize.width
+        let heightScale = bounds.height / contentSize.height
+        let minScale    = min(widthScale, heightScale)
+        
+        minimumZoomScale = minScale
+        zoomScale = minScale
+        return minScale
     }
 }
