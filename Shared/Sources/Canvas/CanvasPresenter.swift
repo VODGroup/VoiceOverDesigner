@@ -60,6 +60,8 @@ public class CanvasPresenter: DocumentPresenter {
     // MARK: Mouse
     public func mouseDown(on location: CGPoint) {
         guard document.image != nil else { return }
+        
+        ui.hud.hideHUD()
         drawingController.mouseDown(on: location,
                                     selectedControl: selectedControl)
     }
@@ -78,6 +80,8 @@ public class CanvasPresenter: DocumentPresenter {
    
     @discardableResult
     public func mouseUp(on location: CGPoint) -> A11yControlLayer? {
+        ui.hud.showHUD()
+        
         let action = drawingController.end(coordinate: location)
         
 
@@ -101,10 +105,12 @@ public class CanvasPresenter: DocumentPresenter {
         case let translate as TranslateAction:
             registerUndo(for: translate)
             publishControlChanges()
+            select(control: translate.control)
             
         case let resize as ResizeAction:
             registerUndo(for: resize)
             publishControlChanges()
+            // Should be selected already
             
         case .none:
             deselect()

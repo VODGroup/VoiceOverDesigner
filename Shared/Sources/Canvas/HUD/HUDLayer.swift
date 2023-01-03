@@ -3,6 +3,18 @@ import QuartzCore
 /// The HUD lives in coordinate spec of drawing element and update according to current magnifictation level
 public class HUDLayer: CALayer {
     
+    public func hideHUD() {
+        updateWithoutAnimation {
+            isHidden = true
+        }
+    }
+    
+    public func showHUD() {
+        updateWithoutAnimation {
+            isHidden = true
+        }
+    }
+    
     public func corner(for location: CGPoint) -> RectCorner? {
         selectedControlFrame?.isCorner(at: location, size: resizeMarkerSize)
     }
