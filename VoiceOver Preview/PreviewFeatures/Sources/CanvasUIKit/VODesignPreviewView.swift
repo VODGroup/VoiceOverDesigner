@@ -5,11 +5,14 @@ import VoiceOverLayout
 import Canvas
 
 class VODesignPreviewView: UIView {
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var container: UIView!
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var canvas: Canvas!
    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        translatesAutoresizingMaskIntoConstraints = false // Forward to use intrinsicContentSize
+    }
     var image: UIImage? {
         didSet {
             backgroundImageView.image = image
@@ -19,29 +22,23 @@ class VODesignPreviewView: UIView {
     
     var controls: [any AccessibilityView] = [] {
         didSet {
-            updateVoiceOverLayoutForCanvas()
+            // TODO: Is it correct to path 0?
+            updateAccessilibityLayout(yOffset: 0)
         }
     }
     
-
-
-}
-
-extension VODesignPreviewView: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        updateVoiceOverLayoutForCanvas()
-    }
-    
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        container
-    }
-    
-    private func updateVoiceOverLayoutForCanvas() {
-        let offset = scrollView.frame.minY - scrollView.bounds.minY
+    override var intrinsicContentSize: CGSize {
+        get {
+            image?.size ?? UIScreen.main.bounds.size
+        }
         
+        set {}
+    }
+    
+    func updateAccessilibityLayout(yOffset: CGFloat) {
         canvas.layout = VoiceOverLayout(
             controls: controls,
             container: canvas,
-            yOffset: offset)
+            yOffset: yOffset)
     }
 }
