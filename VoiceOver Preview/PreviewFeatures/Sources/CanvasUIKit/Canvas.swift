@@ -21,4 +21,11 @@ class Canvas: UIView, DrawingView {
     var scale: CGFloat = 1
     
     var copyListener: CopyModifierProtocol = ManualCopyCommand()
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        // TODO: Find better place
+        addHUD()
+    }
 }

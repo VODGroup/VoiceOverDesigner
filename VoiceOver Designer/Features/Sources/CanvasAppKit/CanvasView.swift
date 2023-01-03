@@ -27,13 +27,8 @@ class ControlsView: FlippedView, DrawingView {
         
         hud.frame = bounds
         
+        // TODO: Find better place to add
         addHUD()
-    }
-    
-    func addHUD() {
-        hud.removeFromSuperlayer()
-        layer?.addSublayer(hud)
-        hud.zPosition = 10_000
     }
 }
 

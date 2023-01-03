@@ -113,4 +113,10 @@ public extension DrawingView {
         control.removeFromSuperlayer()
         drawnControls.remove(at: index)
     }
+    
+    func addHUD() {
+        hud.removeFromSuperlayer()
+        addSublayer(hud)
+        hud.zPosition = 10_000
+    }
 }
