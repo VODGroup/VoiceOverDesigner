@@ -80,7 +80,7 @@ public class PreviewMainViewController: UIViewController {
     }
     
     private func embedCanvas() {
-        let canvas = VODesignPreviewViewController.controller(presenter: presenter)
+        let canvas = ScrollViewController.controller(presenter: presenter)
         
         addChild(canvas)
         view.addSubview(canvas.view)
