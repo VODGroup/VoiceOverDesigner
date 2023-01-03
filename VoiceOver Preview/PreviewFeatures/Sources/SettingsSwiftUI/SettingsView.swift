@@ -34,11 +34,10 @@ public struct SettingsView: View {
                 
                 Button(role: .destructive, action: delete, label: {
                     Text("Delete")
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity, idealHeight: 40)
-                    
+                        .frame(maxWidth: .infinity)
                 })
                 .buttonStyle(.borderedProminent)
+                .controlSize(.large)
                 
                 
             }
@@ -55,9 +54,9 @@ public struct SettingsView: View {
 
 struct SectionTitle: View {
     
-    let title: String
+    let title: LocalizedStringKey
     
-    init(_ title: String) {
+    init(_ title: LocalizedStringKey) {
         self.title = title
     }
     
@@ -69,7 +68,7 @@ struct SectionTitle: View {
 
 struct TextValue: View {
     
-    let title: String
+    let title: LocalizedStringKey
     @Binding var value: String
     
     
@@ -83,61 +82,9 @@ struct TextValue: View {
     }
 }
 
-struct TraitsView: View {
-    
-    @Binding var selection: A11yTraits
-    
-    init(selection: Binding<A11yTraits>) {
-        self._selection = selection
-    }
-    
-    private var traits: [(String, A11yTraits)] = [("Button", .button), ("Header",.header), ("Link", .link), ("Static Text", .staticText), ("SearchField", .searchField)]
-    
-    public var body: some View {
-        Section(content: {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(traits, id: \.0) { name, trait in
-                        Toggle(name, isOn: $selection.bind(trait))
-                    }
-                }
-            }
-            .toggleStyle(.button)
-            .buttonBorderShape(.capsule)
-        }, header: {
-            SectionTitle("Traits")
-        })
-        
-        .frame(height: 40)
-    }
-}
 
-struct CustomActionsView: View {
-    
-    @Binding var selection: A11yCustomActions
-    
-    public var body: some View {
-        
-        Section(content: {
-            
-            VStack(alignment: .leading) {
-                ForEach($selection.names, id: \.self) { $name in
-                    TextField("", text: $name)
-                }
-            }
-            
-            Button("+ Add custom action") {
-                selection.addNewCustomAction(named: "")
-            }
-            .buttonStyle(.bordered)
-            .buttonBorderShape(.roundedRectangle)
-            
-        }, header: {
-            SectionTitle("Custom actions")
-        })
 
-    }
-}
+
 
 struct CustomDescriptionView: View {
     
