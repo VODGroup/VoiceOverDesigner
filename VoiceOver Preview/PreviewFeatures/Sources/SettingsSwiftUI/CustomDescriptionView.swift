@@ -13,7 +13,7 @@ struct CustomDescriptionView: View {
                     GroupBox(content: {
                         content(
                             label: $customDescription.label,
-                            value: $customDescription.label)
+                            value: $customDescription.value)
                     }, label: {
                         label(value: customDescription)
                     }).textFieldStyle(.roundedBorder)

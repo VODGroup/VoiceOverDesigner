@@ -7,6 +7,8 @@
 
 import Foundation
 
+// TODO: Probably needer AdjustableOption struct
+
 public struct AdjustableOptions: Codable {
     public init(
         options: [String],
@@ -16,7 +18,7 @@ public struct AdjustableOptions: Codable {
         self.currentIndex = currentIndex
     }
     
-    public private(set) var options: [String]
+    public var options: [String]
     public var currentIndex: Int?
     public var currentValue: String? {
         guard let currentIndex = currentIndex else {

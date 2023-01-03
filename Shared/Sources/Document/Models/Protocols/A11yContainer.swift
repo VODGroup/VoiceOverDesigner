@@ -1,6 +1,6 @@
 import Foundation
 
-public class A11yContainer: Codable, AccessibilityContainer {
+public class A11yContainer: Codable, AccessibilityContainer, ObservableObject {
     public init(
         elements: [A11yDescription],
         frame: CGRect,
@@ -27,25 +27,39 @@ public class A11yContainer: Codable, AccessibilityContainer {
         lhs.frame == rhs.frame && lhs.elements == rhs.elements && lhs.label == rhs.label
     }
     
-    
     public var elements: [A11yDescription]
     public var frame: CGRect
-    public var label: String
+    
+    public var label: String {
+        willSet { objectWillChange.send() }
+    }
     public var type: AccessibilityViewTypeDto = .container
+    
+    
     @DecodableDefault.False
-    public var isModal: Bool
+    public var isModal: Bool {
+        willSet { objectWillChange.send() }
+    }
 
     @DecodableDefault.False
-    public var isTabTrait: Bool
+    public var isTabTrait: Bool {
+        willSet { objectWillChange.send() }
+    }
     
     @DecodableDefault.False
-    public var isEnumerated: Bool
+    public var isEnumerated: Bool {
+        willSet { objectWillChange.send() }
+    }
    
     @DecodableDefault.ContainerType
-    public var containerType: ContainerType
+    public var containerType: ContainerType {
+        willSet { objectWillChange.send() }
+    }
     
     @DecodableDefault.NavigationStyle
-    public var navigationStyle: NavigationStyle
+    public var navigationStyle: NavigationStyle {
+        willSet { objectWillChange.send() }
+    }
     
     public static func copy(from model: A11yContainer) -> A11yContainer {
         A11yContainer(
@@ -62,18 +76,22 @@ public class A11yContainer: Codable, AccessibilityContainer {
         )
     }
     
-    public enum ContainerType: String, Codable, CaseIterable {
+    public enum ContainerType: String, Codable, CaseIterable, Identifiable {
 //        case none
 //        case dataTable
         case semanticGroup
         case list
         case landmark
+        
+        public var id: Self { self }
     }
     
-    public enum NavigationStyle: String, Codable, CaseIterable  {
+    public enum NavigationStyle: String, Codable, CaseIterable, Identifiable {
         case automatic
         case separate
         case combined
+        
+        public var id: Self { self }
     }
     
     

@@ -3,7 +3,7 @@ import Document
 
 
 
-public struct SettingsView: View {
+public struct ElementSettingsView: View {
     
     @Environment(\.dismiss) private var dismissAction
     @ObservedObject var element: A11yDescription
@@ -22,7 +22,7 @@ public struct SettingsView: View {
                     .font(.largeTitle)
                 
                 TextValue(title: "Label", value: $element.label)
-                TextValue(title: "Value", value: $element.value)
+                ValueView(value: $element.value, adjustableOptions: $element.adjustableOptions, traits: $element.trait)
                 TraitsView(selection: $element.trait)
                 
                 Divider()
@@ -87,9 +87,9 @@ struct TextValue: View {
 
 
 
-struct SettingsView_Previews: PreviewProvider {
+struct ElementSettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(element: .empty(frame: .zero), deleteAction: {})
+        ElementSettingsView(element: .empty(frame: .zero), deleteAction: {})
     }
 }
 

@@ -92,7 +92,7 @@ public class A11yDescription: Codable, Equatable, ObservableObject {
     
     // MARK: - Adjustable
     @Published
-    public internal(set) var adjustableOptions: AdjustableOptions // Not optional because user can input values, disable adjustable, but reenable after time. The app will keep data :-)
+    public var adjustableOptions: AdjustableOptions // Not optional because user can input values, disable adjustable, but reenable after time. The app will keep data :-)
     
     @DecodableDefault.EmptyCustomActions 
     public var customActions: A11yCustomActions {
