@@ -44,6 +44,8 @@ public protocol DrawingView: View {
     var copyListener: CopyModifierProtocol { get set }
     
     var escListener: EscModifierAction { get }
+    
+    var hud: HUDLayer { get }
 }
 
 public extension DrawingView {
@@ -110,5 +112,11 @@ public extension DrawingView {
         }) else { return }
         control.removeFromSuperlayer()
         drawnControls.remove(at: index)
+    }
+    
+    func addHUD() {
+        hud.removeFromSuperlayer()
+        addSublayer(hud)
+        hud.zPosition = 10_000
     }
 }

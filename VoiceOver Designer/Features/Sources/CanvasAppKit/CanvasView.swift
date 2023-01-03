@@ -19,16 +19,26 @@ class ControlsView: FlippedView, DrawingView {
     var copyListener = CopyModifierFactory().make()
     
     var escListener = EscModifierFactory().make()
+    
+    var hud = HUDLayer()
+    
+    override func layout() {
+        super.layout()
+        
+        hud.frame = bounds
+        
+        // TODO: Find better place to add
+        addHUD()
+    }
 }
 
 class CanvasView: FlippedView {
     
-    @IBOutlet weak var scrollView: NSScrollView!
+    @IBOutlet weak var scrollView: CanvasScrollView!
     
     @IBOutlet weak var backgroundImageView: NSImageView!
     
     @IBOutlet weak var clipView: NSClipView!
-    @IBOutlet weak var scrollViewHeight: NSLayoutConstraint!
     
     @IBOutlet weak var contentView: NSView!
     @IBOutlet weak var controlsView: ControlsView!
@@ -47,6 +57,8 @@ class CanvasView: FlippedView {
         
         scrollView.verticalScrollElasticity = .none
         scrollView.horizontalScrollElasticity = .none
+        scrollView.hud = controlsView.hud
+        controlsView.addHUD()
         
         zoomOutButton.toolTip = "⌘-"
         zoomToFitButton.toolTip = "0"
@@ -56,6 +68,57 @@ class CanvasView: FlippedView {
         footer.isHidden = true
     }
     
+    // MARK: - Magnification
+    func fitToWindowIfAlreadyFitted() {
+        if isImageMagnificationFitsToWindow {
+            fitToWindow(animated: false)
+        }
+    }
+    
+    func fitToWindow(animated: Bool) {
+        if let fitingMagnification {
+            setMagnification(to: fitingMagnification, animated: animated)
+        }
+    }
+    
+    func changeMagnifacation(_ change: (_ current: CGFloat) -> CGFloat) {
+        let current = scrollView.magnification
+        let changed = change(current)
+        setMagnification(to: changed, animated: false)
+    }
+    
+    private func setMagnification(to magnification: CGFloat, animated: Bool) {
+        // Manually trim to keep value in sync with real limitation
+        let newLevel = (scrollView.minMagnification...scrollView.maxMagnification).trim(magnification)
+        
+        var scrollView = self.scrollView
+        if animated {
+            scrollView = self.scrollView.animator()
+            
+            self.scrollView.updateHud(to: newLevel) // Animator calls another function
+        }
+        
+        scrollView?.setMagnification(
+            newLevel,
+            centeredAt: controlsView.hud.selectedControlFrame?.center ?? contentView.frame.center)
+    }
+    
+    private var isImageMagnificationFitsToWindow: Bool {
+        if let fitingMagnification {
+            return abs(fitingMagnification - scrollView.magnification) < 0.01
+        } else {
+            return false
+        }
+    }
+    
+    private var fitingMagnification: CGFloat? {
+        guard let image = backgroundImageView.image else { return nil }
+        
+        let scrollViewVisibleHeight = scrollView.frame.height// - scrollView.contentInsets.verticals
+        return scrollViewVisibleHeight / image.size.height
+    }
+    
+    // MARK: - Image
     func setImage(_ image: NSImage?) {
         footer.isHidden = image == nil
         dragnDropView.isHidden = image != nil
@@ -74,47 +137,6 @@ class CanvasView: FlippedView {
         fitToWindow(animated: false)
     }
     
-    func fitToWindowIfAlreadyFitted() {
-        if isImageMagnificationFitsToWindow {
-            fitToWindow(animated: false)
-        }
-    }
-    
-    func fitToWindow(animated: Bool) {
-        if let fitingMagnification {
-            if animated {
-                scrollView.animator().setMagnification(
-                    fitingMagnification,
-                    centeredAt: contentView.frame.center)
-            } else {
-                scrollView.magnification = fitingMagnification
-            }
-        }
-    }
-    
-    func changeMagnifacation(_ change: (_ current: CGFloat) -> CGFloat) {
-        let current = scrollView.magnification
-        let changed = change(current)
-        scrollView.animator().setMagnification(
-            changed,
-            centeredAt: contentView.frame.center)
-    }
-    
-    private var isImageMagnificationFitsToWindow: Bool {
-        if let fitingMagnification {
-            return abs(fitingMagnification - scrollView.magnification) < 0.01
-        } else {
-            return false
-        }
-    }
-    
-    private var fitingMagnification: CGFloat? {
-        guard let image = backgroundImageView.image else { return nil }
-        
-        let scrollViewVisibleHeight = scrollView.frame.height// - scrollView.contentInsets.verticals
-        return scrollViewVisibleHeight / image.size.height
-    }
-    
     func image(at frame: CGRect) async -> CGImage? {
         let image = backgroundImageView.image
         var frame = frame
@@ -130,7 +152,8 @@ class CanvasView: FlippedView {
     func control(
         for model: any AccessibilityView
     ) -> A11yControlLayer? {
-        return controlsView.drawnControls
+        controlsView
+            .drawnControls
             .first(where: { control in
                 control.model === model
             })
@@ -146,5 +169,14 @@ extension NSEdgeInsets {
 extension CGRect {
     var center: CGPoint {
         CGPoint(x: midX, y: midY)
+    }
+}
+
+extension ClosedRange where Bound == CGFloat {
+    fileprivate func trim(_ value: Bound) -> Bound {
+        Swift.max(
+            lowerBound,
+            Swift.min(upperBound, value)
+        )
     }
 }

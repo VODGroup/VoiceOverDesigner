@@ -60,7 +60,10 @@ public class CanvasPresenter: DocumentPresenter {
     // MARK: Mouse
     public func mouseDown(on location: CGPoint) {
         guard document.image != nil else { return }
-        drawingController.mouseDown(on: location, selectedControl: selectedControl)
+        
+        ui.hud.hideHUD()
+        drawingController.mouseDown(on: location,
+                                    selectedControl: selectedControl)
     }
     
     public func mouseDragged(on location: CGPoint) {
@@ -70,11 +73,15 @@ public class CanvasPresenter: DocumentPresenter {
     
     public func mouseMoved(on location: CGPoint) {
         guard document.image != nil else { return }
-        drawingController.mouseMoved(on: location, selectedControl: selectedControl)
+        
+        drawingController.mouseMoved(on: location,
+                                     selectedControl: selectedControl)
     }
    
     @discardableResult
     public func mouseUp(on location: CGPoint) -> A11yControlLayer? {
+        ui.hud.showHUD()
+        
         let action = drawingController.end(coordinate: location)
         
 
@@ -98,10 +105,12 @@ public class CanvasPresenter: DocumentPresenter {
         case let translate as TranslateAction:
             registerUndo(for: translate)
             publishControlChanges()
+            select(control: translate.control)
             
         case let resize as ResizeAction:
             registerUndo(for: resize)
             publishControlChanges()
+            // Should be selected already
             
         case .none:
             deselect()
@@ -129,9 +138,8 @@ public class CanvasPresenter: DocumentPresenter {
     
     public private(set) var selectedControl: A11yControlLayer? {
         didSet {
-            oldValue?.isSelected = false
-            
-            selectedControl?.isSelected = true
+            ui.hud.selectedControlFrame = selectedControl?.frame
+            ui.hud.tintColor = selectedControl?.model?.color.cgColor.copy(alpha: 1)
         }
     }
     
@@ -187,4 +195,10 @@ extension CanvasPresenter {
 
 protocol Undoable {
     func undo()
+}
+
+extension CGRect {
+    var center: CGPoint {
+        CGPoint(x: midX, y: midY)
+    }
 }

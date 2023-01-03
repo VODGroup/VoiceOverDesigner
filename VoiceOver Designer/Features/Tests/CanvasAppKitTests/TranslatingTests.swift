@@ -26,7 +26,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
                        rect10to50.offsetBy(dx: -10, dy: -10))
         
         let selected = try await awaitSelected()
-        XCTAssertNil(selected, "should not select after translation")
+        XCTAssertNotNil(selected, "should select after translation")
     }
     
     func test_whenMoveNearLeftEdgeOnAnyElement_shouldPinToLeftEdge() throws {
