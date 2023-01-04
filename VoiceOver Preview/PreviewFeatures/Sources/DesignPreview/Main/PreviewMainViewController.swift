@@ -53,21 +53,9 @@ public class PreviewMainViewController: UIViewController {
     private var sideTransition = SideTransition()
     private func presentDetails(for model: any AccessibilityView) {
         // TODO: Add support for Container
-        guard let description = model as? A11yDescription else { return }
+
         
-        let onDismiss = { [weak self] in
-            guard let self = self else { return }
-            self.presenter.redraw(control: description)
-            self.presenter.deselect()
-        }
-        
-        let onDelete = { [weak self] in
-            guard let self = self else { return }
-            self.presenter.remove(description)
-        }
-        
-        let details = UIHostingController(rootView: SettingsView(element: description, deleteAction: onDelete)
-            .onDisappear(perform: onDismiss))
+        let details = UIHostingController(rootView: makeView(for: model))
     
         
         // Side presentation for iPad
@@ -77,6 +65,34 @@ public class PreviewMainViewController: UIViewController {
         }
         
         self.present(details, animated: true)
+    }
+    
+    @ViewBuilder
+    private func makeView(for model: any AccessibilityView) -> some SwiftUI.View {
+        let onDismiss = { [weak self] in
+            guard let self else { return }
+            self.presenter.redraw(control: model)
+            self.presenter.deselect()
+        }
+        
+        let onDelete = { [weak self] in
+            guard let self else { return }
+            self.presenter.remove(model)
+        }
+        
+        switch model {
+        case let description as A11yDescription:
+            ElementSettingsView(element: description, deleteAction: onDelete)
+                .onDisappear(perform: onDismiss)
+        case let container as A11yContainer:
+            ContainerSettingsView(container: container)
+                .onDisappear(perform: onDismiss)
+        default:
+            EmptyView()
+        }
+        
+        
+        
     }
     
     private func embedCanvas() {

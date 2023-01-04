@@ -35,12 +35,15 @@ extension A11yCustomDescriptions: DecodableDefaultSource {
     public static var defaultValue: A11yCustomDescriptions = .empty
 }
 
-public struct A11yCustomDescription: Codable {
-    public init(label: String, value: String) {
+public struct A11yCustomDescription: Equatable, Codable, Identifiable {
+    public init(id: UUID = UUID(), label: String, value: String) {
         self.label = label
         self.value = value
+        self.id = id
     }
     
+    @DecodableDefault.RandomUUID
+    public var id: UUID
     public var label: String
     public var value: String
     
