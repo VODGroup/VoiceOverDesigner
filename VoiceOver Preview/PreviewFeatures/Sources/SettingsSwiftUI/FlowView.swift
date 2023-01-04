@@ -76,24 +76,6 @@ struct FlowView<Element: Identifiable, Cell: View>: View {
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
         }
     }
-    
-    func layout(sizes: [CGSize], spacing: CGSize, containerWidth: CGFloat) -> [CGPoint] {
-        var currentPoint: CGPoint = .zero
-        var result: [CGPoint] = []
-        var lineHeight: CGFloat = .zero
-        for size in sizes {
-            if currentPoint.x + size.width > containerWidth {
-                currentPoint.x = 0
-                currentPoint.y += lineHeight + spacing.height
-            }
-            result.append(currentPoint)
-            currentPoint.x += size.width + spacing.width
-            lineHeight = max(lineHeight, size.height)
-        }
-        return result
-    }
-    
-    
 }
 
 private struct TagSize: PreferenceKey {
