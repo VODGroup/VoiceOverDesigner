@@ -16,8 +16,8 @@ public struct ElementSettingsView: View {
     }
     
     public var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
+        NavigationView {
+            Form {
                 Text(element.voiceOverText)
                     .font(.largeTitle)
                 
@@ -25,25 +25,25 @@ public struct ElementSettingsView: View {
                 ValueView(value: $element.value, adjustableOptions: $element.adjustableOptions, traits: $element.trait)
                 TraitsView(selection: $element.trait)
                 
-                Divider()
+                
                 
                 CustomActionsView(selection: $element.customActions)
                 CustomDescriptionView(selection: $element.customDescriptions)
                 TextValue(title: "Hint", value: $element.hint)
                 Toggle("Is accessible?", isOn: $element.isAccessibilityElement)
                 
-                Button(role: .destructive, action: delete, label: {
-                    Text("Delete")
-                        .frame(maxWidth: .infinity)
-                })
-                .buttonStyle(.borderedProminent)
-                .controlSize(.large)
-                
                 
             }
-            .padding()
+            .toolbar {
+                ToolbarItem(placement: .destructiveAction, content: {
+                    Button(role: .destructive, action: delete, label: {
+                        Text("Delete")
+                    })
+                    .foregroundColor(.red)
+                })
+            }
         }
-        
+        .navigationViewStyle(.stack)
     }
     
     private func delete() {
@@ -75,7 +75,7 @@ struct TextValue: View {
     public var body: some View {
         Section(content: {
             TextField(title, text: $value)
-                .textFieldStyle(.roundedBorder)
+                
         }, header: {
             SectionTitle(title)
         })

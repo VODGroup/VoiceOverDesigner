@@ -8,22 +8,23 @@ struct CustomDescriptionView: View {
     public var body: some View {
         
         Section(content: {
-            VStack(alignment: .leading) {
-                ForEach($selection.descriptions) { $customDescription in
-                    GroupBox(content: {
-                        content(
-                            label: $customDescription.label,
-                            value: $customDescription.value)
-                    }, label: {
-                        label(value: customDescription)
-                    }).textFieldStyle(.roundedBorder)
-                }
+            ForEach($selection.descriptions) { $customDescription in
+                GroupBox(content: {
+                    content(
+                        label: $customDescription.label,
+                        value: $customDescription.value)
+                }, label: {
+                    label(value: customDescription)
+                }).textFieldStyle(.roundedBorder)
             }
-            Button("+ Add custom description") {
+            .onDelete(perform: { indexSet in
+                selection.descriptions.remove(atOffsets: indexSet)
+            })
+            Button(action: {
                 selection.addNewCustomDescription(.empty)
-            }
-            .buttonStyle(.bordered)
-            .buttonBorderShape(.roundedRectangle)
+            }, label: {
+                Label("Add custom description", systemImage: "plus")
+            })
         }, header: {
             SectionTitle("Custom description")
         })

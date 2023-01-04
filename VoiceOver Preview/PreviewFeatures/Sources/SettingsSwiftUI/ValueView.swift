@@ -23,11 +23,8 @@ struct ValueView: View {
                 Toggle("Is Adjustable", isOn: $traits.bind(.adjustable))
                     .fixedSize()
                 
-            }
-            
-            
+            }  
         })
-        .textFieldStyle(.roundedBorder)
     }
     
     
@@ -36,25 +33,19 @@ struct ValueView: View {
             
     }
     
-    
+    @ViewBuilder
     func adjustableView(options: Binding<AdjustableOptions>) -> some View {
-        VStack(alignment: .leading) {
-            ForEach(options.wrappedValue.options.indices, id: \.self) { index in
-                HStack {
-                    TextField("", text: options.options[index])
-                    Button(role: .destructive, action: {
-                        options.wrappedValue.remove(at: index)
-                    }, label: {
-                        Image(systemName: "delete.left")
-                    })
-                }
-                
-            }
-            Button("+ Add Value", action: {
-                options.wrappedValue.add()
-            })
-            .buttonStyle(.bordered)
+        ForEach(options.wrappedValue.options.indices, id: \.self) { index in
+            TextField("", text: options.options[index])
         }
+        .onDelete(perform: { indexSet in
+            options.wrappedValue.options.remove(atOffsets: indexSet)
+        })
+        Button(action: {
+            options.wrappedValue.add()
+        }, label: {
+            Label("Add Value", systemImage: "plus")
+        })
 
     }
 }

@@ -18,13 +18,13 @@ struct TraitsView: View {
                 SectionTitle("Type Traits")
             })
             
-            DisclosureGroup(content: {
+            Section(content: {
                 flowView(elements: Traits.behaviour)
-                    .padding(.top)
-            }, label: {
+            }, header: {
                 SectionTitle("Behaviour Traits")
-                    .accessibilityAddTraits(.isHeader)
             })
+            
+            
         }
     }
     
@@ -44,8 +44,10 @@ struct TraitsView: View {
                     
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                
             }
         }
+        .padding(.vertical)
         .toggleStyle(.button)
         .buttonBorderShape(.capsule)
         .buttonStyle(.bordered)

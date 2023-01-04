@@ -11,7 +11,7 @@ public struct ContainerSettingsView: View {
     
     public var body: some View {
         NavigationView {
-            List {
+            Form {
                 labelField
                 containerTypePicker
                 navigationStylePicker
