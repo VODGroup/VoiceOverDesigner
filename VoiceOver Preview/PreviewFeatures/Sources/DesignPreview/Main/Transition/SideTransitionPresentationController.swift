@@ -25,13 +25,11 @@ class SideTransitionPresentationController: UIPresentationController {
     
     override func presentationTransitionWillBegin() {
         super.presentationTransitionWillBegin()
-        
+        addDismissingView(to: containerView!)
         containerView!.addSubview(presentedView!)
         
         let layer = presentedView!.layer
         styleLikePopover(for: layer)
-        
-        addDismissingView(to: containerView!)
     }
     
     // MARK: - Popover
@@ -57,7 +55,6 @@ class SideTransitionPresentationController: UIPresentationController {
             target: self,
             action: #selector(dismiss))
         dismissingView.addGestureRecognizer(dismissingTap)
-        container.bringSubviewToFront(presentedView!)
     }
 }
 
