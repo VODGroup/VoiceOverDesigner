@@ -19,11 +19,11 @@ extension ProjectController: NSToolbarDelegate {
     
     public func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         [
-            .flexibleSpace,
-            .voiceControlLabel,
+            .toggleSidebar,
             .sidebarTrackingSeparator,
             .backButtonLabel,
-            .toggleSidebar,
+            .flexibleSpace,
+            .voiceControlLabel,
         ]
     }
     
