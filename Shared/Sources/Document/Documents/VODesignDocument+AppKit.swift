@@ -31,6 +31,7 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     }
     
     private let codingService = AccessibilityViewCodingService()
+    private lazy var imageService = ImageSaveService()
     
     public convenience init(file: URL) {
         do {
@@ -65,7 +66,7 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         if let previewWrapper = previewWrapper() {
             package.addFileWrapper(previewWrapper)
         }
-     
+        
         return package
     }
     
@@ -77,7 +78,7 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         let documentSaveService = DocumentSaveService(fileURL: url.appendingPathComponent("controls.json"))
         controls = try documentSaveService.loadControls()
         
-        image = try? ImageSaveService().load(from: url)
+        image = try? imageService.load(from: url)
     }
     
     // MARK: Static
@@ -118,18 +119,20 @@ extension VODesignDocument {
     
     private func imageWrapper() -> FileWrapper? {
         guard let image = image,
-           let imageData = ImageSaveService().UIImagePNGRepresentation(image)
+              let imageData = imageService.UIImagePNGRepresentation(image),
+              shouldSaveImage(imageData: imageData)
         else { return nil }
         
         let imageWrapper = FileWrapper(regularFileWithContents: imageData)
         imageWrapper.preferredFilename = "screen.png"
-            
+        
         return imageWrapper
     }
     
     private func previewWrapper() -> FileWrapper? {
         guard let image = image,
-            let imageData = ImageSaveService().UIImagePNGRepresentation(image)
+              let imageData = imageService.UIImagePNGRepresentation(image),
+              shouldSaveImage(imageData: imageData)
         else { return nil }
         
         let imageWrapper = FileWrapper(regularFileWithContents: imageData)
@@ -138,6 +141,11 @@ extension VODesignDocument {
         let quicklookFolder = FileWrapper(directoryWithFileWrappers: [QuickLookFolderName: imageWrapper])
         quicklookFolder.preferredFilename = QuickLookFolderName
         return quicklookFolder
+    }
+    
+    private func shouldSaveImage(imageData: Data) -> Bool {
+        let storedData = fileURL.flatMap{ try? imageService.load(from: $0) }.flatMap(imageService.UIImagePNGRepresentation(_:))
+        return imageData != storedData
     }
 }
 #endif
