@@ -7,7 +7,6 @@
 
 import AppKit
 import Document
-
 public protocol RecentDelegate: AnyObject {
     func createNewDocumentWindow(
         document: VODesignDocument
@@ -17,39 +16,38 @@ public protocol RecentDelegate: AnyObject {
 public class RecentWindowController: NSWindowController {
     
     public static func fromStoryboard(
-        delegate: RecentDelegate
+        delegate: RecentDelegate,
+        presenter: RecentPresenter
     ) -> RecentWindowController {
         let storyboard = NSStoryboard(name: "RecentWindowController", bundle: Bundle.module)
         let windowController = storyboard.instantiateInitialController() as! RecentWindowController
         windowController.delegate = delegate
+        windowController.presenter = presenter
         return windowController
     }
     
     weak var delegate: RecentDelegate?
+    var presenter: RecentPresenter!
     
     public override func windowDidLoad() {
         super.windowDidLoad()
         
         window?.setFrameAutosaveName("Projects")
-        
+        window?.styleMask.formUnion(.fullSizeContentView)
+        window?.minSize = CGSize(width: 800, height: 600) // Two rows, 5 columns
         shouldCascadeWindows = true
-        
-        embedProjectsViewControllerInWindow()
     }
     
-    private func embedProjectsViewControllerInWindow() {
-        let projects = projectsController()
+    public func embedProjectsViewControllerInWindow() {
+        let projects = projectsController(presenter: presenter)
+        projects.view().collectionView.reloadData()
         contentViewController = projects
+        
     }
     
-    public func restoreProjectsWindow() {
-        guard !VODocumentController.shared.recentDocumentURLs.isEmpty else { return }
-        window?.makeKeyAndOrderFront(window)
-    }
-    
-    private func projectsController() -> RecentViewController {
+    public func projectsController(presenter: RecentPresenter) -> RecentViewController {
         let projects = RecentViewController.fromStoryboard()
-        projects.documentController = VODocumentController.shared
+        projects.presenter = presenter
         projects.router = self
         return projects
     }

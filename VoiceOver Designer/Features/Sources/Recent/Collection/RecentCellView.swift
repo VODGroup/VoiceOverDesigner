@@ -23,6 +23,7 @@ class RecentCellView: NSView {
         view.isEditable = false
         view.isBordered = false
         view.alignment = .center
+        view.backgroundColor = .clear
         return view
     }()
     
@@ -56,13 +57,13 @@ class RecentCellView: NSView {
         
         NSLayoutConstraint.activate([
             thumbnail.topAnchor.constraint(equalTo: topAnchor),
-            thumbnail.bottomAnchor.constraint(equalTo: bottomAnchor),
             thumbnail.leadingAnchor.constraint(equalTo: leadingAnchor),
             thumbnail.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            fileNameTextField.bottomAnchor.constraint(equalTo: thumbnail.bottomAnchor),
+            fileNameTextField.topAnchor.constraint(equalTo: thumbnail.bottomAnchor, constant: 8),
+            fileNameTextField.bottomAnchor.constraint(equalTo: bottomAnchor),
             fileNameTextField.widthAnchor.constraint(equalTo: widthAnchor),
         ])
 

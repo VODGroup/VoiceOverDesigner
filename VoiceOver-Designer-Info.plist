@@ -162,7 +162,7 @@
 		<key>NSUbiquitousContainerIsDocumentScopePublic</key>
 		<true/>
 		<key>NSUbiquitousContainerName</key>
-		<string>Voice Over Designer</string>
+		<string>VoiceOver Designer</string>
 		<key>NSUbiquitousContainerSupportedFolderLevels</key>
 		<string>ANY</string>
 	</dict>

@@ -14,29 +14,26 @@ public protocol RecentRouter: AnyObject {
 }
 
 public class RecentViewController: NSViewController {
-    
-    /// Type of cell in collection view
-    enum CollectionViewItem {
-        /// Regular (existing) document item
-        case document(URL)
-        /// Add new document item
-        case newDocument
-    }
-    
-    public weak var documentController: NSDocumentController?
-    
+
     public weak var router: RecentRouter?
-    
-    private var items: [CollectionViewItem] {
-        let documentItems = (documentController?.recentDocumentURLs ?? []).map { CollectionViewItem.document($0) }
-        return [.newDocument] + documentItems
+    var presenter: RecentPresenter! {
+        didSet {
+            if needReloadDataOnStart {
+                view().collectionView.reloadData()
+            }
+        }
     }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         view().collectionView.dataSource = self
         view().collectionView.delegate = self
+        (view().collectionView.collectionViewLayout as? NSCollectionViewFlowLayout)?.minimumLineSpacing = 30
     }
+    
+    /// Sometimel layout is called right after loading from storyboard, presenter is not set and a crash happened.
+    /// I added check that presenter is not nil, but we had to call reloadData as as result
+    private var needReloadDataOnStart = false
     
     override public func loadView() {
         view = RecentView(frame: CGRect(origin: .zero,
@@ -78,12 +75,20 @@ extension RecentViewController: DragNDropDelegate {
 
 extension RecentViewController : NSCollectionViewDataSource {
     
+    public func numberOfSections(in collectionView: NSCollectionView) -> Int {
+        1
+    }
+    
     public func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
-        items.count
+        guard presenter != nil else {
+            needReloadDataOnStart = true
+            return 0
+        }
+        return presenter.numberOfItemsInSection(section)
     }
     
     public func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
-        switch items[indexPath.item] {
+        switch presenter.item(at: indexPath)! {
         case .newDocument:
             let item = RecentNewDocCollectionViewItem()
             item.view.setAccessibilityIdentifier("New")
@@ -97,18 +102,16 @@ extension RecentViewController : NSCollectionViewDataSource {
             return item
         }
     }
-    
-    public func numberOfSections(in collectionView: NSCollectionView) -> Int {
-        1
-    }
 }
 
 extension RecentViewController: NSCollectionViewDelegate {
     
-    public func collectionView(_ collectionView: NSCollectionView,
-                               didSelectItemsAt indexPaths: Set<IndexPath>) {
+    public func collectionView(
+        _ collectionView: NSCollectionView,
+        didSelectItemsAt indexPaths: Set<IndexPath>
+    ) {
         for indexPath in indexPaths {
-            switch items[indexPath.item] {
+            switch presenter.item(at: indexPath)! {
             case .document(let url):
                 let document = VODesignDocument(file: url)
                 show(document: document)

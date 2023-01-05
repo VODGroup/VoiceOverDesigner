@@ -135,10 +135,6 @@ public class CanvasViewController: NSViewController {
         self.highlightedControl = control
         
         control.isHiglighted = true
-        
-        
-        
-        
     }
     
     func location(from event: NSEvent) -> CGPoint {
