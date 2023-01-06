@@ -11,7 +11,13 @@ class WindowManager: NSObject {
         RecentWindowController.fromStoryboard(delegate: self, presenter: recentPresenter)
     }()
     
+    private var newDocumentIsCreated = false
+    
     func start() {
+        if newDocumentIsCreated {
+            // Document has been created from [NSDocumentController openUntitledDocumentAndDisplay:error:]
+            return
+        }
         if recentPresenter.shouldShowThisController {
             showDocumentSelector()
         } else {
@@ -38,6 +44,8 @@ extension WindowManager: RecentDelegate {
     func createNewDocumentWindow(
         document: VODesignDocument
     ) {
+        newDocumentIsCreated = true
+        
         let split = ProjectController(document: document, router: self)
         
         let window = projectsWindowController.window!
