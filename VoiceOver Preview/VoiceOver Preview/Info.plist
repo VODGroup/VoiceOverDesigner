@@ -15,6 +15,20 @@
 			</array>
 		</dict>
 	</array>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>NSUbiquitousContainers</key>
+	<dict>
+		<key>iCloud.com.akaDuality.VoiceOver-Designer</key>
+		<dict>
+			<key>NSUbiquitousContainerIsDocumentScopePublic</key>
+			<true/>
+			<key>NSUbiquitousContainerName</key>
+			<string>VoiceOver Designer</string>
+			<key>NSUbiquitousContainerSupportedFolderLevels</key>
+			<string>ANY</string>
+		</dict>
+	</dict>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -58,20 +72,5 @@
 			</dict>
 		</dict>
 	</array>
-	<key>iCloud.com.akaDuality.VoiceOver-Designer</key>
-	<dict>
-		<key>NSUbiquitousContainerIsDocumentScopePublic</key>
-		<true/>
-		<key>NSUbiquitousContainerName</key>
-		<string>Voice Over Designer</string>
-		<key>NSUbiquitousContainerSupportedFolderLevels</key>
-		<string>ANY</string>
-	</dict>
-	<key>UISupportsDocumentBrowser</key>
-	<true/>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
-	<key>LSSupportsOpeningDocumentsInPlace</key>
-	<true/>
 </dict>
 </plist>

@@ -104,6 +104,18 @@
 	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSUbiquitousContainers</key>
+	<dict>
+		<key>iCloud.com.akaDuality.VoiceOver-Designer</key>
+		<dict>
+			<key>NSUbiquitousContainerIsDocumentScopePublic</key>
+			<true/>
+			<key>NSUbiquitousContainerName</key>
+			<string>VoiceOver Designer</string>
+			<key>NSUbiquitousContainerSupportedFolderLevels</key>
+			<string>ANY</string>
+		</dict>
+	</dict>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
@@ -157,14 +169,5 @@
 			</dict>
 		</dict>
 	</array>
-	<key>iCloud.com.akaDuality.VoiceOver-Designer</key>
-	<dict>
-		<key>NSUbiquitousContainerIsDocumentScopePublic</key>
-		<true/>
-		<key>NSUbiquitousContainerName</key>
-		<string>VoiceOver Designer</string>
-		<key>NSUbiquitousContainerSupportedFolderLevels</key>
-		<string>ANY</string>
-	</dict>
 </dict>
 </plist>
