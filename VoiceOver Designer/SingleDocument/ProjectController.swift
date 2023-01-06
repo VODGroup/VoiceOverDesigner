@@ -13,6 +13,7 @@ class ProjectController: NSSplitViewController {
     
     init(document: VODesignDocument, router: ProjectRouterDelegate) {
         self.router = router
+        self.document = document
         
         let canvasPresenter = CanvasPresenter(document: document)
         

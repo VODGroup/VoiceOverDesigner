@@ -1,7 +1,7 @@
 import AppKit
 
 protocol ProjectRouterDelegate: AnyObject {
-    func closeProject()
+    func closeProject(document: NSDocument)
 }
 
 extension ProjectController: NSToolbarDelegate {
@@ -71,7 +71,7 @@ extension ProjectController {
     }
     
     @objc private func backDidPressed(sender: NSToolbarItem) {
-        router?.closeProject()
+        router?.closeProject(document: document)
     }
 }
 

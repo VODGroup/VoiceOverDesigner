@@ -44,6 +44,7 @@ extension WindowManager: RecentDelegate {
     func createNewDocumentWindow(
         document: VODesignDocument
     ) {
+        print("will open \(document.fileURL)")
         newDocumentIsCreated = true
         
         let split = ProjectController(document: document, router: self)
@@ -60,7 +61,9 @@ extension WindowManager: RecentDelegate {
 }
 
 extension WindowManager: ProjectRouterDelegate {
-    func closeProject() {
+    func closeProject(document: NSDocument) {
+        document.removeWindowController(projectsWindowController)
+        
         let window = projectsWindowController.window!
         window.title = NSLocalizedString("VoiceOver Designer", comment: "")
 
