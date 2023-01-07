@@ -8,15 +8,23 @@
 import Foundation
 
 import AppKit
-
+import Document
 
 class RecentCellView: NSView {
     
-    lazy var thumbnail: NSImageView = {
+    private lazy var thumbnail: NSImageView = {
         let view = NSImageView(image: NSImage())
         view.isEditable = false
+        view.wantsLayer = true
+        view.layer?.contentsGravity = .resizeAspectFill
         return view
     }()
+    
+    var image: NSImage? {
+        didSet {
+            thumbnail.layer?.contents = image // image is a NSImage, could also be a CGImage
+        }
+    }
     
     lazy var fileNameTextField: NSTextField = {
       let view = NSTextField()
@@ -24,6 +32,8 @@ class RecentCellView: NSView {
         view.isBordered = false
         view.alignment = .center
         view.backgroundColor = .clear
+        view.font = NSFont.preferredFont(forTextStyle: .subheadline)
+        view.textColor = Color.labelColor
         return view
     }()
     
@@ -45,6 +55,24 @@ class RecentCellView: NSView {
     func setup() {
         addSubviews()
         addConstraints()
+        
+        thumbnail.wantsLayer = true
+        thumbnail.layer?.borderColor = Color.quaternaryLabelColor.cgColor
+        thumbnail.layer?.borderWidth = 1
+        thumbnail.layer?.cornerRadius = DocumentCornerRadius
+        thumbnail.layer?.cornerCurve = .continuous
+        
+        wantsLayer = true
+        layer?.backgroundColor = Color.clear.cgColor
+    }
+    
+    override func layout() {
+        super.layout()
+        
+        layer?.shadowPath = CGPath(roundedRect: bounds,
+                                   cornerWidth: 15,
+                                   cornerHeight: 15,
+                                   transform: nil)
     }
     
     func addSubviews() {
@@ -66,6 +94,5 @@ class RecentCellView: NSView {
             fileNameTextField.bottomAnchor.constraint(equalTo: bottomAnchor),
             fileNameTextField.widthAnchor.constraint(equalTo: widthAnchor),
         ])
-
     }
 }

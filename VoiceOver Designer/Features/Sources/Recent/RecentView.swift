@@ -15,13 +15,17 @@ class RecentView: NSView {
     lazy var collectionView: NSCollectionView = {
         let flowLayout = NSCollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
-        flowLayout.itemSize = CGSize(width: 125, height: 250)
+        flowLayout.itemSize = CGSize(width: 125, height: 300)
         flowLayout.sectionInset = .init(top: 16, left: 16, bottom: 0, right: 16)
+        flowLayout.minimumLineSpacing = 30
+        
         let collection = NSCollectionView()
         collection.collectionViewLayout = flowLayout
         collection.isSelectable = true
-        collection.register(RecentNewDocCollectionViewItem.self, forItemWithIdentifier: RecentNewDocCollectionViewItem.identifier)
-        collection.register(RecentCollectionViewItem.self, forItemWithIdentifier: RecentCollectionViewItem.identifier)
+        collection.register(RecentNewDocCollectionViewItem.self,
+                            forItemWithIdentifier: RecentNewDocCollectionViewItem.identifier)
+        collection.register(RecentCollectionViewItem.self,
+                            forItemWithIdentifier: RecentCollectionViewItem.identifier)
         return collection
     }()
     

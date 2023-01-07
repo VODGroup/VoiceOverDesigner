@@ -28,7 +28,6 @@ public class RecentViewController: NSViewController {
         super.viewDidLoad()
         view().collectionView.dataSource = self
         view().collectionView.delegate = self
-        (view().collectionView.collectionViewLayout as? NSCollectionViewFlowLayout)?.minimumLineSpacing = 30
     }
     
     /// Sometimel layout is called right after loading from storyboard, presenter is not set and a crash happened.

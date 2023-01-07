@@ -25,12 +25,12 @@ class RecentCollectionViewItem: NSCollectionViewItem {
 
     var image: NSImage? {
         didSet {
-            projectCellView.thumbnail.image = image
+            projectCellView.image = image
         }
     }
     
     var expectedImageSize: CGSize {
         CGSize(width: 125,
-               height: 220)
+               height: 280)
     }
 }
