@@ -18,10 +18,19 @@ class RecentCollectionViewItem: NSCollectionViewItem {
         view = projectCellView
     }
     
-    func configure(image: NSImage?, fileName: String) {
-        projectCellView.thumbnail.image = image
+    func configure(fileName: String) {
         projectCellView.fileNameTextField.stringValue = fileName
         projectCellView.layoutSubtreeIfNeeded()
     }
-        
+
+    var image: NSImage? {
+        didSet {
+            projectCellView.thumbnail.image = image
+        }
+    }
+    
+    var expectedImageSize: CGSize {
+        CGSize(width: 125,
+               height: 220)
+    }
 }
