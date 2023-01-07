@@ -58,5 +58,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         windowManager.createNewDocumentWindow(document: document)
     }
+    
+    func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {
+        false
+    }
 }
 

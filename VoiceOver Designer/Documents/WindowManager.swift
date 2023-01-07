@@ -55,6 +55,7 @@ extension WindowManager: RecentDelegate {
         window.contentViewController = split
         
         document.addWindowController(recentWindowController)
+        window.makeKeyAndOrderFront(self)
     }
 }
 

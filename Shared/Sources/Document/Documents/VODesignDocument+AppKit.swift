@@ -90,31 +90,6 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         try? ImageSaveService().load(from: url)
     }
     
-    private var thumbnailCache: Image?
-    public func thumbnail(size: CGSize, scale: CGFloat) async -> Image? {
-        guard let fileURL else {
-            return nil
-        }
-        
-        if let thumbnailCache {
-            // TODO: Invalidate cache if other size is requested
-            return thumbnailCache
-        }
-        
-        let imagePath = ImageSaveService().imagePath(documentURL: fileURL)
-        let request = QLThumbnailGenerator.Request(
-            fileAt: imagePath,
-            size: size,
-            scale: scale,
-            representationTypes: .thumbnail)
-        
-        let previewGenerator = QLThumbnailGenerator()
-        let thumbnail = try? await previewGenerator.generateBestRepresentation(for: request)
-        
-        thumbnailCache = thumbnail?.nsImage
-        return thumbnail?.nsImage
-    }
-    
     public override class var readableTypes: [String] {
         [uti]
     }
@@ -130,6 +105,10 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     
     public override func prepareSavePanel(_ savePanel: NSSavePanel) -> Bool {
         savePanel.isExtensionHidden = false
+        return true
+    }
+    
+    public static override func isNativeType(_ type: String) -> Bool {
         return true
     }
 }
@@ -173,5 +152,35 @@ import QuickLookThumbnailing
 public extension URL {
     var fileName: String {
         deletingPathExtension().lastPathComponent
+    }
+}
+
+public class ThumbnailDocument {
+    
+    public init(fileURL: URL) {
+        self.fileURL = fileURL
+    }
+    
+    private var fileURL: URL
+    
+    private var thumbnailCache: Image?
+    public func thumbnail(size: CGSize, scale: CGFloat) async -> Image? {
+        if let thumbnailCache {
+            // TODO: Invalidate cache if other size is requested
+            return thumbnailCache
+        }
+        
+        let imagePath = ImageSaveService().imagePath(documentURL: fileURL)
+        let request = QLThumbnailGenerator.Request(
+            fileAt: imagePath,
+            size: size,
+            scale: scale,
+            representationTypes: .thumbnail)
+        
+        let previewGenerator = QLThumbnailGenerator()
+        let thumbnail = try? await previewGenerator.generateBestRepresentation(for: request)
+        
+        thumbnailCache = thumbnail?.nsImage
+        return thumbnail?.nsImage
     }
 }

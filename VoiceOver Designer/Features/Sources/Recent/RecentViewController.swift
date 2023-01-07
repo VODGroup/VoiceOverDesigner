@@ -97,7 +97,8 @@ extension RecentViewController : NSCollectionViewDataSource {
             )
 
             Task {
-                let image = await VODesignDocument(file: url)
+                // TODO: Cache in not working yet
+                let image = await ThumbnailDocument(fileURL: url)
                     .thumbnail(size: item.expectedImageSize,
                                scale: backingScaleFactor)
                 
