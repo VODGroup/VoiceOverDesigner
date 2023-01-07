@@ -2,6 +2,10 @@
 
 <img width="1540" alt="Screenshot of the application" src="https://user-images.githubusercontent.com/3120680/195253399-5155f138-67e5-4bc1-8b38-ccfcc8869963.png">
 
+# Beta-test
+- [VoiceOver Designer](https://testflight.apple.com/join/GRsuZ0QD)
+- [VoiceOver Preview](https://testflight.apple.com/join/ofatTjXD)
+
 A macOS app that helps design accessible apps in three stages:
 
 1. Design
