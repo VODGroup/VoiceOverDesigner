@@ -22,9 +22,22 @@ public let iCloudContainer: URL = {
 }()
 
 private var iCloudDirectory: URL? {
-    fileManager
-        .url(forUbiquityContainerIdentifier: containerId)?
-        .appending(path: "Documents")
+    let url = fileManager
+        .url(forUbiquityContainerIdentifier: containerId)
+    
+    if #available(macOS 13.0, *) {
+        return url?.appending(path: "Documents")
+    } else {
+        guard let string = url?.absoluteString else {
+            return nil
+        }
+        
+        if string.hasSuffix("/") {
+            return URL(string: string + "Documents")
+        } else {
+            return URL(string: string + "/Documents")
+        }
+    }
 }
 
 private var documentDirectory: URL {
