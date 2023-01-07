@@ -13,14 +13,14 @@ class DocumentFromFileTests: DesignerTests {
         }
         
         XCTContext.runActivity(named: "Close document") { _ in
-            ProjectWindow(title: "Empty.vodesign", app: app)
+            ProjectWindow(app: app)
                 .close(delete: false)
         }
         
         XCTContext.runActivity(named: "When run the app 2nd time should restore window") { _ in
             lauchApp(launchType: .justTapIcon)
             
-            XCTAssertFalse(ProjectWindow(title: "Empty.vodesign", app: app).projectWindow.isHittable, "should not restore document window")
+            XCTAssertFalse(ProjectWindow(app: app).projectWindow.isHittable, "should not restore document window")
             XCTAssertEqual(1, app.windows.count, "should open only document")
         }
     }

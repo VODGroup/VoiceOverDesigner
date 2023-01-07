@@ -2,14 +2,18 @@ import XCTest
 
 class RecentWindow: Robot {
     var recentWindow: XCUIElement {
-        app.windows["VoiceOver Designer"]
+        app.windows.firstMatch
     }
     
     func createNewProject() {
-        recentWindow.toolbars.buttons["New"].click()
+        recentWindow.collectionViews.firstMatch.groups["New"].click()
     }
     
     var isVisible: Bool {
         recentWindow.isHittable
+    }
+    
+    func close() {
+        recentWindow.buttons[XCUIIdentifierCloseWindow].click()
     }
 }

@@ -1,13 +1,8 @@
 import XCTest
 
 class ProjectWindow: Robot {
-    var title: String
-    init(title: String = "Untitled", app: XCUIApplication) {
-        self.title = title
-        super.init(app: app)
-    }
     
-    lazy var projectWindow = app.windows[title]
+    lazy var projectWindow = app.windows.firstMatch
     
     @discardableResult
     func selectNewWindow() -> Self {
@@ -53,5 +48,16 @@ class ProjectWindow: Robot {
             XCTAssertEqual(settingsPanel.resultLabelText, controlDescription,
                            file: file, line: line)
         }
+    }
+    
+    func goBackToProjects() {
+        app.toolbars.firstMatch.buttons["Back"].click()
+    }
+    
+    func save(name: String) {
+//        app.menuBars["File"].click()
+//        
+//        app.menuBars["File"].menuItems["Save…"].click()
+        
     }
 }
