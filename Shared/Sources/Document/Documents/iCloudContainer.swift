@@ -25,7 +25,7 @@ private var iCloudDirectory: URL? {
     let url = fileManager
         .url(forUbiquityContainerIdentifier: containerId)
     
-    if #available(macOS 13.0, *) {
+    if #available(macOS 13.0, iOS 16.0, *) {
         return url?.appending(path: "Documents")
     } else {
         guard let string = url?.absoluteString else {
