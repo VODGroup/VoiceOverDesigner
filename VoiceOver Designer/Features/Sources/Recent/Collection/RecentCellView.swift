@@ -95,4 +95,12 @@ class RecentCellView: NSView {
             fileNameTextField.widthAnchor.constraint(equalTo: widthAnchor),
         ])
     }
+    
+    override func isAccessibilityElement() -> Bool {
+         true
+    }
+    
+    override func accessibilityRole() -> NSAccessibility.Role? {
+        .button
+    }
 }

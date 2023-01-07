@@ -19,6 +19,7 @@ class RecentCollectionViewItem: NSCollectionViewItem {
     }
     
     func configure(fileName: String) {
+        view.setAccessibilityLabel(fileName)
         projectCellView.fileNameTextField.stringValue = fileName
         projectCellView.layoutSubtreeIfNeeded()
     }

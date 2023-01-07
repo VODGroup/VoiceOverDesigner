@@ -33,12 +33,7 @@ public class RecentViewController: NSViewController {
     /// Sometimel layout is called right after loading from storyboard, presenter is not set and a crash happened.
     /// I added check that presenter is not nil, but we had to call reloadData as as result
     private var needReloadDataOnStart = false
-    
-    override public func loadView() {
-        view = RecentView(frame: CGRect(origin: .zero,
-                                          size: CGSize(width: 800, height: 400)))
-    }
-    
+
     func view() -> RecentView {
         view as! RecentView
     }
