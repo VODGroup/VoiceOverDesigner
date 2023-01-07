@@ -94,7 +94,6 @@ extension RecentViewController : NSCollectionViewDataSource {
         switch presenter.item(at: indexPath)! {
         case .newDocument:
             let item = RecentNewDocCollectionViewItem()
-            item.view.setAccessibilityIdentifier("New")
             return item
         case .document(let url):
             let item = RecentCollectionViewItem()

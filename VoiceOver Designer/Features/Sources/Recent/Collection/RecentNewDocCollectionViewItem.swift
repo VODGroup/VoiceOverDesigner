@@ -53,6 +53,7 @@ final class RecentNewDocCollectionViewItem: NSCollectionViewItem {
     
     override func loadView() {
         view = NSView()
+        view.setAccessibilityIdentifier("New")
     }
     
     override func viewDidLoad() {
