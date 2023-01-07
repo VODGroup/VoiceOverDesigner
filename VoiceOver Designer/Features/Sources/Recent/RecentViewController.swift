@@ -57,6 +57,10 @@ public class RecentViewController: NSViewController {
         let storyboard = NSStoryboard(name: "RecentViewController", bundle: .module)
         return storyboard.instantiateInitialController() as! RecentViewController
     }
+    
+    lazy var backingScaleFactor: CGFloat = {
+        view.window?.backingScaleFactor ??  NSScreen.main?.backingScaleFactor ?? 1
+    }()
 }
 
 extension RecentViewController: DragNDropDelegate {
@@ -96,9 +100,18 @@ extension RecentViewController : NSCollectionViewDataSource {
         case .document(let url):
             let item = RecentCollectionViewItem()
             item.configure(
-                image: VODesignDocument.image(from: url),
-                fileName: url.deletingPathExtension().lastPathComponent
+                fileName: url.fileName
             )
+
+            Task {
+                let image = await VODesignDocument(file: url)
+                    .thumbnail(size: item.expectedImageSize,
+                               scale: backingScaleFactor)
+                
+                item.image = image
+                // No need to check that item is changed because there is no reuse
+            }
+            
             return item
         }
     }

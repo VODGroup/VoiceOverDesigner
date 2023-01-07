@@ -7,6 +7,7 @@ import os
 
 public let vodesign = "vodesign"
 public let uti = "com.akaDuality.vodesign"
+import QuickLookThumbnailing
 
 public class VODesignDocument: Document, VODesignDocumentProtocol {
     
@@ -85,8 +86,33 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         return true
     }
     
-    public static func image(from url: URL) -> Image? {
+    public static func image(from url: URL) async -> Image? {
         try? ImageSaveService().load(from: url)
+    }
+    
+    private var thumbnailCache: Image?
+    public func thumbnail(size: CGSize, scale: CGFloat) async -> Image? {
+        guard let fileURL else {
+            return nil
+        }
+        
+        if let thumbnailCache {
+            // TODO: Invalidate cache if other size is requested
+            return thumbnailCache
+        }
+        
+        let imagePath = ImageSaveService().imagePath(documentURL: fileURL)
+        let request = QLThumbnailGenerator.Request(
+            fileAt: imagePath,
+            size: size,
+            scale: scale,
+            representationTypes: .thumbnail)
+        
+        let previewGenerator = QLThumbnailGenerator()
+        let thumbnail = try? await previewGenerator.generateBestRepresentation(for: request)
+        
+        thumbnailCache = thumbnail?.nsImage
+        return thumbnail?.nsImage
     }
     
     public override class var readableTypes: [String] {
@@ -141,3 +167,11 @@ extension VODesignDocument {
     }
 }
 #endif
+
+import Foundation
+import QuickLookThumbnailing
+public extension URL {
+    var fileName: String {
+        deletingPathExtension().lastPathComponent
+    }
+}

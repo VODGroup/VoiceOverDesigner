@@ -9,9 +9,13 @@ import Foundation
 
 class ImageSaveService {
     func load(from path: URL) throws -> Image? {
-        let imageURL = path.appendingPathComponent("screen.png")
+        let imageURL = imagePath(documentURL: path)
         let data = try Data(contentsOf: imageURL)
         return Image(data: data)
+    }
+    
+    func imagePath(documentURL: URL) -> URL {
+        documentURL.appendingPathComponent("screen.png")
     }
 }
 
