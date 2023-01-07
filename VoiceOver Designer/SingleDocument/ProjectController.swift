@@ -11,7 +11,10 @@ extension CanvasPresenter: TextBasedPresenter {}
 
 class ProjectController: NSSplitViewController {
     
-    init(document: VODesignDocument) {
+    init(document: VODesignDocument, router: ProjectRouterDelegate) {
+        self.router = router
+        self.document = document
+        
         let canvasPresenter = CanvasPresenter(document: document)
         
         navigator = NavigatorController.fromStoryboard(
@@ -37,6 +40,7 @@ class ProjectController: NSSplitViewController {
     private let navigator: NavigatorController
     let canvas: CanvasViewController
     private let settings: SettingsStateViewController
+    private(set) weak var router: ProjectRouterDelegate?
     
     var document: VODesignDocument!
     private var cancellables = Set<AnyCancellable>()
@@ -63,6 +67,12 @@ class ProjectController: NSSplitViewController {
             .selectedPublisher
             .sink(receiveValue: updateSelection(_:))
             .store(in: &cancellables)
+    }
+    
+    public var toolbar: NSToolbar {
+        let toolbar: NSToolbar = NSToolbar()
+        toolbar.delegate = self
+        return toolbar
     }
 }
 

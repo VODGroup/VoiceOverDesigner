@@ -16,17 +16,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         windowManager.start()
         NSApplication.shared.mainMenu = MainMenu.menu()
-        openFileIfNeeded()
-    }
-    
-    private func openFileIfNeeded() {
+        
 #if DEBUG
-        // UI-testing simulation for file openning
-        guard let path = ProcessInfo.processInfo.environment["DocumentURL"] else { return }
-        guard !path.isEmpty else { return }
+        openFileForUITestIfNeeded()
+        
+        func openFileForUITestIfNeeded() {
+            // UI-testing simulation for file openning
+            guard let path = ProcessInfo.processInfo.environment["DocumentURL"] else { return }
+            guard !path.isEmpty else { return }
             
-        let url = URL(fileURLWithPath: path)
-        openFile(url: url)
+            let url = URL(fileURLWithPath: path)
+            openFile(url: url)
+        }
 #endif
     }
     
