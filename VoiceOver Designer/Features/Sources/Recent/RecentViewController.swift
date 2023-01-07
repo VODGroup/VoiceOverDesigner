@@ -93,10 +93,10 @@ extension RecentViewController : NSCollectionViewDataSource {
     public func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
         switch presenter.item(at: indexPath)! {
         case .newDocument:
-            let item = RecentNewDocCollectionViewItem()
+            let item = collectionView.makeItem(withIdentifier: RecentNewDocCollectionViewItem.identifier, for: indexPath)
             return item
         case .document(let url):
-            let item = RecentCollectionViewItem()
+            let item = collectionView.makeItem(withIdentifier: RecentCollectionViewItem.identifier, for: indexPath) as! RecentCollectionViewItem
             item.configure(
                 fileName: url.fileName
             )
@@ -107,7 +107,7 @@ extension RecentViewController : NSCollectionViewDataSource {
                                scale: backingScaleFactor)
                 
                 item.image = image
-                // No need to check that item is changed because there is no reuse
+                // TODO: Check that cell hasn't been reused
             }
             
             return item
