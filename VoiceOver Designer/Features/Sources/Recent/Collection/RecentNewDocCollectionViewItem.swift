@@ -12,9 +12,26 @@ let DocumentCornerRadius: CGFloat = 15
 
 final class RecentNewDocCollectionViewItem: NSCollectionViewItem {
     
-    static let identifier = NSUserInterfaceItemIdentifier(rawValue: String(describing: RecentNewDocCollectionViewItem.self))
+    override func loadView() {
+        view = NewDocView()
+    }
     
-    private static let borderLayerName = "RecentNewDocCollectionViewItem.borderLayer"
+    override func viewDidLayout() {
+        super.viewDidLayout()
+        view().setup()
+    }
+    
+    func view() -> NewDocView {
+        view as! NewDocView
+    }
+    
+    static let identifier = NSUserInterfaceItemIdentifier(
+        rawValue: String(describing: RecentNewDocCollectionViewItem.self)
+    )
+}
+
+final class NewDocView: NSView {
+
     private let tintColor = NSColor.secondaryLabelColor
     
     private lazy var plusImageView: NSImageView = {
@@ -51,55 +68,72 @@ final class RecentNewDocCollectionViewItem: NSCollectionViewItem {
     
     private var borderLayer: CALayer?
     
-    override func loadView() {
-        view = NSView()
-        view.setAccessibilityIdentifier("New")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.addSubview(stackView)
+    func setup() {
+        addSubview(stackView)
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        view.layer?.backgroundColor = .clear
+        layer?.backgroundColor = .clear
         
         NSLayoutConstraint.activate([
-            plusImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            plusImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -bottomOffset)
+            plusImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            plusImageView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -bottomOffset)
         ])
+        
+        addBorderLayer()
+        layer?.cornerRadius = DocumentCornerRadius
+        layer?.cornerCurve = .continuous
+        
+        setAccessibilityEnabled(true)
     }
     
-    override func viewDidLayout() {
-        super.viewDidLayout()
-        view.layer?.cornerRadius = DocumentCornerRadius
-        view.layer?.cornerCurve = .continuous
+    override func isAccessibilityElement() -> Bool {
+        true
+    }
+    
+    override func accessibilityIdentifier() -> String {
+        "New"
+    }
+    
+    override func isAccessibilityEnabled() -> Bool {
+        true
+    }
+    
+    override func accessibilityRole() -> NSAccessibility.Role? {
+        .button
+    }
+    
+    override func accessibilityLabel() -> String? {
+        NSLocalizedString("New document", comment: "")
+    }
+    
+    override func layout() {
+        super.layout()
         addBorderLayer()
     }
     
     private let bottomOffset: CGFloat = 20
-    private func addBorderLayer() {
+    func addBorderLayer() {
         borderLayer?.removeFromSuperlayer()
         
-        let layer = CAShapeLayer()
-        layer.name = RecentNewDocCollectionViewItem.borderLayerName
+        let border = CAShapeLayer()
         
         let borderWidth: CGFloat = 2
         
-        let frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - bottomOffset)
-        let pathFrame = CGRect(x: 0, y: bottomOffset, width: view.bounds.width, height: view.bounds.height - bottomOffset)
+        let frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height - bottomOffset)
+        let pathFrame = CGRect(x: 0, y: bottomOffset, width: bounds.width, height: bounds.height - bottomOffset)
             .insetBy(dx: borderWidth/2, dy: borderWidth/2)
         
-        layer.frame = frame
-        layer.path = CGPath(roundedRect: pathFrame, cornerWidth: DocumentCornerRadius, cornerHeight: DocumentCornerRadius, transform: nil)
-        layer.fillColor = nil
-        layer.strokeColor = tintColor.cgColor
+        border.frame = frame
+        border.path = CGPath(roundedRect: pathFrame, cornerWidth: DocumentCornerRadius, cornerHeight: DocumentCornerRadius, transform: nil)
+        border.fillColor = nil
+        border.strokeColor = tintColor.cgColor
         
-        layer.lineWidth = borderWidth
-        layer.lineDashPattern = [5.0, 5.0]
+        border.lineWidth = borderWidth
+        border.lineDashPattern = [5.0, 5.0]
         
-        view.layer?.addSublayer(layer)
+        layer?.addSublayer(border)
         
-        self.borderLayer = layer
+        self.borderLayer = border
     }
 }
