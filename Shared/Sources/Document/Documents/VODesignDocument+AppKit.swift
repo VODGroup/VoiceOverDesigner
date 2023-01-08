@@ -12,7 +12,11 @@ import QuickLookThumbnailing
 public class VODesignDocument: Document, VODesignDocumentProtocol {
     
     // MARK: - Data
-    public var image: Image?
+    public var image: Image? {
+        didSet {
+            shouldSaveImage = oldValue != image
+        }
+    }
     public var controls: [any AccessibilityView] = []
     
     // MARK:
@@ -31,7 +35,9 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         fileType = vodesign
     }
     
+    private var shouldSaveImage: Bool = false
     private let codingService = AccessibilityViewCodingService()
+    private lazy var imageService = ImageSaveService()
     
     public convenience init(file: URL) {
         do {
@@ -57,16 +63,12 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         
         package.addFileWrapper(try controlsWrapper())
         
-        // TODO: Save only if image has been changed. It should simplify iCloud sync
-        if let imageWrapper = imageWrapper() {
-            package.addFileWrapper(imageWrapper)
-        }
         
-        // TODO: Save only if image has been changed. It should simplify iCloud sync
-        if let previewWrapper = previewWrapper() {
+        if let imageWrapper = imageWrapper(), let previewWrapper = previewWrapper() {
+            package.addFileWrapper(imageWrapper)
             package.addFileWrapper(previewWrapper)
+            shouldSaveImage = false
         }
-     
         return package
     }
     
@@ -78,7 +80,9 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         let documentSaveService = DocumentSaveService(fileURL: url.appendingPathComponent("controls.json"))
         controls = try documentSaveService.loadControls()
         
-        image = try? ImageSaveService().load(from: url)
+        image = try? imageService.load(from: url)
+        // image property observer would be triggered because it isn't inside initializer
+        shouldSaveImage = false
     }
     
     // MARK: Static
@@ -144,18 +148,21 @@ extension VODesignDocument {
     
     private func imageWrapper() -> FileWrapper? {
         guard let image = image,
-           let imageData = ImageSaveService().UIImagePNGRepresentation(image)
+              let imageData = imageService.UIImagePNGRepresentation(image),
+              shouldSaveImage
         else { return nil }
         
         let imageWrapper = FileWrapper(regularFileWithContents: imageData)
         imageWrapper.preferredFilename = "screen.png"
-            
+        
+        
         return imageWrapper
     }
     
     private func previewWrapper() -> FileWrapper? {
         guard let image = image,
-            let imageData = ImageSaveService().UIImagePNGRepresentation(image)
+              let imageData = imageService.UIImagePNGRepresentation(image),
+              shouldSaveImage
         else { return nil }
         
         let imageWrapper = FileWrapper(regularFileWithContents: imageData)
@@ -165,6 +172,7 @@ extension VODesignDocument {
         quicklookFolder.preferredFilename = QuickLookFolderName
         return quicklookFolder
     }
+    
 }
 #endif
 
