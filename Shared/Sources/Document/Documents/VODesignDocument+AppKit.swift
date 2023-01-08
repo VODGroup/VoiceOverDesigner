@@ -180,7 +180,12 @@ public class ThumbnailDocument {
         let previewGenerator = QLThumbnailGenerator()
         let thumbnail = try? await previewGenerator.generateBestRepresentation(for: request)
         
+        #if canImport(AppKit)
         thumbnailCache = thumbnail?.nsImage
         return thumbnail?.nsImage
+        #else
+        thumbnailCache = thumbnail?.uiImage
+        return thumbnail?.uiImage
+        #endif
     }
 }
