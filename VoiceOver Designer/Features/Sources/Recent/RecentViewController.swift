@@ -28,18 +28,12 @@ public class RecentViewController: NSViewController {
         super.viewDidLoad()
         view().collectionView.dataSource = self
         view().collectionView.delegate = self
-        (view().collectionView.collectionViewLayout as? NSCollectionViewFlowLayout)?.minimumLineSpacing = 30
     }
     
     /// Sometimel layout is called right after loading from storyboard, presenter is not set and a crash happened.
     /// I added check that presenter is not nil, but we had to call reloadData as as result
     private var needReloadDataOnStart = false
-    
-    override public func loadView() {
-        view = RecentView(frame: CGRect(origin: .zero,
-                                          size: CGSize(width: 800, height: 400)))
-    }
-    
+
     func view() -> RecentView {
         view as! RecentView
     }
@@ -94,22 +88,22 @@ extension RecentViewController : NSCollectionViewDataSource {
     public func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
         switch presenter.item(at: indexPath)! {
         case .newDocument:
-            let item = RecentNewDocCollectionViewItem()
-            item.view.setAccessibilityIdentifier("New")
+            let item = collectionView.makeItem(withIdentifier: RecentNewDocCollectionViewItem.identifier, for: indexPath)
             return item
         case .document(let url):
-            let item = RecentCollectionViewItem()
+            let item = collectionView.makeItem(withIdentifier: RecentCollectionViewItem.identifier, for: indexPath) as! RecentCollectionViewItem
             item.configure(
                 fileName: url.fileName
             )
 
             Task {
-                let image = await VODesignDocument(file: url)
+                // TODO: Cache in not working yet
+                let image = await ThumbnailDocument(fileURL: url)
                     .thumbnail(size: item.expectedImageSize,
                                scale: backingScaleFactor)
                 
                 item.image = image
-                // No need to check that item is changed because there is no reuse
+                // TODO: Check that cell hasn't been reused
             }
             
             return item

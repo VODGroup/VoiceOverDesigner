@@ -8,31 +8,52 @@
 import AppKit
 import Foundation
 
+let DocumentCornerRadius: CGFloat = 15
+
 final class RecentNewDocCollectionViewItem: NSCollectionViewItem {
     
-    static let identifier = NSUserInterfaceItemIdentifier(rawValue: String(describing: RecentNewDocCollectionViewItem.self))
+    override func loadView() {
+        view = NewDocView()
+    }
     
-    private static let borderLayerName = "RecentNewDocCollectionViewItem.borderLayer"
+    override func viewDidLayout() {
+        super.viewDidLayout()
+        view().setup()
+    }
     
-    private let plusImageView: NSImageView = {
+    func view() -> NewDocView {
+        view as! NewDocView
+    }
+    
+    static let identifier = NSUserInterfaceItemIdentifier(
+        rawValue: String(describing: RecentNewDocCollectionViewItem.self)
+    )
+}
+
+final class NewDocView: NSView {
+
+    private let tintColor = NSColor.secondaryLabelColor
+    
+    private lazy var plusImageView: NSImageView = {
         let image = NSImage(
             systemSymbolName: "plus",
             accessibilityDescription: NSLocalizedString("Create New Project", comment: "Collection view item")
         )
         var symbolConfig = NSImage.SymbolConfiguration(pointSize: 24.0, weight: .regular, scale: .large)
-        symbolConfig = symbolConfig.applying(.init(paletteColors: [NSColor.systemGray]))
+        symbolConfig = symbolConfig.applying(.init(paletteColors: [tintColor]))
         let imageView = NSImageView()
         imageView.image = image?.withSymbolConfiguration(symbolConfig)
         imageView.isEditable = false
         return imageView
     }()
     
-    private let newTextField: NSTextField = {
+    private lazy var newTextField: NSTextField = {
         let textField = NSTextField(labelWithString: NSLocalizedString("New Project", comment: "Collection view item"))
-        textField.textColor = NSColor.systemGray
+        textField.textColor = tintColor
         textField.isEditable = false
         textField.isBordered = false
         textField.alignment = .center
+        textField.backgroundColor = .clear
         return textField
     }()
     
@@ -45,64 +66,74 @@ final class RecentNewDocCollectionViewItem: NSCollectionViewItem {
         return stackView
     }()
     
-    private var borderLayer: CALayer? {
-        view.layer?.sublayers?.first(where: { $0.name == RecentNewDocCollectionViewItem.borderLayerName })
-    }
+    private var borderLayer: CALayer?
     
-    override func loadView() {
-        view = NSView()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.addSubview(stackView)
+    func setup() {
+        addSubview(stackView)
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
+        layer?.backgroundColor = .clear
+        
         NSLayoutConstraint.activate([
-            plusImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            plusImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -10.0)
+            plusImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            plusImageView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -bottomOffset)
         ])
+        
+        addBorderLayer()
+        layer?.cornerRadius = DocumentCornerRadius
+        layer?.cornerCurve = .continuous
+        
+        setAccessibilityEnabled(true)
     }
     
-    override func viewDidLayout() {
-        super.viewDidLayout()
-        view.layer?.cornerRadius = 15.0
-        view.layer?.cornerCurve = .continuous
+    override func isAccessibilityElement() -> Bool {
+        true
+    }
+    
+    override func accessibilityIdentifier() -> String {
+        "New"
+    }
+    
+    override func isAccessibilityEnabled() -> Bool {
+        true
+    }
+    
+    override func accessibilityRole() -> NSAccessibility.Role? {
+        .button
+    }
+    
+    override func accessibilityLabel() -> String? {
+        NSLocalizedString("New document", comment: "")
+    }
+    
+    override func layout() {
+        super.layout()
         addBorderLayer()
     }
     
-    private func addBorderLayer() {
+    private let bottomOffset: CGFloat = 20
+    func addBorderLayer() {
         borderLayer?.removeFromSuperlayer()
         
-        let layer = CAShapeLayer()
-        layer.name = RecentNewDocCollectionViewItem.borderLayerName
-        layer.frame = view.bounds
-        layer.path = NSBezierPath(roundedRect: view.bounds, xRadius: 15.0, yRadius: 15.0).cgPath
-        layer.fillColor = nil
-        layer.strokeColor = NSColor.systemGray.cgColor
-        layer.lineWidth = 4.0
-        layer.lineDashPattern = [5.0, 5.0]
+        let border = CAShapeLayer()
         
-        view.layer?.addSublayer(layer)
-    }
-}
-
-fileprivate extension NSBezierPath {
-    
-    var cgPath: CGPath {
-        let path = CGMutablePath()
-        var points = [CGPoint](repeating: .zero, count: 3)
-        for i in 0 ..< self.elementCount {
-            let type = self.element(at: i, associatedPoints: &points)
-            switch type {
-            case .moveTo: path.move(to: points[0])
-            case .lineTo: path.addLine(to: points[0])
-            case .curveTo: path.addCurve(to: points[2], control1: points[0], control2: points[1])
-            case .closePath: path.closeSubpath()
-            @unknown default: return CGPath(rect: .zero, transform: nil)
-            }
-        }
-        return path
+        let borderWidth: CGFloat = 2
+        
+        let frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height - bottomOffset)
+        let pathFrame = CGRect(x: 0, y: bottomOffset, width: bounds.width, height: bounds.height - bottomOffset)
+            .insetBy(dx: borderWidth/2, dy: borderWidth/2)
+        
+        border.frame = frame
+        border.path = CGPath(roundedRect: pathFrame, cornerWidth: DocumentCornerRadius, cornerHeight: DocumentCornerRadius, transform: nil)
+        border.fillColor = nil
+        border.strokeColor = tintColor.cgColor
+        
+        border.lineWidth = borderWidth
+        border.lineDashPattern = [5.0, 5.0]
+        
+        layer?.addSublayer(border)
+        
+        self.borderLayer = border
     }
 }

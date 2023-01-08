@@ -8,15 +8,30 @@
 import Foundation
 
 import AppKit
-
+import Document
 
 class RecentCellView: NSView {
     
-    lazy var thumbnail: NSImageView = {
-        let view = NSImageView(image: NSImage())
-        view.isEditable = false
-        return view
+    private lazy var thumbnail: NSImageView = {
+        let thumbnail = NSImageView(image: NSImage())
+        thumbnail.isEditable = false
+        thumbnail.wantsLayer = true
+        
+        let layer = thumbnail.layer
+        layer?.contentsGravity = .resizeAspectFill
+        layer?.borderColor = Color.quaternaryLabelColor.cgColor
+        layer?.borderWidth = 1
+        layer?.cornerRadius = DocumentCornerRadius
+        layer?.cornerCurve = .continuous
+        
+        return thumbnail
     }()
+    
+    var image: NSImage? {
+        didSet {
+            thumbnail.layer?.contents = image // image is a NSImage, could also be a CGImage
+        }
+    }
     
     lazy var fileNameTextField: NSTextField = {
       let view = NSTextField()
@@ -24,6 +39,8 @@ class RecentCellView: NSView {
         view.isBordered = false
         view.alignment = .center
         view.backgroundColor = .clear
+        view.font = NSFont.preferredFont(forTextStyle: .subheadline)
+        view.textColor = Color.labelColor
         return view
     }()
     
@@ -45,6 +62,18 @@ class RecentCellView: NSView {
     func setup() {
         addSubviews()
         addConstraints()
+        
+        wantsLayer = true
+        layer?.backgroundColor = Color.clear.cgColor
+    }
+    
+    override func layout() {
+        super.layout()
+        
+        layer?.shadowPath = CGPath(roundedRect: bounds,
+                                   cornerWidth: 15,
+                                   cornerHeight: 15,
+                                   transform: nil)
     }
     
     func addSubviews() {
@@ -66,6 +95,13 @@ class RecentCellView: NSView {
             fileNameTextField.bottomAnchor.constraint(equalTo: bottomAnchor),
             fileNameTextField.widthAnchor.constraint(equalTo: widthAnchor),
         ])
-
+    }
+    
+    override func isAccessibilityElement() -> Bool {
+         true
+    }
+    
+    override func accessibilityRole() -> NSAccessibility.Role? {
+        .button
     }
 }

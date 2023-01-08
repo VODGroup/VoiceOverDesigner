@@ -7,7 +7,7 @@ class WindowManager: NSObject {
     static var shared = WindowManager()
     
     let recentPresenter = RecentPresenter()
-    lazy var projectsWindowController: RecentWindowController = {
+    lazy var recentWindowController: RecentWindowController = {
         RecentWindowController.fromStoryboard(delegate: self, presenter: recentPresenter)
     }()
     
@@ -31,12 +31,12 @@ class WindowManager: NSObject {
     }
      
     private func showDocumentSelector() {
-        projectsWindowController.embedProjectsViewControllerInWindow()
-        projectsWindowController.window?.makeKeyAndOrderFront(self)
+        recentWindowController.embedProjectsViewControllerInWindow()
+        recentWindowController.window?.makeKeyAndOrderFront(self)
     }
     
     private func hideDocumentSelector() {
-        projectsWindowController.window?.close()
+        recentWindowController.window?.close()
     }
 }
 
@@ -49,26 +49,21 @@ extension WindowManager: RecentDelegate {
         
         let split = ProjectController(document: document, router: self)
         
-        let window = projectsWindowController.window!
-        window.title = document.displayName
-        window.toolbar = split.toolbar
-        window.styleMask.formUnion(.fullSizeContentView)
-        
+        let window = recentWindowController.window!
+        recentWindowController.setupToolbarAppearance(title: document.displayName,
+                                                      toolbar: split.toolbar)
         window.contentViewController = split
         
-        document.addWindowController(projectsWindowController)
+        document.addWindowController(recentWindowController)
+        window.makeKeyAndOrderFront(self)
     }
 }
 
 extension WindowManager: ProjectRouterDelegate {
     func closeProject(document: NSDocument) {
-        document.removeWindowController(projectsWindowController)
+        document.removeWindowController(recentWindowController)
         
-        let window = projectsWindowController.window!
-        window.title = NSLocalizedString("VoiceOver Designer", comment: "")
-
-        window.toolbar = NSToolbar() // Resent toolbar
-        
-        projectsWindowController.embedProjectsViewControllerInWindow()
+        recentWindowController.resetToolbarAppearance()
+        recentWindowController.embedProjectsViewControllerInWindow()
     }
 }

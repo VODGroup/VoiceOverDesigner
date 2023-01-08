@@ -4,6 +4,9 @@ class DrawingTests: DocumentTests {
     func test_whenDrawAnElement_shouldUpdateTitleEverywhere() throws {
         lauchApp()
         
+        recent.createNewProject()
+        
+        // TODO: Add empty image to canvas
         canvas
             .drawRectInCenter()
         

@@ -38,6 +38,7 @@
 		1EC752EC28B511730064CF2F /* VODesignDocument+Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC752EB28B511730064CF2F /* VODesignDocument+Window.swift */; };
 		1EC752EE28B514690064CF2F /* Recent in Frameworks */ = {isa = PBXBuildFile; productRef = 1EC752ED28B514690064CF2F /* Recent */; };
 		1EC992DB28B119730020041B /* ProjectController+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC992DA28B119730020041B /* ProjectController+Toolbar.swift */; };
+		1ECE12DF2969B91700A3E917 /* WindowRestorationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE12DE2969B91700A3E917 /* WindowRestorationTests.swift */; };
 		1EEE25C32944ADC900B84F01 /* Navigator in Frameworks */ = {isa = PBXBuildFile; productRef = 1EEE25C22944ADC900B84F01 /* Navigator */; };
 /* End PBXBuildFile section */
 
@@ -107,6 +108,7 @@
 		1EB554B128B274B6000DC4FB /* Robot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Robot.swift; sourceTree = "<group>"; };
 		1EC752EB28B511730064CF2F /* VODesignDocument+Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VODesignDocument+Window.swift"; sourceTree = "<group>"; };
 		1EC992DA28B119730020041B /* ProjectController+Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProjectController+Toolbar.swift"; sourceTree = "<group>"; };
+		1ECE12DE2969B91700A3E917 /* WindowRestorationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRestorationTests.swift; sourceTree = "<group>"; };
 		1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "VoiceOver-Designer-Info.plist"; sourceTree = SOURCE_ROOT; };
 		6B4705F729048D9800AC4C23 /* VoiceOver DesignerRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "VoiceOver DesignerRelease.entitlements"; sourceTree = "<group>"; };
 		6B628795288D3A8D006F622A /* Features */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Features; path = "VoiceOver Designer/Features"; sourceTree = "<group>"; };
@@ -255,10 +257,7 @@
 		1EA7411728B2683000D6CAA4 /* VoiceOverDesignerUITests */ = {
 			isa = PBXGroup;
 			children = (
-				1EA7411828B2683000D6CAA4 /* DrawingTests.swift */,
-				1E80528628B4DF6300743023 /* WindowTests.swift */,
-				1E183AE528B50600008B0F07 /* DocumentFromFileTests.swift */,
-				1E7B56AE28B38F5D008D1871 /* AdjustableTest.swift */,
+				1ECE12E02969B98900A3E917 /* Tests */,
 				1E7B56AD28B38116008D1871 /* Base */,
 				1EB554B028B274A0000DC4FB /* PageObjects */,
 			);
@@ -274,6 +273,18 @@
 				1E7B569D28B37BCB008D1871 /* Panels */,
 			);
 			path = PageObjects;
+			sourceTree = "<group>";
+		};
+		1ECE12E02969B98900A3E917 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				1EA7411828B2683000D6CAA4 /* DrawingTests.swift */,
+				1E80528628B4DF6300743023 /* WindowTests.swift */,
+				1ECE12DE2969B91700A3E917 /* WindowRestorationTests.swift */,
+				1E183AE528B50600008B0F07 /* DocumentFromFileTests.swift */,
+				1E7B56AE28B38F5D008D1871 /* AdjustableTest.swift */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -442,6 +453,7 @@
 				1E7B56A728B37C51008D1871 /* RecentWindow.swift in Sources */,
 				1E183AE628B50600008B0F07 /* DocumentFromFileTests.swift in Sources */,
 				1E7B569C28B37B7C008D1871 /* DesignerTests.swift in Sources */,
+				1ECE12DF2969B91700A3E917 /* WindowRestorationTests.swift in Sources */,
 				1E7B569F28B37BE0008D1871 /* Settings.swift in Sources */,
 				1E7B56AC28B38103008D1871 /* DocumentTests.swift in Sources */,
 				1E7B56A528B37C39008D1871 /* ProjectWindow.swift in Sources */,

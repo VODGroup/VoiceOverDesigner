@@ -35,7 +35,23 @@ public class RecentWindowController: NSWindowController {
         window?.setFrameAutosaveName("Projects")
         window?.styleMask.formUnion(.fullSizeContentView)
         window?.minSize = CGSize(width: 800, height: 600) // Two rows, 5 columns
+        window?.titlebarAppearsTransparent = false
+        resetToolbarAppearance()
+        
         shouldCascadeWindows = true
+    }
+    
+    public func resetToolbarAppearance() {
+        setupToolbarAppearance(title: NSLocalizedString("VoiceOver Designer",
+                                                        comment: "Window's title"),
+                               toolbar: NSToolbar())
+        
+    }
+    
+    public func setupToolbarAppearance(title: String, toolbar: NSToolbar) {
+        window?.title = title
+        window?.toolbar = toolbar
+        
     }
     
     public func embedProjectsViewControllerInWindow() {

@@ -58,4 +58,8 @@ class DesignerTests: XCTestCase {
     var settings: Settings {
         project.settingsPanel
     }
+    
+    func closeWindow() {
+        app.windows.firstMatch.buttons[XCUIIdentifierCloseWindow].click()
+    }
 }
