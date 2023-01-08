@@ -13,11 +13,18 @@ import Document
 class RecentCellView: NSView {
     
     private lazy var thumbnail: NSImageView = {
-        let view = NSImageView(image: NSImage())
-        view.isEditable = false
-        view.wantsLayer = true
-        view.layer?.contentsGravity = .resizeAspectFill
-        return view
+        let thumbnail = NSImageView(image: NSImage())
+        thumbnail.isEditable = false
+        thumbnail.wantsLayer = true
+        
+        let layer = thumbnail.layer
+        layer?.contentsGravity = .resizeAspectFill
+        layer?.borderColor = Color.quaternaryLabelColor.cgColor
+        layer?.borderWidth = 1
+        layer?.cornerRadius = DocumentCornerRadius
+        layer?.cornerCurve = .continuous
+        
+        return thumbnail
     }()
     
     var image: NSImage? {
@@ -55,12 +62,6 @@ class RecentCellView: NSView {
     func setup() {
         addSubviews()
         addConstraints()
-        
-        thumbnail.wantsLayer = true
-        thumbnail.layer?.borderColor = Color.quaternaryLabelColor.cgColor
-        thumbnail.layer?.borderWidth = 1
-        thumbnail.layer?.cornerRadius = DocumentCornerRadius
-        thumbnail.layer?.cornerCurve = .continuous
         
         wantsLayer = true
         layer?.backgroundColor = Color.clear.cgColor
