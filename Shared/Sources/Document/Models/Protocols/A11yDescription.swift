@@ -11,9 +11,15 @@ import CoreGraphics
 #if canImport(UIKit)
     import UIKit
     public typealias Color = UIColor
+
 #else
     import AppKit
     public typealias Color = NSColor
+    extension Color {
+        static var label: Color {
+            Color.labelColor
+        }
+    }
 #endif
 
 public class A11yDescription: Codable, Equatable, ObservableObject {
