@@ -6,7 +6,7 @@
 - [VoiceOver Designer](https://testflight.apple.com/join/GRsuZ0QD)
 - [VoiceOver Preview](https://testflight.apple.com/join/ofatTjXD)
 
-A macOS app that helps design accessible apps in three stages:
+Design accessibility features for your iOS app with VoiceOver Designer, a macOS app that offers a range of design tools and generates specifications for developers. Preview your work on an iPhone with the companion app, VoiceOver Preview.
 
 1. Design
 The VoiceOver Designer app for macOS gives designers all possible instruments to lay out accessibility features on their mockups, teaches them what developers can and cannot do with accessibility, and creates specifications to hand over to developers. They can hear the result of their work on an iPhone via a little companion iPhone app called VoiceOver Preview.
