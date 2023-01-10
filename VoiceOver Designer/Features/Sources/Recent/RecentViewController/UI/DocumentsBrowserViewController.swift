@@ -9,7 +9,7 @@ public protocol RecentRouter: AnyObject {
 public class DocumentsBrowserViewController: NSViewController {
 
     public weak var router: RecentRouter?
-    var presenter: RecentPresenter! {
+    var presenter: DocumentBrowserPresenter! {
         didSet {
             if needReloadDataOnStart {
                 view().collectionView.reloadData()
@@ -81,10 +81,10 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
     public func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
         switch presenter.item(at: indexPath)! {
         case .newDocument:
-            let item = collectionView.makeItem(withIdentifier: RecentNewDocCollectionViewItem.identifier, for: indexPath)
+            let item = collectionView.makeItem(withIdentifier: NewDocumentCollectionViewItem.identifier, for: indexPath)
             return item
         case .document(let url):
-            let item = collectionView.makeItem(withIdentifier: RecentCollectionViewItem.identifier, for: indexPath) as! RecentCollectionViewItem
+            let item = collectionView.makeItem(withIdentifier: DocumentCellViewItem.identifier, for: indexPath) as! DocumentCellViewItem
             item.configure(
                 fileName: url.fileName
             )

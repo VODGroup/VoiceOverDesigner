@@ -1,5 +1,5 @@
 //
-//  RecentNewDocCollectionViewItem.swift
+//  NewDocumentCollectionViewItem.swift
 //  
 //
 //  Created by Fedor Prokhorov on 06.09.2022.
@@ -10,7 +10,7 @@ import Foundation
 
 let DocumentCornerRadius: CGFloat = 15
 
-final class RecentNewDocCollectionViewItem: NSCollectionViewItem {
+final class NewDocumentCollectionViewItem: NSCollectionViewItem {
     
     override func loadView() {
         view = NewDocView()
@@ -26,7 +26,7 @@ final class RecentNewDocCollectionViewItem: NSCollectionViewItem {
     }
     
     static let identifier = NSUserInterfaceItemIdentifier(
-        rawValue: String(describing: RecentNewDocCollectionViewItem.self)
+        rawValue: String(describing: NewDocumentCollectionViewItem.self)
     )
 }
 

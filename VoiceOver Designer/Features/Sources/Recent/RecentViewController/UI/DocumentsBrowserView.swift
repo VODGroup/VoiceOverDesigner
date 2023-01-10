@@ -14,11 +14,11 @@ class DocumentsBrowserView: NSScrollView {
         didSet {
             collectionView.isSelectable = true
             collectionView.register(
-                RecentNewDocCollectionViewItem.self,
-                forItemWithIdentifier: RecentNewDocCollectionViewItem.identifier)
+                NewDocumentCollectionViewItem.self,
+                forItemWithIdentifier: NewDocumentCollectionViewItem.identifier)
             collectionView.register(
-                RecentCollectionViewItem.self,
-                forItemWithIdentifier: RecentCollectionViewItem.identifier)
+                DocumentCellViewItem.self,
+                forItemWithIdentifier: DocumentCellViewItem.identifier)
             collectionView.setAccessibilityLabel("Projects preview")
         }
     }

@@ -9,10 +9,10 @@ import Foundation
 import AppKit
 import Document
 
-class RecentCollectionViewItem: NSCollectionViewItem {
-    static let identifier = NSUserInterfaceItemIdentifier(rawValue: String(describing: RecentCollectionViewItem.self))
+class DocumentCellViewItem: NSCollectionViewItem {
+    static let identifier = NSUserInterfaceItemIdentifier(rawValue: String(describing: DocumentCellViewItem.self))
     
-    let projectCellView = RecentCellView()
+    let projectCellView = DocumentCellView()
     
     override func loadView() {
         view = projectCellView

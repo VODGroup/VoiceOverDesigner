@@ -10,7 +10,7 @@ enum CollectionViewItem {
     case newDocument
 }
 
-public class RecentPresenter {
+public class DocumentBrowserPresenter {
     let fileManager = FileManager.default
     public weak var documentController: NSDocumentController? = VODocumentController.shared
     

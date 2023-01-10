@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 import Document
 
-class RecentCellView: NSView {
+class DocumentCellView: NSView {
     
     private lazy var thumbnail: NSImageView = {
         let thumbnail = NSImageView(image: NSImage())

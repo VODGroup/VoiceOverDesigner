@@ -18,7 +18,7 @@ public class RecentWindowController: NSWindowController {
     
     public static func fromStoryboard(
         delegate: RecentDelegate,
-        presenter: RecentPresenter
+        presenter: DocumentBrowserPresenter
     ) -> RecentWindowController {
         let storyboard = NSStoryboard(name: "RecentWindowController", bundle: Bundle.module)
         let windowController = storyboard.instantiateInitialController() as! RecentWindowController
@@ -28,7 +28,7 @@ public class RecentWindowController: NSWindowController {
     }
     
     weak var delegate: RecentDelegate?
-    var presenter: RecentPresenter!
+    var presenter: DocumentBrowserPresenter!
     
     public override func windowDidLoad() {
         super.windowDidLoad()
@@ -59,7 +59,7 @@ public class RecentWindowController: NSWindowController {
     }
     
     public func documentsBrowserController(
-        presenter: RecentPresenter
+        presenter: DocumentBrowserPresenter
     ) -> DocumentsBrowserViewController {
         let projects = DocumentsBrowserViewController.fromStoryboard()
         projects.presenter = presenter
