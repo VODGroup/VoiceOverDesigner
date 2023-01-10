@@ -7,6 +7,7 @@
 
 import AppKit
 import Document
+
 public protocol RecentDelegate: AnyObject {
     func createNewDocumentWindow(
         document: VODesignDocument
@@ -43,22 +44,24 @@ public class RecentWindowController: NSWindowController {
     public func setupToolbarAppearance(title: String, toolbar: NSToolbar) {
         window?.title = title
         window?.toolbar = toolbar
-        
     }
     
     public func embedProjectsViewControllerInWindow() {
-        let projects = projectsController(presenter: presenter)
+        let projects = documentsBrowserController(presenter: presenter)
         projects.view().collectionView.reloadData()
-        contentViewController = projects
         
         setupToolbarAppearance(
             title: NSLocalizedString("VoiceOver Designer",
                                      comment: "Window's title"),
             toolbar: projects.toolbar())
+        
+        contentViewController = projects
     }
     
-    public func projectsController(presenter: RecentPresenter) -> RecentViewController {
-        let projects = RecentViewController.fromStoryboard()
+    public func documentsBrowserController(
+        presenter: RecentPresenter
+    ) -> DocumentsBrowserViewController {
+        let projects = DocumentsBrowserViewController.fromStoryboard()
         projects.presenter = presenter
         projects.router = self
         return projects

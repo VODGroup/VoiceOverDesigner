@@ -1,10 +1,3 @@
-//
-//  RecentViewController.swift
-//  VoiceOver Designer
-//
-//  Created by Mikhail Rubanov on 05.05.2022.
-//
-
 import AppKit
 import Document
 import CommonUI
@@ -13,7 +6,7 @@ public protocol RecentRouter: AnyObject {
     func show(document: VODesignDocument) -> Void
 }
 
-public class RecentViewController: NSViewController {
+public class DocumentsBrowserViewController: NSViewController {
 
     public weak var router: RecentRouter?
     var presenter: RecentPresenter! {
@@ -34,8 +27,8 @@ public class RecentViewController: NSViewController {
     /// I added check that presenter is not nil, but we had to call reloadData as as result
     private var needReloadDataOnStart = false
 
-    func view() -> RecentView {
-        view as! RecentView
+    func view() -> DocumentsBrowserView {
+        view as! DocumentsBrowserView
     }
     
     private func createNewProject() {
@@ -47,9 +40,9 @@ public class RecentViewController: NSViewController {
         router?.show(document: document)
     }
     
-    public static func fromStoryboard() -> RecentViewController {
-        let storyboard = NSStoryboard(name: "RecentViewController", bundle: .module)
-        return storyboard.instantiateInitialController() as! RecentViewController
+    public static func fromStoryboard() -> DocumentsBrowserViewController {
+        let storyboard = NSStoryboard(name: "DocumentsBrowserViewController", bundle: .module)
+        return storyboard.instantiateInitialController() as! DocumentsBrowserViewController
     }
     
     lazy var backingScaleFactor: CGFloat = {
@@ -57,7 +50,7 @@ public class RecentViewController: NSViewController {
     }()
 }
 
-extension RecentViewController: DragNDropDelegate {
+extension DocumentsBrowserViewController: DragNDropDelegate {
     public func didDrag(path: URL) {
         let document = VODesignDocument(fileName: path.lastPathComponent,
                                         rootPath: path.deletingLastPathComponent())
@@ -71,7 +64,7 @@ extension RecentViewController: DragNDropDelegate {
 }
 
 
-extension RecentViewController : NSCollectionViewDataSource {
+extension DocumentsBrowserViewController : NSCollectionViewDataSource {
     
     public func numberOfSections(in collectionView: NSCollectionView) -> Int {
         1
@@ -111,7 +104,7 @@ extension RecentViewController : NSCollectionViewDataSource {
     }
 }
 
-extension RecentViewController: NSCollectionViewDelegate {
+extension DocumentsBrowserViewController: NSCollectionViewDelegate {
     
     public func collectionView(
         _ collectionView: NSCollectionView,
@@ -130,7 +123,7 @@ extension RecentViewController: NSCollectionViewDelegate {
     }
 }
 
-extension RecentViewController {
+extension DocumentsBrowserViewController {
     
     func toolbar() -> NSToolbar {
         let toolbar = NSToolbar()

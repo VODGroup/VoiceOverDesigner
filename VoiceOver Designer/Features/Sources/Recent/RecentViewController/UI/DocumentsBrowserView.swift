@@ -8,7 +8,7 @@
 import AppKit
 import CommonUI
 
-class RecentView: NSScrollView {
+class DocumentsBrowserView: NSScrollView {
     
     @IBOutlet weak var collectionView: NSCollectionView! {
         didSet {
