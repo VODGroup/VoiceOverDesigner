@@ -35,7 +35,7 @@ public class RecentWindowController: NSWindowController {
         
         window?.setFrameAutosaveName("Projects")
         window?.styleMask.formUnion(.fullSizeContentView)
-        window?.minSize = CGSize(width: 800, height: 600) // Two rows, 5 columns
+        window?.minSize = CGSize(width: 800, height: 700) // Two rows, 5 columns
         window?.titlebarAppearsTransparent = false
         
         shouldCascadeWindows = true
