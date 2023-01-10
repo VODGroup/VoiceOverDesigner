@@ -34,17 +34,7 @@ class AlignmentOverlay: AlignmentOverlayProtocol {
         }
     }
     
-    private var alignedEdges: [AlignmentPoint] = [] {
-        didSet {
-            if alignedEdges != oldValue {
-                vibrate()
-            }
-        }
-    }
-    
-    private func vibrate() {
-        NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .default)
-    }
+    private var alignedEdges: [AlignmentPoint] = []
     
     func alignToAny(
         _ sourceControl: A11yControlLayer,
@@ -52,7 +42,7 @@ class AlignmentOverlay: AlignmentOverlayProtocol {
         drawnControls: [A11yControlLayer]
     ) -> CGPoint {
         
-        hideAligningLine()
+        removeAlignments()
         
         let alignments: [AlignmentPoint] = drawnControls
             .filter { control in
@@ -67,6 +57,9 @@ class AlignmentOverlay: AlignmentOverlayProtocol {
         
         let (alignedPoint, stickedAlignments) = alignments.getPoint(original: point)
         
+        self.alignedControl = drawnControls.first(where: { control in
+            stickedAlignments.map { $0.frame }.contains(control.frame)
+        })
         self.alignedEdges = stickedAlignments
         
         drawAligningLine(from: sourceControl.frame,
@@ -81,7 +74,7 @@ class AlignmentOverlay: AlignmentOverlayProtocol {
         drawnControls: [A11yControlLayer]
     ) -> CGRect {
         
-        hideAligningLine()
+        removeAlignments()
         
         let alignments: [AlignmentPoint] = drawnControls
             .filter { control in
@@ -96,12 +89,21 @@ class AlignmentOverlay: AlignmentOverlayProtocol {
         
         let (alignedFrame, stickedAlignments) = alignments.getFrame(original: frame)
         
+        self.alignedControl = drawnControls.first(where: { control in
+            stickedAlignments.map { $0.frame }.contains(control.frame)
+        })
         self.alignedEdges = stickedAlignments
         
         drawAligningLine(from: sourceControl.frame,
                          alignments: stickedAlignments)
         
         return alignedFrame
+    }
+    
+    func hideAligningLine() {
+        removeAlignments()
+        alignedControl = nil
+        alignedEdges = []
     }
     
     private func drawAligningLine(
@@ -119,10 +121,8 @@ class AlignmentOverlay: AlignmentOverlayProtocol {
         }
     }
     
-    func hideAligningLine() {
-        removeAlignments()
-        alignedControl = nil
-        alignedEdges = []
+    private func vibrate() {
+        NSHapticFeedbackManager.defaultPerformer.perform(.alignment, performanceTime: .default)
     }
 }
 #endif
