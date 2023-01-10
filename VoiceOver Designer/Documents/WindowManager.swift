@@ -63,7 +63,6 @@ extension WindowManager: ProjectRouterDelegate {
     func closeProject(document: NSDocument) {
         document.removeWindowController(recentWindowController)
         
-        recentWindowController.resetToolbarAppearance()
         recentWindowController.embedProjectsViewControllerInWindow()
     }
 }

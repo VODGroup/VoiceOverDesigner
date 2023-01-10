@@ -36,16 +36,8 @@ public class RecentWindowController: NSWindowController {
         window?.styleMask.formUnion(.fullSizeContentView)
         window?.minSize = CGSize(width: 800, height: 600) // Two rows, 5 columns
         window?.titlebarAppearsTransparent = false
-        resetToolbarAppearance()
         
         shouldCascadeWindows = true
-    }
-    
-    public func resetToolbarAppearance() {
-        setupToolbarAppearance(title: NSLocalizedString("VoiceOver Designer",
-                                                        comment: "Window's title"),
-                               toolbar: NSToolbar())
-        
     }
     
     public func setupToolbarAppearance(title: String, toolbar: NSToolbar) {
@@ -59,6 +51,10 @@ public class RecentWindowController: NSWindowController {
         projects.view().collectionView.reloadData()
         contentViewController = projects
         
+        setupToolbarAppearance(
+            title: NSLocalizedString("VoiceOver Designer",
+                                     comment: "Window's title"),
+            toolbar: projects.toolbar())
     }
     
     public func projectsController(presenter: RecentPresenter) -> RecentViewController {

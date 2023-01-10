@@ -129,3 +129,11 @@ extension RecentViewController: NSCollectionViewDelegate {
         }
     }
 }
+
+extension RecentViewController {
+    
+    func toolbar() -> NSToolbar {
+        let toolbar = NSToolbar()
+        return toolbar
+    }
+}
