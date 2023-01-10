@@ -29,6 +29,12 @@ public class DocumentBrowserPresenter {
     
     private let metadataProvider = MetadataProvider(containerIdentifier: containerId,
                                                     fileExtension: vodesign)
+    
+    weak var delegate: DocumentsProviderDelegate? {
+        didSet {
+            metadataProvider?.delegate = delegate
+        }
+    }
     private var iCloudDocuments: [URL] {
         let metaFiles = metadataProvider?
             .metadataItemList()

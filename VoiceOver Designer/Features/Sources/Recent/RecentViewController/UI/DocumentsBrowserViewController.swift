@@ -14,6 +14,8 @@ public class DocumentsBrowserViewController: NSViewController {
             if needReloadDataOnStart {
                 view().collectionView.reloadData()
             }
+            
+            presenter.delegate = self
         }
     }
     
@@ -124,9 +126,16 @@ extension DocumentsBrowserViewController: NSCollectionViewDelegate {
 }
 
 extension DocumentsBrowserViewController {
-    
     func toolbar() -> NSToolbar {
         let toolbar = NSToolbar()
         return toolbar
     }
 }
+
+
+extension DocumentsBrowserViewController: DocumentsProviderDelegate {
+    func didUpdateDocuments() {
+        view().collectionView.reloadData()
+    }
+}
+
