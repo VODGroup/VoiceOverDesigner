@@ -17,24 +17,19 @@ public class RecentPresenter {
     public init() {}
     
     public var shouldShowThisController: Bool {
-        let hasRecentDocuments = !VODocumentController.shared.recentDocumentURLs.isEmpty
-        let hasCloudDocuments = try! !fileManager.contentsOfDirectory(at: iCloudContainer, includingPropertiesForKeys: nil).isEmpty
+        let hasRecentDocuments = !recentItems.isEmpty
+        let hasCloudDocuments = !iCloudDocuments.isEmpty
         
         return hasRecentDocuments || hasCloudDocuments
-    
     }
     
-    private var hasRecentDocuments: Bool {
-        !VODocumentController.shared.recentDocumentURLs.isEmpty
-    }
-    
-    var recentItems: [URL] {
+    private var recentItems: [URL] {
         documentController?.recentDocumentURLs ?? []
     }
     
     private let metadataProvider = MetadataProvider(containerIdentifier: containerId,
                                                     fileExtension: vodesign)
-    var iCloudDocuments: [URL] {
+    private var iCloudDocuments: [URL] {
         let metaFiles = metadataProvider?
             .metadataItemList()
             .map { meta in
@@ -44,10 +39,11 @@ public class RecentPresenter {
         return metaFiles ?? []
     }
     
-    var items: [CollectionViewItem] {
-        let set = NSOrderedSet(array: /*recentItems +*/ iCloudDocuments) // TODO: Add recent local files and write test for union
-        let arrayOfURLs = set
-            .array as! [URL]
+    private var items: [CollectionViewItem] {
+        let arrayOfURLs = iCloudDocuments.union(with: recentItems)
+        
+        // TODO: Sort by recent modified date
+        
         let documents = arrayOfURLs
             .map { url in
             CollectionViewItem.document(url)
