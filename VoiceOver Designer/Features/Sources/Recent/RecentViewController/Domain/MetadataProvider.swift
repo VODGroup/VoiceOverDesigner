@@ -7,23 +7,18 @@
 import Foundation
 import Combine
 
-extension Notification.Name {
-    static let vodesignMetadataDidChange = Notification.Name("vodesignMetadataDidChange")
+protocol DocumentsProviderDelegate: AnyObject {
+    func didUpdateDocuments()
 }
 
 class MetadataProvider {
-    // Give userInfo a stronger type.
-    //
-    typealias MetadataDidChangeUserInfo = [MetadataDidChangeUserInfoKey: [MetadataItem]]
-    enum MetadataDidChangeUserInfoKey: String {
-        case queryResults
-    }
-    
+
     private(set) var containerRootURL: URL?
     private(set) var fileExtension: String
     private let metadataQuery = NSMetadataQuery()
     private var querySubscriber: AnyCancellable?
     
+    weak var delegate: DocumentsProviderDelegate?
     // Failable init: fails if there isn’t a logged-in iCloud account.
     //
     init?(containerIdentifier: String?, fileExtension: String) {
@@ -63,13 +58,7 @@ class MetadataProvider {
                 guard notification.object as? NSMetadataQuery === self.metadataQuery
                 else { return }
                 
-                var userInfo = MetadataDidChangeUserInfo()
-                userInfo[.queryResults] = self.metadataItemList()
-                
-                NotificationCenter.default.post(
-                    name: .vodesignMetadataDidChange,
-                    object: self,
-                    userInfo: userInfo)
+                self.delegate?.didUpdateDocuments()
             }
         
         // Set up a metadata query to gather document changes in the iCloud container.

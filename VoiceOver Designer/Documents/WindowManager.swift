@@ -6,9 +6,9 @@ class WindowManager: NSObject {
     
     static var shared = WindowManager()
     
-    let recentPresenter = RecentPresenter()
+    let documentsPresenter = DocumentBrowserPresenter()
     lazy var recentWindowController: RecentWindowController = {
-        RecentWindowController.fromStoryboard(delegate: self, presenter: recentPresenter)
+        RecentWindowController.fromStoryboard(delegate: self, presenter: documentsPresenter)
     }()
     
     private var newDocumentIsCreated = false
@@ -18,7 +18,7 @@ class WindowManager: NSObject {
             // Document has been created from [NSDocumentController openUntitledDocumentAndDisplay:error:]
             return
         }
-        if recentPresenter.shouldShowThisController {
+        if documentsPresenter.shouldShowThisController {
             showDocumentSelector()
         } else {
             // TODO: Do we need it or document will open automatically?
@@ -63,7 +63,6 @@ extension WindowManager: ProjectRouterDelegate {
     func closeProject(document: NSDocument) {
         document.removeWindowController(recentWindowController)
         
-        recentWindowController.resetToolbarAppearance()
         recentWindowController.embedProjectsViewControllerInWindow()
     }
 }

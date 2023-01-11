@@ -10,8 +10,8 @@ import XCTest
 
 class ProjectCollectionViewItemTests: XCTestCase {
     
-    private func makeSUT() -> RecentCollectionViewItem {
-        let cell = RecentCollectionViewItem()
+    private func makeSUT() -> DocumentCellViewItem {
+        let cell = DocumentCellViewItem()
         return cell
     }
 

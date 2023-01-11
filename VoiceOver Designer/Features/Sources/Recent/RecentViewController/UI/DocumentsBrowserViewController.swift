@@ -1,10 +1,3 @@
-//
-//  RecentViewController.swift
-//  VoiceOver Designer
-//
-//  Created by Mikhail Rubanov on 05.05.2022.
-//
-
 import AppKit
 import Document
 import CommonUI
@@ -13,14 +6,16 @@ public protocol RecentRouter: AnyObject {
     func show(document: VODesignDocument) -> Void
 }
 
-public class RecentViewController: NSViewController {
+public class DocumentsBrowserViewController: NSViewController {
 
     public weak var router: RecentRouter?
-    var presenter: RecentPresenter! {
+    var presenter: DocumentBrowserPresenter! {
         didSet {
             if needReloadDataOnStart {
                 view().collectionView.reloadData()
             }
+            
+            presenter.delegate = self
         }
     }
     
@@ -34,8 +29,8 @@ public class RecentViewController: NSViewController {
     /// I added check that presenter is not nil, but we had to call reloadData as as result
     private var needReloadDataOnStart = false
 
-    func view() -> RecentView {
-        view as! RecentView
+    func view() -> DocumentsBrowserView {
+        view as! DocumentsBrowserView
     }
     
     private func createNewProject() {
@@ -47,9 +42,9 @@ public class RecentViewController: NSViewController {
         router?.show(document: document)
     }
     
-    public static func fromStoryboard() -> RecentViewController {
-        let storyboard = NSStoryboard(name: "RecentViewController", bundle: .module)
-        return storyboard.instantiateInitialController() as! RecentViewController
+    public static func fromStoryboard() -> DocumentsBrowserViewController {
+        let storyboard = NSStoryboard(name: "DocumentsBrowserViewController", bundle: .module)
+        return storyboard.instantiateInitialController() as! DocumentsBrowserViewController
     }
     
     lazy var backingScaleFactor: CGFloat = {
@@ -57,7 +52,7 @@ public class RecentViewController: NSViewController {
     }()
 }
 
-extension RecentViewController: DragNDropDelegate {
+extension DocumentsBrowserViewController: DragNDropDelegate {
     public func didDrag(path: URL) {
         let document = VODesignDocument(fileName: path.lastPathComponent,
                                         rootPath: path.deletingLastPathComponent())
@@ -71,7 +66,7 @@ extension RecentViewController: DragNDropDelegate {
 }
 
 
-extension RecentViewController : NSCollectionViewDataSource {
+extension DocumentsBrowserViewController : NSCollectionViewDataSource {
     
     public func numberOfSections(in collectionView: NSCollectionView) -> Int {
         1
@@ -88,10 +83,10 @@ extension RecentViewController : NSCollectionViewDataSource {
     public func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
         switch presenter.item(at: indexPath)! {
         case .newDocument:
-            let item = collectionView.makeItem(withIdentifier: RecentNewDocCollectionViewItem.identifier, for: indexPath)
+            let item = collectionView.makeItem(withIdentifier: NewDocumentCollectionViewItem.identifier, for: indexPath)
             return item
         case .document(let url):
-            let item = collectionView.makeItem(withIdentifier: RecentCollectionViewItem.identifier, for: indexPath) as! RecentCollectionViewItem
+            let item = collectionView.makeItem(withIdentifier: DocumentCellViewItem.identifier, for: indexPath) as! DocumentCellViewItem
             item.configure(
                 fileName: url.fileName
             )
@@ -111,7 +106,7 @@ extension RecentViewController : NSCollectionViewDataSource {
     }
 }
 
-extension RecentViewController: NSCollectionViewDelegate {
+extension DocumentsBrowserViewController: NSCollectionViewDelegate {
     
     public func collectionView(
         _ collectionView: NSCollectionView,
@@ -129,3 +124,18 @@ extension RecentViewController: NSCollectionViewDelegate {
         }
     }
 }
+
+extension DocumentsBrowserViewController {
+    func toolbar() -> NSToolbar {
+        let toolbar = NSToolbar()
+        return toolbar
+    }
+}
+
+
+extension DocumentsBrowserViewController: DocumentsProviderDelegate {
+    func didUpdateDocuments() {
+        view().collectionView.reloadData()
+    }
+}
+
