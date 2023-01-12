@@ -60,14 +60,6 @@ extension WindowManager: RecentDelegate {
 }
 
 extension WindowManager: ProjectRouterDelegate {
-    func lastSplitToggle(isCollapsed: Bool) {
-        if isCollapsed {
-            recentWindowController.window?.toolbar?.removeItem(at: 4)
-        } else {
-            recentWindowController.window?.toolbar?.insertItem(withItemIdentifier: .itemListTrackingSeparator, at: 4)
-        }
-    }
-    
     func closeProject(document: NSDocument) {
         document.removeWindowController(recentWindowController)
         

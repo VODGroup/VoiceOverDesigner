@@ -2,7 +2,6 @@ import AppKit
 
 protocol ProjectRouterDelegate: AnyObject {
     func closeProject(document: NSDocument)
-    func lastSplitToggle(isCollapsed: Bool)
 }
 
 extension ProjectController: NSToolbarDelegate {
@@ -17,11 +16,11 @@ extension ProjectController: NSToolbarDelegate {
         case .trailingSidebar: return trailingSideBarItem()
         case .leadingSidebar: return leadingSideBarItem()
         case .itemListTrackingSeparator:
-                return NSTrackingSeparatorToolbarItem(
-                    identifier: .itemListTrackingSeparator,
-                    splitView: splitView,
-                    dividerIndex: 1
-                )
+            return NSTrackingSeparatorToolbarItem(
+                identifier: .itemListTrackingSeparator,
+                splitView: splitView,
+                dividerIndex: 1
+            )
         default: return nil
         }
     }
@@ -118,7 +117,11 @@ extension ProjectController {
     @objc private func trailingSideBarTapped(sender: NSToolbarItem) {
         guard let lastSplitView = splitViewItems.last else { return }
         lastSplitView.animator().isCollapsed.toggle()
-        router?.lastSplitToggle(isCollapsed: lastSplitView.isCollapsed)
+        if lastSplitView.isCollapsed {
+            toolbar.removeItem(at: 4)
+        } else {
+            toolbar.insertItem(withItemIdentifier: .itemListTrackingSeparator, at: 4)
+        }
     }
 }
 
