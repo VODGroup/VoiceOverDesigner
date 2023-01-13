@@ -13,22 +13,33 @@ extension ProjectController: NSToolbarDelegate {
         switch itemIdentifier {
         case .voiceControlLabel: return labelItem()
         case .backButtonLabel: return backItem()
+        case .trailingSidebar: return trailingSideBarItem()
+        case .leadingSidebar: return leadingSideBarItem()
+        case .itemListTrackingSeparator:
+            return NSTrackingSeparatorToolbarItem(
+                identifier: .itemListTrackingSeparator,
+                splitView: splitView,
+                dividerIndex: 1
+            )
         default: return nil
         }
     }
     
     public func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         [
-            .toggleSidebar,
+            .flexibleSpace,
+            .leadingSidebar,
             .sidebarTrackingSeparator,
             .backButtonLabel,
             .flexibleSpace,
+            .flexibleSpace,
             .voiceControlLabel,
+            .trailingSidebar
         ]
     }
     
     public func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        [.toggleSidebar, .sidebarTrackingSeparator, .voiceControlLabel, .backButtonLabel]
+        [.toggleSidebar, .sidebarTrackingSeparator, .voiceControlLabel, .backButtonLabel, .trailingSidebar, .leadingSidebar, .itemListTrackingSeparator]
     }
 }
 
@@ -56,6 +67,30 @@ extension ProjectController {
         return item
     }
     
+    private func leadingSideBarItem() -> NSToolbarItem {
+        let item = NSToolbarItem(itemIdentifier: .trailingSidebar)
+        item.label = NSLocalizedString("Navigator", comment: "")
+        item.target = self
+        item.action = #selector(leadingSideBarTapped(sender:))
+        item.isBordered = true
+        item.image = NSImage(systemSymbolName: "sidebar.leading",
+                             accessibilityDescription: "Close navigator sidebar")!
+        item.toolTip = NSLocalizedString("Close navigator sidebar", comment: "")
+        return item
+    }
+    
+    private func trailingSideBarItem() -> NSToolbarItem {
+        let item = NSToolbarItem(itemIdentifier: .trailingSidebar)
+        item.label = NSLocalizedString("Inspector", comment: "")
+        item.target = self
+        item.action = #selector(trailingSideBarTapped(sender:))
+        item.isBordered = true
+        item.image = NSImage(systemSymbolName: "sidebar.trailing",
+                             accessibilityDescription: "Close inspector sidebar")!
+        item.toolTip = NSLocalizedString("Close inspector sidebar", comment: "")
+        return item
+    }
+    
     @objc private func showLabels(sender: NSToolbarItem) {
         sender.action = #selector(hideLabels(sender:))
         canvas.presenter.showLabels()
@@ -72,6 +107,21 @@ extension ProjectController {
     
     @objc private func backDidPressed(sender: NSToolbarItem) {
         router?.closeProject(document: document)
+    }
+    
+    @objc private func leadingSideBarTapped(sender: NSToolbarItem) {
+        guard let firstSplitView = splitViewItems.first else { return }
+        firstSplitView.animator().isCollapsed.toggle()
+    }
+    
+    @objc private func trailingSideBarTapped(sender: NSToolbarItem) {
+        guard let lastSplitView = splitViewItems.last else { return }
+        lastSplitView.animator().isCollapsed.toggle()
+        if lastSplitView.isCollapsed {
+            toolbar.removeItem(at: 4)
+        } else {
+            toolbar.insertItem(withItemIdentifier: .itemListTrackingSeparator, at: 4)
+        }
     }
 }
 
@@ -93,4 +143,7 @@ extension NSToolbarItem {
 extension NSToolbarItem.Identifier {
     static let voiceControlLabel = NSToolbarItem.Identifier(rawValue: "VoiceControlLabel")
     static let backButtonLabel = NSToolbarItem.Identifier(rawValue: "BackButtonLabel")
+    static let trailingSidebar = NSToolbarItem.Identifier(rawValue: "TrailingSidebar")
+    static let leadingSidebar = NSToolbarItem.Identifier(rawValue: "LeadingSidebar")
+    static let itemListTrackingSeparator = NSToolbarItem.Identifier("ItemListTrackingSeparator")
 }
