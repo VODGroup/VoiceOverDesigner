@@ -40,6 +40,7 @@ enum Traits: Identifiable {
             return .causesPageTurn
         case .keyboardKey:
             return .keyboardKey
+            // TODO: Add unsupported keys and move to Documents
         }
     }
     

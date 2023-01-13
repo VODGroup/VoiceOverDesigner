@@ -36,6 +36,11 @@ public struct A11yTraits: OptionSet, Codable, Hashable {
     public static let updatesFrequently = A11yTraits(rawValue: 1 << 14)
     public static let causesPageTurn = A11yTraits(rawValue: 1 << 15)
     public static let keyboardKey = A11yTraits(rawValue: 1 << 16)
+    
+    // MARK: Hidden
+    public static let textInput = A11yTraits(rawValue: 262144)// 1 << 19) //
+    public static let isEditingTextInput = A11yTraits(rawValue: 2097152)// 1 << 22) // 2097152
+    public static let switcher = A11yTraits(rawValue: 1 << 53)
 }
 
 #if canImport(UIKit)
@@ -66,7 +71,7 @@ let traitsMap: [A11yTraits: UIAccessibilityTraits] = [
     .searchField: .searchField,
     .tab: .tabBar,
     
-        .selected: .selected,
+    .selected: .selected,
     .notEnabled: .notEnabled,
     .summaryElement: .summaryElement,
     .playsSound: .playsSound,
@@ -75,5 +80,9 @@ let traitsMap: [A11yTraits: UIAccessibilityTraits] = [
     .updatesFrequently: .updatesFrequently,
     .causesPageTurn: .causesPageTurn,
     .keyboardKey: .keyboardKey,
+    
+    .textInput: UIAccessibilityTraits(rawValue: 262144),
+    .isEditingTextInput: UIAccessibilityTraits(rawValue: 2097152),
+    .switcher: UIAccessibilityTraits(rawValue: 1 << 53),
 ]
 #endif

@@ -52,6 +52,15 @@
 /* Hint describing how to use elements with the 'switch button' accessibility trait */
 "trait.switch_button.hint" = "Double tap to toggle setting.";
 
+/* Description for the 'text input' accessibility trait */
+"trait.textInput.description" = "Text field";
+
+/* Description for the 'is editing' accessibility trait */
+"trait.isEditing.description" = "is editing";
+
+/* Description for the 'switcher' accessibility trait */
+"trait.switcher.description" = "Switch button";
+
 /* Format for hint describing how to use elements with the 'switch button' accessibility trait; param0: the existing hint */
 "trait.switch_button.hint_format" = "%@. Double tap to toggle setting.";
 

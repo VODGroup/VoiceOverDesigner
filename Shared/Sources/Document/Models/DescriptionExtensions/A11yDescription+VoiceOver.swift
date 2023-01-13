@@ -64,9 +64,12 @@ extension A11yDescription {
             traitsDescription.append(Localization.traitNotEnabledDescription)
         }
         
-        // TODO: Add more traits
         if trait.contains(.button) {
             traitsDescription.append(Localization.traitButtonDescription)
+        }
+        
+        if trait.contains(.switcher) {
+            traitsDescription.append(Localization.traitSwitcherDescription)
         }
         
         if trait.contains(.adjustable) {
@@ -77,11 +80,6 @@ extension A11yDescription {
             traitsDescription.append(Localization.traitHeaderDescription)
         }
         
-        // TODO: Это иначе работает, .tab это свойство контейнера
-        if trait.contains(.tab) {
-            traitsDescription.append(Localization.traitTabDescription)
-        }
-        
         // TODO: Test order when all enabled
         if trait.contains(.image) {
             traitsDescription.append(Localization.traitImageDescription)
@@ -89,6 +87,15 @@ extension A11yDescription {
         
         if trait.contains(.link) {
             traitsDescription.append(Localization.traitLinkDescription)
+        }
+        
+        if trait.contains(.textInput) {
+            traitsDescription.append(Localization.traitTextInputDescription)
+            
+            // TODO:
+            if trait.contains(.isEditingTextInput) {
+                traitsDescription.append(", \(Localization.traitIsEdititngInputDescription)")
+            }
         }
         
         return traitsDescription

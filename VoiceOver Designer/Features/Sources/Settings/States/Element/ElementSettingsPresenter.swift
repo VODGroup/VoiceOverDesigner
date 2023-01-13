@@ -73,10 +73,5 @@ extension ElementSettingsPresenter: TraitsViewControllerDelegate {
         } else {
             element.trait.subtract(trait)
         }
-        
     }
 }
-
-
-
-

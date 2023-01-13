@@ -24,6 +24,10 @@ extension A11yDescription {
         static let traitTabDescription = NSLocalizedString("trait.tab.description", tableName: "Localizable", bundle: .module, comment: "Description for the 'tab' accessibility trait")
         static let traitImageDescription = NSLocalizedString("trait.image.description", tableName: "Localizable", bundle: .module, comment: "Description for the 'image' accessibility trait")
         static let traitLinkDescription = NSLocalizedString("trait.link.description", tableName: "Localizable", bundle: .module, comment: "Description for the 'link' accessibility trait")
+        static let traitTextInputDescription = NSLocalizedString("trait.textInput.description", tableName: "Localizable", bundle: .module, comment: "Description for the 'text input' accessibility trait")
+        static let traitIsEdititngInputDescription = NSLocalizedString("trait.isEditing.description", tableName: "Localizable", bundle: .module, comment: "Description for the 'is editing' accessibility trait")
+        
+        static let traitSwitcherDescription = NSLocalizedString("trait.switcher.description", tableName: "Localizable", bundle: .module, comment: "Description for the 'switcher' accessibility trait")
         
         static let traitEmptyDescription = NSLocalizedString("trait.empty.description", tableName: "Localizable", bundle: .module, comment: "Description for the absent accessibility traits")
     }

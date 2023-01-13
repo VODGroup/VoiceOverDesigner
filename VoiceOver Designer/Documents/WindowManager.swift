@@ -44,7 +44,7 @@ extension WindowManager: RecentDelegate {
     func createNewDocumentWindow(
         document: VODesignDocument
     ) {
-        print("will open \(document.fileURL)")
+        print("will open \(document.fileURL?.absoluteString ?? "Unkonwn fileURL")")
         newDocumentIsCreated = true
         
         let split = ProjectController(document: document, router: self)
