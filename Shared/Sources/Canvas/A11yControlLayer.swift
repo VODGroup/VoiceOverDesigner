@@ -11,7 +11,7 @@ struct Config {
     
     let fontSize: CGFloat = 10
     
-    let resizeMarkerSize: CGFloat = 15
+    let resizeMarkerSize: CGFloat = 10
     let alignmentThreshold: CGFloat = 5
 }
 
