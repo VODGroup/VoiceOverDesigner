@@ -12,11 +12,8 @@ import QuickLookThumbnailing
 public class VODesignDocument: Document, VODesignDocumentProtocol {
     
     // MARK: - Data
-    public var image: Image? {
-        didSet {
-            shouldSaveImage = oldValue != image
-        }
-    }
+    public var image: Image?
+    
     public var controls: [any AccessibilityView] = []
     
     // MARK:
@@ -35,7 +32,6 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         fileType = vodesign
     }
     
-    private var shouldSaveImage: Bool = false
     private let codingService = AccessibilityViewCodingService()
     private lazy var imageService = ImageSaveService()
     
@@ -67,7 +63,6 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         if let imageWrapper = imageWrapper(), let previewWrapper = previewWrapper() {
             package.addFileWrapper(imageWrapper)
             package.addFileWrapper(previewWrapper)
-            shouldSaveImage = false
         }
         return package
     }
@@ -81,8 +76,6 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         controls = try documentSaveService.loadControls()
         
         image = try? imageService.load(from: url)
-        // image property observer would be triggered because it isn't inside initializer
-        shouldSaveImage = false
     }
     
     // MARK: Static
@@ -127,8 +120,7 @@ extension VODesignDocument {
     
     private func imageWrapper() -> FileWrapper? {
         guard let image = image,
-              let imageData = imageService.UIImagePNGRepresentation(image),
-              shouldSaveImage
+              let imageData = imageService.UIImagePNGRepresentation(image)
         else { return nil }
         
         let imageWrapper = FileWrapper(regularFileWithContents: imageData)
@@ -140,8 +132,7 @@ extension VODesignDocument {
     
     private func previewWrapper() -> FileWrapper? {
         guard let image = image,
-              let imageData = imageService.UIImagePNGRepresentation(image),
-              shouldSaveImage
+              let imageData = imageService.UIImagePNGRepresentation(image)
         else { return nil }
         
         let imageWrapper = FileWrapper(regularFileWithContents: imageData)
