@@ -38,9 +38,9 @@ public struct A11yTraits: OptionSet, Codable, Hashable {
     public static let keyboardKey = A11yTraits(rawValue: 1 << 16)
     
     // MARK: Hidden
-    public static let textInput = A11yTraits(rawValue: 262144)
-    public static let isEditingTextInput = A11yTraits(rawValue:  2359296)
-    public static let switcher = A11yTraits(rawValue: 1 << 53)
+    public static let textInput = A11yTraits(rawValue: 262144) // TODO: It is combined bitmask, it's bad for feature usage like codable
+    public static let isEditingTextInput = A11yTraits(rawValue:  2359296) // Same for this
+    public static let switcher = A11yTraits(rawValue: 1 << 20)
     
     // TODO: Check the link for more traits https://github.com/akaDuality/AccessibilityTraits
     // decimal: 262144 – text field
@@ -85,8 +85,8 @@ let traitsMap: [A11yTraits: UIAccessibilityTraits] = [
     .causesPageTurn: .causesPageTurn,
     .keyboardKey: .keyboardKey,
     
-    .textInput: UIAccessibilityTraits(rawValue: 262144),
-    .isEditingTextInput: UIAccessibilityTraits(rawValue: 2359296),
-    .switcher: UIAccessibilityTraits(rawValue: 1 << 53),
+    .textInput: UIAccessibilityTraits(rawValue: UInt64(A11yTraits.textInput.rawValue)),
+    .isEditingTextInput: UIAccessibilityTraits(rawValue: UInt64(A11yTraits.isEditingTextInput.rawValue)),
+    .switcher: UIAccessibilityTraits(rawValue: UInt64(A11yTraits.switcher.rawValue)),
 ]
 #endif
