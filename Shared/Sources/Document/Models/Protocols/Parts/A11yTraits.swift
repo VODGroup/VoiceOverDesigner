@@ -38,9 +38,13 @@ public struct A11yTraits: OptionSet, Codable, Hashable {
     public static let keyboardKey = A11yTraits(rawValue: 1 << 16)
     
     // MARK: Hidden
-    public static let textInput = A11yTraits(rawValue: 262144)// 1 << 19) //
-    public static let isEditingTextInput = A11yTraits(rawValue: 2097152)// 1 << 22) // 2097152
+    public static let textInput = A11yTraits(rawValue: 262144)
+    public static let isEditingTextInput = A11yTraits(rawValue:  2359296)
     public static let switcher = A11yTraits(rawValue: 1 << 53)
+    
+    // TODO: Check the link for more traits https://github.com/akaDuality/AccessibilityTraits
+    // decimal: 262144 – text field
+    // decimal: 2359296 - text field with text editing
 }
 
 #if canImport(UIKit)
@@ -82,7 +86,7 @@ let traitsMap: [A11yTraits: UIAccessibilityTraits] = [
     .keyboardKey: .keyboardKey,
     
     .textInput: UIAccessibilityTraits(rawValue: 262144),
-    .isEditingTextInput: UIAccessibilityTraits(rawValue: 2097152),
+    .isEditingTextInput: UIAccessibilityTraits(rawValue: 2359296),
     .switcher: UIAccessibilityTraits(rawValue: 1 << 53),
 ]
 #endif
