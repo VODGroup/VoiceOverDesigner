@@ -5,10 +5,15 @@
 //  Created by Andrey Plotnikov on 05.08.2022.
 //
 
+import Combine
 import Foundation
 
-public class ManualCopyCommand: CopyModifierProtocol {
+public class ManualCopyCommand: CopyModifierAction {
     public init() {}
     
-    public var isCopyHold: Bool = false
+    public var isModifierActive: Bool = false
+    
+    public var modifierPublisher: AnyPublisher<Bool, Never> {
+        Just(isModifierActive).eraseToAnyPublisher()
+    }
 }

@@ -115,7 +115,7 @@ public class DrawingController {
         }
         
         if view.control(at: location) != nil {
-            pointerSubject.send(view.copyListener.isCopyHold ? .copy : .hover)
+            pointerSubject.send(view.copyListener.isModifierActive ? .copy : .hover)
         } else {
             pointerSubject.send(nil)
         }
@@ -150,7 +150,7 @@ public class DrawingController {
     
     private func updateDragCursor() {
         guard action is CopyAndTranslateAction else { return }
-        pointerSubject.send(view.copyListener.isCopyHold ? .copy : .dragging)
+        pointerSubject.send(view.copyListener.isModifierActive ? .copy : .dragging)
     }
     
     public func end(coordinate: CGPoint) -> DraggingAction? {

@@ -5,6 +5,7 @@
 //  Created by Andrey Plotnikov on 04.08.2022.
 //
 
+import Combine
 import Foundation
 
 
@@ -13,7 +14,7 @@ public class CopyModifierFactory {
     public init() {
         
     }
-    public func make() -> CopyModifierProtocol {
+    public func make() -> CopyModifierAction {
         #if os(macOS)
         return CopyModifierCommand()
         #else
@@ -24,18 +25,35 @@ public class CopyModifierFactory {
 
 #if canImport(AppKit)
 import AppKit
-public class CopyModifierCommand: CopyModifierProtocol {
+public class CopyModifierCommand: CopyModifierAction {
     
     public init() {
-        keyListener = NSEvent.addLocalMonitorForEvents(matching: [.flagsChanged], handler: { [weak self] event in
-            self?.isCopyHold = event.modifierFlags.contains(.option)
+        monitor = NSEvent.addLocalMonitorForEvents(matching: [.flagsChanged], handler: { [weak self] event in
+            self?.subject.send(event.modifierFlags.contains(.option))
             return event
         })
     }
     
+    deinit {
+        if let monitor {
+            NSEvent.removeMonitor(monitor)
+        }
+    }
     
-    private var keyListener: Any?
-    public var isCopyHold: Bool = false 
+    
+    
+    private var monitor: Any?
+    
+    // TODO: Support changes on fly in CopyAndTranslateAction or DrawingController
+    private let subject: CurrentValueSubject<Bool, Never> = .init(false)
+    
+    public var modifierPublisher: AnyPublisher<Bool, Never> {
+        subject.eraseToAnyPublisher()
+    }
+    
+    public var isModifierActive: Bool {
+        subject.value
+    }
 
 }
 #endif

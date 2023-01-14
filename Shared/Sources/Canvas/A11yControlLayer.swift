@@ -74,6 +74,7 @@ public extension A11yControlLayer {
         let control = A11yControlLayer()
         control.model = model
         control.frame = model.frame
+        control.backgroundColor = model.color.cgColor
         return control
     }
 }

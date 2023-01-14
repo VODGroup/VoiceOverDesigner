@@ -5,8 +5,13 @@
 //  Created by Andrey Plotnikov on 05.08.2022.
 //
 
+import Combine
 import Foundation
 
-public protocol CopyModifierProtocol {
-    var isCopyHold: Bool { get }
+public protocol CopyModifierAction {
+    var modifierPublisher: AnyPublisher<Bool, Never> { get }
+    var isModifierActive: Bool { get }
 }
+
+
+
