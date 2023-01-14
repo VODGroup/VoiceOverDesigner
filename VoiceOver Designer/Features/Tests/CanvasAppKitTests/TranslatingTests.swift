@@ -55,7 +55,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         }
         
         // Copy
-        copyCommand.isCopyHold = true
+        copyCommand.isModifierActive = true
         sut.mouseDown(on: .coord(15))
         sut.mouseUp(on: .coord(15+35))
         
