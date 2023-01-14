@@ -122,7 +122,7 @@ class A11yDescriptionTests_EN: XCTestCase {
             value: "Main Avenu",
             trait: [.textInput, .isEditingTextInput])
         
-        XCTAssertEqual(descr.voiceOverText, "Street: Main Avenu. Text field, is editing")
+        XCTAssertEqual(descr.voiceOverText, "Street: Main Avenu. Text field is editing")
     }
     
     func test_editingTraitWithoutTextInput() throws {
@@ -131,8 +131,7 @@ class A11yDescriptionTests_EN: XCTestCase {
             value: "Main Avenu",
             trait: [.isEditingTextInput])
         
-        XCTAssertEqual(descr.voiceOverText, "Street: Main Avenu. Text field, is editing")
-        // TODO: In fact it's a wrong behaviour because .isEditingTextInput already contains .textInput
+        XCTAssertEqual(descr.voiceOverText, "Street: Main Avenu. is editing")
     }
 }
 
