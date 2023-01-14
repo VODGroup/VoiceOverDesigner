@@ -88,10 +88,12 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     }
     
     public override class var readableTypes: [String] {
+        // TODO: should be read from Info.plist
         [uti]
     }
     
     public override class var writableTypes: [String] {
+        // TODO: should be read from Info.plist
         [uti]
     }
     
