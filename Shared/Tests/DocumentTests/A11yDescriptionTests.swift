@@ -96,5 +96,43 @@ class A11yDescriptionTests_EN: XCTestCase {
         descr.selectAdjustableOption(at: 2)
         XCTAssertEqual(descr.voiceOverText, "Pizza: Big, 3 of 3. Adjustable.")
     }
+    
+    // MARK: Hidden trait
+    func test_switcherTrait() throws {
+        let descr = A11yDescription.testMake(
+            label: "Airplane mode",
+            value: "Enabled",
+            trait: [.switcher])
+        
+        XCTAssertEqual(descr.voiceOverText, "Airplane mode: Enabled. Switch button")
+    }
+    
+    func test_textInputTrait() throws {
+        let descr = A11yDescription.testMake(
+            label: "Street",
+            value: "Main Avenu",
+            trait: [.textInput])
+        
+        XCTAssertEqual(descr.voiceOverText, "Street: Main Avenu. Text field")
+    }
+    
+    func test_textInputWithEditingTrait() throws {
+        let descr = A11yDescription.testMake(
+            label: "Street",
+            value: "Main Avenu",
+            trait: [.textInput, .isEditingTextInput])
+        
+        XCTAssertEqual(descr.voiceOverText, "Street: Main Avenu. Text field, is editing")
+    }
+    
+    func test_editingTraitWithoutTextInput() throws {
+        let descr = A11yDescription.testMake(
+            label: "Street",
+            value: "Main Avenu",
+            trait: [.isEditingTextInput])
+        
+        XCTAssertEqual(descr.voiceOverText, "Street: Main Avenu. Text field, is editing")
+        // TODO: In fact it's a wrong behaviour because .isEditingTextInput already contains .textInput
+    }
 }
 

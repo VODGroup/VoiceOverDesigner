@@ -36,6 +36,15 @@ public struct A11yTraits: OptionSet, Codable, Hashable {
     public static let updatesFrequently = A11yTraits(rawValue: 1 << 14)
     public static let causesPageTurn = A11yTraits(rawValue: 1 << 15)
     public static let keyboardKey = A11yTraits(rawValue: 1 << 16)
+    
+    // MARK: Hidden
+    public static let textInput = A11yTraits(rawValue: 1 << 18)
+    public static let switcher = A11yTraits(rawValue: 1 << 20)
+    public static let isEditingTextInput = A11yTraits(rawValue:  1 << 21)
+    
+    // TODO: Check the link for more traits https://github.com/akaDuality/AccessibilityTraits
+    // decimal: 262144 – text field
+    // decimal: 2359296 - text field with text editing
 }
 
 #if canImport(UIKit)
@@ -66,7 +75,7 @@ let traitsMap: [A11yTraits: UIAccessibilityTraits] = [
     .searchField: .searchField,
     .tab: .tabBar,
     
-        .selected: .selected,
+    .selected: .selected,
     .notEnabled: .notEnabled,
     .summaryElement: .summaryElement,
     .playsSound: .playsSound,
@@ -75,5 +84,9 @@ let traitsMap: [A11yTraits: UIAccessibilityTraits] = [
     .updatesFrequently: .updatesFrequently,
     .causesPageTurn: .causesPageTurn,
     .keyboardKey: .keyboardKey,
+    
+    .textInput: UIAccessibilityTraits(rawValue: UInt64(A11yTraits.textInput.rawValue)),
+    .isEditingTextInput: UIAccessibilityTraits(rawValue: UInt64(A11yTraits.isEditingTextInput.rawValue)),
+    .switcher: UIAccessibilityTraits(rawValue: UInt64(A11yTraits.switcher.rawValue)),
 ]
 #endif
