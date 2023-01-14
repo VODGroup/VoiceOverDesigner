@@ -9,7 +9,6 @@ struct TraitsView: View {
         self._selection = selection
     }
     
-    
     public var body: some View {
         Group {
             Section(content: {
@@ -24,11 +23,13 @@ struct TraitsView: View {
                 SectionTitle("Behaviour Traits")
             })
             
-            
+            Section(content: {
+                flowView(elements: Traits.text)
+            }, header: {
+                SectionTitle("Text Traits")
+            })
         }
     }
-    
-    
     
     private func flowView(elements: [Traits]) -> some View {
         Group {
@@ -51,13 +52,5 @@ struct TraitsView: View {
         .toggleStyle(.button)
         .buttonBorderShape(.capsule)
         .buttonStyle(.bordered)
-
     }
-    
 }
-
-
-
-
-
-

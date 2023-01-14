@@ -20,8 +20,6 @@ enum Traits: Identifiable {
             return .image
         case .searchField:
             return .searchField
-        case .tab:
-            return .tab
         case .selected:
             return .selected
         case .notEnabled:
@@ -40,7 +38,12 @@ enum Traits: Identifiable {
             return .causesPageTurn
         case .keyboardKey:
             return .keyboardKey
-            // TODO: Add unsupported keys and move to Documents
+        case .switcher:
+            return .switcher
+        case .textInput:
+            return .textInput
+        case .isEditing:
+            return .isEditingTextInput
         }
     }
     
@@ -60,8 +63,6 @@ enum Traits: Identifiable {
             return NSLocalizedString("Image", comment: "")
         case .searchField:
             return NSLocalizedString("SearchField", comment: "")
-        case .tab:
-            return NSLocalizedString("Tab", comment: "")
         case .selected:
             return NSLocalizedString("Selected", comment: "")
         case .notEnabled:
@@ -80,17 +81,20 @@ enum Traits: Identifiable {
             return NSLocalizedString("Causes Page Turn", comment: "")
         case .keyboardKey:
             return NSLocalizedString("Keyboard key", comment: "")
+        case .switcher:
+            return NSLocalizedString("Switch button", comment: "")
+        case .textInput:
+            return NSLocalizedString("Text field", comment: "")
+        case .isEditing:
+            return NSLocalizedString("Is editing", comment: "")
         }
     }
     // MARK: Type
     case button
-    case header
+    case switcher
     case adjustable
     case link
-    case staticText
     case image
-    case searchField
-    case tab
     
     // MARK: Behaviour
     case selected
@@ -101,9 +105,18 @@ enum Traits: Identifiable {
     case startsMediaSession
     case updatesFrequently
     case causesPageTurn
+    
+    // MARK: Text Input
+    case textInput
+    case header
+    case isEditing
+    case staticText
+    case searchField
     case keyboardKey
     
-    static let type: [Traits] = [.button, .header, .adjustable, .link, .staticText, .image, .searchField, .tab]
+    static let type: [Traits] = [.button, .adjustable, .link,  .image,  .switcher,]
     
-    static let behaviour: [Traits] = [.selected, .notEnabled, .summaryElement, .playsSound, .allowsDirectInteraction, .startsMediaSession, .causesPageTurn, .keyboardKey]
+    static let text: [Traits] = [.textInput, .header, .isEditing, .staticText, .searchField, .keyboardKey,]
+    
+    static let behaviour: [Traits] = [.selected, .notEnabled, .summaryElement, .playsSound, .allowsDirectInteraction, .startsMediaSession, .causesPageTurn,]
 }
