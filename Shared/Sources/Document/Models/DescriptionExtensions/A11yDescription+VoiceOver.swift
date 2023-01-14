@@ -90,11 +90,10 @@ extension A11yDescription {
         }
         
         if trait.contains(.textInput) {
-            traitsDescription.append(Localization.traitTextInputDescription)
-            
-            // TODO:
             if trait.contains(.isEditingTextInput) {
-                traitsDescription.append(", \(Localization.traitIsEdititngInputDescription)")
+                traitsDescription.append("\(Localization.traitTextInputDescription), \(Localization.traitIsEdititngInputDescription)")
+            } else {
+                traitsDescription.append(Localization.traitTextInputDescription)
             }
         }
         
