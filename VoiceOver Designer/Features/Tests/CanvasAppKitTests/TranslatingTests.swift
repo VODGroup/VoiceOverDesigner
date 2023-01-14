@@ -35,9 +35,11 @@ class TranslatingTests: CanvasAfterDidLoadTests {
                  to: .coord(300))
         XCTAssertEqual(drawnControls.count, 2)
         
-        sut.mouseDown(on: .coord(200+5)) // 2nd rect
+        let resizingOffset = (Config().resizeMarkerSize / 3)
+        sut.mouseDown(on: .coord(200+resizingOffset)) // 2nd rect
         sut.mouseDragged(on: .coord(10+1))
         
+        XCTAssertEqual(drawnControls.count, 2, "not draw new element")
         XCTAssertEqual(drawnControls[1].frame,
                        CGRect(origin: .coord(10), size: .side(290)))
     }
