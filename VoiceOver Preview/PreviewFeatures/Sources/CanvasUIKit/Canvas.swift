@@ -20,7 +20,7 @@ class Canvas: UIView, DrawingView {
     
     var scale: CGFloat = 1
     
-    var copyListener: CopyModifierProtocol = ManualCopyCommand()
+    var copyListener: CopyModifierAction = ManualCopyCommand()
     
     override func layoutSubviews() {
         super.layoutSubviews()
