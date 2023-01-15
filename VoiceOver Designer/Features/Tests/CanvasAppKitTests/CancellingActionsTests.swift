@@ -22,7 +22,7 @@ class CancellingActionsTests: CanvasAfterDidLoadTests {
         // Copy
         
         await MainActor.run {
-            copyCommand.isCopyHold = true
+            copyCommand.isModifierActive = true
             sut.mouseDown(on: .coord(15))
             controller.controlsView.escListener.delegate?.didPressed()
             sut.mouseUp(on: .coord(50))

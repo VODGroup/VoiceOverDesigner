@@ -51,7 +51,7 @@ public class CopyAndTranslateAction: DraggingAction {
     private lazy var translateAction: TranslateAction = TranslateAction(view: view, control: sourceControl, startLocation: startLocation, offset: offset, initialFrame: initialFrame)
     
     var action: DraggingAction {
-        if view.copyListener.isCopyHold {
+        if view.copyListener.isModifierActive {
             return copyAction
         } else {
             return translateAction
