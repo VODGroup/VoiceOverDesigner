@@ -30,6 +30,7 @@ public class ResizeAction: DraggingAction {
     }
     
     public func end(at coordinate: CGPoint) -> DraggingAction? {
+        control.frame = control.frame.rounded()
         return self
     }
     
