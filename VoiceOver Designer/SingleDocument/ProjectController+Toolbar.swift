@@ -1,4 +1,5 @@
 import AppKit
+import Document
 
 protocol ProjectRouterDelegate: AnyObject {
     func closeProject(document: NSDocument)
@@ -15,6 +16,7 @@ extension ProjectController: NSToolbarDelegate {
         case .backButtonLabel: return backItem()
         case .trailingSidebar: return trailingSideBarItem()
         case .leadingSidebar: return leadingSideBarItem()
+        case .share: return shareItem()
         case .itemListTrackingSeparator:
             return NSTrackingSeparatorToolbarItem(
                 identifier: .itemListTrackingSeparator,
@@ -34,12 +36,13 @@ extension ProjectController: NSToolbarDelegate {
             .flexibleSpace,
             .flexibleSpace,
             .voiceControlLabel,
+            .share,
             .trailingSidebar
         ]
     }
     
     public func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        [.toggleSidebar, .sidebarTrackingSeparator, .voiceControlLabel, .backButtonLabel, .trailingSidebar, .leadingSidebar, .itemListTrackingSeparator]
+        [.toggleSidebar, .sidebarTrackingSeparator, .voiceControlLabel, .backButtonLabel, .trailingSidebar, .leadingSidebar, .itemListTrackingSeparator, .share]
     }
 }
 
@@ -64,6 +67,12 @@ extension ProjectController {
                              accessibilityDescription: "Back to documents")!
         item.toolTip = NSLocalizedString("Go to my documents", comment: "")
         item.isNavigational = true
+        return item
+    }
+    
+    private func shareItem() -> NSToolbarItem {
+        let item = NSSharingServicePickerToolbarItem()
+        item.delegate = document
         return item
     }
     
@@ -146,4 +155,11 @@ extension NSToolbarItem.Identifier {
     static let trailingSidebar = NSToolbarItem.Identifier(rawValue: "TrailingSidebar")
     static let leadingSidebar = NSToolbarItem.Identifier(rawValue: "LeadingSidebar")
     static let itemListTrackingSeparator = NSToolbarItem.Identifier("ItemListTrackingSeparator")
+    static let share = NSToolbarItem.Identifier("ShareDocument")
+}
+
+extension VODesignDocument: NSSharingServicePickerToolbarItemDelegate {
+    public func items(for pickerToolbarItem: NSSharingServicePickerToolbarItem) -> [Any] {
+        [fileURL]
+    }
 }
