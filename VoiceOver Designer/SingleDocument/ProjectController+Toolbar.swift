@@ -16,7 +16,7 @@ extension ProjectController: NSToolbarDelegate {
         case .backButtonLabel: return backItem()
         case .trailingSidebar: return trailingSideBarItem()
         case .leadingSidebar: return leadingSideBarItem()
-        case .share: return shareItem()
+        case .shareDocument: return shareDocumentItem()
         case .itemListTrackingSeparator:
             return NSTrackingSeparatorToolbarItem(
                 identifier: .itemListTrackingSeparator,
@@ -36,13 +36,13 @@ extension ProjectController: NSToolbarDelegate {
             .flexibleSpace,
             .flexibleSpace,
             .voiceControlLabel,
-            .share,
+            .shareDocument,
             .trailingSidebar
         ]
     }
     
     public func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        [.toggleSidebar, .sidebarTrackingSeparator, .voiceControlLabel, .backButtonLabel, .trailingSidebar, .leadingSidebar, .itemListTrackingSeparator, .share]
+        [.toggleSidebar, .sidebarTrackingSeparator, .voiceControlLabel, .backButtonLabel, .trailingSidebar, .leadingSidebar, .itemListTrackingSeparator, .shareDocument]
     }
 }
 
@@ -70,7 +70,7 @@ extension ProjectController {
         return item
     }
     
-    private func shareItem() -> NSToolbarItem {
+    private func shareDocumentItem() -> NSToolbarItem {
         let item = NSSharingServicePickerToolbarItem()
         item.delegate = document
         return item
@@ -155,7 +155,7 @@ extension NSToolbarItem.Identifier {
     static let trailingSidebar = NSToolbarItem.Identifier(rawValue: "TrailingSidebar")
     static let leadingSidebar = NSToolbarItem.Identifier(rawValue: "LeadingSidebar")
     static let itemListTrackingSeparator = NSToolbarItem.Identifier("ItemListTrackingSeparator")
-    static let share = NSToolbarItem.Identifier("ShareDocument")
+    static let shareDocument = NSToolbarItem.Identifier("ShareDocument")
 }
 
 extension VODesignDocument: NSSharingServicePickerToolbarItemDelegate {
