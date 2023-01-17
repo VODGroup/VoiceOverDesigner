@@ -128,4 +128,10 @@ extension AccessibilityView {
             return A11yDescription.copy(from: element)
         }
     }
+    
+    public func copyWithoutLabel() -> any AccessibilityView {
+        let copy = self.copy()
+        copy.label = ""
+        return copy
+    }
 }
