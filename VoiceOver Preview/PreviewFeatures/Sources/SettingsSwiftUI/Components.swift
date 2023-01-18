@@ -39,8 +39,9 @@ struct TextValue: View {
 
 
 struct EditorToolbar: ToolbarContent {
+    @State private var isConfirmationDialogPresented = false
     var dismiss: DismissAction
-    var deleteTappedAction: () -> Void
+    var delete: () -> Void
     
     var body: some ToolbarContent {
         closeToolbarItem
@@ -66,13 +67,23 @@ struct EditorToolbar: ToolbarContent {
     
     private var deleteToolbarItem: some ToolbarContent {
         ToolbarItem(placement: .bottomBar, content: {
-            Button(role: .destructive, action: deleteTappedAction, label: {
+            Button(role: .destructive, action: { isConfirmationDialogPresented = true }, label: {
                 Image(systemName: "trash")
                     .accessibilityLabel(Text("Delete"))
             })
             .font(.title3)
             .foregroundColor(.red)
             .frame(maxWidth: .infinity, alignment: .trailing)
+            .confirmationDialog("This control will be deleted from document",
+                                isPresented: $isConfirmationDialogPresented,
+                                titleVisibility: .visible,
+                                actions: confirmationDialogs)
         })
+    }
+    
+    @ViewBuilder
+    private func confirmationDialogs() -> some View {
+        Button(role: .destructive, action: delete, label: {Text("Delete")})
+        Button(role: .cancel, action: { isConfirmationDialogPresented = false }, label: {Text("Cancel")})
     }
 }

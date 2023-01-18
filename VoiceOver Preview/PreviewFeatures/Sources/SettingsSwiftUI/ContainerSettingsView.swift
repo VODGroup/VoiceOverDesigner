@@ -12,23 +12,14 @@ public struct ContainerSettingsEditorView: View {
         self.deleteAction = delete
     }
     
-    @State private var isConfirmationDialogPresented = false
-    
-    
     public var body: some View {
         NavigationView {
             ContainerSettingsView(container: container)
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationTitle(Text("Container"))
-                .confirmationDialog("This control will be deleted from document",
-                                    isPresented: $isConfirmationDialogPresented,
-                                    titleVisibility: .visible,
-                                    actions: confirmationDialogs)
                 .toolbar {
                     // For some reason @Environment doesn't propagate to ToolbarContent
-                    EditorToolbar(dismiss: dismiss, deleteTappedAction: {
-                        isConfirmationDialogPresented = true
-                    })
+                    EditorToolbar(dismiss: dismiss, delete: delete)
                 }
         }
         .navigationViewStyle(.stack)
@@ -37,12 +28,6 @@ public struct ContainerSettingsEditorView: View {
     private func delete() {
         deleteAction()
         dismiss()
-    }
-    
-    @ViewBuilder
-    private func confirmationDialogs() -> some View {
-        Button(role: .destructive, action: delete, label: {Text("Delete")})
-        Button(role: .cancel, action: { isConfirmationDialogPresented = false }, label: {Text("Cancel")})
     }
 }
 

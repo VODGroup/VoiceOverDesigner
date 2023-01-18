@@ -12,22 +12,14 @@ public struct ElementSettingsEditorView: View {
         self.deleteAction = delete
     }
     
-    @State private var isConfirmationDialogPresented = false
-    
-    
     public var body: some View {
         NavigationView {
             ElementSettingsView(element: element)
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationTitle(Text("Element"))
-                .confirmationDialog("This control will be deleted from document",
-                                    isPresented: $isConfirmationDialogPresented,
-                                    titleVisibility: .visible,
-                                    actions: confirmationDialogs)
+                
                 .toolbar {
-                    EditorToolbar(dismiss: dismiss, deleteTappedAction: {
-                        isConfirmationDialogPresented = true
-                    })
+                    EditorToolbar(dismiss: dismiss, delete: delete)
                 }
         }
         .navigationViewStyle(.stack)
@@ -38,11 +30,7 @@ public struct ElementSettingsEditorView: View {
         dismiss()
     }
     
-    @ViewBuilder
-    private func confirmationDialogs() -> some View {
-        Button(role: .destructive, action: delete, label: {Text("Delete")})
-        Button(role: .cancel, action: { isConfirmationDialogPresented = false }, label: {Text("Cancel")})
-    }
+
 }
 
 
