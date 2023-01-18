@@ -8,6 +8,11 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     // MARK: - Data
     public var controls: [any AccessibilityView] = []
     public var image: Image?
+    public var imageScale: CGFloat = 3
+    
+    public var imageSize: CGSize {
+        return image?.size.inverted(scale: imageScale) ?? .zero
+    }
     
     // MARK: -
     
@@ -89,3 +94,11 @@ extension UIDocument {
     }
 }
 #endif
+
+extension CGSize {
+    public func inverted(scale: CGFloat) -> Self {
+        let transform = CGAffineTransform(scaleX: 1/scale,
+                                          y: 1/scale)
+        return applying(transform)
+    }
+}

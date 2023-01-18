@@ -26,7 +26,7 @@ public class ScrollViewController: UIViewController {
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let imageSize = presenter.document.image?.size ?? UIScreen.main.bounds.size
+        let imageSize = presenter.document.imageSize
         view().scrollView.centerAndScaleToFit(contentSize: imageSize)
     }
 

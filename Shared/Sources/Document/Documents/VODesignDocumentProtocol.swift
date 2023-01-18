@@ -6,6 +6,7 @@ public protocol VODesignDocumentProtocol {
     // MARK: - Data
     var controls: [any AccessibilityView] { get set }
     var image: Image? { get set }
+    var imageSize: CGSize { get }
     
     // MARK: - Services
     /// An undo manager that records operations on document
