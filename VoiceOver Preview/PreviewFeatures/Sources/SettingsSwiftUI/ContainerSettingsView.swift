@@ -2,26 +2,69 @@ import Document
 import SwiftUI
 
 
-public struct ContainerSettingsView: View {
+public struct ContainerSettingsEditorView: View {
+    @Environment(\.dismiss) var dismiss
     @ObservedObject var container: A11yContainer
+    var deleteAction: () -> Void
+    
+    public init(container: A11yContainer, delete: @escaping () -> Void) {
+        self.container = container
+        self.deleteAction = delete
+    }
+    
+    @State private var isConfirmationDialogPresented = false
+    
+    
+    public var body: some View {
+        NavigationView {
+            ContainerSettingsView(container: container)
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationTitle(Text("Container"))
+                .confirmationDialog("This control will be deleted from document",
+                                    isPresented: $isConfirmationDialogPresented,
+                                    titleVisibility: .visible,
+                                    actions: confirmationDialogs)
+                .toolbar {
+                    // For some reason @Environment doesn't propagate to ToolbarContent
+                    EditorToolbar(dismiss: dismiss, deleteTappedAction: {
+                        isConfirmationDialogPresented = true
+                    })
+                }
+        }
+        .navigationViewStyle(.stack)
+    }
+    
+    private func delete() {
+        deleteAction()
+        dismiss()
+    }
+    
+    @ViewBuilder
+    private func confirmationDialogs() -> some View {
+        Button(role: .destructive, action: delete, label: {Text("Delete")})
+        Button(role: .cancel, action: { isConfirmationDialogPresented = false }, label: {Text("Cancel")})
+    }
+}
+
+
+public struct ContainerSettingsView: View {
+    
+    @ObservedObject var container: A11yContainer
+
     
     public init(container: A11yContainer) {
         self.container = container
     }
     
     public var body: some View {
-        NavigationView {
-            Form {
-                labelField
-                containerTypePicker
-                navigationStylePicker
-                optionsView
-            }
-            .navigationTitle(container.label)
+        Form {
+            Text(container.label)
+                .font(.largeTitle)
+            TextValue(title: "Label", value: $container.label)
+            containerTypePicker
+            navigationStylePicker
+            optionsView
         }
-        .navigationViewStyle(.stack)
-
-
     }
     
     private var containerTypePicker: some View {
@@ -50,18 +93,16 @@ public struct ContainerSettingsView: View {
             Toggle("Tab Section", isOn: $container.isTabTrait)
             Toggle("Enumerate elements", isOn: $container.isEnumerated)
         }, header: {
-            Text("Options")
+            SectionTitle("Options")
         })
-    }
-    
-    private var labelField: some View {
-        TextField("Label", text: $container.label)
     }
 }
 
+#if DEBUG
 struct ContainerSettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        ContainerSettingsView(container: .init(elements: [], frame: .zero, label: "er"))
+        ContainerSettingsEditorView(container: .init(elements: [], frame: .zero, label: "er"), delete: {})
     }
 }
+#endif
 
