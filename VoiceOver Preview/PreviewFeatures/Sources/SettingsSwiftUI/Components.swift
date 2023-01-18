@@ -67,7 +67,7 @@ struct EditorToolbar: ToolbarContent {
     
     private var deleteToolbarItem: some ToolbarContent {
         ToolbarItem(placement: .bottomBar, content: {
-            Button(role: .destructive, action: { isConfirmationDialogPresented = true }, label: {
+            Button(role: .destructive, action: presentDialog, label: {
                 Image(systemName: "trash")
                     .accessibilityLabel(Text("Delete"))
             })
@@ -81,9 +81,17 @@ struct EditorToolbar: ToolbarContent {
         })
     }
     
+    private func presentDialog() {
+        isConfirmationDialogPresented = true
+    }
+    
+    private func dismissDialog() {
+        isConfirmationDialogPresented = false
+    }
+    
     @ViewBuilder
     private func confirmationDialogs() -> some View {
         Button(role: .destructive, action: delete, label: {Text("Delete")})
-        Button(role: .cancel, action: { isConfirmationDialogPresented = false }, label: {Text("Cancel")})
+        Button(role: .cancel, action: dismissDialog, label: {Text("Cancel")})
     }
 }
