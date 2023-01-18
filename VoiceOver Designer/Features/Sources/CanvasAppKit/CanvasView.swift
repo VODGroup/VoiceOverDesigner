@@ -136,9 +136,9 @@ class CanvasView: FlippedView {
     }
     
     func image(at frame: CGRect) async -> CGImage? {
-        let image = backgroundImageView.image
-        var frame = frame
-        let cgImage = image?
+        guard let image = backgroundImageView.image else { return nil }
+        var frame = frame.scaled(image.recommendedLayerContentsScale(1))
+        let cgImage = image
             .cgImage(forProposedRect: &frame,
                      context: nil,
                      hints: nil)?
