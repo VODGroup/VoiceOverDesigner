@@ -3,6 +3,12 @@ import UIKit
 public typealias Document = UIDocument
 import Combine
 
+public struct Frame {
+    public var controls: [any AccessibilityView] = []
+    public var image: Image?
+    public var imageScale: CGFloat
+}
+
 public class VODesignDocument: Document, VODesignDocumentProtocol {
     
     // MARK: - Data
@@ -95,6 +101,7 @@ extension UIDocument {
 }
 #endif
 
+import CoreGraphics
 extension CGSize {
     public func inverted(scale: CGFloat) -> Self {
         let transform = CGAffineTransform(scaleX: 1/scale,

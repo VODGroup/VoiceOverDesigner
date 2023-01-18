@@ -10,10 +10,14 @@ public let uti = "com.akaDuality.vodesign"
 import QuickLookThumbnailing
 
 public class VODesignDocument: Document, VODesignDocumentProtocol {
-    
+
     // MARK: - Data
     public var image: Image?
-    
+    public var imageSize: CGSize {
+        guard let image else { return .zero }
+        
+        return image.size
+    }
     public var controls: [any AccessibilityView] = []
     
     // MARK:
