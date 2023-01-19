@@ -5,26 +5,18 @@ public typealias Document = NSDocument
 
 import os
 
-public let vodesign = "vodesign"
-public let uti = "com.akaDuality.vodesign"
 import QuickLookThumbnailing
 
 public class VODesignDocument: Document, VODesignDocumentProtocol {
 
     // MARK: - Data
+    public var controls: [any AccessibilityView] = []
     public var image: Image?
     public var imageSize: CGSize {
         guard let image else { return .zero }
-        
         return image.size
     }
-    public var controls: [any AccessibilityView] = []
-    
-    // MARK:
-    
-    public var undo: UndoManager? {
-        undoManager
-    }
+    public var frameInfo: FrameInfo = .default
     
     // MARK: - Constructors
     public convenience init(fileName: String,
@@ -35,9 +27,6 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         
         fileType = vodesign
     }
-    
-    private let codingService = AccessibilityViewCodingService()
-    private lazy var imageService = ImageSaveService()
     
     public convenience init(file: URL) {
         do {
@@ -63,7 +52,6 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         
         package.addFileWrapper(try controlsWrapper())
         
-        
         if let imageWrapper = imageWrapper(), let previewWrapper = previewWrapper() {
             package.addFileWrapper(imageWrapper)
             package.addFileWrapper(previewWrapper)
@@ -73,22 +61,21 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     
     public override func read(from url: URL, ofType typeName: String) throws {
         Swift.print("Read from \(url)")
-        defer { undoManager?.enableUndoRegistration() }
+        
         undoManager?.disableUndoRegistration()
+        defer { undoManager?.enableUndoRegistration() }
         
-        let documentSaveService = DocumentSaveService(fileURL: url.appendingPathComponent("controls.json"))
-        controls = try documentSaveService.loadControls()
+        let frameReader = FrameReader(documentURL: url)
         
-        image = try? imageService.load(from: url)
+        controls = try frameReader.saveService.loadControls()
+        image = try? frameReader.imageSaveService.load()
+        frameInfo = frameReader.frameInfoPersistance
+            .readFrame() ?? .default
     }
     
     // MARK: Static
     public override class var autosavesInPlace: Bool {
         return true
-    }
-    
-    public static func image(from url: URL) async -> Image? {
-        try? ImageSaveService().load(from: url)
     }
     
     public override class var readableTypes: [String] {
@@ -114,31 +101,38 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     public static override func isNativeType(_ type: String) -> Bool {
         return true
     }
+    
+    // MARK:
+    
+    public var undo: UndoManager? {
+        undoManager
+    }
 }
 
 // MARK: - File wrappers
 extension VODesignDocument {
     private func controlsWrapper() throws -> FileWrapper {
+        let codingService = AccessibilityViewCodingService()
         let wrapper = FileWrapper(regularFileWithContents: try codingService.data(from: controls))
-        wrapper.preferredFilename = "controls.json"
+        wrapper.preferredFilename = FileName.controls
         return wrapper
     }
     
     private func imageWrapper() -> FileWrapper? {
         guard let image = image,
-              let imageData = imageService.UIImagePNGRepresentation(image)
+              let imageData = image.png()
         else { return nil }
         
         let imageWrapper = FileWrapper(regularFileWithContents: imageData)
-        imageWrapper.preferredFilename = "screen.png"
+        imageWrapper.preferredFilename = FileName.screen
         
         
         return imageWrapper
     }
     
     private func previewWrapper() -> FileWrapper? {
-        guard let image = image,
-              let imageData = imageService.UIImagePNGRepresentation(image)
+        guard let image = image, // TODO: Make smaller size
+              let imageData = image.png()
         else { return nil }
         
         let imageWrapper = FileWrapper(regularFileWithContents: imageData)
@@ -151,46 +145,3 @@ extension VODesignDocument {
     
 }
 #endif
-
-import Foundation
-import QuickLookThumbnailing
-public extension URL {
-    var fileName: String {
-        deletingPathExtension().lastPathComponent
-    }
-}
-
-public class ThumbnailDocument {
-    
-    public init(fileURL: URL) {
-        self.fileURL = fileURL
-    }
-    
-    private var fileURL: URL
-    
-    private var thumbnailCache: Image?
-    public func thumbnail(size: CGSize, scale: CGFloat) async -> Image? {
-        if let thumbnailCache {
-            // TODO: Invalidate cache if other size is requested
-            return thumbnailCache
-        }
-        
-        let imagePath = ImageSaveService().imagePath(documentURL: fileURL)
-        let request = QLThumbnailGenerator.Request(
-            fileAt: imagePath,
-            size: size,
-            scale: scale,
-            representationTypes: .thumbnail)
-        
-        let previewGenerator = QLThumbnailGenerator()
-        let thumbnail = try? await previewGenerator.generateBestRepresentation(for: request)
-        
-        #if canImport(AppKit)
-        thumbnailCache = thumbnail?.nsImage
-        return thumbnail?.nsImage
-        #else
-        thumbnailCache = thumbnail?.uiImage
-        return thumbnail?.uiImage
-        #endif
-    }
-}

@@ -93,7 +93,7 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
 
             Task {
                 // TODO: Cache in not working yet
-                let image = await ThumbnailDocument(fileURL: url)
+                let image = await ThumbnailDocument(url: url)
                     .thumbnail(size: item.expectedImageSize,
                                scale: backingScaleFactor)
                 

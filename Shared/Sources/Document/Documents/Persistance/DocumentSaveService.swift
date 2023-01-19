@@ -28,19 +28,9 @@ class URLDataProvider: DataProvier {
     private let fileURL: URL
 }
 
-class DocumentSaveService {
+class DocumentSaveService: FileKeeperService {
     
-    // For production use
-    init(fileURL: URL) {
-        self.dataProvier = URLDataProvider(fileURL: fileURL)
-    }
-    
-    // For test purpose
-    init(dataProvier: DataProvier) {
-        self.dataProvier = dataProvier
-    }
-    
-    private let dataProvier: DataProvier
+    private lazy var dataProvier = URLDataProvider(fileURL: file)
     
     func save(controls: [any AccessibilityView]) throws {
         let data = try codingService.data(from: controls)

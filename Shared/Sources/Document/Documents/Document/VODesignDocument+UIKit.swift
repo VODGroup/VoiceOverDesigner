@@ -3,21 +3,18 @@ import UIKit
 public typealias Document = UIDocument
 import Combine
 
-public struct Frame {
-    public var controls: [any AccessibilityView] = []
-    public var image: Image?
-    public var imageScale: CGFloat
-}
-
 public class VODesignDocument: Document, VODesignDocumentProtocol {
     
     // MARK: - Data
     public var controls: [any AccessibilityView] = []
     public var image: Image?
-    public var imageScale: CGFloat = 3
+    public var frameInfo: FrameInfo = .default
     
     public var imageSize: CGSize {
-        return image?.size.inverted(scale: imageScale) ?? .zero
+        return image?
+            .size
+            .inverted(scale: frameInfo.imageScale)
+        ?? .zero
     }
     
     // MARK: -
@@ -40,26 +37,12 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         self.init(fileURL: dir)
     }
     
-    lazy var saveService: DocumentSaveService = DocumentSaveService(fileURL: fileURL
-        .appendingPathComponent("controls.json"))
-    
-    public func read(then completion: @escaping () -> Void) throws {
-        performAsynchronousFileAccess {
-            let fileCoordinator = NSFileCoordinator(filePresenter: self)
-            fileCoordinator.coordinate(
-                readingItemAt: self.fileURL.appendingPathComponent("controls.json"),
-                options: .withoutChanges,
-                error: nil) { url in
-                self.controls = try! DocumentSaveService(fileURL: url).loadControls()
-                
-                DispatchQueue.main.async(execute: completion)
-            }
-        }
-    }
-    
     // MARK: - Override
     // TODO: AppKit version uses filewrappers. Extract and reuse them?
-    public override func save(to url: URL, for saveOperation: Document.SaveOperation) async -> Bool {
+    public override func save(
+        to url: URL,
+        for saveOperation: Document.SaveOperation
+    ) async -> Bool {
         do {
             try saveService.save(controls: controls)
             return true
@@ -70,8 +53,13 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     }
     
     public override func read(from url: URL) throws {
-        controls = try saveService.loadControls()
-        image = try? ImageSaveService().load(from: url)
+        
+        let frameReader = FrameReader(documentURL: url)
+        
+        controls = try frameReader.saveService.loadControls()
+        image = try? frameReader.imageSaveService.load()
+        frameInfo = frameReader.frameInfoPersistance
+                .readFrame() ?? .default
     }
 }
 
