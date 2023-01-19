@@ -71,7 +71,6 @@ public class PreviewMainViewController: UIViewController {
     private func makeView(for model: any AccessibilityView) -> some SwiftUI.View {
         let onDismiss = { [weak self] in
             guard let self else { return }
-            self.presenter.redraw(control: model)
             self.presenter.deselect()
         }
         
@@ -82,10 +81,10 @@ public class PreviewMainViewController: UIViewController {
         
         switch model {
         case let description as A11yDescription:
-            ElementSettingsView(element: description, deleteAction: onDelete)
+            ElementSettingsEditorView(element: description, delete: onDelete)
                 .onDisappear(perform: onDismiss)
         case let container as A11yContainer:
-            ContainerSettingsView(container: container)
+            ContainerSettingsEditorView(container: container, delete: onDelete)
                 .onDisappear(perform: onDismiss)
         default:
             EmptyView()
