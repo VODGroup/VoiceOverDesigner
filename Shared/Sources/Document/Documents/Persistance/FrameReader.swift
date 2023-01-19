@@ -11,8 +11,13 @@ class FileKeeperService {
 class FrameReader {
     
     init(documentURL: URL) {
+        
+        let dataProvider = URLDataProvider(
+            url: documentURL,
+            fileName: FileName.controls)
+        
         self.saveService = DocumentSaveService(
-            url: documentURL, fileName: FileName.controls)
+            dataProvider: dataProvider)
         
         self.frameInfoPersistance = FrameInfoPersistance(
             url: documentURL, fileName: FileName.info)
