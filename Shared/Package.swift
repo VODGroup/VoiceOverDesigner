@@ -37,7 +37,9 @@ let package = Package(
         .target(
             name: "DocumentTestHelpers",
             dependencies: ["Document"],
-            path: "TestHelpers/DocumentTestHelpers"),
+            path: "TestHelpers/DocumentTestHelpers",
+            resources: [.process("screenWith3xScale.png")]
+        ),
         .testTarget(
             name: "DocumentTests",
             dependencies: [

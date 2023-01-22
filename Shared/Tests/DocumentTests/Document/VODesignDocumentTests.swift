@@ -19,7 +19,6 @@ extension VODesignDocument {
     }
 }
 
-
 class VODesignDocumentPersistanceTests: XCTestCase {
     
     func testWhenSaveOneDocument_andReadAnotherWithSameName_shouldKeepObjects() throws {

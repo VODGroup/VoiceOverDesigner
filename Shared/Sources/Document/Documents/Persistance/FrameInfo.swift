@@ -13,7 +13,7 @@ public struct FrameInfo: Codable {
     public var id: UUID
     public var imageScale: CGFloat
     
-    static var `default`: Self {
+    public static var `default`: Self {
         Self(id: UUID(), imageScale: 1)
     }
 }

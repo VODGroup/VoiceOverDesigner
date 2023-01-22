@@ -1,8 +1,27 @@
-#if canImport(XCTest) && canImport(AppKit)
-
 import Foundation
 import Document
 import XCTest
+
+extension VODesignDocument {
+    public static func removeTestDocument(name: String) throws {
+        try FileManager.default
+            .removeItem(at: testURL(name: name))
+    }
+    
+    public static func testURL(name: String) -> URL {
+        return Self.path
+            .appendingPathComponent("\(name).vodesign",
+                                    isDirectory: false)
+    }
+    
+    public static var path: URL {
+        FileManager.default.urls(
+            for: .cachesDirectory,
+            in: .userDomainMask).first!
+    }
+}
+
+#if canImport(AppKit)
 
 extension VODesignDocument {
     public static func testDocument(
@@ -20,22 +39,9 @@ extension VODesignDocument {
         return document
     }
     
-    public static func removeTestDocument(name: String) throws {
-        try FileManager.default
-            .removeItem(at: testURL(name: name))
-    }
     
-    public static func testURL(name: String) -> URL {
-        return Self.path
-            .appendingPathComponent("\(name).vodesign",
-                                    isDirectory: false)
-    }
     
-    public static var path: URL {
-        FileManager.default.urls(
-            for: .cachesDirectory,
-            in: .userDomainMask).first!
-    }
+    
     
     public func save(testCase: XCTestCase, fileName: String) {
         let expectation = testCase.expectation(description: "Save file")

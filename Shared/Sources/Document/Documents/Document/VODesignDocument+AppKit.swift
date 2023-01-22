@@ -41,7 +41,8 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     
     public convenience init(image: NSImage) {
         self.init(fileName: image.name() ?? Date().description)
-        self.image = image
+        
+        updateImage(image)
     }
     
     // MARK: - Override
