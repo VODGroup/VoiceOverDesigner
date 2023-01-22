@@ -21,10 +21,6 @@ final class DocumentVersionsTests: XCTestCase {
         XCTAssertEqual(document.controls.count, 12)
         XCTAssertNotNil(document.image)
         XCTAssertEqual(document.frameInfo.imageScale, 3)
-        
-        // TODO: Undo doesn't removed controls
-//        document.undo?.undo()
-//        XCTAssertEqual(document.controls.count, 12)
     }
 
 #elseif os(iOS)

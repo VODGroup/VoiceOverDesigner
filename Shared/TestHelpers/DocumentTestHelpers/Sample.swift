@@ -24,7 +24,7 @@ public class Sample {
         line: UInt = #line
     ) throws -> VODesignDocument {
         let path = try XCTUnwrap(
-            documentPath(name: "BetaVersionFormat"),
+            documentPath(name: name),
             file: file, line: line)
         
 #if os(macOS)
