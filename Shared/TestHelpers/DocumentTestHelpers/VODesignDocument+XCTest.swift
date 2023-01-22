@@ -39,10 +39,6 @@ extension VODesignDocument {
         return document
     }
     
-    
-    
-    
-    
     public func save(testCase: XCTestCase, fileName: String) {
         let expectation = testCase.expectation(description: "Save file")
         save(to: Self.testURL(name: fileName), ofType: vodesign, for: .saveOperation) { error in
