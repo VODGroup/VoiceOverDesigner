@@ -38,13 +38,13 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     }
     
     // MARK: - Override
-    // TODO: AppKit version uses filewrappers. Extract and reuse them?
     public override func save(
         to url: URL,
         for saveOperation: Document.SaveOperation
     ) async -> Bool {
         
-        let frameReader = FrameReader(documentURL: url, frameName: defaultFrameName)
+        let frameURL = url.frameURL(frameName: defaultFrameName)
+        let frameReader = FrameReader(frameURL: frameURL)
         
         do {
             try frameReader.saveService.save(controls: controls)
@@ -61,7 +61,8 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     
     public override func read(from url: URL) throws {
         
-        let frameReader = FrameReader(documentURL: url, frameName: defaultFrameName)
+        let frameURL = url.frameURL(frameName: defaultFrameName)
+        let frameReader = FrameReader(frameURL: frameURL)
         
         controls = try frameReader.saveService.loadControls()
         image = try? frameReader.imageSaveService.load()

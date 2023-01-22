@@ -51,7 +51,7 @@ extension Image {
 
 extension Image {
     func png() -> Data? {
-        fatalError()
+        pngData()
     }
 }
 

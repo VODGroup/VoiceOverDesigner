@@ -58,7 +58,8 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         undoManager?.disableUndoRegistration()
         defer { undoManager?.enableUndoRegistration() }
         
-        let frameReader = FrameReader(documentURL: url, frameName: defaultFrameName)
+        let frameURL = url.frameURL(frameName: defaultFrameName)
+        let frameReader = FrameReader(frameURL: frameURL)
         
         controls = try frameReader.saveService.loadControls()
         image = try? frameReader.imageSaveService.load()

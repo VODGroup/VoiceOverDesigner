@@ -52,7 +52,7 @@ public class DocumentBrowserPresenter {
         
         let documents = arrayOfURLs
             .map { url in
-            CollectionViewItem.document(url)
+                CollectionViewItem.document(url)
         }
         
         return [.newDocument] + documents
