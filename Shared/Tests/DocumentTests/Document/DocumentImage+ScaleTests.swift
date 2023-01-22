@@ -17,7 +17,7 @@ final class DocumentImage_ScaleTests: XCTestCase {
     }
     
     func imageWith3xScale(file: StaticString = #file, line: UInt = #line) throws -> Image {
-        let imageWith3xScale = try XCTUnwrap(ImageSample().image(name: imageName))
+        let imageWith3xScale = try XCTUnwrap(Sample().image(name: imageName))
         
 #if os(macOS)
         XCTAssertEqual(imageWith3xScale.size, scaledSize, file: file, line: line)
@@ -47,7 +47,7 @@ final class DocumentImage_ScaleTests: XCTestCase {
     }
     
 #elseif os(iOS)
-    
+
     func test_UIKitReadImageSizeWithoutScale() throws {
         let document = VODesignDocument(fileName: documentName)
         document.updateImage(try imageWith3xScale())
