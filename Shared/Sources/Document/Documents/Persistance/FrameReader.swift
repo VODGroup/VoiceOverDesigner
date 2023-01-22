@@ -10,20 +10,31 @@ class FileKeeperService {
 
 class FrameReader {
     
-    init(documentURL: URL) {
+    init(documentURL: URL, frameName: String) {
+        let frameURL = Self.frameURL(documentURL: documentURL, frameName: frameName)
         
         let dataProvider = URLDataProvider(
-            url: documentURL,
+            url: frameURL,
             fileName: FileName.controls)
         
         self.saveService = DocumentSaveService(
             dataProvider: dataProvider)
         
         self.frameInfoPersistance = FrameInfoPersistance(
-            url: documentURL, fileName: FileName.info)
+            url: frameURL, fileName: FileName.info)
         
         self.imageSaveService = ImageSaveService(
-            url: documentURL, fileName: FileName.screen)
+            url: frameURL, fileName: FileName.screen)
+    }
+    
+    private static func frameURL(documentURL: URL, frameName: String) -> URL {
+        let topLevelDocumentPath = documentURL.appendingPathComponent(FileName.controls).path
+        let isBetaStructure = FileManager.default.fileExists(atPath: topLevelDocumentPath)
+        if isBetaStructure {
+            return documentURL
+        } else {
+            return documentURL.appendingPathComponent(frameName)
+        }
     }
     
     let saveService: DocumentSaveService

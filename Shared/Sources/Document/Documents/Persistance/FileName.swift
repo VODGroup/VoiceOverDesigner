@@ -6,6 +6,7 @@ enum FileName {
 
 public let vodesign = "vodesign"
 public let uti = "com.akaDuality.vodesign"
+public let defaultFrameName = "Frame"
 
 let QuickLookFolderName = "QuickView"
 let QuickLookFileName = "Preview.png"

@@ -48,14 +48,28 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     
     public override func fileWrapper(ofType typeName: String) throws -> FileWrapper {
         Swift.print("Will save")
+        
+        let framePackage = FileWrapper(directoryWithFileWrappers: [:])
+        framePackage.preferredFilename = defaultFrameName
+        
+        framePackage.addFileWrapper(try controlsWrapper())
+        
+        if let imageWrapper = imageWrapper() {
+            framePackage.addFileWrapper(imageWrapper)
+        }
+        
+        let frameMetaData = try! FrameInfoPersistance.data(frame: frameInfo)
+        let frameMetaWrapper = FileWrapper(regularFileWithContents: frameMetaData)
+        frameMetaWrapper.preferredFilename = FileName.info
+        framePackage.addFileWrapper(frameMetaWrapper)
+        
         let package = FileWrapper(directoryWithFileWrappers: [:])
+        package.addFileWrapper(framePackage)
         
-        package.addFileWrapper(try controlsWrapper())
-        
-        if let imageWrapper = imageWrapper(), let previewWrapper = previewWrapper() {
-            package.addFileWrapper(imageWrapper)
+        if let previewWrapper = previewWrapper() {
             package.addFileWrapper(previewWrapper)
         }
+        
         return package
     }
     
@@ -65,7 +79,7 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         undoManager?.disableUndoRegistration()
         defer { undoManager?.enableUndoRegistration() }
         
-        let frameReader = FrameReader(documentURL: url)
+        let frameReader = FrameReader(documentURL: url, frameName: defaultFrameName)
         
         controls = try frameReader.saveService.loadControls()
         image = try? frameReader.imageSaveService.load()

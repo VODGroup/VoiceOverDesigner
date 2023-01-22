@@ -44,7 +44,7 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         for saveOperation: Document.SaveOperation
     ) async -> Bool {
         
-        let frameReader = FrameReader(documentURL: url)
+        let frameReader = FrameReader(documentURL: url, frameName: defaultFrameName)
         
         do {
             try frameReader.saveService.save(controls: controls)

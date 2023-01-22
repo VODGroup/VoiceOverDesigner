@@ -10,4 +10,10 @@ class FrameInfoPersistance: FileKeeperService {
         return try? JSONDecoder().decode(FrameInfo.self,
                                         from: data)
     }
+    
+    static func data(frame: FrameInfo) throws -> Data {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        return try encoder.encode(frame)
+    }
 }
