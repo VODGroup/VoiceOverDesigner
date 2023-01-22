@@ -47,5 +47,13 @@ extension Image {
     }
 }
 
+#elseif os(iOS)
+
+extension Image {
+    func png() -> Data? {
+        fatalError()
+    }
+}
+
 #endif
 

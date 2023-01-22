@@ -27,7 +27,7 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
                             rootPath: URL = iCloudContainer) {
         let dir = rootPath.appendingPathComponent(fileName)
         do {
-            let content = try FileManager.default
+            let _ = try FileManager.default
                 .contentsOfDirectory(
                     atPath: dir.path)
         } catch let error {
@@ -55,9 +55,13 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         }
     }
     
+    public override func contents(forType typeName: String) throws -> Any {
+        return try fileWrapper()
+    }
+    
     public override func read(from url: URL) throws {
         
-        let frameReader = FrameReader(documentURL: url)
+        let frameReader = FrameReader(documentURL: url, frameName: defaultFrameName)
         
         controls = try frameReader.saveService.loadControls()
         image = try? frameReader.imageSaveService.load()
