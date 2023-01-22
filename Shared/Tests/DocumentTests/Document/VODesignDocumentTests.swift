@@ -44,7 +44,7 @@ class VODesignDocumentPersistanceTests: XCTestCase {
             let document2 = VODesignDocument(
                 fileName: fileName,
                 rootPath: VODesignDocument.path)
-            try? document2.read()
+//            try? document2.read()
             
             XCTAssertEqual(document2.controls.count, 2, "Should contain controls")
         }

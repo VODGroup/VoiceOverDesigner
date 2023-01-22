@@ -6,14 +6,25 @@ final class DocumentVersionsTests: XCTestCase {
 
 #if os(macOS)
     func test_canReadDocumentWithoutFrameFolder() throws {
-        let fileName = "BetaVersionFormat"
-        let document = try XCTUnwrap(Sample().document(name: fileName))
-        
-        try document.read()
+        let document = try XCTUnwrap(Sample()
+            .document(name: "BetaVersionFormat"))
         
         XCTAssertEqual(document.controls.count, 12)
         XCTAssertNotNil(document.image)
-        XCTAssertNotNil(document.frameInfo)
+        XCTAssertEqual(document.frameInfo.imageScale, 1)
+    }
+    
+    func test_canReadFrameFileFormat() throws {
+        let document = try XCTUnwrap(Sample()
+            .document(name: "ReleaseVersionFormat"))
+        
+        XCTAssertEqual(document.controls.count, 12)
+        XCTAssertNotNil(document.image)
+        XCTAssertEqual(document.frameInfo.imageScale, 3)
+        
+        // TODO: Undo doesn't removed controls
+//        document.undo?.undo()
+//        XCTAssertEqual(document.controls.count, 12)
     }
 
 #elseif os(iOS)

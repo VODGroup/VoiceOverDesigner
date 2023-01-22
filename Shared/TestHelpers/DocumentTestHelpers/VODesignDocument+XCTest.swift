@@ -59,8 +59,8 @@ extension VODesignDocument {
         testCase.wait(for: [expectation], timeout: 1)
     }
     
-    public func read() throws {
-        try read(from: fileURL!, ofType: vodesign)
-    }
+//    public func read() throws {
+//        try read(from: fileURL!, ofType: vodesign)
+//    }
 }
 #endif

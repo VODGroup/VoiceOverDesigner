@@ -40,7 +40,8 @@ let package = Package(
             path: "TestHelpers/DocumentTestHelpers",
             resources: [
                 .process("Samples/screenWith3xScale.png"),
-                .copy("Samples/BetaVersionFormat.vodesign")]
+                .copy("Samples/BetaVersionFormat.vodesign"),
+                .copy("Samples/ReleaseVersionFormat.vodesign")]
         ),
         .testTarget(
             name: "DocumentTests",
