@@ -11,7 +11,7 @@ final class DocumentVersionsTests: XCTestCase {
         
         XCTAssertEqual(document.controls.count, 12)
         XCTAssertNotNil(document.image)
-        XCTAssertEqual(document.frameInfo.imageScale, 1)
+        XCTAssertEqual(document.frameInfo.imageScale, 1, "Old format doesn't know about scale")
     }
     
     func test_canReadFrameFileFormat() throws {
@@ -34,7 +34,20 @@ final class DocumentVersionsTests: XCTestCase {
         await MainActor.run(body: {
             XCTAssertEqual(document.controls.count, 12)
             XCTAssertNotNil(document.image)
-            XCTAssertNotNil(document.frameInfo)
+            XCTAssertEqual(document.frameInfo.imageScale, 1, "Old format doesn't know about scale")
+        })
+    }
+    
+    func test_canReadFrameFileFolrmat() async throws {
+        let fileName = "ReleaseVersionFormat"
+        let document = try XCTUnwrap(Sample().document(name: fileName))
+        
+        await document.read()
+
+        await MainActor.run(body: {
+            XCTAssertEqual(document.controls.count, 12)
+            XCTAssertNotNil(document.image)
+            XCTAssertEqual(document.frameInfo.imageScale, 3)
         })
     }
 #endif
