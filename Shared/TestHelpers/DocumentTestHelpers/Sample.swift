@@ -18,6 +18,10 @@ public class Sample {
         return Bundle.module.url(forResource: name, withExtension: "vodesign")
     }
     
+    public func resourcesPath() -> URL {
+        Bundle.module.resourceURL!
+    }
+    
     public func document(
         name: String,
         file: StaticString = #file,

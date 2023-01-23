@@ -2,10 +2,7 @@ import Foundation
 
 extension VODesignDocumentProtocol {
     
-    var frameWrapper: FileWrapper {
-        (documentWrapper.fileWrappers?[defaultFrameName] ?? documentWrapper)
-    }
-    
+    // MARK: - Write
     func fileWrapper() throws -> FileWrapper {
         
         invalidateWrapperIfPossible(fileInFrame: FileName.controls)
@@ -33,6 +30,15 @@ extension VODesignDocumentProtocol {
 }
 
 extension VODesignDocumentProtocol {
+    
+    var isBetaStructure: Bool {
+        frameWrapper.filename == documentWrapper.filename
+    }
+    
+    var frameWrapper: FileWrapper {
+        (documentWrapper.fileWrappers?[defaultFrameName] ?? documentWrapper)
+    }
+    
     private func controlsWrapper() throws -> FileWrapper {
         let codingService = AccessibilityViewCodingService()
         let wrapper = FileWrapper(regularFileWithContents: try codingService.data(from: controls))
@@ -74,22 +80,20 @@ extension VODesignDocumentProtocol {
     }
 }
 
+// MARK: - Read
 extension VODesignDocumentProtocol {
     
     func read(
         from packageWrapper: FileWrapper
     ) throws {
         guard packageWrapper.isDirectory else {
-            self.documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
-            let frameWrapper = FileWrapper(directoryWithFileWrappers: [:])
-            frameWrapper.preferredFilename = defaultFrameName
-            self.documentWrapper.addFileWrapper(frameWrapper)
+            recreateDocumentWrapper()
             print("Nothing to read, probably the document was just created")
             return
         }
         
+        // Keep referente to gently update files for iCloud
         self.documentWrapper = packageWrapper
-        
         let frameFolder = frameWrapper.fileWrappers!
 
         if
@@ -111,6 +115,18 @@ extension VODesignDocumentProtocol {
                                                  from: infoData) {
             frameInfo = info
         }
+        
+        if isBetaStructure {
+            // Reset document wrapper to update file structure
+            recreateDocumentWrapper()
+        }
+    }
+    
+    private func recreateDocumentWrapper() {
+        self.documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
+        let frameWrapper = FileWrapper(directoryWithFileWrappers: [:])
+        frameWrapper.preferredFilename = defaultFrameName
+        self.documentWrapper.addFileWrapper(frameWrapper)
     }
     
     func invalidateWrapperIfPossible(fileInFrame: String) {
