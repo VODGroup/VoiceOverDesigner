@@ -53,10 +53,10 @@ extension VODesignDocument {
         else { return nil }
         
         let imageWrapper = FileWrapper(regularFileWithContents: imageData)
-        imageWrapper.preferredFilename = QuickLookFileName
+        imageWrapper.preferredFilename = FileName.quickLookFile
         
-        let quicklookFolder = FileWrapper(directoryWithFileWrappers: [QuickLookFolderName: imageWrapper])
-        quicklookFolder.preferredFilename = QuickLookFolderName
+        let quicklookFolder = FileWrapper(directoryWithFileWrappers: [FolderName.quickLook: imageWrapper])
+        quicklookFolder.preferredFilename = FolderName.quickLook
         return quicklookFolder
     }
 }
