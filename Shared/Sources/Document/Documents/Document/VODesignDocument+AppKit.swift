@@ -18,6 +18,8 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     }
     public var frameInfo: FrameInfo = .default
     
+    public var documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
+    
     // MARK: - Constructors
     public convenience init(fileName: String,
                             rootPath: URL = iCloudContainer) {
