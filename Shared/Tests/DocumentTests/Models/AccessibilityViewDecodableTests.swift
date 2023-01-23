@@ -45,20 +45,21 @@ class DocumentSaveServiceTests: XCTestCase {
 ]
 """
     func test_decode1element() throws {
-        let sut = DocumentSaveService(dataProvier: InMemoryDataProvider(json: singleElementJson))
+        let sut = sut(json: singleElementJson)
+                        
         let elements = try sut.loadControls()
-    
+
         XCTAssertTrue(elements.first is A11yDescription)
     }
-    
+
     let expectedElement = A11yDescription(isAccessibilityElement: true, label: "label", value: "value", hint: "hint", trait: [.button], frame: .zero, adjustableOptions: AdjustableOptions(options: []), customActions: A11yCustomActions(names: []))
-    
+
     func test_encodedElement_andDecoded_shouldBeEqual() throws {
-        let sut = DocumentSaveService(dataProvier: InMemoryDataProvider(json: nil))
-        
+        let sut = sut(json: nil)
+
         try sut.save(controls: [expectedElement])
         let resultElement = try XCTUnwrap(try sut.loadControls().first as? A11yDescription)
-        
+
         XCTAssertEqual(expectedElement, resultElement)
     }
     
@@ -102,10 +103,15 @@ class DocumentSaveServiceTests: XCTestCase {
 """
     
     func test_decode1elementWithoutType() throws {
-        let sut = DocumentSaveService(dataProvier: InMemoryDataProvider(json: singleElementJsonWithoutType))
+        let sut = sut(json: singleElementJsonWithoutType)
+        
         let elements = try sut.loadControls()
-    
+
         XCTAssertTrue(elements.first is A11yDescription)
+    }
+    
+    private func sut(json: String?) -> DocumentSaveService {
+        DocumentSaveService(dataProvider: InMemoryDataProvider(json: json))
     }
     
     // TODO: Add tests for container

@@ -92,8 +92,10 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
             )
 
             Task {
+                // TODO: Move inside Document's model
                 // TODO: Cache in not working yet
-                let image = await ThumbnailDocument(fileURL: url)
+                let frameURL = url.frameURL(frameName: defaultFrameName)
+                let image = await ThumbnailDocument(frameURL: frameURL)
                     .thumbnail(size: item.expectedImageSize,
                                scale: backingScaleFactor)
                 
