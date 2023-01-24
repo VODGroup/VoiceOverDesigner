@@ -17,6 +17,8 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         ?? .zero
     }
     
+    public var documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
+    
     // MARK: -
     
     public var undo: UndoManager? {
