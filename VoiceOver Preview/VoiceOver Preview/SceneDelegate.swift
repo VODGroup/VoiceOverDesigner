@@ -34,6 +34,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         presentDocumentModally(url: url)
     }
+    
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        guard let documentURL = userActivity.userInfo?[UIDocument.userActivityURLKey] as? URL else {
+            return
+        }
+        
+        print("will restore document \(documentURL)")
+        presentDocumentModally(url: documentURL)
+    }
 }
 
 import Document
