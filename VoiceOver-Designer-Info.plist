@@ -9,6 +9,8 @@
 			<array>
 				<string>vodesign</string>
 			</array>
+			<key>NSUbiquitousDocumentUserActivityType</key>
+			<string>com.akaDuality.VoiceOver-Designer.document</string>
 			<key>CFBundleTypeName</key>
 			<string>VoiceOver Design</string>
 			<key>CFBundleTypeRole</key>
