@@ -23,7 +23,7 @@ extension VODesignDocumentProtocol {
         
         invalidateWrapperIfPossible(fileInFrame: FileName.screen)
         invalidateWrapperIfPossible(fileInFrame: FileName.info)
-        invalidateWrapperIfPossible(fileInRoot: FileName.quickLookFile)
+        invalidateWrapperIfPossible(fileInRoot: FolderName.quickLook)
         
 #if os(macOS)
         frameInfo.imageScale = newImage.recommendedLayerContentsScale(1)
