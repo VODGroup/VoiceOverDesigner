@@ -13,11 +13,17 @@ public protocol VODesignDocumentProtocol: AnyObject {
     /// An undo manager that records operations on document
     /// - Renamed as `NSDocument` and `UIDocument` have different `UndoManager` signature
     var undo: UndoManager? { get }
+    
+    var documentWrapper: FileWrapper { get set }
 }
 
 extension VODesignDocumentProtocol {
     public func updateImage(_ newImage: Image) {
         image = newImage
+        
+        invalidateWrapperIfPossible(fileInFrame: FileName.screen)
+        invalidateWrapperIfPossible(fileInFrame: FileName.info)
+        invalidateWrapperIfPossible(fileInRoot: FolderName.quickLook)
         
 #if os(macOS)
         frameInfo.imageScale = newImage.recommendedLayerContentsScale(1)

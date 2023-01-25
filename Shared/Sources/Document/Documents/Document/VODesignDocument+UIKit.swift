@@ -17,6 +17,8 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         ?? .zero
     }
     
+    public var documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
+    
     // MARK: -
     
     public var undo: UndoManager? {
@@ -55,19 +57,17 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         }
     }
     
-    public override func contents(forType typeName: String) throws -> Any {
-        return try fileWrapper()
+    public override func load(fromContents contents: Any, ofType typeName: String?) throws {
+        undoManager?.disableUndoRegistration()
+        defer { undoManager?.enableUndoRegistration() }
+        
+        let packageWrapper = contents as! FileWrapper
+        
+        try read(from: packageWrapper)
     }
     
-    public override func read(from url: URL) throws {
-        
-        let frameURL = url.frameURL(frameName: defaultFrameName)
-        let frameReader = FrameReader(frameURL: frameURL)
-        
-        controls = try frameReader.saveService.loadControls()
-        image = try? frameReader.imageSaveService.load()
-        frameInfo = frameReader.frameInfoPersistance
-                .readFrame() ?? .default
+    public override func contents(forType typeName: String) throws -> Any {
+        return try fileWrapper()
     }
 }
 

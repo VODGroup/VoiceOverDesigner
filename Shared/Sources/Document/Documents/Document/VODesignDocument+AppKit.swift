@@ -18,6 +18,8 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     }
     public var frameInfo: FrameInfo = .default
     
+    public var documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
+    
     // MARK: - Constructors
     public convenience init(fileName: String,
                             rootPath: URL = iCloudContainer) {
@@ -52,19 +54,12 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         return try fileWrapper()
     }
     
-    public override func read(from url: URL, ofType typeName: String) throws {
-        Swift.print("Read from \(url)")
+    override public func read(from packageWrapper: FileWrapper, ofType typeName: String) throws {
         
         undoManager?.disableUndoRegistration()
         defer { undoManager?.enableUndoRegistration() }
         
-        let frameURL = url.frameURL(frameName: defaultFrameName)
-        let frameReader = FrameReader(frameURL: frameURL)
-        
-        controls = try frameReader.saveService.loadControls()
-        image = try? frameReader.imageSaveService.load()
-        frameInfo = frameReader.frameInfoPersistance
-            .readFrame() ?? .default
+        try read(from: packageWrapper)
     }
     
     // MARK: Static
