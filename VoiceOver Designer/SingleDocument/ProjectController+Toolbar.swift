@@ -71,13 +71,13 @@ extension ProjectController {
     }
     
     private func shareDocumentItem() -> NSToolbarItem {
-        let item = NSSharingServicePickerToolbarItem()
+        let item = NSSharingServicePickerToolbarItem(itemIdentifier: .shareDocument)
         item.delegate = document
         return item
     }
     
     private func leadingSideBarItem() -> NSToolbarItem {
-        let item = NSToolbarItem(itemIdentifier: .trailingSidebar)
+        let item = NSToolbarItem(itemIdentifier: .leadingSidebar)
         item.label = NSLocalizedString("Navigator", comment: "")
         item.target = self
         item.action = #selector(leadingSideBarTapped(sender:))
