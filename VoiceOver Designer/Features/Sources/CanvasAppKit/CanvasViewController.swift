@@ -27,6 +27,14 @@ public class CanvasViewController: NSViewController {
         view().dragnDropView.delegate = self
     }
     
+    public override func viewWillDisappear() {
+        super.viewWillDisappear()
+        
+        cancellables.forEach { cancellable in
+            cancellable.cancel()
+        }
+    }
+    
     private func addMouseTracking() {
         trackingArea = NSTrackingArea(
             rect: view.bounds,

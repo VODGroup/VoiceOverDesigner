@@ -37,6 +37,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
         guard let documentURL = userActivity.userInfo?[UIDocument.userActivityURLKey] as? URL else {
+            print("Don't want to restore any document, no url")
             return
         }
         

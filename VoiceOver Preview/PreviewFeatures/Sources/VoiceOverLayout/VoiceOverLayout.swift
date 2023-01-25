@@ -4,21 +4,19 @@ import Document
 
 public class VoiceOverLayout {
     private let controls: [any AccessibilityView]
-    private let container: UIView
     private let yOffset: CGFloat
     
     public init(
         controls: [any AccessibilityView],
-        container: UIView,
         yOffset: CGFloat
     ) {
         self.controls = controls
-        self.container = container
         self.yOffset = yOffset
     }
     
     private func accessibilityElement(
-        from control: any AccessibilityView
+        from control: any AccessibilityView,
+        at view: UIView
     ) -> Any {
         switch control.cast {
         case .container(let container):
@@ -30,12 +28,14 @@ public class VoiceOverLayout {
         case .element(let element):
             return VoiceOverElement(
                 control: element,
-                accessibilityContainer: container,
+                accessibilityContainer: view,
                 frameInContainerSpace: element.frame)
         }
     }
     
-    public var accessibilityElements: [Any] {
-        controls.map(accessibilityElement(from:))
+    public func accessibilityElements(at view: UIView) -> [Any] {
+        controls.map { control in
+            accessibilityElement(from: control, at: view)
+        }
     }
 }

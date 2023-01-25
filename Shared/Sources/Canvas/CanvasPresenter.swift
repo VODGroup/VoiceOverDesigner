@@ -28,6 +28,12 @@ public class CanvasPresenter: DocumentPresenter {
         redrawOnControlChanges()
     }
     
+    public func stopObserving() {
+        cancellables.forEach { cancellable in
+            cancellable.cancel()
+        }
+    }
+    
     private var scale: CGFloat = 1
     
     private var cancellables = Set<AnyCancellable>()

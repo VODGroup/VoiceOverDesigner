@@ -38,7 +38,6 @@ class VODesignPreviewView: UIView {
     func updateAccessilibityLayout(yOffset: CGFloat) {
         canvas.layout = VoiceOverLayout(
             controls: controls,
-            container: canvas,
             yOffset: yOffset)
     }
 }

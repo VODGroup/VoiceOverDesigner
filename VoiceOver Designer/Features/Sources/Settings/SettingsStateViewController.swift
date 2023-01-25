@@ -13,13 +13,15 @@ public enum DetailsState: StateProtocol {
 
 public class SettingsStateViewController: StateViewController<DetailsState> {
     
-    public var settingsDelegate: SettingsDelegate!
+    public weak var settingsDelegate: SettingsDelegate!
     public var textRecognitionCoordinator: TextRecognitionCoordinator!
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
-        self.stateFactory = { state in
+        self.stateFactory = { [weak self] state in
+            guard let self = self else { fatalError() }
+            
             switch state {
             case .empty:
                 return EmptyViewController.fromStoryboard()
