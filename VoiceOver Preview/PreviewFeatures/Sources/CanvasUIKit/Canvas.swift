@@ -14,7 +14,7 @@ class Canvas: UIView, DrawingView {
     
     var layout: VoiceOverLayout? {
         didSet {
-            accessibilityElements = layout?.accessibilityElements
+            accessibilityElements = layout?.accessibilityElements(at: self)
         }
     }
     

@@ -36,6 +36,14 @@ public class NavigatorController: NSViewController {
         outlineView.allowsMultipleSelection = true
     }
     
+    public override func viewWillDisappear() {
+        super.viewWillDisappear()
+        
+        cancellables.forEach { cancellable in
+            cancellable.cancel()
+        }
+    }
+    
     private func observe() {
         presenter.controlsPublisher.sink { [weak self] _ in
             self?.outlineView.reloadData()
