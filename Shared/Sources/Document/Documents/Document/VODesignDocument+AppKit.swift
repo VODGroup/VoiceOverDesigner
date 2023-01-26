@@ -29,8 +29,14 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     }
     
     public convenience init(file: URL) {
-        // TODO: Remove force unwrap
-        try! self.init(for: file, withContentsOf: file, ofType: uti)
+        do {
+            try self.init(contentsOf: file,
+                          ofType: uti)
+        } catch let error {
+            Swift.print(error)
+            // TODO: Is it ok?
+            try! self.init(type: uti)
+        }
     }
     
     public convenience init(image: NSImage) {
