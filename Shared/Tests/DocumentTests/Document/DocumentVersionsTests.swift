@@ -51,7 +51,7 @@ final class DocumentVersionsTests: XCTestCase {
         document.save(testCase: self, fileName: name)
         addTeardownBlock {
             let testFilePath = Sample().resourcesPath().appendingPathComponent("\(name).vodesign")
-            try self.fileManager.removeItem(at: testFilePath)
+            try? self.fileManager.removeItem(at: testFilePath)
         }
     }
 
