@@ -63,6 +63,8 @@ extension WindowManager: ProjectRouterDelegate {
     func closeProject(document: NSDocument) {
         document.removeWindowController(recentWindowController)
         
+        document.close()
+        
         recentWindowController.embedProjectsViewControllerInWindow()
     }
 }

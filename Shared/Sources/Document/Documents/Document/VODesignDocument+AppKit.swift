@@ -26,19 +26,11 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         let file = rootPath.appendingPathComponent(fileName).appendingPathExtension(vodesign)
         
         self.init(file: file)
-        
-        fileType = vodesign
     }
     
     public convenience init(file: URL) {
-        do {
-            try self.init(contentsOf: file,
-                          ofType: vodesign)
-        } catch let error {
-            Swift.print(error)
-            // TODO: Is it ok?
-            try! self.init(type: vodesign)
-        }
+        // TODO: Remove force unwrap
+        try! self.init(for: file, withContentsOf: file, ofType: uti)
     }
     
     public convenience init(image: NSImage) {
@@ -77,10 +69,6 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         [uti]
     }
     
-    public override func writableTypes(for saveOperation: NSDocument.SaveOperationType) -> [String] {
-        fileType = uti
-        return super.writableTypes(for: saveOperation)
-    }
     
     public override func prepareSavePanel(_ savePanel: NSSavePanel) -> Bool {
         savePanel.isExtensionHidden = false
