@@ -42,7 +42,8 @@ extension VODesignPreviewViewController {
     
     private func draw() {
         self.view().canvas.removeAll() // TODO: Move clearing inside? drawingController?
-        view().image = presenter.document.image
+        view().set(image: presenter.document.image,
+                   scale: presenter.document.frameInfo.imageScale)
         view().controls = presenter.document.controls
         presenter.didLoad(
             ui: view().canvas,
