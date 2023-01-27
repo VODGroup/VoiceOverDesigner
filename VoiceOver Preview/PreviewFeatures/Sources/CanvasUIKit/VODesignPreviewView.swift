@@ -13,10 +13,10 @@ class VODesignPreviewView: UIView {
         
         translatesAutoresizingMaskIntoConstraints = false // Forward to use intrinsicContentSize
     }
-    var image: UIImage? {
-        didSet {
-            backgroundImageView.image = image
-        }
+    
+    func set(image: Image?, scale: CGFloat) {
+        backgroundImageView.image = image
+        backgroundImageView.scale = scale
     }
     
     
