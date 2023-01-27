@@ -69,6 +69,16 @@ class ProjectController: NSSplitViewController {
             .store(in: &cancellables)
     }
     
+    override func viewWillDisappear() {
+        super.viewWillDisappear()
+        
+        cancellables.forEach { cancellable in
+            cancellable.cancel()
+        }
+        
+        canvas.presenter.stopObserving()
+    }
+    
     public var toolbar: NSToolbar {
         let toolbar: NSToolbar = NSToolbar()
         toolbar.delegate = self

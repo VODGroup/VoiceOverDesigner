@@ -8,7 +8,7 @@
 import Foundation
 
 extension A11yDescription {
-    #warning("Should be generated?")
+    // TODO: Should be generated?
     enum Localization {
         
         static func traitSelectedFormat(value: String) -> String {

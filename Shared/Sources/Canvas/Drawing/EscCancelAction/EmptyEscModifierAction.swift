@@ -13,7 +13,7 @@ public class EmptyEscModifierAction: EscModifierAction {
         self.delegate = delegate
     }
     
-    public var delegate: EscModifierActionDelegate?
+    public weak var delegate: EscModifierActionDelegate?
     
     public init() {}
     

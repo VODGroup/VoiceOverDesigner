@@ -8,7 +8,7 @@
 import XCTest
 @testable import Document
 
-@available(macOS 12, *)
+@available(macOS 12, iOS 15, *)
 class A11yDescriptionTests_EN: XCTestCase {
     
     func test_labelOnly() throws {

@@ -1,0 +1,398 @@
+[
+  {
+    "isAccessibilityElement" : true,
+    "frame" : [
+      [
+        5.4465689847149861,
+        116.82586442845877
+      ],
+      [
+        369.91944542920317,
+        66.26557297905515
+      ]
+    ],
+    "trait" : 4718592,
+    "adjustableOptions" : {
+      "options" : [
+
+      ],
+      "isEnumerated" : true
+    },
+    "hint" : "",
+    "label" : "Улица",
+    "value" : "",
+    "customActions" : {
+      "names" : [
+
+      ]
+    },
+    "customDescriptions" : {
+      "descriptions" : [
+
+      ]
+    }
+  },
+  {
+    "isAccessibilityElement" : true,
+    "frame" : [
+      [
+        5.4465689847149861,
+        187.07979778990375
+      ],
+      [
+        369.91944542920317,
+        57.484437480182351
+      ]
+    ],
+    "trait" : 524288,
+    "adjustableOptions" : {
+      "options" : [
+
+      ],
+      "isEnumerated" : true
+    },
+    "hint" : "",
+    "label" : "Дом (корпус, строение)",
+    "value" : "",
+    "customActions" : {
+      "names" : [
+
+      ]
+    },
+    "customDescriptions" : {
+      "descriptions" : [
+
+      ]
+    }
+  },
+  {
+    "isAccessibilityElement" : true,
+    "frame" : [
+      [
+        5.4465689847150145,
+        249.61123935909768
+      ],
+      [
+        369.91944542920317,
+        57.484437480182351
+      ]
+    ],
+    "trait" : 524288,
+    "adjustableOptions" : {
+      "options" : [
+
+      ],
+      "isEnumerated" : true
+    },
+    "hint" : "",
+    "label" : "Квартира",
+    "value" : "",
+    "customActions" : {
+      "names" : [
+
+      ]
+    },
+    "customDescriptions" : {
+      "descriptions" : [
+
+      ]
+    }
+  },
+  {
+    "isAccessibilityElement" : true,
+    "frame" : [
+      [
+        5.4465689847149861,
+        314.21452364227662
+      ],
+      [
+        369.91944542920317,
+        57.484437480182351
+      ]
+    ],
+    "trait" : 524288,
+    "adjustableOptions" : {
+      "options" : [
+
+      ],
+      "isEnumerated" : true
+    },
+    "hint" : "",
+    "label" : "Подъезд",
+    "value" : "",
+    "customActions" : {
+      "names" : [
+
+      ]
+    },
+    "customDescriptions" : {
+      "descriptions" : [
+
+      ]
+    }
+  },
+  {
+    "isAccessibilityElement" : true,
+    "frame" : [
+      [
+        5.4465689847150145,
+        382.87963481846742
+      ],
+      [
+        369.91944542920317,
+        57.484437480182351
+      ]
+    ],
+    "trait" : 524288,
+    "adjustableOptions" : {
+      "options" : [
+
+      ],
+      "isEnumerated" : true
+    },
+    "hint" : "",
+    "label" : "Этаж",
+    "value" : "",
+    "customActions" : {
+      "names" : [
+
+      ]
+    },
+    "customDescriptions" : {
+      "descriptions" : [
+
+      ]
+    }
+  },
+  {
+    "isAccessibilityElement" : true,
+    "frame" : [
+      [
+        5.4465689847150145,
+        444.94007765157767
+      ],
+      [
+        369.91944542920317,
+        57.484437480182351
+      ]
+    ],
+    "trait" : 524288,
+    "adjustableOptions" : {
+      "options" : [
+
+      ],
+      "isEnumerated" : true
+    },
+    "hint" : "",
+    "label" : "Код на двери",
+    "value" : "",
+    "customActions" : {
+      "names" : [
+
+      ]
+    },
+    "customDescriptions" : {
+      "descriptions" : [
+
+      ]
+    }
+  },
+  {
+    "isAccessibilityElement" : true,
+    "frame" : [
+      [
+        7.3825712494151929,
+        62.029139711188463
+      ],
+      [
+        44,
+        49.321988730446719
+      ]
+    ],
+    "trait" : 1,
+    "adjustableOptions" : {
+      "options" : [
+
+      ],
+      "isEnumerated" : true
+    },
+    "hint" : "",
+    "label" : "Закрыть",
+    "value" : "",
+    "customActions" : {
+      "names" : [
+
+      ]
+    },
+    "customDescriptions" : {
+      "descriptions" : [
+
+      ]
+    }
+  },
+  {
+    "isAccessibilityElement" : true,
+    "frame" : [
+      [
+        282.85907498501456,
+        62.029139711188463
+      ],
+      [
+        92.506881352610606,
+        49.321988730446719
+      ]
+    ],
+    "trait" : 1,
+    "adjustableOptions" : {
+      "options" : [
+
+      ],
+      "isEnumerated" : true
+    },
+    "hint" : "",
+    "label" : "Сохранить",
+    "value" : "",
+    "customActions" : {
+      "names" : [
+
+      ]
+    },
+    "customDescriptions" : {
+      "descriptions" : [
+
+      ]
+    }
+  },
+  {
+    "isAccessibilityElement" : true,
+    "frame" : [
+      [
+        5.4465109084220273,
+        510.9545287397786
+      ],
+      [
+        116.75588249541997,
+        44.352284187394275
+      ]
+    ],
+    "trait" : 65537,
+    "adjustableOptions" : {
+      "options" : [
+
+      ],
+      "isEnumerated" : true
+    },
+    "hint" : "",
+    "label" : "Я",
+    "value" : "",
+    "customActions" : {
+      "names" : [
+
+      ]
+    },
+    "customDescriptions" : {
+      "descriptions" : [
+
+      ]
+    }
+  },
+  {
+    "isAccessibilityElement" : true,
+    "frame" : [
+      [
+        129.44804979256452,
+        510.95452873977865
+      ],
+      [
+        127.16088922236128,
+        44.352284187394218
+      ]
+    ],
+    "trait" : 65537,
+    "adjustableOptions" : {
+      "options" : [
+
+      ],
+      "isEnumerated" : true
+    },
+    "hint" : "",
+    "label" : "Привет",
+    "value" : "",
+    "customActions" : {
+      "names" : [
+
+      ]
+    },
+    "customDescriptions" : {
+      "descriptions" : [
+
+      ]
+    }
+  },
+  {
+    "isAccessibilityElement" : true,
+    "frame" : [
+      [
+        262.91956708663866,
+        510.9545287397786
+      ],
+      [
+        112.44633117469354,
+        44.352284187394275
+      ]
+    ],
+    "trait" : 65537,
+    "adjustableOptions" : {
+      "options" : [
+
+      ],
+      "isEnumerated" : true
+    },
+    "hint" : "",
+    "label" : "Ну",
+    "value" : "",
+    "customActions" : {
+      "names" : [
+
+      ]
+    },
+    "customDescriptions" : {
+      "descriptions" : [
+
+      ]
+    }
+  },
+  {
+    "isAccessibilityElement" : true,
+    "frame" : [
+      [
+        106.5216491079799,
+        62.029139711188463
+      ],
+      [
+        167.76916903008743,
+        49.321988730446719
+      ]
+    ],
+    "trait" : 2,
+    "adjustableOptions" : {
+      "options" : [
+
+      ],
+      "isEnumerated" : true
+    },
+    "hint" : "",
+    "label" : "Адрес доставки",
+    "value" : "",
+    "customActions" : {
+      "names" : [
+
+      ]
+    },
+    "customDescriptions" : {
+      "descriptions" : [
+
+      ]
+    }
+  }
+]

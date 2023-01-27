@@ -8,6 +8,16 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     // MARK: - Data
     public var controls: [any AccessibilityView] = []
     public var image: Image?
+    public var frameInfo: FrameInfo = .default
+    
+    public var imageSize: CGSize {
+        return image?
+            .size
+            .inverted(scale: frameInfo.imageScale)
+        ?? .zero
+    }
+    
+    public var documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
     
     // MARK: -
     
@@ -19,7 +29,7 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
                             rootPath: URL = iCloudContainer) {
         let dir = rootPath.appendingPathComponent(fileName)
         do {
-            let content = try FileManager.default
+            let _ = try FileManager.default
                 .contentsOfDirectory(
                     atPath: dir.path)
         } catch let error {
@@ -29,28 +39,17 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         self.init(fileURL: dir)
     }
     
-    lazy var saveService: DocumentSaveService = DocumentSaveService(fileURL: fileURL
-        .appendingPathComponent("controls.json"))
-    
-    public func read(then completion: @escaping () -> Void) throws {
-        performAsynchronousFileAccess {
-            let fileCoordinator = NSFileCoordinator(filePresenter: self)
-            fileCoordinator.coordinate(
-                readingItemAt: self.fileURL.appendingPathComponent("controls.json"),
-                options: .withoutChanges,
-                error: nil) { url in
-                self.controls = try! DocumentSaveService(fileURL: url).loadControls()
-                
-                DispatchQueue.main.async(execute: completion)
-            }
-        }
-    }
-    
     // MARK: - Override
-    // TODO: AppKit version uses filewrappers. Extract and reuse them?
-    public override func save(to url: URL, for saveOperation: Document.SaveOperation) async -> Bool {
+    public override func save(
+        to url: URL,
+        for saveOperation: Document.SaveOperation
+    ) async -> Bool {
+        
+        let frameURL = url.frameURL(frameName: defaultFrameName)
+        let frameReader = FrameReader(frameURL: frameURL)
+        
         do {
-            try saveService.save(controls: controls)
+            try frameReader.saveService.save(controls: controls)
             return true
         } catch let error {
             print(error)
@@ -58,9 +57,17 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         }
     }
     
-    public override func read(from url: URL) throws {
-        controls = try saveService.loadControls()
-        image = try? ImageSaveService().load(from: url)
+    public override func load(fromContents contents: Any, ofType typeName: String?) throws {
+        undoManager?.disableUndoRegistration()
+        defer { undoManager?.enableUndoRegistration() }
+        
+        let packageWrapper = contents as! FileWrapper
+        
+        try read(from: packageWrapper)
+    }
+    
+    public override func contents(forType typeName: String) throws -> Any {
+        return try fileWrapper()
     }
 }
 
@@ -89,3 +96,12 @@ extension UIDocument {
     }
 }
 #endif
+
+import CoreGraphics
+extension CGSize {
+    public func inverted(scale: CGFloat) -> Self {
+        let transform = CGAffineTransform(scaleX: 1/scale,
+                                          y: 1/scale)
+        return applying(transform)
+    }
+}

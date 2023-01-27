@@ -12,43 +12,31 @@ protocol DataProvier {
     func read() throws -> Data
 }
 
-class URLDataProvider: DataProvier {
+class URLDataProvider: FileKeeperService, DataProvier {
     func save(data: Data) throws {
-        try data.write(to: fileURL)
+        try data.write(to: file)
     }
     
     func read() throws -> Data {
-        try Data(contentsOf: fileURL)
+        try Data(contentsOf: file)
     }
-    
-    init(fileURL: URL) {
-        self.fileURL = fileURL
-    }
-    
-    private let fileURL: URL
 }
 
 class DocumentSaveService {
     
-    // For production use
-    init(fileURL: URL) {
-        self.dataProvier = URLDataProvider(fileURL: fileURL)
-    }
+    private let dataProvider: DataProvier
     
-    // For test purpose
-    init(dataProvier: DataProvier) {
-        self.dataProvier = dataProvier
+    init(dataProvider: DataProvier) {
+        self.dataProvider = dataProvider
     }
-    
-    private let dataProvier: DataProvier
     
     func save(controls: [any AccessibilityView]) throws {
         let data = try codingService.data(from: controls)
-        try dataProvier.save(data: data)
+        try dataProvider.save(data: data)
     }
     
     func loadControls() throws -> [any AccessibilityView] {
-        let data = try dataProvier.read()
+        let data = try dataProvider.read()
         
         return try codingService.controls(from: data)
     }

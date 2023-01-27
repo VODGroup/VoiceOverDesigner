@@ -5,7 +5,7 @@ import VoiceOverLayout
 import Canvas
 
 class VODesignPreviewView: UIView {
-    @IBOutlet weak var backgroundImageView: UIImageView!
+    @IBOutlet weak var backgroundImageView: ScaledImageView!
     @IBOutlet weak var canvas: Canvas!
    
     override func awakeFromNib() {
@@ -29,7 +29,7 @@ class VODesignPreviewView: UIView {
     
     override var intrinsicContentSize: CGSize {
         get {
-            image?.size ?? UIScreen.main.bounds.size
+            backgroundImageView.intrinsicContentSize
         }
         
         set {}
@@ -38,7 +38,18 @@ class VODesignPreviewView: UIView {
     func updateAccessilibityLayout(yOffset: CGFloat) {
         canvas.layout = VoiceOverLayout(
             controls: controls,
-            container: canvas,
             yOffset: yOffset)
+    }
+}
+
+class ScaledImageView: UIImageView {
+    var scale: CGFloat = 3
+    
+    override var intrinsicContentSize: CGSize {
+        get {
+            return image?.size.inverted(scale: scale) ?? .zero
+        }
+        
+        set {}
     }
 }

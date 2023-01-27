@@ -1,25 +1,8 @@
-#if canImport(XCTest) && canImport(AppKit)
-
 import Foundation
 import Document
 import XCTest
 
 extension VODesignDocument {
-    public static func testDocument(
-        name: String,
-        saveImmediately: Bool = false,
-        testCase: XCTestCase
-    ) -> VODesignDocument {
-        if !FileManager.default.fileExists(atPath: testURL(name: name).path) {
-            FileManager.default.createFile(atPath: testURL(name: name).path, contents: Data())
-        }
-        let document = VODesignDocument(file: testURL(name: name))
-        if saveImmediately {
-            document.save(testCase: testCase, fileName: name)
-        }
-        return document
-    }
-    
     public static func removeTestDocument(name: String) throws {
         try FileManager.default
             .removeItem(at: testURL(name: name))
@@ -35,6 +18,25 @@ extension VODesignDocument {
         FileManager.default.urls(
             for: .cachesDirectory,
             in: .userDomainMask).first!
+    }
+}
+
+#if canImport(AppKit)
+
+extension VODesignDocument {
+    public static func testDocument(
+        name: String,
+        saveImmediately: Bool = false,
+        testCase: XCTestCase
+    ) -> VODesignDocument {
+        if !FileManager.default.fileExists(atPath: testURL(name: name).path) {
+            FileManager.default.createFile(atPath: testURL(name: name).path, contents: Data())
+        }
+        let document = VODesignDocument(file: testURL(name: name))
+        if saveImmediately {
+            document.save(testCase: testCase, fileName: name)
+        }
+        return document
     }
     
     public func save(testCase: XCTestCase, fileName: String) {
@@ -53,8 +55,8 @@ extension VODesignDocument {
         testCase.wait(for: [expectation], timeout: 1)
     }
     
-    public func read() throws {
-        try read(from: fileURL!, ofType: vodesign)
-    }
+//    public func read() throws {
+//        try read(from: fileURL!, ofType: vodesign)
+//    }
 }
 #endif

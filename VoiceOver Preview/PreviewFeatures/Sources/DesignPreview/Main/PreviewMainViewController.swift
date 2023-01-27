@@ -28,13 +28,25 @@ public class PreviewMainViewController: UIViewController {
         addDocumentStateObserving()
     }
     
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        cancellables.forEach { cancellable in
+            cancellable.cancel()
+        }
+        
+        presenter.stopObserving()
+        
+        document.close()
+    }
+    
     private var cancellables = Set<AnyCancellable>()
     private func loadAndDraw() {
         // TODO: Show loading?
-        document.open { isSuccess in
+        document.open { [weak self] isSuccess in
             if isSuccess {
-                self.embedCanvas()
-                self.subscribeToSelection()
+                self?.embedCanvas()
+                self?.subscribeToSelection()
             } else {
                 fatalError() // TODO: Present something to user
             }
@@ -51,6 +63,13 @@ public class PreviewMainViewController: UIViewController {
     }
    
     private var sideTransition = SideTransition()
+    
+    private func presentDetails(for model: (any AccessibilityView)?) {
+        guard let model = model
+        else { return }
+        
+        self.presentDetails(for: model)
+    }
     private func presentDetails(for model: any AccessibilityView) {
         // TODO: Add support for Container
 
@@ -71,7 +90,6 @@ public class PreviewMainViewController: UIViewController {
     private func makeView(for model: any AccessibilityView) -> some SwiftUI.View {
         let onDismiss = { [weak self] in
             guard let self else { return }
-            self.presenter.redraw(control: model)
             self.presenter.deselect()
         }
         
@@ -82,10 +100,10 @@ public class PreviewMainViewController: UIViewController {
         
         switch model {
         case let description as A11yDescription:
-            ElementSettingsView(element: description, deleteAction: onDelete)
+            ElementSettingsEditorView(element: description, delete: onDelete)
                 .onDisappear(perform: onDismiss)
         case let container as A11yContainer:
-            ContainerSettingsView(container: container)
+            ContainerSettingsEditorView(container: container, delete: onDelete)
                 .onDisappear(perform: onDismiss)
         default:
             EmptyView()
