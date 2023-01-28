@@ -7,13 +7,14 @@
 import Foundation
 import Combine
 
-protocol DocumentsProviderDelegate: AnyObject {
+public protocol DocumentsProviderDelegate: AnyObject {
     func didUpdateDocuments()
 }
 
 class MetadataProvider {
 
     private(set) var containerRootURL: URL?
+    private let containerIdentifier: String?
     private(set) var fileExtension: String
     private let metadataQuery = NSMetadataQuery()
     private var querySubscriber: AnyCancellable?
@@ -22,24 +23,27 @@ class MetadataProvider {
     // Failable init: fails if there isn’t a logged-in iCloud account.
     //
     init?(containerIdentifier: String?, fileExtension: String) {
+        self.containerIdentifier = containerIdentifier
         self.fileExtension = fileExtension
         
         guard FileManager.default.ubiquityIdentityToken != nil else {
             print("⛔️ iCloud isn't enabled yet. Please enable iCloud and run again.")
             return nil
         }
-        
+    }
+    
+    func load() {
         // Dispatch to a global queue because url(forUbiquityContainerIdentifier:) might take a nontrivial
         // amount of time to set up iCloud and return the requested URL
         //
         DispatchQueue.global().async {
-            if let url = FileManager.default.url(forUbiquityContainerIdentifier: containerIdentifier) {
+            if let url = FileManager.default.url(forUbiquityContainerIdentifier: self.containerIdentifier) {
                 DispatchQueue.main.async {
                     self.containerRootURL = url
                 }
                 return
             }
-            print("⛔️ Failed to retrieve iCloud container URL for:\(containerIdentifier ?? "nil")\n"
+            print("⛔️ Failed to retrieve iCloud container URL for:\(self.containerIdentifier ?? "nil")\n"
                     + "Make sure your iCloud is available and run again.")
         }
         

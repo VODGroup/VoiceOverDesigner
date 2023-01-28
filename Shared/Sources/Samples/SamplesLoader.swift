@@ -47,13 +47,13 @@ public class SampleLoader {
 }
 
 public struct SamplesStructure: Codable, Equatable {
-    let languages: [String:[DocumentPath]]
+    public let languages: [String:[DocumentPath]]
 }
 
 public struct DocumentPath: Equatable {
-    let relativePath: String
-    let documentName: String
-    let files: [String]
+    public let relativePath: String
+    public let documentName: String
+    public let files: [String]
 }
 
 extension DocumentPath: Codable {}

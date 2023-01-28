@@ -2,21 +2,13 @@ import Foundation
 import Document
 import AppKit
 
-/// Type of cell in collection view
-enum CollectionViewItem {
-    /// Regular (existing) document item
-    case document(URL)
-    /// Add new document item
-    case newDocument
-}
-
-public class DocumentBrowserPresenter {
+class UserDocumentsPresenter: DocumentBrowserPresenterProtocol {
     let fileManager = FileManager.default
     public weak var documentController: NSDocumentController? = VODocumentController.shared
     
     public init() {}
     
-    public var shouldShowThisController: Bool {
+    var shouldShowThisController: Bool {
         let hasRecentDocuments = !recentItems.isEmpty
         let hasCloudDocuments = !iCloudDocuments.isEmpty
         
@@ -27,10 +19,11 @@ public class DocumentBrowserPresenter {
         documentController?.recentDocumentURLs ?? []
     }
     
-    private let metadataProvider = MetadataProvider(containerIdentifier: containerId,
-                                                    fileExtension: vodesign)
+    private let metadataProvider = MetadataProvider(
+        containerIdentifier: containerId,
+        fileExtension: vodesign)
     
-    weak var delegate: DocumentsProviderDelegate? {
+    public weak var delegate: DocumentsProviderDelegate? {
         didSet {
             metadataProvider?.delegate = delegate
         }
@@ -59,6 +52,10 @@ public class DocumentBrowserPresenter {
     }
     
     // MARK: - Datasource
+    func load() {
+        metadataProvider?.load()
+    }
+    
     func numberOfItemsInSection(_ section: Int) -> Int {
         return items.count
     }

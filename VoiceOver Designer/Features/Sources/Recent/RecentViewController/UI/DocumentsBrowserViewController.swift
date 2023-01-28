@@ -9,7 +9,7 @@ public protocol RecentRouter: AnyObject {
 public class DocumentsBrowserViewController: NSViewController {
 
     public weak var router: RecentRouter?
-    var presenter: DocumentBrowserPresenter! {
+    var presenter: DocumentBrowserPresenterProtocol! {
         didSet {
             if needReloadDataOnStart {
                 view().collectionView.reloadData()
@@ -23,6 +23,8 @@ public class DocumentsBrowserViewController: NSViewController {
         super.viewDidLoad()
         view().collectionView.dataSource = self
         view().collectionView.delegate = self
+        
+        presenter.load()
     }
     
     /// Sometimel layout is called right after loading from storyboard, presenter is not set and a crash happened.
@@ -104,6 +106,9 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
             }
             
             return item
+        case .sample(let downloadableDocument):
+            let item = collectionView.makeItem(withIdentifier: NewDocumentCollectionViewItem.identifier, for: indexPath)
+            return item
         }
     }
 }
@@ -122,6 +127,8 @@ extension DocumentsBrowserViewController: NSCollectionViewDelegate {
                 
             case .newDocument:
                 createNewProject()
+            case .sample(let downloadableDocument):
+                break // TODO: Load and open
             }
         }
     }
@@ -136,7 +143,7 @@ extension DocumentsBrowserViewController {
 
 
 extension DocumentsBrowserViewController: DocumentsProviderDelegate {
-    func didUpdateDocuments() {
+    public func didUpdateDocuments() {
         view().collectionView.reloadData()
     }
 }
