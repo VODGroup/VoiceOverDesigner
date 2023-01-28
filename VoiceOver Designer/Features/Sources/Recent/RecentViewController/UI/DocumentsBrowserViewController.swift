@@ -23,6 +23,19 @@ public class DocumentsBrowserViewController: NSViewController {
         super.viewDidLoad()
         view().collectionView.dataSource = self
         view().collectionView.delegate = self
+        
+        configureCollectionViewMenu()
+       
+        
+    }
+    
+    
+    // Move to DocumentBrowserView and manage via delegate?
+    func configureCollectionViewMenu() {
+        let menu = NSMenu()
+        menu.addItem(NSMenuItem(title: "Delete", action: #selector(didSelectDelete(_:)), keyEquivalent: ""))
+        menu.addItem(NSMenuItem(title: "Duplicate", action: #selector(didSelectDuplicate(_:)), keyEquivalent: ""))
+        view().collectionView.menu = menu
     }
     
     /// Sometimel layout is called right after loading from storyboard, presenter is not set and a crash happened.
@@ -50,6 +63,8 @@ public class DocumentsBrowserViewController: NSViewController {
     lazy var backingScaleFactor: CGFloat = {
         view.window?.backingScaleFactor ??  NSScreen.main?.backingScaleFactor ?? 1
     }()
+    
+    
 }
 
 extension DocumentsBrowserViewController: DragNDropDelegate {
@@ -87,6 +102,7 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
             return item
         case .document(let url):
             let item = collectionView.makeItem(withIdentifier: DocumentCellViewItem.identifier, for: indexPath) as! DocumentCellViewItem
+            
             item.configure(
                 fileName: url.fileName
             )
@@ -105,6 +121,20 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
             
             return item
         }
+    }
+    
+    @objc func didSelectDelete(_ item: NSMenuItem) {
+        guard let indexPath = view().collectionView.clickedIndexPath,
+        let item = presenter.item(at: indexPath) else { return }
+        presenter.delete(item)
+        view().collectionView.reloadData()
+    }
+    
+    @objc func didSelectDuplicate(_ item: NSMenuItem) {
+        guard let indexPath = view().collectionView.clickedIndexPath,
+        let item = presenter.item(at: indexPath) else { return }
+        presenter.duplicate(item)
+        view().collectionView.reloadData()
     }
 }
 

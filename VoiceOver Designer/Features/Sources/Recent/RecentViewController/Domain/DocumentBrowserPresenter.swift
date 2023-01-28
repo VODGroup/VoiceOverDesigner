@@ -58,6 +58,47 @@ public class DocumentBrowserPresenter {
         return [.newDocument] + documents
     }
     
+    
+    func delete(_ item: CollectionViewItem) {
+        guard case let .document(url) = item else { return }
+        do {
+            try fileManager.removeItem(at: url)
+        } catch {
+            // Handling
+            Swift.print(error)
+        }
+        
+    }
+    
+    func duplicate(_ item: CollectionViewItem) {
+        guard case let .document(url) = item else { return }
+        
+        
+        do {
+            // Manage copy count???
+            try fileManager.copyItem(at: url, to: URL(string: url.absoluteString + "-copy")!)
+        } catch {
+            // Handling
+            Swift.print(error)
+        }
+    }
+    
+    
+    func moveToCloud(_ item: CollectionViewItem) {
+        guard case let .document(url) = item else { return }
+        
+        
+        do {
+            // Move to cloud directory
+            try fileManager.moveItem(at: url, to: url)
+        } catch {
+            // Handling
+            Swift.print(error)
+        }
+    }
+    
+    
+    
     // MARK: - Datasource
     func numberOfItemsInSection(_ section: Int) -> Int {
         return items.count
