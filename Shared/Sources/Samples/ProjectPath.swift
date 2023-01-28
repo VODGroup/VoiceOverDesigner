@@ -1,0 +1,42 @@
+import Foundation
+
+class ProjectPath {
+    let repository = URL(string: "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main")!
+    
+    init(document: DocumentPath) {
+        self.document = document
+    }
+    
+    private let document: DocumentPath
+    
+    func documentBaseURL() -> URL {
+        resultDocumentPath(for: repository
+            .appendingPathComponent(document.relativePath))
+    }
+    
+    func resultDocumentPath(for base: URL) -> URL {
+        base
+            .appendingPathComponent(document.documentName)
+            .appendingPathExtension("vodesign")
+    }
+    
+    func cachaPath() -> URL {
+        let resultDocumentPath = resultDocumentPath(for: cacheFolder())
+        return resultDocumentPath
+    }
+    
+    func files(of document: DocumentPath) -> [URL] {
+        let fileDocument = documentBaseURL()
+        
+        return document.files.map { file in
+            fileDocument.appendingPathComponent(file)
+        }
+    }
+    
+    func cacheFolder() -> URL {
+        FileManager.default
+            .urls(for: .cachesDirectory, in: .userDomainMask).first!
+            .appendingPathComponent("com.akaDuality.VoiceOver-Designer")
+            .appendingPathExtension("Samples")
+    }
+}

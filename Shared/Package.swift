@@ -22,6 +22,9 @@ let package = Package(
         .library(
             name: "TextRecognition",
             targets: ["TextRecognition"]),
+        .library(
+            name: "Samples",
+            targets: ["Samples"]),
         
     ],
     dependencies: [
@@ -86,6 +89,15 @@ let package = Package(
                 "Canvas",
                 "Document",
                 "DocumentTestHelpers",
+            ]),
+        .target(
+            name: "Samples",
+            dependencies: [
+            ]),
+        .testTarget(
+            name: "SamplesTests",
+            dependencies: [
+                "Samples",
             ]),
     ]
 )
