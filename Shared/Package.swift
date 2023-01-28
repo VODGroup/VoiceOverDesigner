@@ -98,6 +98,7 @@ let package = Package(
             name: "SamplesTests",
             dependencies: [
                 "Samples",
+                .productItem(name: "CustomDump", package: "swift-custom-dump"),
             ]),
     ]
 )

@@ -12,6 +12,14 @@ public class SampleLoader {
                            saveTo: projectPath.cachaPath())
     }
     
+    public func loadStructure() async throws -> SamplesStructure {
+        let (data, _) = try await URLSession.shared
+            .data(from: ProjectPath.structurePath())
+        
+        let structure = try JSONDecoder().decode(SamplesStructure.self, from: data)
+        return structure
+    }
+    
     private func download(
         files: [String],
         documentURL: URL,
@@ -38,18 +46,14 @@ public class SampleLoader {
     }
 }
 
-public struct SampleDto {
-    let documents: [DocumentPath]
+public struct SamplesStructure: Codable, Equatable {
+    let languages: [String:[DocumentPath]]
 }
 
-public struct DocumentPath {
-    public init(relativePath: String, documentName: String, files: [String]) {
-        self.relativePath = relativePath
-        self.documentName = documentName
-        self.files = files
-    }
-    
+public struct DocumentPath: Equatable {
     let relativePath: String
     let documentName: String
     let files: [String]
 }
+
+extension DocumentPath: Codable {}

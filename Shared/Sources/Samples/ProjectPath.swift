@@ -1,7 +1,7 @@
 import Foundation
 
 class ProjectPath {
-    let repository = URL(string: "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main")!
+    static let repository = URL(string: "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main")!
     
     init(document: DocumentPath) {
         self.document = document
@@ -10,8 +10,12 @@ class ProjectPath {
     private let document: DocumentPath
     
     func documentBaseURL() -> URL {
-        resultDocumentPath(for: repository
+        resultDocumentPath(for: Self.repository
             .appendingPathComponent(document.relativePath))
+    }
+    
+    static func structurePath() -> URL {
+        Self.repository.appendingPathComponent("structure.json")
     }
     
     func resultDocumentPath(for base: URL) -> URL {
