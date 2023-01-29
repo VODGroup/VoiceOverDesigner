@@ -15,6 +15,9 @@ public enum CollectionViewItem {
 public protocol DocumentBrowserPresenterProtocol {
     var delegate: DocumentsProviderDelegate? { get set }
     
+    func numberOfSections() -> Int
+    func title(for section: Int) -> String?
+    
     func numberOfItemsInSection(_ section: Int) -> Int
     func item(at indexPath: IndexPath) -> CollectionViewItem?
     

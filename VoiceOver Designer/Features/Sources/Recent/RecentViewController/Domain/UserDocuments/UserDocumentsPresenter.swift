@@ -56,11 +56,19 @@ class UserDocumentsPresenter: DocumentBrowserPresenterProtocol {
         metadataProvider?.load()
     }
     
+    func numberOfSections() -> Int {
+        return 1
+    }
+    
     func numberOfItemsInSection(_ section: Int) -> Int {
         return items.count
     }
     
     func item(at indexPath: IndexPath) -> CollectionViewItem? {
         items[indexPath.item]
+    }
+    
+    func title(for section: Int) -> String? {
+        nil
     }
 }
