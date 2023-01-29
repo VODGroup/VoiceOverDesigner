@@ -85,27 +85,29 @@ extension DocumetsTabViewController {
             group.selectedIndex = 0
             return group
         case .language:
+            guard let languageSource = presenter as? LanguageSource else { return nil }
+            
             let title = NSLocalizedString("Language", comment: "Toolbar item's label")
-            
             let menu = NSMenu(title: title)
+            let locale = Locale.current
             
-            if let languageSource = presenter as? LanguageSource {
-                let locale = Locale.current
+            for (tag, languageCode) in languageSource.possibleLanguages.enumerated() {
+                let language = locale.localizedString(forLanguageCode: languageCode) ?? languageCode
                 
-                for (tag, languageCode) in languageSource.possibleLanguages.enumerated() {
-                    let language = locale.localizedString(forLanguageCode: languageCode) ?? languageCode
-                    
-                    let menuItem = NSMenuItem(title: language, action: #selector(selectLanguage(sender:)), keyEquivalent: "")
-                    menuItem.tag = tag
-                    
-                    menu.addItem(menuItem)
-                }
+                let menuItem = NSMenuItem(title: language, action: #selector(selectLanguage(sender:)), keyEquivalent: "")
+                menuItem.tag = tag
+                
+                menu.addItem(menuItem)
             }
             
             let language = NSMenuToolbarItem(itemIdentifier: .language)
-            language.label = title
-            language.image = NSImage(systemSymbolName: "globe",
-                                     accessibilityDescription: title)
+            
+            if let currentLanguage = languageSource.currentUserLanguage,
+               let languageTitle = locale.localizedString(forLanguageCode: currentLanguage) {
+                language.title = languageTitle
+            } else {
+                language.title = NSLocalizedString("Language", comment: "Toolbar item")
+            }
             language.menu = menu
             
             return language
@@ -152,5 +154,10 @@ extension NSToolbar {
     
     func appendItem(with identifer: NSToolbarItem.Identifier) {
         insertItem(withItemIdentifier: identifer, at: items.count)
+    }
+    
+    func resetLanguageButton() {
+        removeItem(identifier: .language)
+        appendItem(with: .language)
     }
 }

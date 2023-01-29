@@ -57,17 +57,18 @@ class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
         }
     }
     
-    private var currentUserLanguage: String? {
+    var currentUserLanguage: String? = {
         if #available(macOS 13, *) {
             return Locale.current.language.languageCode?.identifier
         } else {
             return Locale.current.languageCode
         }
-    }
+    }()
 }
 
 extension SamplesDocumentsPresenter: LanguageSource {
     func presentProjects(with language: String) {
+        currentUserLanguage = language
         let projects = structure!.languages[language]!
         
 //        self.items = projects.first!.documents.map({ document in

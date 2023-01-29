@@ -185,6 +185,8 @@ extension DocumentsBrowserViewController: NSCollectionViewDelegate {
 extension DocumentsBrowserViewController: DocumentsProviderDelegate {
     public func didUpdateDocuments() {
         view().collectionView.reloadData()
+        
+        view.window?.toolbar?.resetLanguageButton()
     }
 }
 
