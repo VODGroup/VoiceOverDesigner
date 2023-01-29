@@ -35,6 +35,10 @@ public class DocumentsBrowserViewController: NSViewController {
         let menu = NSMenu()
         menu.addItem(NSMenuItem(title: "Delete", action: #selector(didSelectDelete(_:)), keyEquivalent: ""))
         menu.addItem(NSMenuItem(title: "Duplicate", action: #selector(didSelectDuplicate(_:)), keyEquivalent: ""))
+        if presenter.isCloudAvailable {
+            menu.addItem(NSMenuItem(title: "Move to iCloud", action: #selector(didSelectMoveToCloud(_:)), keyEquivalent: ""))
+        }
+
         view().collectionView.menu = menu
     }
     
@@ -134,8 +138,15 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
         guard let indexPath = view().collectionView.clickedIndexPath,
         let item = presenter.item(at: indexPath) else { return }
         presenter.duplicate(item)
+    }
+    
+    @objc func didSelectMoveToCloud(_ item: NSMenuItem) {
+        guard let indexPath = view().collectionView.clickedIndexPath,
+        let item = presenter.item(at: indexPath) else { return }
+        presenter.moveToCloud(item)
         view().collectionView.reloadData()
     }
+    
 }
 
 extension DocumentsBrowserViewController: NSCollectionViewDelegate {

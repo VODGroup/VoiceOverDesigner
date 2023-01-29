@@ -27,6 +27,10 @@ public class DocumentBrowserPresenter {
         documentController?.recentDocumentURLs ?? []
     }
     
+    var isCloudAvailable: Bool {
+        fileManager.iCloudAvailable
+    }
+    
     private let metadataProvider = MetadataProvider(containerIdentifier: containerId,
                                                     fileExtension: vodesign)
     
@@ -38,9 +42,7 @@ public class DocumentBrowserPresenter {
     private var iCloudDocuments: [URL] {
         let metaFiles = metadataProvider?
             .metadataItemList()
-            .map { meta in
-                meta.url
-            }
+            .map(\.url)
         
         return metaFiles ?? []
     }
@@ -72,25 +74,23 @@ public class DocumentBrowserPresenter {
     
     func duplicate(_ item: CollectionViewItem) {
         guard case let .document(url) = item else { return }
-        
-        
         do {
-            // Manage copy count???
-            try fileManager.copyItem(at: url, to: URL(string: url.absoluteString + "-copy")!)
+            try documentController?.duplicateDocument(withContentsOf: url, copying: true, displayName: url.fileName)
         } catch {
-            // Handling
             Swift.print(error)
         }
+        
     }
     
     
     func moveToCloud(_ item: CollectionViewItem) {
         guard case let .document(url) = item else { return }
+        guard let iCloudDirectory = fileManager.iCloudDirectory else { return }
         
         
         do {
             // Move to cloud directory
-            try fileManager.moveItem(at: url, to: url)
+            try fileManager.moveItem(at: url, to: iCloudDirectory)
         } catch {
             // Handling
             Swift.print(error)

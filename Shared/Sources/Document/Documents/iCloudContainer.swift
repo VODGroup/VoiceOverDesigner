@@ -31,3 +31,19 @@ private var documentDirectory: URL {
     fileManager
         .urls(for: .documentDirectory, in: .userDomainMask).first!
 }
+
+
+public extension FileManager {
+    var iCloudDirectory: URL? {
+        url(forUbiquityContainerIdentifier: containerId)?
+            .appendingPathComponent("Documents")
+    }
+    
+    var documentDirectory: URL {
+        urls(for: .documentDirectory, in: .userDomainMask).first!
+    }
+    
+    var iCloudAvailable: Bool {
+        iCloudDirectory != nil
+    }
+}
