@@ -56,11 +56,11 @@ extension DocumetsTabViewController {
     }
     
     override func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        return [.documents, .flexibleSpace, .language]
+        return [.documents, .flexibleSpace]
     }
     
     override func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        [.documents, .language]
+        return [.documents, .language]
     }
     
     override func toolbar(
@@ -98,6 +98,15 @@ extension DocumetsTabViewController {
     }
     
     @objc func selectTab(sender: NSToolbarItemGroup) {
+        if let toolbar = sender.toolbar {
+            let isSamplesTab = sender.selectedIndex == 1
+            if isSamplesTab {
+                toolbar.appendItem(with: .language)
+            } else {
+                toolbar.removeItem(identifier: .language)
+            }
+        }
+        
         selectedTabViewItemIndex = sender.selectedIndex
     }
     
@@ -109,4 +118,18 @@ extension DocumetsTabViewController {
 extension NSToolbarItem.Identifier {
     static let documents = NSToolbarItem.Identifier(rawValue: "Documents")
     static let language = NSToolbarItem.Identifier(rawValue: "Language")
+}
+
+extension NSToolbar {
+    func removeItem(identifier: NSToolbarItem.Identifier) {
+        if let documentIndex = visibleItems?.firstIndex(where: { item in
+            item.itemIdentifier == identifier
+        }) {
+            removeItem(at: documentIndex)
+        }
+    }
+    
+    func appendItem(with identifer: NSToolbarItem.Identifier) {
+        insertItem(withItemIdentifier: identifer, at: items.count)
+    }
 }
