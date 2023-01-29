@@ -11,12 +11,17 @@ public class ParserTests: XCTestCase {
     "languages": {
         "ru-RU": [
             {
-                "relativePath": "Ru/Drinkit",
-                "documentName": "Product card",
-                "files": [
-                    "controls.json",
-                    "screen.png",
-                    "QuickView/Preview.png"
+                "name": "Drinkit",
+                "documents": [
+                    {
+                        "relativePath": "Ru/Drinkit",
+                        "documentName": "Product card",
+                        "files": [
+                            "controls.json",
+                            "screen.png",
+                            "QuickView/Preview.png"
+                        ]
+                    }
                 ]
             }
         ]
@@ -33,14 +38,17 @@ public class ParserTests: XCTestCase {
             SamplesStructure(
                 languages: [
                     "ru-RU" : [
-                        DocumentPath(
-                            relativePath: "Ru/Drinkit",
-                            documentName: "Product card",
-                            files: [
-                                "controls.json",
-                                "screen.png",
-                                "QuickView/Preview.png"
-                            ])
+                        Project(name: "Drinkit",
+                                documents: [
+                                    DocumentPath(
+                                        relativePath: "Ru/Drinkit",
+                                        documentName: "Product card",
+                                        files: [
+                                            "controls.json",
+                                            "screen.png",
+                                            "QuickView/Preview.png"
+                                        ])
+                                ])
                     ]
                 ]
             )

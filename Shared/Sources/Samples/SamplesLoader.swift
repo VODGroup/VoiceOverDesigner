@@ -96,7 +96,12 @@ public class SampleLoader {
 }
 
 public struct SamplesStructure: Codable, Equatable {
-    public let languages: [String:[DocumentPath]]
+    public let languages: [String:[Project]]
+}
+
+public struct Project: Codable, Equatable {
+    public let name: String
+    public let documents: [DocumentPath]
 }
 
 public struct DocumentPath: Equatable {

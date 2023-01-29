@@ -62,8 +62,11 @@ extension SamplesDocumentsPresenter: LanguageSource {
     func presentProjects(with language: String) {
         let projects = structure!.languages[language]!
         
-        self.items = projects.map({ project in
-            CollectionViewItem.sample(DownloadableDocument(path: project, isCached: false))
+        self.items = projects.first!.documents.map({ document in
+            CollectionViewItem.sample(
+                DownloadableDocument(path: document,
+                                     isCached: false) // TODO: Change
+            )
         })
         
         delegate?.didUpdateDocuments()
