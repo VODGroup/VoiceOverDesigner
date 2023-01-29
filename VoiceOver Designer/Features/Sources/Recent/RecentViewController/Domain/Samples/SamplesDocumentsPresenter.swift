@@ -26,16 +26,34 @@ class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
                 self.structure = structure
                 self.possibleLanguages = structure.languages.map { pair in String(pair.key) }
                 
-                let ru = structure.languages.keys.first! // TODO: Choose language
+                let language = language(from: possibleLanguages) // Remember last selected language
                 
                 await MainActor.run(body: {
-                    presentProjects(with: ru)
+                    presentProjects(with: language)
                 })
                 
             } catch let error {
                 // TODO: Add retry button
                 print(error)
             }
+        }
+    }
+    
+    private func language(from possibleLanguages: [String]) -> String {
+        if let currentCode = currentUserLanguage,
+           possibleLanguages.contains(currentCode)
+        {
+            return currentCode
+        } else {
+            return possibleLanguages.first!
+        }
+    }
+    
+    private var currentUserLanguage: String? {
+        if #available(macOS 13, *) {
+            return Locale.current.language.languageCode?.identifier
+        } else {
+            return Locale.current.languageCode
         }
     }
 }
