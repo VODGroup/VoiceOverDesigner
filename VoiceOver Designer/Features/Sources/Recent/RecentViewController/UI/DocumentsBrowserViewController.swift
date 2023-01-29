@@ -119,6 +119,8 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
             
             Task {
                 let sampleLoader = SampleLoader(document: downloadableDocument.path)
+                item.projectCellView.needsDownload = !sampleLoader.isFullyLoaded()
+                
                 try await sampleLoader.prefetch()
                 
                 let documentURL = sampleLoader.documentPathInCache

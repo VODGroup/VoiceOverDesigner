@@ -49,7 +49,7 @@ public class SampleLoader {
                            saveTo: documentPathInCache)
     }
     
-    func isFullyLoaded() -> Bool {
+    public func isFullyLoaded() -> Bool {
         for file in document.files {
             let saveUrl = documentPathInCache.appendingPathComponent(file)
             let isExists = fileManager.fileExists(atPath: saveUrl.path)

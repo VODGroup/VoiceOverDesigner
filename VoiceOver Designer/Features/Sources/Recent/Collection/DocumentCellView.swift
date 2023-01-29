@@ -27,6 +27,22 @@ class DocumentCellView: NSView {
         return thumbnail
     }()
     
+    private lazy var downloadSymbol: NSImageView = {
+        let imageView = NSImageView()
+        imageView.image = NSImage(systemSymbolName: "square.and.arrow.down.on.square",
+                                  accessibilityDescription: "Download")
+        imageView.imageScaling = .scaleProportionallyUpOrDown
+        imageView.alphaValue = 0
+        return imageView
+    }()
+    
+    var needsDownload: Bool = false {
+        didSet {
+            downloadSymbol.alphaValue = needsDownload ? 1 : 0
+            thumbnail.alphaValue = needsDownload ? 0.5 : 1
+        }
+    }
+    
     var image: NSImage? {
         didSet {
             thumbnail.layer?.contents = image // image is a NSImage, could also be a CGImage
@@ -77,12 +93,11 @@ class DocumentCellView: NSView {
     }
     
     func addSubviews() {
-        [thumbnail, fileNameTextField].forEach(addSubview(_:))
+        [thumbnail, fileNameTextField, downloadSymbol].forEach(addSubview(_:))
     }
     
     func addConstraints() {
         thumbnail.translatesAutoresizingMaskIntoConstraints = false
-        fileNameTextField.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             thumbnail.topAnchor.constraint(equalTo: topAnchor),
@@ -90,10 +105,19 @@ class DocumentCellView: NSView {
             thumbnail.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
         
+        fileNameTextField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             fileNameTextField.topAnchor.constraint(equalTo: thumbnail.bottomAnchor, constant: 8),
             fileNameTextField.bottomAnchor.constraint(equalTo: bottomAnchor),
             fileNameTextField.widthAnchor.constraint(equalTo: widthAnchor),
+        ])
+        
+        downloadSymbol.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            downloadSymbol.centerXAnchor.constraint(equalTo: centerXAnchor),
+            downloadSymbol.centerYAnchor.constraint(equalTo: centerYAnchor),
+            downloadSymbol.widthAnchor.constraint(equalToConstant: 100),
+            downloadSymbol.heightAnchor.constraint(equalToConstant: 100),
         ])
     }
     
