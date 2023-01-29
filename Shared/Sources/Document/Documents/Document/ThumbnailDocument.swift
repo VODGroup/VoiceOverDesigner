@@ -9,11 +9,11 @@ public extension URL {
 
 public class ThumbnailDocument {
     
-    public init(frameURL: URL) {
-        self.frameURL = frameURL
+    public init(documentURL: URL) {
+        self.documentURL = documentURL
     }
     
-    private var frameURL: URL
+    private var documentURL: URL
     
     private var thumbnailCache: Image?
     public func thumbnail(
@@ -26,8 +26,8 @@ public class ThumbnailDocument {
         }
         
         let imagePath = ImageSaveService(
-            url: frameURL,
-            fileName: FileName.screen).file
+            url: documentURL,
+            fileName: "QuickView/Preview.png").file
         
         let request = QLThumbnailGenerator.Request(
             fileAt: imagePath,

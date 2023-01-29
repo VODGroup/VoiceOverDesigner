@@ -1,6 +1,7 @@
 import AppKit
 import Document
 import CommonUI
+import Samples
 
 public protocol RecentRouter: AnyObject {
     func show(document: VODesignDocument) -> Void
@@ -93,7 +94,7 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
                 // TODO: Move inside Document's model
                 // TODO: Cache in not working yet
                 let frameURL = url.frameURL(frameName: defaultFrameName)
-                let image = await ThumbnailDocument(frameURL: frameURL)
+                let image = await ThumbnailDocument(documentURL: url)
                     .thumbnail(size: item.expectedImageSize,
                                scale: backingScaleFactor)
                 
@@ -107,6 +108,21 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
             item.configure(
                 fileName: downloadableDocument.path.documentName
             )
+            
+            Task {
+                // TODO: Move inside Document's model
+                // TODO: Cache in not working yet
+                
+                let sampleLoader = SampleLoader(document: downloadableDocument.path)
+                let frameURL = sampleLoader.documentPathInCache.previewURL()
+                let image = await ThumbnailDocument(documentURL: sampleLoader.documentPathInCache)
+                    .thumbnail(size: item.expectedImageSize,
+                               scale: backingScaleFactor)
+                
+                item.image = image
+                // TODO: Check that cell hasn't been reused
+            }
+            
             return item
         }
     }

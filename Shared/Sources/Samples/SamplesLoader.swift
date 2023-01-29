@@ -25,7 +25,7 @@ public class SampleLoader {
         self.projectPath = ProjectPath(document: document)
     }
     
-    var documentPathInCache: URL {
+    public var documentPathInCache: URL {
         projectPath.cachaPath()
     }
     
@@ -41,6 +41,12 @@ public class SampleLoader {
         }
         
         return projectURL
+    }
+    
+    public func prefetch() async throws {
+        try await download(files: ["QuickView/Preview.png"],
+                           documentURL: projectPath.documentBaseURL(),
+                           saveTo: documentPathInCache)
     }
     
     func isFullyLoaded() -> Bool {

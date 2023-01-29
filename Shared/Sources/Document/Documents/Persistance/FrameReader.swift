@@ -42,4 +42,8 @@ extension URL {
             return self.appendingPathComponent(frameName)
         }
     }
+    
+    public func previewURL() -> URL {
+        appendingPathComponent("QuickView/Preview.png")
+    }
 }
