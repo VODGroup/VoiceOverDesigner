@@ -1,5 +1,6 @@
 import Foundation
 import Samples
+import Document
 
 /// Type of cell in collection view
 public enum CollectionViewItem {
@@ -19,6 +20,26 @@ public protocol DocumentBrowserPresenterProtocol {
     
     var shouldShowThisController: Bool { get }
     func load()
+}
+
+extension DocumentBrowserPresenterProtocol {
+    
+    func document(at indexPath: IndexPath) async throws -> VODesignDocument {
+        switch item(at: indexPath)! {
+        case .document(let url):
+            return await VODesignDocument(file: url)
+            
+        case .newDocument:
+            return await VODesignDocument()
+            
+        case .sample(let downloadableDocument):
+            let sampleLoader = SampleLoader()
+            let url = try await sampleLoader
+                .download(document: downloadableDocument.path)
+            
+            return await VODesignDocument(file: url)
+        }
+    }
 }
 
 public class DocumentPresenterFactory {

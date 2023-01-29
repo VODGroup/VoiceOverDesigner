@@ -34,12 +34,8 @@ public class DocumentsBrowserViewController: NSViewController {
     func view() -> DocumentsBrowserView {
         view as! DocumentsBrowserView
     }
-    
-    private func createNewProject() {
-        let document = VODesignDocument()
-        show(document: document)
-    }
 
+    @MainActor
     private func show(document: VODesignDocument) {
         router?.show(document: document)
     }
@@ -107,7 +103,10 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
             
             return item
         case .sample(let downloadableDocument):
-            let item = collectionView.makeItem(withIdentifier: NewDocumentCollectionViewItem.identifier, for: indexPath)
+            let item = collectionView.makeItem(withIdentifier: DocumentCellViewItem.identifier, for: indexPath) as! DocumentCellViewItem
+            item.configure(
+                fileName: downloadableDocument.path.documentName
+            )
             return item
         }
     }
@@ -119,16 +118,18 @@ extension DocumentsBrowserViewController: NSCollectionViewDelegate {
         _ collectionView: NSCollectionView,
         didSelectItemsAt indexPaths: Set<IndexPath>
     ) {
-        for indexPath in indexPaths {
-            switch presenter.item(at: indexPath)! {
-            case .document(let url):
-                let document = VODesignDocument(file: url)
+        guard let indexPath = indexPaths.first else {
+            return
+        }
+        
+        Task {
+            do {
+                let document = try await presenter.document(at: indexPath)
+                
                 show(document: document)
                 
-            case .newDocument:
-                createNewProject()
-            case .sample(let downloadableDocument):
-                break // TODO: Load and open
+            } catch let error {
+                print(error)
             }
         }
     }

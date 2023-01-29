@@ -4,12 +4,16 @@ public class SampleLoader {
 
     public init() {}
     
-    public func download(document: DocumentPath) async throws {
+    public func download(document: DocumentPath) async throws -> URL {
         let projectPath = ProjectPath(document: document)
+        
+        let projectURL = projectPath.cachaPath()
         
         try await download(files: document.files,
                            documentURL: projectPath.documentBaseURL(),
-                           saveTo: projectPath.cachaPath())
+                           saveTo: projectURL)
+        
+        return projectURL
     }
     
     public func loadStructure() async throws -> SamplesStructure {
