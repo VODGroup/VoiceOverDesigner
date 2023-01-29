@@ -6,8 +6,8 @@ class DocumetsTabViewController: NSTabViewController {
         super.init(nibName: nil, bundle: nil)
         
         let userDocuments = NSTabViewItem(viewController: documentsBrowserController(presenter: UserDocumentsPresenter(), router: router))
-        userDocuments.label = NSLocalizedString("Your documents", comment: "Tab's label")
-        userDocuments.image = NSImage(systemSymbolName: "tray.full", accessibilityDescription: "Your documents")
+        userDocuments.label = NSLocalizedString("My documents", comment: "Tab's label")
+        userDocuments.image = NSImage(systemSymbolName: "tray.full", accessibilityDescription: "My documents")
         
         let samples = NSTabViewItem(viewController: documentsBrowserController(
             presenter: SamplesDocumentsPresenter(),
