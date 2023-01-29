@@ -16,22 +16,21 @@ class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
     
     private var items = [CollectionViewItem]()
     
+    var possibleLanguages = [String]()
+    var structure: SamplesStructure?
+    
     func load() {
         Task {
             do {
                 let structure = try await SamplesLoader().loadStructure()
+                self.structure = structure
+                self.possibleLanguages = structure.languages.map { pair in String(pair.key) }
                 
                 let ru = structure.languages.keys.first! // TODO: Choose language
                 
-                let projects = structure.languages[ru]!
-                
-                self.items = projects.map({ project in
-                    CollectionViewItem.sample(DownloadableDocument(path: project, isCached: false))
+                await MainActor.run(body: {
+                    presentProjects(with: ru)
                 })
-                
-                await MainActor.run {
-                    delegate?.didUpdateDocuments()
-                }
                 
             } catch let error {
                 // TODO: Add retry button
@@ -41,3 +40,14 @@ class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
     }
 }
 
+extension SamplesDocumentsPresenter: LanguageSource {
+    func presentProjects(with language: String) {
+        let projects = structure!.languages[language]!
+        
+        self.items = projects.map({ project in
+            CollectionViewItem.sample(DownloadableDocument(path: project, isCached: false))
+        })
+        
+        delegate?.didUpdateDocuments()
+    }
+}

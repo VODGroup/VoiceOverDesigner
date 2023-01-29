@@ -40,6 +40,11 @@ class DocumetsTabViewController: NSTabViewController {
         projects.router = router
         return projects
     }
+    
+    private var presenter: DocumentBrowserPresenterProtocol {
+        let item = tabViewItems[selectedTabViewItemIndex].viewController as! DocumentsBrowserViewController
+        return item.presenter
+    }
 }
 
 // MARK: - Toolbar
@@ -83,12 +88,24 @@ extension DocumetsTabViewController {
             let title = NSLocalizedString("Language", comment: "Toolbar item's label")
             
             let menu = NSMenu(title: title)
-            menu.addItem(NSMenuItem(title: "Russian", action: #selector(selectLanguage(sender:)), keyEquivalent: ""))
-            menu.addItem(NSMenuItem(title: "English", action: #selector(selectLanguage(sender:)), keyEquivalent: ""))
+            
+            if let languageSource = presenter as? LanguageSource {
+                let locale = Locale.current
+                
+                for (tag, languageCode) in languageSource.possibleLanguages.enumerated() {
+                    let language = locale.localizedString(forLanguageCode: languageCode) ?? languageCode
+                    
+                    let menuItem = NSMenuItem(title: language, action: #selector(selectLanguage(sender:)), keyEquivalent: "")
+                    menuItem.tag = tag
+                    
+                    menu.addItem(menuItem)
+                }
+            }
             
             let language = NSMenuToolbarItem(itemIdentifier: .language)
             language.label = title
-            language.image = NSImage(systemSymbolName: "globe", accessibilityDescription: title)
+            language.image = NSImage(systemSymbolName: "globe",
+                                     accessibilityDescription: title)
             language.menu = menu
             
             return language
@@ -98,6 +115,8 @@ extension DocumetsTabViewController {
     }
     
     @objc func selectTab(sender: NSToolbarItemGroup) {
+        selectedTabViewItemIndex = sender.selectedIndex
+        
         if let toolbar = sender.toolbar {
             let isSamplesTab = sender.selectedIndex == 1
             if isSamplesTab {
@@ -106,12 +125,14 @@ extension DocumetsTabViewController {
                 toolbar.removeItem(identifier: .language)
             }
         }
-        
-        selectedTabViewItemIndex = sender.selectedIndex
     }
     
-    @objc func selectLanguage(sender: AnyObject) {
+    @objc func selectLanguage(sender: NSMenuItem) {
+        guard let languageSource = presenter as? LanguageSource else { return }
         
+        let languageCode = languageSource.possibleLanguages[sender.tag]
+                
+        languageSource.presentProjects(with: languageCode)
     }
 }
 

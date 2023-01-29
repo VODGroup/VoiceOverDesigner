@@ -22,6 +22,12 @@ public protocol DocumentBrowserPresenterProtocol {
     func load()
 }
 
+public protocol LanguageSource {
+    var possibleLanguages: [String] { get }
+    
+    func presentProjects(with language: String)
+}
+
 extension DocumentBrowserPresenterProtocol {
     
     func document(at indexPath: IndexPath) async throws -> VODesignDocument {
