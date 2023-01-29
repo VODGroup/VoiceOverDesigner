@@ -56,13 +56,11 @@ extension DocumetsTabViewController {
     }
     
     override func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        let ids = super.toolbarDefaultItemIdentifiers(toolbar)
-        
-        return ids + [.documents]
+        return [.documents, .flexibleSpace, .language]
     }
     
     override func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        [.documents]
+        [.documents, .language]
     }
     
     override func toolbar(
@@ -81,7 +79,19 @@ extension DocumetsTabViewController {
                                            target: self, action: #selector(selectTab(sender:)))
             group.selectedIndex = 0
             return group
+        case .language:
+            let title = NSLocalizedString("Language", comment: "Toolbar item's label")
             
+            let menu = NSMenu(title: title)
+            menu.addItem(NSMenuItem(title: "Russian", action: #selector(selectLanguage(sender:)), keyEquivalent: ""))
+            menu.addItem(NSMenuItem(title: "English", action: #selector(selectLanguage(sender:)), keyEquivalent: ""))
+            
+            let language = NSMenuToolbarItem(itemIdentifier: .language)
+            language.label = title
+            language.image = NSImage(systemSymbolName: "globe", accessibilityDescription: title)
+            language.menu = menu
+            
+            return language
         default:
             return nil
         }
@@ -90,8 +100,13 @@ extension DocumetsTabViewController {
     @objc func selectTab(sender: NSToolbarItemGroup) {
         selectedTabViewItemIndex = sender.selectedIndex
     }
+    
+    @objc func selectLanguage(sender: AnyObject) {
+        
+    }
 }
 
 extension NSToolbarItem.Identifier {
     static let documents = NSToolbarItem.Identifier(rawValue: "Documents")
+    static let language = NSToolbarItem.Identifier(rawValue: "Language")
 }
