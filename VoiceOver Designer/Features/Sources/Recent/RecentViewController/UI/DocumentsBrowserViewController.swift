@@ -90,17 +90,7 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
                 fileName: url.fileName
             )
 
-            Task {
-                // TODO: Move inside Document's model
-                // TODO: Cache in not working yet
-                let frameURL = url.frameURL(frameName: defaultFrameName)
-                let image = await ThumbnailDocument(documentURL: url)
-                    .thumbnail(size: item.expectedImageSize,
-                               scale: backingScaleFactor)
-                
-                item.image = image
-                // TODO: Check that cell hasn't been reused
-            }
+            readThumbnail(documentURL: url, cell: item)
             
             return item
         case .sample(let downloadableDocument):
@@ -110,20 +100,27 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
             )
             
             Task {
-                // TODO: Move inside Document's model
-                // TODO: Cache in not working yet
-                
                 let sampleLoader = SampleLoader(document: downloadableDocument.path)
-                let frameURL = sampleLoader.documentPathInCache.previewURL()
-                let image = await ThumbnailDocument(documentURL: sampleLoader.documentPathInCache)
-                    .thumbnail(size: item.expectedImageSize,
-                               scale: backingScaleFactor)
+                try await sampleLoader.prefetch()
                 
-                item.image = image
-                // TODO: Check that cell hasn't been reused
+                let documentURL = sampleLoader.documentPathInCache
+                readThumbnail(documentURL: documentURL, cell: item)
             }
             
             return item
+        }
+    }
+    
+    private func readThumbnail(documentURL: URL, cell: DocumentCellViewItem) {
+        Task {
+            // TODO: Move inside Document's model
+            // TODO: Cache in not working yet
+            let image = await ThumbnailDocument(documentURL: documentURL)
+                .thumbnail(size: cell.expectedImageSize,
+                           scale: backingScaleFactor)
+            
+            cell.image = image
+            // TODO: Check that cell hasn't been reused
         }
     }
 }

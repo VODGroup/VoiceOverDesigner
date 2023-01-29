@@ -24,6 +24,7 @@ class DocumentCellViewItem: NSCollectionViewItem {
         projectCellView.layoutSubtreeIfNeeded()
     }
 
+    @MainActor
     var image: NSImage? {
         didSet {
             projectCellView.image = image
