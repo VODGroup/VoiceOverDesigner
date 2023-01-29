@@ -33,9 +33,9 @@ extension DocumentBrowserPresenterProtocol {
             return await VODesignDocument()
             
         case .sample(let downloadableDocument):
-            let sampleLoader = SampleLoader()
+            let sampleLoader = SampleLoader(document: downloadableDocument.path)
             let url = try await sampleLoader
-                .download(document: downloadableDocument.path)
+                .download()
             
             return await VODesignDocument(file: url)
         }

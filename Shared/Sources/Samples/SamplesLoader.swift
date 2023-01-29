@@ -1,27 +1,58 @@
 import Foundation
 
-public class SampleLoader {
-
-    public init() {}
+public class SamplesLoader {
     
-    public func download(document: DocumentPath) async throws -> URL {
-        let projectPath = ProjectPath(document: document)
-        
-        let projectURL = projectPath.cachaPath()
-        
-        try await download(files: document.files,
-                           documentURL: projectPath.documentBaseURL(),
-                           saveTo: projectURL)
-        
-        return projectURL
-    }
+    public init() {}
     
     public func loadStructure() async throws -> SamplesStructure {
         let (data, _) = try await URLSession.shared
             .data(from: ProjectPath.structurePath())
         
-        let structure = try JSONDecoder().decode(SamplesStructure.self, from: data)
+        let structure = try JSONDecoder()
+            .decode(SamplesStructure.self, from: data)
+        
         return structure
+    }
+}
+
+public class SampleLoader {
+
+    private let document: DocumentPath
+    private let projectPath: ProjectPath
+    
+    public init(document: DocumentPath) {
+        self.document = document
+        self.projectPath = ProjectPath(document: document)
+    }
+    
+    var documentPathInCache: URL {
+        projectPath.cachaPath()
+    }
+    
+    public func download() async throws -> URL {
+        let projectURL = documentPathInCache
+        
+        if isFullyLoaded() {
+            return projectURL
+        } else {
+            try await download(files: document.files,
+                               documentURL: projectPath.documentBaseURL(),
+                               saveTo: projectURL)
+        }
+        
+        return projectURL
+    }
+    
+    func isFullyLoaded() -> Bool {
+        for file in document.files {
+            let saveUrl = documentPathInCache.appendingPathComponent(file)
+            let isExists = fileManager.fileExists(atPath: saveUrl.path)
+            if !isExists {
+                return false
+            }
+        }
+        
+        return true
     }
     
     private func download(
@@ -33,6 +64,11 @@ public class SampleLoader {
             let downloadUrl = documentURL.appendingPathComponent(file)
             let saveUrl = resultDocumentPath.appendingPathComponent(file)
             
+            if fileManager.fileExists(atPath: saveUrl.path) {
+                print("File \(saveUrl) is exists, skip loading")
+                continue
+            }
+            
             let (data, _) = try await URLSession.shared.data(from: downloadUrl)
             
             try save(data: data, to: saveUrl)
@@ -43,9 +79,12 @@ public class SampleLoader {
     private func save(data: Data, to file: URL) throws {
         print("Will write to \(file)")
         
+        let folderPath = file.deletingLastPathComponent()
+        
         try fileManager.createDirectory(
-            at: file.deletingLastPathComponent(),
+            at: folderPath,
             withIntermediateDirectories: true)
+        
         try data.write(to: file)
     }
 }

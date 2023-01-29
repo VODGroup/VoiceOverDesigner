@@ -14,15 +14,12 @@ class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
     
     var shouldShowThisController: Bool = true
     
-    
-    private let samplesLoader = SampleLoader()
-    
     private var items = [CollectionViewItem]()
     
     func load() {
         Task {
             do {
-                let structure = try await samplesLoader.loadStructure()
+                let structure = try await SamplesLoader().loadStructure()
                 
                 let ru = structure.languages.keys.first! // TODO: Choose language
                 
