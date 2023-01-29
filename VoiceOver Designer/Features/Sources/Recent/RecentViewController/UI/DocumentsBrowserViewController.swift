@@ -148,17 +148,8 @@ extension DocumentsBrowserViewController: NSCollectionViewDelegate {
     }
 }
 
-extension DocumentsBrowserViewController {
-    func toolbar() -> NSToolbar {
-        let toolbar = NSToolbar()
-        return toolbar
-    }
-}
-
-
 extension DocumentsBrowserViewController: DocumentsProviderDelegate {
     public func didUpdateDocuments() {
         view().collectionView.reloadData()
     }
 }
-

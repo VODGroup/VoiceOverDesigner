@@ -47,24 +47,14 @@ public class RecentWindowController: NSWindowController {
     }
     
     public func embedProjectsViewControllerInWindow() {
-        let projects = documentsBrowserController(presenter: presenter)
-        projects.view().collectionView.reloadData()
-        
+        let controller = DocumetsTabViewController(router: self)
+    
         setupToolbarAppearance(
             title: NSLocalizedString("VoiceOver Designer",
                                      comment: "Window's title"),
-            toolbar: projects.toolbar())
+            toolbar: controller.toolbar())
         
-        contentViewController = projects
-    }
-    
-    func documentsBrowserController(
-        presenter: DocumentBrowserPresenterProtocol
-    ) -> DocumentsBrowserViewController {
-        let projects = DocumentsBrowserViewController.fromStoryboard()
-        projects.presenter = presenter
-        projects.router = self
-        return projects
+        contentViewController = controller
     }
 }
 
