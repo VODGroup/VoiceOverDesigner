@@ -106,8 +106,11 @@ public struct Project: Codable, Equatable {
 
 public struct DocumentPath: Equatable {
     public let relativePath: String
-    public let documentName: String
+    public let name: String
     public let files: [String]
+    /// In kilobytes
+    public let fileSize: Int
+    public let version: Int
 }
 
 extension DocumentPath: Codable {}

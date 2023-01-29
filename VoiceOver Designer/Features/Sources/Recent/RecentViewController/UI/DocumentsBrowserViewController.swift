@@ -114,7 +114,7 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
         case .sample(let downloadableDocument):
             let item = collectionView.makeItem(withIdentifier: DocumentCellViewItem.identifier, for: indexPath) as! DocumentCellViewItem
             item.configure(
-                fileName: downloadableDocument.path.documentName
+                fileName: downloadableDocument.path.name
             )
             
             Task {

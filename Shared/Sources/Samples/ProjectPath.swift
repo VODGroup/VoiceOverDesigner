@@ -20,7 +20,7 @@ class ProjectPath {
     
     func resultDocumentPath(for base: URL) -> URL {
         base
-            .appendingPathComponent(document.documentName)
+            .appendingPathComponent(document.name)
             .appendingPathExtension("vodesign")
     }
     

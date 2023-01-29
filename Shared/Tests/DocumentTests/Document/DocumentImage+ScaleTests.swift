@@ -39,7 +39,7 @@ final class DocumentImage_ScaleTests: XCTestCase {
     }
     
     func test_APPKit_whenUpdateImageExternaly_shouldSetImageSizeWithScale() throws {
-        let document = VODesignDocument(fileName: documentName)
+        let document = VODesignDocument(fileName: name)
         document.updateImage(try imageWith3xScale())
         
         XCTAssertEqual(document.imageSize, scaledSize)
@@ -49,7 +49,7 @@ final class DocumentImage_ScaleTests: XCTestCase {
 #elseif os(iOS)
 
     func test_UIKitReadImageSizeWithoutScale() throws {
-        let document = VODesignDocument(fileName: documentName)
+        let document = VODesignDocument(fileName: name)
         document.updateImage(try imageWith3xScale())
         XCTAssertEqual(document.image?.size, rawSize)
         

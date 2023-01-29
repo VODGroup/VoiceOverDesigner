@@ -10,12 +10,14 @@ import XCTest
 
 let drinkitProject = DocumentPath(
     relativePath: "Ru/Drinkit",
-    documentName: "Product card",
+    name: "Product card",
     files: [
         "controls.json",
         "screen.png",
         "QuickView/Preview.png",
-    ])
+    ],
+    fileSize: 4000,
+    version: 1)
 
 final class ProjectPathTests: XCTestCase {
 
