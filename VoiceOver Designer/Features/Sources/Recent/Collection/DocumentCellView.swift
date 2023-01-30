@@ -17,12 +17,12 @@ class DocumentCellView: NSView {
         thumbnail.isEditable = false
         thumbnail.wantsLayer = true
         
-        let layer = thumbnail.layer
-        layer?.contentsGravity = .resizeAspectFill
+        let layer = layer
+//        layer?.contentsGravity = .resizeAspectFill
         layer?.borderColor = Color.quaternaryLabelColor.cgColor
         layer?.borderWidth = 1
-        layer?.cornerRadius = DocumentCornerRadius
-        layer?.cornerCurve = .continuous
+//        layer?.cornerRadius = DocumentCornerRadius
+//        layer?.cornerCurve = .continuous
         
         return thumbnail
     }()
@@ -45,7 +45,7 @@ class DocumentCellView: NSView {
     
     var image: NSImage? {
         didSet {
-            thumbnail.layer?.contents = image // image is a NSImage, could also be a CGImage
+            thumbnail.image = image
         }
     }
     
