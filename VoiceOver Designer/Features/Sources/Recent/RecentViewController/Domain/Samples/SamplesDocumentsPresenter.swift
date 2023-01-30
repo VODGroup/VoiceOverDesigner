@@ -30,21 +30,33 @@ class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
     func load() {
         Task {
             do {
-                let structure = try await SamplesLoader().loadStructure()
-                self.structure = structure
-                self.possibleLanguages = structure.languages.map { pair in String(pair.key) }
+                let loader = SamplesLoader()
                 
-                let language = language(from: possibleLanguages) // Remember last selected language
+                // Read cache fast
+                if let structure = loader.prefetchedStructure() {
+                    await handle(structure: structure)
+                }
                 
-                await MainActor.run(body: {
-                    presentProjects(with: language)
-                })
+                // Update or load first time
+                let structure = try await loader.loadStructure()
+                await handle(structure: structure)
                 
             } catch let error {
                 // TODO: Add retry button
                 print(error)
             }
         }
+    }
+    
+    private func handle(structure: SamplesStructure) async {
+        self.structure = structure
+        self.possibleLanguages = structure.languages.map { pair in String(pair.key) }
+        
+        let language = language(from: possibleLanguages) // Remember last selected language
+        
+        await MainActor.run(body: {
+            presentProjects(with: language)
+        })
     }
     
     private func language(from possibleLanguages: [String]) -> String {

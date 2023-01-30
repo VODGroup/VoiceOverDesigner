@@ -10,7 +10,7 @@ class ProjectPath {
     private let document: DocumentPath
     
     func documentBaseURL() -> URL {
-        resultDocumentPath(for: Self.repository
+        resultDocumentPath(base: Self.repository
             .appendingPathComponent(document.relativePath))
     }
     
@@ -18,14 +18,14 @@ class ProjectPath {
         Self.repository.appendingPathComponent("structure.json")
     }
     
-    func resultDocumentPath(for base: URL) -> URL {
+    func resultDocumentPath(base: URL) -> URL {
         base
             .appendingPathComponent(document.name)
             .appendingPathExtension("vodesign")
     }
     
     func cachaPath() -> URL {
-        let resultDocumentPath = resultDocumentPath(for: cacheFolder())
+        let resultDocumentPath = resultDocumentPath(base: cacheFolder())
         return resultDocumentPath
     }
     
@@ -39,8 +39,15 @@ class ProjectPath {
     
     func cacheFolder() -> URL {
         FileManager.default
+            .cacheFolder
+            .appendingPathExtension("Samples")
+    }
+}
+
+extension FileManager {
+    var cacheFolder: URL {
+        FileManager.default
             .urls(for: .cachesDirectory, in: .userDomainMask).first!
             .appendingPathComponent("com.akaDuality.VoiceOver-Designer")
-            .appendingPathExtension("Samples")
     }
 }

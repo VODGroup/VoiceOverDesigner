@@ -8,12 +8,38 @@ public class SamplesLoader {
         let (data, _) = try await URLSession.shared
             .data(from: ProjectPath.structurePath())
         
-        let structure = try JSONDecoder()
-            .decode(SamplesStructure.self, from: data)
+        let structure = try structure(from: data)
+        
+        try? dataCache.save(data: data, to: structurePath)
         
         return structure
     }
+    
+    private func structure(from data: Data) throws -> SamplesStructure {
+        try JSONDecoder()
+            .decode(SamplesStructure.self, from: data)
+    }
+    
+    public func prefetchedStructure() -> SamplesStructure? {
+        guard let data = try? Data(contentsOf: structurePath) else {
+            return nil
+        }
+        
+        let structure = try? structure(from: data)
+        
+        return structure
+    }
+    
+    private var structurePath: URL {
+        FileManager.default
+            .cacheFolder
+            .appendingPathComponent("structure.json")
+    }
+    
+    let dataCache = DataCache()
 }
+
+
 
 public class SampleLoader {
 
@@ -52,7 +78,7 @@ public class SampleLoader {
     public func isFullyLoaded() -> Bool {
         for file in document.files {
             let saveUrl = documentPathInCache.appendingPathComponent(file)
-            let isExists = fileManager.fileExists(atPath: saveUrl.path)
+            let isExists = dataCache.hasFile(at: saveUrl)
             if !isExists {
                 return false
             }
@@ -67,22 +93,40 @@ public class SampleLoader {
         saveTo resultDocumentPath: URL
     ) async throws {
         for file in files {
-            let downloadUrl = documentURL.appendingPathComponent(file)
-            let saveUrl = resultDocumentPath.appendingPathComponent(file)
-            
-            if fileManager.fileExists(atPath: saveUrl.path) {
-                print("File \(saveUrl) is exists, skip loading")
-                continue
-            }
-            
-            let (data, _) = try await URLSession.shared.data(from: downloadUrl)
-            
-            try save(data: data, to: saveUrl)
+            // TODO: Parallel
+            try await dataCache.downloadIfCacheIsEmpty(
+                downloadUrl: documentURL.appendingPathComponent(file),
+                cacheUrl: resultDocumentPath.appendingPathComponent(file))
         }
     }
     
+    let dataCache = DataCache()
+    
     private let fileManager = FileManager.default
-    private func save(data: Data, to file: URL) throws {
+}
+
+class DataCache {
+    func downloadIfCacheIsEmpty(
+        downloadUrl: URL,
+        cacheUrl: URL
+    ) async throws {
+        if fileManager.fileExists(atPath: cacheUrl.path) {
+            print("File \(cacheUrl) is exists, skip loading")
+            return
+        }
+        
+        let (data, _) = try await URLSession.shared.data(from: downloadUrl)
+        
+        try save(data: data, to: cacheUrl)
+    }
+    
+    func hasFile(at cacheUrl: URL) -> Bool {
+        fileManager.fileExists(atPath: cacheUrl.path)
+    }
+    
+    private let fileManager = FileManager.default
+    
+    func save(data: Data, to file: URL) throws {
         print("Will write to \(file)")
         
         let folderPath = file.deletingLastPathComponent()
