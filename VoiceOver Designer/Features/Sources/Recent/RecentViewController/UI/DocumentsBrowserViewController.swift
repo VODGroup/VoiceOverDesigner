@@ -100,47 +100,35 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
     public func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
         switch presenter.item(at: indexPath)! {
         case .newDocument:
-            let item = collectionView.makeItem(withIdentifier: NewDocumentCollectionViewItem.identifier, for: indexPath)
+            let item = collectionView.makeItem(
+                withIdentifier: NewDocumentCollectionViewItem.identifier,
+                for: indexPath)
             return item
         case .document(let url):
-            let item = collectionView.makeItem(withIdentifier: DocumentCellViewItem.identifier, for: indexPath) as! DocumentCellViewItem
+            let item = collectionView.makeItem(
+                withIdentifier: DocumentCellViewItem.identifier,
+                for: indexPath) as! DocumentCellViewItem
             item.configure(
                 fileName: url.fileName
             )
 
-            readThumbnail(documentURL: url, cell: item)
+            item.readThumbnail(documentURL: url,
+                               backingScaleFactor: backingScaleFactor)
             
             return item
         case .sample(let downloadableDocument):
-            let item = collectionView.makeItem(withIdentifier: DocumentCellViewItem.identifier, for: indexPath) as! DocumentCellViewItem
+            let item = collectionView.makeItem(
+                withIdentifier: DocumentCellViewItem.identifier,
+                for: indexPath) as! DocumentCellViewItem
+            
             item.configure(
                 fileName: downloadableDocument.path.name
             )
             
-            Task {
-                let sampleLoader = SampleLoader(document: downloadableDocument.path)
-                item.projectCellView.needsDownload = !sampleLoader.isFullyLoaded()
-                
-                try await sampleLoader.prefetch()
-                
-                let documentURL = sampleLoader.documentPathInCache
-                readThumbnail(documentURL: documentURL, cell: item)
-            }
+            item.loadThumbnail(for: downloadableDocument.path,
+                               backingScaleFactor: backingScaleFactor)
             
             return item
-        }
-    }
-    
-    private func readThumbnail(documentURL: URL, cell: DocumentCellViewItem) {
-        Task {
-            // TODO: Move inside Document's model
-            // TODO: Cache in not working yet
-            let image = await ThumbnailDocument(documentURL: documentURL)
-                .thumbnail(size: cell.expectedImageSize,
-                           scale: backingScaleFactor)
-            
-            cell.image = image
-            // TODO: Check that cell hasn't been reused
         }
     }
 }
