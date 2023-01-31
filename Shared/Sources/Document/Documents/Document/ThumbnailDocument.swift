@@ -25,9 +25,15 @@ public class ThumbnailDocument {
             return thumbnailCache
         }
         
-        let imagePath = ImageSaveService(
+        var imagePath = ImageSaveService(
             url: documentURL,
             fileName: FolderName.quickLookPath).file
+        
+        if !FileManager.default.fileExists(atPath: imagePath.path) {
+            imagePath = ImageSaveService(
+                url: documentURL,
+                fileName: "QuickView/Preview.png").file
+        }
         
         let request = QLThumbnailGenerator.Request(
             fileAt: imagePath,
