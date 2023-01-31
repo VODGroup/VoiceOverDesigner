@@ -42,9 +42,9 @@ class DocumentWrappersInvalidationTests: XCTestCase {
         try super.setUpWithError()
         
         document = try XCTUnwrap(Sample()
-            .document(name: "ReleaseVersionFormat"))
+            .document(name: "FrameVersionFormat"))
         
-        path = try XCTUnwrap(Sample().documentPath(name: "ReleaseVersionFormat"))
+        path = try XCTUnwrap(Sample().documentPath(name: "FrameVersionFormat"))
     }
     
     func test_matchesContentAfterReading() {
