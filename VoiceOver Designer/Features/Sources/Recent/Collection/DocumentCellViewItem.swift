@@ -40,7 +40,14 @@ class DocumentCellViewItem: NSCollectionViewItem {
     ) {
         Task {
             let sampleLoader = SampleLoader(document: documentPath)
-            projectCellView.needsDownload = !sampleLoader.isFullyLoaded()
+            
+            projectCellView.state = nil
+            
+            if sampleLoader.isFullyLoaded() {
+                projectCellView.state = .image
+            } else {
+                projectCellView.state = .needLoading
+            }
             
             try await sampleLoader.prefetch()
             

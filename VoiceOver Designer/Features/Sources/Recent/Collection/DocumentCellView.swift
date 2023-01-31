@@ -12,15 +12,41 @@ import Document
 
 class DocumentCellView: NSView {
     
+    enum State {
+        case image, loading, needLoading
+    }
+    
+    var state: State? = .needLoading {
+        didSet {
+            downloadSymbol.alphaValue = 0
+            thumbnail.alphaValue = 0
+            activityIndicator.alphaValue = 0
+            
+            switch state {
+            case .image:
+                thumbnail.alphaValue = 1
+            case .loading:
+                thumbnail.alphaValue = 0.5
+                activityIndicator.alphaValue = 1
+                activityIndicator.startAnimation(self)
+            case .needLoading:
+                thumbnail.alphaValue = 0.5
+                downloadSymbol.alphaValue = 1
+            case .none:
+                break
+            }
+        }
+    }
+    
     private lazy var thumbnail: NSImageView = {
         let thumbnail = NSImageView(image: NSImage())
         thumbnail.isEditable = false
         thumbnail.wantsLayer = true
         
         let layer = layer
-//        layer?.contentsGravity = .resizeAspectFill
         layer?.borderColor = Color.quaternaryLabelColor.cgColor
         layer?.borderWidth = 1
+//        layer?.contentsGravity = .resizeAspectFill
 //        layer?.cornerRadius = DocumentCornerRadius
 //        layer?.cornerCurve = .continuous
         
@@ -36,18 +62,17 @@ class DocumentCellView: NSView {
         return imageView
     }()
     
-    var needsDownload: Bool = false {
-        didSet {
-            downloadSymbol.alphaValue = needsDownload ? 1 : 0
-            thumbnail.alphaValue = needsDownload ? 0.5 : 1
-        }
-    }
-    
     var image: NSImage? {
         didSet {
             thumbnail.image = image
         }
     }
+    private lazy var activityIndicator: NSProgressIndicator = {
+        let indicator = NSProgressIndicator()
+        indicator.isIndeterminate = true
+        indicator.alphaValue = 0
+        return indicator
+    }()
     
     lazy var fileNameTextField: NSTextField = {
       let view = NSTextField()
@@ -93,7 +118,8 @@ class DocumentCellView: NSView {
     }
     
     func addSubviews() {
-        [thumbnail, fileNameTextField, downloadSymbol].forEach(addSubview(_:))
+        [thumbnail, fileNameTextField, downloadSymbol, activityIndicator]
+            .forEach(addSubview(_:))
     }
     
     func addConstraints() {
@@ -118,6 +144,13 @@ class DocumentCellView: NSView {
             downloadSymbol.centerYAnchor.constraint(equalTo: centerYAnchor),
             downloadSymbol.widthAnchor.constraint(equalToConstant: 100),
             downloadSymbol.heightAnchor.constraint(equalToConstant: 100),
+        ])
+        
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
+            activityIndicator.bottomAnchor.constraint(equalTo: thumbnail.bottomAnchor),
+            activityIndicator.widthAnchor.constraint(equalTo: widthAnchor),
         ])
     }
     

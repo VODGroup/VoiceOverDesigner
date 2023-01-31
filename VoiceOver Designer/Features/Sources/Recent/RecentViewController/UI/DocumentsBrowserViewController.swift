@@ -161,6 +161,8 @@ extension DocumentsBrowserViewController: NSCollectionViewDelegate {
         
         Task {
             do {
+                let cell = collectionView.item(at: indexPath) as? DocumentCellViewItem
+                cell?.projectCellView.state = .loading
                 let document = try await presenter.document(at: indexPath)
                 
                 show(document: document)
