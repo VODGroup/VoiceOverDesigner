@@ -1,4 +1,5 @@
 import Foundation
+import Document
 
 public class SamplesLoader {
     
@@ -44,7 +45,7 @@ public class SampleLoader {
     }
     
     public func prefetch() async throws {
-        try await download(files: ["QuickView/Preview.png"],
+        try await download(files: [FolderName.quickLookPath],
                            documentURL: projectPath.documentBaseURL(),
                            saveTo: documentPathInCache)
     }

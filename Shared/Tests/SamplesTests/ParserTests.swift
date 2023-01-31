@@ -21,7 +21,7 @@ public class ParserTests: XCTestCase {
                         "files": [
                             "controls.json",
                             "screen.png",
-                            "QuickView/Preview.png"
+                            "QuickView/Preview.heic"
                         ]
                     }
                 ]
@@ -48,7 +48,7 @@ public class ParserTests: XCTestCase {
                                         files: [
                                             "controls.json",
                                             "screen.png",
-                                            "QuickView/Preview.png"
+                                            "QuickView/Preview.heic"
                                         ],
                                         fileSize: 4000,
                                         version: 1)

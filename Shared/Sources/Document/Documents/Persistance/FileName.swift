@@ -2,11 +2,15 @@ enum FileName {
     static let screen = "screen.png"
     static let controls = "controls.json"
     static let info = "info.json"
-    static let quickLookFile = "Preview.png"
+    static let quickLookFile = "Preview.heic"
 }
 
-enum FolderName {
+public enum FolderName {
     static let quickLook = "QuickView"
+    
+    public static var quickLookPath: String {
+        "\(FolderName.quickLook)/\(FileName.quickLookFile)"
+    }
 }
 
 public let vodesign = "vodesign"

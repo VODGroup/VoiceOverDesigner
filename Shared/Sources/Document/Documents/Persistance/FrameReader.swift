@@ -44,6 +44,6 @@ extension URL {
     }
     
     public func previewURL() -> URL {
-        appendingPathComponent("QuickView/Preview.png")
+        appendingPathComponent(FolderName.quickLookPath)
     }
 }

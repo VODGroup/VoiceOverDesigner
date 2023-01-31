@@ -60,7 +60,7 @@ extension VODesignDocumentProtocol {
     
     private func previewWrapper() -> FileWrapper? {
         guard let image = image, // TODO: Make smaller size
-              let imageData = image.png()
+              let imageData = image.heic(compressionQuality: 0.51)
         else { return nil }
         
         let imageWrapper = FileWrapper(regularFileWithContents: imageData)

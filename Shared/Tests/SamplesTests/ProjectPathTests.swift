@@ -14,7 +14,7 @@ let drinkitProject = DocumentPath(
     files: [
         "controls.json",
         "screen.png",
-        "QuickView/Preview.png",
+        "QuickView/Preview.heic",
     ],
     fileSize: 4000,
     version: 1)
@@ -45,7 +45,7 @@ final class ProjectPathTests: XCTestCase {
             }),
             ["https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/Ru/Drinkit/Product%20card.vodesign/controls.json",
              "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/Ru/Drinkit/Product%20card.vodesign/screen.png",
-             "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/Ru/Drinkit/Product%20card.vodesign/QuickView/Preview.png"])
+             "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/Ru/Drinkit/Product%20card.vodesign/QuickView/Preview.heic"])
         
     }
 }
