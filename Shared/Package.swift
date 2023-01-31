@@ -93,6 +93,7 @@ let package = Package(
         .target(
             name: "Samples",
             dependencies: [
+                "Document",
             ]),
         .testTarget(
             name: "SamplesTests",
