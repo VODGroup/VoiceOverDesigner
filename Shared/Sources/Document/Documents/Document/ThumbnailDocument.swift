@@ -27,7 +27,7 @@ public class ThumbnailDocument {
         
         let imagePath = ImageSaveService(
             url: documentURL,
-            fileName: "QuickView/Preview.png").file
+            fileName: FolderName.quickLookPath).file
         
         let request = QLThumbnailGenerator.Request(
             fileAt: imagePath,
