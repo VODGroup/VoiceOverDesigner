@@ -36,14 +36,20 @@ public class ThumbnailDocument {
             representationTypes: .thumbnail)
         
         let previewGenerator = QLThumbnailGenerator()
-        let thumbnail = try? await previewGenerator.generateBestRepresentation(for: request)
         
-        #if canImport(AppKit)
-        thumbnailCache = thumbnail?.nsImage
-        return thumbnail?.nsImage
-        #else
-        thumbnailCache = thumbnail?.uiImage
-        return thumbnail?.uiImage
-        #endif
+        do {
+            let thumbnail = try await previewGenerator.generateBestRepresentation(for: request)
+            
+#if canImport(AppKit)
+            thumbnailCache = thumbnail.nsImage
+            return thumbnail.nsImage
+#else
+            thumbnailCache = thumbnail.uiImage
+            return thumbnail.uiImage
+#endif
+        } catch let error {
+            print(error)
+            return nil
+        }
     }
 }
