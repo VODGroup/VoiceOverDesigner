@@ -34,6 +34,11 @@ class DocumentCellViewItem: NSCollectionViewItem {
     
     private var currentDocument: URL?
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        image = nil
+    }
+    
     func loadThumbnail(
         for documentPath: DocumentPath,
         backingScaleFactor: CGFloat
