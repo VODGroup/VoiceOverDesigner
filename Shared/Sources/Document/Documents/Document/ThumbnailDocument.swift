@@ -25,9 +25,15 @@ public class ThumbnailDocument {
             return thumbnailCache
         }
         
-        let imagePath = ImageSaveService(
+        var imagePath = ImageSaveService(
             url: documentURL,
             fileName: FolderName.quickLookPath).file
+        
+        if !FileManager.default.fileExists(atPath: imagePath.path) {
+            imagePath = ImageSaveService(
+                url: documentURL,
+                fileName: "QuickView/Preview.png").file
+        }
         
         let request = QLThumbnailGenerator.Request(
             fileAt: imagePath,
@@ -36,14 +42,20 @@ public class ThumbnailDocument {
             representationTypes: .thumbnail)
         
         let previewGenerator = QLThumbnailGenerator()
-        let thumbnail = try? await previewGenerator.generateBestRepresentation(for: request)
         
-        #if canImport(AppKit)
-        thumbnailCache = thumbnail?.nsImage
-        return thumbnail?.nsImage
-        #else
-        thumbnailCache = thumbnail?.uiImage
-        return thumbnail?.uiImage
-        #endif
+        do {
+            let thumbnail = try await previewGenerator.generateBestRepresentation(for: request)
+            
+#if canImport(AppKit)
+            thumbnailCache = thumbnail.nsImage
+            return thumbnail.nsImage
+#else
+            thumbnailCache = thumbnail.uiImage
+            return thumbnail.uiImage
+#endif
+        } catch let error {
+            print(error)
+            return nil
+        }
     }
 }
