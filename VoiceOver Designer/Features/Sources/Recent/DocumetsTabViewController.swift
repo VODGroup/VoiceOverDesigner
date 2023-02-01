@@ -117,6 +117,7 @@ extension DocumetsTabViewController {
     }
     
     @objc func selectTab(sender: NSToolbarItemGroup) {
+        guard selectedTabViewItemIndex != sender.selectedIndex else { return }
         selectedTabViewItemIndex = sender.selectedIndex
         
         if let toolbar = sender.toolbar {
@@ -127,6 +128,8 @@ extension DocumetsTabViewController {
                 toolbar.removeItem(identifier: .language)
             }
         }
+        
+        // TODO: Remember selected tab
     }
     
     @objc func selectLanguage(sender: NSMenuItem) {
