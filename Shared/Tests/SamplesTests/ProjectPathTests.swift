@@ -25,7 +25,9 @@ final class ProjectPathTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        sut = ProjectPath(document: drinkitProject)
+        sut = ProjectPath(document: drinkitProject, cacheFolder: {
+            URL(string: "/Users/mikhail/Library/Caches/com.akaDuality.VoiceOver-Designer")!
+        })
     }
     
     func test_projectPath() {
@@ -47,5 +49,12 @@ final class ProjectPathTests: XCTestCase {
              "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/Ru/Drinkit/Product%20card.vodesign/screen.png",
              "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/Ru/Drinkit/Product%20card.vodesign/QuickView/Preview.heic"])
         
+    }
+
+    // MARK: Cache
+    func test_cache() {
+        XCTAssertEqual(
+            sut.cachaPath().path,
+            "/Users/mikhail/Library/Caches/com.akaDuality.VoiceOver-Designer/Samples/Ru/Drinkit/Product card.vodesign")
     }
 }

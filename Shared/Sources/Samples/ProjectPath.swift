@@ -3,11 +3,16 @@ import Foundation
 class ProjectPath {
     static let repository = URL(string: "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main")!
     
-    init(document: DocumentPath) {
+    init(
+        document: DocumentPath,
+        cacheFolder: @escaping () -> URL =  FileManager.default.cacheFolder
+    ) {
         self.document = document
+        self.cacheFolder = cacheFolder
     }
     
     private let document: DocumentPath
+    private let cacheFolder: () -> URL
     
     func documentBaseURL() -> URL {
         resultDocumentPath(base: Self.repository
@@ -25,8 +30,10 @@ class ProjectPath {
     }
     
     func cachaPath() -> URL {
-        let resultDocumentPath = resultDocumentPath(base: cacheFolder())
-        return resultDocumentPath
+        return cacheFolder()
+            .appendingPathComponent(document.relativePath)
+            .appendingPathComponent(document.name)
+            .appendingPathExtension("vodesign")
     }
     
     func files(of document: DocumentPath) -> [URL] {
@@ -37,17 +44,18 @@ class ProjectPath {
         }
     }
     
-    func cacheFolder() -> URL {
-        FileManager.default
-            .cacheFolder
-            .appendingPathExtension("Samples")
-    }
+    
 }
 
 extension FileManager {
-    var cacheFolder: URL {
+    func cacheFolder() -> URL {
         FileManager.default
             .urls(for: .cachesDirectory, in: .userDomainMask).first!
             .appendingPathComponent("com.akaDuality.VoiceOver-Designer")
+    }
+    
+    func samplesCacheFolder() -> URL {
+        cacheFolder()
+            .appendingPathComponent("Samples")
     }
 }

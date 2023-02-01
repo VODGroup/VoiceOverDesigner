@@ -33,7 +33,7 @@ public class SamplesLoader {
     
     private var structurePath: URL {
         FileManager.default
-            .cacheFolder
+            .samplesCacheFolder()
             .appendingPathComponent("structure.json")
     }
     
@@ -112,11 +112,17 @@ class DataCache {
         cacheUrl: URL
     ) async throws {
         if fileManager.fileExists(atPath: cacheUrl.path) {
-            print("File \(cacheUrl) is exists, skip loading")
+            print("File is exists, skip loading: \(cacheUrl) ")
             return
         }
         
-        let (data, _) = try await URLSession.shared.data(from: downloadUrl)
+        let (data, response) = try await URLSession.shared.data(from: downloadUrl)
+        
+        let statusCode = (response as? HTTPURLResponse)?.statusCode
+        guard statusCode == 200 else {
+            print("Can't download \(downloadUrl)")
+            return // no need to save other http responses
+        }
         
         try save(data: data, to: cacheUrl)
     }
