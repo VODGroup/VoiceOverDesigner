@@ -1,5 +1,6 @@
 import Foundation
 import Samples
+import Document
 
 class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
     weak var delegate: DocumentsProviderDelegate?
@@ -60,7 +61,7 @@ class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
     }
     
     private func language(from possibleLanguages: [String]) -> String {
-        if let currentCode = currentUserLanguage,
+        if let currentCode = samplesLanguage,
            possibleLanguages.contains(currentCode)
         {
             return currentCode
@@ -69,18 +70,23 @@ class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
         }
     }
     
-    var currentUserLanguage: String? = {
+    @Storage(key: "samplesLanguage", defaultValue: Locale.current.currentUserLanguage)
+    var samplesLanguage: String?
+}
+
+extension Locale {
+    var currentUserLanguage: String? {
         if #available(macOS 13, *) {
-            return Locale.current.language.languageCode?.identifier
+            return language.languageCode?.identifier
         } else {
-            return Locale.current.languageCode
+            return languageCode
         }
-    }()
+    }
 }
 
 extension SamplesDocumentsPresenter: LanguageSource {
     func presentProjects(with language: String) {
-        currentUserLanguage = language
+        samplesLanguage = language
         let projects = structure!.languages[language]!
         
 //        self.items = projects.first!.documents.map({ document in

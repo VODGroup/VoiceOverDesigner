@@ -103,7 +103,7 @@ extension DocumetsTabViewController {
             let language = NSMenuToolbarItem(itemIdentifier: .language)
             language.menu = menu
             language.isBordered = false
-            if let currentLanguage = languageSource.currentUserLanguage,
+            if let currentLanguage = languageSource.samplesLanguage,
                let languageTitle = locale.localizedString(forLanguageCode: currentLanguage) {
                 language.title = languageTitle
             } else {

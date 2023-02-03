@@ -26,7 +26,7 @@ public protocol DocumentBrowserPresenterProtocol {
 }
 
 public protocol LanguageSource {
-    var currentUserLanguage: String? { get }
+    var samplesLanguage: String? { get }
     var possibleLanguages: [String] { get }
     
     func presentProjects(with language: String)
