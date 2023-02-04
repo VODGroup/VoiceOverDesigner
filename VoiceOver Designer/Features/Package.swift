@@ -61,6 +61,7 @@ let package = Package(
             name: "Recent",
             dependencies: [
                 "CommonUI",
+                .product(name: "Samples", package: "Shared"),
                 .product(name: "Document", package: "Shared"),
             ]
         ),

@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "swift-argument-parser",
+        "repositoryURL": "https://github.com/apple/swift-argument-parser.git",
+        "state": {
+          "branch": null,
+          "revision": "4ad606ba5d7673ea60679a61ff867cc1ff8c8e86",
+          "version": "1.2.1"
+        }
+      },
+      {
         "package": "swift-custom-dump",
         "repositoryURL": "git@github.com:pointfreeco/swift-custom-dump.git",
         "state": {
