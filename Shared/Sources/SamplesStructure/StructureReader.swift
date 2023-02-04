@@ -49,27 +49,24 @@ struct StructureReader {
         
         var result: [DocumentPath] = []
         for document in documents {
-            let documents = documentPath(language: language,
-                                         project: project,
-                                         documentWithExtension: document)
-            result.append(documents)
+            let documentName = document
+                .components(separatedBy: ".")
+                .dropLast()
+                .joined(separator: ".")
+            
+            let documentPath = projectFolder.appendingPathComponent(document)
+            
+            let documentDescription = DocumentPath(
+                relativePath: URL(filePath: language).appendingPathComponent(project).path,
+                name: documentName,
+                files: try fileManager.relativePathIncludingSubfolders(path: documentPath),
+                fileSize: fileManager.directorySize(url: documentPath),
+                version: 1) // TODO: Compare and update
+            
+            
+            result.append(documentDescription)
         }
         
         return result
-    }
-    
-    private func documentPath(
-        language: String,
-        project: String,
-        documentWithExtension: String
-    ) -> DocumentPath {
-        let documentName = documentWithExtension.components(separatedBy: ".")
-            .dropLast().joined(separator: ".")
-        
-        return DocumentPath(
-            relativePath: URL(filePath: language).appendingPathComponent(project).path,
-            name: documentName,
-            files: [],
-            fileSize: 0, version: 1)
     }
 }

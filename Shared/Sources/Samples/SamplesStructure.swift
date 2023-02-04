@@ -19,7 +19,7 @@ public struct Project: Codable, Equatable {
 }
 
 public struct DocumentPath: Equatable {
-    public init(relativePath: String, name: String, files: [String], fileSize: Int, version: Int) {
+    public init(relativePath: String, name: String, files: [String], fileSize: Int64, version: Int) {
         self.relativePath = relativePath
         self.name = name
         self.files = files
@@ -31,7 +31,7 @@ public struct DocumentPath: Equatable {
     public let name: String
     public let files: [String]
     /// In kilobytes
-    public let fileSize: Int
+    public let fileSize: Int64
     public let version: Int
 }
 
