@@ -89,19 +89,12 @@ extension SamplesDocumentsPresenter: LanguageSource {
         samplesLanguage = language
         let projects = structure!.languages[language]!
         
-//        self.items = projects.first!.documents.map({ document in
-//            CollectionViewItem.sample(
-//                DownloadableDocument(path: document,
-//                                     isCached: false) // TODO: Change
-//            )
-//        })
-        
         self.sections = projects.map { project in
             ProjectViewModel(title: project.name,
                              documents: project.documents.map({ document in
                 CollectionViewItem.sample(
                     DownloadableDocument(path: document,
-                                         isCached: false) // TODO: Change
+                                         isCached: false) // TODO: Move cache check to this property?
                 )
             }))
         }
