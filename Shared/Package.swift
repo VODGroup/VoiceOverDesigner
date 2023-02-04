@@ -30,6 +30,7 @@ let package = Package(
     dependencies: [
         .package(url: "git@github.com:pointfreeco/swift-custom-dump.git",
                  .upToNextMajor(from: "0.6.1")),
+        .package(url: "git@github.com:apple/swift-argument-parser.git", from: "1.2.1"),
     ],
     targets: [
         .target(
@@ -92,6 +93,8 @@ let package = Package(
                 "Document",
                 "DocumentTestHelpers",
             ]),
+        
+        // MARK: - Samples
         .target(
             name: "Samples",
             dependencies: [
@@ -103,5 +106,9 @@ let package = Package(
                 "Samples",
                 .productItem(name: "CustomDump", package: "swift-custom-dump"),
             ]),
+        .executableTarget(name: "SamplesStructure", dependencies: [
+            "Samples",
+            .product(name: "ArgumentParser", package: "swift-argument-parser"),
+        ])
     ]
 )
