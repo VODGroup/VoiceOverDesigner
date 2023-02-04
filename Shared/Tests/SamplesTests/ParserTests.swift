@@ -19,8 +19,8 @@ public class ParserTests: XCTestCase {
                         "fileSize": 4000,
                         "version": 1,
                         "files": [
-                            "controls.json",
-                            "screen.png",
+                            "Frame/controls.json",
+                            "Frame/screen.png",
                             "QuickView/Preview.heic"
                         ]
                     }
@@ -46,8 +46,8 @@ public class ParserTests: XCTestCase {
                                         relativePath: "Ru/Drinkit",
                                         name: "Product card",
                                         files: [
-                                            "controls.json",
-                                            "screen.png",
+                                            "Frame/controls.json",
+                                            "Frame/screen.png",
                                             "QuickView/Preview.heic"
                                         ],
                                         fileSize: 4000,
