@@ -26,7 +26,7 @@ final class DocumentVersionsTests: XCTestCase {
     
     func test_canReadFrameFileFormat() throws {
         let document = try XCTUnwrap(Sample()
-            .document(name: "ReleaseVersionFormat"))
+            .document(name: "FrameVersionFormat"))
         
         XCTAssertFalse(document.isBetaStructure)
         

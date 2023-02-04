@@ -22,11 +22,15 @@ let package = Package(
         .library(
             name: "TextRecognition",
             targets: ["TextRecognition"]),
+        .library(
+            name: "Samples",
+            targets: ["Samples"]),
         
     ],
     dependencies: [
         .package(url: "git@github.com:pointfreeco/swift-custom-dump.git",
                  .upToNextMajor(from: "0.6.1")),
+        .package(url: "git@github.com:apple/swift-argument-parser.git", from: "1.2.1"),
     ],
     targets: [
         .target(
@@ -41,7 +45,9 @@ let package = Package(
             resources: [
                 .process("Samples/screenWith3xScale.png"),
                 .copy("Samples/BetaVersionFormat.vodesign"),
-                .copy("Samples/ReleaseVersionFormat.vodesign")]
+                .copy("Samples/FrameVersionFormat.vodesign"),
+                .copy("Samples/FrameVersionFormatWithHeicPreview.vodesign"),
+            ]
         ),
         .testTarget(
             name: "DocumentTests",
@@ -87,5 +93,22 @@ let package = Package(
                 "Document",
                 "DocumentTestHelpers",
             ]),
+        
+        // MARK: - Samples
+        .target(
+            name: "Samples",
+            dependencies: [
+                "Document",
+            ]),
+        .testTarget(
+            name: "SamplesTests",
+            dependencies: [
+                "Samples",
+                .productItem(name: "CustomDump", package: "swift-custom-dump"),
+            ]),
+        .executableTarget(name: "SamplesStructure", dependencies: [
+            "Samples",
+            .product(name: "ArgumentParser", package: "swift-argument-parser"),
+        ])
     ]
 )

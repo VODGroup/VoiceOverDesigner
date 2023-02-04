@@ -104,6 +104,16 @@
                ReferencedContainer = "container:Shared">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "SamplesTests"
+               BuildableName = "SamplesTests"
+               BlueprintName = "SamplesTests"
+               ReferencedContainer = "container:Shared">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

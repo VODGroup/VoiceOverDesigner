@@ -18,7 +18,7 @@ public class RecentWindowController: NSWindowController {
     
     public static func fromStoryboard(
         delegate: RecentDelegate,
-        presenter: DocumentBrowserPresenter
+        presenter: DocumentBrowserPresenterProtocol
     ) -> RecentWindowController {
         let storyboard = NSStoryboard(name: "RecentWindowController", bundle: Bundle.module)
         let windowController = storyboard.instantiateInitialController() as! RecentWindowController
@@ -28,7 +28,7 @@ public class RecentWindowController: NSWindowController {
     }
     
     weak var delegate: RecentDelegate?
-    var presenter: DocumentBrowserPresenter!
+    var presenter: DocumentBrowserPresenterProtocol!
     
     public override func windowDidLoad() {
         super.windowDidLoad()
@@ -47,24 +47,14 @@ public class RecentWindowController: NSWindowController {
     }
     
     public func embedProjectsViewControllerInWindow() {
-        let projects = documentsBrowserController(presenter: presenter)
-        projects.view().collectionView.reloadData()
-        
+        let controller = DocumetsTabViewController(router: self)
+    
         setupToolbarAppearance(
             title: NSLocalizedString("VoiceOver Designer",
                                      comment: "Window's title"),
-            toolbar: projects.toolbar())
+            toolbar: controller.toolbar())
         
-        contentViewController = projects
-    }
-    
-    public func documentsBrowserController(
-        presenter: DocumentBrowserPresenter
-    ) -> DocumentsBrowserViewController {
-        let projects = DocumentsBrowserViewController.fromStoryboard()
-        projects.presenter = presenter
-        projects.router = self
-        return projects
+        contentViewController = controller
     }
 }
 

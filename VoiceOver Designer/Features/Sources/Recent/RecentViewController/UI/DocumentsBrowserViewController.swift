@@ -1,6 +1,7 @@
 import AppKit
 import Document
 import CommonUI
+import Samples
 
 public protocol RecentRouter: AnyObject {
     func show(document: VODesignDocument) -> Void
@@ -9,7 +10,7 @@ public protocol RecentRouter: AnyObject {
 public class DocumentsBrowserViewController: NSViewController {
 
     public weak var router: RecentRouter?
-    var presenter: DocumentBrowserPresenter! {
+    var presenter: DocumentBrowserPresenterProtocol! {
         didSet {
             if needReloadDataOnStart {
                 view().collectionView.reloadData()
@@ -23,6 +24,14 @@ public class DocumentsBrowserViewController: NSViewController {
         super.viewDidLoad()
         view().collectionView.dataSource = self
         view().collectionView.delegate = self
+        
+        view().collectionView.register(
+            HeaderCell.self,
+            forSupplementaryViewOfKind: NSCollectionView.elementKindSectionHeader,
+            withIdentifier: HeaderCell.id
+        )
+        
+        presenter.load()
     }
     
     /// Sometimel layout is called right after loading from storyboard, presenter is not set and a crash happened.
@@ -32,12 +41,8 @@ public class DocumentsBrowserViewController: NSViewController {
     func view() -> DocumentsBrowserView {
         view as! DocumentsBrowserView
     }
-    
-    private func createNewProject() {
-        let document = VODesignDocument()
-        show(document: document)
-    }
 
+    @MainActor
     private func show(document: VODesignDocument) {
         router?.show(document: document)
     }
@@ -69,7 +74,19 @@ extension DocumentsBrowserViewController: DragNDropDelegate {
 extension DocumentsBrowserViewController : NSCollectionViewDataSource {
     
     public func numberOfSections(in collectionView: NSCollectionView) -> Int {
-        1
+        presenter.numberOfSections()
+    }
+    
+    public func collectionView(
+        _ collectionView: NSCollectionView,
+        viewForSupplementaryElementOfKind kind: NSCollectionView.SupplementaryElementKind,
+        at indexPath: IndexPath
+    ) -> NSView {
+        let view = collectionView.makeSupplementaryView(ofKind: kind,
+                                                        withIdentifier: HeaderCell.id,
+                                                        for: indexPath) as! HeaderCell
+        view.label.stringValue = presenter.title(for: indexPath.section) ?? ""
+        return view
     }
     
     public func collectionView(_ collectionView: NSCollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -83,28 +100,52 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
     public func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
         switch presenter.item(at: indexPath)! {
         case .newDocument:
-            let item = collectionView.makeItem(withIdentifier: NewDocumentCollectionViewItem.identifier, for: indexPath)
+            let item = collectionView.makeItem(
+                withIdentifier: NewDocumentCollectionViewItem.identifier,
+                for: indexPath)
             return item
         case .document(let url):
-            let item = collectionView.makeItem(withIdentifier: DocumentCellViewItem.identifier, for: indexPath) as! DocumentCellViewItem
+            let item = collectionView.makeItem(
+                withIdentifier: DocumentCellViewItem.identifier,
+                for: indexPath) as! DocumentCellViewItem
             item.configure(
                 fileName: url.fileName
             )
 
-            Task {
-                // TODO: Move inside Document's model
-                // TODO: Cache in not working yet
-                let frameURL = url.frameURL(frameName: defaultFrameName)
-                let image = await ThumbnailDocument(frameURL: frameURL)
-                    .thumbnail(size: item.expectedImageSize,
-                               scale: backingScaleFactor)
-                
-                item.image = image
-                // TODO: Check that cell hasn't been reused
-            }
+            item.readThumbnail(documentURL: url,
+                               backingScaleFactor: backingScaleFactor)
+            
+            return item
+        case .sample(let downloadableDocument):
+            let item = collectionView.makeItem(
+                withIdentifier: DocumentCellViewItem.identifier,
+                for: indexPath) as! DocumentCellViewItem
+            
+            item.configure(
+                fileName: downloadableDocument.path.name
+            )
+            
+            item.loadThumbnail(for: downloadableDocument.path,
+                               backingScaleFactor: backingScaleFactor)
             
             return item
         }
+    }
+}
+
+extension DocumentsBrowserViewController: NSCollectionViewDelegateFlowLayout {
+    
+    public func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> NSSize {
+        if let _ = presenter.title(for: section) {
+            return CGSize(width: 0, height: 50)
+        } else {
+            return .zero
+        }
+    }
+    
+    public func collectionView(_ collectionView: NSCollectionView, layout collectionViewLayout: NSCollectionViewLayout, insetForSectionAt section: Int) -> NSEdgeInsets {
+        // TODO: Connect with header insets
+        NSEdgeInsets(top: 16, left: 16, bottom: 25, right: 16)
     }
 }
 
@@ -114,30 +155,62 @@ extension DocumentsBrowserViewController: NSCollectionViewDelegate {
         _ collectionView: NSCollectionView,
         didSelectItemsAt indexPaths: Set<IndexPath>
     ) {
-        for indexPath in indexPaths {
-            switch presenter.item(at: indexPath)! {
-            case .document(let url):
-                let document = VODesignDocument(file: url)
+        guard let indexPath = indexPaths.first else {
+            return
+        }
+        
+        Task {
+            do {
+                let cell = collectionView.item(at: indexPath) as? DocumentCellViewItem
+                cell?.projectCellView.state = .loading
+                let document = try await presenter.document(at: indexPath)
+                
                 show(document: document)
                 
-            case .newDocument:
-                createNewProject()
+            } catch let error {
+                print(error)
             }
         }
     }
 }
 
-extension DocumentsBrowserViewController {
-    func toolbar() -> NSToolbar {
-        let toolbar = NSToolbar()
-        return toolbar
-    }
-}
-
-
 extension DocumentsBrowserViewController: DocumentsProviderDelegate {
-    func didUpdateDocuments() {
+    public func didUpdateDocuments() {
         view().collectionView.reloadData()
+        
+        view.window?.toolbar?.resetLanguageButton()
     }
 }
 
+final class HeaderCell: NSView, NSCollectionViewSectionHeaderView {
+    lazy var label: NSTextField = {
+        let label = NSTextField()
+        label.font = .preferredFont(forTextStyle: .largeTitle)
+        label.stringValue = "Header"
+        label.textColor = NSColor.labelColor
+        label.isBordered = false
+        label.isEditable = false
+        label.isSelectable = false
+        label.backgroundColor = .clear
+        return label
+    }()
+
+    override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
+
+        addSubview(label)
+
+        label.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            leadingAnchor.constraint(equalTo: label.leadingAnchor, constant: -16),
+            bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 4),
+            widthAnchor.constraint(equalTo: label.widthAnchor),
+        ])
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
+    static let id = NSUserInterfaceItemIdentifier(rawValue: "sectionHeader")
+}

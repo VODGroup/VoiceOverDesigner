@@ -6,7 +6,8 @@ class WindowManager: NSObject {
     
     static var shared = WindowManager()
     
-    let documentsPresenter = DocumentBrowserPresenter()
+    let documentsPresenter = DocumentPresenterFactory().presenter()
+    
     lazy var recentWindowController: RecentWindowController = {
         RecentWindowController.fromStoryboard(delegate: self, presenter: documentsPresenter)
     }()
@@ -63,6 +64,7 @@ extension WindowManager: ProjectRouterDelegate {
     func closeProject(document: NSDocument) {
         document.removeWindowController(recentWindowController)
         
+        document.save(self)
         document.close()
         
         recentWindowController.embedProjectsViewControllerInWindow()
