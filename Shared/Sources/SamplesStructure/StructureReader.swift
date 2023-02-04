@@ -57,7 +57,7 @@ struct StructureReader {
             let documentPath = projectFolder.appendingPathComponent(document)
             
             let documentDescription = DocumentPath(
-                relativePath: URL(filePath: language).appendingPathComponent(project).path,
+                relativePath: language + "/" + project,
                 name: documentName,
                 files: try fileManager.relativePathIncludingSubfolders(path: documentPath),
                 fileSize: fileManager.directorySize(url: documentPath),
