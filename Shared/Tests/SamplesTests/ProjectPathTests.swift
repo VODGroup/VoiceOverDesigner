@@ -12,8 +12,8 @@ let drinkitProject = DocumentPath(
     relativePath: "Ru/Drinkit",
     name: "Product card",
     files: [
-        "controls.json",
-        "screen.png",
+        "Frame/controls.json",
+        "Frame/screen.png",
         "QuickView/Preview.heic",
     ],
     fileSize: 4000,
@@ -26,7 +26,7 @@ final class ProjectPathTests: XCTestCase {
     override func setUp() {
         super.setUp()
         sut = ProjectPath(document: drinkitProject, cacheFolder: {
-            URL(string: "/Users/mikhail/Library/Caches/com.akaDuality.VoiceOver-Designer")!
+            URL(string: "/Users/mikhail/Library/Caches/com.akaDuality.VoiceOver-Designer/Samples")!
         })
     }
     

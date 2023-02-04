@@ -6,12 +6,12 @@ final class SampleIntegrationTests: XCTestCase {
         let sut = SampleLoader(document: drinkitProject)
 
         XCTAssertFalse(sut.isFullyLoaded())
-        let url = try! await sut.download()
+        let documentPath = try! await sut.download()
         XCTAssertTrue(sut.isFullyLoaded())
         
         addTeardownBlock {
             // Clear cache
-            try FileManager.default.removeItem(at: sut.documentPathInCache)
+            try FileManager.default.removeItem(at: documentPath)
         }
     }
 }
@@ -22,5 +22,8 @@ final class SamplesIntegrationTests: XCTestCase {
         let sut = SamplesLoader()
         
         let structure = try await sut.loadStructure()
+        
+        XCTAssertFalse(structure.languages.isEmpty)
+        // TODO: Test another properties?
     }
 }
