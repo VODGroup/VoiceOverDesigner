@@ -11,7 +11,7 @@ struct GenerateStructure: ParsableCommand {
 
     mutating func run() throws {
         let fileManager = FileManager.default
-        let currentFolder = path ?? fileManager.currentDirectoryPath
+        let currentFolder = URL(filePath: path ?? fileManager.currentDirectoryPath)
         print(currentFolder)
         
         let structure = try StructureReader().run(currentFolder: currentFolder)
@@ -20,12 +20,12 @@ struct GenerateStructure: ParsableCommand {
         try write(structure, to: currentFolder)
     }
     
-    func write(_ structure: SamplesStructure, to folder: String) throws {
+    func write(_ structure: SamplesStructure, to folder: URL) throws {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
         let data = try encoder.encode(structure)
         
-        let file = URL(filePath: folder).appendingPathComponent("structure.json")
+        let file = folder.appendingPathComponent("structure.json")
         print("Will write to file \(file)")
         try data.write(to: file)
     }

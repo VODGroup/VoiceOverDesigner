@@ -1,10 +1,11 @@
 import Foundation
 import Samples
 
+@available(macOS 13.0, *)
 struct StructureReader {
     let fileManager = FileManager.default
     
-    func run(currentFolder: String) throws -> SamplesStructure {
+    func run(currentFolder: URL) throws -> SamplesStructure {
         let languages = try fileManager.folders(at: currentFolder)
         print("Languages: \(languages)")
         
@@ -17,15 +18,15 @@ struct StructureReader {
         return SamplesStructure(languages: result)
     }
     
-    private func projects(language: String, path: String) throws -> [Project] {
+    private func projects(language: String, path: URL) throws -> [Project] {
         print(language)
-        let langFolder = path + "/" + language
+        let langFolder = path.appendingPathComponent(language)
         let projects = try fileManager.folders(at: langFolder)
         
         var result: [Project] = []
         for project in projects {
             print("     \(project)")
-            let documentFolder = langFolder + "/" + project
+            let documentFolder = langFolder.appendingPathComponent(project)
 
             let documents = try documents(language: language,
                                           project: project,
@@ -42,7 +43,7 @@ struct StructureReader {
     private func documents(
         language: String,
         project: String,
-        projectFolder: String
+        projectFolder: URL
     ) throws -> [DocumentPath] {
         let documents = try fileManager.vodesign(at: projectFolder)
         
@@ -66,7 +67,7 @@ struct StructureReader {
             .dropLast().joined(separator: ".")
         
         return DocumentPath(
-            relativePath: language + "/" + project,
+            relativePath: URL(filePath: language).appendingPathComponent(project).path,
             name: documentName,
             files: [],
             fileSize: 0, version: 1)
