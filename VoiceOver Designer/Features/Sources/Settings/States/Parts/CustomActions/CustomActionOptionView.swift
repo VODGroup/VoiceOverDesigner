@@ -33,6 +33,7 @@ class CustomActionOptionView: NSView {
         textfield = NSTextField()
         textfield.bezelStyle = .roundedBezel
         textfield.isEditable = true
+        textfield.cell?.sendsActionOnEndEditing = true
         
         removeButton = NSButton(title: "-", target: nil, action: nil)
         removeButton.bezelStyle = .inline
