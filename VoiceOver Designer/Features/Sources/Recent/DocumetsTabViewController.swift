@@ -1,4 +1,5 @@
 import AppKit
+import Document // For @Storage
 
 class DocumetsTabViewController: NSTabViewController {
     
@@ -19,6 +20,7 @@ class DocumetsTabViewController: NSTabViewController {
         addTabViewItem(samples)
         
         tabStyle = .unspecified
+        selectedTabViewItemIndex = Self.lastSelectedTabIndex
     }
     
     required init?(coder: NSCoder) {
@@ -45,6 +47,9 @@ class DocumetsTabViewController: NSTabViewController {
         let item = tabViewItems[selectedTabViewItemIndex].viewController as! DocumentsBrowserViewController
         return item.presenter
     }
+    
+    @Storage(key: "RecentSelectedTab", defaultValue: 0)
+    static var lastSelectedTabIndex: Int
 }
 
 // MARK: - Toolbar
@@ -82,7 +87,7 @@ extension DocumetsTabViewController {
                                            selectionMode: .selectOne,
                                            labels: nil,
                                            target: self, action: #selector(selectTab(sender:)))
-            group.selectedIndex = 0
+            group.selectedIndex = Self.lastSelectedTabIndex
             return group
         case .language:
             guard let languageSource = presenter as? LanguageSource else { return nil }
@@ -119,6 +124,7 @@ extension DocumetsTabViewController {
     @objc func selectTab(sender: NSToolbarItemGroup) {
         guard selectedTabViewItemIndex != sender.selectedIndex else { return }
         selectedTabViewItemIndex = sender.selectedIndex
+        Self.lastSelectedTabIndex = sender.selectedIndex
         
         if let toolbar = sender.toolbar {
             let isSamplesTab = sender.selectedIndex == 1
