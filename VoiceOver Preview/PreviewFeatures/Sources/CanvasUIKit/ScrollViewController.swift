@@ -47,14 +47,6 @@ class ScrollView: UIView {
         
         scrollView.maximumZoomScale = 4
     }
-    
-    func fitZoomScale() {
-        let widthScale = scrollView.bounds.width / scrollView.contentSize.width
-        let heightScale = scrollView.bounds.height / scrollView.contentSize.height
-        let minScale = min(widthScale, heightScale)
-        scrollView.minimumZoomScale = minScale
-        scrollView.zoomScale = minScale
-    }
 }
 
 extension ScrollView: UIScrollViewDelegate {
