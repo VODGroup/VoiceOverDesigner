@@ -41,7 +41,7 @@ class CustomDescriptionSectionView: NSView {
         descriptionView.label = description.label
         descriptionView.delegate = delegate
         descriptionView.value = description.value
-        descriptionView.container.title = "Description \(insertIndex)"
+        descriptionView.container.title = "Description \(insertIndex + 1)"
         
         descriptionsStack.insertArrangedSubview(descriptionView, at: insertIndex)
         descriptionView.container.labelTextField.becomeFirstResponder()
