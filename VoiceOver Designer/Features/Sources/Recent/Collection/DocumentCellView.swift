@@ -41,15 +41,6 @@ class DocumentCellView: NSView {
     private lazy var thumbnail: NSImageView = {
         let thumbnail = NSImageView(image: NSImage())
         thumbnail.isEditable = false
-        thumbnail.wantsLayer = true
-        
-        let layer = layer
-        layer?.borderColor = Color.quaternaryLabelColor.cgColor
-        layer?.borderWidth = 1
-//        layer?.contentsGravity = .resizeAspectFill
-//        layer?.cornerRadius = DocumentCornerRadius
-//        layer?.cornerCurve = .continuous
-        
         return thumbnail
     }()
     
@@ -106,6 +97,11 @@ class DocumentCellView: NSView {
         
         wantsLayer = true
         layer?.backgroundColor = Color.clear.cgColor
+        
+        thumbnail.wantsLayer = true
+        let layer = thumbnail.layer
+        layer?.borderColor = Color.quaternaryLabelColor.cgColor
+        layer?.borderWidth = 1
     }
     
     override func layout() {
