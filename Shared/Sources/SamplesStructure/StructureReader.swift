@@ -12,7 +12,9 @@ struct StructureReader {
         var result: [String: [Project]] = [:]
         for language in languages {
             let projects = try projects(language: language, path: currentFolder)
-            result[language] = projects
+            result[language] = projects.sorted(by: { project1, project2 in
+                project1.name < project2.name
+            })
         }
         
         return SamplesStructure(languages: result)
