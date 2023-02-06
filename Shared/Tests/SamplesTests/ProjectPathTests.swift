@@ -10,8 +10,8 @@ import XCTest
 
 // TODO: Rework to english version
 let pizzaProject = DocumentPath(
-    relativePath: "Ru/Dodo Pizza",
-    name: "Карточка продукта",
+    relativePath: "En/Dodo Pizza",
+    name: "Dodo Product card",
     files: [
         "Frame/controls.json",
         "Frame/screen.png",
@@ -37,7 +37,7 @@ final class ProjectPathTests: XCTestCase {
         
         XCTAssertEqual(
             url.absoluteString,
-            "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/Ru/Dodo%20Pizza/Product%20card.vodesign")
+            "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/En/Dodo%20Pizza/Dodo%20Product%20card.vodesign")
     }
     
     func test_filesPaths() {
@@ -47,7 +47,10 @@ final class ProjectPathTests: XCTestCase {
             urls.map({ file in
                 file.absoluteString
             }),
-            ["https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/Ru/Dodo%20Pizza/Product%20card.vodesign/Frame/controls.json", "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/Ru/Dodo%20Pizza/Product%20card.vodesign/Frame/screen.png", "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/Ru/Dodo%20Pizza/Product%20card.vodesign/Frame/info.json", "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/Ru/Dodo%20Pizza/Product%20card.vodesign/QuickView/Preview.heic"])
+            ["https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/En/Dodo%20Pizza/Dodo%20Product%20card.vodesign/Frame/controls.json",
+             "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/En/Dodo%20Pizza/Dodo%20Product%20card.vodesign/Frame/screen.png",
+             "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/En/Dodo%20Pizza/Dodo%20Product%20card.vodesign/Frame/info.json",
+             "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/En/Dodo%20Pizza/Dodo%20Product%20card.vodesign/QuickView/Preview.heic"])
         
     }
 
@@ -55,6 +58,6 @@ final class ProjectPathTests: XCTestCase {
     func test_cache() {
         XCTAssertEqual(
             sut.cachaPath().path,
-            "/Users/mikhail/Library/Caches/com.akaDuality.VoiceOver-Designer/Samples/Ru/Dodo Pizza/Product card.vodesign")
+            "/Users/mikhail/Library/Caches/com.akaDuality.VoiceOver-Designer/Samples/En/Dodo Pizza/Dodo Product card.vodesign")
     }
 }
