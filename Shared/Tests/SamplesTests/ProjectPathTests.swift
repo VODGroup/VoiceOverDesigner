@@ -8,15 +8,17 @@
 import XCTest
 @testable import Samples
 
-let drinkitProject = DocumentPath(
-    relativePath: "Ru/Drinkit",
-    name: "Product card",
+// TODO: Rework to english version
+let pizzaProject = DocumentPath(
+    relativePath: "Ru/Dodo Pizza",
+    name: "Карточка продукта",
     files: [
         "Frame/controls.json",
         "Frame/screen.png",
-        "QuickView/Preview.heic",
+        "Frame/info.json",
+        "QuickView/Preview.heic"
     ],
-    fileSize: 4000,
+    fileSize: 3526933,
     version: 1)
 
 final class ProjectPathTests: XCTestCase {
@@ -25,7 +27,7 @@ final class ProjectPathTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        sut = ProjectPath(document: drinkitProject, cacheFolder: {
+        sut = ProjectPath(document: pizzaProject, cacheFolder: {
             URL(string: "/Users/mikhail/Library/Caches/com.akaDuality.VoiceOver-Designer/Samples")!
         })
     }
@@ -35,19 +37,17 @@ final class ProjectPathTests: XCTestCase {
         
         XCTAssertEqual(
             url.absoluteString,
-            "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/Ru/Drinkit/Product%20card.vodesign")
+            "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/Ru/Dodo%20Pizza/Product%20card.vodesign")
     }
     
     func test_filesPaths() {
-        let urls = sut.files(of: drinkitProject)
+        let urls = sut.files(of: pizzaProject)
         
         XCTAssertEqual(
             urls.map({ file in
                 file.absoluteString
             }),
-            ["https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/Ru/Drinkit/Product%20card.vodesign/Frame/controls.json",
-             "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/Ru/Drinkit/Product%20card.vodesign/Frame/screen.png",
-             "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/Ru/Drinkit/Product%20card.vodesign/QuickView/Preview.heic"])
+            ["https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/Ru/Dodo%20Pizza/Product%20card.vodesign/Frame/controls.json", "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/Ru/Dodo%20Pizza/Product%20card.vodesign/Frame/screen.png", "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/Ru/Dodo%20Pizza/Product%20card.vodesign/Frame/info.json", "https://raw.githubusercontent.com/VODGroup/VoiceOverSamples/main/Ru/Dodo%20Pizza/Product%20card.vodesign/QuickView/Preview.heic"])
         
     }
 
@@ -55,6 +55,6 @@ final class ProjectPathTests: XCTestCase {
     func test_cache() {
         XCTAssertEqual(
             sut.cachaPath().path,
-            "/Users/mikhail/Library/Caches/com.akaDuality.VoiceOver-Designer/Samples/Ru/Drinkit/Product card.vodesign")
+            "/Users/mikhail/Library/Caches/com.akaDuality.VoiceOver-Designer/Samples/Ru/Dodo Pizza/Product card.vodesign")
     }
 }
