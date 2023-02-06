@@ -8,7 +8,6 @@
 import XCTest
 @testable import Samples
 
-// TODO: Rework to english version
 let pizzaProject = DocumentPath(
     relativePath: "En/Dodo Pizza",
     name: "Dodo Product card",
