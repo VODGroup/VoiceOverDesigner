@@ -6,6 +6,7 @@ class ScrollView: UIView {
     @IBOutlet weak var container: UIView!
     
     weak var canvas: VODesignPreviewView?
+    var layout: VoiceOverLayout?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -41,6 +42,13 @@ class ScrollView: UIView {
 
 extension ScrollView: UIScrollViewDelegate {
 
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if let elements = container.accessibilityElements {
+            layout?.updateContainers(in: elements)
+        }
+    }
+    
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         container
     }
@@ -50,13 +58,12 @@ extension ScrollView: UIScrollViewDelegate {
             return
         }
         
-        let yOffset = scrollView.frame.minY - scrollView.bounds.minY
+        if layout == nil {
+            layout = VoiceOverLayout(
+                controls: canvas.controls,
+                scrollView: scrollView)
+        }
         
-        let layout = VoiceOverLayout(
-            controls: canvas.controls,
-            yOffset: yOffset,
-            scrollView: scrollView)
-        
-        container.accessibilityElements = layout.accessibilityElements(at: container)
+        container.accessibilityElements = layout!.accessibilityElements(at: container)
     }
 }

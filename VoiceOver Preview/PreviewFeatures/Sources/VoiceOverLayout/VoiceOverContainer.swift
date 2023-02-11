@@ -9,17 +9,14 @@ class VoiceOverContainer: NSObject {
         }
     }
     
-    private var yOffset: CGFloat
     private let scrollView: UIScrollView
     
     init(
         container: A11yContainer,
         accessibilityContainer: Any,
-        yOffset: CGFloat,
         scrollView: UIScrollView
     ) {
         self.container = container
-        self.yOffset = yOffset
         self.scrollView = scrollView
         super.init()
         
