@@ -26,7 +26,8 @@ public class VoiceOverLayout {
             return VoiceOverContainer(
                 container: container,
                 accessibilityContainer: container,
-                yOffset: yOffset, view: scrollView)
+                yOffset: yOffset,
+                scrollView: scrollView)
 
         case .element(let element):
             return VoiceOverElement(

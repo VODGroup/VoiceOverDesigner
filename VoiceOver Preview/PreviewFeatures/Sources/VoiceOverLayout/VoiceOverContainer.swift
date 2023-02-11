@@ -10,35 +10,40 @@ class VoiceOverContainer: NSObject {
     }
     
     private var yOffset: CGFloat
-    private let view: UIScrollView
+    private let scrollView: UIScrollView
     
     init(
         container: A11yContainer,
         accessibilityContainer: Any,
         yOffset: CGFloat,
-        view: UIScrollView
+        scrollView: UIScrollView
     ) {
         self.container = container
         self.yOffset = yOffset
-        self.view = view
+        self.scrollView = scrollView
         super.init()
         
         setup(from: container)
     }
     
     private func setup(from container: A11yContainer) {
+        let containerFrame = scrollView.frameInScreenCoordinates(container.frame)
+        
         isAccessibilityElement = false
         accessibilityLabel = container.label
-        accessibilityFrame = view.frameInScreenCoordinates(container.frame)//container.frame//.withZeroOrigin()
+        accessibilityFrame = containerFrame
         
         print("Container \(accessibilityFrame), \(container.label)")
         accessibilityElements = container.elements.map({ element in
-            let rect = view.frameInScreenCoordinates(element.frame)
+            
+            let rect = scrollView
+                .frameInScreenCoordinates(element.frame)
+                .relative(to: containerFrame)
             
             let a11yElement = VoiceOverElement(
                 control: element,
                 accessibilityContainer: self,
-                frame: .screenCoordinates(rect))
+                frame: .relativeToParent(rect))
             
             return a11yElement
         })
