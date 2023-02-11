@@ -28,6 +28,7 @@ public class ScrollViewController: UIViewController {
         
         let imageSize = presenter.document.imageSize
         view().scrollView.centerAndScaleToFit(contentSize: imageSize)
+        view().updateVoiceOverLayoutForCanvas()
         
         subscribeToVoiceOverNotification()
     }
@@ -106,10 +107,17 @@ extension ScrollView: UIScrollViewDelegate {
 //        scrollView.updateContentInsetToCenterContent()
     }
     
-    private func updateVoiceOverLayoutForCanvas() {
+    func updateVoiceOverLayoutForCanvas() {
+        guard let canvas = canvas else {
+            return
+        }
+        
         let yOffset = scrollView.frame.minY - scrollView.bounds.minY
         
-        canvas?.updateAccessilibityLayout(yOffset: yOffset)
+        canvas.canvas.layout = VoiceOverLayout(
+            controls: canvas.controls,
+            yOffset: yOffset,
+            scrollView: scrollView)
     }
 }
 

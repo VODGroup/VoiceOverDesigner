@@ -5,13 +5,16 @@ import Document
 public class VoiceOverLayout {
     private let controls: [any AccessibilityView]
     private let yOffset: CGFloat
+    private let scrollView: UIScrollView
     
     public init(
         controls: [any AccessibilityView],
-        yOffset: CGFloat
+        yOffset: CGFloat,
+        scrollView: UIScrollView
     ) {
         self.controls = controls
         self.yOffset = yOffset
+        self.scrollView = scrollView
     }
     
     private func accessibilityElement(
@@ -23,7 +26,12 @@ public class VoiceOverLayout {
             return VoiceOverContainer(
                 container: container,
                 accessibilityContainer: container,
-                yOffset: yOffset)
+                yOffset: yOffset, view: scrollView)
+            
+//            return VoiceOverElement(
+//                control: A11yDescription(isAccessibilityElement: true, label: container.label, value: "", hint: "", trait: [], frame: container.frame, adjustableOptions: AdjustableOptions(options: []), customActions: A11yCustomActions()),
+//                accessibilityContainer: view,
+//                frameInContainerSpace: container.frame)
             
         case .element(let element):
             return VoiceOverElement(

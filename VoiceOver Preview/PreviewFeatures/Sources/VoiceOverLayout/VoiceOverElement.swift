@@ -23,6 +23,7 @@ class VoiceOverElement: UIAccessibilityElement {
     }
     
     private func setup(from model: A11yDescription) {
+        print("Element \(frameInContainerSpace) \(model.label)")
         isAccessibilityElement = true
         accessibilityLabel = model.label
         accessibilityValue = model.value
