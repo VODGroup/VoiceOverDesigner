@@ -1,0 +1,17 @@
+▿ 2 elements
+  ▿ VoiceOverContainer
+    - Label: "Container"
+    - Frame: "0, 0, 200, 100"
+    ▿ Elements: 2 elements
+      ▿ VoiceOverElement
+        - Label: "Label 1"
+        - Frame: "0, 0, 0, 0"
+        - FrameInContainerSpace: "10, 10, 50, 50"
+      ▿ VoiceOverElement
+        - Label: "Label 2"
+        - Frame: "0, 0, 0, 0"
+        - FrameInContainerSpace: "70, 10, 50, 50"
+  ▿ VoiceOverElement
+    - Label: "Label 3"
+    - Frame: "0, 0, 0, 0"
+    - FrameInContainerSpace: "10, 70, 180, 50"

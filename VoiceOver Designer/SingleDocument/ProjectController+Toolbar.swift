@@ -12,7 +12,7 @@ extension ProjectController: NSToolbarDelegate {
         willBeInsertedIntoToolbar flag: Bool
     ) -> NSToolbarItem? {
         switch itemIdentifier {
-        case .voiceControlLabel: return labelItem()
+//        case .voiceControlLabel: return labelItem()
         case .backButtonLabel: return backItem()
         case .trailingSidebar: return trailingSideBarItem()
         case .leadingSidebar: return leadingSideBarItem()
@@ -35,27 +35,34 @@ extension ProjectController: NSToolbarDelegate {
             .backButtonLabel,
             .flexibleSpace,
             .flexibleSpace,
-            .voiceControlLabel,
+//            .voiceControlLabel,
             .shareDocument,
             .trailingSidebar
         ]
     }
     
     public func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        [.toggleSidebar, .sidebarTrackingSeparator, .voiceControlLabel, .backButtonLabel, .trailingSidebar, .leadingSidebar, .itemListTrackingSeparator, .shareDocument]
+        [.toggleSidebar,
+         .sidebarTrackingSeparator,
+//            .voiceControlLabel,
+         .backButtonLabel,
+         .trailingSidebar,
+         .leadingSidebar,
+         .itemListTrackingSeparator,
+         .shareDocument]
     }
 }
 
 extension ProjectController {
-    private func labelItem() -> NSToolbarItem {
-        let item = NSToolbarItem(itemIdentifier: .voiceControlLabel)
-        item.label = NSLocalizedString("Labels", comment: "")
-        item.enableLabels()
-        item.target = self
-        item.action = #selector(showLabels(sender:))
-        item.isBordered = true
-        return item
-    }
+//    private func labelItem() -> NSToolbarItem {
+//        let item = NSToolbarItem(itemIdentifier: .voiceControlLabel)
+//        item.label = NSLocalizedString("Labels", comment: "")
+//        item.enableLabels()
+//        item.target = self
+//        item.action = #selector(showLabels(sender:))
+//        item.isBordered = true
+//        return item
+//    }
     
     private func backItem() -> NSToolbarItem {
         let item = NSToolbarItem(itemIdentifier: .backButtonLabel)
@@ -150,7 +157,7 @@ extension NSToolbarItem {
 }
 
 extension NSToolbarItem.Identifier {
-    static let voiceControlLabel = NSToolbarItem.Identifier(rawValue: "VoiceControlLabel")
+//    static let voiceControlLabel = NSToolbarItem.Identifier(rawValue: "VoiceControlLabel")
     static let backButtonLabel = NSToolbarItem.Identifier(rawValue: "BackButtonLabel")
     static let trailingSidebar = NSToolbarItem.Identifier(rawValue: "TrailingSidebar")
     static let leadingSidebar = NSToolbarItem.Identifier(rawValue: "LeadingSidebar")

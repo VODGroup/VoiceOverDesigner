@@ -39,18 +39,42 @@
                                     <outlet property="delegate" destination="8bC-Xf-vdC" id="7RK-6D-C53"/>
                                 </connections>
                             </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dNC-xu-dfV">
+                                <rect key="frame" x="389.5" y="1265" width="245" height="61"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Turn on VoiceOver to listen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l2h-bc-5Um">
+                                        <rect key="frame" x="20" y="20" width="205" height="21"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <bool key="isElement" value="NO"/>
+                                        </accessibility>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="l2h-bc-5Um" firstAttribute="top" secondItem="dNC-xu-dfV" secondAttribute="top" constant="20" symbolic="YES" id="1OV-oe-5OW"/>
+                                    <constraint firstItem="l2h-bc-5Um" firstAttribute="centerY" secondItem="dNC-xu-dfV" secondAttribute="centerY" id="6Q2-hk-zdf"/>
+                                    <constraint firstItem="l2h-bc-5Um" firstAttribute="leading" secondItem="dNC-xu-dfV" secondAttribute="leading" constant="20" symbolic="YES" id="Ayw-Ee-y5f"/>
+                                    <constraint firstItem="l2h-bc-5Um" firstAttribute="centerX" secondItem="dNC-xu-dfV" secondAttribute="centerX" id="xCJ-li-atO"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="lmR-9W-Z6T"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="8x6-dL-UR9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="G6F-xD-2Dg"/>
+                            <constraint firstItem="dNC-xu-dfV" firstAttribute="centerX" secondItem="lmR-9W-Z6T" secondAttribute="centerX" id="PJc-Ur-aOg"/>
                             <constraint firstAttribute="trailing" secondItem="8x6-dL-UR9" secondAttribute="trailing" id="bln-oM-OBJ"/>
                             <constraint firstAttribute="bottom" secondItem="8x6-dL-UR9" secondAttribute="bottom" id="e8t-gE-dr9"/>
                             <constraint firstItem="8x6-dL-UR9" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="s0E-pF-LbQ"/>
+                            <constraint firstItem="lmR-9W-Z6T" firstAttribute="bottom" secondItem="dNC-xu-dfV" secondAttribute="bottom" constant="20" id="wjT-sB-6Dm"/>
                         </constraints>
                         <connections>
                             <outlet property="container" destination="p1a-B4-5Kg" id="gFn-1o-q4c"/>
                             <outlet property="scrollView" destination="8x6-dL-UR9" id="WOO-Rn-TxA"/>
+                            <outlet property="voiceOverHint" destination="dNC-xu-dfV" id="qiy-jc-IVT"/>
                         </connections>
                     </view>
                 </viewController>
@@ -99,6 +123,9 @@
         </scene>
     </scenes>
     <resources>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -30,7 +30,7 @@ extension Color {
             return .adjustableColor
         }
         
-        let isButton = element.trait.contains(.button)
+        let isButton = element.trait.contains(.button) || element.trait.contains(.link)
         if isButton {
             return .buttonColor
         }

@@ -29,7 +29,9 @@ public final class VODesignPreviewViewController: UIViewController {
         
         draw()
         
-        addGestures() // TODO: If document would drawn several times gestures will be added a lot
+#if !DEBUG
+        addGestures()
+#endif
     }
     
     func view() -> VODesignPreviewView {
