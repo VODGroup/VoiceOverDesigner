@@ -23,6 +23,12 @@ public protocol DocumentBrowserPresenterProtocol {
     
     var shouldShowThisController: Bool { get }
     func load()
+    
+    
+    func delete(_ item: CollectionViewItem)
+    func duplicate(_ item: CollectionViewItem)
+    func moveToCloud(_ item: CollectionViewItem)
+    
 }
 
 public protocol LanguageSource {

@@ -3,6 +3,18 @@ import Samples
 import Document
 
 class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
+    func delete(_ item: CollectionViewItem) {
+        
+    }
+    
+    func duplicate(_ item: CollectionViewItem) {
+        
+    }
+    
+    func moveToCloud(_ item: CollectionViewItem) {
+        
+    }
+    
     weak var delegate: DocumentsProviderDelegate?
     
     func numberOfSections() -> Int {
@@ -76,11 +88,12 @@ class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
 
 extension Locale {
     var currentUserLanguage: String? {
-        if #available(macOS 13, *) {
-            return language.languageCode?.identifier
-        } else {
-            return languageCode
-        }
+        return languageCode
+//        if #available(macOS 13, *) {
+//            return language.languageCode?.identifier
+//        } else {
+//            return languageCode
+//        }
     }
 }
 

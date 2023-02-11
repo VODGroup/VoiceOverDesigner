@@ -54,9 +54,9 @@ extension DocumetsTabViewController {
         toolbar.delegate = self
         toolbar.displayMode = .iconOnly
         
-        if #available(macOS 13.0, *) {
-            toolbar.centeredItemIdentifiers = [.documents]
-        }
+//        if #available(macOS 13.0, *) {
+//            toolbar.centeredItemIdentifiers = [.documents]
+//        }
         return toolbar
     }
     

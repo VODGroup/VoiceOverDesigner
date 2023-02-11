@@ -31,24 +31,16 @@ public class DocumentsBrowserViewController: NSViewController {
             withIdentifier: HeaderCell.id
         )
         
+        view().configureMenu()
+        view().delegate = self
+        
         presenter.load()
-        configureCollectionViewMenu()
        
         
     }
     
     
-    // Move to DocumentBrowserView and manage via delegate?
-    func configureCollectionViewMenu() {
-        let menu = NSMenu()
-        menu.addItem(NSMenuItem(title: "Delete", action: #selector(didSelectDelete(_:)), keyEquivalent: ""))
-        menu.addItem(NSMenuItem(title: "Duplicate", action: #selector(didSelectDuplicate(_:)), keyEquivalent: ""))
-        if presenter.isCloudAvailable {
-            menu.addItem(NSMenuItem(title: "Move to iCloud", action: #selector(didSelectMoveToCloud(_:)), keyEquivalent: ""))
-        }
 
-        view().collectionView.menu = menu
-    }
     
     /// Sometimel layout is called right after loading from storyboard, presenter is not set and a crash happened.
     /// I added check that presenter is not nil, but we had to call reloadData as as result
@@ -150,25 +142,7 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
         }
     }
     
-    @objc func didSelectDelete(_ item: NSMenuItem) {
-        guard let indexPath = view().collectionView.clickedIndexPath,
-        let item = presenter.item(at: indexPath) else { return }
-        presenter.delete(item)
-        view().collectionView.reloadData()
-    }
-    
-    @objc func didSelectDuplicate(_ item: NSMenuItem) {
-        guard let indexPath = view().collectionView.clickedIndexPath,
-        let item = presenter.item(at: indexPath) else { return }
-        presenter.duplicate(item)
-    }
-    
-    @objc func didSelectMoveToCloud(_ item: NSMenuItem) {
-        guard let indexPath = view().collectionView.clickedIndexPath,
-        let item = presenter.item(at: indexPath) else { return }
-        presenter.moveToCloud(item)
-        view().collectionView.reloadData()
-    }
+
     
 }
 
@@ -189,6 +163,8 @@ extension DocumentsBrowserViewController: NSCollectionViewDelegateFlowLayout {
 }
 
 extension DocumentsBrowserViewController: NSCollectionViewDelegate {
+    
+    
     
     public func collectionView(
         _ collectionView: NSCollectionView,
@@ -211,6 +187,7 @@ extension DocumentsBrowserViewController: NSCollectionViewDelegate {
             }
         }
     }
+    
 }
 
 extension DocumentsBrowserViewController: DocumentsProviderDelegate {
@@ -221,35 +198,41 @@ extension DocumentsBrowserViewController: DocumentsProviderDelegate {
     }
 }
 
-final class HeaderCell: NSView, NSCollectionViewSectionHeaderView {
-    lazy var label: NSTextField = {
-        let label = NSTextField()
-        label.font = .preferredFont(forTextStyle: .largeTitle)
-        label.stringValue = "Header"
-        label.textColor = NSColor.labelColor
-        label.isBordered = false
-        label.isEditable = false
-        label.isSelectable = false
-        label.backgroundColor = .clear
-        return label
-    }()
 
-    override init(frame frameRect: NSRect) {
-        super.init(frame: frameRect)
-
-        addSubview(label)
-
-        label.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            leadingAnchor.constraint(equalTo: label.leadingAnchor, constant: -16),
-            bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 4),
-            widthAnchor.constraint(equalTo: label.widthAnchor),
-        ])
+extension DocumentsBrowserViewController: DocumentBrowserContextMenuDelegate {
+    func didSelectDelete(at indexPath: IndexPath) {
+        guard let item = presenter.item(at: indexPath) else { return }
+        presenter.delete(item)
     }
 
-    required init?(coder: NSCoder) {
-        fatalError()
+    func didSelectDuplicate(at indexPath: IndexPath) {
+        guard let item = presenter.item(at: indexPath) else { return }
+        presenter.duplicate(item)
+    }
+
+    func didSelectMoveToCloud(at indexPath: IndexPath) {
+        guard let item = presenter.item(at: indexPath) else { return }
+        presenter.moveToCloud(item)
     }
     
-    static let id = NSUserInterfaceItemIdentifier(rawValue: "sectionHeader")
+    
+    func didSelectRename(at indexPath: IndexPath) {
+        
+        guard let a = view().collectionView.item(at: indexPath) as? DocumentCellViewItem else { return }
+        
+        a.projectCellView.fileNameTextField.isEditable = true
+        a.projectCellView.fileNameTextField.delegate = self
+    }
+
+
+}
+
+
+extension DocumentsBrowserViewController: NSTextFieldDelegate {
+    public func controlTextDidEndEditing(_ obj: Notification) {
+        guard let textField = obj.object as? NSTextField else { return }
+        textField.delegate = nil
+        textField.isEditable = false
+        print(obj)
+    }
 }

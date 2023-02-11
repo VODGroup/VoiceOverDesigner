@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Shared",
     defaultLocalization: "en",
-    platforms: [.iOS(.v13), .macOS(.v10_15)],
+    platforms: [.iOS(.v13), .macOS(.v12)],
     products: [
         .library(
             name: "Document",

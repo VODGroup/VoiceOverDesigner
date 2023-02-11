@@ -19,9 +19,6 @@ class UserDocumentsPresenter: DocumentBrowserPresenterProtocol {
         documentController?.recentDocumentURLs ?? []
     }
     
-    var isCloudAvailable: Bool {
-        fileManager.iCloudAvailable
-    }
     
     private let metadataProvider = MetadataProvider(containerIdentifier: containerId,
                                                     fileExtension: vodesign)
