@@ -96,6 +96,10 @@ class ScrollView: UIView {
 
 extension ScrollView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         updateVoiceOverLayoutForCanvas()
     }
     
