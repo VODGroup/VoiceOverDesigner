@@ -45,6 +45,8 @@ public class DocumentsBrowserViewController: NSViewController {
     /// Sometimel layout is called right after loading from storyboard, presenter is not set and a crash happened.
     /// I added check that presenter is not nil, but we had to call reloadData as as result
     private var needReloadDataOnStart = false
+    
+    private var editingIndexPath: IndexPath?
 
     func view() -> DocumentsBrowserView {
         view as! DocumentsBrowserView
@@ -218,10 +220,11 @@ extension DocumentsBrowserViewController: DocumentBrowserContextMenuDelegate {
     
     func didSelectRename(at indexPath: IndexPath) {
         
-        guard let a = view().collectionView.item(at: indexPath) as? DocumentCellViewItem else { return }
-        
-        a.projectCellView.fileNameTextField.isEditable = true
-        a.projectCellView.fileNameTextField.delegate = self
+        guard let item = view().collectionView.item(at: indexPath) as? DocumentCellViewItem else { return }
+        editingIndexPath = indexPath
+        item.projectCellView.fileNameTextField.isEditable = true
+        item.projectCellView.fileNameTextField.delegate = self
+        item.projectCellView.fileNameTextField.becomeFirstResponder()
     }
 
 
@@ -231,8 +234,19 @@ extension DocumentsBrowserViewController: DocumentBrowserContextMenuDelegate {
 extension DocumentsBrowserViewController: NSTextFieldDelegate {
     public func controlTextDidEndEditing(_ obj: Notification) {
         guard let textField = obj.object as? NSTextField else { return }
-        textField.delegate = nil
-        textField.isEditable = false
-        print(obj)
+        defer {
+            textField.delegate = nil
+            textField.isEditable = false
+        }
+        
+        guard let editingIndexPath else { return }
+        guard let item = presenter.item(at: editingIndexPath) else { return }
+        let value = textField.stringValue
+        do {
+            try presenter.rename(item, with: value)
+            
+        } catch {
+            view().collectionView.reloadData()
+        }
     }
 }

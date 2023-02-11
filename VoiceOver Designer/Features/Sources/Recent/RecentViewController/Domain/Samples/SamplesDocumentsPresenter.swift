@@ -15,6 +15,10 @@ class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
         
     }
     
+    func rename(_ item: CollectionViewItem, with name: String) throws {
+        
+    }
+    
     weak var delegate: DocumentsProviderDelegate?
     
     func numberOfSections() -> Int {

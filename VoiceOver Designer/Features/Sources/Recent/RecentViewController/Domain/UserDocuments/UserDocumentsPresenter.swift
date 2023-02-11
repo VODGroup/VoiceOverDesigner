@@ -86,6 +86,11 @@ class UserDocumentsPresenter: DocumentBrowserPresenterProtocol {
         }
     }
     
+    func rename(_ item: CollectionViewItem, with name: String) throws {
+        guard case let .document(url) = item else { return }
+        try fileManager.moveItem(at: url, to: url.deletingLastPathComponent().appendingPathComponent(name).appendingPathExtension(vodesign))
+    }
+    
     
     
     // MARK: - Datasource

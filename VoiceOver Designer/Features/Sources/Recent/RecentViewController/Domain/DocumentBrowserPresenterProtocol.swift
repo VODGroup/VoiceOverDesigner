@@ -24,10 +24,11 @@ public protocol DocumentBrowserPresenterProtocol {
     var shouldShowThisController: Bool { get }
     func load()
     
-    
+    // TODO: Move to own protocol
     func delete(_ item: CollectionViewItem)
     func duplicate(_ item: CollectionViewItem)
     func moveToCloud(_ item: CollectionViewItem)
+    func rename(_ item: CollectionViewItem, with name: String) throws
     
 }
 
