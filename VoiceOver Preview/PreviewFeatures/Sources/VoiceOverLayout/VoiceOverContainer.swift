@@ -1,5 +1,4 @@
 import Foundation
-import UIKit
 import Document
 
 class VoiceOverContainer: NSObject {
@@ -9,12 +8,12 @@ class VoiceOverContainer: NSObject {
         }
     }
     
-    private let scrollView: UIScrollView
+    private let scrollView: ScrollViewConverable
     
     init(
         container: A11yContainer,
         accessibilityContainer: Any,
-        scrollView: UIScrollView
+        scrollView: ScrollViewConverable
     ) {
         self.container = container
         self.scrollView = scrollView
@@ -59,41 +58,11 @@ class VoiceOverContainer: NSObject {
         // TODO: Add enumeration
         // TODO: Add Enumeration to child
     }
-}
-
-extension UIScrollView {
-    func scaledFrame(_ frame: CGRect) -> CGRect {
-        let scale = CGAffineTransform(scaleX: zoomScale, y: zoomScale)
-        
-        return CGRectApplyAffineTransform(frame, scale)
-    }
     
-    func frameInScreenCoordinates(_ frame: CGRect) -> CGRect {
-        let new = scaledFrame(frame)
-        let rect = UIAccessibility.convertToScreenCoordinates(new, in: self)
-        
-//        print("Convert \(frame) -> \(rect)")
-        return rect
-    }
-}
-
-extension CGRect {
-    func relative(to rect: CGRect) -> CGRect {
-        
-        let origin = CGPoint(
-            x: minX - rect.minX,
-            y: minY - rect.minY)
-        
-        return CGRect(
-            origin: origin,
-            size: size)
-    }
     
-    func withZeroOrigin() -> CGRect {
-        CGRect(origin: .zero, size: size)
-    }
 }
 
+import UIKit
 extension A11yContainer.ContainerType {
     var uiKit: UIAccessibilityContainerType {
         switch self {

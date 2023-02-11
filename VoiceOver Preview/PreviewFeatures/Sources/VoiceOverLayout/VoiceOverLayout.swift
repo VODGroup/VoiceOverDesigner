@@ -4,11 +4,11 @@ import Document
 
 public class VoiceOverLayout {
     private let controls: [any AccessibilityView]
-    private let scrollView: UIScrollView
+    private let scrollView: ScrollViewConverable
     
     public init(
         controls: [any AccessibilityView],
-        scrollView: UIScrollView
+        scrollView: ScrollViewConverable
     ) {
         self.controls = controls
         self.scrollView = scrollView

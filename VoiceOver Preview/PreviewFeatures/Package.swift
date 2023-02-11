@@ -17,7 +17,11 @@ let package = Package(
             ]),
     ],
     dependencies: [
-        .package(name: "Shared", path: "./../../Shared")
+        .package(name: "Shared", path: "./../../Shared"),
+        .package(
+            url: "git@github.com:pointfreeco/swift-snapshot-testing.git",
+            .upToNextMajor(from: "1.10.0")
+        ),
     ],
     targets: [
         .target(
@@ -33,12 +37,16 @@ let package = Package(
                     .product(name: "Canvas", package: "Shared"),
                 ]),
         .testTarget(name: "VoiceOverLayoutTests",
-                    dependencies: ["VoiceOverLayout"]
+                    dependencies: [
+                        "VoiceOverLayout",
+                        .product(name: "DocumentTestHelpers", package: "Shared"),
+                        .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
+                    ]
                    ),
         .target(name: "CanvasUIKit",
                 dependencies: [
                     .product(name: "Canvas", package: "Shared"),
-                    "VoiceOverLayout"
+                    "VoiceOverLayout",
                 ]),
         .target(
             name: "SettingsSwiftUI",
