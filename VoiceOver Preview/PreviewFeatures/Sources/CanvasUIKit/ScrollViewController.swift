@@ -1,6 +1,5 @@
 import UIKit
 import Canvas
-import VoiceOverLayout
 import Document
 
 public class ScrollViewController: UIViewController {
@@ -28,82 +27,29 @@ public class ScrollViewController: UIViewController {
         
         let imageSize = presenter.document.imageSize
         view().scrollView.centerAndScaleToFit(contentSize: imageSize)
+        view().updateVoiceOverLayoutForCanvas()
+        
+        subscribeToVoiceOverNotification()
     }
-
     
     func view() -> ScrollView {
         view as! ScrollView
     }
-}
-
-class ScrollView: UIView {
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var container: UIView!
     
-    weak var canvas: VODesignPreviewView?
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    func subscribeToVoiceOverNotification() {
+        func updateVoiceOverHintToCurrentState() {
+            view().isVoiceOverHintHidden = UIAccessibility.isVoiceOverRunning
+        }
         
-        scrollView.maximumZoomScale = 4
-    }
-    
-    func fitZoomScale() {
-        let widthScale = scrollView.bounds.width / scrollView.contentSize.width
-        let heightScale = scrollView.bounds.height / scrollView.contentSize.height
-        let minScale = min(widthScale, heightScale)
-        scrollView.minimumZoomScale = minScale
-        scrollView.zoomScale = minScale
-    }
-}
-
-extension ScrollView: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        updateVoiceOverLayoutForCanvas()
-    }
-    
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        container
-    }
-    
-    func scrollViewDidZoom(_ scrollView: UIScrollView) {
-//        scrollView.updateContentInsetToCenterContent()
-    }
-    
-    private func updateVoiceOverLayoutForCanvas() {
-        let yOffset = scrollView.frame.minY - scrollView.bounds.minY
+        updateVoiceOverHintToCurrentState()
         
-        canvas?.updateAccessilibityLayout(yOffset: yOffset)
-    }
-}
-
-extension UIScrollView {
-    
-    func centerAndScaleToFit(contentSize: CGSize) {
-        self.contentSize = contentSize
-        
-        let scale = updateZoomScaleToFitContent()
-        
-        // We had to calculate manually because first layout do it wrong
-        let scaledContentSize = CGSize(width: contentSize.width * scale,
-                                       height: contentSize.height * scale)
-        updateContentInsetToCenterContent(contentSize: scaledContentSize)
-    }
-    
-    func updateContentInsetToCenterContent(contentSize: CGSize) {
-        let offsetX = max((bounds.width  - contentSize.width)  * 0.5, 0)
-        let offsetY = max((bounds.height - contentSize.height) * 0.5, 0)
-    
-        contentInset = UIEdgeInsets(top: offsetY, left: offsetX, bottom: 0, right: 0)
-    }
-    
-    func updateZoomScaleToFitContent() -> CGFloat {
-        let widthScale  = bounds.width  / contentSize.width
-        let heightScale = bounds.height / contentSize.height
-        let minScale    = min(widthScale, heightScale)
-        
-        minimumZoomScale = minScale
-        zoomScale = minScale
-        return minScale
+        NotificationCenter.default.addObserver(
+            forName: UIAccessibility.voiceOverStatusDidChangeNotification,
+            object: nil, queue: .main
+        ) { notifiaction in
+            UIView.animate(withDuration: 0.3, delay: 0) {
+                updateVoiceOverHintToCurrentState()
+            }
+        }
     }
 }

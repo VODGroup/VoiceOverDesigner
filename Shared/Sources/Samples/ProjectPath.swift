@@ -5,7 +5,7 @@ class ProjectPath {
     
     init(
         document: DocumentPath,
-        cacheFolder: @escaping () -> URL =  FileManager.default.cacheFolder
+        cacheFolder: @escaping () -> URL =  FileManager.default.samplesCacheFolder
     ) {
         self.document = document
         self.cacheFolder = cacheFolder
@@ -15,7 +15,7 @@ class ProjectPath {
     private let cacheFolder: () -> URL
     
     func documentBaseURL() -> URL {
-        resultDocumentPath(base: Self.repository
+        documentLoadingPath(base: Self.repository
             .appendingPathComponent(document.relativePath))
     }
     
@@ -23,7 +23,7 @@ class ProjectPath {
         Self.repository.appendingPathComponent("structure.json")
     }
     
-    func resultDocumentPath(base: URL) -> URL {
+    func documentLoadingPath(base: URL) -> URL {
         base
             .appendingPathComponent(document.name)
             .appendingPathExtension("vodesign")

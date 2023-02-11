@@ -41,15 +41,6 @@ class DocumentCellView: NSView {
     private lazy var thumbnail: NSImageView = {
         let thumbnail = NSImageView(image: NSImage())
         thumbnail.isEditable = false
-        thumbnail.wantsLayer = true
-        
-        let layer = layer
-        layer?.borderColor = Color.quaternaryLabelColor.cgColor
-        layer?.borderWidth = 1
-//        layer?.contentsGravity = .resizeAspectFill
-//        layer?.cornerRadius = DocumentCornerRadius
-//        layer?.cornerCurve = .continuous
-        
         return thumbnail
     }()
     
@@ -65,6 +56,7 @@ class DocumentCellView: NSView {
     var image: NSImage? {
         didSet {
             thumbnail.image = image
+            needsLayout = true
         }
     }
     private lazy var activityIndicator: NSProgressIndicator = {
@@ -111,10 +103,34 @@ class DocumentCellView: NSView {
     override func layout() {
         super.layout()
         
-        layer?.shadowPath = CGPath(roundedRect: bounds,
-                                   cornerWidth: 15,
-                                   cornerHeight: 15,
-                                   transform: nil)
+        layoutShados()
+    }
+    
+    private func layoutShados() {
+        guard let layer = layer else { return }
+        
+        layer.masksToBounds = false
+        layer.shadowOpacity = 0.1
+        layer.shadowColor = Color.shadowColor.cgColor
+        layer.shadowOffset = .zero
+        layer.shadowRadius = 3
+        
+        if let imageSize = image?.size {
+            let thumbnailSize = thumbnail.frame.size
+            let imageFitSize = CGSize(
+                width: imageSize.width,
+                height: imageSize.height)
+            let imageFrame = CGRect(
+                origin: CGPoint(
+                    x: (thumbnailSize.width - imageFitSize.width) / 2,
+                    y: 20),
+                size: imageFitSize)
+            
+            layer.shadowPath = CGPath(roundedRect: imageFrame,
+                                      cornerWidth: 0,
+                                      cornerHeight: 0,
+                                      transform: nil)
+        }
     }
     
     func addSubviews() {

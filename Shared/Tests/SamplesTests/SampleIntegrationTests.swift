@@ -3,7 +3,7 @@ import XCTest
 
 final class SampleIntegrationTests: XCTestCase {
     func test_download() async throws {
-        let sut = SampleLoader(document: drinkitProject)
+        let sut = SampleLoader(document: pizzaProject)
 
         XCTAssertFalse(sut.isFullyLoaded())
         let documentPath = try! await sut.download()

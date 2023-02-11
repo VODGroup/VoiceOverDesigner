@@ -45,8 +45,6 @@ class CustomDescriptionView: NSView {
     }
     
     init() {
-        
-        
         container = CustomDescriptionBox()
         container.translatesAutoresizingMaskIntoConstraints = false
 
@@ -75,7 +73,7 @@ class CustomDescriptionView: NSView {
             container.leadingAnchor.constraint(equalTo: leadingAnchor),
             container.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-            removeButton.bottomAnchor.constraint(equalTo: container.contentView!.topAnchor, constant: -5),
+            removeButton.bottomAnchor.constraint(equalTo: container.contentView!.topAnchor, constant: -10),
             removeButton.trailingAnchor.constraint(equalTo: container.trailingAnchor)
         ])
     }

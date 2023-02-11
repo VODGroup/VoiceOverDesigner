@@ -56,8 +56,10 @@ class CustomDescriptionBox: NSBox {
         
         labelTextField = NSTextField()
         labelTextField.bezelStyle = .roundedBezel
+        labelTextField.cell?.sendsActionOnEndEditing = true
         valueTextField = NSTextField()
         valueTextField.bezelStyle = .roundedBezel
+        valueTextField.cell?.sendsActionOnEndEditing = true
         labelTextField.isEditable = true
         valueTextField.isEditable = true
         

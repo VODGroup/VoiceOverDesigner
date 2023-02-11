@@ -64,6 +64,7 @@ class AdjustableOptionView: NSView {
         textView.delegate = self
         textView.target = self
         textView.action = #selector(updateText)
+        textView.cell?.sendsActionOnEndEditing = true
         
         addSubview(removeButton)
         removeButton.translatesAutoresizingMaskIntoConstraints = false

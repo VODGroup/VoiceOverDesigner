@@ -43,7 +43,7 @@ public class ElementSettingsViewController: NSViewController {
         case let valueViewController as A11yValueViewController:
             self.valueViewController = valueViewController
             valueViewController.presenter = presenter
-            valueViewController.delegate = self // TODO: Delegate to presenter
+            valueViewController.delegate = presenter
             
         case let customActionViewController as CustomActionsViewController:
             actionsViewController = customActionViewController
@@ -93,7 +93,7 @@ extension ElementSettingsViewController: TextRecogitionReceiver {
     }
 }
 
-extension ElementSettingsViewController: A11yValueDelegate, SettingsUI {
+extension ElementSettingsViewController: SettingsUI {
     public func updateTitle() {
         view().updateTitle(from: descr)
     }

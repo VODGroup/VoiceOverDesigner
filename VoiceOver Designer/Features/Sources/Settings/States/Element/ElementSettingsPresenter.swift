@@ -48,7 +48,7 @@ public class ElementSettingsPresenter {
         notifyDelegates()
     }
     
-    private func notifyDelegates() {
+    func notifyDelegates() {
         delegate?.updateValue()
         ui?.updateTitle()
     }
@@ -57,6 +57,12 @@ public class ElementSettingsPresenter {
 extension ElementSettingsPresenter: LabelDelegate {
     func updateLabel(to text: String) {
         element.label = text
+        notifyDelegates()
+    }
+}
+
+extension ElementSettingsPresenter: A11yValueDelegate {
+    public func didUpdateValue() {
         notifyDelegates()
     }
 }

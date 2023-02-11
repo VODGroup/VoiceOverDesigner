@@ -1,5 +1,4 @@
 import Foundation
-import UIKit
 import Document
 
 class VoiceOverContainer: NSObject {
@@ -9,32 +8,42 @@ class VoiceOverContainer: NSObject {
         }
     }
     
-    private var yOffset: CGFloat
+    private let scrollView: ScrollViewConverable
     
     init(
         container: A11yContainer,
         accessibilityContainer: Any,
-        yOffset: CGFloat
+        scrollView: ScrollViewConverable
     ) {
         self.container = container
-        self.yOffset = yOffset
+        self.scrollView = scrollView
         super.init()
         
         setup(from: container)
     }
     
     private func setup(from container: A11yContainer) {
+        let containerFrame = scrollView.frameInScreenCoordinates(container.frame)
+        
         isAccessibilityElement = false
         accessibilityLabel = container.label
-        accessibilityFrame = container.frame.offsetBy(dx: 0, dy: yOffset)
+        accessibilityFrame = containerFrame
+        
+        print("Container \(accessibilityFrame), \(container.label)")
         accessibilityElements = container.elements.map({ element in
-            let relativeFrame = element.frame.relative(to: container.frame)
             
-            return VoiceOverElement(
+            let rect = scrollView
+                .frameInScreenCoordinates(element.frame)
+                .relative(to: containerFrame)
+            
+            let a11yElement = VoiceOverElement(
                 control: element,
                 accessibilityContainer: self,
-                frameInContainerSpace: relativeFrame)
+                frame: .relativeToParent(rect))
+            
+            return a11yElement
         })
+
         accessibilityContainerType = container.containerType.uiKit
         accessibilityNavigationStyle = container.navigationStyle.uiKit
         
@@ -49,21 +58,11 @@ class VoiceOverContainer: NSObject {
         // TODO: Add enumeration
         // TODO: Add Enumeration to child
     }
+    
+    
 }
 
-extension CGRect {
-    func relative(to rect: CGRect) -> CGRect {
-        
-        let origin = CGPoint(
-            x: minX - rect.minX,
-            y: minY - rect.minY)
-        
-        return CGRect(
-            origin: origin,
-            size: size)
-    }
-}
-
+import UIKit
 extension A11yContainer.ContainerType {
     var uiKit: UIAccessibilityContainerType {
         switch self {

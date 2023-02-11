@@ -235,15 +235,19 @@ extension CanvasViewController {
 // MARK: - Magnifiing
 extension CanvasViewController {
     
+    var zoomStep: CGFloat {
+        1.33
+    }
+    
     @IBAction func reduceMagnifing(sender: Any) {
         view().changeMagnifacation { current in
-            current / 2
+            current / zoomStep
         }
     }
     
     @IBAction func increaseMagnifing(sender: Any) {
         view().changeMagnifacation { current in
-            current * 2
+            current * zoomStep
         }
     }
     

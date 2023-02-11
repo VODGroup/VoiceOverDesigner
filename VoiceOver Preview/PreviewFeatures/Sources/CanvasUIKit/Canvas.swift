@@ -12,12 +12,6 @@ class Canvas: UIView, DrawingView {
     
     var alignmentOverlay: AlignmentOverlayProtocol = NoAlignmentOverlay()
     
-    var layout: VoiceOverLayout? {
-        didSet {
-            accessibilityElements = layout?.accessibilityElements(at: self)
-        }
-    }
-    
     var scale: CGFloat = 1
     
     var copyListener: CopyModifierAction = ManualCopyCommand()
