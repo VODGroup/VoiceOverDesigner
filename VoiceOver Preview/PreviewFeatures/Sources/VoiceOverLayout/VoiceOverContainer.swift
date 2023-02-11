@@ -29,19 +29,20 @@ class VoiceOverContainer: NSObject {
     private func setup(from container: A11yContainer) {
         isAccessibilityElement = false
         accessibilityLabel = container.label
-        accessibilityFrame = container.frame.withZeroOrigin()
+        accessibilityFrame = view.frameInScreenCoordinates(container.frame)//container.frame//.withZeroOrigin()
         
         print("Container \(accessibilityFrame), \(container.label)")
         accessibilityElements = container.elements.map({ element in
             let rect = view.frameInScreenCoordinates(element.frame)
             
-            return VoiceOverElement(
+            let a11yElement = VoiceOverElement(
                 control: element,
                 accessibilityContainer: self,
-                frameInContainerSpace: rect)
+                frame: .screenCoordinates(rect))
+            
+            return a11yElement
         })
-        
-        print("")
+
         accessibilityContainerType = container.containerType.uiKit
         accessibilityNavigationStyle = container.navigationStyle.uiKit
         

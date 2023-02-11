@@ -2,6 +2,11 @@ import Foundation
 import Document
 import UIKit
 
+enum ElementFrame {
+    case screenCoordinates(CGRect)
+    case relativeToParent(CGRect)
+}
+
 class VoiceOverElement: UIAccessibilityElement {
     var control: A11yDescription {
         didSet {
@@ -9,27 +14,32 @@ class VoiceOverElement: UIAccessibilityElement {
         }
     }
     
-    var frameInContainerSpace: CGRect
+    var frame: ElementFrame
     
     init(
         control: A11yDescription,
         accessibilityContainer: Any,
-        frameInContainerSpace: CGRect
+        frame: ElementFrame
     ) {
         self.control = control
-        self.frameInContainerSpace = frameInContainerSpace
+        self.frame = frame
         super.init(accessibilityContainer: accessibilityContainer)
         setup(from: control)
     }
     
     private func setup(from model: A11yDescription) {
-        print("Element \(frameInContainerSpace) \(model.label)")
         isAccessibilityElement = true
         accessibilityLabel = model.label
         accessibilityValue = model.value
         accessibilityHint = model.hint
-        accessibilityFrameInContainerSpace = frameInContainerSpace
         accessibilityTraits = model.trait.accessibilityTrait
+        
+        switch frame {
+        case .screenCoordinates(let frame):
+            accessibilityFrame = frame
+        case .relativeToParent(let frame):
+            accessibilityFrameInContainerSpace = frame
+        }
     }
     
     override func accessibilityIncrement() {

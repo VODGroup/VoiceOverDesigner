@@ -27,17 +27,12 @@ public class VoiceOverLayout {
                 container: container,
                 accessibilityContainer: container,
                 yOffset: yOffset, view: scrollView)
-            
-//            return VoiceOverElement(
-//                control: A11yDescription(isAccessibilityElement: true, label: container.label, value: "", hint: "", trait: [], frame: container.frame, adjustableOptions: AdjustableOptions(options: []), customActions: A11yCustomActions()),
-//                accessibilityContainer: view,
-//                frameInContainerSpace: container.frame)
-            
+
         case .element(let element):
             return VoiceOverElement(
                 control: element,
                 accessibilityContainer: view,
-                frameInContainerSpace: element.frame)
+                frame: .relativeToParent(element.frame))
         }
     }
     
