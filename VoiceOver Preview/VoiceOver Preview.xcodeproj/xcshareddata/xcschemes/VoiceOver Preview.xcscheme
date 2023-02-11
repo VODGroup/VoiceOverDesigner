@@ -48,6 +48,16 @@
                ReferencedContainer = "container:VoiceOver Preview.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "VoiceOverLayoutTests"
+               BuildableName = "VoiceOverLayoutTests"
+               BlueprintName = "VoiceOverLayoutTests"
+               ReferencedContainer = "container:PreviewFeatures">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
