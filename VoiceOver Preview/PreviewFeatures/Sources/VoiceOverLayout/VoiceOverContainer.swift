@@ -27,17 +27,13 @@ class VoiceOverContainer: NSObject {
     }
     
     private func setup(from container: A11yContainer) {
-        print("Container \(container.frame), \(container.label)")
         isAccessibilityElement = false
         accessibilityLabel = container.label
-        accessibilityFrame = container.frame.offsetBy(dx: -50, dy: -320)
+        accessibilityFrame = container.frame.withZeroOrigin()
+        
+        print("Container \(accessibilityFrame), \(container.label)")
         accessibilityElements = container.elements.map({ element in
-            let relativeFrame = element.frame.relative(to: accessibilityFrame)
-            // TODO: Scale
-            let new = CGRectApplyAffineTransform(
-                relativeFrame, CGAffineTransform(scaleX: view.zoomScale,
-                                                 y: view.zoomScale))
-            let rect = UIAccessibility.convertToScreenCoordinates(new, in: view)
+            let rect = frameInScreenCoordinates(element.frame)
             
             return VoiceOverElement(
                 control: element,
@@ -60,6 +56,22 @@ class VoiceOverContainer: NSObject {
         // TODO: Add enumeration
         // TODO: Add Enumeration to child
     }
+    
+    private func frameInScreenCoordinates(_ frame: CGRect) -> CGRect {
+        let new = view.scaledFrame(frame)
+        let rect = UIAccessibility.convertToScreenCoordinates(new, in: view)
+        
+        print("Convert \(frame) -> \(rect)")
+        return rect
+    }
+}
+
+extension UIScrollView {
+    func scaledFrame(_ frame: CGRect) -> CGRect {
+        let scale = CGAffineTransform(scaleX: zoomScale, y: zoomScale)
+        
+        return CGRectApplyAffineTransform(frame, scale)
+    }
 }
 
 extension CGRect {
@@ -72,6 +84,10 @@ extension CGRect {
         return CGRect(
             origin: origin,
             size: size)
+    }
+    
+    func withZeroOrigin() -> CGRect {
+        CGRect(origin: .zero, size: size)
     }
 }
 
