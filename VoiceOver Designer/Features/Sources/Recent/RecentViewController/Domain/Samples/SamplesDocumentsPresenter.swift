@@ -93,11 +93,11 @@ class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
 extension Locale {
     var currentUserLanguage: String? {
         return languageCode
-//        if #available(macOS 13, *) {
-//            return language.languageCode?.identifier
-//        } else {
-//            return languageCode
-//        }
+        if #available(macOS 13, *) {
+            return language.languageCode?.identifier
+        } else {
+            return languageCode
+        }
     }
 }
 
