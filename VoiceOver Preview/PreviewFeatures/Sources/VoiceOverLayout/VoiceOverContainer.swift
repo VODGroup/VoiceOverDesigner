@@ -33,7 +33,7 @@ class VoiceOverContainer: NSObject {
         
         print("Container \(accessibilityFrame), \(container.label)")
         accessibilityElements = container.elements.map({ element in
-            let rect = frameInScreenCoordinates(element.frame)
+            let rect = view.frameInScreenCoordinates(element.frame)
             
             return VoiceOverElement(
                 control: element,
@@ -56,14 +56,6 @@ class VoiceOverContainer: NSObject {
         // TODO: Add enumeration
         // TODO: Add Enumeration to child
     }
-    
-    private func frameInScreenCoordinates(_ frame: CGRect) -> CGRect {
-        let new = view.scaledFrame(frame)
-        let rect = UIAccessibility.convertToScreenCoordinates(new, in: view)
-        
-        print("Convert \(frame) -> \(rect)")
-        return rect
-    }
 }
 
 extension UIScrollView {
@@ -71,6 +63,14 @@ extension UIScrollView {
         let scale = CGAffineTransform(scaleX: zoomScale, y: zoomScale)
         
         return CGRectApplyAffineTransform(frame, scale)
+    }
+    
+    func frameInScreenCoordinates(_ frame: CGRect) -> CGRect {
+        let new = scaledFrame(frame)
+        let rect = UIAccessibility.convertToScreenCoordinates(new, in: self)
+        
+//        print("Convert \(frame) -> \(rect)")
+        return rect
     }
 }
 

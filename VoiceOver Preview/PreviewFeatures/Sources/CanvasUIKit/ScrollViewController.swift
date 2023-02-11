@@ -95,20 +95,9 @@ class ScrollView: UIView {
 }
 
 extension ScrollView: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-    }
 
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        updateVoiceOverLayoutForCanvas()
-    }
-    
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         container
-    }
-    
-    func scrollViewDidZoom(_ scrollView: UIScrollView) {
-//        scrollView.updateContentInsetToCenterContent()
     }
     
     func updateVoiceOverLayoutForCanvas() {
@@ -118,10 +107,12 @@ extension ScrollView: UIScrollViewDelegate {
         
         let yOffset = scrollView.frame.minY - scrollView.bounds.minY
         
-        canvas.canvas.layout = VoiceOverLayout(
+        let layout = VoiceOverLayout(
             controls: canvas.controls,
             yOffset: yOffset,
             scrollView: scrollView)
+        
+        container.accessibilityElements = layout.accessibilityElements(at: container)
     }
 }
 
