@@ -46,10 +46,14 @@ extension String {
 
 extension String {
     var bold: String {
-        "**\(self)**"
+        "**\(self.trimmingWhitespaces())**"
     }
     
     var italic: String {
-        "*\(self)*"
+        "*\(self.trimmingWhitespaces())*"
+    }
+    
+    func trimmingWhitespaces() -> Self {
+        trimmingCharacters(in: .whitespaces)
     }
 }
