@@ -81,6 +81,7 @@ class DocumentCellViewItem: NSCollectionViewItem {
     }
     
     override func rightMouseDown(with event: NSEvent) {
+        super.rightMouseDown(with: event)
         NSMenu.popUpContextMenu(contextMenu, with: event, for: view)
     }
     
