@@ -47,7 +47,7 @@ public class RecentWindowController: NSWindowController {
     }
     
     public func embedProjectsViewControllerInWindow() {
-        let controller = DocumetsTabViewController(router: self)
+        let controller = DocumentsTabViewController(router: self)
     
         setupToolbarAppearance(
             title: NSLocalizedString("VoiceOver Designer",

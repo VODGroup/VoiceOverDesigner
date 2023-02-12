@@ -9,6 +9,8 @@ import Foundation
 
 
 public struct DocumentRenameAction {
+    let name: String
+    let keyEquivalent: String
     let action: (String) throws -> ()
     
     

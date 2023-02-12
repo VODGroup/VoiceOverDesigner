@@ -53,7 +53,7 @@ class DocumentCellViewItem: NSCollectionViewItem {
         // If there's renameAction, adding action to enable textfield editing
         if let renameAction {
             self.renameAction = renameAction
-            contextMenu.addItem(NSMenuItem(title: "Rename", action: #selector(renameItemClicked), keyEquivalent: ""))
+            contextMenu.addItem(NSMenuItem(title: renameAction.name, action: #selector(renameItemClicked), keyEquivalent: renameAction.keyEquivalent))
         }
     }
     
@@ -111,8 +111,7 @@ class DocumentCellViewItem: NSCollectionViewItem {
     @objc private func renameItemClicked() {
         projectCellView.fileNameTextField.delegate = self
         projectCellView.fileNameTextField.isEditable = true
-        let a = projectCellView.fileNameTextField.becomeFirstResponder()
-        print(a)
+        projectCellView.fileNameTextField.becomeFirstResponder()
     }
 }
 

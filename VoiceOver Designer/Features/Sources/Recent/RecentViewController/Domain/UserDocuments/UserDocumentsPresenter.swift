@@ -46,10 +46,7 @@ class UserDocumentsPresenter: DocumentBrowserPresenterProtocol {
                 DocumentBrowserCollectionItem(
                     content: .document(url),
                     menu: makeDocumentMenu(for: url),
-                    renameAction: .init(action: { [weak self] value in
-                        guard let self else { return }
-                        try? self.rename(url, with: value)
-                    }))
+                    renameAction: makeRenameAction(for: url))
             }
         
         return [DocumentBrowserCollectionItem(content: .newDocument)] + documents
@@ -74,6 +71,16 @@ class UserDocumentsPresenter: DocumentBrowserPresenterProtocol {
         }
         
         return items
+    }
+    
+    private func makeRenameAction(for url: URL) -> DocumentRenameAction {
+        DocumentRenameAction(
+            name: "Rename",
+            keyEquivalent: ""
+        ) { [weak self] value in
+            guard let self else { return }
+            try self.rename(url, with: value)
+        }
     }
     
     
