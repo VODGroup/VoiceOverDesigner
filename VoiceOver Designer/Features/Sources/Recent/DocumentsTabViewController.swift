@@ -1,7 +1,7 @@
 import AppKit
 import Document // For @Storage
 
-class DocumetsTabViewController: NSTabViewController {
+class DocumentsTabViewController: NSTabViewController {
     
     init(router: RecentRouter) {
         super.init(nibName: nil, bundle: nil)
@@ -53,15 +53,15 @@ class DocumetsTabViewController: NSTabViewController {
 }
 
 // MARK: - Toolbar
-extension DocumetsTabViewController {
+extension DocumentsTabViewController {
     func toolbar() -> NSToolbar {
         let toolbar = NSToolbar()
         toolbar.delegate = self
         toolbar.displayMode = .iconOnly
         
-//        if #available(macOS 13.0, *) {
-//            toolbar.centeredItemIdentifiers = [.documents]
-//        }
+        if #available(macOS 13.0, *) {
+            toolbar.centeredItemIdentifiers = [.documents]
+        }
         return toolbar
     }
     
