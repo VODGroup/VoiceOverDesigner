@@ -46,7 +46,7 @@ class A11yDescriptionArrayMoveContainerTests: A11yDescriptionArrayTests {
     }
     
     func test_whenMoveInSameContainerToBeginning() {
-        let container = sut.wrapInContainer([el2, el1], label: "Container") // TODO: Strange that I should wrap in reverse order
+        let container = sut.wrapInContainer([el1, el2], label: "Container")
         sut.assert(labels: "Container: 1, 2", "3")
         
         sut.move(el2, fromContainer: container,
