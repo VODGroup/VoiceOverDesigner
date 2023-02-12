@@ -53,6 +53,11 @@ public struct AdjustableOptions: Codable {
     }
     
     public mutating func update(at index: Int, text: String) {
+        guard index < options.count else {
+            // When we delete item control lose focus, ends editing and sends data to delegate and crash.
+            // Probably can be fixed on UI
+            return
+        }
         options[index] = text
     }
     

@@ -40,7 +40,9 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     }
     
     public convenience init(image: NSImage) {
-        self.init(fileName: image.name() ?? Date().description)
+        try! self.init(type: uti)
+        
+        displayName = image.name() ?? Date().description
         
         updateImage(image)
     }

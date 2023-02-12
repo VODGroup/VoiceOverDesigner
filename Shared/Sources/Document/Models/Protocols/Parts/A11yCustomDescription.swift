@@ -27,6 +27,11 @@ public struct A11yCustomDescriptions: Codable {
     }
     
     public mutating func update(at index: Int, with description: A11yCustomDescription) {
+        guard index < descriptions.count else {
+            // When we delete item control lose focus, ends editing and sends data to delegate and crash.
+            // Probably can be fixed on UI
+            return
+        }
         descriptions[index] = description
     }
 }

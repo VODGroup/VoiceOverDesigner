@@ -23,7 +23,7 @@ extension Array where Element == any AccessibilityView {
         }
 
         let container = A11yContainer(
-            elements: extractedElements,
+            elements: extractedElements.reversed(),
             frame: extractedElements
                 .map(\.frame)
                 .commonFrame

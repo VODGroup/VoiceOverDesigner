@@ -28,7 +28,7 @@ public class HUDLayer: CALayer {
     }
     
     private func lineWidth(for scale: CGFloat) -> CGFloat {
-        4 * scale
+        2 * scale
     }
     
     var resizeMarkerSize: CGFloat {
