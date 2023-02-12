@@ -43,10 +43,16 @@ class UserDocumentsPresenter: DocumentBrowserPresenterProtocol {
         
         let documents = arrayOfURLs
             .map { url in
-                DocumentBrowserCollectionItem(content: .document(url), menu: makeDocumentMenu(for: url))
+                DocumentBrowserCollectionItem(
+                    content: .document(url),
+                    menu: makeDocumentMenu(for: url),
+                    renameAction: .init(action: { [weak self] value in
+                        guard let self else { return }
+                        try? self.rename(url, with: value)
+                    }))
             }
         
-        return [DocumentBrowserCollectionItem(content: .newDocument, menu: [])] + documents
+        return [DocumentBrowserCollectionItem(content: .newDocument)] + documents
     }
     
     
@@ -60,8 +66,6 @@ class UserDocumentsPresenter: DocumentBrowserPresenterProtocol {
                 guard let self else { return }
                 self.duplicate(url)
             }]
-        // TODO: add renaming
-        
         if FileManager.default.iCloudAvailable {
             items.append(.init(name: "Move to iCloud", keyEquivalent: "") { [weak self] in
                 guard let self else { return }

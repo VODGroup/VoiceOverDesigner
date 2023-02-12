@@ -7,28 +7,6 @@ public protocol RecentRouter: AnyObject {
     func show(document: VODesignDocument) -> Void
 }
 
-final class MenuItem: NSMenuItem {
-    var closure: () -> Void
-    
-    init(title: String,
-         keyEquivalent: String,
-         action: @escaping () -> Void) {
-        self.closure = action
-        super.init(title: title, action: #selector(action(sender:)), keyEquivalent: keyEquivalent)
-        self.target = self
-    }
-    
-    
-    @available(*, unavailable)
-    required init(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
-    @objc func action(sender: NSMenuItem) {
-        closure()
-    }
-}
 
 public class DocumentsBrowserViewController: NSViewController {
 
@@ -146,7 +124,10 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
                 fileName: url.fileName
             )
             
-            item.contextMenu.items = collectionItem.menu.map(\.item)
+            item.configureContextMenu(items: collectionItem.menu.map(\.item),
+                                      renameAction: collectionItem.renameAction)
+            
+            
             
 
             item.readThumbnail(documentURL: url,
@@ -162,7 +143,8 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
                 fileName: downloadableDocument.path.name
             )
             
-            item.contextMenu.items = collectionItem.menu.map(\.item)
+            item.configureContextMenu(items: collectionItem.menu.map(\.item),
+                                      renameAction: collectionItem.renameAction)
             
             item.loadThumbnail(for: downloadableDocument.path,
                                backingScaleFactor: backingScaleFactor)
@@ -228,52 +210,3 @@ extension DocumentsBrowserViewController: DocumentsProviderDelegate {
 }
 
 
-//extension DocumentsBrowserViewController: DocumentBrowserContextMenuDelegate {
-//    func didSelectDelete(at indexPath: IndexPath) {
-//        guard let item = presenter.item(at: indexPath) else { return }
-//        presenter.delete(item)
-//    }
-//
-//    func didSelectDuplicate(at indexPath: IndexPath) {
-//        guard let item = presenter.item(at: indexPath) else { return }
-//        presenter.duplicate(item)
-//    }
-//
-//    func didSelectMoveToCloud(at indexPath: IndexPath) {
-//        guard let item = presenter.item(at: indexPath) else { return }
-//        presenter.moveToCloud(item)
-//    }
-//
-//
-//    func didSelectRename(at indexPath: IndexPath) {
-//
-//        guard let item = view().collectionView.item(at: indexPath) as? DocumentCellViewItem else { return }
-//        editingIndexPath = indexPath
-//        item.projectCellView.fileNameTextField.isEditable = true
-//        item.projectCellView.fileNameTextField.delegate = self
-//        item.projectCellView.fileNameTextField.becomeFirstResponder()
-//    }
-//
-//
-//}
-
-
-//extension DocumentsBrowserViewController: NSTextFieldDelegate {
-//    public func controlTextDidEndEditing(_ obj: Notification) {
-//        guard let textField = obj.object as? NSTextField else { return }
-//        defer {
-//            textField.delegate = nil
-//            textField.isEditable = false
-//        }
-//
-//        guard let editingIndexPath else { return }
-//        guard let item = presenter.item(at: editingIndexPath) else { return }
-//        let value = textField.stringValue
-//        do {
-//            try presenter.rename(item, with: value)
-//
-//        } catch {
-//            view().collectionView.reloadData()
-//        }
-//    }
-//}

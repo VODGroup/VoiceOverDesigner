@@ -15,7 +15,10 @@ class DocumentCellViewItem: NSCollectionViewItem {
     
     let projectCellView = DocumentCellView()
     
-    var contextMenu: NSMenu = NSMenu()
+    private var contextMenu: NSMenu = NSMenu()
+    
+    
+    private var renameAction: DocumentRenameAction?
     
     override func loadView() {
         view = projectCellView
@@ -39,6 +42,19 @@ class DocumentCellViewItem: NSCollectionViewItem {
     override func prepareForReuse() {
         super.prepareForReuse()
         image = nil
+    }
+    
+    
+    func configureContextMenu(
+        items: [NSMenuItem],
+        renameAction: DocumentRenameAction?
+    ) {
+        contextMenu.items = items
+        // If there's renameAction, adding action to enable textfield editing
+        if let renameAction {
+            self.renameAction = renameAction
+            contextMenu.addItem(NSMenuItem(title: "Rename", action: #selector(renameItemClicked), keyEquivalent: ""))
+        }
     }
     
     func loadThumbnail(
@@ -91,4 +107,27 @@ class DocumentCellViewItem: NSCollectionViewItem {
         CGSize(width: 125,
                height: 280)
     }
+    
+    @objc private func renameItemClicked() {
+        projectCellView.fileNameTextField.delegate = self
+        projectCellView.fileNameTextField.isEditable = true
+        let a = projectCellView.fileNameTextField.becomeFirstResponder()
+        print(a)
+    }
+}
+
+extension DocumentCellViewItem: NSTextFieldDelegate {
+    public func controlTextDidEndEditing(_ obj: Notification) {
+            guard let textField = obj.object as? NSTextField else { return }
+            defer {
+                textField.delegate = nil
+                textField.isEditable = false
+            }
+            do {
+                try renameAction?(textField.stringValue)
+            } catch {
+            // TODO: reset Name
+            }
+
+        }
 }

@@ -7,10 +7,30 @@
 
 import Foundation
 
+
+public struct DocumentRenameAction {
+    let action: (String) throws -> ()
+    
+    
+    func callAsFunction(_ value: String) throws {
+        try action(value)
+    }
+}
+
 public struct DocumentBrowserCollectionItem {
     let content: Content
     
     let menu: [MenuAction]
+    let renameAction: DocumentRenameAction?
+    
+    init(
+        content: Content,
+        menu: [MenuAction] = [],
+        renameAction: DocumentRenameAction? = nil) {
+        self.content = content
+        self.menu = menu
+        self.renameAction = renameAction
+    }
     
     
     
@@ -23,7 +43,7 @@ public struct DocumentBrowserCollectionItem {
             MenuItem(title: name, keyEquivalent: keyEquivalent, action: action)
         }
     }
-    
+        
     /// Type of cell in collection view
     public enum Content {
         /// Regular (existing) document item

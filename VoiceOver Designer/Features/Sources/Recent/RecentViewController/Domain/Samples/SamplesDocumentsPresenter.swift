@@ -99,7 +99,7 @@ extension SamplesDocumentsPresenter: LanguageSource {
                                          isCached: false) // TODO: Move cache check to this property?
                 ), menu: [
                     
-                ])
+                ], renameAction: nil)
             }))
         }
         
