@@ -15,6 +15,8 @@ class DocumentCellViewItem: NSCollectionViewItem {
     
     let projectCellView = DocumentCellView()
     
+    var contextMenu: NSMenu = NSMenu()
+    
     override func loadView() {
         view = projectCellView
     }
@@ -60,6 +62,10 @@ class DocumentCellViewItem: NSCollectionViewItem {
             readThumbnail(documentURL: documentURL,
                           backingScaleFactor: backingScaleFactor)
         }
+    }
+    
+    override func rightMouseDown(with event: NSEvent) {
+        NSMenu.popUpContextMenu(contextMenu, with: event, for: view)
     }
     
     func readThumbnail(

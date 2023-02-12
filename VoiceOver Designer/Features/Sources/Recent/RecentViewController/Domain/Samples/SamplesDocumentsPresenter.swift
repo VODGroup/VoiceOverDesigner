@@ -3,21 +3,7 @@ import Samples
 import Document
 
 class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
-    func delete(_ item: CollectionViewItem) {
-        
-    }
-    
-    func duplicate(_ item: CollectionViewItem) {
-        
-    }
-    
-    func moveToCloud(_ item: CollectionViewItem) {
-        
-    }
-    
-    func rename(_ item: CollectionViewItem, with name: String) throws {
-        
-    }
+
     
     weak var delegate: DocumentsProviderDelegate?
     
@@ -29,7 +15,7 @@ class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
         sections[section].documents.count
     }
     
-    func item(at indexPath: IndexPath) -> CollectionViewItem? {
+    func item(at indexPath: IndexPath) -> DocumentBrowserCollectionItem {
         sections[indexPath.section]
             .documents[indexPath.item]
     }
@@ -92,7 +78,6 @@ class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
 
 extension Locale {
     var currentUserLanguage: String? {
-        return languageCode
         if #available(macOS 13, *) {
             return language.languageCode?.identifier
         } else {
@@ -109,10 +94,12 @@ extension SamplesDocumentsPresenter: LanguageSource {
         self.sections = projects.map { project in
             ProjectViewModel(title: project.name,
                              documents: project.documents.map({ document in
-                CollectionViewItem.sample(
+                DocumentBrowserCollectionItem(content: .sample(
                     DownloadableDocument(path: document,
                                          isCached: false) // TODO: Move cache check to this property?
-                )
+                ), menu: [
+                    
+                ])
             }))
         }
         
@@ -123,5 +110,5 @@ extension SamplesDocumentsPresenter: LanguageSource {
 
 struct ProjectViewModel {
     let title: String
-    let documents: [CollectionViewItem]
+    let documents: [DocumentBrowserCollectionItem]
 }

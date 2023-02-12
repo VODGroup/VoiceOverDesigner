@@ -36,59 +36,76 @@ class UserDocumentsPresenter: DocumentBrowserPresenterProtocol {
         return metaFiles ?? []
     }
     
-    private var items: [CollectionViewItem] {
+    private var items: [DocumentBrowserCollectionItem] {
         let arrayOfURLs = iCloudDocuments.union(with: recentItems)
         
         // TODO: Sort by recent modified date
         
         let documents = arrayOfURLs
             .map { url in
-                CollectionViewItem.document(url)
-        }
+                DocumentBrowserCollectionItem(content: .document(url), menu: makeDocumentMenu(for: url))
+            }
         
-        return [.newDocument] + documents
+        return [DocumentBrowserCollectionItem(content: .newDocument, menu: [])] + documents
     }
     
     
-    func delete(_ item: CollectionViewItem) {
-        guard case let .document(url) = item else { return }
+    private func makeDocumentMenu(for url: URL) -> [DocumentBrowserCollectionItem.MenuAction] {
+        var items: [DocumentBrowserCollectionItem.MenuAction] = [
+            .init(name: "Delete", keyEquivalent: "") { [weak self] in
+                guard let self else { return }
+                self.deleteDocument(at: url)
+            },
+            .init(name: "Duplicate", keyEquivalent: "") { [weak self] in
+                guard let self else { return }
+                self.duplicate(url)
+            }]
+        // TODO: add renaming
+        
+        if FileManager.default.iCloudAvailable {
+            items.append(.init(name: "Move to iCloud", keyEquivalent: "") { [weak self] in
+                guard let self else { return }
+                self.moveToCloud(url)
+            })
+        }
+        
+        return items
+    }
+    
+    
+    //
+    func deleteDocument(at url: URL) {
         do {
             try fileManager.removeItem(at: url)
         } catch {
             // Handling
             Swift.print(error)
         }
-        
     }
     
-    func duplicate(_ item: CollectionViewItem) {
-        guard case let .document(url) = item else { return }
+    func duplicate(_ documentURL: URL) {
         do {
-            try documentController?.duplicateDocument(withContentsOf: url, copying: true, displayName: url.fileName)
+            try documentController?.duplicateDocument(withContentsOf: documentURL, copying: true, displayName: documentURL.fileName)
         } catch {
             Swift.print(error)
         }
-        
     }
     
     
-    func moveToCloud(_ item: CollectionViewItem) {
-        guard case let .document(url) = item else { return }
+    func moveToCloud(_ documentURL: URL) {
         guard let iCloudDirectory = fileManager.iCloudDirectory else { return }
-        
-        
         do {
             // Move to cloud directory
-            try fileManager.moveItem(at: url, to: iCloudDirectory)
+            try fileManager.moveItem(at: documentURL, to: iCloudDirectory)
         } catch {
             // Handling
             Swift.print(error)
         }
     }
     
-    func rename(_ item: CollectionViewItem, with name: String) throws {
-        guard case let .document(url) = item else { return }
-        try fileManager.moveItem(at: url, to: url.deletingLastPathComponent().appendingPathComponent(name).appendingPathExtension(vodesign))
+    func rename(_ documentURL: URL, with name: String) throws {
+        
+        try fileManager.moveItem(at: documentURL, to: documentURL.deletingLastPathComponent().appendingPathComponent(name).appendingPathExtension(vodesign))
     }
     
     
@@ -106,7 +123,7 @@ class UserDocumentsPresenter: DocumentBrowserPresenterProtocol {
         return items.count
     }
     
-    func item(at indexPath: IndexPath) -> CollectionViewItem? {
+    func item(at indexPath: IndexPath) -> DocumentBrowserCollectionItem {
         items[indexPath.item]
     }
     

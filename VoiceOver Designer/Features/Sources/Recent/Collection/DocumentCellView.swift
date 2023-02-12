@@ -103,10 +103,10 @@ class DocumentCellView: NSView {
     override func layout() {
         super.layout()
         
-        layoutShados()
+        layoutShadows()
     }
     
-    private func layoutShados() {
+    private func layoutShadows() {
         guard let layer = layer else { return }
         
         layer.masksToBounds = false
