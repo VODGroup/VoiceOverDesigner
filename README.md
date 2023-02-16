@@ -1,6 +1,6 @@
 # VoiceOverDesigner
 
-<img width="1540" alt="Screenshot of the application" src="https://user-images.githubusercontent.com/3120680/195253399-5155f138-67e5-4bc1-8b38-ccfcc8869963.png">
+<img width="1357" alt="Screenshot of the application" src="https://user-images.githubusercontent.com/3120680/219281953-031db6dc-b9e3-4ee4-b1a5-9a350c93d9aa.png">
 
 # Beta-test
 - [VoiceOver Designer](https://testflight.apple.com/join/GRsuZ0QD)
