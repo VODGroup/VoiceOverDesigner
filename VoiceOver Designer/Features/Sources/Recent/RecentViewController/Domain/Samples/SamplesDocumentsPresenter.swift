@@ -7,6 +7,8 @@ class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
     
     weak var delegate: DocumentsProviderDelegate?
     
+    private let loader = SamplesLoader()
+    
     func numberOfSections() -> Int {
         sections.count
     }
@@ -33,8 +35,6 @@ class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
     func load() {
         Task {
             do {
-                let loader = SamplesLoader()
-                
                 // Read cache fast
                 if let structure = loader.prefetchedStructure() {
                     await handle(structure: structure)
@@ -74,6 +74,31 @@ class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
     
     @Storage(key: "samplesLanguage", defaultValue: Locale.current.currentUserLanguage)
     var samplesLanguage: String?
+    
+    
+    private func invalidate(sample: DocumentPath) {
+        let sampleLoader = SampleLoader(document: sample)
+        // MainActor needed to prevent update collection in background which causes crash
+        Task { @MainActor in
+            do {
+                try await sampleLoader.invalidate()
+                delegate?.didUpdateDocuments()
+            } catch {
+                print("Failed to invalidate sample document: \(sample.relativePath)")
+            }
+        }
+    }
+    
+    
+    private func removeCache(of sample: DocumentPath) {
+        let sampleLoader = SampleLoader(document: sample)
+        do {
+            try sampleLoader.clearCache()
+            delegate?.didUpdateDocuments()
+        } catch {
+            print("Failed to clear cache of sample document: \(sample.relativePath)")
+        }
+    }
 }
 
 extension Locale {
@@ -98,8 +123,15 @@ extension SamplesDocumentsPresenter: LanguageSource {
                     DownloadableDocument(path: document,
                                          isCached: false) // TODO: Move cache check to this property?
                 ), menu: [
-                    
-                ], renameAction: nil)
+                    .init(name: "Invalidate", keyEquivalent: "") { [weak self] in
+                        guard let self else { return }
+                        self.invalidate(sample: document)
+                    },
+                    .init(name: "Clear cache", keyEquivalent: "") { [weak self] in
+                        guard let self else { return }
+                        self.removeCache(of: document)
+                    }
+                ])
             }))
         }
         

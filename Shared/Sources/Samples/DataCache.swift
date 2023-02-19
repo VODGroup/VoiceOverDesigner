@@ -5,11 +5,17 @@ class DataCache {
         downloadUrl: URL,
         cacheUrl: URL
     ) async throws {
-        if fileManager.fileExists(atPath: cacheUrl.path) {
-            print("File is exists, skip loading: \(cacheUrl) ")
-            return
+        guard !fileManager.fileExists(atPath: cacheUrl.path) else {
+            return print("File is exists, skip loading: \(cacheUrl) ")
         }
         
+        try await download(downloadUrl: downloadUrl, cacheUrl: cacheUrl)
+    }
+    
+    func download(
+        downloadUrl: URL,
+        cacheUrl: URL
+    ) async throws {
         let (data, response) = try await URLSession.shared.data(from: downloadUrl)
         
         let statusCode = (response as? HTTPURLResponse)?.statusCode
@@ -20,6 +26,12 @@ class DataCache {
         
         try save(data: data, to: cacheUrl)
     }
+    
+    
+    func removeFile(at cacheURL: URL) throws {
+        try fileManager.removeItem(at: cacheURL)
+    }
+    
     
     func hasFile(at cacheUrl: URL) -> Bool {
         fileManager.fileExists(atPath: cacheUrl.path)
