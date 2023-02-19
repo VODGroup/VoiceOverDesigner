@@ -158,6 +158,30 @@ class CanvasView: FlippedView {
     }
 }
 
+extension CanvasView: PreviewSourceProtocol {
+    func previewImage() -> Image? {
+        contentView.imageRepresentatation()
+    }
+}
+
+extension NSView {
+    
+    func imageRepresentatation() -> Image? {
+        let mySize = bounds.size
+        let imgSize = mySize
+        guard let bir = bitmapImageRepForCachingDisplay(in: bounds) else {
+            return nil
+        }
+        
+        bir.size = imgSize
+        cacheDisplay(in: bounds, to: bir)
+        
+        let image = Image(size: imgSize)
+        image.addRepresentation(bir)
+        return image
+    }
+}
+
 extension NSEdgeInsets {
     var verticals: CGFloat {
         top + bottom

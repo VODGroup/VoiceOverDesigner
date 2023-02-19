@@ -37,7 +37,8 @@ class CanvasPresenterTests: XCTestCase {
 extension CanvasPresenterTests {
     func didLoad() {
         sut.didLoad(ui: controller.controlsView,
-                    initialScale: 1)
+                    initialScale: 1,
+                    previewSource: PreviewSourceDummy())
     }
     
     var drawnControls: [any AccessibilityView] {
@@ -101,5 +102,11 @@ extension CanvasPresenter {
     func click(coordinate: CGPoint) {
         mouseDown(on: coordinate)
         mouseUp(on: coordinate)
+    }
+}
+
+class PreviewSourceDummy: PreviewSourceProtocol {
+    func previewImage() -> Image? {
+        nil
     }
 }

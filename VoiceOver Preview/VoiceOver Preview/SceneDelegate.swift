@@ -64,15 +64,20 @@ extension SceneDelegate {
         let controller = PreviewMainViewController(document: document)
         controller.title = url.lastPathComponent
         
-//        let navController = UINavigationController(rootViewController: controller)
-//        navController.modalPresentationStyle = .overFullScreen
-//        
-//        controller.navigationItem.leftBarButtonItem = UIBarButtonItem(
-//            title: NSLocalizedString("Close document", comment: ""),
-//            style: .done,
-//            target: self, action: #selector(closePresentedDocument))
-        
-        window?.rootViewController?.present(controller, animated: true)
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            window?.rootViewController?.present(controller, animated: true)
+        } else {
+            controller.navigationItem.leftBarButtonItem = UIBarButtonItem(
+                title: NSLocalizedString("Close", comment: ""),
+                style: .done,
+                target: self, action: #selector(closePresentedDocument))
+            
+            
+            let navController = UINavigationController(rootViewController: controller)
+            navController.modalPresentationStyle = .overFullScreen
+            
+            window?.rootViewController?.present(navController, animated: true)
+        }
     }
     
     @objc private func closePresentedDocument() {
