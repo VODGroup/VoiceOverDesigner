@@ -84,7 +84,6 @@ class UserDocumentsPresenter: DocumentBrowserPresenterProtocol {
     }
     
     
-    //
     func deleteDocument(at url: URL) {
         do {
             try fileManager.removeItem(at: url)
@@ -102,21 +101,38 @@ class UserDocumentsPresenter: DocumentBrowserPresenterProtocol {
         }
     }
     
-    
+    #warning("TODO: Find a way to access document url otherwise cannot move file")
     func moveToCloud(_ documentURL: URL) {
         guard let iCloudDirectory = fileManager.iCloudDirectory else { return }
-        do {
-            // Move to cloud directory
-            try fileManager.moveItem(at: documentURL, to: iCloudDirectory)
-        } catch {
-            // Handling
-            Swift.print(error)
+        let document = VODesignDocument(file: documentURL)
+        Task { @MainActor in
+            do {
+                try await document.move(to: iCloudDirectory)
+            }
+            catch {
+                print("Failed to rename document at \(documentURL) to \(iCloudDirectory) with error: \(error)")
+            }
+            delegate?.didUpdateDocuments()
         }
     }
     
+    #warning("TODO: Find a way to access document url otherwise cannot rename")
     func rename(_ documentURL: URL, with name: String) throws {
         
-        try fileManager.moveItem(at: documentURL, to: documentURL.deletingLastPathComponent().appendingPathComponent(name).appendingPathExtension(vodesign))
+        let document = VODesignDocument(file: documentURL)
+        let destinationURL = documentURL.deletingLastPathComponent().appendingPathComponent(name).appendingPathExtension(vodesign)
+        Task { @MainActor in
+            do {
+                try await document.move(to: destinationURL)
+            }
+            catch {
+                print("Failed to rename document at \(documentURL) to \(destinationURL) with error: \(error)")
+            }
+            delegate?.didUpdateDocuments()
+        }
+        
+        
+        
     }
     
     
