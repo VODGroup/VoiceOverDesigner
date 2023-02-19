@@ -19,7 +19,7 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     
     public var documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
     
-    public weak var previewSource: PreviewSourceProtocol?
+    public var previewSource: PreviewSourceProtocol?
     
     // MARK: -
     
