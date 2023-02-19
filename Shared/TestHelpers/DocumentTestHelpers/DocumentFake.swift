@@ -12,6 +12,7 @@ public class DocumentFake: VODesignDocumentProtocol {
     public var imageSize: CGSize = .zero
     public var frameInfo: FrameInfo = .default
     public var documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
+    public var previewSource: Document.PreviewSourceProtocol?
     
     // MARK: -
     public var undo: UndoManager? = UndoManager()
