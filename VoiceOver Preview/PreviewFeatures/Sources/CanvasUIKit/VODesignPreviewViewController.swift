@@ -49,7 +49,8 @@ extension VODesignPreviewViewController {
         view().controls = presenter.document.controls
         presenter.didLoad(
             ui: view().canvas,
-            initialScale: 1)
+            initialScale: 1,
+            previewSource: view())
     }
 }
 

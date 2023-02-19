@@ -5,10 +5,15 @@ extension VODesignDocumentProtocol {
     // MARK: - Write
     func fileWrapper() throws -> FileWrapper {
         
+        // Just invalidate controls every time to avoid lose of user's data
         invalidateWrapperIfPossible(fileInFrame: FileName.controls)
-//        if frameWrapper.fileWrappers?[FileName.controls] == nil {
         frameWrapper.addFileWrapper(try controlsWrapper())
-//        }
+        
+        // Preview depends on elements and should be invalidated
+        invalidateWrapperIfPossible(fileInRoot: FolderName.quickLook)
+        if let previewWrapper = previewWrapper() {
+            documentWrapper.addFileWrapper(previewWrapper)
+        }
         
         if frameWrapper.fileWrappers?[FileName.screen] == nil,
            let imageWrapper = imageWrapper() {
@@ -19,12 +24,7 @@ extension VODesignDocumentProtocol {
             let frameMetaWrapper = infoWrapper()
             frameWrapper.addFileWrapper(frameMetaWrapper)
         }
-        
-        if documentWrapper.fileWrappers?[FolderName.quickLook] == nil,
-            let previewWrapper = previewWrapper() {
-            documentWrapper.addFileWrapper(previewWrapper)
-        }
-        
+    
         return documentWrapper
     }
 }
@@ -59,7 +59,7 @@ extension VODesignDocumentProtocol {
     }
     
     private func previewWrapper() -> FileWrapper? {
-        guard let image = image, // TODO: Make smaller size
+        guard let image = previewSource?.previewImage() ?? image,
               let imageData = image.heic(compressionQuality: 0.51)
         else { return nil }
         

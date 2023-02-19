@@ -20,6 +20,8 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     
     public var documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
     
+    public var previewSource: PreviewSourceProtocol?
+    
     // MARK: - Constructors
     public convenience init(fileName: String,
                             rootPath: URL = iCloudContainer) {
@@ -40,7 +42,9 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     }
     
     public convenience init(image: NSImage) {
-        self.init(fileName: image.name() ?? Date().description)
+        try! self.init(type: uti)
+        
+        displayName = image.name() ?? Date().description
         
         updateImage(image)
     }

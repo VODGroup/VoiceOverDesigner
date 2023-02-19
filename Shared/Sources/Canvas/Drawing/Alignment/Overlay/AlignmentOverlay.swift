@@ -6,14 +6,14 @@ class AlignmentOverlay: AlignmentOverlayProtocol {
         self.view = view
     }
     
-    let view: View
+    weak var view: View?
     
     private var alignmentLines: [CALayer] = []
     
     private func createAlignmentLine() -> CAShapeLayer {
         let line = CAShapeLayer()
         line.backgroundColor = NSColor.systemRed.cgColor
-        view.addSublayer(line)
+        view?.addSublayer(line)
         alignmentLines.append(line)
         return line
     }

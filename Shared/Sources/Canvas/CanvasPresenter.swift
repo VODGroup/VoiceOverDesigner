@@ -17,12 +17,13 @@ public class CanvasPresenter: DocumentPresenter {
     
     public func didLoad(
         ui: DrawingView,
-        initialScale: CGFloat
+        initialScale: CGFloat,
+        previewSource: PreviewSourceProtocol
     ) {
         self.ui = ui
         self.scale = initialScale
         self.drawingController = DrawingController(view: ui)
-        
+        self.document.previewSource = previewSource
         draw(controls: document.controls)
         
         redrawOnControlChanges()

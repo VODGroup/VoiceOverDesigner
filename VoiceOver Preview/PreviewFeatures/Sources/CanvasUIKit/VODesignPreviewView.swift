@@ -31,6 +31,22 @@ class VODesignPreviewView: UIView {
     }
 }
 
+extension VODesignPreviewView: PreviewSourceProtocol {
+    func previewImage() -> Image? {
+        canvas.drawHierarchyAsImage() // TODO: Test it
+    }
+}
+
+extension UIView {
+    public func drawHierarchyAsImage() -> UIImage {
+        let renderer = UIGraphicsImageRenderer(size: bounds.size)
+        let image = renderer.image { _ in
+            drawHierarchy(in: bounds, afterScreenUpdates: true)
+        }
+        return image
+    }
+}
+
 class ScaledImageView: UIImageView {
     var scale: CGFloat = 3
     

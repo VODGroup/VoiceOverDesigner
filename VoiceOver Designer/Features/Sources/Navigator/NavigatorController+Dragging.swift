@@ -32,30 +32,36 @@ extension NavigatorController {
     }
     
     public func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex toIndex: Int) -> Bool {
-        if toIndex == NSOutlineViewDropOnItemIndex {
-            guard let onElement = item as? any AccessibilityView
-            else {
-                return false
-            }
-            
+        if toIndex == NSOutlineViewDropOnItemIndex,
+           let onElement = item as? any AccessibilityView {
+
             document.controls.wrapInContainer(
                 [draggedNode!, onElement].extractElements(),
                 label: "Container")
             
-            return false
-        } else {
-            guard let element = draggedNode as? A11yDescription else { return false } // TODO: Move containers
+            outlineView.reloadData()
+            
+            return true
+        } else if let element = draggedNode as? A11yDescription {
             
             let currentParent = outlineView.parent(forItem: draggedNode) as? A11yContainer
             
             document.controls.move(element, fromContainer: currentParent,
                                    toIndex: toIndex, toContainer: item as? A11yContainer)
+            
+            outlineView.reloadData()
+            return true
+        } else if let container = draggedNode as? A11yContainer, item == nil {
+            let didMove = document.controls.move(container, to: toIndex)
+            outlineView.reloadData()
+            return didMove
         }
+        
+        // TODO: Make animated reload
         //        outlineView.moveItem(at: fromIndex, inParent: nil,
         //                             to: toIndex, inParent: nil)
-        outlineView.reloadData()
         
-        return true
+        return false
     }
     
     public func outlineView(_ outlineView: NSOutlineView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {

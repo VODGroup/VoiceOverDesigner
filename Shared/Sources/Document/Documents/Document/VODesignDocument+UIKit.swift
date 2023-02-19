@@ -19,6 +19,8 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     
     public var documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
     
+    public var previewSource: PreviewSourceProtocol?
+    
     // MARK: -
     
     public var undo: UndoManager? {

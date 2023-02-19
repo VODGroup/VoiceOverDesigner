@@ -96,7 +96,8 @@ public class CanvasViewController: NSViewController {
         DispatchQueue.main.async {
             self.presenter.didLoad(
                 ui: self.view().controlsView,
-                initialScale: 1 // Will be scaled by scrollView
+                initialScale: 1, // Will be scaled by scrollView
+                previewSource: self.view()
                 // TODO: Scale Preview also by UIScrollView?
             )
             
