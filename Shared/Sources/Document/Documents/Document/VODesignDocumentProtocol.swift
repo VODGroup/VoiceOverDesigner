@@ -36,6 +36,6 @@ extension VODesignDocumentProtocol {
 }
 
 import CoreGraphics
-public protocol PreviewSourceProtocol {
+public protocol PreviewSourceProtocol: AnyObject {
     func previewImage() -> Image?
 }
