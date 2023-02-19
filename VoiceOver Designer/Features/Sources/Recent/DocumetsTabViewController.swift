@@ -153,15 +153,33 @@ extension NSToolbarItem.Identifier {
 }
 
 extension NSToolbar {
-    func removeItem(identifier: NSToolbarItem.Identifier) {
-        if let documentIndex = visibleItems?.firstIndex(where: { item in
-            item.itemIdentifier == identifier
-        }) {
-            removeItem(at: documentIndex)
+    @discardableResult
+    fileprivate func removeItem(identifier: NSToolbarItem.Identifier) -> Bool {
+        if let itemIndex = buttonIndex(identifier: identifier) {
+            removeItem(at: itemIndex)
+            return true
         }
+        
+        return false
     }
     
-    func appendItem(with identifer: NSToolbarItem.Identifier) {
+    fileprivate func buttonIndex(identifier: NSToolbarItem.Identifier) -> Int? {
+        let documentIndex = visibleItems?.firstIndex(where: { item in
+            item.itemIdentifier == identifier
+        })
+        
+        return documentIndex
+    }
+    
+    fileprivate func hasButton(with identifier: NSToolbarItem.Identifier) -> Bool {
+        buttonIndex(identifier: identifier) != nil
+    }
+    
+    fileprivate func appendItem(with identifer: NSToolbarItem.Identifier) {
+        guard !hasButton(with: .language) else {
+            return
+        }
+        
         insertItem(withItemIdentifier: identifer, at: items.count)
     }
     
