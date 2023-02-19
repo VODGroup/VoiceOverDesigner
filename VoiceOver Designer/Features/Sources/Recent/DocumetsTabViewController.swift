@@ -176,7 +176,7 @@ extension NSToolbar {
     }
     
     fileprivate func appendItem(with identifer: NSToolbarItem.Identifier) {
-        guard !hasButton(with: .language) else {
+        guard !hasButton(with: identifer) else {
             return
         }
         
