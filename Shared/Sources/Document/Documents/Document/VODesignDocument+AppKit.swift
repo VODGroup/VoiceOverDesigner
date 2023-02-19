@@ -20,6 +20,8 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     
     public var documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
     
+    public var previewSource: PreviewSourceProtocol?
+    
     // MARK: - Constructors
     public convenience init(fileName: String,
                             rootPath: URL = iCloudContainer) {

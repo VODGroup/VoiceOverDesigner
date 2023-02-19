@@ -15,6 +15,8 @@ public protocol VODesignDocumentProtocol: AnyObject {
     var undo: UndoManager? { get }
     
     var documentWrapper: FileWrapper { get set }
+    
+    var previewSource: PreviewSourceProtocol? { get set }
 }
 
 extension VODesignDocumentProtocol {
@@ -31,4 +33,9 @@ extension VODesignDocumentProtocol {
         frameInfo.imageScale = 1 // iOS can't exract scale information
 #endif
     }
+}
+
+import CoreGraphics
+public protocol PreviewSourceProtocol {
+    func previewImage() -> Image?
 }
