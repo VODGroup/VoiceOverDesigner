@@ -55,16 +55,16 @@ class UserDocumentsPresenter: DocumentBrowserPresenterProtocol {
     
     private func makeDocumentMenu(for url: URL) -> [DocumentBrowserCollectionItem.MenuAction] {
         var items: [DocumentBrowserCollectionItem.MenuAction] = [
-            .init(name: "Delete", keyEquivalent: "") { [weak self] in
+            .init(name: NSLocalizedString("Delete", comment: ""), keyEquivalent: "") { [weak self] in
                 guard let self else { return }
                 self.deleteDocument(at: url)
             },
-            .init(name: "Duplicate", keyEquivalent: "") { [weak self] in
+            .init(name: NSLocalizedString("Duplicate", comment: ""), keyEquivalent: "") { [weak self] in
                 guard let self else { return }
                 self.duplicate(url)
             }]
         if FileManager.default.iCloudAvailable {
-            items.append(.init(name: "Move to iCloud", keyEquivalent: "") { [weak self] in
+            items.append(.init(name: NSLocalizedString("Move to iCloud", comment: ""), keyEquivalent: "") { [weak self] in
                 guard let self else { return }
                 self.moveToCloud(url)
             })
@@ -75,7 +75,7 @@ class UserDocumentsPresenter: DocumentBrowserPresenterProtocol {
     
     private func makeRenameAction(for url: URL) -> DocumentRenameAction {
         DocumentRenameAction(
-            name: "Rename",
+            name: NSLocalizedString("Rename", comment: ""),
             keyEquivalent: ""
         ) { [weak self] value in
             guard let self else { return }

@@ -123,11 +123,11 @@ extension SamplesDocumentsPresenter: LanguageSource {
                     DownloadableDocument(path: document,
                                          isCached: false) // TODO: Move cache check to this property?
                 ), menu: [
-                    .init(name: "Invalidate", keyEquivalent: "") { [weak self] in
+                    .init(name: NSLocalizedString("Invalidate", comment: ""), keyEquivalent: "") { [weak self] in
                         guard let self else { return }
                         self.invalidate(sample: document)
                     },
-                    .init(name: "Clear cache", keyEquivalent: "") { [weak self] in
+                    .init(name: NSLocalizedString("Clear cache", comment: ""), keyEquivalent: "") { [weak self] in
                         guard let self else { return }
                         self.removeCache(of: document)
                     }
