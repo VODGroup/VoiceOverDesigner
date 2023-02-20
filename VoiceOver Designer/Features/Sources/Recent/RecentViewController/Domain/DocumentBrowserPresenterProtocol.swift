@@ -2,15 +2,6 @@ import Foundation
 import Samples
 import Document
 
-/// Type of cell in collection view
-public enum CollectionViewItem {
-    /// Regular (existing) document item
-    case document(URL)
-    /// Add new document item
-    case newDocument
-    /// Downloadable sample
-    case sample(DownloadableDocument)
-}
 
 public protocol DocumentBrowserPresenterProtocol {
     var delegate: DocumentsProviderDelegate? { get set }
@@ -19,10 +10,11 @@ public protocol DocumentBrowserPresenterProtocol {
     func title(for section: Int) -> String?
     
     func numberOfItemsInSection(_ section: Int) -> Int
-    func item(at indexPath: IndexPath) -> CollectionViewItem?
+    func item(at indexPath: IndexPath) -> DocumentBrowserCollectionItem
     
     var shouldShowThisController: Bool { get }
     func load()
+    
 }
 
 public protocol LanguageSource {
@@ -35,7 +27,7 @@ public protocol LanguageSource {
 extension DocumentBrowserPresenterProtocol {
     
     func document(at indexPath: IndexPath) async throws -> VODesignDocument {
-        switch item(at: indexPath)! {
+        switch item(at: indexPath).content {
         case .document(let url):
             return await VODesignDocument(file: url)
             

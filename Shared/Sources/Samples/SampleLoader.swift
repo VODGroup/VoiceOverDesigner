@@ -12,7 +12,7 @@ public class SampleLoader {
     }
     
     public var documentPathInCache: URL {
-        projectPath.cachaPath()
+        projectPath.cachePath()
     }
     
     public func download() async throws -> URL {
@@ -35,6 +35,16 @@ public class SampleLoader {
                            saveTo: documentPathInCache)
     }
     
+    public func invalidate() async throws {
+        try await forceDownload(files: document.files, documentURL: projectPath.documentBaseURL(), saveTo: documentPathInCache)
+    }
+    
+    public func clearCache() throws {
+        try dataCache.removeFile(at: documentPathInCache)
+    }
+    
+    
+    
     public func isFullyLoaded() -> Bool {
         for file in document.files {
             let saveUrl = documentPathInCache.appendingPathComponent(file)
@@ -47,16 +57,38 @@ public class SampleLoader {
         return true
     }
     
+    
+    private func forceDownload(
+        files: [String],
+        documentURL: URL,
+        saveTo resultDocumentPath: URL
+    ) async throws {
+        
+        await withThrowingTaskGroup(of: Void.self) { group in
+            for file in files {
+                group.addTask { [dataCache] in
+                    try await dataCache.download(
+                        downloadUrl: documentURL.appendingPathComponent(file),
+                        cacheUrl: resultDocumentPath.appendingPathComponent(file))
+                }
+            }
+        }
+    }
+    
     private func download(
         files: [String],
         documentURL: URL,
         saveTo resultDocumentPath: URL
     ) async throws {
-        for file in files {
-            // TODO: Parallel
-            try await dataCache.downloadIfCacheIsEmpty(
-                downloadUrl: documentURL.appendingPathComponent(file),
-                cacheUrl: resultDocumentPath.appendingPathComponent(file))
+        
+        await withThrowingTaskGroup(of: Void.self) { group in
+            for file in files {
+                group.addTask { [dataCache] in
+                    try await dataCache.downloadIfCacheIsEmpty(
+                        downloadUrl: documentURL.appendingPathComponent(file),
+                        cacheUrl: resultDocumentPath.appendingPathComponent(file))
+                }
+            }
         }
     }
     

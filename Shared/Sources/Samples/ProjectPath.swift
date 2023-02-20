@@ -29,7 +29,7 @@ class ProjectPath {
             .appendingPathExtension("vodesign")
     }
     
-    func cachaPath() -> URL {
+    func cachePath() -> URL {
         return cacheFolder()
             .appendingPathComponent(document.relativePath)
             .appendingPathComponent(document.name)

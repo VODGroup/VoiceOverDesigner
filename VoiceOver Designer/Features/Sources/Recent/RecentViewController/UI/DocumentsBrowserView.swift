@@ -6,10 +6,17 @@
 //
 
 import AppKit
+import Document
 import CommonUI
+
 
 class DocumentsBrowserView: NSScrollView {
     
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+        
     @IBOutlet weak var collectionView: NSCollectionView! {
         didSet {
             collectionView.isSelectable = true

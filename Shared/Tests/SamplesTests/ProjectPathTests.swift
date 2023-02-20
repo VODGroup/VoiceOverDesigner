@@ -56,7 +56,7 @@ final class ProjectPathTests: XCTestCase {
     // MARK: Cache
     func test_cache() {
         XCTAssertEqual(
-            sut.cachaPath().path,
+            sut.cachePath().path,
             "/Users/mikhail/Library/Caches/com.akaDuality.VoiceOver-Designer/Samples/En/Dodo Pizza/Product card.vodesign")
     }
 }

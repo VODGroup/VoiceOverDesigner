@@ -7,6 +7,7 @@ public protocol RecentRouter: AnyObject {
     func show(document: VODesignDocument) -> Void
 }
 
+
 public class DocumentsBrowserViewController: NSViewController {
 
     public weak var router: RecentRouter?
@@ -30,13 +31,19 @@ public class DocumentsBrowserViewController: NSViewController {
             forSupplementaryViewOfKind: NSCollectionView.elementKindSectionHeader,
             withIdentifier: HeaderCell.id
         )
-        
         presenter.load()
+       
+        
     }
+    
+    
+
     
     /// Sometimel layout is called right after loading from storyboard, presenter is not set and a crash happened.
     /// I added check that presenter is not nil, but we had to call reloadData as as result
     private var needReloadDataOnStart = false
+    
+    private var editingIndexPath: IndexPath?
 
     func view() -> DocumentsBrowserView {
         view as! DocumentsBrowserView
@@ -55,6 +62,8 @@ public class DocumentsBrowserViewController: NSViewController {
     lazy var backingScaleFactor: CGFloat = {
         view.window?.backingScaleFactor ??  NSScreen.main?.backingScaleFactor ?? 1
     }()
+    
+    
 }
 
 extension DocumentsBrowserViewController: DragNDropDelegate {
@@ -98,7 +107,10 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
     }
     
     public func collectionView(_ collectionView: NSCollectionView, itemForRepresentedObjectAt indexPath: IndexPath) -> NSCollectionViewItem {
-        switch presenter.item(at: indexPath)! {
+        
+        let collectionItem = presenter.item(at: indexPath)
+        
+        switch collectionItem.content {
         case .newDocument:
             let item = collectionView.makeItem(
                 withIdentifier: NewDocumentCollectionViewItem.identifier,
@@ -111,6 +123,12 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
             item.configure(
                 fileName: url.fileName
             )
+            
+            item.configureContextMenu(items: collectionItem.menu.map(\.item),
+                                      renameAction: collectionItem.renameAction)
+            
+            
+            
 
             item.readThumbnail(documentURL: url,
                                backingScaleFactor: backingScaleFactor)
@@ -125,12 +143,18 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
                 fileName: downloadableDocument.path.name
             )
             
+            item.configureContextMenu(items: collectionItem.menu.map(\.item),
+                                      renameAction: collectionItem.renameAction)
+            
             item.loadThumbnail(for: downloadableDocument.path,
                                backingScaleFactor: backingScaleFactor)
             
             return item
         }
     }
+    
+
+    
 }
 
 extension DocumentsBrowserViewController: NSCollectionViewDelegateFlowLayout {
@@ -150,6 +174,8 @@ extension DocumentsBrowserViewController: NSCollectionViewDelegateFlowLayout {
 }
 
 extension DocumentsBrowserViewController: NSCollectionViewDelegate {
+    
+    
     
     public func collectionView(
         _ collectionView: NSCollectionView,
@@ -172,6 +198,7 @@ extension DocumentsBrowserViewController: NSCollectionViewDelegate {
             }
         }
     }
+    
 }
 
 extension DocumentsBrowserViewController: DocumentsProviderDelegate {
@@ -182,35 +209,4 @@ extension DocumentsBrowserViewController: DocumentsProviderDelegate {
     }
 }
 
-final class HeaderCell: NSView, NSCollectionViewSectionHeaderView {
-    lazy var label: NSTextField = {
-        let label = NSTextField()
-        label.font = .preferredFont(forTextStyle: .largeTitle)
-        label.stringValue = "Header"
-        label.textColor = NSColor.labelColor
-        label.isBordered = false
-        label.isEditable = false
-        label.isSelectable = false
-        label.backgroundColor = .clear
-        return label
-    }()
 
-    override init(frame frameRect: NSRect) {
-        super.init(frame: frameRect)
-
-        addSubview(label)
-
-        label.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            leadingAnchor.constraint(equalTo: label.leadingAnchor, constant: -16),
-            bottomAnchor.constraint(equalTo: label.bottomAnchor, constant: 4),
-            widthAnchor.constraint(equalTo: label.widthAnchor),
-        ])
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError()
-    }
-    
-    static let id = NSUserInterfaceItemIdentifier(rawValue: "sectionHeader")
-}
