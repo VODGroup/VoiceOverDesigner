@@ -16,7 +16,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         windowManager.start()
-        NSApplication.shared.mainMenu = MainMenu.menu()
         
 #if DEBUG
         openFileForUITestIfNeeded()
@@ -56,7 +55,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let image = NSImage(byReferencing: url)
             document = VODesignDocument(image: image)
         }
-        
         windowManager.createNewDocumentWindow(document: document)
     }
     
