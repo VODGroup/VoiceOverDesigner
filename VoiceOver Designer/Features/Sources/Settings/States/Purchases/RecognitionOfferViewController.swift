@@ -3,7 +3,10 @@ import Purchases
 
 class RecognitionOfferViewController: NSViewController {
 
-    let presenter = UnlockPresenter(productId: .textRecognition)
+    var presenter: UnlockPresenter!
+    func inject(presenter: UnlockPresenter) {
+        self.presenter = presenter
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +35,7 @@ class RecognitionOfferViewController: NSViewController {
         Task {
             do {
                 try await presenter.restore()
+                // Unlock status will be send to parent controller to remove this UI
             } catch let error {
                 view().display(error: error, at: .restoreButton)
             }
@@ -41,52 +45,5 @@ class RecognitionOfferViewController: NSViewController {
     @MainActor
     func view() -> RecognitionOfferView {
         view as! RecognitionOfferView
-    }
-}
-
-protocol UnlockPresenterDelegate: AnyObject {
-    func didChangeUnlockStatus(productId: ProductId)
-}
-
-class UnlockPresenter {
-    
-    enum PaymentError: Error {
-        case canNotFetchProducts
-    }
-    
-    let productId: ProductId
-    init(productId: ProductId) {
-        self.productId = productId
-    }
-    
-    weak var delegate: UnlockPresenterDelegate?
-    
-    func isUnlocked() -> Bool {
-        return false
-    }
-    
-    let store = Store()
-    
-    func fetchProduct() async throws -> String {
-        await store.listenForUpdates()
-        
-        let product = try await store.product(id: productId)
-        
-        if let price = product?.displayPrice {
-            return price
-        } else {
-            throw PaymentError.canNotFetchProducts
-        }
-    }
-    
-    func purchase() async throws {
-        guard let product = try await store.product(id: productId)
-        else { return }
-        
-        try await store.purchase(product: product)
-    }
-    
-    func restore() async throws {
-        try await store.restore()
     }
 }

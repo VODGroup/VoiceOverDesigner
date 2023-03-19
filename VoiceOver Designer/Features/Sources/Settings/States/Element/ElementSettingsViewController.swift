@@ -8,10 +8,12 @@
 import AppKit
 import Document
 import TextRecognition
+import Purchases
 
 public class ElementSettingsViewController: NSViewController {
 
     public var presenter: ElementSettingsPresenter!
+    var textRecognitionUnlockPresenter: UnlockPresenter!
     
     var descr: A11yDescription {
         presenter.element
@@ -22,6 +24,22 @@ public class ElementSettingsViewController: NSViewController {
         
         presenter.viewDidLoad(ui: self)
         view().setup(from: descr)
+        
+        if !textRecognitionUnlockPresenter.isUnlocked() {
+            embedTextRecognitionOffer()
+        }
+    }
+    
+    private weak var purchaseController: NSViewController?
+    private func embedTextRecognitionOffer() {
+        let purchaseController = NSStoryboard(name: "RecognitionOfferViewController", bundle: .module)
+            .instantiateInitialController() as! RecognitionOfferViewController
+        purchaseController.inject(presenter: textRecognitionUnlockPresenter)
+        
+        self.purchaseController = purchaseController
+        addChild(purchaseController)
+        
+        view().insertPurchaseControllerView(purchaseController.view)
     }
     
     func view() -> ElementSettingsView {
@@ -86,6 +104,7 @@ public class ElementSettingsViewController: NSViewController {
 extension ElementSettingsViewController: TextRecogitionReceiver {
     
     public func presentTextRecognition(_ alternatives: [String]) {
+        guard textRecognitionUnlockPresenter.isUnlocked() else { return }
         guard labelViewController?.view().isAutofillEnabled ?? false else { return }
         
         labelViewController?.presentTextRecognition(alternatives)
@@ -96,5 +115,12 @@ extension ElementSettingsViewController: TextRecogitionReceiver {
 extension ElementSettingsViewController: SettingsUI {
     public func updateTitle() {
         view().updateTitle(from: descr)
+    }
+}
+
+extension ElementSettingsViewController: UnlockerDelegate {
+    public func didChangeUnlockStatus(productId: ProductId) {
+        purchaseController?.view.removeFromSuperview()
+        purchaseController?.removeFromParent()
     }
 }

@@ -1,6 +1,7 @@
 import Foundation
 import AppKit
 import Document
+import Purchases
 
 public enum DetailsState: StateProtocol {
 
@@ -15,6 +16,9 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
     
     public weak var settingsDelegate: SettingsDelegate!
     public var textRecognitionCoordinator: TextRecognitionCoordinator!
+    lazy var textRecognitionUnlockPresenter = UnlockPresenter(
+        productId: .textRecognition,
+        unlockerDelegate: self)
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -31,6 +35,7 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
                 settings.presenter = ElementSettingsPresenter(
                     element: element,
                     delegate: self.settingsDelegate)
+                settings.textRecognitionUnlockPresenter = self.textRecognitionUnlockPresenter
                 
                 self.recognizeText(for: element)
                 
@@ -58,10 +63,20 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
     }
 }
 
+extension SettingsStateViewController: UnlockerDelegate {
+    public func didChangeUnlockStatus(productId: ProductId) {
+        if let unlockingController = purchaseUnlockingController() {
+            unlockingController.didChangeUnlockStatus(productId: productId)
+        }
+    }
+}
+
 import TextRecognition
 extension SettingsStateViewController {
     
     func recognizeText(for model: any AccessibilityView) {
+        guard textRecognitionUnlockPresenter.isUnlocked() else { return }
+        
         Task {
             guard let result = try? await textRecognitionCoordinator.recongizeText(for: model) 
             else {
@@ -86,12 +101,20 @@ extension SettingsStateViewController {
     }
     
     private func textRecognitionReceiver() -> TextRecogitionReceiver? {
-        if let receiver = currentController as? TextRecogitionReceiver {
+        controller(ofType: TextRecogitionReceiver.self)
+    }
+    
+    private func purchaseUnlockingController() -> UnlockerDelegate? {
+        controller(ofType: UnlockerDelegate.self)
+    }
+    
+    private func controller<SearchType>(ofType type: SearchType.Type) -> SearchType? {
+        if let receiver = currentController as? SearchType {
             return receiver
         }
         
         if let scrollViewController = currentController as? ScrollViewController,
-           let contentReceiver = scrollViewController.child as? TextRecogitionReceiver {
+           let contentReceiver = scrollViewController.child as? SearchType {
             return contentReceiver
         }
         

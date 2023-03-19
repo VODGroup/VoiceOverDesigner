@@ -75,10 +75,10 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalHuggingPriority="251" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fBF-Lg-mkf" customClass="FlippedStackView" customModule="CanvasAppKit">
-                                <rect key="frame" x="25" y="0.0" width="405" height="1000"/>
+                                <rect key="frame" x="25" y="154" width="405" height="846"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="500" translatesAutoresizingMaskIntoConstraints="NO" id="JZg-MT-gb1">
-                                        <rect key="frame" x="-2" y="969" width="354" height="31"/>
+                                        <rect key="frame" x="-2" y="815" width="354" height="31"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="350" id="wGU-7w-KVi"/>
                                         </constraints>
@@ -88,12 +88,6 @@
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <containerView placeholderIntrinsicWidth="385" placeholderIntrinsicHeight="146" translatesAutoresizingMaskIntoConstraints="NO" id="qR5-Rm-74t" userLabel="Label">
-                                        <rect key="frame" x="0.0" y="815" width="405" height="146"/>
-                                        <connections>
-                                            <segue destination="EOu-A7-gLX" kind="embed" id="PM8-wx-HYb"/>
-                                        </connections>
-                                    </containerView>
                                     <containerView placeholderIntrinsicWidth="385" placeholderIntrinsicHeight="146" translatesAutoresizingMaskIntoConstraints="NO" id="jUl-jG-lyA" userLabel="Label">
                                         <rect key="frame" x="0.0" y="661" width="405" height="146"/>
                                         <connections>
@@ -196,13 +190,11 @@ CA
                                 </subviews>
                                 <edgeInsets key="edgeInsets" left="0.0" right="0.0" top="0.0" bottom="50"/>
                                 <constraints>
-                                    <constraint firstItem="qR5-Rm-74t" firstAttribute="leading" secondItem="fBF-Lg-mkf" secondAttribute="leading" id="5Yc-iN-VTD"/>
                                     <constraint firstAttribute="trailing" secondItem="UKp-gN-tMY" secondAttribute="trailing" id="6DL-Lg-4pt"/>
                                     <constraint firstAttribute="trailing" secondItem="WKs-Fa-hRc" secondAttribute="trailing" id="6IV-XT-iRd"/>
                                     <constraint firstItem="ddW-TI-EUC" firstAttribute="leading" secondItem="fBF-Lg-mkf" secondAttribute="leading" id="DZC-Fz-qno"/>
                                     <constraint firstItem="QgT-FM-ME0" firstAttribute="width" secondItem="WKs-Fa-hRc" secondAttribute="width" id="InZ-lz-XpJ"/>
                                     <constraint firstAttribute="trailing" secondItem="jUl-jG-lyA" secondAttribute="trailing" id="TtL-7k-pLZ"/>
-                                    <constraint firstAttribute="trailing" secondItem="qR5-Rm-74t" secondAttribute="trailing" id="XwC-ll-w5D"/>
                                     <constraint firstItem="jUl-jG-lyA" firstAttribute="leading" secondItem="fBF-Lg-mkf" secondAttribute="leading" id="bxS-qZ-0Hr"/>
                                     <constraint firstItem="UKp-gN-tMY" firstAttribute="leading" secondItem="fBF-Lg-mkf" secondAttribute="leading" id="nOB-pU-heZ"/>
                                     <constraint firstAttribute="trailing" secondItem="ddW-TI-EUC" secondAttribute="trailing" id="o7U-tz-Gy6"/>
@@ -218,10 +210,8 @@ CA
                                     <integer value="1000"/>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
-                                    <integer value="1000"/>
                                 </visibilityPriorities>
                                 <customSpacing>
-                                    <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
@@ -278,6 +268,7 @@ CA
         <!--Recognition Offer View Controller-->
         <scene sceneID="xxk-mu-yvb">
             <objects>
+                <customObject id="3bg-mJ-Ou2" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <viewController id="EOu-A7-gLX" customClass="RecognitionOfferViewController" customModule="Settings" sceneMemberID="viewController">
                     <view key="view" id="d3Y-co-xf7" customClass="RecognitionOfferView" customModule="Settings">
                         <rect key="frame" x="0.0" y="0.0" width="364" height="146"/>
@@ -354,7 +345,6 @@ CA
                         </connections>
                     </view>
                 </viewController>
-                <customObject id="3bg-mJ-Ou2" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1396" y="-154"/>
         </scene>
@@ -364,7 +354,7 @@ CA
                 <controllerPlaceholder storyboardName="LabelViewController" id="rcW-MN-eUb" sceneMemberID="viewController"/>
                 <customObject id="IdM-bW-lz2" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1250" y="96"/>
+            <point key="canvasLocation" x="1251" y="90"/>
         </scene>
     </scenes>
 </document>

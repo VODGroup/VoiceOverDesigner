@@ -11,8 +11,13 @@ public enum ProductId: String, CaseIterable {
 /// https://developer.apple.com/help/app-store-connect/configure-in-app-purchase-settings/overview-for-configuring-in-app-purchases
 /// https://developer.apple.com/documentation/storekit/in-app_purchase/original_api_for_in-app_purchase/offering_completing_and_restoring_in-app_purchases
 /// https://wwdcbysundell.com/2021/working-with-in-app-purchases-in-storekit2/
-public actor Store {
-    public init() {}
+actor Store {
+    
+    private let unlocker: PurchaseUnlocker
+    
+    init(unlocker: PurchaseUnlocker) {
+        self.unlocker = unlocker
+    }
     
     deinit {
         // Cancel the update handling task when you deinitialize the class.
@@ -21,7 +26,7 @@ public actor Store {
     
     /// Call it on app's start
     private var updates: Task<Void, Never>? = nil
-    public func listenForUpdates() {
+    func listenForUpdates() {
         updates = newTransactionListenerTask()
     }
     
@@ -38,7 +43,7 @@ public actor Store {
     // MARK: - Fetch
     var products: [Product] = []
     
-    public func product(id: ProductId) async throws -> Product? {
+    func product(id: ProductId) async throws -> Product? {
         if products.isEmpty {
             try await fetchProducts()
         }
@@ -56,7 +61,7 @@ public actor Store {
     }
     
     // MARK: - Purchase
-    public func purchase(product: Product) async throws {
+    func purchase(product: Product) async throws {
         let result = try await product.purchase()
         
         switch result {
@@ -71,18 +76,17 @@ public actor Store {
         }
     }
     
-    private let unlocker = PurchaseUnlocker()
     private func unlockAndFinish(_ transaction: Transaction) async {
         guard let productId = ProductId(rawValue: transaction.productID) else { return }
         guard transaction.revocationDate == nil else { return } // Do not restore revoked transactions
         
-        unlocker.unlock(productId: productId)
+        await unlocker.unlock(productId: productId)
         
         await transaction.finish()
     }
     
     // MARK: - Restore
-    public func restore() async throws {
+    func restore() async throws {
         for await verification in Transaction.currentEntitlements {
             if case let .verified(transaction) = verification {
                 print("Found transaction to restore \(transaction.productID)")

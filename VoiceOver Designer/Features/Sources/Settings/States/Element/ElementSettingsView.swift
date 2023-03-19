@@ -25,4 +25,10 @@ class ElementSettingsView: NSView {
     func updateTitle(from descr: A11yDescription) {
         resultLabel.attributedStringValue = descr.voiceOverTextAttributed(font: resultLabel.font)
     }
+    
+    func insertPurchaseControllerView(_ view: NSView) {
+        mainStack.insertView(view,
+                             at: 1, // After summary label
+                             in: .top)
+    }
 }
