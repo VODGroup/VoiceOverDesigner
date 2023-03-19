@@ -75,8 +75,6 @@ extension ContainerSettingsViewController: LabelDelegate {
 extension ContainerSettingsViewController: TextRecogitionReceiver {
     
     public func presentTextRecognition(_ alternatives: [String]) {
-        guard labelViewController?.view().isAutofillEnabled ?? false else { return }
-        
         labelViewController?.presentTextRecognition(alternatives)
     }
 }

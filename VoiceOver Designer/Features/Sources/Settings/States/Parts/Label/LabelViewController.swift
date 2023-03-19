@@ -10,12 +10,6 @@ class LabelViewController: NSViewController {
     
     weak var delegate: LabelDelegate?
     
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view().isAutofillEnabled = settingStorage.isAutofillEnabled
-    }
-    
     private let settingStorage = SettingsStorage()
     
     // MARK: Actions
@@ -24,15 +18,9 @@ class LabelViewController: NSViewController {
         delegate?.updateLabel(to: sender.stringValue)
     }
     
-    @IBAction func isAutofillDidChanged(_ sender: NSButton) {
-        settingStorage.isAutofillEnabled = sender.state == .on
-    }
-    
     // MARK: Text Recognition
     public func presentTextRecognition(_ alternatives: [String]) {
         print("Recognition results \(alternatives)")
-        
-        guard view().isAutofillEnabled else { return }
         
         view().label.addItems(withObjectValues: alternatives)
         
@@ -57,17 +45,6 @@ class LabelView: NSView {
         }
         set {
             label.stringValue = newValue
-        }
-    }
-    
-    @IBOutlet weak var isAutofillEnabledButton: NSButton!
-    var isAutofillEnabled: Bool {
-        get {
-            isAutofillEnabledButton.state == .on
-        }
-        
-        set {
-            isAutofillEnabledButton.state = newValue ? .on: .off
         }
     }
 }

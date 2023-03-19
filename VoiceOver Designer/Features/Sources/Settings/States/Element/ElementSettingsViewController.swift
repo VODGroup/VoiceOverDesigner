@@ -104,7 +104,6 @@ extension ElementSettingsViewController: TextRecogitionReceiver {
     
     public func presentTextRecognition(_ alternatives: [String]) {
         guard textRecognitionUnlockPresenter.isUnlocked() else { return }
-        guard labelViewController?.view().isAutofillEnabled ?? false else { return }
         
         labelViewController?.presentTextRecognition(alternatives)
         valueViewController?.addTextRegognition(alternatives: alternatives)

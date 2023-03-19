@@ -22,16 +22,6 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qQB-8M-3uJ">
-                                <rect key="frame" x="381" y="35" width="69" height="18"/>
-                                <buttonCell key="cell" type="check" title="Autofill" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ASH-gh-hPE">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="isAutofillDidChanged:" target="zsM-MB-gjb" id="WCa-be-Kiu"/>
-                                </connections>
-                            </button>
                             <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FvD-0a-pbi" customClass="TextRecognitionComboBox" customModule="Settings">
                                 <rect key="frame" x="-1" y="6" width="454" height="23"/>
                                 <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" bezelStyle="round" completes="NO" numberOfVisibleItems="5" id="J72-al-K12">
@@ -45,17 +35,14 @@
                             </comboBox>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="qQB-8M-3uJ" firstAttribute="trailing" secondItem="FvD-0a-pbi" secondAttribute="trailing" id="4H3-tE-OV8"/>
                             <constraint firstItem="Zye-oK-EQy" firstAttribute="top" secondItem="ePU-0X-RNS" secondAttribute="top" id="Ctc-zL-qqG"/>
                             <constraint firstItem="FvD-0a-pbi" firstAttribute="leading" secondItem="Zye-oK-EQy" secondAttribute="leading" id="RH1-cR-Rjx"/>
                             <constraint firstAttribute="trailing" secondItem="FvD-0a-pbi" secondAttribute="trailing" id="TF8-Wf-s3b"/>
-                            <constraint firstItem="qQB-8M-3uJ" firstAttribute="firstBaseline" secondItem="Zye-oK-EQy" secondAttribute="firstBaseline" id="bYZ-pZ-2pp"/>
                             <constraint firstItem="FvD-0a-pbi" firstAttribute="top" secondItem="Zye-oK-EQy" secondAttribute="bottom" constant="8" symbolic="YES" id="eov-Sm-4Gb"/>
                             <constraint firstAttribute="bottom" secondItem="FvD-0a-pbi" secondAttribute="bottom" constant="8" id="uPO-JW-Q9O"/>
                             <constraint firstItem="Zye-oK-EQy" firstAttribute="leading" secondItem="ePU-0X-RNS" secondAttribute="leading" id="wQC-2z-Rwz"/>
                         </constraints>
                         <connections>
-                            <outlet property="isAutofillEnabledButton" destination="qQB-8M-3uJ" id="bkJ-Uw-DRZ"/>
                             <outlet property="label" destination="FvD-0a-pbi" id="2vR-Rs-eLR"/>
                         </connections>
                     </view>
