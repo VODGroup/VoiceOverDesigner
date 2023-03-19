@@ -34,7 +34,6 @@ class RecognitionOfferView: NSView {
     }
     
     func display(price: String) {
-        activateButton.isEnabled = true
         activateButton.title = NSLocalizedString(String.localizedStringWithFormat("Activate text recognition for %@", price), comment: "Button's title")
     }
     
