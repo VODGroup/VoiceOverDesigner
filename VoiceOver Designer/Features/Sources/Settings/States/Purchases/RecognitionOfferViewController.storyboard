@@ -11,14 +11,14 @@
             <objects>
                 <viewController id="Cbc-rr-yeq" customClass="RecognitionOfferViewController" customModule="Settings" sceneMemberID="viewController">
                     <view key="view" id="IvH-w9-ZLl" customClass="RecognitionOfferView" customModule="Settings">
-                        <rect key="frame" x="0.0" y="0.0" width="364" height="146"/>
+                        <rect key="frame" x="0.0" y="0.0" width="369" height="116"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="Wfr-BV-CtJ">
-                                <rect key="frame" x="0.0" y="30" width="364" height="116"/>
+                                <rect key="frame" x="0.0" y="0.0" width="369" height="116"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BVy-Ab-bea">
-                                        <rect key="frame" x="10" y="10" width="344" height="40"/>
+                                        <rect key="frame" x="10" y="10" width="349" height="40"/>
                                         <buttonCell key="cell" type="push" title="Activate text recognition" bezelStyle="rounded" alignment="center" controlSize="large" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dEx-kL-Rrf">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -78,7 +78,7 @@
                         <constraints>
                             <constraint firstItem="Wfr-BV-CtJ" firstAttribute="leading" secondItem="IvH-w9-ZLl" secondAttribute="leading" id="PHc-yp-GpX"/>
                             <constraint firstAttribute="trailing" secondItem="Wfr-BV-CtJ" secondAttribute="trailing" id="YLv-MA-6dR"/>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Wfr-BV-CtJ" secondAttribute="bottom" id="hUF-BD-dJ1"/>
+                            <constraint firstAttribute="bottom" secondItem="Wfr-BV-CtJ" secondAttribute="bottom" id="hUF-BD-dJ1"/>
                             <constraint firstItem="Wfr-BV-CtJ" firstAttribute="top" secondItem="IvH-w9-ZLl" secondAttribute="top" id="kWT-K0-Nmc"/>
                         </constraints>
                         <connections>
