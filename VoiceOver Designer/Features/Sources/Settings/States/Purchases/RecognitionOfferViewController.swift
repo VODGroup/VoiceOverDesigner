@@ -12,7 +12,6 @@ class RecognitionOfferViewController: NSViewController {
         super.viewDidLoad()
         
         Task {
-            view().isLoading = true
             do {
                 let price = try await presenter.fetchProduct()
                 view().display(price: price)
@@ -21,8 +20,6 @@ class RecognitionOfferViewController: NSViewController {
                 // user can press 'purchase' button without price
                 // and product will be fetched before purchase anyway
             }
-            
-            view().isLoading = false
         }
     }
     
