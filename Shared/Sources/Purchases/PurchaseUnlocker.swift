@@ -3,20 +3,22 @@ public protocol UnlockerDelegate: AnyObject {
     func didChangeUnlockStatus(productId: ProductId)
 }
 
+import Document
 class PurchaseUnlocker {
     
     public weak var delegate: UnlockerDelegate?
     
     func unlock(productId: ProductId) async {
         print("will unlock \(productId)")
-        isUnlocked = true // TODO: Use keychain
+        isTextRecognitionUnlocked = true
         
         await delegate?.didChangeUnlockStatus(productId: productId)
     }
     
     func isUnlocked(productId: ProductId) -> Bool {
-        return isUnlocked // TODO: Check unlocker
+        return isTextRecognitionUnlocked
     }
     
-    var isUnlocked = false
+    @Storage(key: "isTextRecognitionUnlocked", defaultValue: false) // TODO: Define default value by first install
+    var isTextRecognitionUnlocked
 }
