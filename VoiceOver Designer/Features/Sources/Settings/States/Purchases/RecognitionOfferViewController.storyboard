@@ -54,6 +54,9 @@
                                             <action selector="restorePurchase:" target="Cbc-rr-yeq" id="lU9-QF-Bmp"/>
                                         </connections>
                                     </button>
+                                    <progressIndicator maxValue="100" displayedWhenStopped="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="xut-Fl-0Bf">
+                                        <rect key="frame" x="129" y="84" width="16" height="16"/>
+                                    </progressIndicator>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="hAT-Gh-ghN" firstAttribute="trailing" secondItem="BVy-Ab-bea" secondAttribute="trailing" id="1L0-lG-wTq"/>
@@ -61,9 +64,11 @@
                                     <constraint firstItem="QVw-Qo-sa1" firstAttribute="top" secondItem="Wfr-BV-CtJ" secondAttribute="top" constant="16" id="FB9-kR-BOy"/>
                                     <constraint firstItem="2GB-Y7-mq3" firstAttribute="leading" secondItem="QVw-Qo-sa1" secondAttribute="leading" id="ICe-aN-dcF"/>
                                     <constraint firstAttribute="bottom" secondItem="BVy-Ab-bea" secondAttribute="bottom" constant="16" id="Jt5-nb-zUv"/>
+                                    <constraint firstItem="xut-Fl-0Bf" firstAttribute="centerY" secondItem="QVw-Qo-sa1" secondAttribute="centerY" id="OSe-ak-Kbo"/>
                                     <constraint firstItem="hAT-Gh-ghN" firstAttribute="firstBaseline" secondItem="QVw-Qo-sa1" secondAttribute="firstBaseline" id="ZWL-Em-2Sz"/>
                                     <constraint firstItem="QVw-Qo-sa1" firstAttribute="leading" secondItem="Wfr-BV-CtJ" secondAttribute="leading" constant="16" id="am0-yw-X7w"/>
                                     <constraint firstItem="2GB-Y7-mq3" firstAttribute="leading" secondItem="BVy-Ab-bea" secondAttribute="leading" id="gVP-PU-TIe"/>
+                                    <constraint firstItem="xut-Fl-0Bf" firstAttribute="leading" secondItem="QVw-Qo-sa1" secondAttribute="trailing" constant="8" symbolic="YES" id="pN7-JZ-0y8"/>
                                     <constraint firstItem="BVy-Ab-bea" firstAttribute="top" secondItem="2GB-Y7-mq3" secondAttribute="bottom" constant="16" id="v04-Ev-4XC"/>
                                     <constraint firstItem="2GB-Y7-mq3" firstAttribute="centerX" secondItem="Wfr-BV-CtJ" secondAttribute="centerX" id="xep-l8-Z1U"/>
                                     <constraint firstItem="2GB-Y7-mq3" firstAttribute="top" secondItem="QVw-Qo-sa1" secondAttribute="bottom" constant="8" symbolic="YES" id="zx8-fL-ZVF"/>
@@ -79,6 +84,7 @@
                         <connections>
                             <outlet property="activateButton" destination="BVy-Ab-bea" id="ix9-fV-0fo"/>
                             <outlet property="bodyLabel" destination="2GB-Y7-mq3" id="UeX-rQ-yrR"/>
+                            <outlet property="loadingIndicator" destination="xut-Fl-0Bf" id="dx2-Ed-hlp"/>
                             <outlet property="restoreButton" destination="hAT-Gh-ghN" id="Tvc-2U-Yyv"/>
                             <outlet property="titleLabel" destination="QVw-Qo-sa1" id="rqW-Mu-d8n"/>
                             <outlet property="toastView" destination="Wfr-BV-CtJ" id="tym-gn-cKl"/>

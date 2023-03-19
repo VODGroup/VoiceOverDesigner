@@ -10,6 +10,17 @@ class RecognitionOfferView: NSView {
     @IBOutlet weak var activateButton: NSButton!
     @IBOutlet weak var restoreButton: NSButton!
     
+    var isLoading: Bool = false {
+        didSet {
+            if isLoading {
+                loadingIndicator.startAnimation(self)
+            } else {
+                loadingIndicator.stopAnimation(self)
+            }
+        }
+    }
+    @IBOutlet weak var loadingIndicator: NSProgressIndicator!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
