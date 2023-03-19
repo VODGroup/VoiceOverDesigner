@@ -26,4 +26,20 @@ class RecognitionOfferView: NSView {
         activateButton.isEnabled = true
         activateButton.title = NSLocalizedString(String.localizedStringWithFormat("Activate text recognition for %@", price), comment: "Button's title")
     }
+    
+    func display(error: Error, at: ErrorPlace) {
+        print(error)
+        // TODO: Add code
+    }
+    
+    enum ErrorPlace {
+        case purchaseButton
+        case restoreButton
+    }
+}
+
+// TODO: Use it
+class TintedBorderView: NSView {
+    
+    
 }
