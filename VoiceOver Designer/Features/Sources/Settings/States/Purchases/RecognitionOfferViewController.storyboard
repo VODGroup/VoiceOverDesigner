@@ -37,15 +37,15 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2GB-Y7-mq3">
-                                        <rect key="frame" x="14" y="60" width="336" height="16"/>
-                                        <textFieldCell key="cell" title="Speed up your workflow by automated text recognition" id="ec1-k4-CXe">
+                                        <rect key="frame" x="14" y="60" width="341" height="16"/>
+                                        <textFieldCell key="cell" title="AI will recognize text for you, it's much faster!" id="ec1-k4-CXe">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hAT-Gh-ghN">
-                                        <rect key="frame" x="239" y="84" width="109" height="14"/>
+                                        <rect key="frame" x="244" y="84" width="109" height="14"/>
                                         <buttonCell key="cell" type="inline" title="Restore purchases" bezelStyle="inline" alignment="center" controlSize="mini" imageScaling="proportionallyDown" inset="2" id="f3N-X9-X5d">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="smallSystemBold"/>
