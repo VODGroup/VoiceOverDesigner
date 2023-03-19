@@ -15,10 +15,19 @@ class PurchaseUnlocker {
         await delegate?.didChangeUnlockStatus(productId: productId)
     }
     
-    func isUnlocked(productId: ProductId) -> Bool {
-        return isTextRecognitionUnlocked
+    func unlockEverything() async {
+        for product in ProductId.allCases {
+            await unlock(productId: product)
+        }
     }
     
-    @Storage(key: "isTextRecognitionUnlocked", defaultValue: false) // TODO: Define default value by first install
+    func isUnlocked(productId: ProductId) -> Bool {
+        switch productId {
+        case .textRecognition:
+            return isTextRecognitionUnlocked
+        }
+    }
+    
+    @Storage(key: "isTextRecognitionUnlocked", defaultValue: false)
     var isTextRecognitionUnlocked
 }

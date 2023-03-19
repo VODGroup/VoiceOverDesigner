@@ -87,6 +87,14 @@ actor Store {
     
     // MARK: - Restore
     func restore() async throws {
+        if #available(macOS 13.0, *) {
+            Task {
+                if try await FirstInstallService().isGreatPersonWhoBoughtOurAppFirst() {
+                    await unlocker.unlockEverything()
+                }
+            }
+        }
+        
         for await verification in Transaction.currentEntitlements {
             if case let .verified(transaction) = verification {
                 print("Found transaction to restore \(transaction.productID)")

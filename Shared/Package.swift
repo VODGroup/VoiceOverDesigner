@@ -118,5 +118,10 @@ let package = Package(
             dependencies: [
             ]
         ),
+        .testTarget(
+            name: "PurchasesTests",
+            dependencies: [
+                "Purchases",
+            ]),
     ]
 )
