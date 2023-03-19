@@ -39,7 +39,9 @@ class RecognitionOfferView: NSView {
     
     func display(error: Error, at: ErrorPlace) {
         print(error)
-        // TODO: Add code
+        
+        let alert = NSAlert(error: error)
+        alert.runModal()
     }
     
     enum ErrorPlace {

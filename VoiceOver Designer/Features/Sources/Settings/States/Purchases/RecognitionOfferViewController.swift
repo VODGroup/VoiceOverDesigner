@@ -16,9 +16,10 @@ class RecognitionOfferViewController: NSViewController {
             do {
                 let price = try await presenter.fetchProduct()
                 view().display(price: price)
-            } catch let error {
-//                view().display(error: error, at: .purchaseButton)
-                // No need to display error: user can press 'purchase' button without price and product will be fetched anyway
+            } catch {
+                // No need to display error:
+                // user can press 'purchase' button without price
+                // and product will be fetched before purchase anyway
             }
             
             view().isLoading = false
