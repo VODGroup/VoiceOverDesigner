@@ -11,9 +11,7 @@ class PurchaseUnlocker {
         print("will unlock \(productId)")
         isUnlocked = true // TODO: Use keychain
         
-        await MainActor.run {
-            delegate?.didChangeUnlockStatus(productId: productId)
-        }
+        await delegate?.didChangeUnlockStatus(productId: productId)
     }
     
     func isUnlocked(productId: ProductId) -> Bool {
