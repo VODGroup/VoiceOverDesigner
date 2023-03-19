@@ -40,6 +40,7 @@
 		1EC992DB28B119730020041B /* ProjectController+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EC992DA28B119730020041B /* ProjectController+Toolbar.swift */; };
 		1ECE12DF2969B91700A3E917 /* WindowRestorationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE12DE2969B91700A3E917 /* WindowRestorationTests.swift */; };
 		1EEE25C32944ADC900B84F01 /* Navigator in Frameworks */ = {isa = PBXBuildFile; productRef = 1EEE25C22944ADC900B84F01 /* Navigator */; };
+		7439CD4429C664A800A557FC /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7439CD4329C664A800A557FC /* StoreKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +113,7 @@
 		1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "VoiceOver-Designer-Info.plist"; sourceTree = SOURCE_ROOT; };
 		6B4705F729048D9800AC4C23 /* VoiceOver DesignerRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "VoiceOver DesignerRelease.entitlements"; sourceTree = "<group>"; };
 		6B628795288D3A8D006F622A /* Features */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Features; path = "VoiceOver Designer/Features"; sourceTree = "<group>"; };
+		7439CD4329C664A800A557FC /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 				1E4D4C502927DC4F00742057 /* CanvasAppKit in Frameworks */,
 				1EC752EE28B514690064CF2F /* Recent in Frameworks */,
 				1E25D67A289696E900D06A9F /* Settings in Frameworks */,
+				7439CD4429C664A800A557FC /* StoreKit.framework in Frameworks */,
 				1EEE25C32944ADC900B84F01 /* Navigator in Frameworks */,
 				1E5DAF512927E87F00AA37D1 /* Document in Frameworks */,
 			);
@@ -150,6 +153,7 @@
 		1E033900281E737000EE373E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7439CD4329C664A800A557FC /* StoreKit.framework */,
 				1E579B8528244D9300B13565 /* Settings.framework */,
 				1E579B5728244B6F00B13565 /* Editor.framework */,
 				1E579B1B2824473600B13565 /* Projects.framework */,

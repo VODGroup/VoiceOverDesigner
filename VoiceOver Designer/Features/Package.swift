@@ -70,6 +70,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Document", package: "Shared"),
                 .product(name: "TextRecognition", package: "Shared"),
+                .product(name: "Purchases", package: "Shared")
             ]
         ),
         .target(
