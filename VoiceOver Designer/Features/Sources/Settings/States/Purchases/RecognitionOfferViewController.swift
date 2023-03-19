@@ -46,4 +46,9 @@ class RecognitionOfferViewController: NSViewController {
     func view() -> RecognitionOfferView {
         view as! RecognitionOfferView
     }
+    
+    static func fromStoryboard() -> RecognitionOfferViewController {
+        NSStoryboard(name: "RecognitionOfferViewController", bundle: .module)
+            .instantiateInitialController() as! RecognitionOfferViewController
+    }
 }

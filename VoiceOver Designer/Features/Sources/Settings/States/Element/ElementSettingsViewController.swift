@@ -32,13 +32,12 @@ public class ElementSettingsViewController: NSViewController {
     
     private weak var purchaseController: NSViewController?
     private func embedTextRecognitionOffer() {
-        let purchaseController = NSStoryboard(name: "RecognitionOfferViewController", bundle: .module)
-            .instantiateInitialController() as! RecognitionOfferViewController
+        let purchaseController = RecognitionOfferViewController.fromStoryboard()
         purchaseController.inject(presenter: textRecognitionUnlockPresenter)
         
-        self.purchaseController = purchaseController
-        addChild(purchaseController)
+        self.purchaseController = purchaseController // keep ref to remove later
         
+        addChild(purchaseController)
         view().insertPurchaseControllerView(purchaseController.view)
     }
     
