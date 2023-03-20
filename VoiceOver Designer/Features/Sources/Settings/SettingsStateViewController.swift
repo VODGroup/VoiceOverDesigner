@@ -31,16 +31,16 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
                 return EmptyViewController.fromStoryboard()
                 
             case .control(let element):
-                let settings = ElementSettingsViewController.fromStoryboard()
-                settings.presenter = ElementSettingsPresenter(
+                let elementSettings = ElementSettingsViewController.fromStoryboard()
+                elementSettings.presenter = ElementSettingsPresenter(
                     element: element,
                     delegate: self.settingsDelegate)
-                settings.textRecognitionUnlockPresenter = self.textRecognitionUnlockPresenter
+                elementSettings.textRecognitionUnlockPresenter = self.textRecognitionUnlockPresenter
                 
                 self.recognizeText(for: element)
                 
                 let scrollViewController = ScrollViewController.fromStoryboard()
-                scrollViewController.embed(settings)
+                scrollViewController.embed(elementSettings)
                 
                 return scrollViewController
                 
@@ -49,6 +49,7 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
                 containerSettings.presenter = ContainerSettingsPresenter(
                     container: container,
                     delegate: self.settingsDelegate)
+                containerSettings.textRecognitionUnlockPresenter = self.textRecognitionUnlockPresenter
                 
                 self.recognizeText(for: container)
                 

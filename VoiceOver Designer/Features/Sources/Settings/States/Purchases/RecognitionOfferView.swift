@@ -31,10 +31,17 @@ class RecognitionOfferView: NSView {
         
         toastView.layer?.cornerRadius = 8
         toastView.layer?.cornerCurve = .continuous
+        
+        activateButton.title = NSLocalizedString(
+            "Purchase now",
+            comment: "Button's title")
     }
     
     func display(price: String) {
-        activateButton.title = NSLocalizedString(String.localizedStringWithFormat("Activate text recognition for %@", price), comment: "Button's title")
+        activateButton.title = NSLocalizedString(
+            String.localizedStringWithFormat(
+                "Purchase now for %@", price),
+            comment: "Button's title")
     }
     
     func display(error: Error, at: ErrorPlace) {

@@ -24,21 +24,14 @@ public class ElementSettingsViewController: NSViewController {
         
         presenter.viewDidLoad(ui: self)
         view().setup(from: descr)
-        
-        if !textRecognitionUnlockPresenter.isUnlocked() {
-            embedTextRecognitionOffer()
-        }
     }
     
-    private weak var purchaseController: NSViewController?
-    private func embedTextRecognitionOffer() {
-        let purchaseController = RecognitionOfferViewController.fromStoryboard()
-        purchaseController.inject(presenter: textRecognitionUnlockPresenter)
+    public override func viewWillAppear() {
+        super.viewWillAppear()
         
-        self.purchaseController = purchaseController // keep ref to remove later
-        
-        addChild(purchaseController)
-        view().insertPurchaseControllerView(purchaseController.view)
+        // TODO: Setup inside controllers?
+        labelViewController?.view().labelText = descr.label
+        traitsViewController?.view().setup(from: descr)
     }
     
     func view() -> ElementSettingsView {
@@ -49,13 +42,14 @@ public class ElementSettingsViewController: NSViewController {
     weak var valueViewController: A11yValueViewController?
     weak var actionsViewController: CustomActionsViewController?
     weak var customDescriptionViewController: CustomDescriptionsViewController?
+    weak var traitsViewController: TraitsViewController?
     
     public override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         switch segue.destinationController {
         case let labelViewController as LabelViewController:
             self.labelViewController = labelViewController
             labelViewController.delegate = presenter
-            labelViewController.view().labelText = descr.label
+            labelViewController.textRecognitionUnlockPresenter = textRecognitionUnlockPresenter
             
         case let valueViewController as A11yValueViewController:
             self.valueViewController = valueViewController
@@ -67,8 +61,8 @@ public class ElementSettingsViewController: NSViewController {
             actionsViewController?.presenter = presenter
             
         case let traitsViewController as TraitsViewController:
+            self.traitsViewController = traitsViewController
             traitsViewController.delegate = presenter
-            traitsViewController.view().setup(from: descr)
             
         case let customDescriptionsViewController as CustomDescriptionsViewController:
             customDescriptionViewController = customDescriptionsViewController
@@ -118,7 +112,9 @@ extension ElementSettingsViewController: SettingsUI {
 
 extension ElementSettingsViewController: UnlockerDelegate {
     public func didChangeUnlockStatus(productId: ProductId) {
-        purchaseController?.view.removeFromSuperview()
-        purchaseController?.removeFromParent()
+        switch productId {
+        case .textRecognition:
+            labelViewController?.hidePaymentController()
+        }
     }
 }

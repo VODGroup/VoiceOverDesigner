@@ -1,6 +1,7 @@
 import AppKit
 import Document
 import TextRecognition
+import Purchases
 
 protocol LabelDelegate: AnyObject {
     func updateLabel(to text: String)
@@ -9,8 +10,33 @@ protocol LabelDelegate: AnyObject {
 class LabelViewController: NSViewController {
     
     weak var delegate: LabelDelegate?
+    var textRecognitionUnlockPresenter: UnlockPresenter!
     
     private let settingStorage = SettingsStorage()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if !textRecognitionUnlockPresenter.isUnlocked() {
+            embedTextRecognitionOffer()
+        }
+    }
+    
+    private weak var purchaseController: NSViewController?
+    private func embedTextRecognitionOffer() {
+        let purchaseController = RecognitionOfferViewController.fromStoryboard()
+        purchaseController.inject(presenter: textRecognitionUnlockPresenter)
+        
+        self.purchaseController = purchaseController // keep ref to remove later
+        
+        addChild(purchaseController)
+        view().insertPurchaseControllerView(purchaseController.view)
+    }
+    
+    func hidePaymentController() {
+        purchaseController?.view.removeFromSuperview()
+        purchaseController?.removeFromParent()
+    }
     
     // MARK: Actions
     @IBAction func labelDidChange(_ sender: NSTextField) {
@@ -46,5 +72,18 @@ class LabelView: NSView {
         set {
             label.stringValue = newValue
         }
+    }
+    
+    @IBOutlet weak var mainStack: NSStackView!
+    
+    func insertPurchaseControllerView(_ view: NSView) {
+        mainStack.insertView(view,
+                             at: 0, 
+                             in: .top)
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            mainStack.widthAnchor.constraint(equalTo: view.widthAnchor),
+        ])
     }
 }

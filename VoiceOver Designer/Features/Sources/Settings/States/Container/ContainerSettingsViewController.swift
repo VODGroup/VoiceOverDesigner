@@ -1,32 +1,41 @@
 import AppKit
 import Document
 import TextRecognition
+import Purchases
 
 class ContainerSettingsViewController: NSViewController {
     
-    public var presenter: ContainerSettingsPresenter!
+    var presenter: ContainerSettingsPresenter!
+    var textRecognitionUnlockPresenter: UnlockPresenter!
     
     weak var labelViewController: LabelViewController?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        renderSettings()
+    }
     
     public override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         switch segue.destinationController {
         case let labelViewController as LabelViewController:
             self.labelViewController = labelViewController
             labelViewController.delegate = presenter
-            labelViewController.view().labelText = presenter.container.label
+            labelViewController.textRecognitionUnlockPresenter = textRecognitionUnlockPresenter
             
         default: break
         }
     }
     
-    func view() -> ContainerSettingsView {
-        view as! ContainerSettingsView
+    override func viewWillAppear() {
+        super.viewWillAppear()
+        
+        // TODO: Setup inside controllers?
+        labelViewController?.view().labelText = presenter.container.label
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        renderSettings()
+    func view() -> ContainerSettingsView {
+        view as! ContainerSettingsView
     }
     
     func renderSettings() {
@@ -84,5 +93,14 @@ extension ContainerSettingsViewController {
         let storyboard = NSStoryboard(name: "ContainerSettingsViewController",
                                       bundle: .module)
         return storyboard.instantiateInitialController() as! ContainerSettingsViewController
+    }
+}
+
+extension ContainerSettingsViewController: UnlockerDelegate {
+    public func didChangeUnlockStatus(productId: ProductId) {
+        switch productId {
+        case .textRecognition:
+            labelViewController?.hidePaymentController()
+        }
     }
 }

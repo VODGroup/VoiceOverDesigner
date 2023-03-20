@@ -19,7 +19,7 @@
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BVy-Ab-bea">
                                         <rect key="frame" x="10" y="10" width="349" height="40"/>
-                                        <buttonCell key="cell" type="push" title="Activate text recognition" bezelStyle="rounded" alignment="center" controlSize="large" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dEx-kL-Rrf">
+                                        <buttonCell key="cell" type="push" title="Activate" bezelStyle="rounded" alignment="center" controlSize="large" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dEx-kL-Rrf">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -38,7 +38,7 @@
                                     </textField>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2GB-Y7-mq3">
                                         <rect key="frame" x="14" y="60" width="341" height="16"/>
-                                        <textFieldCell key="cell" title="AI will recognize text for you, it's much faster!" id="ec1-k4-CXe">
+                                        <textFieldCell key="cell" title="AI-power will recognize text for you, it's faster!" id="ec1-k4-CXe">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
