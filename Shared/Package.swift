@@ -116,6 +116,7 @@ let package = Package(
         .target(
             name: "Purchases",
             dependencies: [
+                "Document",
             ]
         ),
         .testTarget(
