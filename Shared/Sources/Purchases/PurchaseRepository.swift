@@ -11,7 +11,7 @@ public enum ProductId: String, CaseIterable {
 /// https://developer.apple.com/help/app-store-connect/configure-in-app-purchase-settings/overview-for-configuring-in-app-purchases
 /// https://developer.apple.com/documentation/storekit/in-app_purchase/original_api_for_in-app_purchase/offering_completing_and_restoring_in-app_purchases
 /// https://wwdcbysundell.com/2021/working-with-in-app-purchases-in-storekit2/
-actor Store {
+actor PurchaseRepository {
     
     private let unlocker: PurchaseUnlocker
     

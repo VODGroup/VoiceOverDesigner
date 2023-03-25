@@ -15,7 +15,7 @@ public class UnlockPresenter {
     
     let productId: ProductId
     let unlocker: PurchaseUnlocker
-    let store: Store
+    let purchaseRepository: PurchaseRepository
     
     public init(productId: ProductId, unlockerDelegate: UnlockerDelegate) {
         self.productId = productId
@@ -23,7 +23,7 @@ public class UnlockPresenter {
         let unlocker = PurchaseUnlocker()
         unlocker.delegate = unlockerDelegate
         self.unlocker = unlocker
-        self.store = Store(unlocker: unlocker)
+        self.purchaseRepository = PurchaseRepository(unlocker: unlocker)
     }
     
     public func isUnlocked() -> Bool {
@@ -31,9 +31,9 @@ public class UnlockPresenter {
     }
     
     public func fetchProduct() async throws -> String {
-        await store.listenForUpdates()
+        await purchaseRepository.listenForUpdates()
         
-        let product = try await store.product(id: productId)
+        let product = try await purchaseRepository.product(id: productId)
         
         if let price = product?.displayPrice {
             return price
@@ -43,13 +43,13 @@ public class UnlockPresenter {
     }
     
     public func purchase() async throws {
-        guard let product = try await store.product(id: productId)
+        guard let product = try await purchaseRepository.product(id: productId)
         else { return }
         
-        try await store.purchase(product: product)
+        try await purchaseRepository.purchase(product: product)
     }
     
     public func restore() async throws {
-        try await store.restore()
+        try await purchaseRepository.restore()
     }
 }
