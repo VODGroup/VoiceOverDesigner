@@ -28,6 +28,10 @@ class PurchaseUnlocker {
         }
     }
     
-    @Storage(key: "isTextRecognitionUnlocked", defaultValue: false)
-    var isTextRecognitionUnlocked
+    func removePurchase(productId: ProductId) {
+        isTextRecognitionUnlocked = false
+    }
+    
+    @KeychainBool(key: "isTextRecognitionUnlocked")
+    private var isTextRecognitionUnlocked
 }

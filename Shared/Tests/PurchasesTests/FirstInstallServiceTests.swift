@@ -1,6 +1,7 @@
 import XCTest
-@testable import Settings
+@testable import Purchases
 
+@available(macOS 13.0, *)
 class FirstInstallServiceTests: XCTestCase {
     
     func test_1_0_shouldBePaid() {
@@ -14,3 +15,4 @@ class FirstInstallServiceTests: XCTestCase {
         XCTAssertFalse(isPaid)
     }
 }
+

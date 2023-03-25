@@ -17,5 +17,4 @@ class FirstInstallService {
     func isPaidPurchase(originalAppVersion: String) -> Bool {
         originalAppVersion == "1.0"
     }
-    
 }
