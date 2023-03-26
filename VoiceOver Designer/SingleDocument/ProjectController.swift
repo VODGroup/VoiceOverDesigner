@@ -11,7 +11,10 @@ extension CanvasPresenter: TextBasedPresenter {}
 
 class ProjectController: NSSplitViewController {
     
-    init(document: VODesignDocument, router: ProjectRouterDelegate) {
+    init(
+        document: VODesignDocument,
+        router: ProjectRouterDelegate
+    ) {
         self.router = router
         self.document = document
         

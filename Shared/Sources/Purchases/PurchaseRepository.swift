@@ -89,9 +89,7 @@ actor PurchaseRepository {
     func restore() async throws {
         if #available(macOS 13.0, *) {
             Task {
-                if try await FirstInstallService().isGreatPersonWhoBoughtOurAppFirst() {
-                    await unlocker.unlockEverything()
-                }
+                migrateAppPurchaseToFullUnlock()
             }
         }
         
@@ -99,6 +97,15 @@ actor PurchaseRepository {
             if case let .verified(transaction) = verification {
                 print("Found transaction to restore \(transaction.productID)")
                 await unlockAndFinish(transaction)
+            }
+        }
+    }
+    
+    @available(macOS 13.0, *)
+    func migrateAppPurchaseToFullUnlock() {
+        Task {
+            if try await FirstInstallService().isGreatPersonWhoBoughtOurAppFirst() {
+                await unlocker.unlockEverything()
             }
         }
     }

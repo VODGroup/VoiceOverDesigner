@@ -55,4 +55,11 @@ public class UnlockPresenter {
     public func restore() async throws {
         try await purchaseRepository.restore()
     }
+    
+    @available(macOS 13.0, *)
+    public func migrateAppPurchaseToFullUnlock() {
+        Task {
+            await purchaseRepository.migrateAppPurchaseToFullUnlock()
+        }
+    }
 }

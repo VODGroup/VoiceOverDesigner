@@ -58,6 +58,14 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
         }
     }
     
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if #available(macOS 13.0, *) {
+            textRecognitionUnlockPresenter.migrateAppPurchaseToFullUnlock()
+        }
+    }
+    
     public static func fromStoryboard() -> SettingsStateViewController {
         let storyboard = NSStoryboard(name: "SettingsStateViewController", bundle: .module)
         return storyboard.instantiateInitialController() as! SettingsStateViewController
