@@ -1,41 +1,6 @@
 import Foundation
 import Security
 
-@propertyWrapper
-struct KeychainBool {
-    let key: String
-    let defaultValue: Bool
-    
-    init(key: String, defaultValue: Bool = false) {
-        self.key = key
-        self.defaultValue = defaultValue
-    }
-    
-    private let keychain = Keychain()
-    
-    var wrappedValue: Bool {
-        get {
-            return readValue() ?? defaultValue
-        }
-        set {
-            saveValue(newValue)
-        }
-    }
-    
-    func readValue() -> Bool? {
-        guard let resultString = keychain.readValue(for: key) else { return nil }
-        
-        let resultBool = Bool(resultString)
-        
-        return resultBool
-    }
-    
-    func saveValue(_ value: Bool) {
-        let string = String(value)
-        keychain.save(string, for: key)
-    }
-}
-
 class Keychain {
     func readValue(for key: String) -> String? {
         let query: [String: Any] = [
@@ -69,4 +34,29 @@ class Keychain {
         SecItemDelete(query as CFDictionary)
         SecItemAdd(query as CFDictionary, nil)
     }
+    
+    func remove(key: String) {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: key,
+        ]
+        
+        SecItemDelete(query as CFDictionary)
+    }
+}
+
+extension Keychain {
+    func readValue(for key: String) -> Bool? {
+        guard let resultString: String = readValue(for: key) else { return nil }
+        
+        let resultBool = Bool(resultString)
+        
+        return resultBool
+    }
+    
+    func save(_ value: Bool, for key: String) {
+        let string = String(value)
+        save(string, for: key)
+    }
+}
 }

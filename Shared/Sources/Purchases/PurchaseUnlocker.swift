@@ -6,11 +6,12 @@ public protocol UnlockerDelegate: AnyObject {
 import Document
 class PurchaseUnlocker {
     
+    let keychain = Keychain()
     public weak var delegate: UnlockerDelegate?
     
     func unlock(productId: ProductId) async {
         print("will unlock \(productId)")
-        isTextRecognitionUnlocked = true
+        keychain.save(true, for: productId.rawValue)
         
         await delegate?.didChangeUnlockStatus(productId: productId)
     }
@@ -22,16 +23,13 @@ class PurchaseUnlocker {
     }
     
     func isUnlocked(productId: ProductId) -> Bool {
-        switch productId {
-        case .textRecognition:
-            return isTextRecognitionUnlocked
-        }
+        keychain.readValue(for: productId.rawValue) ?? false
     }
     
     func removePurchase(productId: ProductId) {
-        isTextRecognitionUnlocked = false
+        keychain.remove(key: productId.rawValue)
     }
     
-    @KeychainBool(key: "isTextRecognitionUnlocked")
+    @KeychainBool(key: ProductId.textRecognition.rawValue)
     private var isTextRecognitionUnlocked
 }

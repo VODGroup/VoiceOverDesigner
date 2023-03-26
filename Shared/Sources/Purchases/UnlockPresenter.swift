@@ -17,7 +17,10 @@ public class UnlockPresenter {
     let unlocker: PurchaseUnlocker
     let purchaseRepository: PurchaseRepository
     
-    public init(productId: ProductId, unlockerDelegate: UnlockerDelegate) {
+    public init(
+        productId: ProductId,
+        unlockerDelegate: UnlockerDelegate
+    ) {
         self.productId = productId
         
         let unlocker = PurchaseUnlocker()
