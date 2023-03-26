@@ -3,7 +3,6 @@ public protocol PurchaseUnlockerDelegate: AnyObject {
     func didChangeUnlockStatus(productId: ProductId)
 }
 
-import Document
 class PurchaseUnlocker {
     
     let keychain = Keychain()
