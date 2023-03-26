@@ -3,15 +3,18 @@ import XCTest
 
 class PurchaseUnlockerTests: XCTestCase {
     
-    func test() async {
-        let sut = PurchaseUnlocker()
-        addTeardownBlock {
-            sut.removePurchase(productId: .textRecognition)
-        }
+    var sut: PurchaseUnlocker!
+    override func setUp() {
+        super.setUp()
         
+        sut = PurchaseUnlocker()
+        
+        sut.removePurchase(productId: .textRecognition)
         XCTAssertFalse(sut.isUnlocked(productId: .textRecognition))
+    }
+    
+    func test_whenUnlockPurchase_shouldKeepStateAfterRelaunch() async {
         await sut.unlock(productId: .textRecognition)
-        
         XCTAssertTrue(sut.isUnlocked(productId: .textRecognition))
         
         // Another instance knows about saved data
