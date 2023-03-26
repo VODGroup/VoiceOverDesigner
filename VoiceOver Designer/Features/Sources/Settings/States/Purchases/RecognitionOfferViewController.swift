@@ -13,7 +13,7 @@ class RecognitionOfferViewController: NSViewController {
         
         Task {
             do {
-                let price = try await presenter.fetchProduct()
+                let price = try await presenter.fetchPrice()
                 view().display(price: price)
             } catch {
                 // No need to display error:

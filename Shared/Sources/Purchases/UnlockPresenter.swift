@@ -35,7 +35,8 @@ public class UnlockPresenter {
         }
     }
     
-    public func fetchProduct() async throws -> String {
+    /// Return price
+    public func fetchPrice() async throws -> String {
         let product = try await purchaseRepository
             .product(id: productId)
         
