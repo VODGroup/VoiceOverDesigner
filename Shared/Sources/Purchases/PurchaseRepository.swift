@@ -55,7 +55,7 @@ actor PurchaseRepository {
         return product
     }
     
-    private func fetchProducts() async throws {
+    func fetchProducts() async throws {
         products = try await Product
             .products(for: ProductId.allIdentifiers)
     }

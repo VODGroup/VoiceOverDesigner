@@ -30,6 +30,16 @@ class PurchaseUnlocker {
         keychain.remove(key: productId.rawValue)
     }
     
-    @KeychainBool(key: ProductId.textRecognition.rawValue)
-    private var isTextRecognitionUnlocked
+    lazy var isUnlockedEverything: Bool = {
+        for productId in ProductId.allCases {
+            let isUnlocked: Bool = keychain
+                .readValue(for: productId.rawValue) ?? false
+            
+            if !isUnlocked {
+                return false
+            }
+        }
+        
+        return true
+    }()
 }

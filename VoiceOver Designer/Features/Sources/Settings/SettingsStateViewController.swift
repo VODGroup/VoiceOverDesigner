@@ -61,9 +61,7 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        if #available(macOS 13.0, *) {
-            textRecognitionUnlockPresenter.migrateAppPurchaseToFullUnlock()
-        }
+        textRecognitionUnlockPresenter.prefetch()
     }
     
     public static func fromStoryboard() -> SettingsStateViewController {
