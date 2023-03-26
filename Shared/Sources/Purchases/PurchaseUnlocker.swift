@@ -1,5 +1,5 @@
 @MainActor
-public protocol UnlockerDelegate: AnyObject {
+public protocol PurchaseUnlockerDelegate: AnyObject {
     func didChangeUnlockStatus(productId: ProductId)
 }
 
@@ -7,7 +7,7 @@ import Document
 class PurchaseUnlocker {
     
     let keychain = Keychain()
-    public weak var delegate: UnlockerDelegate?
+    public weak var delegate: PurchaseUnlockerDelegate?
     
     func unlock(productId: ProductId) async {
         print("will unlock \(productId)")

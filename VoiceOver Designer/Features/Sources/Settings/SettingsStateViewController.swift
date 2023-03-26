@@ -70,7 +70,7 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
     }
 }
 
-extension SettingsStateViewController: UnlockerDelegate {
+extension SettingsStateViewController: PurchaseUnlockerDelegate {
     public func didChangeUnlockStatus(productId: ProductId) {
         if let unlockingController = purchaseUnlockingController() {
             unlockingController.didChangeUnlockStatus(productId: productId)
@@ -107,12 +107,13 @@ extension SettingsStateViewController {
         currentController.presentTextRecognition(result.text)
     }
     
+    // MARK: - Controller traversion
     private func textRecognitionReceiver() -> TextRecogitionReceiver? {
         controller(ofType: TextRecogitionReceiver.self)
     }
     
-    private func purchaseUnlockingController() -> UnlockerDelegate? {
-        controller(ofType: UnlockerDelegate.self)
+    private func purchaseUnlockingController() -> PurchaseUnlockerDelegate? {
+        controller(ofType: PurchaseUnlockerDelegate.self)
     }
     
     private func controller<SearchType>(ofType type: SearchType.Type) -> SearchType? {

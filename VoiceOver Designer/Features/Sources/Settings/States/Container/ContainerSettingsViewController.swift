@@ -96,7 +96,7 @@ extension ContainerSettingsViewController {
     }
 }
 
-extension ContainerSettingsViewController: UnlockerDelegate {
+extension ContainerSettingsViewController: PurchaseUnlockerDelegate {
     public func didChangeUnlockStatus(productId: ProductId) {
         switch productId {
         case .textRecognition:

@@ -110,7 +110,7 @@ extension ElementSettingsViewController: SettingsUI {
     }
 }
 
-extension ElementSettingsViewController: UnlockerDelegate {
+extension ElementSettingsViewController: PurchaseUnlockerDelegate {
     public func didChangeUnlockStatus(productId: ProductId) {
         switch productId {
         case .textRecognition:

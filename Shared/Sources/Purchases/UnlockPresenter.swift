@@ -12,7 +12,7 @@ public class UnlockPresenter {
     
     public init(
         productId: ProductId,
-        unlockerDelegate: UnlockerDelegate
+        unlockerDelegate: PurchaseUnlockerDelegate
     ) {
         self.productId = productId
         
