@@ -8,10 +8,12 @@
 import AppKit
 import Document
 import TextRecognition
+import Purchases
 
 public class ElementSettingsViewController: NSViewController {
 
     public var presenter: ElementSettingsPresenter!
+    var textRecognitionUnlockPresenter: UnlockPresenter!
     
     var descr: A11yDescription {
         presenter.element
@@ -24,6 +26,14 @@ public class ElementSettingsViewController: NSViewController {
         view().setup(from: descr)
     }
     
+    public override func viewWillAppear() {
+        super.viewWillAppear()
+        
+        // TODO: Setup inside controllers?
+        labelViewController?.view().labelText = descr.label
+        traitsViewController?.view().setup(from: descr)
+    }
+    
     func view() -> ElementSettingsView {
         view as! ElementSettingsView
     }
@@ -32,13 +42,14 @@ public class ElementSettingsViewController: NSViewController {
     weak var valueViewController: A11yValueViewController?
     weak var actionsViewController: CustomActionsViewController?
     weak var customDescriptionViewController: CustomDescriptionsViewController?
+    weak var traitsViewController: TraitsViewController?
     
     public override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         switch segue.destinationController {
         case let labelViewController as LabelViewController:
             self.labelViewController = labelViewController
             labelViewController.delegate = presenter
-            labelViewController.view().labelText = descr.label
+            labelViewController.textRecognitionUnlockPresenter = textRecognitionUnlockPresenter
             
         case let valueViewController as A11yValueViewController:
             self.valueViewController = valueViewController
@@ -50,8 +61,8 @@ public class ElementSettingsViewController: NSViewController {
             actionsViewController?.presenter = presenter
             
         case let traitsViewController as TraitsViewController:
+            self.traitsViewController = traitsViewController
             traitsViewController.delegate = presenter
-            traitsViewController.view().setup(from: descr)
             
         case let customDescriptionsViewController as CustomDescriptionsViewController:
             customDescriptionViewController = customDescriptionsViewController
@@ -86,7 +97,7 @@ public class ElementSettingsViewController: NSViewController {
 extension ElementSettingsViewController: TextRecogitionReceiver {
     
     public func presentTextRecognition(_ alternatives: [String]) {
-        guard labelViewController?.view().isAutofillEnabled ?? false else { return }
+        guard textRecognitionUnlockPresenter.isUnlocked() else { return }
         
         labelViewController?.presentTextRecognition(alternatives)
         valueViewController?.addTextRegognition(alternatives: alternatives)
@@ -96,5 +107,14 @@ extension ElementSettingsViewController: TextRecogitionReceiver {
 extension ElementSettingsViewController: SettingsUI {
     public func updateTitle() {
         view().updateTitle(from: descr)
+    }
+}
+
+extension ElementSettingsViewController: PurchaseUnlockerDelegate {
+    public func didChangeUnlockStatus(productId: ProductId) {
+        switch productId {
+        case .textRecognition:
+            labelViewController?.hidePaymentController()
+        }
     }
 }

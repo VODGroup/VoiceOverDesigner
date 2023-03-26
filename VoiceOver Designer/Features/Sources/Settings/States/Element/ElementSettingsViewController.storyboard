@@ -71,11 +71,11 @@
             <objects>
                 <viewController id="6l9-zf-wkv" customClass="ElementSettingsViewController" customModule="Settings" sceneMemberID="viewController">
                     <view key="view" id="sJP-cf-aea" customClass="ElementSettingsView" customModule="Settings">
-                        <rect key="frame" x="0.0" y="0.0" width="455" height="846"/>
+                        <rect key="frame" x="0.0" y="0.0" width="455" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalHuggingPriority="251" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fBF-Lg-mkf" customClass="FlippedStackView" customModule="CanvasAppKit">
-                                <rect key="frame" x="25" y="0.0" width="405" height="846"/>
+                                <rect key="frame" x="25" y="154" width="405" height="846"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="500" translatesAutoresizingMaskIntoConstraints="NO" id="JZg-MT-gb1">
                                         <rect key="frame" x="-2" y="815" width="354" height="31"/>
@@ -271,7 +271,7 @@ CA
                 <controllerPlaceholder storyboardName="LabelViewController" id="rcW-MN-eUb" sceneMemberID="viewController"/>
                 <customObject id="IdM-bW-lz2" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1250" y="96"/>
+            <point key="canvasLocation" x="1251" y="90"/>
         </scene>
     </scenes>
 </document>

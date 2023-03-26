@@ -1,6 +1,7 @@
 import AppKit
 import Document
 import TextRecognition
+import Purchases
 
 protocol LabelDelegate: AnyObject {
     func updateLabel(to text: String)
@@ -9,14 +10,33 @@ protocol LabelDelegate: AnyObject {
 class LabelViewController: NSViewController {
     
     weak var delegate: LabelDelegate?
-    
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view().isAutofillEnabled = settingStorage.isAutofillEnabled
-    }
+    var textRecognitionUnlockPresenter: UnlockPresenter!
     
     private let settingStorage = SettingsStorage()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if !textRecognitionUnlockPresenter.isUnlocked() {
+            embedTextRecognitionOffer()
+        }
+    }
+    
+    private weak var purchaseController: NSViewController?
+    private func embedTextRecognitionOffer() {
+        let purchaseController = RecognitionOfferViewController.fromStoryboard()
+        purchaseController.inject(presenter: textRecognitionUnlockPresenter)
+        
+        self.purchaseController = purchaseController // keep ref to remove later
+        
+        addChild(purchaseController)
+        view().insertPurchaseControllerView(purchaseController.view)
+    }
+    
+    func hidePaymentController() {
+        purchaseController?.view.removeFromSuperview()
+        purchaseController?.removeFromParent()
+    }
     
     // MARK: Actions
     @IBAction func labelDidChange(_ sender: NSTextField) {
@@ -24,15 +44,9 @@ class LabelViewController: NSViewController {
         delegate?.updateLabel(to: sender.stringValue)
     }
     
-    @IBAction func isAutofillDidChanged(_ sender: NSButton) {
-        settingStorage.isAutofillEnabled = sender.state == .on
-    }
-    
     // MARK: Text Recognition
     public func presentTextRecognition(_ alternatives: [String]) {
         print("Recognition results \(alternatives)")
-        
-        guard view().isAutofillEnabled else { return }
         
         view().label.addItems(withObjectValues: alternatives)
         
@@ -60,14 +74,16 @@ class LabelView: NSView {
         }
     }
     
-    @IBOutlet weak var isAutofillEnabledButton: NSButton!
-    var isAutofillEnabled: Bool {
-        get {
-            isAutofillEnabledButton.state == .on
-        }
+    @IBOutlet weak var mainStack: NSStackView!
+    
+    func insertPurchaseControllerView(_ view: NSView) {
+        mainStack.insertView(view,
+                             at: 0, 
+                             in: .top)
         
-        set {
-            isAutofillEnabledButton.state = newValue ? .on: .off
-        }
+        view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            mainStack.widthAnchor.constraint(equalTo: view.widthAnchor),
+        ])
     }
 }

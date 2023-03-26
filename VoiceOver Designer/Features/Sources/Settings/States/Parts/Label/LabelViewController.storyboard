@@ -11,52 +11,62 @@
             <objects>
                 <viewController id="zsM-MB-gjb" customClass="LabelViewController" customModule="Settings" sceneMemberID="viewController">
                     <view key="view" id="ePU-0X-RNS" customClass="LabelView" customModule="Settings">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="52"/>
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="60"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Zye-oK-EQy">
-                                <rect key="frame" x="-2" y="36" width="40" height="16"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="WIW-mh-0b0">
-                                    <font key="font" textStyle="headline" name=".SFNS-Bold"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qQB-8M-3uJ">
-                                <rect key="frame" x="381" y="35" width="69" height="18"/>
-                                <buttonCell key="cell" type="check" title="Autofill" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ASH-gh-hPE">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="isAutofillDidChanged:" target="zsM-MB-gjb" id="WCa-be-Kiu"/>
-                                </connections>
-                            </button>
-                            <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FvD-0a-pbi" customClass="TextRecognitionComboBox" customModule="Settings">
-                                <rect key="frame" x="-1" y="6" width="454" height="23"/>
-                                <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" bezelStyle="round" completes="NO" numberOfVisibleItems="5" id="J72-al-K12">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </comboBoxCell>
-                                <connections>
-                                    <action selector="labelDidChange:" target="zsM-MB-gjb" id="hVL-eY-JBb"/>
-                                </connections>
-                            </comboBox>
+                            <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mFR-Yc-efF">
+                                <rect key="frame" x="0.0" y="8" width="450" height="52"/>
+                                <subviews>
+                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="aET-FE-90u">
+                                        <rect key="frame" x="0.0" y="0.0" width="450" height="52"/>
+                                        <subviews>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Zye-oK-EQy">
+                                                <rect key="frame" x="-2" y="28" width="40" height="16"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="WIW-mh-0b0">
+                                                    <font key="font" textStyle="headline" name=".SFNS-Bold"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FvD-0a-pbi" customClass="TextRecognitionComboBox" customModule="Settings">
+                                                <rect key="frame" x="-1" y="-2" width="454" height="23"/>
+                                                <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" bezelStyle="round" completes="NO" numberOfVisibleItems="5" id="J72-al-K12">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </comboBoxCell>
+                                                <connections>
+                                                    <action selector="labelDidChange:" target="zsM-MB-gjb" id="hVL-eY-JBb"/>
+                                                </connections>
+                                            </comboBox>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="FvD-0a-pbi" firstAttribute="top" secondItem="Zye-oK-EQy" secondAttribute="bottom" constant="8" symbolic="YES" id="5Sp-kU-wOJ"/>
+                                            <constraint firstAttribute="trailing" secondItem="FvD-0a-pbi" secondAttribute="trailing" id="8aY-XQ-9xf"/>
+                                            <constraint firstAttribute="bottom" secondItem="FvD-0a-pbi" secondAttribute="bottom" id="FqI-3z-6vw"/>
+                                            <constraint firstItem="FvD-0a-pbi" firstAttribute="leading" secondItem="Zye-oK-EQy" secondAttribute="leading" id="dZ4-ae-0dc"/>
+                                            <constraint firstItem="Zye-oK-EQy" firstAttribute="top" secondItem="aET-FE-90u" secondAttribute="top" constant="8" id="jzc-99-3Oa"/>
+                                            <constraint firstItem="Zye-oK-EQy" firstAttribute="leading" secondItem="aET-FE-90u" secondAttribute="leading" id="t4i-sz-1mu"/>
+                                        </constraints>
+                                    </customView>
+                                </subviews>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="qQB-8M-3uJ" firstAttribute="trailing" secondItem="FvD-0a-pbi" secondAttribute="trailing" id="4H3-tE-OV8"/>
-                            <constraint firstItem="Zye-oK-EQy" firstAttribute="top" secondItem="ePU-0X-RNS" secondAttribute="top" id="Ctc-zL-qqG"/>
-                            <constraint firstItem="FvD-0a-pbi" firstAttribute="leading" secondItem="Zye-oK-EQy" secondAttribute="leading" id="RH1-cR-Rjx"/>
-                            <constraint firstAttribute="trailing" secondItem="FvD-0a-pbi" secondAttribute="trailing" id="TF8-Wf-s3b"/>
-                            <constraint firstItem="qQB-8M-3uJ" firstAttribute="firstBaseline" secondItem="Zye-oK-EQy" secondAttribute="firstBaseline" id="bYZ-pZ-2pp"/>
-                            <constraint firstItem="FvD-0a-pbi" firstAttribute="top" secondItem="Zye-oK-EQy" secondAttribute="bottom" constant="8" symbolic="YES" id="eov-Sm-4Gb"/>
-                            <constraint firstAttribute="bottom" secondItem="FvD-0a-pbi" secondAttribute="bottom" constant="8" id="uPO-JW-Q9O"/>
-                            <constraint firstItem="Zye-oK-EQy" firstAttribute="leading" secondItem="ePU-0X-RNS" secondAttribute="leading" id="wQC-2z-Rwz"/>
+                            <constraint firstItem="mFR-Yc-efF" firstAttribute="top" secondItem="ePU-0X-RNS" secondAttribute="top" id="31t-0k-9VO"/>
+                            <constraint firstItem="mFR-Yc-efF" firstAttribute="leading" secondItem="ePU-0X-RNS" secondAttribute="leading" id="GBr-US-IYK"/>
+                            <constraint firstItem="mFR-Yc-efF" firstAttribute="centerX" secondItem="ePU-0X-RNS" secondAttribute="centerX" id="LPQ-v5-eRh"/>
+                            <constraint firstAttribute="bottom" secondItem="mFR-Yc-efF" secondAttribute="bottom" constant="8" id="vmU-ZA-RGT"/>
                         </constraints>
                         <connections>
-                            <outlet property="isAutofillEnabledButton" destination="qQB-8M-3uJ" id="bkJ-Uw-DRZ"/>
                             <outlet property="label" destination="FvD-0a-pbi" id="2vR-Rs-eLR"/>
+                            <outlet property="mainStack" destination="mFR-Yc-efF" id="FJ8-qF-m3e"/>
                         </connections>
                     </view>
                 </viewController>

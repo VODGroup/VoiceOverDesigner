@@ -25,7 +25,9 @@ let package = Package(
         .library(
             name: "Samples",
             targets: ["Samples"]),
-        
+        .library(
+            name: "Purchases",
+            targets: ["Purchases"]),
     ],
     dependencies: [
         .package(url: "git@github.com:pointfreeco/swift-custom-dump.git",
@@ -109,6 +111,17 @@ let package = Package(
         .executableTarget(name: "SamplesStructure", dependencies: [
             "Samples",
             .product(name: "ArgumentParser", package: "swift-argument-parser"),
-        ])
+        ]),
+        
+        .target(
+            name: "Purchases",
+            dependencies: [
+            ]
+        ),
+        .testTarget(
+            name: "PurchasesTests",
+            dependencies: [
+                "Purchases",
+            ]),
     ]
 )

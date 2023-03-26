@@ -11,12 +11,12 @@
 			<string>VoiceOver Design</string>
 			<key>LSHandlerRank</key>
 			<string>Owner</string>
-			<key>NSUbiquitousDocumentUserActivityType</key>
-			<string>com.akaDuality.VoiceOver-Designer.document</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.akaDuality.vodesign</string>
 			</array>
+			<key>NSUbiquitousDocumentUserActivityType</key>
+			<string>com.akaDuality.VoiceOver-Designer.document</string>
 		</dict>
 	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
