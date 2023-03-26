@@ -59,4 +59,3 @@ extension Keychain {
         save(string, for: key)
     }
 }
-}
