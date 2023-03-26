@@ -75,6 +75,19 @@ extension SettingsStateViewController: PurchaseUnlockerDelegate {
         if let unlockingController = purchaseUnlockingController() {
             unlockingController.didChangeUnlockStatus(productId: productId)
         }
+        
+        recognizeTextForCurrentModel()
+    }
+    
+    private func recognizeTextForCurrentModel() {
+        switch state {
+        case .control(let element):
+            recognizeText(for: element)
+        case .container(let container):
+            recognizeText(for: container)
+        case .empty:
+            return
+        }
     }
 }
 
