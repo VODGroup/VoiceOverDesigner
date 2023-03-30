@@ -29,9 +29,11 @@ public class UnlockPresenter {
         
         Task {
             await purchaseRepository.listenForUpdates()
-            try? await purchaseRepository.fetchProducts()
             
             await migrateAppPurchaseToFullUnlock()
+            
+            try? await purchaseRepository.fetchProducts()
+            try? await purchaseRepository.updatePurchaseStatus()
         }
     }
     
