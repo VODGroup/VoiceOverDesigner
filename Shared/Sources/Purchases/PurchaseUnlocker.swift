@@ -5,12 +5,13 @@ public protocol PurchaseUnlockerDelegate: AnyObject {
 
 class PurchaseUnlocker {
     
-    let keychain = Keychain()
+    let userDefaults = UserDefaults()
+    
     public weak var delegate: PurchaseUnlockerDelegate?
     
     func unlock(productId: ProductId) async {
         print("will unlock \(productId)")
-        keychain.save(true, for: productId.rawValue)
+        userDefaults.unlock(productId: productId)
         
         await delegate?.didChangeUnlockStatus(productId: productId)
     }
@@ -22,17 +23,16 @@ class PurchaseUnlocker {
     }
     
     func isUnlocked(productId: ProductId) -> Bool {
-        keychain.readValue(for: productId.rawValue) ?? false
+        userDefaults.isUnlocked(productId: productId)
     }
     
     func removePurchase(productId: ProductId) {
-        keychain.remove(key: productId.rawValue)
+        userDefaults.remove(productId: productId)
     }
     
     lazy var isUnlockedEverything: Bool = {
         for productId in ProductId.allCases {
-            let isUnlocked: Bool = keychain
-                .readValue(for: productId.rawValue) ?? false
+            let isUnlocked = userDefaults.isUnlocked(productId: productId)
             
             if !isUnlocked {
                 return false
@@ -41,4 +41,19 @@ class PurchaseUnlocker {
         
         return true
     }()
+}
+
+import Foundation
+extension UserDefaults {
+    func isUnlocked(productId: ProductId) -> Bool {
+        bool(forKey: productId.rawValue)
+    }
+    
+    func unlock(productId: ProductId) {
+        set(true, forKey: productId.rawValue)
+    }
+    
+    func remove(productId: ProductId) {
+        removeObject(forKey: productId.rawValue)
+    }
 }

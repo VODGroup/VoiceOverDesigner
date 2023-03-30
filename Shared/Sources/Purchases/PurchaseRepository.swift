@@ -31,7 +31,7 @@ actor PurchaseRepository {
     }
     
     private func newTransactionListenerTask() -> Task<Void, Never> {
-        Task(priority: .background) {
+        Task(priority: .medium) {
             for await verificationResult in Transaction.updates {
                 Task { // TODO: It's strange to wrap to another task
                     await unlockAndFinish(try verificationResult.payloadValue)
@@ -58,6 +58,10 @@ actor PurchaseRepository {
     func fetchProducts() async throws {
         products = try await Product
             .products(for: ProductId.allIdentifiers)
+    }
+    
+    func updatePurchaseStatus() async throws {
+        // TODO: update transaction status and block if needed
     }
     
     // MARK: - Purchase
