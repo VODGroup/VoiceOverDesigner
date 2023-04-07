@@ -122,7 +122,6 @@ class CanvasView: FlippedView {
             return
         }
 
-        contentView.add(image: image)
         let imageFrame = CGRect(
             origin: CGPoint(x: 0, y: 0),
             size: image.size)
