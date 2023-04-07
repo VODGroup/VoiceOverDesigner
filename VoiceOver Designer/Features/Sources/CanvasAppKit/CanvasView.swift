@@ -31,11 +31,9 @@ class CanvasView: FlippedView {
     
     @IBOutlet weak var scrollView: CanvasScrollView!
     
-    @IBOutlet weak var backgroundImageView: NSImageView!
-    
     @IBOutlet weak var clipView: NSClipView!
     
-    @IBOutlet weak var contentView: NSView!
+    @IBOutlet weak var contentView: ContentView!
     @IBOutlet weak var controlsView: ControlsView!
     @IBOutlet weak var addImageButton: NSButton!
    
@@ -108,7 +106,7 @@ class CanvasView: FlippedView {
     }
     
     private var fitingMagnification: CGFloat? {
-        guard let image = backgroundImageView.image else { return nil }
+        guard let image = contentView.image else { return nil }
         
         let scrollViewVisibleHeight = scrollView.frame.height// - scrollView.contentInsets.verticals
         return scrollViewVisibleHeight / image.size.height
@@ -124,8 +122,8 @@ class CanvasView: FlippedView {
             return
         }
 
-        backgroundImageView.image = image
-        backgroundImageView.layer?.zPosition = 0
+        contentView.add(image: image)
+        contentView.addSubview(controlsView) // move to top
 
         clipView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -134,7 +132,7 @@ class CanvasView: FlippedView {
     }
     
     func image(at frame: CGRect) async -> CGImage? {
-        guard let image = backgroundImageView.image else { return nil }
+        guard let image = contentView.image else { return nil }
         var frame = frame.scaled(image.recommendedLayerContentsScale(1))
         let cgImage = image
             .cgImage(forProposedRect: &frame,

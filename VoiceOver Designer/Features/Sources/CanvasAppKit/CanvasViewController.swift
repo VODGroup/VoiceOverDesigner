@@ -121,8 +121,8 @@ public class CanvasViewController: NSViewController {
     
     func location(from event: NSEvent) -> CGPoint {
         let inWindow = event.locationInWindow
-        let inView = view().backgroundImageView.convert(inWindow, from: nil)
-        return inView.flippendVertical(in: view().backgroundImageView)
+        let inView = view().contentView.convert(inWindow, from: nil)
+        return inView.flippendVertical(in: view().contentView)
     }
     
     
@@ -198,7 +198,6 @@ public class CanvasViewController: NSViewController {
     func presentImage(_ image: NSImage) {
         presenter.update(image: image)
         view().setImage(image)
-        view().backgroundImageView.image = image
         presenter.publishControlChanges()
     }
 }
