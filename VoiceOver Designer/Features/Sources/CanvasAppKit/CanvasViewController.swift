@@ -148,8 +148,11 @@ public class CanvasViewController: NSViewController {
     
     func location(from event: NSEvent) -> CGPoint {
         let inWindow = event.locationInWindow
-        let inView = view().contentView.convert(inWindow, from: nil)
-        return inView.flippendVertical(in: view().contentView)
+        let inView = view().contentView
+            .convert(inWindow, from: nil)
+//            .flippendVertical(in: view().contentView) // It's already flipped by contentView
+        
+        return inView
     }
     
     
