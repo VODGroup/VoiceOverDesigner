@@ -18,6 +18,26 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     }
     public var frameInfo: FrameInfo = .default
     
+    public var frames: [Frame] {
+        let frame1 = CGRect(
+            origin: CGPoint(x: 0, y: 0),
+            size: image!.size)
+        
+        let frame2 = frame1
+            .offsetBy(dx: frame1.width * 1.5,
+                      dy: 0)
+        
+        let frame3 = frame2
+            .offsetBy(dx: frame1.width * 1.5,
+                      dy: 0)
+        
+        return [
+            Frame(image: image!, frame: frame1),
+            Frame(image: image!, frame: frame2),
+            Frame(image: image!, frame: frame3),
+        ]
+    }
+    
     public var documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
     
     public var previewSource: PreviewSourceProtocol?

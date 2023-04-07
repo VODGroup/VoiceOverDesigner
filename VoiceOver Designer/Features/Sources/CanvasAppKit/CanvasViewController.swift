@@ -93,7 +93,7 @@ public class CanvasViewController: NSViewController {
     }
     
     func setImage() {
-        view().setImage(presenter.document.image)
+        view().setFrames(presenter.document.frames)
     }
     
     public override var representedObject: Any? {
@@ -199,8 +199,11 @@ public class CanvasViewController: NSViewController {
     }
     
     func presentImage(_ image: NSImage) {
-        presenter.update(image: image)
-        view().setImage(image)
+        let frame = Frame(image: image,
+                          frame: CGRect(origin: .zero,
+                                        size: image.size))
+        presenter.update(image: image) // TODO: add to current frames
+        view().setFrames([frame]) // TODO: add to current frames
         presenter.publishControlChanges()
     }
 }
@@ -248,9 +251,7 @@ extension CanvasViewController: NSWindowDelegate {
 
 extension CanvasViewController: DragNDropDelegate {
     public func didDrag(image: NSImage) {
-        presenter.update(image: image)
-        view().setImage(image)
-        presenter.publishControlChanges()
+        presentImage(image)
     }
     
     public func didDrag(path: URL) {
