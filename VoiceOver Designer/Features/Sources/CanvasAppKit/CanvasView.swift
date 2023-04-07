@@ -138,15 +138,7 @@ class CanvasView: FlippedView {
     }
     
     func image(at frame: CGRect) async -> CGImage? {
-        guard let image = contentView.image else { return nil }
-        var frame = frame.scaled(image.recommendedLayerContentsScale(1))
-        let cgImage = image
-            .cgImage(forProposedRect: &frame,
-                     context: nil,
-                     hints: nil)?
-            .cropping(to: frame)
-        
-        return cgImage
+        contentView.image(at: frame)
     }
     
     func control(
