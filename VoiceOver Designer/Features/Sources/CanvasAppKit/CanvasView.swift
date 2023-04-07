@@ -115,20 +115,16 @@ class CanvasView: FlippedView {
     }
     
     // MARK: - Image
-    func setImage(_ image: NSImage?) {
-        footer.isHidden = image == nil
-        dragnDropView.isHidden = image != nil
-        addImageButton.isHidden = image != nil
+    func setFrames(_ frames: [Frame]) {
+        footer.isHidden = frames.isEmpty
+        dragnDropView.isHidden = !frames.isEmpty
+        addImageButton.isHidden = !frames.isEmpty
         
-        guard let image = image else {
-            return
+        for frame in frames {
+            contentView.add(frame.image, at: frame.frame)
         }
-
-        let imageFrame = CGRect(
-            origin: CGPoint(x: 0, y: 0),
-            size: image.size)
-        contentView.add(image, at: frame)
-        contentView.addSubview(controlsView) // move to top
+        
+        contentView.addSubview(controlsView) // move to top over images
 
         clipView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
