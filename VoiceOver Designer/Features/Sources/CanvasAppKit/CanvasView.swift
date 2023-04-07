@@ -125,6 +125,10 @@ class CanvasView: FlippedView {
         }
 
         contentView.add(image: image)
+        let imageFrame = CGRect(
+            origin: CGPoint(x: 0, y: 0),
+            size: image.size)
+        contentView.add(image, at: frame)
         contentView.addSubview(controlsView) // move to top
 
         clipView.translatesAutoresizingMaskIntoConstraints = false

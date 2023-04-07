@@ -4,13 +4,11 @@ class ContentView: FlippedView {
     
     var imageViews: [NSImageView] = []
     
-    func add(image: NSImage) {
+    func add(_ image: NSImage, at frame: CGRect) {
         let imageView = NSImageView()
         imageView.image = image
-        imageView.sizeToFit()
-        imageView.frame = CGRect(
-            origin: CGPoint(x: 0, y: 0),
-            size: image.size)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.frame = frame
         addSubview(imageView)
         imageViews.append(imageView)
     }
