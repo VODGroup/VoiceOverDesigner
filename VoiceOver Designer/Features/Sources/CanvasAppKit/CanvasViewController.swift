@@ -93,7 +93,7 @@ public class CanvasViewController: NSViewController {
     }
     
     func setImage() {
-        view().setFrames(presenter.document.frames)
+        view().setFrames(presenter.document.document.frames)
     }
     
     public override var representedObject: Any? {

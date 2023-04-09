@@ -4,12 +4,17 @@ extension VODesignDocumentProtocol {
     
     // MARK: - Write
     func fileWrapper() throws -> FileWrapper {
-        for frame in frames {
+        for frame in artboard.frames {
             guard let frameWrapper = try? frameWrapper(for: frame)
             else { continue }
             
             documentWrapper.addFileWrapper(frameWrapper)
         }
+        
+        // Save document's structure
+        invalidateWrapperIfPossible(fileInRoot: FileName.document)
+        let documentWrapper = try documentWrapper()
+        documentWrapper.addFileWrapper(documentWrapper)
 
         // Preview depends on elements and should be invalidated
         invalidateWrapperIfPossible(fileInRoot: FolderName.quickLook)
@@ -71,6 +76,14 @@ extension VODesignDocumentProtocol {
         return wrapper
     }
     
+    private func documentWrapper(
+    ) throws -> FileWrapper {
+        let codingService = AccessibilityViewCodingService()
+        let wrapper = FileWrapper(regularFileWithContents: try codingService.data(from: controls))
+        wrapper.preferredFilename = FileName.document
+        return wrapper
+    }
+    
     private func imageWrapper() -> FileWrapper? {
         guard let image = image,
               let imageData = image.png()
@@ -120,7 +133,7 @@ extension VODesignDocumentProtocol {
         self.documentWrapper = packageWrapper
         for frameWrapper in frameWrappers {
             if let frame = try? readFrameWrapper(frameWrapper) {
-                frames.append(frame)
+                artboard.frames.append(frame)
                 controls.append(contentsOf: frame.controls)
             } else {
                 print("Can't read frame, skip")

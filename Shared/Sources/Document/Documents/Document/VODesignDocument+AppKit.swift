@@ -18,7 +18,7 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
     }
     public var frameInfo: FrameInfo = .default
     
-    public var frames: [Frame] = []
+    public var artboard: Artboard = Artboard()
     
     public var documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
     
