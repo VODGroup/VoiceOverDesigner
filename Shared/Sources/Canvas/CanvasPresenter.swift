@@ -66,7 +66,8 @@ public class CanvasPresenter: DocumentPresenter {
     
     // MARK: Mouse
     public func mouseDown(on location: CGPoint) {
-        guard document.image != nil else { return }
+        guard !document.frames.isEmpty else { return }
+        // TODO: Allow to draw elements over empty document
         
         ui.hud.hideHUD()
         drawingController.mouseDown(on: location,
