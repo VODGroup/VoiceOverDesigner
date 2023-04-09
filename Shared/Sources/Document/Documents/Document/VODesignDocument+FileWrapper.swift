@@ -4,35 +4,48 @@ extension VODesignDocumentProtocol {
     
     // MARK: - Write
     func fileWrapper() throws -> FileWrapper {
-        
-        // Just invalidate controls every time to avoid lose of user's data
-        invalidateWrapperIfPossible(fileInFrame: FileName.controls)
-        frameWrapper.addFileWrapper(try controlsWrapper())
-        
+        for frame in frames {
+            guard let frameWrapper = try? frameWrapper(for: frame)
+            else { continue }
+            
+            documentWrapper.addFileWrapper(frameWrapper)
+        }
+
         // Preview depends on elements and should be invalidated
         invalidateWrapperIfPossible(fileInRoot: FolderName.quickLook)
         if let previewWrapper = previewWrapper() {
             documentWrapper.addFileWrapper(previewWrapper)
         }
+
+        return documentWrapper
+    }
+    
+    private func frameWrapper(for frame: Frame) throws -> FileWrapper {
+        let frameWrapper = documentWrapper.fileWrappers?[frame.name] ?? FileWrapper.createDirectory(preferredFilename: frame.name)
         
+        // Just invalidate controls every time to avoid lose of user's data
+        frameWrapper.invalidateIfPossible(file: FileName.controls)
+        frameWrapper.addFileWrapper(try controlsWrapper(for: frame.controls))
+
         if frameWrapper.fileWrappers?[FileName.screen] == nil,
            let imageWrapper = imageWrapper() {
             frameWrapper.addFileWrapper(imageWrapper)
         }
-        
+
         if frameWrapper.fileWrappers?[FileName.info] == nil {
             let frameMetaWrapper = infoWrapper()
             frameWrapper.addFileWrapper(frameMetaWrapper)
         }
-    
-        return documentWrapper
+        
+        return frameWrapper
     }
 }
 
 extension VODesignDocumentProtocol {
     
     var isBetaStructure: Bool {
-        frameWrappers.first?.filename == defaultFrameName
+        false // TODO: Add migration
+//        frameWrappers.first?.filename == defaultFrameName
     }
     
     var frameWrappers: [FileWrapper] {
@@ -49,7 +62,9 @@ extension VODesignDocumentProtocol {
         }
     }
     
-    private func controlsWrapper() throws -> FileWrapper {
+    private func controlsWrapper(
+        for controls: [any AccessibilityView]
+    ) throws -> FileWrapper {
         let codingService = AccessibilityViewCodingService()
         let wrapper = FileWrapper(regularFileWithContents: try codingService.data(from: controls))
         wrapper.preferredFilename = FileName.controls
@@ -63,7 +78,6 @@ extension VODesignDocumentProtocol {
         
         let imageWrapper = FileWrapper(regularFileWithContents: imageData)
         imageWrapper.preferredFilename = FileName.screen
-        
         
         return imageWrapper
     }
@@ -120,6 +134,7 @@ extension VODesignDocumentProtocol {
     }
     
     private func readFrameWrapper(_ frameWrapper: FileWrapper) throws -> Frame {
+        print("Read wrapper \(frameWrapper.filename)")
         let frameFolder = frameWrapper.fileWrappers!
 
         var controls: [any AccessibilityView]!
@@ -145,7 +160,10 @@ extension VODesignDocumentProtocol {
             frameInfo = info
         }
         
-        return Frame(image: image!, frame: frameInfo!.frame)
+        return Frame(name: frameWrapper.filename ?? UUID().uuidString, 
+                     image: image!,
+                     frame: frameInfo!.frame,
+                     controls: controls)
     }
     
     private func recreateDocumentWrapper() {
@@ -155,15 +173,24 @@ extension VODesignDocumentProtocol {
         self.documentWrapper.addFileWrapper(frameWrapper)
     }
     
-    func invalidateWrapperIfPossible(fileInFrame: String) {
-        if let imageWrapper = frameWrapper.fileWrappers?[fileInFrame] {
-            frameWrapper.removeFileWrapper(imageWrapper)
-        }
-    }
-    
     func invalidateWrapperIfPossible(fileInRoot: String) {
         if let wrapper = documentWrapper.fileWrappers?[fileInRoot] {
             documentWrapper.removeFileWrapper(wrapper)
+        }
+    }
+}
+
+extension FileWrapper {
+    
+    static func createDirectory(preferredFilename: String) -> FileWrapper {
+        let wrapper = FileWrapper(directoryWithFileWrappers: [:])
+        wrapper.preferredFilename = preferredFilename
+        return wrapper
+    }
+    
+    func invalidateIfPossible(file: String) {
+        if let wrapper = fileWrappers?[file] {
+            removeFileWrapper(wrapper)
         }
     }
 }
