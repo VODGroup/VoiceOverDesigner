@@ -1,9 +1,9 @@
 #if os(iOS)
 import UIKit
-public typealias Document = UIDocument
+public typealias AppleDocument = UIDocument
 import Combine
 
-public class VODesignDocument: Document, VODesignDocumentProtocol {
+public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
     
     // MARK: - Data
     public var controls: [any AccessibilityView] = []
@@ -44,7 +44,7 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     // MARK: - Override
     public override func save(
         to url: URL,
-        for saveOperation: Document.SaveOperation
+        for saveOperation: AppleDocument.SaveOperation
     ) async -> Bool {
         
         let frameURL = url.frameURL(frameName: defaultFrameName)

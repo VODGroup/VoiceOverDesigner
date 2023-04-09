@@ -1,13 +1,13 @@
 #if os(macOS)
 // MARK: - AppKit
 import AppKit
-public typealias Document = NSDocument
+public typealias AppleDocument = NSDocument
 
 import os
 
 import QuickLookThumbnailing
 
-public class VODesignDocument: Document, VODesignDocumentProtocol {
+public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
 
     // MARK: - Data
     public var controls: [any AccessibilityView] = []
