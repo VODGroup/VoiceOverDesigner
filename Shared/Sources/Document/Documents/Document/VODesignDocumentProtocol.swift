@@ -1,23 +1,13 @@
 import Foundation
 import Combine
 
-public struct Frame {
-    public let image: Image
-    public let frame: CGRect
-    
-    public init(image: Image, frame: CGRect) {
-        self.image = image
-        self.frame = frame
-    }
-}
-
 public protocol VODesignDocumentProtocol: AnyObject {
     
     // MARK: - Data
     var controls: [any AccessibilityView] { get set }
     var image: Image? { get set }
     
-    var frames: [Frame] { get }
+    var frames: [Frame] { get set }
     var imageSize: CGSize { get }
     var frameInfo: FrameInfo { get set }
     

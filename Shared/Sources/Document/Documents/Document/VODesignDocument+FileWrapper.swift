@@ -32,11 +32,21 @@ extension VODesignDocumentProtocol {
 extension VODesignDocumentProtocol {
     
     var isBetaStructure: Bool {
-        frameWrapper.filename == documentWrapper.filename
+        frameWrappers.first?.filename == defaultFrameName
     }
     
-    var frameWrapper: FileWrapper {
-        (documentWrapper.fileWrappers?[defaultFrameName] ?? documentWrapper)
+    var frameWrappers: [FileWrapper] {
+        let frameWrappers = documentWrapper
+            .fileWrappers?
+            .filter({ keyAndWrapper in
+                keyAndWrapper.key.hasPrefix("Frame")
+            })
+        
+        if let frameWrappers, !frameWrappers.isEmpty {
+            return frameWrappers.values.compactMap { $0 }
+        } else {
+            return [documentWrapper]
+        }
     }
     
     private func controlsWrapper() throws -> FileWrapper {
@@ -94,6 +104,21 @@ extension VODesignDocumentProtocol {
         
         // Keep referente to gently update files for iCloud
         self.documentWrapper = packageWrapper
+        for frameWrapper in frameWrappers {
+            if let frame = try? readFrameWrapper(frameWrapper) {
+                frames.append(frame)
+            } else {
+                print("Can't read frame, skip")
+            }
+        }
+        
+        if isBetaStructure {
+            // Reset document wrapper to update file structure
+            recreateDocumentWrapper()
+        }
+    }
+    
+    private func readFrameWrapper(_ frameWrapper: FileWrapper) throws -> Frame {
         let frameFolder = frameWrapper.fileWrappers!
 
         if
@@ -101,25 +126,25 @@ extension VODesignDocumentProtocol {
             let controlsData = controlsWrapper.regularFileContents
         {
             let codingService = AccessibilityViewCodingService()
-            controls = try codingService.controls(from: controlsData)
+            let controls = try codingService.controls(from: controlsData)
+            self.controls.append(contentsOf: controls)
         }
 
+        var image: Image?
         if let imageWrapper = frameFolder[FileName.screen],
            let imageData = imageWrapper.regularFileContents {
             image = Image(data: imageData)
         }
-
+        
+        var frameInfo: FrameInfo?
         if let frameInfoWrapper = frameFolder[FileName.info],
            let infoData = frameInfoWrapper.regularFileContents,
-            let info = try? JSONDecoder().decode(FrameInfo.self,
-                                                 from: infoData) {
+           let info = try? JSONDecoder().decode(FrameInfo.self,
+                                                from: infoData) {
             frameInfo = info
         }
         
-        if isBetaStructure {
-            // Reset document wrapper to update file structure
-            recreateDocumentWrapper()
-        }
+        return Frame(image: image!, frame: frameInfo!.frame)
     }
     
     private func recreateDocumentWrapper() {
