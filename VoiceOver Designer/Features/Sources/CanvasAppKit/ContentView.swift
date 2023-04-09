@@ -14,11 +14,14 @@ class ContentView: FlippedView {
     }
     
     override var intrinsicContentSize: NSSize {
-        return imageViews
+        boundingBox.size
+    }
+    
+    private var boundingBox: CGRect {
+        imageViews
             .reduce(CGRect.zero) { partialResult, imageView in
                 partialResult.union(imageView.frame)
             }
-            .size
     }
     
     var image: NSImage? {
