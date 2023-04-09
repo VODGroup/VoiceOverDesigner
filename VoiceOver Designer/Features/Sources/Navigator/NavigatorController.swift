@@ -154,30 +154,47 @@ public class NavigatorController: NSViewController {
 
 extension NavigatorController: NSOutlineViewDataSource {
     public func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
-        if let container = item as? A11yContainer {
+        switch item {
+        case .none:
+            // Top-level frames
+            return document.artboard.frames.count
+        case let frame as Frame:
+            // Containers
+            return frame.controls.count
+        case let container as A11yContainer:
+            // Elements
             return container.elements.count
+        default:
+            // Default
+            return 0
         }
-        
-        return document.controls.count
     }
     
     public func outlineView(_ outlineView: NSOutlineView,
                             child index: Int,
                             ofItem item: Any?
     ) -> Any {
-        if let container = item as? A11yContainer {
+        switch item {
+        case .none:
+            return document.artboard.frames[index]
+        case let frame as Frame:
+            return frame.controls[index]
+        case let container as A11yContainer:
             return container.elements[index]
+        default:
+            fatalError()
         }
-        
-        return document.controls[index]
     }
     
     public func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
-        if item is A11yContainer {
+        switch item {
+        case is Frame:
             return true
+        case is A11yContainer:
+            return true
+        default:
+            return false
         }
-        
-        return false
     }
 }
 

@@ -62,6 +62,10 @@ open class DocumentPresenter {
     
     open func remove(_ model: any AccessibilityView) {
         switch model.cast {
+        case .frame(let frame):
+            // TODO: Remove model
+            fatalError()
+            break
         case .element(let element):
             if let topLevelIndex = controls.delete(element) {
                 document.undo?.registerUndo(withTarget: self, handler: { presenter in

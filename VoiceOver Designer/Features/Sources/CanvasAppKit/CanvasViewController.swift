@@ -93,7 +93,7 @@ public class CanvasViewController: NSViewController {
     }
     
     func setImage() {
-        view().setFrames(presenter.document.document.frames)
+        view().setFrames(presenter.document.artboard.frames)
     }
     
     public override var representedObject: Any? {
@@ -199,7 +199,7 @@ public class CanvasViewController: NSViewController {
     }
     
     func presentImage(_ image: NSImage) {
-        let frame = Frame(name: UUID().uuidString, // TODO: Create fancy name
+        let frame = Frame(label: UUID().uuidString, // TODO: Create fancy name
                           image: image,
                           frame: CGRect(origin: .zero,
                                         size: image.size),

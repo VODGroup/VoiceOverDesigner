@@ -127,6 +127,9 @@ public enum A11yElement: Codable {
 extension AccessibilityView {
     public func copy() -> any AccessibilityView {
         switch self.cast {
+        case .frame(let frame):
+            // TODO: Implement copying
+            fatalError()
         case .container(let container):
             return A11yContainer.copy(from: container)
         case .element(let element):

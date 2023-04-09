@@ -26,7 +26,7 @@ extension VODesignDocumentProtocol {
     }
     
     private func frameWrapper(for frame: Frame) throws -> FileWrapper {
-        let frameWrapper = documentWrapper.fileWrappers?[frame.name] ?? FileWrapper.createDirectory(preferredFilename: frame.name)
+        let frameWrapper = documentWrapper.fileWrappers?[frame.label] ?? FileWrapper.createDirectory(preferredFilename: frame.label)
         
         // Just invalidate controls every time to avoid lose of user's data
         frameWrapper.invalidateIfPossible(file: FileName.controls)
@@ -173,7 +173,7 @@ extension VODesignDocumentProtocol {
             frameInfo = info
         }
         
-        return Frame(name: frameWrapper.filename ?? UUID().uuidString, 
+        return Frame(label: frameWrapper.filename ?? UUID().uuidString, 
                      image: image!,
                      frame: frameInfo!.frame,
                      controls: controls)

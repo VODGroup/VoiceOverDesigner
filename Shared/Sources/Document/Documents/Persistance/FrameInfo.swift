@@ -27,23 +27,31 @@ public class Artboard {
 }
 
 /// Domain object that is used for drawing
-public struct Frame {
-    public let name: String
+public class Frame: AccessibilityView {
+    public var label: String
+    
     public let image: Image // TODO: Replace with url: file or remote
-    public let frame: CGRect
+    public var frame: CGRect
     
     /// In absolute coordinates
     public let controls: [any AccessibilityView]
     
     public init(
-        name: String,
+        label: String,
         image: Image,
         frame: CGRect,
         controls: [any AccessibilityView]
     ) {
-        self.name = name
+        self.label = label
         self.image = image
         self.frame = frame
         self.controls = controls
     }
+
+    // MARK: AccessibilityView
+    public static func == (lhs: Frame, rhs: Frame) -> Bool {
+        lhs.label == rhs.label // TODO: Better comparison
+    }
+    
+    public var type: AccessibilityViewTypeDto = .frame
 }

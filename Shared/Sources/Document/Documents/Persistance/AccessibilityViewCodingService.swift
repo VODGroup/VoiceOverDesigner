@@ -36,6 +36,9 @@ class AccessibilityViewDecodable: Codable {
         let type = (try? container.decode(AccessibilityViewTypeDto.self, forKey: .type)) ?? .element // Default value is element
         
         switch type {
+        case .frame:
+            // TODO: Implement
+            fatalError()
         case .element:
             self.view = try A11yDescription(from: decoder)
         case .container:
@@ -45,6 +48,9 @@ class AccessibilityViewDecodable: Codable {
     
     func encode(to encoder: Encoder) throws {
         switch view.cast {
+        case .frame:
+            // TODO: Implement
+            fatalError()
         case .element(let element):
             try element.encode(to: encoder)
         case .container(let container):

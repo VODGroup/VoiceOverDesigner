@@ -3,6 +3,13 @@ import Foundation
 public enum AccessibilityViewTypeDto: String, Codable {
     case element
     case container
+    case frame
+}
+
+public enum AccessibilityViewCast {
+    case element(_ element: A11yDescription)
+    case container(_ container: A11yContainer)
+    case frame(_ frame: Frame)
 }
 
 public protocol AccessibilityView: AnyObject, Identifiable, Equatable, Decodable {
@@ -18,6 +25,8 @@ extension AccessibilityView {
             return .container(container)
         } else if let element = self as? A11yDescription {
             return .element(element)
+        } else if let frame = self as? Frame {
+            return .frame(frame)
         } else {
             fatalError()
         }
