@@ -25,8 +25,8 @@ extension VODesignDocumentProtocol {
     public func updateImage(_ newImage: Image) {
         image = newImage
         
-        invalidateWrapperIfPossible(fileInFrame: FileName.screen)
-        invalidateWrapperIfPossible(fileInFrame: FileName.info)
+//        invalidateWrapperIfPossible(fileInFrame: FileName.screen)
+//        invalidateWrapperIfPossible(fileInFrame: FileName.info)
         invalidateWrapperIfPossible(fileInRoot: FolderName.quickLook)
         
 #if os(macOS)

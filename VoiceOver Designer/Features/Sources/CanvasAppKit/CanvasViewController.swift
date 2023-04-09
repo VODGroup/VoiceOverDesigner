@@ -218,7 +218,8 @@ public class CanvasViewController: NSViewController {
     }
     
     func presentImage(_ image: NSImage) {
-        let frame = Frame(image: image,
+        let frame = Frame(name: UUID().uuidString, // TODO: Create fancy name
+                          image: image,
                           frame: CGRect(origin: .zero,
                                         size: image.size),
                           controls: [])

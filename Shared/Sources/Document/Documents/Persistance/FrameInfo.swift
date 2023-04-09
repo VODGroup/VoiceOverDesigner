@@ -23,15 +23,18 @@ public struct FrameInfo: Codable {
 
 /// Domain object that is used for drawing
 public struct Frame {
+    public let name: String
     public let image: Image
     public let frame: CGRect
     public let controls: [any AccessibilityView]
     
     public init(
+        name: String,
         image: Image,
         frame: CGRect,
         controls: [any AccessibilityView]
     ) {
+        self.name = name
         self.image = image
         self.frame = frame
         self.controls = controls
