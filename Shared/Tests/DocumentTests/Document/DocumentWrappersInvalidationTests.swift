@@ -22,7 +22,7 @@ class DocumentWrappersInvalidationTests: XCTestCase {
         _ fileName: String,
         file: StaticString = #file, line: UInt = #line
     ) throws {
-        let wrapper = try XCTUnwrap(document.frameWrapper[fileName], file: file, line: line)
+        let wrapper = try XCTUnwrap(document.frameWrappers[fileName], file: file, line: line)
         let path = pathInFrame(fileName)
         XCTAssertTrue(wrapper.matchesContents(of: path), file: file, line: line)
     }
@@ -31,7 +31,7 @@ class DocumentWrappersInvalidationTests: XCTestCase {
         _ fileName: String,
         file: StaticString = #file, line: UInt = #line
     ) throws {
-        let wrapper = try XCTUnwrap(document.frameWrapper[fileName], file: file, line: line)
+        let wrapper = try XCTUnwrap(document.frameWrappers[fileName], file: file, line: line)
         let path = pathInFrame(fileName)
         XCTAssertFalse(wrapper.matchesContents(of: path), file: file, line: line)
     }
@@ -52,11 +52,11 @@ class DocumentWrappersInvalidationTests: XCTestCase {
     }
     
     func test_whenUpdateImage_shouldInvalidateImage() throws {
-        XCTAssertNotNil(document.frameWrapper[FileName.screen], "image is here")
+        XCTAssertNotNil(document.frameWrappers[FileName.screen], "image is here")
         
         document.updateImage(Image())
         
-        XCTAssertNil(document.frameWrapper[FileName.screen], "image is invalidated")
+        XCTAssertNil(document.frameWrappers[FileName.screen], "image is invalidated")
     }
     
     func test_whenUpdateImage_shouldInvalidateScale() throws {
@@ -64,7 +64,7 @@ class DocumentWrappersInvalidationTests: XCTestCase {
         
         document.updateImage(Image())
         
-        XCTAssertNil(document.frameWrapper[FileName.info], "info is invalidated")
+        XCTAssertNil(document.frameWrappers[FileName.info], "info is invalidated")
     }
     
     func test_whenUpdateImage_shouldInvalidateQuickLookFile() throws {
