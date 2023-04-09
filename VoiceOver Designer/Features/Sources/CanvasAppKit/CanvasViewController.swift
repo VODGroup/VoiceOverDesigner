@@ -201,7 +201,8 @@ public class CanvasViewController: NSViewController {
     func presentImage(_ image: NSImage) {
         let frame = Frame(image: image,
                           frame: CGRect(origin: .zero,
-                                        size: image.size))
+                                        size: image.size),
+                          controls: [])
         presenter.update(image: image) // TODO: add to current frames
         view().setFrames([frame]) // TODO: add to current frames
         presenter.publishControlChanges()
