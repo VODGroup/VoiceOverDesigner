@@ -21,11 +21,18 @@ public struct FrameInfo: Codable {
     }
 }
 
+public class Artboard {
+//    let figmaURL: String
+    public var frames: [Frame] = []
+}
+
 /// Domain object that is used for drawing
 public struct Frame {
     public let name: String
-    public let image: Image
+    public let image: Image // TODO: Replace with url: file or remote
     public let frame: CGRect
+    
+    /// In absolute coordinates
     public let controls: [any AccessibilityView]
     
     public init(

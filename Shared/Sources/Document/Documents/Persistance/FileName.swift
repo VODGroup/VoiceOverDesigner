@@ -1,6 +1,7 @@
 enum FileName {
     static let screen = "screen.png"
     static let controls = "controls.json"
+    static let document = "document.json"
     static let info = "info.json"
     static let quickLookFile = "Preview.heic"
 }

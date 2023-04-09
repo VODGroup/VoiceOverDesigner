@@ -7,7 +7,7 @@ public protocol VODesignDocumentProtocol: AnyObject {
     var controls: [any AccessibilityView] { get set }
     var image: Image? { get set }
     
-    var frames: [Frame] { get set }
+    var artboard: Artboard { get set }
     var imageSize: CGSize { get }
     var frameInfo: FrameInfo { get set }
     
