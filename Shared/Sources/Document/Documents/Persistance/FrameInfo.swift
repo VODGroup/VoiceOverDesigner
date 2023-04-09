@@ -25,9 +25,15 @@ public struct FrameInfo: Codable {
 public struct Frame {
     public let image: Image
     public let frame: CGRect
+    public let controls: [any AccessibilityView]
     
-    public init(image: Image, frame: CGRect) {
+    public init(
+        image: Image,
+        frame: CGRect,
+        controls: [any AccessibilityView]
+    ) {
         self.image = image
         self.frame = frame
+        self.controls = controls
     }
 }

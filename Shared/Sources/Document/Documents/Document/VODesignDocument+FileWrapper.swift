@@ -107,6 +107,7 @@ extension VODesignDocumentProtocol {
         for frameWrapper in frameWrappers {
             if let frame = try? readFrameWrapper(frameWrapper) {
                 frames.append(frame)
+                controls.append(contentsOf: frame.controls)
             } else {
                 print("Can't read frame, skip")
             }
@@ -121,13 +122,13 @@ extension VODesignDocumentProtocol {
     private func readFrameWrapper(_ frameWrapper: FileWrapper) throws -> Frame {
         let frameFolder = frameWrapper.fileWrappers!
 
+        var controls: [any AccessibilityView]!
         if
             let controlsWrapper = frameFolder[FileName.controls],
             let controlsData = controlsWrapper.regularFileContents
         {
             let codingService = AccessibilityViewCodingService()
-            let controls = try codingService.controls(from: controlsData)
-            self.controls.append(contentsOf: controls)
+            controls = try codingService.controls(from: controlsData)
         }
 
         var image: Image?
