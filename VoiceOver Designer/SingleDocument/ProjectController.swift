@@ -101,6 +101,9 @@ extension ProjectController {
 
     func showSettings(for model: any AccessibilityView) {
         switch model.cast {
+        case .frame:
+            // TODO: Implement frame's settings
+            settings.state = .empty
         case .container(let container):
             settings.state = .container(container)
         case .element(let element):

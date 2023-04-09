@@ -13,6 +13,8 @@ class ElementCell: NSTableCellView {
     
     private func update(model: (any AccessibilityView)?) {
         switch model?.cast {
+        case .frame(let frame):
+            textField?.stringValue = frame.label
         case .container(let container):
             textField?.stringValue = container.label // TODO: Make bold?
         case .element(let element):
