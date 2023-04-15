@@ -15,7 +15,7 @@ open class DocumentPresenter {
     public private(set) var document: VODesignDocumentProtocol
     
     // MARK: - Contols update
-    public let controlsPublisher: PassthroughSubject<[any AccessibilityView], Never> = .init()
+    public let artboardPublisher: PassthroughSubject<Artboard, Never> = .init()
     
     /// Conrols should be changed only from this presenter to suppont undoing
     @available(*, deprecated, message: "Use `artboard`")
@@ -30,7 +30,7 @@ open class DocumentPresenter {
                 presenter.controls = oldValue
             })
             
-            controlsPublisher.send(controls)
+            artboardPublisher.send(document.artboard)
         }
         
         get {
@@ -39,7 +39,7 @@ open class DocumentPresenter {
     }
     
     public func publishControlChanges() {
-        controlsPublisher.send(document.controls)
+        artboardPublisher.send(document.artboard)
     }
     
     public let selectedPublisher = OptionalDescriptionSubject(nil)
@@ -124,7 +124,15 @@ open class DocumentPresenter {
 #if canImport(XCTest)
 extension DocumentPresenter {
     public func update(controls: [A11yDescription]) {
-        self.controls = controls
+        self.document.artboard.controlsWithoutFrames = controls
+    }
+    
+    public var firstFrameControls: [any AccessibilityView] {
+        document.artboard.frames.first?.controls ?? []
+    }
+    
+    public var controlsWithoutFrame: [any AccessibilityView] {
+        document.artboard.controlsWithoutFrames
     }
 }
 #endif

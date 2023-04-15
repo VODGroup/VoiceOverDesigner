@@ -134,7 +134,6 @@ extension VODesignDocumentProtocol {
         for frameWrapper in frameWrappers {
             if let frame = try? readFrameWrapper(frameWrapper) {
                 artboard.frames.append(frame)
-                controls.append(contentsOf: frame.controls)
             } else {
                 print("Can't read frame, skip")
             }

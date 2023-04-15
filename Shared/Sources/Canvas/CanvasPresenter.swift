@@ -32,7 +32,7 @@ public class CanvasPresenter: DocumentPresenter {
         self.drawingController = DrawingController(view: uiContent)
         self.document.previewSource = previewSource
         
-        redraw(controls: document.controls)
+        redraw(artboard: document.artboard)
         uiScroll.fitToWindow(animated: true)
     }
     
@@ -41,8 +41,8 @@ public class CanvasPresenter: DocumentPresenter {
     private var cancellables = Set<AnyCancellable>()
     
     public func subscribeOnControlChanges() {
-        controlsPublisher
-            .sink(receiveValue: redraw(controls:))
+        artboardPublisher
+            .sink(receiveValue: redraw(artboard:))
             .store(in: &cancellables)
         
         selectedPublisher
@@ -56,12 +56,12 @@ public class CanvasPresenter: DocumentPresenter {
         }
     }
     
-    private func redraw(controls: [any AccessibilityView]) {
+    private func redraw(artboard: Artboard) {
         drawingController.view.removeAll()
         drawingController.drawFrames(
-            document.artboard.frames,
-            controlsWithoutFrame: document.artboard.controlsWithoutFrames,
-            scale: scale) // TODO: Draw passed frames
+            artboard.frames,
+            controlsWithoutFrame: artboard.controlsWithoutFrames,
+            scale: scale)
         updateSelectedControl(selectedPublisher.value)
     }
     
