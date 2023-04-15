@@ -11,24 +11,6 @@ import CommonUI
 import Document
 import Canvas
 
-class ControlsView: FlippedView, DrawingView {
-    var drawnControls: [A11yControlLayer] = []
-    
-    lazy var alignmentOverlay = AlignmentOverlayFactory().overlay(for: self)
-    
-    var copyListener = CopyModifierFactory().make()
-    
-    var escListener = EscModifierFactory().make()
-    
-    var hud = HUDLayer()
-    
-    override func layout() {
-        super.layout()
-        
-        hud.frame = bounds
-    }
-}
-
 class CanvasView: FlippedView {
     
     @IBOutlet weak var scrollView: CanvasScrollView!
@@ -36,7 +18,6 @@ class CanvasView: FlippedView {
     @IBOutlet weak var clipView: NSClipView!
     
     @IBOutlet weak var contentView: ContentView!
-    @IBOutlet weak var controlsView: ControlsView!
     @IBOutlet weak var addImageButton: NSButton!
    
     @IBOutlet weak var dragnDropView: DragNDropImageView!
@@ -52,28 +33,28 @@ class CanvasView: FlippedView {
         
         scrollView.verticalScrollElasticity = .none
         scrollView.horizontalScrollElasticity = .none
-        scrollView.hud = controlsView.hud
-        controlsView.wantsLayer = true
-        controlsView.addHUD()
+        scrollView.hud = contentView.hud
+        contentView.wantsLayer = true
+        contentView.addHUD()
         
         zoomOutButton.toolTip = "⌘-"
         zoomToFitButton.toolTip = "0"
         zoomInButton.toolTip = "⌘+"
         footer.wantsLayer = true
         footer.layer?.backgroundColor = NSColor.quaternaryLabelColor.cgColor
-        footer.isHidden = true
+        footer.isHidden = false
+        
+        dragnDropView.isHidden = true
+        addImageButton.isHidden = true
+        
+        clipView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     // MARK: - Magnification
     func fitToWindowIfAlreadyFitted() {
         if isImageMagnificationFitsToWindow {
             fitToWindow(animated: false)
-        }
-    }
-    
-    func fitToWindow(animated: Bool) {
-        if let fitingMagnification {
-            setMagnification(to: fitingMagnification, animated: animated)
         }
     }
     
@@ -96,7 +77,7 @@ class CanvasView: FlippedView {
         
         scrollView?.setMagnification(
             newLevel,
-            centeredAt: controlsView.hud.selectedControlFrame?.center ?? contentView.frame.center)
+            centeredAt: contentView.hud.selectedControlFrame?.center ?? contentView.frame.center)
     }
     
     private var isImageMagnificationFitsToWindow: Bool {
@@ -116,23 +97,6 @@ class CanvasView: FlippedView {
     }
     
     // MARK: - Image
-    func setFrames(_ frames: [Frame]) {
-        footer.isHidden = frames.isEmpty
-        dragnDropView.isHidden = !frames.isEmpty
-        addImageButton.isHidden = !frames.isEmpty
-        
-        for frame in frames {
-            contentView.add(frame.image, at: frame.frame)
-        }
-        
-        contentView.addSubview(controlsView) // move to top over images
-
-        clipView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-
-        fitToWindow(animated: false)
-    }
-    
     func image(at frame: CGRect) async -> CGImage? {
         contentView.image(at: frame)
     }
@@ -140,11 +104,19 @@ class CanvasView: FlippedView {
     func control(
         for model: any AccessibilityView
     ) -> A11yControlLayer? {
-        controlsView
+        contentView
             .drawnControls
             .first(where: { control in
                 control.model === model
             })
+    }
+}
+
+extension CanvasView: CanvasScrollViewProtocol {
+    func fitToWindow(animated: Bool) {
+        if let fitingMagnification {
+            setMagnification(to: fitingMagnification, animated: animated)
+        }
     }
 }
 

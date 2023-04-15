@@ -25,6 +25,9 @@ extension VODesignDocumentProtocol {
     public func updateImage(_ newImage: Image) {
         image = newImage
         
+        let frame = Frame(image: newImage)
+        artboard.frames.append(frame)
+        
 //        invalidateWrapperIfPossible(fileInFrame: FileName.screen)
 //        invalidateWrapperIfPossible(fileInFrame: FileName.info)
         invalidateWrapperIfPossible(fileInRoot: FolderName.quickLook)
@@ -40,4 +43,14 @@ extension VODesignDocumentProtocol {
 import CoreGraphics
 public protocol PreviewSourceProtocol: AnyObject {
     func previewImage() -> Image?
+}
+
+extension Frame {
+    public convenience init(image: Image) {
+        self.init(label: UUID().uuidString, // TODO: Create fancy name
+                  image: image,
+                  frame: CGRect(origin: .zero,
+                                size: image.size),
+                  controls: [])
+    }
 }

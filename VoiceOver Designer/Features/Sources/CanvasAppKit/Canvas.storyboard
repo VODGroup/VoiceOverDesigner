@@ -21,19 +21,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="800" height="814"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <view ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JlK-Oy-LgO" customClass="ContentView" customModule="CanvasAppKit">
+                                        <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JlK-Oy-LgO" customClass="ContentView" customModule="CanvasAppKit">
                                             <rect key="frame" x="0.0" y="2" width="784" height="812"/>
-                                            <subviews>
-                                                <customView ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L7U-F0-kOc" customClass="ControlsView" customModule="CanvasAppKit">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="800"/>
-                                                </customView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="L7U-F0-kOc" secondAttribute="bottom" id="5UX-6g-Hge"/>
-                                                <constraint firstItem="L7U-F0-kOc" firstAttribute="top" secondItem="JlK-Oy-LgO" secondAttribute="top" id="AN2-cW-Z82"/>
-                                                <constraint firstItem="L7U-F0-kOc" firstAttribute="leading" secondItem="JlK-Oy-LgO" secondAttribute="leading" id="LzQ-xw-R9I"/>
-                                                <constraint firstAttribute="trailing" secondItem="L7U-F0-kOc" secondAttribute="trailing" id="cN1-5f-h83"/>
-                                            </constraints>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         </view>
                                     </subviews>
                                     <color key="backgroundColor" name="windowBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -163,7 +153,6 @@
                             <outlet property="addImageButton" destination="Cii-yh-9Te" id="Y6C-qb-AAD"/>
                             <outlet property="clipView" destination="lki-H1-X1O" id="yfA-nS-Iqj"/>
                             <outlet property="contentView" destination="JlK-Oy-LgO" id="6NV-jp-qGf"/>
-                            <outlet property="controlsView" destination="L7U-F0-kOc" id="nWG-y5-Tqd"/>
                             <outlet property="dragnDropView" destination="dHk-Q5-FAZ" id="9Yb-dX-lbU"/>
                             <outlet property="footer" destination="xXt-RS-DEx" id="CUu-m3-y9O"/>
                             <outlet property="scrollView" destination="JHg-wh-ieX" id="oB8-ia-UPa"/>
