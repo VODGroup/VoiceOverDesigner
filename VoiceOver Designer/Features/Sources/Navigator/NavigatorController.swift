@@ -45,7 +45,7 @@ public class NavigatorController: NSViewController {
     }
     
     private func observe() {
-        presenter.controlsPublisher.sink { [weak self] _ in
+        presenter.artboardPublisher.sink { [weak self] _ in
             self?.outlineView.reloadData()
             self?.updateToolbarButton()
         }.store(in: &cancellables)

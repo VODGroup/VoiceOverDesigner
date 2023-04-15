@@ -22,6 +22,7 @@ public protocol VODesignDocumentProtocol: AnyObject {
 }
 
 extension VODesignDocumentProtocol {
+    @available(*, deprecated, message: "Use `artboard`")
     public var controls: [any AccessibilityView] {
         get {
             artboard.controlsWithoutFrames
