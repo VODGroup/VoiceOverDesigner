@@ -278,3 +278,23 @@ extension CGPoint {
         )
     }
 }
+
+extension NSCursor {
+    static func resizing(for corner: RectCorner) -> NSCursor {
+        // There's no system resizing images so takes from WebKit
+        // see or should take custom image/private cursor: https://stackoverflow.com/questions/49297201/diagonal-resizing-mouse-pointer
+        let image: NSImage = resizingImage(for: corner)
+        
+        return NSCursor(image: image, hotSpot: NSPoint(x: 8, y: 8))
+    }
+                        
+    private static func resizingImage(for corner: RectCorner) -> NSImage {
+        switch corner {
+        case .topLeft, .bottomRight:
+            return NSImage(byReferencingFile: "/System/Library/Frameworks/WebKit.framework/Versions/Current/Frameworks/WebCore.framework/Resources/northWestSouthEastResizeCursor.png")!
+            
+        case .topRight, .bottomLeft:
+            return NSImage(byReferencingFile: "/System/Library/Frameworks/WebKit.framework/Versions/Current/Frameworks/WebCore.framework/Resources/northEastSouthWestResizeCursor.png")!
+        }
+    }
+}
