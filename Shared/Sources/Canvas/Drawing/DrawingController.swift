@@ -41,11 +41,15 @@ public class DrawingController {
     ///   - scale: Relative scale to fit controls on screen. Is neede for Preview
     public func drawFrames(
         _ frames: [Frame],
+        controlsWithoutFrame: [any AccessibilityView],
         scale: CGFloat
     ) {
         for frame in frames {
             draw(frame: frame, scale: scale)
         }
+        
+        drawControlsAndContainers(
+            controls: controlsWithoutFrame, scale: scale)
         
         view.invalidateIntrinsicContentSize()
     }
@@ -53,15 +57,22 @@ public class DrawingController {
     func draw(frame: Frame, scale: CGFloat) {
         drawImage(for: frame, scale: scale)
         
-        // Draw containers under elements
-        frame.controls
+        drawControlsAndContainers(controls: frame.controls,
+                                  scale: scale)
+    }
+    
+    func drawControlsAndContainers(
+        controls: [any AccessibilityView],
+        scale: CGFloat
+    ) {
+        controls
             .extractContainers()
             .forEach { container in
                 draw(container: container, scale: scale)
             }
        
         // Extract inner elements from containers
-        frame.controls
+        controls
             .extractElements()
             .forEach { element in
                 draw(element: element, scale: scale)
@@ -73,11 +84,10 @@ public class DrawingController {
         for frame: Frame,
         scale: CGFloat
     ) -> CALayer {
-        let imageLayer = CALayer()
+        let imageLayer = ImageLayer()
         imageLayer.frame = frame.frame
-        imageLayer.contents = frame.image.cgImage(forProposedRect: nil, context: nil, hints: nil)
-        
-        // TODO: Content scale
+        imageLayer.image = frame.image.defaultCGImage
+        imageLayer.contentsScale = scale
         view.layer?.addSublayer(imageLayer)
         return imageLayer
     }
@@ -206,3 +216,24 @@ extension CGRect {
                height: height * scale)
     }
 }
+
+public class ImageLayer: CALayer {
+    public var image: CGImage? {
+        set {
+            contents = newValue
+        }
+        
+        get {
+            contents as! CGImage
+        }
+    }
+}
+
+#if os(macOS)
+extension Image {
+    var defaultCGImage: CGImage? {
+        cgImage(forProposedRect: nil, context: nil, hints: nil)
+    }
+}
+#endif
+

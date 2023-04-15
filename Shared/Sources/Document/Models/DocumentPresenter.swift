@@ -18,6 +18,7 @@ open class DocumentPresenter {
     public let controlsPublisher: PassthroughSubject<[any AccessibilityView], Never> = .init()
     
     /// Conrols should be changed only from this presenter to suppont undoing
+    @available(*, deprecated, message: "Use `artboard`")
     private(set) var controls: [any AccessibilityView] {
         set {
             let oldValue = document.controls
@@ -48,12 +49,9 @@ open class DocumentPresenter {
         document.image = image
     }
     
-    public func update(controls: [A11yDescription]) {
-        self.controls = controls
-    }
-    
     public func append(control: any AccessibilityView) {
-        controls.append(control)
+        document.artboard.controlsWithoutFrames.append(control)
+        // TODO: Add to frame if possible
     }
     
     public func add(_ model: any AccessibilityView) {
@@ -122,3 +120,11 @@ open class DocumentPresenter {
         controls.unwrapContainer(container)
     }
 }
+
+#if canImport(XCTest)
+extension DocumentPresenter {
+    public func update(controls: [A11yDescription]) {
+        self.controls = controls
+    }
+}
+#endif

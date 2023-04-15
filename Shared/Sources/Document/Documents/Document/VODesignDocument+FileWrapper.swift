@@ -173,9 +173,11 @@ extension VODesignDocumentProtocol {
             frameInfo = info
         }
         
+        let defaultFrameSize = CGSize(width: 400, height: 800) // TODO: Define default size
+        
         let frame = frameInfo?.frame
         ?? CGRect(origin: .zero,
-                  size: image!.size) // TODO: Add image's scale
+                  size: image?.size ?? defaultFrameSize) // TODO: Add image's scale
         
         return Frame(label: frameWrapper.filename ?? UUID().uuidString, 
                      image: image!,

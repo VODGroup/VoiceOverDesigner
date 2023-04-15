@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Andrey Plotnikov on 20.08.2022.
-//
-
 import Foundation
 @testable import Canvas
 import XCTest
@@ -65,7 +58,7 @@ class CancellingActionsTests: CanvasAfterDidLoadTests {
         pressEsc()
         sut.mouseDragged(on: .coord(20))
         
-        XCTAssertEqual(drawnControls.count, 1)
-        XCTAssertEqual(drawnControls[0].frame, rect10to50)
+        let element = try XCTUnwrap(drawnControls.first)
+        XCTAssertEqual(element.frame, rect10to50)
     }
 }

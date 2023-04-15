@@ -47,8 +47,6 @@ final class DocumentPresenterTests: XCTestCase {
         XCTAssertEqual(sut.document.controls.count, 1)
         XCTAssertTrue(sut.document.controls.first is A11yContainer)
         XCTAssertEqual(container?.elements.count, 2)
-        
-       
     }
     
     // MARK: - Delete
