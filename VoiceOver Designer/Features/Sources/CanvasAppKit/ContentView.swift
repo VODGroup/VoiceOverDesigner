@@ -44,28 +44,31 @@ class ContentView: FlippedView, DrawingView {
         return box
     }
     
-    private func frameImage(at frame: CGRect) -> (Image, CGRect)? {
-        return nil // TODO: Restore text recognition
-//        guard let imageView = imageViews.first(where: { imageView in
-//            imageView.frame.intersects(frame)
-//        }), let image = imageView.image
-//        else { return nil }
-//
-//        return (image, imageView.frame)
+    private var imageLayers: [ImageLayer] {
+        (layer?.sublayers ?? [])
+            .compactMap { layer in
+                layer as? ImageLayer
+            }
+    }
+    
+    private func frameImage(at frame: CGRect) -> (CGImage, CGRect)? {
+        guard let imageView = imageLayers
+            .first(where: { imageView in
+                imageView.frame.intersects(frame)
+            }), let image = imageView.image
+        else { return nil }
+
+        return (image, imageView.frame)
     }
     
     func image(at frame: CGRect) -> CGImage? {
         guard let (image, imageViewFrame) = frameImage(at: frame)
         else { return nil }
         
-        var frameInImageCoordinates = frame
-            .scaled(image.recommendedLayerContentsScale(1))
+        let frameInImageCoordinates = frame
             .origin(to: imageViewFrame)
         
         let cgImage = image
-            .cgImage(forProposedRect: &frameInImageCoordinates,
-                     context: nil,
-                     hints: nil)?
             .cropping(to: frameInImageCoordinates)
         
         return cgImage
