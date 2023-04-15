@@ -65,7 +65,9 @@ public class CanvasPresenter: DocumentPresenter {
     
     // MARK: Mouse
     public func mouseDown(on location: CGPoint) {
-        guard !document.artboard.frames.isEmpty else { return }
+//        guard !document.artboard.frames.isEmpty else {
+//            return
+//        }
         // TODO: Allow to draw elements over empty document
         
         ui.hud.hideHUD()
@@ -91,7 +93,6 @@ public class CanvasPresenter: DocumentPresenter {
         
         let action = drawingController.end(coordinate: location)
         
-
         let control = finish(action)
         return control
     }

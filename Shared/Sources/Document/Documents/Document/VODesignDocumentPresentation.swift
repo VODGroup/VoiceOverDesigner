@@ -36,6 +36,9 @@ public struct VODesignDocumentPresentation {
                     partialResult.append(contentsOf: container.elements)
                 case .element(let element):
                     partialResult.append(element)
+                case .frame(_):
+                    // TODO: Add support
+                    fatalError()
             }
         })
         self.image = document.image

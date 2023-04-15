@@ -6,12 +6,6 @@ public enum AccessibilityViewTypeDto: String, Codable {
     case frame
 }
 
-public enum AccessibilityViewCast {
-    case element(_ element: A11yDescription)
-    case container(_ container: A11yContainer)
-    case frame(_ frame: Frame)
-}
-
 public protocol AccessibilityView: AnyObject, Identifiable, Equatable, Decodable {
     var label: String { get set }
     var frame: CGRect { get set }
@@ -56,13 +50,16 @@ public protocol AccessibilityElement: AccessibilityView {
 public enum AccessibilityViewCast: Equatable, Identifiable {
     case element(_ element: A11yDescription)
     case container(_ container: A11yContainer)
-
+    case frame(_ frame: Frame)
+    
     public var id: UUID {
         switch self {
             case .element(let element):
                 return element.id
             case .container(let container):
                 return container.id
+            case .frame(let frame):
+                return frame.id
         }
     }
     public var frame: CGRect {
@@ -71,6 +68,8 @@ public enum AccessibilityViewCast: Equatable, Identifiable {
                 return element.frame
             case .container(let container):
                 return container.frame
+            case .frame(let frame):
+                return frame.frame
         }
     }
 

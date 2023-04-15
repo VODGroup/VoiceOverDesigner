@@ -1,6 +1,6 @@
 import XCTest
 import Combine
-import Document
+@testable import Document
 
 public class DocumentFake: VODesignDocumentProtocol {
     
@@ -12,6 +12,7 @@ public class DocumentFake: VODesignDocumentProtocol {
     public var imageSize: CGSize = .zero
     public var frameInfo: FrameInfo = .default
     public var frames: [Frame] = []
+    public var artboard = Artboard()
     
     public var documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
     public var previewSource: PreviewSourceProtocol?

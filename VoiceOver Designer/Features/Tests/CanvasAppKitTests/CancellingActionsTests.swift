@@ -11,67 +11,59 @@ import XCTest
 import Document
 
 class CancellingActionsTests: CanvasAfterDidLoadTests {
+    
+    func pressEsc() {
+        sut.cancelOperation()
+    }
+    
+    @MainActor
     func test_CancelCopyActionShouldDeleteCopiedControlAndResetFrame() async throws {
         let copyCommand = ManualCopyCommand()
         
-        await MainActor.run {
-            controller.controlsView.copyListener = copyCommand
-            drawRect_10_60()
-        }
+        controller.controlsView.copyListener = copyCommand
+        drawRect_10_60()
         
         // Copy
-        
-        await MainActor.run {
-            copyCommand.isModifierActive = true
-            sut.mouseDown(on: .coord(15))
-            sut.cancelOperation()
-            sut.mouseUp(on: .coord(50))
-        }
+        copyCommand.isModifierActive = true
+        sut.mouseDown(on: .coord(15))
+        pressEsc()
+        sut.mouseUp(on: .coord(50))
         
         XCTAssertEqual(sut.document.controls.count, 1)
         XCTAssertEqual(sut.document.controls[0].frame, rect10to50)
-    
     }
     
+    @MainActor
     func test_CancelTranslateActionShouldResetFrame() async throws {
-
-        await MainActor.run {
-            drawRect_10_60()
-        }
+        drawRect_10_60()
         
         // Copy
-        
-        await MainActor.run {
-            sut.mouseDown(on: .coord(15))
-            sut.cancelOperation()
-            sut.mouseUp(on: .coord(50))
-        }
+        sut.mouseDown(on: .coord(15))
+        pressEsc()
+        sut.mouseUp(on: .coord(50))
         
         XCTAssertEqual(sut.document.controls.count, 1)
         XCTAssertEqual(sut.document.controls[0].frame, rect10to50)
     }
-
+    
+    @MainActor
     func test_CancelNewControlActionShouldDeleteNewControl() async throws {
-        
-        await MainActor.run {
-            sut.mouseDown(on: start10)
-            sut.cancelOperation()
-            sut.mouseUp(on: start10.offset(x: 10, y: 50))
-        }
+        sut.mouseDown(on: start10)
+        pressEsc()
+        sut.mouseUp(on: start10.offset(x: 10, y: 50))
         
         XCTAssertEqual(sut.document.controls.count, 0)
         XCTAssertTrue(sut.document.controls.isEmpty)
     }
-
+    
+    @MainActor
     func test_CancelResizeActionShouldResetFrameSize() async throws {
         drawRect(from: start10, to: end60)
         XCTAssertEqual(drawnControls.count, 1)
         
-        await MainActor.run {
-            sut.mouseDown(on: .coord(60-1)) // Not inclued border
-            sut.cancelOperation()
-            sut.mouseDragged(on: .coord(20))
-        }
+        sut.mouseDown(on: .coord(60-1)) // Not inclued border
+        pressEsc()
+        sut.mouseDragged(on: .coord(20))
         
         XCTAssertEqual(drawnControls.count, 1)
         XCTAssertEqual(drawnControls[0].frame, rect10to50)

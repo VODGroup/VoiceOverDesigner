@@ -28,6 +28,9 @@ public class Artboard {
 
 /// Domain object that is used for drawing
 public class Frame: AccessibilityView {
+    @DecodableDefault.RandomUUID
+    public var id: UUID
+    
     public var label: String
     
     public let image: Image // TODO: Replace with url: file or remote
