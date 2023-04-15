@@ -40,10 +40,9 @@ public protocol DrawingView: View {
     var drawnControls: [A11yControlLayer] { get set }
     
     var alignmentOverlay: AlignmentOverlayProtocol { get }
+    var hud: HUDLayer { get }
     
     var copyListener: CopyModifierAction { get set }
-
-    var hud: HUDLayer { get }
 }
 
 public extension DrawingView {

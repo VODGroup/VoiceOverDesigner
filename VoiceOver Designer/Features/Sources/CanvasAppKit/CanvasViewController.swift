@@ -110,7 +110,9 @@ public class CanvasViewController: NSViewController {
         presenter.mouseMoved(on: location(from: event))
         
         // TODO: Can crash if happend before document loading
-        guard let control = presenter.ui.control(at: location(from: event)) else {
+        guard let control = presenter
+            .uiContent
+            .control(at: location(from: event)) else {
             return
         }
         
@@ -152,7 +154,8 @@ public class CanvasViewController: NSViewController {
     }
     
     public func select(_ model: A11yDescription) {
-        guard let control = view().controlsView.drawnControls
+        guard let control = view()
+            .contentView.drawnControls
             .first(where: { control in
                 control.model === model
             })
@@ -172,7 +175,7 @@ public class CanvasViewController: NSViewController {
     @objc func addImageButtonTapped() {
         Task {
             if let image = await requestImage() {
-                presentImage(image)
+                presenter.add(image: image)
             }
         }
     }
@@ -196,17 +199,6 @@ public class CanvasViewController: NSViewController {
         guard modalResponse == .OK else { return nil }
         guard let url = imagePanel.url, let image = NSImage(contentsOf: url) else { return nil }
         return image
-    }
-    
-    func presentImage(_ image: NSImage) {
-        let frame = Frame(label: UUID().uuidString, // TODO: Create fancy name
-                          image: image,
-                          frame: CGRect(origin: .zero,
-                                        size: image.size),
-                          controls: [])
-        presenter.update(image: image) // TODO: add to current frames
-        view().setFrames([frame]) // TODO: add to current frames
-        presenter.publishControlChanges()
     }
 }
 
@@ -253,7 +245,7 @@ extension CanvasViewController: NSWindowDelegate {
 
 extension CanvasViewController: DragNDropDelegate {
     public func didDrag(image: NSImage) {
-        presentImage(image)
+        presenter.add(image: image)
     }
     
     public func didDrag(path: URL) {

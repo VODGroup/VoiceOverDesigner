@@ -22,5 +22,11 @@ extension Array where Element == any AccessibilityView {
             view as? A11yContainer
         }
     }
+    
+    public func extractFrames() -> [Frame] {
+        compactMap { view in
+            view as? Frame
+        }
+    }
 }
 

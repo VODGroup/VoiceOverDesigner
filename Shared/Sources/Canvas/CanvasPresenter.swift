@@ -10,22 +10,30 @@ import CoreText
 import Combine
 import TextRecognition
 
+public protocol CanvasScrollViewProtocol: AnyObject {
+    func fitToWindow(animated: Bool)
+}
+
 public class CanvasPresenter: DocumentPresenter {
     
-    public weak var ui: DrawingView!
+    public weak var uiContent: DrawingView!
+    public weak var uiScroll: CanvasScrollViewProtocol!
     var drawingController: DrawingController!
 
     public func didLoad(
-        ui: DrawingView,
+        uiContent: DrawingView,
+        uiScroll: CanvasScrollViewProtocol,
         initialScale: CGFloat,
         previewSource: PreviewSourceProtocol
     ) {
-        self.ui = ui
+        self.uiContent = uiContent
+        self.uiScroll = uiScroll
         self.scale = initialScale
-        self.drawingController = DrawingController(view: ui)
+        self.drawingController = DrawingController(view: uiContent)
         self.document.previewSource = previewSource
         
         redraw(controls: document.controls)
+        uiScroll.fitToWindow(animated: true)
     }
     
     private var scale: CGFloat = 1
@@ -50,27 +58,20 @@ public class CanvasPresenter: DocumentPresenter {
     
     private func redraw(controls: [any AccessibilityView]) {
         drawingController.view.removeAll()
-        draw(controls: controls)
+        drawingController.drawFrames(
+            document.artboard.frames,
+            scale: scale) // TODO: Draw passed frames
         updateSelectedControl(selectedPublisher.value)
     }
     
     public func redraw(control: any AccessibilityView) {
         drawingController.view.remove(control)
-        drawingController.draw(control, scale: scale)
-    }
-    
-    public func draw(controls: [any AccessibilityView]) {
-        drawingController.drawControls(controls, scale: scale)
+        drawingController.draw(element: control, scale: scale)
     }
     
     // MARK: Mouse
     public func mouseDown(on location: CGPoint) {
-//        guard !document.artboard.frames.isEmpty else {
-//            return
-//        }
-        // TODO: Allow to draw elements over empty document
-        
-        ui.hud.hideHUD()
+        uiContent.hud.hideHUD()
         drawingController.mouseDown(on: location,
                                     selectedControl: selectedControl)
     }
@@ -89,7 +90,7 @@ public class CanvasPresenter: DocumentPresenter {
    
     @discardableResult
     public func mouseUp(on location: CGPoint) -> A11yControlLayer? {
-        ui.hud.showHUD()
+        uiContent.hud.showHUD()
         
         let action = drawingController.end(coordinate: location)
         
@@ -137,7 +138,7 @@ public class CanvasPresenter: DocumentPresenter {
             return
         }
         
-        let selectedControl = ui.drawnControls.first(where: { control in
+        let selectedControl = uiContent.drawnControls.first(where: { control in
             control.model?.frame == selected.frame
         })
             
@@ -146,8 +147,8 @@ public class CanvasPresenter: DocumentPresenter {
     
     public private(set) var selectedControl: A11yControlLayer? {
         didSet {
-            ui.hud.selectedControlFrame = selectedControl?.frame
-            ui.hud.tintColor = selectedControl?.model?.color.cgColor.copy(alpha: 1)
+            uiContent.hud.selectedControlFrame = selectedControl?.frame
+            uiContent.hud.tintColor = selectedControl?.model?.color.cgColor.copy(alpha: 1)
         }
     }
     
@@ -161,11 +162,11 @@ public class CanvasPresenter: DocumentPresenter {
     
     // MARK: - Labels
     public func showLabels() {
-        ui.addLabels()
+        uiContent.addLabels()
     }
     
     public func hideLabels() {
-        ui.removeLabels()
+        uiContent.removeLabels()
     }
     
     public var pointerPublisher: AnyPublisher<DrawingController.Pointer?, Never> {
@@ -179,13 +180,13 @@ public class CanvasPresenter: DocumentPresenter {
         }
         
         // TODO: Register Delete Undo on child
-        ui.delete(control: control)
+        uiContent.delete(control: control)
         
         super.remove(model)
     }
     
     private func control(for model: any AccessibilityView) -> A11yControlLayer? {
-        ui.drawnControls.first { control in
+        uiContent.drawnControls.first { control in
             control.model === model
         }
     }

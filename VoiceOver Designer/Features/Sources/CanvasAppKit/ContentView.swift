@@ -1,40 +1,61 @@
 import AppKit
 
-class ContentView: FlippedView {
+import CommonUI
+import Document
+import Canvas
+
+class ContentView: FlippedView, DrawingView {
+    var drawnControls: [A11yControlLayer] = []
     
-    var imageViews: [NSImageView] = []
+    lazy var alignmentOverlay = AlignmentOverlayFactory().overlay(for: self)
     
-    func add(_ image: NSImage, at frame: CGRect) {
-        let imageView = NSImageView()
-        imageView.image = image
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.frame = frame
-        addSubview(imageView)
-        imageViews.append(imageView)
+    var copyListener = CopyModifierFactory().make()
+    
+    var escListener = EscModifierFactory().make()
+    
+    var hud = HUDLayer()
+    
+    override func layout() {
+        super.layout()
+        
+        hud.frame = bounds
     }
-    
+
+    // MARK: - Images
     override var intrinsicContentSize: NSSize {
         boundingBox.size
     }
     
+    private var defaultBoundingBox: CGRect {
+        CGRect(
+            origin: .zero,
+            size: CGSize(width: 800, height: 400)) // TODO: Understaned default size
+    }
+    
     private var boundingBox: CGRect {
-        imageViews
+        guard let sublayers = layer?.sublayers,
+              sublayers.count > 1 // Skip HUDLayer
+        else { return defaultBoundingBox }
+        
+        let box = sublayers
             .reduce(CGRect.zero) { partialResult, imageView in
                 partialResult.union(imageView.frame)
             }
+        return box
     }
     
-    var image: NSImage? {
-        imageViews.first?.image
+    private func frameImage(at frame: CGRect) -> (Image, CGRect)? {
+        return nil // TODO: Restore text recognition
+//        guard let imageView = imageViews.first(where: { imageView in
+//            imageView.frame.intersects(frame)
+//        }), let image = imageView.image
+//        else { return nil }
+//
+//        return (image, imageView.frame)
     }
     
     func image(at frame: CGRect) -> CGImage? {
-        let imageView = imageViews.first { imageView in
-            imageView.frame.intersects(frame)
-        }
-        
-        guard let image = imageView?.image,
-              let imageViewFrame = imageView?.frame
+        guard let (image, imageViewFrame) = frameImage(at: frame)
         else { return nil }
         
         var frameInImageCoordinates = frame

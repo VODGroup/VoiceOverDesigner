@@ -37,45 +37,69 @@ public class DrawingController {
     /// Draw all elements and containers on screen
     /// - Parameters:
     ///   - scale: Relative scale to fit controls on screen. Is neede for Preview
-    public func drawControls(
-        _ models: [any AccessibilityView],
+    public func drawFrames(
+        _ frames: [Frame],
         scale: CGFloat
     ) {
+        for frame in frames {
+            draw(frame: frame, scale: scale)
+        }
+        
+        view.invalidateIntrinsicContentSize()
+    }
+    
+    func draw(frame: Frame, scale: CGFloat) {
+        drawImage(for: frame, scale: scale)
+        
         // Draw containers under elements
-        models
+        frame.controls
             .extractContainers()
-            .forEach { model in
-                drawContainer(model, scale: scale)
+            .forEach { container in
+                draw(container: container, scale: scale)
             }
        
         // Extract inner elements from containers
-        models
+        frame.controls
             .extractElements()
-            .forEach { model in
-                draw(model, scale: scale)
+            .forEach { element in
+                draw(element: element, scale: scale)
             }
     }
     
     @discardableResult
+    public func drawImage(
+        for frame: Frame,
+        scale: CGFloat
+    ) -> CALayer {
+        let imageLayer = CALayer()
+        imageLayer.frame = frame.frame
+        imageLayer.contents = frame.image.cgImage(forProposedRect: nil, context: nil, hints: nil)
+        
+        // TODO: Content scale
+        view.layer?.addSublayer(imageLayer)
+        return imageLayer
+    }
+    
+    @discardableResult
     public func draw(
-        _ model: any AccessibilityView,
+        element: any AccessibilityView,
         scale: CGFloat
     ) -> A11yControlLayer {
         let control = A11yControlLayer()
-        control.model = model
-        control.frame = model.frame.scaled(scale)
-        control.backgroundColor = model.color.cgColor
+        control.model = element
+        control.frame = element.frame.scaled(scale)
+        control.backgroundColor = element.color.cgColor
         
         view.add(control: control)
         return control
     }
     
     @discardableResult
-    public func drawContainer(
-        _ model: any AccessibilityView,
+    public func draw(
+        container: any AccessibilityView,
         scale: CGFloat
     ) -> A11yControlLayer {
-        let container = draw(model, scale: scale)
+        let container = draw(element: container, scale: scale)
 //        container.strokeColor = model.color.cgColor
         container.cornerCurve = .continuous
         container.cornerRadius = 20
@@ -135,7 +159,9 @@ public class DrawingController {
     }
     
     private func startDrawing(coordinate: CGPoint) {
-        let control = draw(A11yDescription.empty(frame: .zero), scale: 1)
+        let control = draw(
+            element: A11yDescription.empty(frame: .zero),
+            scale: 1)
         
         self.action = NewControlAction(view: view, control: control, coordinate: coordinate)
         pointerSubject.send(.crosshair)

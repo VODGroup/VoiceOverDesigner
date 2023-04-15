@@ -13,8 +13,8 @@ extension VODesignDocumentProtocol {
         
         // Save document's structure
         invalidateWrapperIfPossible(fileInRoot: FileName.document)
-        let documentWrapper = try documentWrapper()
-        documentWrapper.addFileWrapper(documentWrapper)
+        let documentStructureWrapper = try documentStructureFileWrapper()
+        self.documentWrapper.addFileWrapper(documentStructureWrapper)
 
         // Preview depends on elements and should be invalidated
         invalidateWrapperIfPossible(fileInRoot: FolderName.quickLook)
@@ -75,8 +75,8 @@ extension VODesignDocumentProtocol {
         wrapper.preferredFilename = FileName.controls
         return wrapper
     }
-    
-    private func documentWrapper(
+
+    private func documentStructureFileWrapper(
     ) throws -> FileWrapper {
         let codingService = AccessibilityViewCodingService()
         let wrapper = FileWrapper(regularFileWithContents: try codingService.data(from: controls))
