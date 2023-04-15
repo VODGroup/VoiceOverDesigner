@@ -11,7 +11,7 @@ class CanvasUpdatingTests: CanvasPresenterTests {
         XCTAssertEqual(numberOfDrawnViews, 0)
     }
 
-    func test_documentWithControls_whenUpdateElements_shouldDrawNew() {
+    func test_documentWithControls_whenUpdateElements_shouldDrawNew() throws {
         XCTContext.runActivity(named: "Open document") { _ in
             setControls(count: 2)
             
@@ -20,7 +20,7 @@ class CanvasUpdatingTests: CanvasPresenterTests {
             XCTAssertEqual(numberOfDrawnViews, 2)
         }
         
-        let control = sut.drawingController.view.drawnControls.first!
+        let control = try XCTUnwrap(sut.drawingController.view.drawnControls.first)
         sut.select(control: control)
         
         XCTContext.runActivity(named: "Modify document by another source") { _ in

@@ -60,6 +60,7 @@ public class CanvasPresenter: DocumentPresenter {
         drawingController.view.removeAll()
         drawingController.drawFrames(
             document.artboard.frames,
+            controlsWithoutFrame: document.artboard.controlsWithoutFrames,
             scale: scale) // TODO: Draw passed frames
         updateSelectedControl(selectedPublisher.value)
     }

@@ -5,7 +5,7 @@ class EmptyViewController: NSViewController {
     
     private lazy var contentView = NSView()
     
-    let controlsView = ControlsView()
+    let controlsView = ContentView()
     
     override func loadView() {
         view = contentView

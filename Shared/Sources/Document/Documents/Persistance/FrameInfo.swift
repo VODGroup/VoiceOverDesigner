@@ -24,6 +24,7 @@ public struct FrameInfo: Codable {
 public class Artboard {
 //    let figmaURL: String
     public var frames: [Frame] = []
+    public var controlsWithoutFrames: [any AccessibilityView] = []
 }
 
 /// Domain object that is used for drawing

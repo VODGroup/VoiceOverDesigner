@@ -4,7 +4,7 @@ import Combine
 public protocol VODesignDocumentProtocol: AnyObject {
     
     // MARK: - Data
-    var controls: [any AccessibilityView] { get set }
+    
     var image: Image? { get set }
     var imageSize: CGSize { get }
     
@@ -19,6 +19,18 @@ public protocol VODesignDocumentProtocol: AnyObject {
     var documentWrapper: FileWrapper { get set }
     
     var previewSource: PreviewSourceProtocol? { get set }
+}
+
+extension VODesignDocumentProtocol {
+    public var controls: [any AccessibilityView] {
+        get {
+            artboard.controlsWithoutFrames
+        }
+        
+        set {
+            artboard.controlsWithoutFrames = newValue
+        }
+    }
 }
 
 extension VODesignDocumentProtocol {
