@@ -37,6 +37,8 @@ extension Array where Element == any AccessibilityView {
     func recursiveDescription() -> [String] {
         map { view in
             switch view.cast {
+            case .frame(let frame):
+                return frame.label // TODO: Make full description
             case .container(let container):
                 if container.elements.isEmpty {
                     return container.label

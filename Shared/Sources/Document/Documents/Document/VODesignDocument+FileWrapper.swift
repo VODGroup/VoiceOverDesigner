@@ -173,9 +173,13 @@ extension VODesignDocumentProtocol {
             frameInfo = info
         }
         
+        let frame = frameInfo?.frame
+        ?? CGRect(origin: .zero,
+                  size: image!.size) // TODO: Add image's scale
+        
         return Frame(label: frameWrapper.filename ?? UUID().uuidString, 
                      image: image!,
-                     frame: frameInfo!.frame,
+                     frame: frame,
                      controls: controls)
     }
     

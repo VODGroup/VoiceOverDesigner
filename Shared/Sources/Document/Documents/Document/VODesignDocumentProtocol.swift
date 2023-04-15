@@ -6,9 +6,9 @@ public protocol VODesignDocumentProtocol: AnyObject {
     // MARK: - Data
     var controls: [any AccessibilityView] { get set }
     var image: Image? { get set }
+    var imageSize: CGSize { get }
     
     var artboard: Artboard { get set }
-    var imageSize: CGSize { get }
     var frameInfo: FrameInfo { get set }
     
     // MARK: - Services
