@@ -97,7 +97,8 @@ open class DocumentPresenter {
     public func wrapInContainer(
         _ elements: [any ArtboardElement]
     ) -> A11yContainer? {
-        controls.wrapInContainer(
+        controls.wrap(
+            in: A11yContainer.self,
             elements.extractElements(),
             label: "Container")
     }

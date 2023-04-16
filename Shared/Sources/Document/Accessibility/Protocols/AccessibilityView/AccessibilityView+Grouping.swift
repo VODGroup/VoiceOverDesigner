@@ -1,15 +1,17 @@
 import Foundation
+import Artboard
 
 extension Array where Element == any ArtboardElement {
     
     @discardableResult
-    public mutating func wrapInContainer(
-        _ items: [A11yDescription],
+    public mutating func wrap<Container: ArtboardContainer>(
+        in type: Container.Type,
+        _ items: [any ArtboardElement],
         label:  String
-    ) -> A11yContainer? {
+    ) -> Container? {
         guard items.count > 0 else { return nil }
 
-        var extractedElements = [A11yDescription]()
+        var extractedElements = [any ArtboardElement]()
 
         var insertIndex: Int?
         for item in items.reversed() {
@@ -22,7 +24,7 @@ extension Array where Element == any ArtboardElement {
             extractedElements.append(item)
         }
 
-        let container = A11yContainer(
+        let container = Container(
             elements: extractedElements.reversed(),
             frame: extractedElements
                 .map(\.frame)
@@ -37,6 +39,13 @@ extension Array where Element == any ArtboardElement {
         return container
     }
     
+    private mutating func removeEmptyContainers() {
+        forEachContainer { containerIndex, container in
+            if container.elements.isEmpty {
+                remove(at: containerIndex)
+            }
+        }
+    }
     
     public mutating func unwrapContainer(_ container: A11yContainer) {
         guard let containerIndex = remove(container) else { return }
@@ -44,7 +53,7 @@ extension Array where Element == any ArtboardElement {
     }
     
     /// - Returns: Container index
-    mutating func removeFromContainers(_ item: A11yDescription) -> Int? {
+    mutating func removeFromContainers(_ item: any ArtboardElement) -> Int? {
         for (containerIndex, view) in enumerated().reversed() {
             guard let container = view as? A11yContainer
             else { continue }
@@ -66,14 +75,6 @@ extension Array where Element == any ArtboardElement {
             else { continue }
             
             iterator(containerIndex, container)
-        }
-    }
-    
-    private mutating func removeEmptyContainers() {
-        forEachContainer { containerIndex, container in
-            if container.elements.isEmpty {
-                remove(at: containerIndex)
-            }
         }
     }
 }
