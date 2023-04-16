@@ -50,8 +50,15 @@ open class DocumentPresenter {
     }
     
     public func append(control: any AccessibilityView) {
-        document.artboard.controlsWithoutFrames.append(control)
-        // TODO: Add to frame if possible
+        let frameThatOverlaps = document.artboard.frames.first { frame in
+            frame.frame.intersects(control.frame)
+        }
+        
+        if let frameThatOverlaps {
+            frameThatOverlaps.controls.append(control)
+        } else {
+            document.artboard.controlsWithoutFrames.append(control)
+        }
     }
     
     public func add(_ model: any AccessibilityView) {
