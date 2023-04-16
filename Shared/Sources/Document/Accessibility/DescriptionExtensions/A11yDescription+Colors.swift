@@ -1,4 +1,5 @@
 import CoreGraphics
+import Artboard
 
 extension A11yDescription {
     var isValid: Bool {
@@ -13,7 +14,8 @@ extension A11yDescription {
     }
 }
 
-extension AccessibilityView {
+extension ArtboardElement {
+    // TODO: Inverse dependency? element should know about it's color
     public var color: Color {
         if self is A11yContainer {
             return Color.systemGray.withAlphaComponent(A11yDescription.colorAlpha)

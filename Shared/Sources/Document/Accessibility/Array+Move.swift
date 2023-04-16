@@ -1,4 +1,4 @@
-extension Array where Element == any AccessibilityView {
+extension Array where Element == any ArtboardElement {
     /// - Returns: From and To indexes
     @discardableResult
     public mutating func move(_ element: Element, to: Int) -> Bool {
@@ -51,7 +51,7 @@ extension Array where Element == A11yDescription {
     }
 }
 
-extension Array where Element == any AccessibilityView {
+extension Array where Element == any ArtboardElement {
     /// - Returns: From and To indexes
     public mutating func move(
         _ element: A11yDescription, fromContainer: A11yContainer?,

@@ -68,9 +68,9 @@ extension VODesignDocumentProtocol {
     }
     
     private func controlsWrapper(
-        for controls: [any AccessibilityView]
+        for controls: [any ArtboardElement]
     ) throws -> FileWrapper {
-        let codingService = AccessibilityViewCodingService()
+        let codingService = ArtboardElementCodingService()
         let wrapper = FileWrapper(regularFileWithContents: try codingService.data(from: controls))
         wrapper.preferredFilename = FileName.controls
         return wrapper
@@ -78,7 +78,7 @@ extension VODesignDocumentProtocol {
 
     private func documentStructureFileWrapper(
     ) throws -> FileWrapper {
-        let codingService = AccessibilityViewCodingService()
+        let codingService = ArtboardElementCodingService()
         let wrapper = FileWrapper(regularFileWithContents: try codingService.data(from: controls))
         wrapper.preferredFilename = FileName.document
         return wrapper
@@ -148,12 +148,12 @@ extension VODesignDocumentProtocol {
         print("Read wrapper \(frameWrapper.filename)")
         let frameFolder = frameWrapper.fileWrappers!
 
-        var controls: [any AccessibilityView]!
+        var controls: [any ArtboardElement]!
         if
             let controlsWrapper = frameFolder[FileName.controls],
             let controlsData = controlsWrapper.regularFileContents
         {
-            let codingService = AccessibilityViewCodingService()
+            let codingService = ArtboardElementCodingService()
             controls = try codingService.controls(from: controlsData)
         }
 

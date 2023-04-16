@@ -2,27 +2,43 @@ import CoreGraphics
 
 import Foundation
 
+#if os(iOS)
+import UIKit
+public typealias Image = UIImage
+
+#elseif os(macOS)
+import AppKit
+public typealias Image = NSImage
+#endif
+
 public class Artboard {
 //    let figmaURL: String
-    public var frames: [Frame] = []
-    public var controlsWithoutFrames: [any AccessibilityView] = []
+    public var frames: [Frame]
+    public var controlsWithoutFrames: [any ArtboardElement]
+    
+    public init(
+        frames: [Frame] = [],
+        controlsWithoutFrames: [any ArtboardElement] = []) {
+        self.frames = frames
+        self.controlsWithoutFrames = controlsWithoutFrames
+    }
 }
 
 /// Domain object that is used for drawing
-public class Frame: AccessibilityView {
+public class Frame: ArtboardElement {
     public var label: String
     
     public let image: Image // TODO: Replace with url: file or remote
     public var frame: CGRect
     
     /// In absolute coordinates
-    public var elements: [any AccessibilityView]
+    public var elements: [any ArtboardElement]
     
     public init(
         label: String,
         image: Image,
         frame: CGRect,
-        elements: [any AccessibilityView]
+        elements: [any ArtboardElement]
     ) {
         self.label = label
         self.image = image
@@ -30,10 +46,10 @@ public class Frame: AccessibilityView {
         self.elements = elements
     }
 
-    // MARK: AccessibilityView
+    // MARK: ArtboardElement
     public static func == (lhs: Frame, rhs: Frame) -> Bool {
         lhs.label == rhs.label // TODO: Better comparison
     }
     
-    public var type: AccessibilityViewTypeDto = .frame
+    public var type: ArtboardType = .frame
 }

@@ -4,14 +4,14 @@ import Document
 
 class ElementCell: NSTableCellView {
     
-    func setup(model: (any AccessibilityView)?) {
+    func setup(model: (any ArtboardElement)?) {
         self.model = model
         deselect()
     }
     
-    private var model: (any AccessibilityView)?
+    private var model: (any ArtboardElement)?
     
-    private func update(model: (any AccessibilityView)?) {
+    private func update(model: (any ArtboardElement)?) {
         switch model?.cast {
         case .frame(let frame):
             textField?.stringValue = frame.label

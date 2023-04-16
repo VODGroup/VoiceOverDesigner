@@ -30,22 +30,22 @@ class DocumentSaveService {
         self.dataProvider = dataProvider
     }
     
-    func save(controls: [any AccessibilityView]) throws {
+    func save(controls: [any ArtboardElement]) throws {
         let data = try codingService.data(from: controls)
         try dataProvider.save(data: data)
     }
     
-    func loadControls() throws -> [any AccessibilityView] {
+    func loadControls() throws -> [any ArtboardElement] {
         let data = try dataProvider.read()
         
         return try codingService.controls(from: data)
     }
     
-    func loadControls(url: URL) throws -> [any AccessibilityView] {
+    func loadControls(url: URL) throws -> [any ArtboardElement] {
         let data = try Data(contentsOf: url)
         
         return try codingService.controls(from: data)
     }
     
-    let codingService = AccessibilityViewCodingService()
+    let codingService = ArtboardElementCodingService()
 }

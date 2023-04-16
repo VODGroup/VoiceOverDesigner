@@ -62,7 +62,7 @@ public class DrawingController {
     }
     
     func drawControlsAndContainers(
-        controls: [any AccessibilityView],
+        controls: [any ArtboardElement],
         scale: CGFloat
     ) {
         controls
@@ -94,7 +94,7 @@ public class DrawingController {
     
     @discardableResult
     public func draw(
-        element: any AccessibilityView,
+        element: any ArtboardElement,
         scale: CGFloat
     ) -> A11yControlLayer {
         let control = A11yControlLayer()
@@ -108,7 +108,7 @@ public class DrawingController {
     
     @discardableResult
     public func draw(
-        container: any AccessibilityView,
+        container: any ArtboardElement,
         scale: CGFloat
     ) -> A11yControlLayer {
         let container = draw(element: container, scale: scale)

@@ -1,30 +1,30 @@
 import Foundation
 
-class AccessibilityViewCodingService {
+class ArtboardElementCodingService {
     let encoder = JSONEncoder()
     let decoder = JSONDecoder()
     
-    func data(from controls: [any AccessibilityView]) throws -> Data {
-        let encodableWrapper = controls.map(AccessibilityViewDecodable.init(view:))
+    func data(from controls: [any ArtboardElement]) throws -> Data {
+        let encodableWrapper = controls.map(ArtboardElementDecodable.init(view:))
         
         encoder.outputFormatting = .prettyPrinted
         let data = try! encoder.encode(encodableWrapper)
         return data
     }
     
-    func controls(from data: Data) throws -> [any AccessibilityView] {
-        let controls = try decoder.decode([AccessibilityViewDecodable].self, from: data)
+    func controls(from data: Data) throws -> [any ArtboardElement] {
+        let controls = try decoder.decode([ArtboardElementDecodable].self, from: data)
         
         return controls.map(\.view)
     }
 }
 
-class AccessibilityViewDecodable: Codable {
-    init(view: any AccessibilityView) {
+class ArtboardElementDecodable: Codable {
+    init(view: any ArtboardElement) {
         self.view = view
     }
     
-    var view: any AccessibilityView
+    var view: any ArtboardElement
     
     // MARK: Codable
     enum CodingKeys: CodingKey {
@@ -33,7 +33,7 @@ class AccessibilityViewDecodable: Codable {
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let type = (try? container.decode(AccessibilityViewTypeDto.self, forKey: .type)) ?? .element // Default value is element
+        let type = (try? container.decode(ArtboardType.self, forKey: .type)) ?? .element // Default value is element
         
         switch type {
         case .frame:

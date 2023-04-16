@@ -19,7 +19,7 @@ public class A11yControlLayer: CALayer {
     
     private let config = Config()
     
-    public var model: (any AccessibilityView)?
+    public var model: (any ArtboardElement)?
     
     public lazy var label: CATextLayer? = {
         let label = CATextLayer()
@@ -70,7 +70,7 @@ public class A11yControlLayer: CALayer {
 }
 
 public extension A11yControlLayer {
-    static func copy(from model: any AccessibilityView) -> A11yControlLayer {
+    static func copy(from model: any ArtboardElement) -> A11yControlLayer {
         let control = A11yControlLayer()
         control.model = model
         control.frame = model.frame

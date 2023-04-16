@@ -91,7 +91,7 @@ class ProjectController: NSSplitViewController {
 
 // MARK: Settings visibility
 extension ProjectController {
-    private func updateSelection(_ selectedModel: (any AccessibilityView)?) {
+    private func updateSelection(_ selectedModel: (any ArtboardElement)?) {
         if let selectedModel = selectedModel {
             showSettings(for: selectedModel)
         } else {
@@ -99,7 +99,7 @@ extension ProjectController {
         }
     }
 
-    func showSettings(for model: any AccessibilityView) {
+    func showSettings(for model: any ArtboardElement) {
         switch model.cast {
         case .frame:
             // TODO: Implement frame's settings
@@ -121,7 +121,7 @@ extension ProjectController: SettingsDelegate {
         canvas.publishControlChanges()
     }
     
-    public func delete(model: any AccessibilityView) {
+    public func delete(model: any ArtboardElement) {
         canvas.delete(model: model)
         settings.state = .empty
     }

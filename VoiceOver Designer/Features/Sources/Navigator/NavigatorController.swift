@@ -1,10 +1,11 @@
 import AppKit
 import Combine
 import Document
+import Artboard
 
 public protocol TextBasedPresenter: DocumentPresenter {
     var selectedPublisher: OptionalDescriptionSubject { get }
-    func wrapInContainer(_ elements: [any AccessibilityView]) -> A11yContainer?
+    func wrapInContainer(_ elements: [any ArtboardElement]) -> A11yContainer?
 }
 
 public class NavigatorController: NSViewController {
@@ -21,7 +22,7 @@ public class NavigatorController: NSViewController {
     }
     
     var document: VODesignDocument!
-    var draggedNode: (any AccessibilityView)?
+    var draggedNode: (any ArtboardElement)?
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -59,16 +60,16 @@ public class NavigatorController: NSViewController {
     /**
      Deselects current element and passes next upstream
         - parameters:
-            - current: A currently selected ``AccessibilityView`` in the upstream
+            - current: A currently selected ``ArtboardElement`` in the upstream
             - next: A new value to select in the upstream
         - returns: A next value to select
      */
-    private func deselect(current: (any AccessibilityView)?, next: (any AccessibilityView)?) -> (any AccessibilityView)? {
+    private func deselect(current: (any ArtboardElement)?, next: (any ArtboardElement)?) -> (any ArtboardElement)? {
         updateCell(for: current, shouldSelect: false)
         return next
     }
     
-    private func select(model: (any AccessibilityView)?) {
+    private func select(model: (any ArtboardElement)?) {
         guard let model = model else {
             outlineView.deselectAll(self)
             return
@@ -88,7 +89,7 @@ public class NavigatorController: NSViewController {
                                      byExtendingSelection: false)
     }
     
-    private func expandAndSelect(_ element: any AccessibilityView) {
+    private func expandAndSelect(_ element: any ArtboardElement) {
         
         guard case let .element(description) = element.cast else { return }
         guard let container = document.container(for: description) else { return }
@@ -114,7 +115,7 @@ public class NavigatorController: NSViewController {
         row != -1
     }
     
-    private func updateCell(for model: (any AccessibilityView)?, shouldSelect: Bool) {
+    private func updateCell(for model: (any ArtboardElement)?, shouldSelect: Bool) {
         guard let model else { return }
         
         let row = outlineView.row(forItem: model)
@@ -133,7 +134,7 @@ public class NavigatorController: NSViewController {
         let selectedItems = outlineView.selectedRowIndexes
             .map { row in
                 outlineView.item(atRow: row)
-            } as! [any AccessibilityView]
+            } as! [any ArtboardElement]
         
         let container = presenter.wrapInContainer(selectedItems)
 
@@ -200,7 +201,7 @@ extension NavigatorController: NSOutlineViewDelegate {
         
         let view = outlineView.makeView(withIdentifier: id, owner: self) as! ElementCell
         
-        let model = item as? any AccessibilityView
+        let model = item as? any ArtboardElement
         view.setup(model: model)
         
         return view
@@ -218,7 +219,7 @@ extension NavigatorController: NSOutlineViewDelegate {
     
         
         let selectedItem = outlineView.item(atRow: outlineView.selectedRow)
-        if let element = selectedItem as? any AccessibilityView  {
+        if let element = selectedItem as? any ArtboardElement  {
             presenter.selectedPublisher.send(element)
         }
     }

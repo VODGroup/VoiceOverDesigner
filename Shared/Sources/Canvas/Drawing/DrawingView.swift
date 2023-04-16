@@ -102,7 +102,7 @@ public extension DrawingView {
         }
     }
     
-    func remove(_ model: any AccessibilityView) {
+    func remove(_ model: any ArtboardElement) {
         guard let index = drawnControls.firstIndex(where: {
             $0.model === model
         }), let control = drawnControls.first(where: {

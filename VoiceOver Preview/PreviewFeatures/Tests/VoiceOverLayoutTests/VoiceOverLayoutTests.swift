@@ -16,7 +16,7 @@ class VoiceOverLayoutTests: XCTestCase {
 //        SnapshotTesting.isRecording = true
     }
     
-    func elements(controls: [any AccessibilityView]) -> [Any] {
+    func elements(controls: [any ArtboardElement]) -> [Any] {
         sut = VoiceOverLayout(controls: controls, scrollView: scrollView)
         return sut.accessibilityElements(at: UIView())
     }
@@ -27,7 +27,7 @@ class VoiceOverLayoutTests: XCTestCase {
     //
     // |        Label 3       |
     
-    private func containerWith2Elements(origin: CGPoint) -> [any AccessibilityView] {
+    private func containerWith2Elements(origin: CGPoint) -> [any ArtboardElement] {
         [
             A11yContainer.testMake(
                 elements: [

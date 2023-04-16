@@ -43,7 +43,7 @@ extension CanvasPresenterTests {
                     previewSource: PreviewSourceDummy())
     }
     
-    var drawnControls: [any AccessibilityView] {
+    var drawnControls: [any ArtboardElement] {
         controller.controlsView.drawnControls.compactMap(\.model)
     }
     
@@ -51,7 +51,7 @@ extension CanvasPresenterTests {
         drawnControls.count
     }
 
-    var documentControls: [any AccessibilityView] {
+    var documentControls: [any ArtboardElement] {
         sut.document.controls
     }
     
@@ -90,7 +90,7 @@ extension CanvasPresenterTests {
     
     func awaitSelected(file: StaticString = #file,
                        line: UInt = #line
-    ) async throws -> (any AccessibilityView)? {
+    ) async throws -> (any ArtboardElement)? {
         return try await awaitPublisher(sut.selectedPublisher,
                                         file: file, line: line)
     }

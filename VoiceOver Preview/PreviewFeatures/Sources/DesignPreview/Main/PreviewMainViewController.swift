@@ -64,13 +64,13 @@ public class PreviewMainViewController: UIViewController {
    
     private var sideTransition = SideTransition()
     
-    private func presentDetails(for model: (any AccessibilityView)?) {
+    private func presentDetails(for model: (any ArtboardElement)?) {
         guard let model = model
         else { return }
         
         self.presentDetails(for: model)
     }
-    private func presentDetails(for model: any AccessibilityView) {
+    private func presentDetails(for model: any ArtboardElement) {
         // TODO: Add support for Container
 
         
@@ -87,7 +87,7 @@ public class PreviewMainViewController: UIViewController {
     }
     
     @ViewBuilder
-    private func makeView(for model: any AccessibilityView) -> some SwiftUI.View {
+    private func makeView(for model: any ArtboardElement) -> some SwiftUI.View {
         let onDismiss = { [weak self] in
             guard let self else { return }
             self.presenter.deselect()

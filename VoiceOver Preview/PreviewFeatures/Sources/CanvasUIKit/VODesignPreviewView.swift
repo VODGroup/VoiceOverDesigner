@@ -20,7 +20,7 @@ class VODesignPreviewView: UIView {
     }
     
     
-    var controls: [any AccessibilityView] = [] 
+    var controls: [any ArtboardElement] = [] 
     
     override var intrinsicContentSize: CGSize {
         get {

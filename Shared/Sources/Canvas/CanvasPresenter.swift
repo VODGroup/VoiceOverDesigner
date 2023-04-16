@@ -69,7 +69,7 @@ public class CanvasPresenter: DocumentPresenter {
         updateSelectedControl(selectedPublisher.value)
     }
     
-    public func redraw(control: any AccessibilityView) {
+    public func redraw(control: any ArtboardElement) {
         drawingController.view.remove(control)
         drawingController.draw(element: control, scale: scale)
     }
@@ -135,7 +135,7 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     // MARK: - Selection
-    private func updateSelectedControl(_ selectedDescription: (any AccessibilityView)?) {
+    private func updateSelectedControl(_ selectedDescription: (any ArtboardElement)?) {
         guard let selected = selectedDescription else {
             selectedControl = nil
             return
@@ -177,7 +177,7 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     // MARK: - Deletion
-    override public func remove(_ model: any AccessibilityView) {
+    override public func remove(_ model: any ArtboardElement) {
         guard let control = control(for: model) else {
             return
         }
@@ -188,7 +188,7 @@ public class CanvasPresenter: DocumentPresenter {
         super.remove(model)
     }
     
-    private func control(for model: any AccessibilityView) -> A11yControlLayer? {
+    private func control(for model: any ArtboardElement) -> A11yControlLayer? {
         uiContent.drawnControls.first { control in
             control.model === model
         }
