@@ -41,10 +41,20 @@ final class DocumentImage_ScaleTests: XCTestCase {
     
     func test_APPKit_whenUpdateImageExternaly_shouldSetImageSizeWithScale() throws {
         let document = try VODesignDocument(type: uti)
+        
         document.updateImage(try imageWith3xScale())
         
         XCTAssertEqual(document.imageSize, scaledSize)
-        XCTAssertEqual(document.frameInfo.imageScale, 3)
+        XCTAssertEqual(document.frameInfo.imageScale, 3, "should understand the scale")
+    }
+    
+    func test_whenAddImage_shouldCreateFrameOfImageSize() throws {
+        let document = try VODesignDocument(type: uti)
+        
+        document.updateImage(try imageWith3xScale())
+        
+        let frame = try XCTUnwrap(document.artboard.frames.first, "should create frame from image")
+        XCTAssertEqual(frame.frame, CGRect(origin: .zero, size: scaledSize), "should use scaled frame")
     }
     
 #elseif os(iOS)
