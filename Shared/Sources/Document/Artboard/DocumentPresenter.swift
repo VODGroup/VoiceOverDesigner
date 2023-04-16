@@ -1,6 +1,8 @@
 import Foundation
 import Combine
 
+public typealias OptionalDescriptionSubject = CurrentValueSubject<(any AccessibilityView)?, Never>
+
 /**
  Top level object that controls abstract VODesignDocumentProtocol
  
@@ -55,6 +57,7 @@ open class DocumentPresenter {
         }
         
         if let frameThatOverlaps {
+//            control.parent = frameThatOverlaps
             frameThatOverlaps.elements.append(control)
         } else {
             document.artboard.controlsWithoutFrames.append(control)
@@ -62,33 +65,12 @@ open class DocumentPresenter {
     }
     
     open func remove(_ model: any AccessibilityView) {
-        switch model.cast {
-        case .frame(let frame):
-            // TODO: Remove model
-            fatalError()
-            break
-        case .element(let element):
-            if let topLevelIndex = controls.delete(element) {
-                document.undo?.registerUndo(withTarget: self, handler: { presenter in
-                    presenter.insert(model: element, at: topLevelIndex)
-                })
-            } else {
-                guard let container = controls.container(for: element),
-                      let containerIndex = container.elements.remove(element)
-                else { return }
-                
-                document.undo?.registerUndo(withTarget: self, handler: { presenter in
-                    presenter.insert(element, into: container, at: containerIndex)
-                })
-            }
-            
-        case .container(let container):
-            if let topLevelIndex = controls.delete(container) {
-                document.undo?.registerUndo(withTarget: self, handler: { presenter in
-                    presenter.insert(model: container, at: topLevelIndex)
-                })
-            }
-        }
+        guard let (parent, index) = document.artboard.remove(model)
+        else { return }
+        
+        document.undo?.registerUndo(withTarget: self, handler: { presenter in
+//            presenter.insert(model, into: parent, at: index)
+        })
         
         publishControlChanges()
     }
