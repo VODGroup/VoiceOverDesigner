@@ -12,12 +12,16 @@ public protocol ArtboardElement: AnyObject, Equatable {
     
     var type: ArtboardType { get }
     
-//    var parent: (any ArtboardContainer?) { get }
+    /// Had to be `weak`
+    var parent: (any ArtboardContainer)? { get set }
 }
 
 public protocol ArtboardContainer: ArtboardElement {
     var elements: [any ArtboardElement] { get set }
-    
+}
+
+/// Allows
+public protocol InstantiatableContainer {
     init(
         elements: [any ArtboardElement],
         frame: CGRect,

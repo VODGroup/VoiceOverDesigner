@@ -25,7 +25,7 @@ public class Artboard {
 }
 
 /// Domain object that is used for drawing
-public class Frame: ArtboardElement {
+public class Frame: ArtboardContainer {
     public var label: String
     
     public let image: Image // TODO: Replace with url: file or remote
@@ -33,6 +33,7 @@ public class Frame: ArtboardElement {
     
     /// In absolute coordinates
     public var elements: [any ArtboardElement]
+    public var parent: (any ArtboardContainer)? = nil
     
     public init(
         label: String,
@@ -44,6 +45,10 @@ public class Frame: ArtboardElement {
         self.image = image
         self.frame = frame
         self.elements = elements
+        
+        for element in elements {
+            element.parent = self
+        }
     }
 
     // MARK: ArtboardElement
