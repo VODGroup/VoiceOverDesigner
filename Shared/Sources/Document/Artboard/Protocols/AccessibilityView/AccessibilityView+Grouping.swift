@@ -128,3 +128,23 @@ public extension Array where Element == any AccessibilityView {
         return indexToDelete
     }
 }
+
+extension Artboard {
+    public typealias InsertionContext = ((any AccessibilityContainer)?, Int)
+    public func remove(
+        _ model: any AccessibilityView
+    ) -> InsertionContext? {
+//        if let parent = model.parent {
+//            if let insertionIndex = parent.elements.remove(model) {
+//                return (parent, insertionIndex)
+//            }
+//        } else {
+//            if let insertionIndex = controlsWithoutFrames.remove(model) {
+//                return (nil, insertionIndex)
+//            }
+//        }
+//        
+//        assertionFailure("Can't find parent to remove")
+        return nil // Can't find to remove
+    }
+}
