@@ -17,4 +17,10 @@ public protocol ArtboardElement: AnyObject, Equatable {
 
 public protocol ArtboardContainer: ArtboardElement {
     var elements: [any ArtboardElement] { get set }
+    
+    init(
+        elements: [any ArtboardElement],
+        frame: CGRect,
+        label: String
+    )
 }

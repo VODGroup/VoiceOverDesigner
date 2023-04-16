@@ -13,6 +13,15 @@ extension A11yContainer: ArtboardContainer {
 }
 
 public class A11yContainer: Codable, ObservableObject {
+    
+    required convenience public init(
+        elements: [any ArtboardElement],
+        frame: CGRect,
+        label: String
+    ) {
+        self.init(elements: elements as! [A11yDescription], frame: frame, label: label, isModal: false)
+    }
+    
     public init(
         id: UUID = UUID(),
         elements: [A11yDescription],
@@ -119,8 +128,8 @@ public class A11yContainer: Codable, ObservableObject {
     }
     
     @discardableResult
-    public func remove(_ element: A11yDescription) -> Int? {
-        controls.remove(element)
+    public func remove(_ element: any ArtboardElement) -> Int? {
+        elements.remove(element)
     }
 }
 

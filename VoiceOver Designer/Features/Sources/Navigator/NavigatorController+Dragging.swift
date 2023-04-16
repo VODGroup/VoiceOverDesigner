@@ -35,7 +35,8 @@ extension NavigatorController {
         if toIndex == NSOutlineViewDropOnItemIndex,
            let onElement = item as? any ArtboardElement {
 
-            document.controls.wrapInContainer(
+            document.controls.wrap(
+                in: A11yContainer.self,
                 [draggedNode!, onElement].extractElements(),
                 label: "Container")
             
