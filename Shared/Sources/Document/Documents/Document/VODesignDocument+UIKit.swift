@@ -6,7 +6,7 @@ import Combine
 public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
     
     // MARK: - Data
-    public var controls: [any AccessibilityView] = []
+    public var elements: [any AccessibilityView] = []
     public var image: Image?
     public var frameInfo: FrameInfo = .default
     
@@ -51,7 +51,7 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
         let frameReader = FrameReader(frameURL: frameURL)
         
         do {
-            try frameReader.saveService.save(controls: controls)
+            try frameReader.saveService.save(elements: elements)
             return true
         } catch let error {
             print(error)

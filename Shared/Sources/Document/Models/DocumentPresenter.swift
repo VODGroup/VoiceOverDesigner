@@ -55,14 +55,10 @@ open class DocumentPresenter {
         }
         
         if let frameThatOverlaps {
-            frameThatOverlaps.controls.append(control)
+            frameThatOverlaps.elements.append(control)
         } else {
             document.artboard.controlsWithoutFrames.append(control)
         }
-    }
-    
-    public func add(_ model: any AccessibilityView) {
-        append(control: model)
     }
     
     open func remove(_ model: any AccessibilityView) {
@@ -130,12 +126,12 @@ open class DocumentPresenter {
 
 #if canImport(XCTest)
 extension DocumentPresenter {
-    public func update(controls: [A11yDescription]) {
-        self.document.artboard.controlsWithoutFrames = controls
+    public func update(elements: [A11yDescription]) {
+        self.document.artboard.controlsWithoutFrames = elements
     }
     
     public var firstFrameControls: [any AccessibilityView] {
-        document.artboard.frames.first?.controls ?? []
+        document.artboard.frames.first?.elements ?? []
     }
     
     public var controlsWithoutFrame: [any AccessibilityView] {

@@ -55,7 +55,7 @@ public class DrawingController {
     func draw(frame: Frame, scale: CGFloat) {
         drawImage(for: frame, scale: scale)
         
-        drawControlsAndContainers(controls: frame.controls,
+        drawControlsAndContainers(controls: frame.elements,
                                   scale: scale)
     }
     

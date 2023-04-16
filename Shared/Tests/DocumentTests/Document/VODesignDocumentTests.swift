@@ -13,7 +13,7 @@ import DocumentTestHelpers
 extension VODesignDocument {
     static func with2Controls(name: String, testCase: XCTestCase) -> VODesignDocument {
         let document = VODesignDocument.testDocument(name: name, testCase: testCase)
-        document.controls = [A11yDescription.testMake(label: "Label1"),
+        document.elements = [A11yDescription.testMake(label: "Label1"),
                              A11yDescription.testMake(label: "Label2")]
         return document
     }
@@ -29,7 +29,7 @@ class VODesignDocumentPersistanceTests: XCTestCase {
         
         XCTContext.runActivity(named: "Create document") { _ in
             document = VODesignDocument.with2Controls(name: fileName, testCase: self)
-            document!.controls = [A11yDescription.testMake(label: "Label1"),
+            document!.elements = [A11yDescription.testMake(label: "Label1"),
                                   A11yDescription.testMake(label: "Label2")]
         }
         
@@ -47,7 +47,7 @@ class VODesignDocumentPersistanceTests: XCTestCase {
                 rootPath: VODesignDocument.path)
 //            try? document2.read()
             
-            XCTAssertEqual(document2.controls.count, 2, "Should contain controls")
+            XCTAssertEqual(document2.elements.count, 2, "Should contain controls")
         }
     }
     

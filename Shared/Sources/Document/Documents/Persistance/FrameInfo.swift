@@ -1,13 +1,5 @@
 import CoreGraphics
 
-// If feature we can wrap document's data in frame and make array of frames
-//public struct Frame {
-
-//    public var controls: [any AccessibilityView] = []
-//    public var image: Image?
-//    public var frameInfo: FrameInfo
-//}
-
 import Foundation
 
 /// Data transfer object that represents file structure
@@ -38,18 +30,18 @@ public class Frame: AccessibilityView {
     public var frame: CGRect
     
     /// In absolute coordinates
-    public var controls: [any AccessibilityView]
+    public var elements: [any AccessibilityView]
     
     public init(
         label: String,
         image: Image,
         frame: CGRect,
-        controls: [any AccessibilityView]
+        elements: [any AccessibilityView]
     ) {
         self.label = label
         self.image = image
         self.frame = frame
-        self.controls = controls
+        self.elements = elements
     }
 
     // MARK: AccessibilityView
