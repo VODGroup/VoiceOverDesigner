@@ -154,7 +154,7 @@ extension NavigatorController: NSOutlineViewDataSource {
         switch item {
         case .none:
             // Top-level frames
-            return document.artboard.frames.count
+            return document.artboard.frames.count + document.artboard.controlsWithoutFrames.count
         case let frame as Frame:
             // Containers
             return frame.elements.count
@@ -173,7 +173,12 @@ extension NavigatorController: NSOutlineViewDataSource {
     ) -> Any {
         switch item {
         case .none:
-            return document.artboard.frames[index]
+            if index < document.artboard.frames.count {
+                return document.artboard.frames[index]
+            } else {
+                let controlIndex = index - document.artboard.frames.count
+                return document.artboard.controlsWithoutFrames[controlIndex]
+            }
         case let frame as Frame:
             return frame.elements[index]
         case let container as A11yContainer:
@@ -215,8 +220,6 @@ extension NavigatorController: NSOutlineViewDelegate {
         guard outlineView.selectedRowIndexes.count == 1 else {
             return // Not forward multiple selection to whole app
         }
-        
-    
         
         let selectedItem = outlineView.item(atRow: outlineView.selectedRow)
         if let element = selectedItem as? any ArtboardElement  {
