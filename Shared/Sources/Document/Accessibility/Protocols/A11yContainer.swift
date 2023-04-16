@@ -1,6 +1,18 @@
 import Foundation
+import Artboard
 
-public class A11yContainer: Codable, AccessibilityContainer, ObservableObject {
+extension A11yContainer: ArtboardContainer {
+    public var elements: [any ArtboardElement] {
+        get {
+            controls
+        }
+        set(newValue) {
+            controls = newValue as! [A11yDescription]
+        }
+    }
+}
+
+public class A11yContainer: Codable, ObservableObject {
     public init(
         id: UUID = UUID(),
         elements: [A11yDescription],
@@ -12,7 +24,7 @@ public class A11yContainer: Codable, AccessibilityContainer, ObservableObject {
         containerType: ContainerType = .semanticGroup,
         navigationStyle: NavigationStyle = .automatic
     ) {
-        self.elements = elements
+        self.controls = elements
         self.frame = frame
         self.label = label
         self.containerType = containerType
@@ -25,7 +37,9 @@ public class A11yContainer: Codable, AccessibilityContainer, ObservableObject {
     }
 
     public static func ==(lhs: A11yContainer, rhs: A11yContainer) -> Bool {
-        lhs.frame == rhs.frame && lhs.elements == rhs.elements && lhs.label == rhs.label
+        lhs.frame == rhs.frame
+        && lhs.controls == rhs.controls
+        && lhs.label == rhs.label
     }
 
     @DecodableDefault.RandomUUID
@@ -37,7 +51,7 @@ public class A11yContainer: Codable, AccessibilityContainer, ObservableObject {
     public var label: String {
         willSet { objectWillChange.send() }
     }
-    public var type: AccessibilityViewTypeDto = .container
+    public var type: ArtboardType = .container
     
     
     @DecodableDefault.False
@@ -101,22 +115,22 @@ public class A11yContainer: Codable, AccessibilityContainer, ObservableObject {
     
     
     public func contains(_ element: A11yDescription) -> Bool {
-        elements.contains(element)
+        controls.contains(element)
     }
     
     @discardableResult
     public func remove(_ element: A11yDescription) -> Int? {
-        elements.remove(element)
+        controls.remove(element)
     }
 }
 
 extension A11yContainer {
     /**
-     Flattens container to array of ``AccessibilityView``
-     - returns: An array of any AccessibilityView
+     Flattens container to array of ``ArtboardElement``
+     - returns: An array of any ArtboardElement
      */
-    public func flattenWithElements() -> [any AccessibilityView] {
-        [self] + elements
+    public func flattenWithElements() -> [any ArtboardElement] {
+        [self] + controls
     }
 }
 
@@ -124,8 +138,9 @@ public enum A11yElement: Codable {
     case description(A11yDescription)
     case container(A11yContainer)
 }
-extension AccessibilityView {
-    public func copy() -> any AccessibilityView {
+
+extension ArtboardElement {
+    public func copy() -> any ArtboardElement {
         switch self.cast {
         case .frame(let frame):
             // TODO: Implement copying
@@ -137,7 +152,7 @@ extension AccessibilityView {
         }
     }
     
-    public func copyWithoutLabel() -> any AccessibilityView {
+    public func copyWithoutLabel() -> any ArtboardElement {
         let copy = self.copy()
         copy.label = ""
         return copy

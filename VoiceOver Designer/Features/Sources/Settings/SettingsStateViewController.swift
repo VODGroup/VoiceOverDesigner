@@ -94,7 +94,7 @@ extension SettingsStateViewController: PurchaseUnlockerDelegate {
 import TextRecognition
 extension SettingsStateViewController {
     
-    func recognizeText(for model: any AccessibilityView) {
+    func recognizeText(for model: any ArtboardElement) {
         guard textRecognitionUnlockPresenter.isUnlocked() else { return }
         
         Task {

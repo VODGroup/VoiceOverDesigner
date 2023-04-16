@@ -168,7 +168,7 @@ public class CanvasViewController: NSViewController {
         presenter.publishControlChanges()
     }
     
-    public func delete(model: any AccessibilityView) {
+    public func delete(model: any ArtboardElement) {
         presenter.remove(model)
     }
     
@@ -204,7 +204,7 @@ public class CanvasViewController: NSViewController {
 
 extension CanvasViewController {
     public func image(
-        for model: any AccessibilityView
+        for model: any ArtboardElement
     ) async -> CGImage? {
         guard let control = view().control(for: model)
         else { return nil }

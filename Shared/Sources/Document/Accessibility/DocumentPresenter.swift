@@ -1,7 +1,8 @@
 import Foundation
 import Combine
+import Artboard
 
-public typealias OptionalDescriptionSubject = CurrentValueSubject<(any AccessibilityView)?, Never>
+public typealias OptionalDescriptionSubject = CurrentValueSubject<(any ArtboardElement)?, Never>
 
 /**
  Top level object that controls abstract VODesignDocumentProtocol
@@ -21,7 +22,7 @@ open class DocumentPresenter {
     
     /// Conrols should be changed only from this presenter to suppont undoing
     @available(*, deprecated, message: "Use `artboard`")
-    private(set) var controls: [any AccessibilityView] {
+    private(set) var controls: [any ArtboardElement] {
         set {
             let oldValue = document.controls
             
@@ -51,7 +52,7 @@ open class DocumentPresenter {
         document.addFrame(with: image)
     }
     
-    public func append(control: any AccessibilityView) {
+    public func append(control: any ArtboardElement) {
         let frameThatOverlaps = document.artboard.frames.first { frame in
             frame.frame.intersects(control.frame)
         }
@@ -64,7 +65,7 @@ open class DocumentPresenter {
         }
     }
     
-    open func remove(_ model: any AccessibilityView) {
+    open func remove(_ model: any ArtboardElement) {
         guard let (parent, index) = document.artboard.remove(model)
         else { return }
         
@@ -85,7 +86,7 @@ open class DocumentPresenter {
     }
     
     private func insert(
-        model: any AccessibilityView,
+        model: any ArtboardElement,
         at instertionIndex: Int
     ) {
         controls.insert(model, at: instertionIndex)
@@ -94,7 +95,7 @@ open class DocumentPresenter {
     
     @discardableResult
     public func wrapInContainer(
-        _ elements: [any AccessibilityView]
+        _ elements: [any ArtboardElement]
     ) -> A11yContainer? {
         controls.wrapInContainer(
             elements.extractElements(),
@@ -112,11 +113,11 @@ extension DocumentPresenter {
         self.document.artboard.controlsWithoutFrames = elements
     }
     
-    public var firstFrameControls: [any AccessibilityView] {
+    public var firstFrameControls: [any ArtboardElement] {
         document.artboard.frames.first?.elements ?? []
     }
     
-    public var controlsWithoutFrame: [any AccessibilityView] {
+    public var controlsWithoutFrame: [any ArtboardElement] {
         document.artboard.controlsWithoutFrames
     }
 }

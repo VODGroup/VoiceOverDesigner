@@ -1,7 +1,7 @@
 extension DecodableDefault {
     public typealias EmptyCustomActions = DecodableDefault.Wrapper<Sources.EmptyCustomActions>
     public typealias EmptyCustomDescriptions = DecodableDefault.Wrapper<Sources.EmptyCustomDescriptions>
-    public typealias ElementAccessibilityViewType = DecodableDefault.Wrapper<AccessibilityViewTypeDto>
+    public typealias ElementArtboardElementType = DecodableDefault.Wrapper<ArtboardType>
     public typealias ContainerType = DecodableDefault.Wrapper<A11yContainer.ContainerType>
     public typealias NavigationStyle = DecodableDefault.Wrapper<A11yContainer.NavigationStyle>
 }
@@ -17,8 +17,8 @@ extension DecodableDefault.Sources {
 }
 
 
-extension AccessibilityViewTypeDto: DecodableDefaultSource {
-    public static var defaultValue: AccessibilityViewTypeDto = .element
+extension ArtboardType: DecodableDefaultSource {
+    public static var defaultValue: ArtboardType = .element
 }
 
 extension A11yContainer.ContainerType: DecodableDefaultSource {

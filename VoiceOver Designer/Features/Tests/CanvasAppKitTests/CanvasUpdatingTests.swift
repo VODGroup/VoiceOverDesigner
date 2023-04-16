@@ -40,6 +40,6 @@ class CanvasUpdatingTests: CanvasPresenterTests {
             controls.append(.empty(frame: .zero))
         }
         
-        sut.update(controls: controls)
+        sut.update(elements: controls)
     }
 }

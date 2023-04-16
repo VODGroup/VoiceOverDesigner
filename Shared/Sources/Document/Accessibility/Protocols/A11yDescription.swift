@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreGraphics
+import Artboard
 
 #if canImport(UIKit)
     import UIKit
@@ -22,7 +23,7 @@ import CoreGraphics
     }
 #endif
 
-public class A11yDescription: Codable, Equatable, ObservableObject {
+public class A11yDescription: Codable, Equatable, ObservableObject, ArtboardElement {
     public static func == (lhs: A11yDescription, rhs: A11yDescription) -> Bool {
         lhs.frame == rhs.frame // It looks that we can't have two instances with same frame it it's uniquely enough
     }
@@ -100,8 +101,8 @@ public class A11yDescription: Codable, Equatable, ObservableObject {
     @Published public var trait: A11yTraits
     @Published public var frame: CGRect
     
-    @DecodableDefault.ElementAccessibilityViewType
-    public var type: AccessibilityViewTypeDto
+    @DecodableDefault.ElementArtboardElementType
+    public var type: ArtboardType
     
     // MARK: - Adjustable
     @Published
@@ -172,5 +173,3 @@ public class A11yDescription: Codable, Equatable, ObservableObject {
         )
     }
 }
-
-extension A11yDescription: AccessibilityElement {}

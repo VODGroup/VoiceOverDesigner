@@ -1,13 +1,14 @@
 import XCTest
 import Document
+import Artboard
 
-final class AccessibilityViewArrayGroupingTests: XCTestCase {
+final class ArtboardElementArrayGroupingTests: XCTestCase {
     
     var item1: A11yDescription!
     var item2: A11yDescription!
     var item3: A11yDescription!
     
-    var array: [any AccessibilityView]!
+    var array: [any ArtboardElement]!
     
     override func setUp() {
         super.setUp()
@@ -64,10 +65,10 @@ final class AccessibilityViewArrayGroupingTests: XCTestCase {
         
         XCTAssertEqual(array.count, 2)
         let container1 = try XCTUnwrap(array.first as? A11yContainer)
-        XCTAssertEqual(container1.elements, [item1, item2])
+        XCTAssertEqual(container1.controls, [item1, item2])
         
         let container2 = try XCTUnwrap(array.last as? A11yContainer)
-        XCTAssertEqual(container2.elements, [item3])
+        XCTAssertEqual(container2.controls, [item3])
     }
     
     func test_whenExtractLastElementFromContainer_shouldRemoveContainer() throws {
@@ -78,7 +79,7 @@ final class AccessibilityViewArrayGroupingTests: XCTestCase {
         
         XCTAssertEqual(array.count, 1)
         let container1 = try XCTUnwrap(array.first as? A11yContainer)
-        XCTAssertEqual(container1.elements, [item1, item2, item3])
+        XCTAssertEqual(container1.controls, [item1, item2, item3])
     }
     
     func test_unwrapContainer_addsElementsCorrectly_andRemovesContainer() throws {

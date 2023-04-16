@@ -6,7 +6,7 @@ import Combine
 public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
     
     // MARK: - Data
-    public var elements: [any AccessibilityView] = []
+    public var elements: [any ArtboardElement] = []
     public var image: Image?
     public var frameInfo: FrameInfo = .default
     

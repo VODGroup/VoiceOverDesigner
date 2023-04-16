@@ -58,7 +58,7 @@ class FakeSettingsDelegate: SettingsDelegate {
        didUpdateValue = true
     }
     
-    func delete(model: any AccessibilityView) {
+    func delete(model: any ArtboardElement) {
         
     }
 }

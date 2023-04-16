@@ -4,7 +4,7 @@ import CustomDump
 
 class A11yDescriptionArrayTests: XCTestCase {
     
-    var sut: [any AccessibilityView] = []
+    var sut: [any ArtboardElement] = []
     var el1: A11yDescription!
     var el2: A11yDescription!
     var el3: A11yDescription!
@@ -24,7 +24,7 @@ class A11yDescriptionArrayTests: XCTestCase {
     }
 }
 
-extension Array where Element == any AccessibilityView {
+extension Array where Element == any ArtboardElement {
     func assert(
         labels: String...,
         file: StaticString = #file, line: UInt = #line
@@ -44,7 +44,7 @@ extension Array where Element == any AccessibilityView {
                     return container.label
                 }
                 
-                let elementsDescription = (container.elements as [any AccessibilityView])
+                let elementsDescription = (container.elements as [any ArtboardElement])
                     .recursiveDescription()
                     .joined(separator: ", ")
                 return "\(container.label): \(elementsDescription)"

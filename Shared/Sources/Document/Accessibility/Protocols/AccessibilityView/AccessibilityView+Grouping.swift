@@ -1,6 +1,6 @@
 import Foundation
 
-extension Array where Element == any AccessibilityView {
+extension Array where Element == any ArtboardElement {
     
     @discardableResult
     public mutating func wrapInContainer(
@@ -91,7 +91,7 @@ extension Array where Element == CGRect {
     }
 }
 
-public extension Array where Element == any AccessibilityView {
+public extension Array where Element == any ArtboardElement {
     func container(for description: A11yDescription) -> A11yContainer? {
         extractContainers().first(where: {
             $0.contains(description)
@@ -100,7 +100,7 @@ public extension Array where Element == any AccessibilityView {
 }
 
 
-public extension Array where Element == any AccessibilityView {
+public extension Array where Element == any ArtboardElement {
     
     // Delete only top-level elements
     @discardableResult
@@ -130,9 +130,9 @@ public extension Array where Element == any AccessibilityView {
 }
 
 extension Artboard {
-    public typealias InsertionContext = ((any AccessibilityContainer)?, Int)
+    public typealias InsertionContext = ((any ArtboardContainer)?, Int)
     public func remove(
-        _ model: any AccessibilityView
+        _ model: any ArtboardElement
     ) -> InsertionContext? {
 //        if let parent = model.parent {
 //            if let insertionIndex = parent.elements.remove(model) {

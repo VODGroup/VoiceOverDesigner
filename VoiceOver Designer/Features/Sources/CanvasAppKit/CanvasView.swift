@@ -118,7 +118,7 @@ class CanvasView: FlippedView {
     }
     
     func control(
-        for model: any AccessibilityView
+        for model: any ArtboardElement
     ) -> A11yControlLayer? {
         contentView
             .drawnControls

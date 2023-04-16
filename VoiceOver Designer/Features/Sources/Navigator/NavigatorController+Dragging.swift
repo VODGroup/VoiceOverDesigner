@@ -23,7 +23,7 @@ extension NavigatorController {
     }
     
     public func outlineView(_ outlineView: NSOutlineView, draggingSession session: NSDraggingSession, willBeginAt screenPoint: NSPoint, forItems draggedItems: [Any]) {
-        draggedNode = draggedItems[0] as? any AccessibilityView
+        draggedNode = draggedItems[0] as? any ArtboardElement
         session.draggingPasteboard.setData(Data(), forType: REORDER_PASTEBOARD_TYPE)
     }
     
@@ -33,7 +33,7 @@ extension NavigatorController {
     
     public func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex toIndex: Int) -> Bool {
         if toIndex == NSOutlineViewDropOnItemIndex,
-           let onElement = item as? any AccessibilityView {
+           let onElement = item as? any ArtboardElement {
 
             document.controls.wrapInContainer(
                 [draggedNode!, onElement].extractElements(),

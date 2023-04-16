@@ -36,13 +36,25 @@ let package = Package(
     ],
     targets: [
         .target(
+            name: "Artboard"
+        ),
+        .testTarget(
+            name: "ArtboardTests",
+            dependencies: [
+                "Artboard"
+            ]
+        ),
+        .target(
             name: "Document",
             dependencies: [
+                "Artboard",
                 .productItem(name: "CustomDump", package: "swift-custom-dump"),
             ]),
         .target(
             name: "DocumentTestHelpers",
-            dependencies: ["Document"],
+            dependencies: [
+                "Artboard",
+                "Document"],
             path: "TestHelpers/DocumentTestHelpers",
             resources: [
                 .process("Samples/screenWith3xScale.png"),
