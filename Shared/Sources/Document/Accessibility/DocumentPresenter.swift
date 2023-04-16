@@ -58,11 +58,13 @@ open class DocumentPresenter {
         }
         
         if let frameThatOverlaps {
-//            control.parent = frameThatOverlaps
+            control.parent = frameThatOverlaps
             frameThatOverlaps.elements.append(control)
         } else {
             document.artboard.controlsWithoutFrames.append(control)
         }
+        
+        publishControlChanges()
     }
     
     open func remove(_ model: any ArtboardElement) {
