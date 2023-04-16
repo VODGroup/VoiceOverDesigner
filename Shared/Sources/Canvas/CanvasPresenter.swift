@@ -32,9 +32,8 @@ public class CanvasPresenter: DocumentPresenter {
         self.drawingController = DrawingController(view: uiContent)
         self.document.previewSource = previewSource
         
-        drawingController.drawFrames(
-            document.artboard.frames,
-            controlsWithoutFrame: document.artboard.controlsWithoutFrames,
+        drawingController.draw(
+            artboard: document.artboard,
             scale: scale)
         
         uiScroll.fitToWindow(animated: true)
@@ -64,9 +63,8 @@ public class CanvasPresenter: DocumentPresenter {
     
     private func redraw(artboard: Artboard) {
         drawingController.view.removeAll()
-        drawingController.drawFrames(
-            artboard.frames,
-            controlsWithoutFrame: artboard.controlsWithoutFrames,
+        drawingController.draw(
+            artboard: artboard,
             scale: scale)
         updateSelectedControl(selectedPublisher.value)
     }
@@ -88,9 +86,7 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     
-    public func mouseMoved(on location: CGPoint) {
-        guard document.image != nil else { return }
-        
+    public func mouseMoved(on location: CGPoint) {        
         drawingController.mouseMoved(on: location,
                                      selectedControl: selectedControl)
     }

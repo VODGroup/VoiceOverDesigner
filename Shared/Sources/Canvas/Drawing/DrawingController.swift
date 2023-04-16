@@ -39,17 +39,17 @@ public class DrawingController {
     /// Draw all elements and containers on screen
     /// - Parameters:
     ///   - scale: Relative scale to fit controls on screen. Is neede for Preview
-    public func drawFrames(
-        _ frames: [Frame],
-        controlsWithoutFrame: [any AccessibilityView],
+    public func draw(
+        artboard: Artboard,
         scale: CGFloat
     ) {
-        for frame in frames {
+        for frame in artboard.frames {
             draw(frame: frame, scale: scale)
         }
         
         drawControlsAndContainers(
-            controls: controlsWithoutFrame, scale: scale)
+            controls: artboard.controlsWithoutFrames,
+            scale: scale)
         
         view.invalidateIntrinsicContentSize()
     }

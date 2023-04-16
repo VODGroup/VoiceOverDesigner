@@ -33,7 +33,7 @@ extension VODesignDocumentProtocol {
         frameWrapper.addFileWrapper(try controlsWrapper(for: frame.controls))
 
         if frameWrapper.fileWrappers?[FileName.screen] == nil,
-           let imageWrapper = imageWrapper() {
+           let imageWrapper = imageWrapper(frame: frame) {
             frameWrapper.addFileWrapper(imageWrapper)
         }
 
@@ -84,9 +84,8 @@ extension VODesignDocumentProtocol {
         return wrapper
     }
     
-    private func imageWrapper() -> FileWrapper? {
-        guard let image = image,
-              let imageData = image.png()
+    private func imageWrapper(frame: Frame) -> FileWrapper? {
+        guard let imageData = frame.image.png()
         else { return nil }
         
         let imageWrapper = FileWrapper(regularFileWithContents: imageData)
@@ -96,7 +95,7 @@ extension VODesignDocumentProtocol {
     }
     
     private func previewWrapper() -> FileWrapper? {
-        guard let image = previewSource?.previewImage() ?? image,
+        guard let image = previewSource?.previewImage(), // TODO: Provide default image
               let imageData = image.heic(compressionQuality: 0.51)
         else { return nil }
         
