@@ -1,7 +1,8 @@
 import Foundation
 import Artboard
 
-extension A11yContainer: ArtboardContainer {
+extension A11yContainer: ArtboardContainer, InstantiatableContainer {
+    
     public var elements: [any ArtboardElement] {
         get {
             controls
@@ -13,7 +14,7 @@ extension A11yContainer: ArtboardContainer {
 }
 
 public class A11yContainer: Codable, ObservableObject {
-    
+
     required convenience public init(
         elements: [any ArtboardElement],
         frame: CGRect,
@@ -61,7 +62,7 @@ public class A11yContainer: Codable, ObservableObject {
         willSet { objectWillChange.send() }
     }
     public var type: ArtboardType = .container
-    
+    public weak var parent: (any ArtboardContainer)? = nil
     
     @DecodableDefault.False
     public var isModal: Bool {
@@ -130,6 +131,41 @@ public class A11yContainer: Codable, ObservableObject {
     @discardableResult
     public func remove(_ element: any ArtboardElement) -> Int? {
         elements.remove(element)
+    }
+    
+    enum CodingKeys: CodingKey {
+        case label
+        case frame
+        
+        case controls
+        
+        case isModal
+        case isTabTrait
+        case isEnumerated
+        case containerType
+        case navigationStyle
+    }
+    
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.label = try container.decode(String.self, forKey: .label)
+        self.frame = try container.decode(CGRect.self, forKey: .frame)
+        self.controls = try container.decode([A11yDescription].self, forKey: .controls)
+        self.isModal = try container.decode(Bool.self, forKey: .isModal)
+        self.isEnumerated = try container.decode(Bool.self, forKey: .isEnumerated)
+        self.containerType = try container.decode(ContainerType.self, forKey: .containerType)
+        self.navigationStyle = try container.decode(NavigationStyle.self, forKey: .navigationStyle)
+        
+        for control in controls {
+            control.parent = self
+        }
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        fatalError()
     }
 }
 

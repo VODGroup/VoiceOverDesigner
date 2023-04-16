@@ -103,6 +103,7 @@ public class A11yDescription: Codable, Equatable, ObservableObject, ArtboardElem
     
     @DecodableDefault.ElementArtboardElementType
     public var type: ArtboardType
+    public weak var parent: (any ArtboardContainer)?
     
     // MARK: - Adjustable
     @Published

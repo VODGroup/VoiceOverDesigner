@@ -4,7 +4,7 @@ import Artboard
 extension Array where Element == any ArtboardElement {
     
     @discardableResult
-    public mutating func wrap<Container: ArtboardContainer>(
+    public mutating func wrap<Container: ArtboardContainer & InstantiatableContainer>(
         in type: Container.Type,
         _ items: [any ArtboardElement],
         label:  String
@@ -135,17 +135,17 @@ extension Artboard {
     public func remove(
         _ model: any ArtboardElement
     ) -> InsertionContext? {
-//        if let parent = model.parent {
-//            if let insertionIndex = parent.elements.remove(model) {
-//                return (parent, insertionIndex)
-//            }
-//        } else {
-//            if let insertionIndex = controlsWithoutFrames.remove(model) {
-//                return (nil, insertionIndex)
-//            }
-//        }
-//        
-//        assertionFailure("Can't find parent to remove")
+        if let parent = model.parent {
+            if let insertionIndex = parent.elements.remove(model) {
+                return (parent, insertionIndex)
+            }
+        } else {
+            if let insertionIndex = controlsWithoutFrames.remove(model) {
+                return (nil, insertionIndex)
+            }
+        }
+        
+        assertionFailure("Can't find parent to remove")
         return nil // Can't find to remove
     }
 }
