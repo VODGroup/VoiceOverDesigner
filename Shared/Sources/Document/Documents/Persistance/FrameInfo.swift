@@ -38,7 +38,7 @@ public class Frame: AccessibilityView {
     public var frame: CGRect
     
     /// In absolute coordinates
-    public let controls: [any AccessibilityView]
+    public var controls: [any AccessibilityView]
     
     public init(
         label: String,
