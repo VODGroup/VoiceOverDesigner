@@ -16,7 +16,6 @@ class CanvasPresenterTests: XCTestCase {
         uiScrollSpy = CanvasScrollViewSpy()
         
         document = DocumentFake()
-        document.image = Image()
         
         sut = CanvasPresenter(document: document)
     }
@@ -95,10 +94,6 @@ extension CanvasPresenterTests {
     ) async throws -> (any AccessibilityView)? {
         return try await awaitPublisher(sut.selectedPublisher,
                                         file: file, line: line)
-    }
-    
-    func removeImage() {
-        document.image = nil
     }
 }
 

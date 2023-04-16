@@ -6,6 +6,8 @@ public class Sample {
     
     public init() {}
     
+    public static var image3xScale = "screenWith3xScale.png"
+    
     public func image(name: String) -> Image? {
 #if os(macOS)
         return Bundle.module.image(forResource: name)

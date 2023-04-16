@@ -14,7 +14,6 @@ final class DocumentPresenterTests: XCTestCase {
         super.setUp()
 
         document = DocumentFake()
-        document.image = Image()
         
         sut = DocumentPresenter(document: document)
         

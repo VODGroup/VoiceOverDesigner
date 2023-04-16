@@ -46,7 +46,7 @@ open class DocumentPresenter {
     
     // MARK:
     public func update(image: Image) {
-        document.image = image
+        document.addFrame(with: image)
     }
     
     public func append(control: any AccessibilityView) {

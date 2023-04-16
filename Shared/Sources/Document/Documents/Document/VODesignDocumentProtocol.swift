@@ -4,10 +4,6 @@ import Combine
 public protocol VODesignDocumentProtocol: AnyObject {
     
     // MARK: - Data
-    
-    var image: Image? { get set }
-    var imageSize: CGSize { get }
-    
     var artboard: Artboard { get set }
     var frameInfo: FrameInfo { get set }
     
@@ -35,9 +31,7 @@ extension VODesignDocumentProtocol {
 }
 
 extension VODesignDocumentProtocol {
-    public func updateImage(_ newImage: Image) {
-        image = newImage
-        
+    public func addFrame(with newImage: Image) {
         let frame = Frame(image: newImage)
         artboard.frames.append(frame)
         
