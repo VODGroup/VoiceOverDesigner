@@ -11,7 +11,7 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
 
     // MARK: - Data
     @available(*, deprecated, message: "Use `artboard`")
-    public var controls: [any AccessibilityView] = []
+    public var elements: [any AccessibilityView] = []
     public var image: Image?
     public var imageSize: CGSize {
         guard let image else { return .zero }

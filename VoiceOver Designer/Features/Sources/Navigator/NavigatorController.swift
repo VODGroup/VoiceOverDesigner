@@ -156,7 +156,7 @@ extension NavigatorController: NSOutlineViewDataSource {
             return document.artboard.frames.count
         case let frame as Frame:
             // Containers
-            return frame.controls.count
+            return frame.elements.count
         case let container as A11yContainer:
             // Elements
             return container.elements.count
@@ -174,7 +174,7 @@ extension NavigatorController: NSOutlineViewDataSource {
         case .none:
             return document.artboard.frames[index]
         case let frame as Frame:
-            return frame.controls[index]
+            return frame.elements[index]
         case let container as A11yContainer:
             return container.elements[index]
         default:

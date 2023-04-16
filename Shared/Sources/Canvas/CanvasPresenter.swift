@@ -107,11 +107,11 @@ public class CanvasPresenter: DocumentPresenter {
             select(control: click.control)
             
         case let new as NewControlAction:
-            add(new.control.model!)
+            append(control: new.control.model!)
             select(control: new.control)
             
         case let copy as CopyAction:
-            add(copy.control.model!)
+            append(control: copy.control.model!)
             select(control: copy.control)
             
         case let translate as TranslateAction:

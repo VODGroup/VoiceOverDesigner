@@ -9,7 +9,7 @@ final class DocumentVersionsTests: XCTestCase {
         let document = try XCTUnwrap(Sample()
             .document(name: "BetaVersionFormat"))
         
-        XCTAssertEqual(document.controls.count, 12)
+        XCTAssertEqual(document.elements.count, 12)
         XCTAssertNotNil(document.image)
         XCTAssertEqual(document.frameInfo.imageScale, 1, "Old format doesn't know about scale")
     }
@@ -30,7 +30,7 @@ final class DocumentVersionsTests: XCTestCase {
         
         XCTAssertFalse(document.isBetaStructure)
         
-        XCTAssertEqual(document.controls.count, 12)
+        XCTAssertEqual(document.elements.count, 12)
         XCTAssertNotNil(document.image)
         XCTAssertEqual(document.frameInfo.imageScale, 3)
     }
@@ -64,7 +64,7 @@ final class DocumentVersionsTests: XCTestCase {
         await document.read()
 
         await MainActor.run(body: {
-            XCTAssertEqual(document.controls.count, 12)
+            XCTAssertEqual(document.elements.count, 12)
             XCTAssertNotNil(document.image)
             XCTAssertEqual(document.frameInfo.imageScale, 1, "Old format doesn't know about scale")
         })
@@ -77,7 +77,7 @@ final class DocumentVersionsTests: XCTestCase {
         await document.read()
 
         await MainActor.run(body: {
-            XCTAssertEqual(document.controls.count, 12)
+            XCTAssertEqual(document.elements.count, 12)
             XCTAssertNotNil(document.image)
             XCTAssertEqual(document.frameInfo.imageScale, 3)
         })

@@ -58,6 +58,6 @@ extension Frame {
                   image: image,
                   frame: CGRect(origin: .zero,
                                 size: image.size),
-                  controls: [])
+                  elements: [])
     }
 }

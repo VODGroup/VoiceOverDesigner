@@ -30,7 +30,7 @@ extension VODesignDocumentProtocol {
         
         // Just invalidate controls every time to avoid lose of user's data
         frameWrapper.invalidateIfPossible(file: FileName.controls)
-        frameWrapper.addFileWrapper(try controlsWrapper(for: frame.controls))
+        frameWrapper.addFileWrapper(try controlsWrapper(for: frame.elements))
 
         if frameWrapper.fileWrappers?[FileName.screen] == nil,
            let imageWrapper = imageWrapper(frame: frame) {
@@ -180,7 +180,7 @@ extension VODesignDocumentProtocol {
         return Frame(label: frameWrapper.filename ?? UUID().uuidString, 
                      image: image!,
                      frame: frame,
-                     controls: controls)
+                     elements: controls)
     }
     
     private func recreateDocumentWrapper() {

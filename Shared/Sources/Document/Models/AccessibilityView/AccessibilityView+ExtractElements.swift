@@ -7,7 +7,7 @@ extension Array where Element == any AccessibilityView {
             
             switch next.cast {
             case .frame(let frame):
-                newResult.append(contentsOf: frame.controls.extractElements())
+                newResult.append(contentsOf: frame.elements.extractElements())
             case .container(let container):
                 newResult.append(contentsOf: container.elements)
             case .element(let element):

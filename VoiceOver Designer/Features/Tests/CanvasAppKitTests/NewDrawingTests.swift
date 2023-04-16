@@ -75,7 +75,7 @@ class NewDrawingTests: CanvasAfterDidLoadTests {
         sut.mouseUp(on: end60)
         
         let frame = try XCTUnwrap(document.artboard.frames.first)
-        XCTAssertEqual(frame.controls.count, 1)
+        XCTAssertEqual(frame.elements.count, 1)
         
         XCTAssertEqual(document.artboard.controlsWithoutFrames.count, 0)
     }
