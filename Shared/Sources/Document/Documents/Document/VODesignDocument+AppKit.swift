@@ -12,11 +12,7 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
     // MARK: - Data
     @available(*, deprecated, message: "Use `artboard`")
     public var elements: [any ArtboardElement] = []
-    public var image: Image?
-    public var imageSize: CGSize {
-        guard let image else { return .zero }
-        return image.size
-    }
+
     public var frameInfo: FrameInfo = .default
     
     public var artboard: Artboard = Artboard()

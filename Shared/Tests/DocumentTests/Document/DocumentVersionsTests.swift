@@ -10,7 +10,7 @@ final class DocumentVersionsTests: XCTestCase {
             .document(name: "BetaVersionFormat"))
         
         XCTAssertEqual(document.elements.count, 12)
-        XCTAssertNotNil(document.image)
+        XCTAssertNotNil(document.artboard.frames.first?.image)
         XCTAssertEqual(document.frameInfo.imageScale, 1, "Old format doesn't know about scale")
     }
 
@@ -31,7 +31,7 @@ final class DocumentVersionsTests: XCTestCase {
         XCTAssertFalse(document.isBetaStructure)
         
         XCTAssertEqual(document.elements.count, 12)
-        XCTAssertNotNil(document.image)
+        XCTAssertNotNil(document.artboard.frames.first?.image)
         XCTAssertEqual(document.frameInfo.imageScale, 3)
     }
     
