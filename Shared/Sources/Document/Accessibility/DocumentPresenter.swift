@@ -47,6 +47,14 @@ open class DocumentPresenter {
     
     public let selectedPublisher = OptionalDescriptionSubject(nil)
     
+    public func select(_ element: any ArtboardElement) {
+        selectedPublisher.send(element)
+    }
+    
+    public func deselect() {
+        selectedPublisher.send(nil)
+    }
+    
     // MARK:
     public func update(image: Image) {
         document.addFrame(with: image)
@@ -68,31 +76,34 @@ open class DocumentPresenter {
     }
     
     open func remove(_ model: any ArtboardElement) {
-        guard let (parent, index) = document.artboard.remove(model)
+        guard let (parent, insertionIndex) = document.artboard.remove(model)
         else { return }
+
+        publishControlChanges()
+        deselect()
         
-        document.undo?.registerUndo(withTarget: self, handler: { presenter in
-//            presenter.insert(model, into: parent, at: index)
+        document.undo?.registerUndo(
+            withTarget: self,
+            handler: { presenter in
+                presenter.restore(model,
+                                  into: parent,
+                                  at: insertionIndex)
         })
+    }
+    
+    private func restore(
+        _ model: any ArtboardElement,
+        into parent: (any ArtboardContainer)?,
+        at insertionIndex: Int
+    ) {
+        if let parent {
+            parent.elements.insert(model, at: insertionIndex)
+        } else {
+            document.artboard.controlsWithoutFrames.insert(model, at: insertionIndex)
+        }
         
         publishControlChanges()
-    }
-    
-    private func insert(
-        _ model: A11yDescription,
-        into container: A11yContainer,
-        at instertionIndex: Int
-    ) {
-        container.elements.insert(model, at: instertionIndex)
-        publishControlChanges()
-    }
-    
-    private func insert(
-        model: any ArtboardElement,
-        at instertionIndex: Int
-    ) {
-        controls.insert(model, at: instertionIndex)
-        publishControlChanges()
+        select(model)
     }
     
     @discardableResult

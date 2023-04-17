@@ -42,6 +42,10 @@ public class A11yContainer: Codable, ObservableObject {
         self.isModal = isModal
         self.isTabTrait = isTabTrait
         self.isEnumerated = isEnumerated
+        
+        for control in controls {
+            control.parent = self
+        }
     }
     
     
