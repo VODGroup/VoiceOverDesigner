@@ -151,11 +151,7 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     public func select(control: A11yControlLayer) {
-        selectedPublisher.send(control.model)
-    }
-    
-    public func deselect() {
-        selectedPublisher.send(nil)
+        super.select(control.model as! (any ArtboardElement))
     }
     
     // MARK: - Labels
