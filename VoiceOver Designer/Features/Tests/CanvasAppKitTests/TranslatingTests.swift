@@ -49,8 +49,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
     // - aligned to 3rd element
     @MainActor
     func test_CopyControlShouldDrawNewControlAndHaveSameProperties() async throws {
-        let copyCommand = ManualCopyCommand()
-        controller.controlsView.copyListener = copyCommand
+        let copyCommand = setupManualCopyCommand()
         
         drawRect_10_60()
         

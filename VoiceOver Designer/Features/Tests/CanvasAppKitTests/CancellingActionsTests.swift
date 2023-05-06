@@ -11,9 +11,7 @@ class CancellingActionsTests: CanvasAfterDidLoadTests {
     
     @MainActor
     func test_CancelCopyActionShouldDeleteCopiedControlAndResetFrame() async throws {
-        let copyCommand = ManualCopyCommand()
-        
-        controller.controlsView.copyListener = copyCommand
+        let copyCommand = setupManualCopyCommand()
         drawRect_10_60()
         
         // Copy
@@ -22,8 +20,8 @@ class CancellingActionsTests: CanvasAfterDidLoadTests {
         pressEsc()
         sut.mouseUp(on: .coord(50))
         
-        XCTAssertEqual(sut.document.controls.count, 1)
-        XCTAssertEqual(sut.document.controls[0].frame, rect10to50)
+        XCTAssertEqual(documentControls.count, 1)
+        XCTAssertEqual(documentControls[0].frame, rect10to50)
     }
     
     @MainActor
@@ -35,8 +33,8 @@ class CancellingActionsTests: CanvasAfterDidLoadTests {
         pressEsc()
         sut.mouseUp(on: .coord(50))
         
-        XCTAssertEqual(sut.document.controls.count, 1)
-        XCTAssertEqual(sut.document.controls[0].frame, rect10to50)
+        XCTAssertEqual(documentControls.count, 1)
+        XCTAssertEqual(documentControls[0].frame, rect10to50)
     }
     
     @MainActor
@@ -45,8 +43,8 @@ class CancellingActionsTests: CanvasAfterDidLoadTests {
         pressEsc()
         sut.mouseUp(on: start10.offset(x: 10, y: 50))
         
-        XCTAssertEqual(sut.document.controls.count, 0)
-        XCTAssertTrue(sut.document.controls.isEmpty)
+        XCTAssertEqual(documentControls.count, 0)
+        XCTAssertTrue(documentControls.isEmpty)
     }
     
     @MainActor
