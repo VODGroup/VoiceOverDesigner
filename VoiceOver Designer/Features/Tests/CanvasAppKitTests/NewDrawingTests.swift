@@ -66,11 +66,11 @@ class NewDrawingTests: CanvasAfterDidLoadTests {
                        rect10to50)
     }
     
-    func test_notCreateControlsWhenDocumentImageNil() {
+    func test_createControlsWhenDocumentImageNil() {
         removeImage()
         sut.mouseDown(on: start10)
         sut.mouseUp(on: end60)
-        XCTAssertNil(drawnControls.first)
+        XCTAssertNotNil(drawnControls.first, "Should create control")
     }
 }
 
