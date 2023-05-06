@@ -89,8 +89,6 @@ public class CanvasViewController: NSViewController {
     
     public override func viewDidAppear() {
         super.viewDidAppear()
-        view().addImageButton.action = #selector(addImageButtonTapped)
-        view().addImageButton.target = self
         
         view.window?.delegate = self
         DispatchQueue.main.async {

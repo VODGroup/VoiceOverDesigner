@@ -66,8 +66,6 @@ public class CanvasPresenter: DocumentPresenter {
     
     // MARK: Mouse
     public func mouseDown(on location: CGPoint) {
-        guard document.image != nil else { return }
-        
         ui.hud.hideHUD()
         drawingController.mouseDown(on: location,
                                     selectedControl: selectedControl)
@@ -79,8 +77,6 @@ public class CanvasPresenter: DocumentPresenter {
     
     
     public func mouseMoved(on location: CGPoint) {
-        guard document.image != nil else { return }
-        
         drawingController.mouseMoved(on: location,
                                      selectedControl: selectedControl)
     }

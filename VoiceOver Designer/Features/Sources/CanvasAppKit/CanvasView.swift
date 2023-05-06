@@ -39,7 +39,6 @@ class CanvasView: FlippedView {
     
     @IBOutlet weak var contentView: NSView!
     @IBOutlet weak var controlsView: ControlsView!
-    @IBOutlet weak var addImageButton: NSButton!
    
     @IBOutlet weak var dragnDropView: DragNDropImageView!
     
@@ -120,7 +119,6 @@ class CanvasView: FlippedView {
     func setImage(_ image: NSImage?) {
         footer.isHidden = image == nil
         dragnDropView.isHidden = image != nil
-        addImageButton.isHidden = image != nil
         
         guard let image = image else {
             return
