@@ -13,24 +13,35 @@ import DocumentTestHelpers
 extension VODesignDocument {
     static func with2Controls(name: String, testCase: XCTestCase) -> VODesignDocument {
         let document = VODesignDocument.testDocument(name: name, testCase: testCase)
-        document.elements = [A11yDescription.testMake(label: "Label1"),
-                             A11yDescription.testMake(label: "Label2")]
+        document.artboard.controlsWithoutFrames = [
+            A11yDescription.testMake(label: "Label1"),
+            A11yDescription.testMake(label: "Label2"),
+        ]
+        return document
+    }
+    
+    static func with2ControlsInFrame(name: String, testCase: XCTestCase) -> VODesignDocument {
+        let document = VODesignDocument.testDocument(name: name, testCase: testCase)
+        document.artboard.frames = [Frame(label: "Frame1", image: nil, frame: .zero, elements: [
+            A11yDescription.testMake(label: "Label1"),
+            A11yDescription.testMake(label: "Label2"),
+        ])]
         return document
     }
 }
 
 class VODesignDocumentPersistanceTests: XCTestCase {
     
-    func testWhenSaveOneDocument_andReadAnotherWithSameName_shouldKeepObjects() throws {
-        throw XCTSkip("Force-unwrap crashes")
+    private func createDocumentAndSave(
+        _ documentSetup: (_ fileName: String) -> VODesignDocument,
+        andLoad: (VODesignDocument) -> Void
+    ) {
         let fileName = "TestFile1"
         
         var document: VODesignDocument?
         
         XCTContext.runActivity(named: "Create document") { _ in
-            document = VODesignDocument.with2Controls(name: fileName, testCase: self)
-            document!.elements = [A11yDescription.testMake(label: "Label1"),
-                                  A11yDescription.testMake(label: "Label2")]
+            document = documentSetup(fileName)
         }
         
         XCTContext.runActivity(named: "Save document and remove from memory") { _ in
@@ -45,11 +56,30 @@ class VODesignDocumentPersistanceTests: XCTestCase {
             let document2 = VODesignDocument(
                 fileName: fileName,
                 rootPath: VODesignDocument.path)
-//            try? document2.read()
             
-            XCTAssertEqual(document2.elements.count, 2, "Should contain controls")
+            andLoad(document2)
         }
     }
+    
+    func test_saveDocumentWithElementsNotInFrames_whenReadByName_shouldKeepObjects() throws {
+        createDocumentAndSave { fileName in
+            VODesignDocument.with2Controls(name: fileName, testCase: self)
+        } andLoad: { document in
+            XCTAssertEqual(document.artboard.controlsWithoutFrames.count, 2, "Should contain controls")
+        }
+    }
+    
+    func test_saveDocumentWithElementsInFrames_whenReadByName_shouldKeepObjects() throws {
+        createDocumentAndSave { fileName in
+            VODesignDocument.with2ControlsInFrame(name: fileName, testCase: self)
+        } andLoad: { document in
+            let frames = document.artboard.frames
+            XCTAssertEqual(frames.count, 1)
+            XCTAssertEqual(frames.first?.elements.count, 2, "Should contain controls")
+        }
+    }
+    
+    // TODO: Add test that check content of artboards
     
     func testWhenSaveNewDocument_shouldHaveCorrectExtensions() throws {
         let document = VODesignDocument.with2Controls(name: "TestFile2", testCase: self)

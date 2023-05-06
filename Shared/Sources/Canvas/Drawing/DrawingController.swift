@@ -86,7 +86,7 @@ public class DrawingController {
     ) -> CALayer {
         let imageLayer = ImageLayer()
         imageLayer.frame = frame.frame
-        imageLayer.image = frame.image.defaultCGImage
+        imageLayer.image = frame.image?.defaultCGImage
         imageLayer.contentsScale = scale
         view.layer?.addSublayer(imageLayer)
         return imageLayer

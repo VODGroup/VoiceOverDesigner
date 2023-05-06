@@ -11,6 +11,10 @@ extension VODesignDocumentProtocol {
             documentWrapper.addFileWrapper(frameWrapper)
         }
         
+        if let controlsWithoutFrame = try? controlsWrapper(for: artboard.controlsWithoutFrames) {
+            documentWrapper.addFileWrapper(controlsWithoutFrame)
+        }
+        
         // Save document's structure
         invalidateWrapperIfPossible(fileInRoot: FileName.document)
         let documentStructureWrapper = try documentStructureFileWrapper()
@@ -85,7 +89,7 @@ extension VODesignDocumentProtocol {
     }
     
     private func imageWrapper(frame: Frame) -> FileWrapper? {
-        guard let imageData = frame.image.png()
+        guard let imageData = frame.image?.png()
         else { return nil }
         
         let imageWrapper = FileWrapper(regularFileWithContents: imageData)
@@ -123,7 +127,7 @@ extension VODesignDocumentProtocol {
         from packageWrapper: FileWrapper
     ) throws {
         guard packageWrapper.isDirectory else {
-            recreateDocumentWrapper()
+            createEmptyDocumentWrappert()
             print("Nothing to read, probably the document was just created")
             return
         }
@@ -138,6 +142,11 @@ extension VODesignDocumentProtocol {
             }
         }
         
+        if let controlsContent = documentWrapper.fileWrappers?[FileName.controls]?.regularFileContents {
+            let codingService = ArtboardElementCodingService()
+            artboard.controlsWithoutFrames = try codingService.controls(from: controlsContent)
+        }
+        
         if isBetaStructure {
             // Reset document wrapper to update file structure
             recreateDocumentWrapper()
@@ -148,7 +157,7 @@ extension VODesignDocumentProtocol {
         print("Read wrapper \(frameWrapper.filename)")
         let frameFolder = frameWrapper.fileWrappers!
 
-        var controls: [any ArtboardElement]!
+        var controls: [any ArtboardElement] = []
         if
             let controlsWrapper = frameFolder[FileName.controls],
             let controlsData = controlsWrapper.regularFileContents
@@ -178,16 +187,24 @@ extension VODesignDocumentProtocol {
                   size: image?.size ?? defaultFrameSize) // TODO: Add image's scale
         
         return Frame(label: frameWrapper.filename ?? UUID().uuidString, 
-                     image: image!,
+                     image: image,
                      frame: frame,
                      elements: controls)
     }
     
-    private func recreateDocumentWrapper() {
+    private func createEmptyDocumentWrappert() {
         self.documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
+    }
+    
+    private func addEmptyFrameWrapper() {
         let frameWrapper = FileWrapper(directoryWithFileWrappers: [:])
         frameWrapper.preferredFilename = defaultFrameName
         self.documentWrapper.addFileWrapper(frameWrapper)
+    }
+    
+    private func recreateDocumentWrapper() {
+        createEmptyDocumentWrappert()
+        addEmptyFrameWrapper()
     }
     
     func invalidateWrapperIfPossible(fileInRoot: String) {
