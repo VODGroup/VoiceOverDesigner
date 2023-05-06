@@ -5,12 +5,13 @@ import DocumentTestHelpers
 final class DocumentVersionsTests: XCTestCase {
 
 #if os(macOS)
-    func test_canReadDocumentWithoutFrameFolder() throws {
-        let document = try XCTUnwrap(Sample()
-            .document(name: "BetaVersionFormat"))
+    func test_betaDocument_whenReads_shouldMoveElementsToFirstFrame() throws {
+        let document = try XCTUnwrap(Sample().document(name: "BetaVersionFormat"))
         
-        XCTAssertEqual(document.elements.count, 12)
-        XCTAssertNotNil(document.artboard.frames.first?.image)
+        let frame = try XCTUnwrap(document.artboard.frames.first)
+        
+        XCTAssertEqual(frame.elements.count, 12)
+        XCTAssertNotNil(frame.image)
         XCTAssertEqual(document.frameInfo.imageScale, 1, "Old format doesn't know about scale")
     }
 
@@ -18,21 +19,20 @@ final class DocumentVersionsTests: XCTestCase {
         try copySampleFileAndRestoreAtTearDown(name: "BetaVersionFormat")
         
         let document = try XCTUnwrap(Sample().document(name: "BetaVersionFormat"))
-        XCTAssertTrue(document.isBetaStructure, "Read as old file structure")
+        XCTAssertFalse(document.isBetaStructure, "Should migrate to new file structure right on read")
         
         saveDocumentAndRemoveAtTearDown(document: document, name: "TestDocument")
-        XCTAssertFalse(document.isBetaStructure, "Update file structure after saving")
     }
     
     func test_canReadFrameFileFormat() throws {
-        let document = try XCTUnwrap(Sample()
-            .document(name: "FrameVersionFormat"))
-        
+        let document = try XCTUnwrap(Sample().document(name: "FrameVersionFormat"))
         XCTAssertFalse(document.isBetaStructure)
         
-        XCTAssertEqual(document.elements.count, 12)
-        XCTAssertNotNil(document.artboard.frames.first?.image)
-        XCTAssertEqual(document.frameInfo.imageScale, 3)
+        let frame = try XCTUnwrap(document.artboard.frames.first)
+        
+        XCTAssertEqual(frame.elements.count, 12)
+        XCTAssertNotNil(frame.image)
+        XCTAssertEqual(frame.frame, CGRect(x: 0, y: 0, width: 390, height: 844), "should scale frame")
     }
     
     // MARK: - Restoration DSL
@@ -41,6 +41,7 @@ final class DocumentVersionsTests: XCTestCase {
         let path = try XCTUnwrap(Sample().documentPath(name: name))
         let bundlePath = path.deletingLastPathComponent()
         let restorationPath = bundlePath.appendingPathComponent("\(name)-Restore.vodesign")
+        try? fileManager.removeItem(at: restorationPath)
         try fileManager.copyItem(at: path, to: restorationPath)
         addTeardownBlock {
             try _ = self.fileManager.replaceItemAt(path, withItemAt: restorationPath)

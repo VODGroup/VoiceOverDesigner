@@ -49,8 +49,8 @@ extension VODesignDocumentProtocol {
 extension VODesignDocumentProtocol {
     
     var isBetaStructure: Bool {
-        false // TODO: Add migration
-//        frameWrappers.first?.filename == defaultFrameName
+        // controls.json on top of file structure
+        documentWrapper.fileWrappers?[FileName.controls] != nil
     }
     
     var frameWrappers: [FileWrapper] {

@@ -9,6 +9,7 @@ class CanvasPresenterTests: XCTestCase {
     var controller: EmptyViewController!
     var document: VODesignDocumentProtocol!
     var uiScrollSpy: CanvasScrollViewSpy!
+    
     override func setUp() {
         super.setUp()
         
@@ -36,23 +37,24 @@ class CanvasPresenterTests: XCTestCase {
 // MARK: - DSL
 
 extension CanvasPresenterTests {
-    func didLoad() {
-        sut.didLoad(uiContent: controller.controlsView,
-                    uiScroll: uiScrollSpy,
-                    initialScale: 1,
-                    previewSource: PreviewSourceDummy())
-    }
     
     var drawnControls: [any ArtboardElement] {
         controller.controlsView.drawnControls.compactMap(\.model)
     }
     
+    var documentControls: [any ArtboardElement] {
+        sut.document.artboard.controlsWithoutFrames
+    }
+    
     var numberOfDrawnViews: Int {
         drawnControls.count
     }
-
-    var documentControls: [any ArtboardElement] {
-        sut.document.controls
+    
+    func didLoad() {
+        sut.didLoad(uiContent: controller.controlsView,
+                    uiScroll: uiScrollSpy,
+                    initialScale: 1,
+                    previewSource: PreviewSourceDummy())
     }
     
     @discardableResult

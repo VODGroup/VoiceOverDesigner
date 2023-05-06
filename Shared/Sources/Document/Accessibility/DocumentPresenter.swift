@@ -7,8 +7,9 @@ public typealias OptionalDescriptionSubject = CurrentValueSubject<(any ArtboardE
 /**
  Top level object that controls abstract VODesignDocumentProtocol
  
- Allowh to publishControlChanges after any changes on controls level to initiate UI update of any ViewController
- Also manages undo changes on controls level
+ Responsibility:
+ - Publish updates after any changes on control's level to initiate UI update of any ViewController
+ - Undo changes on controls level
  */
 open class DocumentPresenter {
     
@@ -72,6 +73,11 @@ open class DocumentPresenter {
             document.artboard.controlsWithoutFrames.append(control)
         }
         
+        document.undo?.registerUndo(
+            withTarget: self,
+            handler: { presenter in
+                presenter.remove(control)
+        })
         publishControlChanges()
     }
     

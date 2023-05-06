@@ -11,6 +11,7 @@ import AppKit
 public typealias Image = NSImage
 #endif
 
+/// Data layer with hierarchical structure if element
 public class Artboard {
 //    let figmaURL: String
     public var frames: [Frame]
