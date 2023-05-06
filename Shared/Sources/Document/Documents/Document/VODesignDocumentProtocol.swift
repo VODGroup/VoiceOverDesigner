@@ -35,8 +35,6 @@ extension VODesignDocumentProtocol {
         let frame = Frame(image: newImage)
         artboard.frames.append(frame)
         
-//        invalidateWrapperIfPossible(fileInFrame: FileName.screen)
-//        invalidateWrapperIfPossible(fileInFrame: FileName.info)
         invalidateWrapperIfPossible(fileInRoot: FolderName.quickLook)
         
 #if os(macOS)

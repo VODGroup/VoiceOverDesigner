@@ -68,25 +68,18 @@ final class DocumentPresenterTests: XCTestCase {
     }
     
     // MARK: Containers
-    func test_container_whenRemove1stElementInContainer_shouldRemove() {
-        sut.append(control: element1)
-        sut.append(control: element2)
-        let container = sut.wrapInContainer([element1, element2])
+    func test_container_whenRemoveLastElementInContainer_shouldRemoveContainer() throws {
+        let container = try addTwoElementsAndWrapInContainer()
 
         sut.remove(element1)
-        XCTAssertEqual(container?.elements.count, 1)
+        XCTAssertEqual(container.elements.count, 1)
         
         sut.undo()
-        XCTAssertEqual(container?.elements.count, 2)
+        XCTAssertEqual(container.elements.count, 2)
     }
     
     func test_container_whenRemoveContainer_shouldRemoveEverything() throws {
-        sut.document.undo?.disableUndoRegistration()
-        sut.append(control: element1)
-        sut.append(control: element2)
-
-        let container = try XCTUnwrap(sut.wrapInContainer([element1, element2]))
-        sut.document.undo?.enableUndoRegistration()
+        let container = try addTwoElementsAndWrapInContainer()
         
         sut.remove(container)
         XCTAssertTrue(sut.controlsWithoutFrame.isEmpty)
@@ -94,9 +87,27 @@ final class DocumentPresenterTests: XCTestCase {
         sut.undo()
         XCTAssertEqual(sut.controlsWithoutFrame.count, 1)
     }
+    
+    // MARK: DSL
+    private func addTwoElementsAndWrapInContainer() throws -> A11yContainer {
+        sut.disableUndoRegistration()
+        sut.append(control: element1)
+        sut.append(control: element2)
+        let container = try XCTUnwrap(sut.wrapInContainer([element1, element2]))
+        sut.enableUndoRegistration()
+        
+        return container
+    }
 }
 
 extension DocumentPresenter {
+    func disableUndoRegistration() {
+        document.undo?.disableUndoRegistration()
+    }
+    
+    func enableUndoRegistration() {
+        document.undo?.enableUndoRegistration()
+    }
     func undo() {
         document.undo?.undo()
     }

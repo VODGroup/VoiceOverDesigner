@@ -50,8 +50,8 @@ class TranslatingTests: CanvasAfterDidLoadTests {
     @MainActor
     func test_CopyControlShouldDrawNewControlAndHaveSameProperties() async throws {
         let copyCommand = ManualCopyCommand()
-        
         controller.controlsView.copyListener = copyCommand
+        
         drawRect_10_60()
         
         // Copy
@@ -60,13 +60,13 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         sut.mouseUp(on: .coord(15+35))
         
         XCTAssertEqual(drawnControls.count, 2)
-        XCTAssert(sut.document.controls[0] !== sut.document.controls[1], "Not same objects")
+        XCTAssert(documentControls[0] !== documentControls[1], "create another instance")
         XCTAssertEqual(
-            sut.document.controls[1].frame,
+            documentControls[1].frame,
             rect10to50.offsetBy(dx: 35, dy: 35))
         
         let selected = try await awaitSelected() as! A11yDescription
-        XCTAssertEqual(selected, sut.document.controls[1] as! A11yDescription)
+        XCTAssertEqual(selected, documentControls[1] as! A11yDescription)
         
         // Undo
         sut.document.undo?.undo()
