@@ -31,7 +31,7 @@ public class Frame: ArtboardContainer {
     public var id: UUID
     public var label: String
     
-    public let image: Image // TODO: Replace with url: file or remote
+    public let image: Image? // TODO: Replace with url: file or remote
     public var frame: CGRect
     
     /// In absolute coordinates
@@ -40,7 +40,7 @@ public class Frame: ArtboardContainer {
     
     public init(
         label: String,
-        image: Image,
+        image: Image?,
         frame: CGRect,
         elements: [any ArtboardElement]
     ) {
