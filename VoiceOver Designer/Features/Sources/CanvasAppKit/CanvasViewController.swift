@@ -22,7 +22,6 @@ public class CanvasViewController: NSViewController {
     private var cancellables: Set<AnyCancellable> = []
     private let pointerService = PointerService()
     
-    var trackingArea: NSTrackingArea!
     var duplicateItem: NSMenuItem?
 
     public lazy var canvasMenu: NSMenuItem = {
@@ -45,6 +44,7 @@ public class CanvasViewController: NSViewController {
         
         setImage()
         addMouseTracking()
+        addMenuItem()
     }
     
     public override func viewDidAppear() {
@@ -78,6 +78,7 @@ public class CanvasViewController: NSViewController {
         presenter.selectedPublisher
             .sink { [weak self] view in self?.duplicateItem?.isEnabled = view != nil }
             .store(in: &cancellables)
+        
         presenter
             .pointerPublisher
             .removeDuplicates()
@@ -89,6 +90,17 @@ public class CanvasViewController: NSViewController {
         cancellables.forEach { cancellable in
             cancellable.cancel()
         }
+    }
+    
+    // TODO: try to extract?
+    func addMenuItem() {
+        guard let menu = NSApplication.shared.menu, menu.item(withTitle: "Canvas") == nil else { return }
+        let canvasMenuItem = NSMenuItem(title: "Canvas", action: nil, keyEquivalent: "")
+        let canvasSubMenu = NSMenu(title: "Canvas")
+        let addImageItem = NSMenuItem(title: "Add image", action: #selector(addImageButtonTapped), keyEquivalent: "")
+        canvasSubMenu.addItem(addImageItem)
+        canvasMenuItem.submenu = canvasSubMenu
+        menu.addItem(canvasMenuItem)
     }
     
     func setImage() {

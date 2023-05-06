@@ -34,7 +34,7 @@ class CanvasView: FlippedView {
     @IBOutlet weak var clipView: NSClipView!
     
     @IBOutlet weak var contentView: ContentView!
-    @IBOutlet weak var addImageButton: NSButton!
+    @IBOutlet weak var controlsView: ControlsView!
    
     @IBOutlet weak var dragnDropView: DragNDropImageView!
     
@@ -61,7 +61,6 @@ class CanvasView: FlippedView {
         footer.isHidden = false
         
 //        dragnDropView.isHidden = true
-        addImageButton.isHidden = true
         
         clipView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false

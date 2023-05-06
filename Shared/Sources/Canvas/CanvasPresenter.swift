@@ -72,6 +72,7 @@ public class CanvasPresenter: DocumentPresenter {
     // MARK: Mouse
     public func mouseDown(on location: CGPoint) {
         uiContent.hud.hideHUD()
+
         drawingController.mouseDown(on: location,
                                     selectedControl: selectedControl)
     }
@@ -80,8 +81,7 @@ public class CanvasPresenter: DocumentPresenter {
         drawingController.drag(to: location)
     }
     
-    
-    public func mouseMoved(on location: CGPoint) {        
+    public func mouseMoved(on location: CGPoint) {
         drawingController.mouseMoved(on: location,
                                      selectedControl: selectedControl)
     }

@@ -4,7 +4,6 @@
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21701"/>
         <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -40,20 +39,8 @@
                             </scrollView>
                             <customView horizontalHuggingPriority="1" verticalHuggingPriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="dHk-Q5-FAZ" customClass="DragNDropImageView" customModule="CommonUI">
                                 <rect key="frame" x="0.0" y="0.0" width="800" height="906"/>
-                                <subviews>
-                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cii-yh-9Te">
-                                        <rect key="frame" x="344" y="383" width="113" height="40"/>
-                                        <buttonCell key="cell" type="push" title="Add Image" bezelStyle="rounded" image="plus" catalog="system" imagePosition="leading" alignment="center" controlSize="large" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="exO-s4-81h">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <color key="bezelColor" name="AccentColor"/>
-                                    </button>
-                                </subviews>
                                 <constraints>
-                                    <constraint firstItem="Cii-yh-9Te" firstAttribute="centerX" secondItem="dHk-Q5-FAZ" secondAttribute="centerX" id="8MI-I4-pht"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="400" id="LKl-HZ-UDo"/>
-                                    <constraint firstItem="Cii-yh-9Te" firstAttribute="centerY" secondItem="dHk-Q5-FAZ" secondAttribute="centerY" constant="50" id="oQf-Yq-to2"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="814" id="pTM-t9-HL8"/>
                                 </constraints>
                             </customView>
@@ -61,7 +48,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="800" height="40"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mCV-f8-hTw">
-                                        <rect key="frame" x="596" y="10" width="184" height="20"/>
+                                        <rect key="frame" x="610" y="10" width="170" height="20"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hlp-qk-Lzc">
                                                 <rect key="frame" x="-2" y="2" width="50" height="14"/>
@@ -72,7 +59,7 @@
                                                 </textFieldCell>
                                             </textField>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qkH-aw-PoH">
-                                                <rect key="frame" x="51" y="-4" width="38" height="27"/>
+                                                <rect key="frame" x="51" y="-4" width="31" height="27"/>
                                                 <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="minus.magnifyingglass" catalog="system" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KVa-eP-Qr5">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="system"/>
@@ -84,7 +71,7 @@
                                                 </connections>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5ma-Hm-fQo">
-                                                <rect key="frame" x="91" y="-4" width="56" height="27"/>
+                                                <rect key="frame" x="84" y="-4" width="56" height="27"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="hqe-62-P3Z"/>
                                                 </constraints>
@@ -98,7 +85,7 @@
                                                 </connections>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Drp-5v-mQ5">
-                                                <rect key="frame" x="149" y="-4" width="38" height="27"/>
+                                                <rect key="frame" x="142" y="-4" width="31" height="27"/>
                                                 <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="plus.magnifyingglass" catalog="system" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Zvo-dm-N9a">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="system"/>
@@ -150,7 +137,6 @@
                         <viewLayoutGuide key="safeArea" id="t1D-JO-b7t"/>
                         <viewLayoutGuide key="layoutMargins" id="QBA-NU-qhe"/>
                         <connections>
-                            <outlet property="addImageButton" destination="Cii-yh-9Te" id="Y6C-qb-AAD"/>
                             <outlet property="clipView" destination="lki-H1-X1O" id="yfA-nS-Iqj"/>
                             <outlet property="contentView" destination="JlK-Oy-LgO" id="6NV-jp-qGf"/>
                             <outlet property="dragnDropView" destination="dHk-Q5-FAZ" id="9Yb-dX-lbU"/>
@@ -168,11 +154,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="minus.magnifyingglass" catalog="system" width="16" height="15"/>
-        <image name="plus" catalog="system" width="14" height="13"/>
-        <image name="plus.magnifyingglass" catalog="system" width="16" height="15"/>
-        <namedColor name="AccentColor">
-            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
+        <image name="minus.magnifyingglass" catalog="system" width="15" height="15"/>
+        <image name="plus.magnifyingglass" catalog="system" width="15" height="15"/>
     </resources>
 </document>
