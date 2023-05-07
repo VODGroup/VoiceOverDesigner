@@ -30,7 +30,9 @@ class VoiceOverContainer: NSObject {
         accessibilityFrame = containerFrame
         
         print("Container \(accessibilityFrame), \(container.label)")
-        accessibilityElements = container.elements.map({ element in
+        accessibilityElements = container.elements.compactMap({ element in
+            guard let element = element as? A11yDescription // TODO: Add support for different type
+            else { return nil }
             
             let rect = scrollView
                 .frameInScreenCoordinates(element.frame)
