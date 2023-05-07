@@ -93,7 +93,7 @@ class CanvasView: FlippedView {
         
         // TODO: Check width
         let scrollViewVisibleHeight = scrollView.frame.height
-        return scrollViewVisibleHeight / contentSize.height
+        return min(scrollViewVisibleHeight / contentSize.height, scrollView.frame.width / contentSize.width)
     }
     
     // MARK: - Image
