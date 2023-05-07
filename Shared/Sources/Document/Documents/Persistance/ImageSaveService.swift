@@ -60,6 +60,8 @@ extension Image {
 }
 
 #elseif os(iOS)
+import CoreGraphics
+import UIKit
 
 extension Image {
     func png() -> Data? {
