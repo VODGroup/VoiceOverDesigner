@@ -1,4 +1,5 @@
 import QuartzCore
+import Artboard
 
 public class MoveAction {
     init(view: DrawingView, control: A11yControlLayer, startLocation: CGPoint, offset: CGPoint, initialFrame: CGRect) {
@@ -25,7 +26,15 @@ public class MoveAction {
         let aligned = view.alignmentOverlay.alignToAny(control, frame: frame, drawnControls: view.drawnControls)
         
         control.updateWithoutAnimation {
+            let alignedOffest = aligned.origin - control.frame.origin
+            
             control.frame = aligned
+            
+            if let contanier = control.model as? any ArtboardContainer {
+                for element in contanier.elements {
+                    element.frame = element.frame.offsetBy(dx: alignedOffest.x, dy: alignedOffest.y)
+                }
+            }
         }
         
         self.offset = offset

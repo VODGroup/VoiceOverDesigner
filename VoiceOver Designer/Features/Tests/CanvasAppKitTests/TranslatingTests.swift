@@ -82,6 +82,36 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         XCTAssertEqual(drawnControls.count, 1, "should remove copy")
     }
     
+    // MARK: Containers
+    private func createContainerWithElement10_60() throws -> (A11yDescription, A11yContainer?) {
+        sut.disableUndoRegistration()
+        let element = try drawElement(from: start10, to: end60)
+        let container = wrapInContainer([element])
+        sut.enableUndoRegistration()
+        
+        return (element, container)
+    }
+    
+    func test_whenMoveContainer_shouldMoveContainer() throws {
+        let (_, container) = try createContainerWithElement10_60()
+        let containerFrame = CGRect(x: -10, y: -10, width: 90, height: 90)
+        XCTAssertEqual(container?.frame, containerFrame)
+        
+        move(from: .coord(0), to: .coord(10)) // Move by 10
+        
+        XCTAssertEqual(container?.frame, containerFrame.offsetBy(dx: 10, dy: 10), "Move container")
+    }
+    
+    func test_whenMoveContainer_shouldMoveAllElementsInsideIt() throws {
+        let (element, _) = try createContainerWithElement10_60()
+        let elementFrame = CGRect(x: 10, y: 10, width: 50, height: 50)
+        XCTAssertEqual(element.frame, elementFrame)
+        
+        move(from: .coord(0), to: .coord(10)) // Move by 10
+        
+        XCTAssertEqual(element.frame, elementFrame.offsetBy(dx: 10, dy: 10), "Move element inside container")
+    }
+    
     // MARK: - Resizing
     func test_whenMoveBottomRightCorner_shouldResize() {
         drawRect(from: start10, to: end60)
