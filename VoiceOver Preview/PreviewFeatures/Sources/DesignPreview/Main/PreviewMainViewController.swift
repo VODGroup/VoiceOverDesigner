@@ -88,29 +88,28 @@ public class PreviewMainViewController: UIViewController {
     
     @ViewBuilder
     private func makeView(for model: any ArtboardElement) -> some SwiftUI.View {
-        let onDismiss = { [weak self] in
-            guard let self else { return }
-            self.presenter.deselect()
-        }
-        
-        let onDelete = { [weak self] in
-            guard let self else { return }
-            self.presenter.remove(model)
-        }
-        
-        switch model {
-        case let description as A11yDescription:
-            ElementSettingsEditorView(element: description, delete: onDelete)
-                .onDisappear(perform: onDismiss)
-        case let container as A11yContainer:
-            ContainerSettingsEditorView(container: container, delete: onDelete)
-                .onDisappear(perform: onDismiss)
-        default:
-            EmptyView()
-        }
-        
-        
-        
+        // TODO: Can't compile, strange
+        fatalError()
+//        let onDismiss = { [weak self] in
+//            guard let self else { return }
+//            self.presenter.deselect()
+//        }
+//
+//        let onDelete = { [weak self] in
+//            guard let self else { return }
+//            self.presenter.remove(model)
+//        }
+//
+//        switch model {
+//        case let description as A11yDescription:
+//            ElementSettingsEditorView(element: description, delete: onDelete)
+//                .onDisappear(perform: onDismiss)
+//        case let container as A11yContainer:
+//            ContainerSettingsEditorView(container: container, delete: onDelete)
+//                .onDisappear(perform: onDismiss)
+//        default:
+//            EmptyView()
+//        }
     }
     
     private func embedCanvas() {
