@@ -25,9 +25,11 @@ public class ScrollViewController: UIViewController {
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let imageSize = presenter.document.imageSize
-        view().scrollView.centerAndScaleToFit(contentSize: imageSize)
-        view().updateVoiceOverLayoutForCanvas()
+        // TODO: Each frame should be separate controller
+        if let imageSize = presenter.document.artboard.frames.first?.image?.size {
+            view().scrollView.centerAndScaleToFit(contentSize: imageSize)
+            view().updateVoiceOverLayoutForCanvas()
+        }
         
         subscribeToVoiceOverNotification()
     }

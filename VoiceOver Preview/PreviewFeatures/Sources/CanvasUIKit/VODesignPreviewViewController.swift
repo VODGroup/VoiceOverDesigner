@@ -44,11 +44,13 @@ extension VODesignPreviewViewController {
     
     private func draw() {
         self.view().canvas.removeAll() // TODO: Move clearing inside? drawingController?
-        view().set(image: presenter.document.image,
+        
+        view().set(image: presenter.document.artboard.frames.first?.image, // TODO: Support several frames
                    scale: presenter.document.frameInfo.imageScale)
         view().controls = presenter.document.controls
         presenter.didLoad(
-            ui: view().canvas,
+            uiContent: view().canvas,
+            uiScroll: self,
             initialScale: 1,
             previewSource: view())
     }
@@ -116,5 +118,11 @@ extension VODesignPreviewViewController {
         @unknown default:
             break
         }
+    }
+}
+
+extension VODesignPreviewViewController: CanvasScrollViewProtocol {
+    public func fitToWindow(animated: Bool) {
+        // TODO: Do we need something here?
     }
 }
