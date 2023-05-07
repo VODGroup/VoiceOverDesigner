@@ -2,6 +2,7 @@
 import UIKit
 public typealias AppleDocument = UIDocument
 import Combine
+import Artboard
 
 public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
     
@@ -9,6 +10,7 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
     public var elements: [any ArtboardElement] = []
     public var image: Image?
     public var frameInfo: FrameInfo = .default
+    public var artboard: Artboard = Artboard()
     
     public var imageSize: CGSize {
         return image?
@@ -51,7 +53,7 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
         let frameReader = FrameReader(frameURL: frameURL)
         
         do {
-            try frameReader.saveService.save(elements: elements)
+            try frameReader.saveService.save(controls: elements)
             return true
         } catch let error {
             print(error)

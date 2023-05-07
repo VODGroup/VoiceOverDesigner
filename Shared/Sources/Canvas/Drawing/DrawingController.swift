@@ -88,7 +88,7 @@ public class DrawingController {
         imageLayer.frame = frame.frame
         imageLayer.image = frame.image?.defaultCGImage
         imageLayer.contentsScale = scale
-        view.layer?.addSublayer(imageLayer)
+        view.addSublayer(imageLayer)
         return imageLayer
     }
     
@@ -229,11 +229,15 @@ public class ImageLayer: CALayer {
     }
 }
 
-#if os(macOS)
+
 extension Image {
     var defaultCGImage: CGImage? {
-        cgImage(forProposedRect: nil, context: nil, hints: nil)
+#if os(macOS)
+        return cgImage(forProposedRect: nil, context: nil, hints: nil)
+#elseif os(iOS)
+        return cgImage
+#endif
     }
 }
-#endif
+
 
