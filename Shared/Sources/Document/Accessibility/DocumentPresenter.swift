@@ -34,7 +34,7 @@ open class DocumentPresenter {
                 presenter.controls = oldValue
             })
             
-            artboardPublisher.send(document.artboard)
+            publishControlChanges()
         }
         
         get {
@@ -130,7 +130,7 @@ open class DocumentPresenter {
 #if canImport(XCTest)
 extension DocumentPresenter {
     public func update(elements: [A11yDescription]) {
-        self.document.artboard.controlsWithoutFrames = elements
+        self.controls = elements
     }
     
     public var firstFrameControls: [any ArtboardElement] {
