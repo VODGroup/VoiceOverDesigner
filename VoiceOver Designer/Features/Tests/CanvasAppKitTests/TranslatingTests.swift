@@ -47,25 +47,35 @@ class TranslatingTests: CanvasAfterDidLoadTests {
     // TODO:
     // - aligned vertically
     // - aligned to 3rd element
-    @MainActor
-    func test_CopyControlShouldDrawNewControlAndHaveSameProperties() async throws {
-        let copyCommand = setupManualCopyCommand()
-        
+    
+    func test_whenCopyControl_shouldDraw2ndControl() {
         drawRect_10_60()
         
-        // Copy
-        copyCommand.isModifierActive = true
-        sut.mouseDown(on: .coord(15))
-        sut.mouseUp(on: .coord(15+35))
+        copy(from: .coord(15), to: .coord(15+35))
         
         XCTAssertEqual(drawnControls.count, 2)
         XCTAssert(documentControls[0] !== documentControls[1], "create another instance")
         XCTAssertEqual(
             documentControls[1].frame,
             rect10to50.offsetBy(dx: 35, dy: 35))
+    }
+    
+    @MainActor
+    func test_whenCopyControl_shouldSelectCopy() async throws {
+        drawRect_10_60()
+        
+        copy(from: .coord(15), to: .coord(15+35))
         
         let selected = try await awaitSelected() as! A11yDescription
         XCTAssertEqual(selected, documentControls[1] as! A11yDescription)
+    }
+    
+    func test_copyControl_whenUndo_shouldRemoveCopy(){
+        sut.disableUndoRegistration()
+        drawRect_10_60()
+        sut.enableUndoRegistration()
+        
+        copy(from: .coord(15), to: .coord(15+35))
         
         // Undo
         sut.document.undo?.undo()
@@ -83,5 +93,19 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         XCTAssertEqual(drawnControls.count, 1)
         XCTAssertEqual(drawnControls[0].frame,
                        CGRect(origin: start10, size: .side(10)))
+    }
+}
+
+// TODO: Move to test helpers. Duplicate at DocumentPresenterTests
+extension DocumentPresenter {
+    func disableUndoRegistration() {
+        document.undo?.disableUndoRegistration()
+    }
+    
+    func enableUndoRegistration() {
+        document.undo?.enableUndoRegistration()
+    }
+    func undo() {
+        document.undo?.undo()
     }
 }

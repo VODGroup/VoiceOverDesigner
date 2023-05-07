@@ -84,6 +84,19 @@ extension CanvasPresenterTests {
         }
     }
     
+    func setupManualCopyCommand() -> ManualCopyCommand {
+        let copyCommand = ManualCopyCommand()
+        controller.controlsView.copyListener = copyCommand
+        return copyCommand
+    }
+    
+    func copy(from: CGPoint, to: CGPoint) {
+        let copyCommand = setupManualCopyCommand()
+        copyCommand.isModifierActive = true
+        sut.mouseDown(on: from)
+        sut.mouseUp(on: to)
+    }
+    
     func drag(_ start: CGFloat, _ otherPoints: CGFloat...) {
         sut.mouseDown(on: .coord(start))
         for point in otherPoints {

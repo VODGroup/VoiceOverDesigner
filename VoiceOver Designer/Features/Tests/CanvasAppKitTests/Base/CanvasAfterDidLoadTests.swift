@@ -6,10 +6,4 @@ class CanvasAfterDidLoadTests: CanvasPresenterTests {
         
         didLoadAndAppear()
     }
-    
-    func setupManualCopyCommand() -> ManualCopyCommand {
-        let copyCommand = ManualCopyCommand()
-        controller.controlsView.copyListener = copyCommand
-        return copyCommand
-    }
 }
