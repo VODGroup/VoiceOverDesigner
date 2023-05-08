@@ -61,6 +61,7 @@ let package = Package(
                 .copy("Samples/BetaVersionFormat.vodesign"),
                 .copy("Samples/FrameVersionFormat.vodesign"),
                 .copy("Samples/FrameVersionFormatWithHeicPreview.vodesign"),
+                .copy("Samples/ArtboardFormat.vodesign"),
             ]
         ),
         .testTarget(

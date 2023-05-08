@@ -79,6 +79,19 @@ public class DrawingController {
             }
     }
     
+    class ImageLoader {
+        func image(for frame: Frame) -> Image? {
+            let documentPath = URL(fileURLWithPath: "/Users/mikhail/Developer/VoiceOverSamples/Ru/Dodo Pizza/Профиль 2.vodesign/Images")
+            let filePath = documentPath
+                .appendingPathComponent(frame.imageName, conformingTo: .image)
+                .appendingPathExtension("png")
+            
+            return Image(contentsOf: filePath)
+//            frame.image?.defaultCGImage
+        }
+    }
+    private let imageLoader = ImageLoader()
+    
     @discardableResult
     public func drawImage(
         for frame: Frame,
@@ -86,7 +99,7 @@ public class DrawingController {
     ) -> CALayer {
         let imageLayer = ImageLayer()
         imageLayer.frame = frame.frame
-        imageLayer.image = frame.image?.defaultCGImage
+        imageLayer.image = imageLoader.image(for: frame)?.defaultCGImage
         imageLayer.contentsScale = scale
         view.add(frame: imageLayer)
         return imageLayer
@@ -224,7 +237,8 @@ public class ImageLayer: CALayer {
         }
         
         get {
-            contents as! CGImage
+            guard let contents else { return nil }
+            return contents as! CGImage
         }
     }
 }
