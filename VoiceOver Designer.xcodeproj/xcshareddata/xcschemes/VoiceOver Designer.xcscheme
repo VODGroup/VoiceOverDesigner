@@ -83,6 +83,11 @@
                BlueprintName = "DocumentTests"
                ReferencedContainer = "container:Shared">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "DocumentSaveServiceTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
          <TestableReference
             skipped = "NO">

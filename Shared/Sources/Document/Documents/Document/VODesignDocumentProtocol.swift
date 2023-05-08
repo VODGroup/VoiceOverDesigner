@@ -5,7 +5,6 @@ public protocol VODesignDocumentProtocol: AnyObject {
     
     // MARK: - Data
     var artboard: Artboard { get set }
-    var frameInfo: FrameInfo { get set }
     
     // MARK: - Services
     /// An undo manager that records operations on document
@@ -36,12 +35,6 @@ extension VODesignDocumentProtocol {
         artboard.frames.append(frame)
         
         invalidateWrapperIfPossible(fileInRoot: FolderName.quickLook)
-        
-#if os(macOS)
-        frameInfo.imageScale = newImage.recommendedLayerContentsScale(1)
-#elseif os(iOS)
-        frameInfo.imageScale = 1 // iOS can't extract scale information
-#endif
     }
 }
 
@@ -52,10 +45,14 @@ public protocol PreviewSourceProtocol: AnyObject {
 
 extension Frame {
     public convenience init(image: Image) {
-        self.init(label: UUID().uuidString, // TODO: Create fancy name
+        let name = UUID().uuidString // TODO: Create fancy name
+
+        let frame = CGRect(origin: .zero, size: image.size)
+        
+        self.init(label: name,
+                  imageName: name,
                   image: image,
-                  frame: CGRect(origin: .zero,
-                                size: image.size),
+                  frame: frame,
                   elements: [])
     }
 }

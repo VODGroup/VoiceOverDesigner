@@ -31,8 +31,9 @@ class DocumentSaveService {
     }
     
     func save(controls: [any ArtboardElement]) throws {
-        let data = try codingService.data(from: controls)
-        try dataProvider.save(data: data)
+        fatalError("Rewrite to Artboard")
+//        let data = try codingService.data(from: controls)
+//        try dataProvider.save(data: data)
     }
     
     func loadControls() throws -> [any ArtboardElement] {

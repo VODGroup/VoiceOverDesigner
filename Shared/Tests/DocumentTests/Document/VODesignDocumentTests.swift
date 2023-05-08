@@ -22,10 +22,16 @@ extension VODesignDocument {
     
     static func with2ControlsInFrame(name: String, testCase: XCTestCase) -> VODesignDocument {
         let document = VODesignDocument.testDocument(name: name, testCase: testCase)
-        document.artboard.frames = [Frame(label: "Frame1", image: nil, frame: .zero, elements: [
-            A11yDescription.testMake(label: "Label1"),
-            A11yDescription.testMake(label: "Label2"),
-        ])]
+        document.artboard.frames = [Frame(
+            label: "Frame1",
+            imageName: "Frame1",
+            image: nil,
+            frame: .zero,
+            elements: [
+                A11yDescription.testMake(label: "Label1"),
+                A11yDescription.testMake(label: "Label2"),
+            ])
+        ]
         return document
     }
 }

@@ -27,10 +27,12 @@ public class Artboard {
 
 /// Domain object that is used for drawing
 public class Frame: ArtboardContainer {
+    public var type: ArtboardType = .frame
+    
     @DecodableDefault.RandomUUID
     public var id: UUID
     public var label: String
-    
+    public let imageName: String
     public let image: Image? // TODO: Replace with url: file or remote
     public var frame: CGRect
     
@@ -40,11 +42,13 @@ public class Frame: ArtboardContainer {
     
     public init(
         label: String,
+        imageName: String,
         image: Image?,
         frame: CGRect,
         elements: [any ArtboardElement]
     ) {
         self.label = label
+        self.imageName = imageName
         self.image = image
         self.frame = frame
         self.elements = elements
@@ -58,6 +62,5 @@ public class Frame: ArtboardContainer {
     public static func == (lhs: Frame, rhs: Frame) -> Bool {
         lhs.label == rhs.label // TODO: Better comparison
     }
-    
-    public var type: ArtboardType = .frame
 }
+

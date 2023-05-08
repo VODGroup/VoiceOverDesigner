@@ -12,7 +12,6 @@ final class DocumentVersionsTests: XCTestCase {
         
         XCTAssertEqual(frame.elements.count, 12)
         XCTAssertNotNil(frame.image)
-        XCTAssertEqual(document.frameInfo.imageScale, 1, "Old format doesn't know about scale")
     }
 
     func test_whenReadOldFormat_shouldSaveAtNewFormat() throws {
@@ -33,6 +32,19 @@ final class DocumentVersionsTests: XCTestCase {
         XCTAssertEqual(frame.elements.count, 12)
         XCTAssertNotNil(frame.image)
         XCTAssertEqual(frame.frame, CGRect(x: 0, y: 0, width: 390, height: 844), "should scale frame")
+    }
+    
+    func test_artboardFormat() throws {
+        let document = try XCTUnwrap(Sample().document(name: "ArtboardFormat"))
+        
+        let artboard = document.artboard
+        XCTAssertEqual(artboard.frames.count, 2)
+        XCTAssertEqual(artboard.controlsWithoutFrames.count, 0)
+        
+        let frame1 = try XCTUnwrap(artboard.frames.first)
+        XCTAssertEqual(frame1.elements.count, 10)
+        XCTAssertNotNil(frame1.image)
+        XCTAssertEqual(frame1.frame, CGRect(x: 2340, y: 0, width: 1170, height: 3407), "should scale frame")
     }
     
     // MARK: - Restoration DSL

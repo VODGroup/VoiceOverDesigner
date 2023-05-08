@@ -4,18 +4,18 @@ extension VODesignDocumentProtocol {
     
     // MARK: - Write
     func fileWrapper() throws -> FileWrapper {
-        for frame in artboard.frames {
-            guard let frameWrapper = try? frameWrapper(for: frame)
-            else { continue }
-            
-            documentWrapper.addFileWrapper(frameWrapper)
-        }
+//        for frame in artboard.frames {
+//            guard let frameWrapper = try? frameWrapper(for: frame)
+//            else { continue }
+//
+//            documentWrapper.addFileWrapper(frameWrapper)
+//        }
         
-        if let controlsWithoutFrame = try? controlsWrapper(for: artboard.controlsWithoutFrames) {
-            documentWrapper.addFileWrapper(controlsWithoutFrame)
-        }
+//        if let controlsWithoutFrame = try? controlsWrapper(for: artboard.controlsWithoutFrames) {
+//            documentWrapper.addFileWrapper(controlsWithoutFrame)
+//        }
         
-        // Save document's structure
+        // Save artboard's structure
         invalidateWrapperIfPossible(fileInRoot: FileName.document)
         let documentStructureWrapper = try documentStructureFileWrapper()
         self.documentWrapper.addFileWrapper(documentStructureWrapper)
@@ -29,25 +29,25 @@ extension VODesignDocumentProtocol {
         return documentWrapper
     }
     
-    private func frameWrapper(for frame: Frame) throws -> FileWrapper {
-        let frameWrapper = documentWrapper.fileWrappers?[frame.label] ?? FileWrapper.createDirectory(preferredFilename: frame.label)
-        
-        // Just invalidate controls every time to avoid lose of user's data
-        frameWrapper.invalidateIfPossible(file: FileName.controls)
-        frameWrapper.addFileWrapper(try controlsWrapper(for: frame.elements))
-
-        if frameWrapper.fileWrappers?[FileName.screen] == nil,
-           let imageWrapper = imageWrapper(frame: frame) {
-            frameWrapper.addFileWrapper(imageWrapper)
-        }
-
-        if frameWrapper.fileWrappers?[FileName.info] == nil {
-            let frameMetaWrapper = infoWrapper()
-            frameWrapper.addFileWrapper(frameMetaWrapper)
-        }
-        
-        return frameWrapper
-    }
+//    private func frameWrapper(for frame: Frame) throws -> FileWrapper {
+//        let frameWrapper = documentWrapper.fileWrappers?[frame.label] ?? FileWrapper.createDirectory(preferredFilename: frame.label)
+//
+//        // Just invalidate controls every time to avoid lose of user's data
+//        frameWrapper.invalidateIfPossible(file: FileName.controls)
+//        frameWrapper.addFileWrapper(try controlsWrapper(for: frame.elements))
+//
+//        if frameWrapper.fileWrappers?[FileName.screen] == nil,
+//           let imageWrapper = imageWrapper(frame: frame) {
+//            frameWrapper.addFileWrapper(imageWrapper)
+//        }
+//
+////        if frameWrapper.fileWrappers?[FileName.info] == nil {
+////            let frameMetaWrapper = infoWrapper()
+////            frameWrapper.addFileWrapper(frameMetaWrapper)
+////        }
+//
+//        return frameWrapper
+//    }
 }
 
 extension VODesignDocumentProtocol {
@@ -71,19 +71,19 @@ extension VODesignDocumentProtocol {
         }
     }
     
-    private func controlsWrapper(
-        for controls: [any ArtboardElement]
-    ) throws -> FileWrapper {
-        let codingService = ArtboardElementCodingService()
-        let wrapper = FileWrapper(regularFileWithContents: try codingService.data(from: controls))
-        wrapper.preferredFilename = FileName.controls
-        return wrapper
-    }
+//    private func controlsWrapper(
+//        for controls: [any ArtboardElement]
+//    ) throws -> FileWrapper {
+//        let codingService = ArtboardElementCodingService()
+//        let wrapper = FileWrapper(regularFileWithContents: try codingService.data(from: controls))
+//        wrapper.preferredFilename = FileName.controls
+//        return wrapper
+//    }
 
     private func documentStructureFileWrapper(
     ) throws -> FileWrapper {
         let codingService = ArtboardElementCodingService()
-        let wrapper = FileWrapper(regularFileWithContents: try codingService.data(from: controls))
+        let wrapper = FileWrapper(regularFileWithContents: try codingService.data(from: artboard))
         wrapper.preferredFilename = FileName.document
         return wrapper
     }
@@ -110,14 +110,6 @@ extension VODesignDocumentProtocol {
         quicklookFolder.preferredFilename = FolderName.quickLook
         return quicklookFolder
     }
-    
-    private func infoWrapper() -> FileWrapper {
-        let frameMetaData = try! FrameInfoPersistance.data(frame: frameInfo)
-        
-        let frameMetaWrapper = FileWrapper(regularFileWithContents: frameMetaData)
-        frameMetaWrapper.preferredFilename = FileName.info
-        return frameMetaWrapper
-    }
 }
 
 // MARK: - Read
@@ -134,12 +126,17 @@ extension VODesignDocumentProtocol {
         
         // Keep referente to gently update files for iCloud
         self.documentWrapper = packageWrapper
-        for frameWrapper in frameWrappers {
-            if let frame = try? readFrameWrapper(frameWrapper) {
-                artboard.frames.append(frame)
-            } else {
-                print("Can't read frame, skip")
-            }
+//        for frameWrapper in frameWrappers {
+//            if let frame = try? readFrameWrapper(frameWrapper) {
+//                artboard.frames.append(frame)
+//            } else {
+//                print("Can't read frame, skip")
+//            }
+//        }
+        
+        if let artboardWrapper = documentWrapper.fileWrappers?[FileName.document] {
+            let artboard = try! ArtboardElementCodingService().artboard(from: artboardWrapper.regularFileContents!)
+            self.artboard = artboard
         }
         
         if let controlsContent = documentWrapper.fileWrappers?[FileName.controls]?.regularFileContents {
@@ -186,7 +183,10 @@ extension VODesignDocumentProtocol {
         ?? CGRect(origin: .zero,
                   size: image?.size ?? defaultFrameSize) // TODO: Add image's scale
         
-        return Frame(label: frameWrapper.filename ?? UUID().uuidString, 
+        let name = frameWrapper.filename ?? UUID().uuidString
+        
+        return Frame(label: name,
+                     imageName: name,
                      image: image,
                      frame: frame,
                      elements: controls)
