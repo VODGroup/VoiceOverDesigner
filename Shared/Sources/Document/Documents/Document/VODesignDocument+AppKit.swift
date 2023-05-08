@@ -60,7 +60,12 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
         undoManager?.disableUndoRegistration()
         defer { undoManager?.enableUndoRegistration() }
         
-        try read(from: packageWrapper)
+        do {
+            try read(from: packageWrapper)
+        } catch let error {
+            Swift.print(error)
+            throw error
+        }
     }
     
     // MARK: Static
