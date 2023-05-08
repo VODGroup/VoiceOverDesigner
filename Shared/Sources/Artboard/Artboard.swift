@@ -5,10 +5,20 @@ import Foundation
 #if os(iOS)
 import UIKit
 public typealias Image = UIImage
+extension Image {
+    convenience init?(path: URL) {
+        self.init(contentsOfFile: path.path)
+    }
+}
 
 #elseif os(macOS)
 import AppKit
 public typealias Image = NSImage
+extension Image {
+    convenience init?(path: URL) {
+        self.init(contentsOf: path)
+    }
+}
 #endif
 
 /// Data layer with hierarchical structure if element
@@ -80,7 +90,7 @@ public class ImageLoader: ImageLoading {
             .appendingPathComponent(frame.imageName)
             .appendingPathExtension("png")
         
-        return Image(contentsOf: filePath)
+        return Image(path: filePath)
 //            frame.image?.defaultCGImage
     }
 }
