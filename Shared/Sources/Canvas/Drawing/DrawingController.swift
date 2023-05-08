@@ -42,7 +42,9 @@ public class DrawingController {
         scale: CGFloat
     ) {
         for frame in artboard.frames {
-            draw(frame: frame, scale: scale)
+            draw(frame: frame,
+                 imageLoader: artboard.imageLoader,
+                 scale: scale)
         }
         
         drawControlsAndContainers(
@@ -52,8 +54,8 @@ public class DrawingController {
         view.invalidateIntrinsicContentSize()
     }
     
-    func draw(frame: Frame, scale: CGFloat) {
-        drawImage(for: frame, scale: scale)
+    func draw(frame: Frame, imageLoader: ImageLoading, scale: CGFloat) {
+        drawImage(for: frame, imageLoader: imageLoader, scale: scale)
         
         drawControlsAndContainers(controls: frame.elements,
                                   scale: scale)
@@ -77,22 +79,10 @@ public class DrawingController {
             }
     }
     
-    class ImageLoader {
-        func image(for frame: Frame) -> Image? {
-            let documentPath = URL(fileURLWithPath: "/Users/mikhail/Developer/VoiceOverSamples/Ru/Dodo Pizza/Профиль 2.vodesign/Images")
-            let filePath = documentPath
-                .appendingPathComponent(frame.imageName, conformingTo: .image)
-                .appendingPathExtension("png")
-            
-            return Image(contentsOf: filePath)
-//            frame.image?.defaultCGImage
-        }
-    }
-    private let imageLoader = ImageLoader()
-    
     @discardableResult
     public func drawImage(
         for frame: Frame,
+        imageLoader: ImageLoading,
         scale: CGFloat
     ) -> CALayer {
         let imageLayer = ImageLayer()

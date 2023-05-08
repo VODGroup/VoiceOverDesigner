@@ -106,7 +106,7 @@ extension VODesignDocumentProtocol {
     }
     
     private func imageWrapper(frame: Frame) -> FileWrapper? {
-        guard let imageData = frame.image?.png()
+        guard let imageData = artboard.imageLoader.image(for: frame)?.png()
         else { return nil }
         
         let imageWrapper = FileWrapper(regularFileWithContents: imageData)
@@ -134,12 +134,12 @@ extension VODesignDocumentProtocol {
     
     func read(
         from packageWrapper: FileWrapper
-    ) throws {
+    ) throws -> (DocumentVersion, Artboard) {
         guard packageWrapper.isDirectory else {
             // Some file from tests creates as a directory
             createEmptyDocumentWrapper()
             print("Nothing to read, probably the document was just created")
-            return
+            return (.artboard, Artboard())
         }
         
         let fileVersion = packageWrapper.documentVersion()
@@ -153,29 +153,32 @@ extension VODesignDocumentProtocol {
             let codingService = ArtboardElementCodingService()
             let controls = try codingService.controls(from: controlsWrapper.regularFileContents!)
             
-            self.artboard = Artboard(frames: [
+            let artboard = Artboard(frames: [
                 Frame(label: "Frame",
-                      imageName: "screen.png",
+                      imageName: "Frame",
                       image: nil,
                       frame: CGRect(origin: .zero, size: .zero), // TODO: image.size
                       elements: controls)
             ])
             
-            recreateDocumentWrapper()
-            break
+            return (.beta, artboard)
         case .release:
             if let frameWrapper = documentWrapper.fileWrappers?[defaultFrameName] {
-                self.artboard = Artboard(frames: [
+                let artboard = Artboard(frames: [
                     try readFrameWrapper(frameWrapper)
                 ])
+                
+                return (.release, artboard)
             }
             
         case .artboard:
             if let artboardWrapper = documentWrapper.fileWrappers?[FileName.document] {
                 let artboard = try! ArtboardElementCodingService().artboard(from: artboardWrapper.regularFileContents!)
-                self.artboard = artboard
+                return (.artboard, artboard)
             }
         }
+        
+        return (.artboard, Artboard())
     }
     
     /// For version .release
@@ -231,7 +234,7 @@ extension VODesignDocumentProtocol {
         self.documentWrapper.addFileWrapper(frameWrapper)
     }
     
-    private func recreateDocumentWrapper() {
+    func recreateDocumentWrapper() {
         createEmptyDocumentWrapper()
         addEmptyFrameWrapper()
     }

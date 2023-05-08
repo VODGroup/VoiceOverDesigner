@@ -13,7 +13,12 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
     @available(*, deprecated, message: "Use `artboard`")
     public var elements: [any ArtboardElement] = []
     
-    public var artboard: Artboard = Artboard()
+    public lazy var artboard: Artboard = {
+        let artboard = Artboard()
+        artboard.imageLoader = ImageLoader(documentPath: { [weak self] in self?.fileURL
+        })
+        return artboard
+    }()
     
     public var documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
     
@@ -59,10 +64,50 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
         defer { undoManager?.enableUndoRegistration() }
         
         do {
-            try read(from: packageWrapper)
+            let (version, artboard) = try read(from: packageWrapper)
+            
+            self.artboard = artboard
+            artboard.imageLoader = ImageLoader(documentPath: { [weak self] in self?.fileURL
+            })
+            
+            try! performDocumentMigration(from: version)
+            
         } catch let error {
             Swift.print(error)
             throw error
+        }
+    }
+    
+    private func performDocumentMigration(from version: DocumentVersion) throws {
+        let fileManager = FileManager.default
+        switch version {
+        case .beta:
+            // TODO: Move image inside "Image" folder
+            if let fileURL {
+                let fromPath = fileURL.appendingPathComponent("screen.png")
+                var toPath = fileURL.appendingPathComponent("Images")
+                try fileManager.createDirectory(at: toPath, withIntermediateDirectories: true)
+                
+                toPath = toPath.appendingPathComponent("Frame.png")
+                try fileManager.moveItem(
+                    at: fromPath,
+                    to: toPath)
+            }
+           
+            recreateDocumentWrapper()
+        case .release:
+            if let fileURL {
+                let fromPath = fileURL.appendingPathComponent("Frame/screen.png")
+                var toPath = fileURL.appendingPathComponent("Images")
+                try fileManager.createDirectory(at: toPath, withIntermediateDirectories: true)
+                
+                toPath = toPath.appendingPathComponent("Frame.png")
+                try fileManager.moveItem(
+                    at: fromPath,
+                    to: toPath)
+            }
+        case .artboard:
+            break
         }
     }
     
