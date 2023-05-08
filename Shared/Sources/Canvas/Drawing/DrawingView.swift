@@ -38,6 +38,7 @@ extension CALayer {
 
 public protocol DrawingView: View {
     var drawnControls: [A11yControlLayer] { get set }
+    var frames: [ImageLayer] { get set }
     
     var alignmentOverlay: AlignmentOverlayProtocol { get }
     var hud: HUDLayer { get }
@@ -46,6 +47,11 @@ public protocol DrawingView: View {
 }
 
 public extension DrawingView {
+    
+    func add(frame: ImageLayer) {
+        addSublayer(frame)
+        frames.append(frame)
+    }
     
     func add(control: A11yControlLayer) {
         control.contentsScale = contentScale
