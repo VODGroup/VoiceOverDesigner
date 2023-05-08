@@ -138,10 +138,11 @@ public class A11yContainer: Codable, ObservableObject {
     }
     
     enum CodingKeys: CodingKey {
+        case type
         case label
         case frame
         
-        case controls
+        case elements
         
         case isModal
         case isTabTrait
@@ -155,11 +156,12 @@ public class A11yContainer: Codable, ObservableObject {
         
         self.label = try container.decode(String.self, forKey: .label)
         self.frame = try container.decode(CGRect.self, forKey: .frame)
-        self.controls = try container.decode([A11yDescription].self, forKey: .controls)
+        self.controls = try container.decode([A11yDescription].self, forKey: .elements)
         self.isModal = try container.decode(Bool.self, forKey: .isModal)
         self.isEnumerated = try container.decode(Bool.self, forKey: .isEnumerated)
         self.containerType = try container.decode(ContainerType.self, forKey: .containerType)
         self.navigationStyle = try container.decode(NavigationStyle.self, forKey: .navigationStyle)
+        self.isTabTrait = try container.decode(Bool.self, forKey: .isTabTrait)
         
         for control in controls {
             control.parent = self
@@ -169,7 +171,15 @@ public class A11yContainer: Codable, ObservableObject {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
-        fatalError()
+        try container.encode(ArtboardType.container, forKey: .type)
+        try container.encode(label, forKey: .label)
+        try container.encode(frame, forKey: .frame)
+        try container.encode(controls, forKey: .elements)
+        try container.encode(isModal, forKey: .isModal)
+        try container.encode(isEnumerated, forKey: .isEnumerated)
+        try container.encode(containerType, forKey: .containerType)
+        try container.encode(navigationStyle, forKey: .navigationStyle)
+        try container.encode(isTabTrait, forKey: .isTabTrait)
     }
 }
 
