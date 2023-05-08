@@ -88,7 +88,7 @@ public class DrawingController {
         imageLayer.frame = frame.frame
         imageLayer.image = frame.image?.defaultCGImage
         imageLayer.contentsScale = scale
-        view.addSublayer(imageLayer)
+        view.add(frame: imageLayer)
         return imageLayer
     }
     

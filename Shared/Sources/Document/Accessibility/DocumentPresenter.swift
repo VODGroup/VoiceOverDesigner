@@ -48,7 +48,7 @@ open class DocumentPresenter {
     
     public let selectedPublisher = OptionalDescriptionSubject(nil)
     
-    public func select(_ element: any ArtboardElement) {
+    public func select(_ element: (any ArtboardElement)?) {
         selectedPublisher.send(element)
     }
     

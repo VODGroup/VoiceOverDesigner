@@ -5,6 +5,7 @@ import Document
 import Canvas
 
 class ContentView: FlippedView, DrawingView {
+    var frames: [Canvas.ImageLayer] = []
     var drawnControls: [A11yControlLayer] = []
     
     lazy var alignmentOverlay = AlignmentOverlayFactory().overlay(for: self)

@@ -162,14 +162,7 @@ public class CanvasViewController: NSViewController {
     }
     
     public func select(_ model: A11yDescription) {
-        guard let control = view()
-            .contentView.drawnControls
-            .first(where: { control in
-                control.model === model
-            })
-        else { return }
-        
-        presenter.select(control: control)
+        presenter.select(model)
     }
     
     public func publishControlChanges() {

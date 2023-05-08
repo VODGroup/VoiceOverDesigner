@@ -104,20 +104,20 @@ public class CanvasPresenter: DocumentPresenter {
     private func finish(_ action: DraggingAction?) -> A11yControlLayer? {
         switch action {
         case let click as ClickAction:
-            select(control: click.control)
+            select(click.control.model)
             
         case let new as NewControlAction:
             append(control: new.control.model!)
-            select(control: new.control)
+            select(new.control.model)
             
         case let copy as CopyAction:
             append(control: copy.control.model!)
-            select(control: copy.control)
+            select(copy.control.model)
             
         case let translate as TranslateAction:
             registerUndo(for: translate)
             publishControlChanges()
-            select(control: translate.control)
+            select(translate.control.model)
             
         case let resize as ResizeAction:
             registerUndo(for: resize)
@@ -136,16 +136,23 @@ public class CanvasPresenter: DocumentPresenter {
     
     // MARK: - Selection
     private func updateSelectedControl(_ selectedDescription: (any ArtboardElement)?) {
-        guard let selected = selectedDescription else {
-            selectedControl = nil
-            return
-        }
-        
-        let selectedControl = uiContent.drawnControls.first(where: { control in
-            control.model?.frame == selected.frame
-        })
+        switch selectedDescription?.cast {
+        case .frame:
+            let selectedFrame = uiContent.frames.first { frame in
+                frame.frame == selectedDescription!.frame
+            }
+            uiContent.hud.selectedControlFrame = selectedFrame?.frame
+            uiContent.hud.tintColor = Color.red.cgColor
             
-        self.selectedControl = selectedControl
+        case .element, .container:
+            let selectedControl = uiContent.drawnControls.first(where: { control in
+                control.model?.frame == selectedDescription!.frame
+            })
+            
+            self.selectedControl = selectedControl
+        case .none:
+            selectedControl = nil
+        }
     }
     
     public private(set) var selectedControl: A11yControlLayer? {
@@ -153,10 +160,6 @@ public class CanvasPresenter: DocumentPresenter {
             uiContent.hud.selectedControlFrame = selectedControl?.frame
             uiContent.hud.tintColor = selectedControl?.model?.color.cgColor.copy(alpha: 1)
         }
-    }
-    
-    public func select(control: A11yControlLayer) {
-        super.select(control.model as! (any ArtboardElement))
     }
     
     // MARK: - Labels

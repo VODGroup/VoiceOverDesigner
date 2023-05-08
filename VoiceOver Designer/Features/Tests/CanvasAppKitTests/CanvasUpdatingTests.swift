@@ -21,7 +21,7 @@ class CanvasUpdatingTests: CanvasPresenterTests {
         }
         
         let control = try XCTUnwrap(sut.drawingController.view.drawnControls.first)
-        sut.select(control: control)
+        sut.select(control.model)
         
         XCTContext.runActivity(named: "Modify document by another source") { _ in
             setControls(count: 3)
