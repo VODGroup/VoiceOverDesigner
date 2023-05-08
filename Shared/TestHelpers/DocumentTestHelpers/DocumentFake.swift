@@ -4,7 +4,9 @@ import Combine
 
 public class DocumentFake: VODesignDocumentProtocol {
     
-    public init() {}
+    public init() {
+        artboard.imageLoader = DummyImageLoader()
+    }
     
     // MARK: - Data
     public var controls: [any ArtboardElement] = []

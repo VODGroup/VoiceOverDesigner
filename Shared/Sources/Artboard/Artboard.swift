@@ -23,6 +23,8 @@ public class Artboard {
         self.frames = frames
         self.controlsWithoutFrames = controlsWithoutFrames
     }
+    
+    public var imageLoader: ImageLoading!
 }
 
 /// Domain object that is used for drawing
@@ -31,7 +33,6 @@ public class Frame: ArtboardContainer {
     
     public var label: String
     public let imageName: String
-    public let image: Image? // TODO: Replace with url: file or remote
     public var frame: CGRect
     
     /// In absolute coordinates
@@ -47,7 +48,6 @@ public class Frame: ArtboardContainer {
     ) {
         self.label = label
         self.imageName = imageName
-        self.image = image
         self.frame = frame
         self.elements = elements
         
@@ -62,3 +62,33 @@ public class Frame: ArtboardContainer {
     }
 }
 
+
+public protocol ImageLoading {
+    func image(for frame: Frame) -> Image?
+}
+
+import Foundation
+public class ImageLoader: ImageLoading {
+    public typealias DocumentPath = () -> URL?
+    let documentPath: DocumentPath
+    public init(documentPath: @escaping DocumentPath) {
+        self.documentPath = documentPath
+    }
+    public func image(for frame: Frame) -> Image? {
+        let filePath = documentPath()!
+            .appendingPathComponent("Images")
+            .appendingPathComponent(frame.imageName)
+            .appendingPathExtension("png")
+        
+        return Image(contentsOf: filePath)
+//            frame.image?.defaultCGImage
+    }
+}
+
+public class DummyImageLoader: ImageLoading {
+    public init() {}
+    
+    public func image(for frame: Frame) -> Image? {
+        return nil
+    }
+}

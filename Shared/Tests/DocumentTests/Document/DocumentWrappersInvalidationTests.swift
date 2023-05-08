@@ -46,7 +46,7 @@ class DocumentWrappersInvalidationTests: XCTestCase {
         try super.setUpWithError()
         
         document = try XCTUnwrap(Sample()
-            .document(name: "FrameVersionFormat"))
+            .document(name: "FrameVersionFormat", testCase: self))
         
         path = try XCTUnwrap(Sample().documentPath(name: "FrameVersionFormat"))
     }
