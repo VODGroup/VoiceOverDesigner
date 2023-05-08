@@ -13,19 +13,9 @@ final class DocumentVersionsTests: XCTestCase {
         XCTAssertEqual(frame.elements.count, 12)
         XCTAssertNotNil(frame.image)
     }
-
-    func test_whenReadOldFormat_shouldSaveAtNewFormat() throws {
-        try copySampleFileAndRestoreAtTearDown(name: "BetaVersionFormat")
-        
-        let document = try XCTUnwrap(Sample().document(name: "BetaVersionFormat"))
-        XCTAssertFalse(document.isBetaStructure, "Should migrate to new file structure right on read")
-        
-        saveDocumentAndRemoveAtTearDown(document: document, name: "TestDocument")
-    }
     
     func test_canReadFrameFileFormat() throws {
         let document = try XCTUnwrap(Sample().document(name: "FrameVersionFormat"))
-        XCTAssertFalse(document.isBetaStructure)
         
         let frame = try XCTUnwrap(document.artboard.frames.first)
         

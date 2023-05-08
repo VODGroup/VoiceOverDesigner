@@ -50,13 +50,30 @@ extension VODesignDocumentProtocol {
 //    }
 }
 
-extension VODesignDocumentProtocol {
-    
-    var isBetaStructure: Bool {
-        // controls.json on top of file structure
-        documentWrapper.fileWrappers?[FileName.controls] != nil
+enum DocumentVersion {
+    case beta
+    case release
+    case artboard
+}
+
+extension FileWrapper {
+    func documentVersion() -> DocumentVersion {
+        let hasControlsFileOnTopLevel = fileWrappers?[FileName.controls] != nil
+        
+        if hasControlsFileOnTopLevel {
+            return .beta
+        } else {
+            let hasFrameFolderOnTopLevel = fileWrappers?["Frame"] != nil
+            if hasFrameFolderOnTopLevel {
+                return .release
+            }
+            return .artboard
+        }
     }
-    
+}
+
+extension VODesignDocumentProtocol {
+
     var frameWrappers: [FileWrapper] {
         let frameWrappers = documentWrapper
             .fileWrappers?
@@ -119,37 +136,49 @@ extension VODesignDocumentProtocol {
         from packageWrapper: FileWrapper
     ) throws {
         guard packageWrapper.isDirectory else {
-            createEmptyDocumentWrappert()
+            // Some file from tests creates as a directory
+            createEmptyDocumentWrapper()
             print("Nothing to read, probably the document was just created")
             return
         }
         
+        let fileVersion = packageWrapper.documentVersion()
+        
         // Keep referente to gently update files for iCloud
         self.documentWrapper = packageWrapper
-//        for frameWrapper in frameWrappers {
-//            if let frame = try? readFrameWrapper(frameWrapper) {
-//                artboard.frames.append(frame)
-//            } else {
-//                print("Can't read frame, skip")
-//            }
-//        }
         
-        if let artboardWrapper = documentWrapper.fileWrappers?[FileName.document] {
-            let artboard = try! ArtboardElementCodingService().artboard(from: artboardWrapper.regularFileContents!)
-            self.artboard = artboard
-        }
-        
-        if let controlsContent = documentWrapper.fileWrappers?[FileName.controls]?.regularFileContents {
+        switch fileVersion {
+        case .beta:
+            let controlsWrapper = documentWrapper.fileWrappers![FileName.controls]!
             let codingService = ArtboardElementCodingService()
-            artboard.controlsWithoutFrames = try codingService.controls(from: controlsContent)
-        }
-        
-        if isBetaStructure {
-            // Reset document wrapper to update file structure
+            let controls = try codingService.controls(from: controlsWrapper.regularFileContents!)
+            
+            self.artboard = Artboard(frames: [
+                Frame(label: "Frame",
+                      imageName: "screen.png",
+                      image: nil,
+                      frame: CGRect(origin: .zero, size: .zero), // TODO: image.size
+                      elements: controls)
+            ])
+            
             recreateDocumentWrapper()
+            break
+        case .release:
+            if let frameWrapper = documentWrapper.fileWrappers?[defaultFrameName] {
+                self.artboard = Artboard(frames: [
+                    try readFrameWrapper(frameWrapper)
+                ])
+            }
+            
+        case .artboard:
+            if let artboardWrapper = documentWrapper.fileWrappers?[FileName.document] {
+                let artboard = try! ArtboardElementCodingService().artboard(from: artboardWrapper.regularFileContents!)
+                self.artboard = artboard
+            }
         }
     }
     
+    /// For version .release
     private func readFrameWrapper(_ frameWrapper: FileWrapper) throws -> Frame {
         print("Read wrapper \(frameWrapper.filename)")
         let frameFolder = frameWrapper.fileWrappers!
@@ -192,7 +221,7 @@ extension VODesignDocumentProtocol {
                      elements: controls)
     }
     
-    private func createEmptyDocumentWrappert() {
+    private func createEmptyDocumentWrapper() {
         self.documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
     }
     
@@ -203,7 +232,7 @@ extension VODesignDocumentProtocol {
     }
     
     private func recreateDocumentWrapper() {
-        createEmptyDocumentWrappert()
+        createEmptyDocumentWrapper()
         addEmptyFrameWrapper()
     }
     
