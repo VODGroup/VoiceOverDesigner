@@ -84,6 +84,13 @@ public class CanvasViewController: NSViewController {
             .removeDuplicates()
             .sink(receiveValue: pointerService.updateCursor(_:))
             .store(in: &cancellables)
+        
+        presenter
+            .controlsPublisher
+            .map { !$0.isEmpty }
+            .removeDuplicates()
+            .sink(receiveValue: view().updateDragnDropVisibility(hasDrawnControls:))
+            .store(in: &cancellables)
     }
     
     private func stopPointerObserving() {
@@ -105,6 +112,7 @@ public class CanvasViewController: NSViewController {
     
     func setImage() {
         view().setFrames(presenter.document.artboard.frames)
+        view().updateDragnDropVisibility(hasDrawnControls: !presenter.document.controls.isEmpty)
     }
     
     public override var representedObject: Any? {
