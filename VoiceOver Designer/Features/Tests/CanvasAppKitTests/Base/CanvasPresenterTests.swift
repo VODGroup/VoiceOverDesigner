@@ -8,13 +8,15 @@ class CanvasPresenterTests: XCTestCase {
     var sut: CanvasPresenter!
     var controller: EmptyViewController!
     var document: VODesignDocumentProtocol!
+    var uiScrollSpy: CanvasScrollViewSpy!
     
     override func setUp() {
         super.setUp()
         
         controller = EmptyViewController()
+        uiScrollSpy = CanvasScrollViewSpy()
+        
         document = DocumentFake()
-        document.image = Image()
         
         sut = CanvasPresenter(document: document)
     }
@@ -35,22 +37,24 @@ class CanvasPresenterTests: XCTestCase {
 // MARK: - DSL
 
 extension CanvasPresenterTests {
-    func didLoad() {
-        sut.didLoad(ui: controller.controlsView,
-                    initialScale: 1,
-                    previewSource: PreviewSourceDummy())
+    
+    var drawnControls: [any ArtboardElement] {
+        controller.controlsView.drawnControls.compactMap(\.model)
     }
     
-    var drawnControls: [any AccessibilityView] {
-        controller.controlsView.drawnControls.compactMap(\.model)
+    var documentControls: [any ArtboardElement] {
+        sut.document.artboard.controlsWithoutFrames
     }
     
     var numberOfDrawnViews: Int {
         drawnControls.count
     }
-
-    var documentControls: [any AccessibilityView] {
-        sut.document.controls
+    
+    func didLoad() {
+        sut.didLoad(uiContent: controller.controlsView,
+                    uiScroll: uiScrollSpy,
+                    initialScale: 1,
+                    previewSource: PreviewSourceDummy())
     }
     
     @discardableResult
@@ -74,6 +78,19 @@ extension CanvasPresenterTests {
         }
     }
     
+    func setupManualCopyCommand() -> ManualCopyCommand {
+        let copyCommand = ManualCopyCommand()
+        controller.controlsView.copyListener = copyCommand
+        return copyCommand
+    }
+    
+    func copy(from: CGPoint, to: CGPoint) {
+        let copyCommand = setupManualCopyCommand()
+        copyCommand.isModifierActive = true
+        sut.mouseDown(on: from)
+        sut.mouseUp(on: to)
+    }
+    
     func drag(_ start: CGFloat, _ otherPoints: CGFloat...) {
         sut.mouseDown(on: .coord(start))
         for point in otherPoints {
@@ -88,13 +105,9 @@ extension CanvasPresenterTests {
     
     func awaitSelected(file: StaticString = #file,
                        line: UInt = #line
-    ) async throws -> (any AccessibilityView)? {
+    ) async throws -> (any ArtboardElement)? {
         return try await awaitPublisher(sut.selectedPublisher,
                                         file: file, line: line)
-    }
-    
-    func removeImage() {
-        document.image = nil
     }
 }
 
@@ -108,5 +121,11 @@ extension CanvasPresenter {
 class PreviewSourceDummy: PreviewSourceProtocol {
     func previewImage() -> Image? {
         nil
+    }
+}
+
+class CanvasScrollViewSpy: CanvasScrollViewProtocol {
+    func fitToWindow(animated: Bool) {
+        
     }
 }

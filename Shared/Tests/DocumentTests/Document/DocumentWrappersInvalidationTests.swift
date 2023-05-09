@@ -18,11 +18,15 @@ class DocumentWrappersInvalidationTests: XCTestCase {
             .appendingPathComponent(fileName)
     }
     
+    var firstFrame: FileWrapper? {
+        document.frameWrappers[0]
+    }
+    
     private func assertMatchContentInFrame(
         _ fileName: String,
         file: StaticString = #file, line: UInt = #line
     ) throws {
-        let wrapper = try XCTUnwrap(document.frameWrapper[fileName], file: file, line: line)
+        let wrapper = try XCTUnwrap(firstFrame?[fileName], file: file, line: line)
         let path = pathInFrame(fileName)
         XCTAssertTrue(wrapper.matchesContents(of: path), file: file, line: line)
     }
@@ -31,7 +35,7 @@ class DocumentWrappersInvalidationTests: XCTestCase {
         _ fileName: String,
         file: StaticString = #file, line: UInt = #line
     ) throws {
-        let wrapper = try XCTUnwrap(document.frameWrapper[fileName], file: file, line: line)
+        let wrapper = try XCTUnwrap(firstFrame?[fileName], file: file, line: line)
         let path = pathInFrame(fileName)
         XCTAssertFalse(wrapper.matchesContents(of: path), file: file, line: line)
     }
@@ -42,7 +46,7 @@ class DocumentWrappersInvalidationTests: XCTestCase {
         try super.setUpWithError()
         
         document = try XCTUnwrap(Sample()
-            .document(name: "FrameVersionFormat"))
+            .document(name: "FrameVersionFormat", testCase: self))
         
         path = try XCTUnwrap(Sample().documentPath(name: "FrameVersionFormat"))
     }
@@ -51,26 +55,10 @@ class DocumentWrappersInvalidationTests: XCTestCase {
         XCTAssertTrue(document.documentWrapper.matchesContents(of: path))
     }
     
-    func test_whenUpdateImage_shouldInvalidateImage() throws {
-        XCTAssertNotNil(document.frameWrapper[FileName.screen], "image is here")
-        
-        document.updateImage(Image())
-        
-        XCTAssertNil(document.frameWrapper[FileName.screen], "image is invalidated")
-    }
-    
-    func test_whenUpdateImage_shouldInvalidateScale() throws {
-        try assertMatchContentInFrame(FileName.info)
-        
-        document.updateImage(Image())
-        
-        XCTAssertNil(document.frameWrapper[FileName.info], "info is invalidated")
-    }
-    
     func test_whenUpdateImage_shouldInvalidateQuickLookFile() throws {
-        document.updateImage(Image())
+        document.addFrame(with: Image())
         
-        XCTAssertNil(document.documentWrapper[FolderName.quickLook], "quickLook is invalidated")
+        XCTAssertNil(firstFrame?[FolderName.quickLook], "quickLook is invalidated")
     }
 }
 

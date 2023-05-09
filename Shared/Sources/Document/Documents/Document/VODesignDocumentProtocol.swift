@@ -4,10 +4,7 @@ import Combine
 public protocol VODesignDocumentProtocol: AnyObject {
     
     // MARK: - Data
-    var controls: [any AccessibilityView] { get set }
-    var image: Image? { get set }
-    var imageSize: CGSize { get }
-    var frameInfo: FrameInfo { get set }
+    var artboard: Artboard { get set }
     
     // MARK: - Services
     /// An undo manager that records operations on document
@@ -20,22 +17,42 @@ public protocol VODesignDocumentProtocol: AnyObject {
 }
 
 extension VODesignDocumentProtocol {
-    public func updateImage(_ newImage: Image) {
-        image = newImage
+    @available(*, deprecated, message: "Use `artboard`")
+    public var controls: [any ArtboardElement] {
+        get {
+            artboard.controlsWithoutFrames
+        }
         
-        invalidateWrapperIfPossible(fileInFrame: FileName.screen)
-        invalidateWrapperIfPossible(fileInFrame: FileName.info)
+        set {
+            artboard.controlsWithoutFrames = newValue
+        }
+    }
+}
+
+extension VODesignDocumentProtocol {
+    public func addFrame(with newImage: Image) {
+        // TODO: Move image inside folder
+        let frame = Frame(image: newImage)
+        artboard.frames.append(frame)
+        
         invalidateWrapperIfPossible(fileInRoot: FolderName.quickLook)
-        
-#if os(macOS)
-        frameInfo.imageScale = newImage.recommendedLayerContentsScale(1)
-#elseif os(iOS)
-        frameInfo.imageScale = 1 // iOS can't exract scale information
-#endif
     }
 }
 
 import CoreGraphics
 public protocol PreviewSourceProtocol: AnyObject {
     func previewImage() -> Image?
+}
+
+extension Frame {
+    public convenience init(image: Image) {
+        let name = UUID().uuidString // TODO: Create fancy name
+
+        let frame = CGRect(origin: .zero, size: image.size)
+        
+        self.init(label: name,
+                  imageName: name,
+                  frame: frame,
+                  elements: [])
+    }
 }

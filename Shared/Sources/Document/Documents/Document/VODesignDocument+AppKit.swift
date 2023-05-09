@@ -1,22 +1,24 @@
 #if os(macOS)
 // MARK: - AppKit
 import AppKit
-public typealias Document = NSDocument
+public typealias AppleDocument = NSDocument
 
 import os
 
 import QuickLookThumbnailing
 
-public class VODesignDocument: Document, VODesignDocumentProtocol {
+public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
 
     // MARK: - Data
-    public var controls: [any AccessibilityView] = []
-    public var image: Image?
-    public var imageSize: CGSize {
-        guard let image else { return .zero }
-        return image.size
-    }
-    public var frameInfo: FrameInfo = .default
+    @available(*, deprecated, message: "Use `artboard`")
+    public var elements: [any ArtboardElement] = []
+    
+    public lazy var artboard: Artboard = {
+        let artboard = Artboard()
+        artboard.imageLoader = ImageLoader(documentPath: { [weak self] in self?.fileURL
+        })
+        return artboard
+    }()
     
     public var documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
     
@@ -46,7 +48,7 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         
         displayName = image.name() ?? Date().description
         
-        updateImage(image)
+        addFrame(with: image)
     }
     
     // MARK: - Override
@@ -61,7 +63,52 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         undoManager?.disableUndoRegistration()
         defer { undoManager?.enableUndoRegistration() }
         
-        try read(from: packageWrapper)
+        do {
+            let (version, artboard) = try read(from: packageWrapper)
+            
+            self.artboard = artboard
+            artboard.imageLoader = ImageLoader(documentPath: { [weak self] in self?.fileURL
+            })
+            
+            try! performDocumentMigration(from: version)
+            
+        } catch let error {
+            Swift.print(error)
+            throw error
+        }
+    }
+    
+    private func performDocumentMigration(from version: DocumentVersion) throws {
+        let fileManager = FileManager.default
+        switch version {
+        case .beta:
+            // TODO: Move image inside "Image" folder
+            if let fileURL {
+                let fromPath = fileURL.appendingPathComponent("screen.png")
+                var toPath = fileURL.appendingPathComponent(FolderName.images)
+                try fileManager.createDirectory(at: toPath, withIntermediateDirectories: true)
+                
+                toPath = toPath.appendingPathComponent("Frame.png")
+                try fileManager.moveItem(
+                    at: fromPath,
+                    to: toPath)
+            }
+           
+            recreateDocumentWrapper()
+        case .release:
+            if let fileURL {
+                let fromPath = fileURL.appendingPathComponent("Frame/screen.png")
+                var toPath = fileURL.appendingPathComponent(FolderName.images)
+                try fileManager.createDirectory(at: toPath, withIntermediateDirectories: true)
+                
+                toPath = toPath.appendingPathComponent("Frame.png")
+                try fileManager.moveItem(
+                    at: fromPath,
+                    to: toPath)
+            }
+        case .artboard:
+            break
+        }
     }
     
     // MARK: Static

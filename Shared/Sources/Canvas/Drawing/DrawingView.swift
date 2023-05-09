@@ -38,17 +38,21 @@ extension CALayer {
 
 public protocol DrawingView: View {
     var drawnControls: [A11yControlLayer] { get set }
+    var frames: [ImageLayer] { get set }
     
     var alignmentOverlay: AlignmentOverlayProtocol { get }
+    var hud: HUDLayer { get }
     
     var copyListener: CopyModifierAction { get set }
-    
     var escListener: EscModifierAction { get }
-    
-    var hud: HUDLayer { get }
 }
 
 public extension DrawingView {
+    
+    func add(frame: ImageLayer) {
+        addSublayer(frame)
+        frames.append(frame)
+    }
     
     func add(control: A11yControlLayer) {
         control.contentsScale = contentScale
@@ -104,7 +108,7 @@ public extension DrawingView {
         }
     }
     
-    func remove(_ model: any AccessibilityView) {
+    func remove(_ model: any ArtboardElement) {
         guard let index = drawnControls.firstIndex(where: {
             $0.model === model
         }), let control = drawnControls.first(where: {

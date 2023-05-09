@@ -3,11 +3,11 @@ import Canvas
 import Document
 
 public class VoiceOverLayout {
-    private let controls: [any AccessibilityView]
+    private let controls: [any ArtboardElement]
     private let scrollView: ScrollViewConverable
     
     public init(
-        controls: [any AccessibilityView],
+        controls: [any ArtboardElement],
         scrollView: ScrollViewConverable
     ) {
         self.controls = controls
@@ -15,7 +15,7 @@ public class VoiceOverLayout {
     }
     
     private func accessibilityElement(
-        from control: any AccessibilityView,
+        from control: any ArtboardElement,
         at view: UIView
     ) -> Any {
         switch control.cast {
@@ -30,6 +30,8 @@ public class VoiceOverLayout {
                 control: element,
                 accessibilityContainer: view,
                 frame: .relativeToParent(element.frame))
+        case .frame(_):
+            fatalError("Imlement")
         }
     }
     

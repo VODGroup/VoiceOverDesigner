@@ -5,34 +5,41 @@ import DocumentTestHelpers
 final class DocumentVersionsTests: XCTestCase {
 
 #if os(macOS)
-    func test_canReadDocumentWithoutFrameFolder() throws {
-        let document = try XCTUnwrap(Sample()
-            .document(name: "BetaVersionFormat"))
+    func test_betaDocument_whenReads_shouldMoveElementsToFirstFrame() throws {
+        let document = try XCTUnwrap(Sample().document(name: "BetaVersionFormat", testCase: self))
         
-        XCTAssertEqual(document.controls.count, 12)
-        XCTAssertNotNil(document.image)
-        XCTAssertEqual(document.frameInfo.imageScale, 1, "Old format doesn't know about scale")
-    }
-
-    func test_whenReadOldFormat_shouldSaveAtNewFormat() throws {
-        try copySampleFileAndRestoreAtTearDown(name: "BetaVersionFormat")
+        let frame = try XCTUnwrap(document.artboard.frames.first)
         
-        let document = try XCTUnwrap(Sample().document(name: "BetaVersionFormat"))
-        XCTAssertTrue(document.isBetaStructure, "Read as old file structure")
-        
-        saveDocumentAndRemoveAtTearDown(document: document, name: "TestDocument")
-        XCTAssertFalse(document.isBetaStructure, "Update file structure after saving")
+        XCTAssertEqual(frame.elements.count, 12)
+        XCTAssertNotNil(document.artboard.imageLoader.image(for: frame))
     }
     
     func test_canReadFrameFileFormat() throws {
-        let document = try XCTUnwrap(Sample()
-            .document(name: "FrameVersionFormat"))
+        let document = try XCTUnwrap(Sample().document(name: "FrameVersionFormat", testCase: self))
         
-        XCTAssertFalse(document.isBetaStructure)
+        let frame = try XCTUnwrap(document.artboard.frames.first)
         
-        XCTAssertEqual(document.controls.count, 12)
-        XCTAssertNotNil(document.image)
-        XCTAssertEqual(document.frameInfo.imageScale, 3)
+        XCTAssertEqual(frame.elements.count, 12)
+        XCTAssertNotNil(document.artboard.imageLoader.image(for: frame))
+        XCTAssertEqual(frame.frame, CGRect(x: 0, y: 0, width: 390, height: 844), "should scale frame")
+    }
+    
+    func test_artboardFormat() throws {
+        let document = try XCTUnwrap(Sample().document(name: "ArtboardFormat", testCase: self))
+        
+        let artboard = document.artboard
+        XCTAssertEqual(artboard.frames.count, 2)
+        XCTAssertEqual(artboard.controlsWithoutFrames.count, 0)
+        
+        let frame1 = try XCTUnwrap(artboard.frames.first)
+        XCTAssertEqual(frame1.elements.count, 10)
+        XCTAssertNotNil(document.artboard.imageLoader.image(for: frame1))
+        XCTAssertEqual(frame1.frame, CGRect(x: 2340, y: 0, width: 1170, height: 3407), "should scale frame")
+        
+        let frame2 = try XCTUnwrap(artboard.frames.last)
+        XCTAssertEqual(frame2.elements.count, 8)
+        XCTAssertNotNil(document.artboard.imageLoader.image(for: frame2))
+        XCTAssertEqual(frame2.frame, CGRect(x: 0, y: 0, width: 1170, height: 3372), "should scale frame")
     }
     
     // MARK: - Restoration DSL
@@ -41,6 +48,7 @@ final class DocumentVersionsTests: XCTestCase {
         let path = try XCTUnwrap(Sample().documentPath(name: name))
         let bundlePath = path.deletingLastPathComponent()
         let restorationPath = bundlePath.appendingPathComponent("\(name)-Restore.vodesign")
+        try? fileManager.removeItem(at: restorationPath)
         try fileManager.copyItem(at: path, to: restorationPath)
         addTeardownBlock {
             try _ = self.fileManager.replaceItemAt(path, withItemAt: restorationPath)
@@ -64,7 +72,7 @@ final class DocumentVersionsTests: XCTestCase {
         await document.read()
 
         await MainActor.run(body: {
-            XCTAssertEqual(document.controls.count, 12)
+            XCTAssertEqual(document.elements.count, 12)
             XCTAssertNotNil(document.image)
             XCTAssertEqual(document.frameInfo.imageScale, 1, "Old format doesn't know about scale")
         })
@@ -77,7 +85,7 @@ final class DocumentVersionsTests: XCTestCase {
         await document.read()
 
         await MainActor.run(body: {
-            XCTAssertEqual(document.controls.count, 12)
+            XCTAssertEqual(document.elements.count, 12)
             XCTAssertNotNil(document.image)
             XCTAssertEqual(document.frameInfo.imageScale, 3)
         })

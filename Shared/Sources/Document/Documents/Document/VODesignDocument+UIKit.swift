@@ -1,14 +1,16 @@
 #if os(iOS)
 import UIKit
-public typealias Document = UIDocument
+public typealias AppleDocument = UIDocument
 import Combine
+import Artboard
 
-public class VODesignDocument: Document, VODesignDocumentProtocol {
+public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
     
     // MARK: - Data
-    public var controls: [any AccessibilityView] = []
+    public var elements: [any ArtboardElement] = []
     public var image: Image?
     public var frameInfo: FrameInfo = .default
+    public var artboard: Artboard = Artboard()
     
     public var imageSize: CGSize {
         return image?
@@ -44,14 +46,14 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
     // MARK: - Override
     public override func save(
         to url: URL,
-        for saveOperation: Document.SaveOperation
+        for saveOperation: AppleDocument.SaveOperation
     ) async -> Bool {
         
         let frameURL = url.frameURL(frameName: defaultFrameName)
         let frameReader = FrameReader(frameURL: frameURL)
         
         do {
-            try frameReader.saveService.save(controls: controls)
+            try frameReader.saveService.save(controls: elements)
             return true
         } catch let error {
             print(error)

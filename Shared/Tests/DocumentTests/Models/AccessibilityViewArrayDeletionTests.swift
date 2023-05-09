@@ -1,14 +1,14 @@
 import XCTest
 import Document
 
-final class AccessibilityViewArrayDeletionTests: XCTestCase {
+final class ArtboardElementArrayDeletionTests: XCTestCase {
     
     var item1: A11yDescription!
     var item2: A11yDescription!
     var item3: A11yDescription!
     var container1: A11yContainer!
     
-    var array: [any AccessibilityView]!
+    var array: [any ArtboardElement]!
     
     override func setUp() {
         super.setUp()
