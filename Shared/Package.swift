@@ -30,9 +30,15 @@ let package = Package(
             targets: ["Purchases"]),
     ],
     dependencies: [
+        .package(
+            url: "git@github.com:pointfreeco/swift-snapshot-testing.git",
+            .upToNextMajor(from: "1.10.0")
+        ),
         .package(url: "git@github.com:pointfreeco/swift-custom-dump.git",
                  .upToNextMajor(from: "0.6.1")),
         .package(url: "git@github.com:apple/swift-argument-parser.git", from: "1.2.1"),
+        
+            .package(path: "./../FolderSnapshot")
     ],
     targets: [
         .target(
@@ -69,6 +75,9 @@ let package = Package(
             dependencies: [
                 "Document",
                 "DocumentTestHelpers",
+                .product(name: "SnapshotTesting",
+                         package: "swift-snapshot-testing"),
+                "FolderSnapshot",
             ]),
         
         .target(
