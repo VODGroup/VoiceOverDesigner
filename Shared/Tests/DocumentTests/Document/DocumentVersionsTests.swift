@@ -21,6 +21,14 @@ final class DocumentVersionsTests: XCTestCase {
         let document = try XCTUnwrap(Sample().document(name: .beta, testCase: self))
         
         // Read on file creation
+
+        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
+    }
+    
+    func test_betaDocument_whenSave_shouldUpdateStructure() throws {
+        let document = try XCTUnwrap(Sample().document(name: "BetaVersionFormat", testCase: self))
+
+        saveDocumentAndRemoveAtTearDown(document: document, name: "BetaFormatNewStructure")
         
         assertSnapshot(matching: document.fileURL!, as: .folderStructure)
     }
@@ -34,10 +42,31 @@ final class DocumentVersionsTests: XCTestCase {
         XCTAssertNotNil(document.artboard.imageLoader.image(for: frame))
     }
     
-    func test_betaDocument_whenSave_shouldUpdateStructure() throws {
-        let document = try XCTUnwrap(Sample().document(name: .beta, testCase: self))
+    // MARK: - Frame version
+    func test_frameDocument_whenRead_shouldUpdateStructure() throws {
+        let document = try XCTUnwrap(Sample().document(name: "FrameVersionFormat", testCase: self))
+        
+        // Read on file creation
+        
+        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
+    }
+    
+    func test_frameDocument_whenSave_shouldUpdateStructure() throws {
+        let document = try XCTUnwrap(Sample().document(name: "FrameVersionFormat", testCase: self))
 
-        saveDocumentAndRemoveAtTearDown(document: document, name: "BetaFormatNewStructure")
+        saveDocumentAndRemoveAtTearDown(document: document, name: "FrameFormatNewStructure")
+        
+        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
+    }
+    
+    func test_canReadFrameFileFormat() throws {
+        let document = try XCTUnwrap(Sample().document(name: "FrameVersionFormat", testCase: self))
+        
+        let frame = try XCTUnwrap(document.artboard.frames.first)
+        
+        XCTAssertEqual(frame.elements.count, 12)
+        XCTAssertNotNil(document.artboard.imageLoader.image(for: frame))
+        XCTAssertEqual(frame.frame, CGRect(x: 0, y: 0, width: 390, height: 844), "should scale frame")
         
         assertSnapshot(matching: document.fileURL!, as: .folderStructure)
     }
