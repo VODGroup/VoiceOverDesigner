@@ -13,9 +13,16 @@ final class DocumentVersionsTests: XCTestCase {
     func test_betaDocument_whenRead_shouldUpdateStructure() throws {
         let document = try XCTUnwrap(Sample().document(name: "BetaVersionFormat", testCase: self))
         
-        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
+        // Read on file creation
         
-        document.save(testCase: self, fileName: "hnt")
+        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
+    }
+    
+    func test_betaDocument_whenSave_shouldUpdateStructure() throws {
+        let document = try XCTUnwrap(Sample().document(name: "BetaVersionFormat", testCase: self))
+
+        saveDocumentAndRemoveAtTearDown(document: document, name: "BetaFormatNewStructure")
+        
         assertSnapshot(matching: document.fileURL!, as: .folderStructure)
     }
     
@@ -26,6 +33,23 @@ final class DocumentVersionsTests: XCTestCase {
         
         XCTAssertEqual(frame.elements.count, 12)
         XCTAssertNotNil(document.artboard.imageLoader.image(for: frame))
+    }
+    
+    // MARK: - Frame version
+    func test_frameDocument_whenRead_shouldUpdateStructure() throws {
+        let document = try XCTUnwrap(Sample().document(name: "FrameVersionFormat", testCase: self))
+        
+        // Read on file creation
+        
+        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
+    }
+    
+    func test_frameDocument_whenSave_shouldUpdateStructure() throws {
+        let document = try XCTUnwrap(Sample().document(name: "FrameVersionFormat", testCase: self))
+
+        saveDocumentAndRemoveAtTearDown(document: document, name: "FrameFormatNewStructure")
+        
+        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
     }
     
     func test_canReadFrameFileFormat() throws {
@@ -39,6 +63,24 @@ final class DocumentVersionsTests: XCTestCase {
         
         assertSnapshot(matching: document.fileURL!, as: .folderStructure)
     }
+    
+    // MARK: Artboard version
+    func test_artboardDocument_whenRead_shouldUpdateStructure() throws {
+        let document = try XCTUnwrap(Sample().document(name: "ArtboardFormat", testCase: self))
+        
+        // Read on file creation
+        
+        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
+    }
+    
+    func test_artboardDocument_whenSave_shouldUpdateStructure() throws {
+        let document = try XCTUnwrap(Sample().document(name: "ArtboardFormat", testCase: self))
+
+        saveDocumentAndRemoveAtTearDown(document: document, name: "ArtboardFormatNewStructure")
+        
+        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
+    }
+    
     
     func test_artboardFormat() throws {
         let document = try XCTUnwrap(Sample().document(name: "ArtboardFormat", testCase: self))
@@ -62,16 +104,6 @@ final class DocumentVersionsTests: XCTestCase {
     
     // MARK: - Restoration DSL
     private let fileManager = FileManager.default
-    private func copySampleFileAndRestoreAtTearDown(name: String) throws {
-        let path = try XCTUnwrap(Sample().documentPath(name: name))
-        let bundlePath = path.deletingLastPathComponent()
-        let restorationPath = bundlePath.appendingPathComponent("\(name)-Restore.vodesign")
-        try? fileManager.removeItem(at: restorationPath)
-        try fileManager.copyItem(at: path, to: restorationPath)
-        addTeardownBlock {
-            try _ = self.fileManager.replaceItemAt(path, withItemAt: restorationPath)
-        }
-    }
     
     private func saveDocumentAndRemoveAtTearDown(document: VODesignDocument, name: String) {
         document.save(testCase: self, fileName: name)
