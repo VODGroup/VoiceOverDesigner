@@ -24,8 +24,7 @@ extension VODesignDocument {
         let document = VODesignDocument.testDocument(name: name, testCase: testCase)
         document.artboard.frames = [Frame(
             label: "Frame1",
-            imageName: "Frame1",
-            image: nil,
+            imageName: "Frame1.png",
             frame: .zero,
             elements: [
                 A11yDescription.testMake(label: "Label1"),

@@ -5,7 +5,7 @@ import Foundation
 #if os(iOS)
 import UIKit
 public typealias Image = UIImage
-extension Image {
+public extension Image {
     convenience init?(path: URL) {
         self.init(contentsOfFile: path.path)
     }
@@ -14,7 +14,7 @@ extension Image {
 #elseif os(macOS)
 import AppKit
 public typealias Image = NSImage
-extension Image {
+public extension Image {
     convenience init?(path: URL) {
         self.init(contentsOf: path)
     }
@@ -42,22 +42,33 @@ public class Frame: ArtboardContainer {
     public var type: ArtboardType = .frame
     
     public var label: String
-    public let imageName: String
+    public var imageLocation: ImageLocation
     public var frame: CGRect
     
     /// In absolute coordinates
     public var elements: [any ArtboardElement]
     public var parent: (any ArtboardContainer)? = nil
     
-    public init(
+    public convenience init(
         label: String,
         imageName: String,
-        image: Image?,
+        frame: CGRect,
+        elements: [any ArtboardElement]
+    ) {
+        self.init(label: label,
+                  imageLocation: .file(name: imageName),
+                  frame: frame,
+                  elements: elements)
+    }
+    
+    public init(
+        label: String,
+        imageLocation: ImageLocation,
         frame: CGRect,
         elements: [any ArtboardElement]
     ) {
         self.label = label
-        self.imageName = imageName
+        self.imageLocation = imageLocation
         self.frame = frame
         self.elements = elements
         
@@ -72,27 +83,13 @@ public class Frame: ArtboardContainer {
     }
 }
 
+public enum ImageLocation: Codable {
+    case file(name: String)
+    case url(url: URL)
+}
 
 public protocol ImageLoading {
     func image(for frame: Frame) -> Image?
-}
-
-import Foundation
-public class ImageLoader: ImageLoading {
-    public typealias DocumentPath = () -> URL?
-    let documentPath: DocumentPath
-    public init(documentPath: @escaping DocumentPath) {
-        self.documentPath = documentPath
-    }
-    public func image(for frame: Frame) -> Image? {
-        let filePath = documentPath()!
-            .appendingPathComponent("Images")
-            .appendingPathComponent(frame.imageName)
-            .appendingPathExtension("png")
-        
-        return Image(path: filePath)
-//            frame.image?.defaultCGImage
-    }
 }
 
 public class DummyImageLoader: ImageLoading {
