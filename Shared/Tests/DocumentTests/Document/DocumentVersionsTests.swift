@@ -43,6 +43,8 @@ final class DocumentVersionsTests: XCTestCase {
             numberOfElements: 12,
             rect: CGRect(x: 0, y: 0, width: 390, height: 844)
         )
+        
+        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
     }
     
     // MARK: - Frame version
@@ -72,6 +74,8 @@ final class DocumentVersionsTests: XCTestCase {
             numberOfElements: 12,
             rect: CGRect(x: 0, y: 0, width: 390, height: 844)
         )
+
+        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
     }
     
     // MARK: Artboard version
@@ -106,11 +110,14 @@ final class DocumentVersionsTests: XCTestCase {
         )
         
         let frame2 = try XCTUnwrap(artboard.frames.last)
+
         assert(
             frame: frame2, at: document,
             numberOfElements: 8,
             rect: CGRect(x: 0, y: 0, width: 1170, height: 3372)
         )
+
+        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
     }
     
     // MARK: - Restoration DSL
