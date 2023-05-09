@@ -25,6 +25,15 @@ final class DocumentVersionsTests: XCTestCase {
         assertSnapshot(matching: document.fileURL!, as: .folderStructure)
     }
     
+    func test_betaDocument_whenReads_shouldMoveElementsToFirstFrame() throws {
+        let document = try XCTUnwrap(Sample().document(name: "BetaVersionFormat", testCase: self))
+        
+        let frame = try XCTUnwrap(document.artboard.frames.first)
+        
+        XCTAssertEqual(frame.elements.count, 12)
+        XCTAssertNotNil(document.artboard.imageLoader.image(for: frame))
+    }
+    
     func test_betaDocument_whenSave_shouldUpdateStructure() throws {
         let document = try XCTUnwrap(Sample().document(name: .beta, testCase: self))
 
