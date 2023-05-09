@@ -53,6 +53,13 @@ public class CanvasViewController: NSViewController {
             .removeDuplicates()
             .sink(receiveValue: updateCursor)
             .store(in: &cancellables)
+        
+        presenter
+            .controlsPublisher
+            .map { !$0.isEmpty }
+            .removeDuplicates()
+            .sink(receiveValue: view().updateDragnDropVisibility(hasDrawnControls:))
+            .store(in: &cancellables)
     }
     
     private func updateCursor(_ value: DrawingController.Pointer?) {
@@ -99,10 +106,11 @@ public class CanvasViewController: NSViewController {
                 // TODO: Scale Preview also by UIScrollView?
             )
             
-            self.setImage()
+            self.updateView()
             self.addMouseTracking()
             self.addMenuItem()
             self.observe()
+
         }
     }
     
@@ -117,8 +125,9 @@ public class CanvasViewController: NSViewController {
         menu.addItem(canvasMenuItem)
     }
     
-    func setImage() {
+    func updateView() {
         view().setImage(presenter.document.image)
+        view().updateDragnDropVisibility(hasDrawnControls: !presenter.document.controls.isEmpty)
     }
     
     public override var representedObject: Any? {

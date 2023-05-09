@@ -63,6 +63,8 @@ class CanvasView: FlippedView {
         footer.wantsLayer = true
         footer.layer?.backgroundColor = NSColor.quaternaryLabelColor.cgColor
         footer.isHidden = true
+
+        
     }
     
     // MARK: - Magnification
@@ -131,6 +133,12 @@ class CanvasView: FlippedView {
         contentView.translatesAutoresizingMaskIntoConstraints = false
 
         fitToWindow(animated: false)
+    }
+    
+    
+    func updateDragnDropVisibility(hasDrawnControls: Bool) {
+        dragnDropView.isHidden = hasDrawnControls
+        footer.isHidden = hasDrawnControls
     }
     
     func image(at frame: CGRect) async -> CGImage? {
