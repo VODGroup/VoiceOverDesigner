@@ -21,4 +21,7 @@
    <FileRef
       location = "group:Shared">
    </FileRef>
+   <FileRef
+      location = "group:FolderSnapshot">
+   </FileRef>
 </Workspace>
