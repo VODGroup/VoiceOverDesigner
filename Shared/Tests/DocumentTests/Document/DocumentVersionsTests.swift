@@ -8,6 +8,17 @@ import FolderSnapshot
 final class DocumentVersionsTests: XCTestCase {
 
 #if os(macOS)
+    
+    // MARK: - Beta format
+    func test_betaDocument_whenRead_shouldUpdateStructure() throws {
+        let document = try XCTUnwrap(Sample().document(name: "BetaVersionFormat", testCase: self))
+        
+        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
+        
+        document.save(testCase: self, fileName: "hnt")
+        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
+    }
+    
     func test_betaDocument_whenReads_shouldMoveElementsToFirstFrame() throws {
         let document = try XCTUnwrap(Sample().document(name: "BetaVersionFormat", testCase: self))
         
@@ -15,8 +26,6 @@ final class DocumentVersionsTests: XCTestCase {
         
         XCTAssertEqual(frame.elements.count, 12)
         XCTAssertNotNil(document.artboard.imageLoader.image(for: frame))
-        
-        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
     }
     
     func test_canReadFrameFileFormat() throws {
