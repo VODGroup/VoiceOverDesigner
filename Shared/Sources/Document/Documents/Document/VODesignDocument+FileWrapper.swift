@@ -155,8 +155,7 @@ extension VODesignDocumentProtocol {
             
             let artboard = Artboard(frames: [
                 Frame(label: "Frame",
-                      imageName: "Frame",
-                      image: nil,
+                      imageName: "Frame.png",
                       frame: CGRect(origin: .zero, size: .zero), // TODO: image.size
                       elements: controls)
             ])
@@ -217,9 +216,9 @@ extension VODesignDocumentProtocol {
         
         let name = frameWrapper.filename ?? UUID().uuidString
         
+        // TODO: Put image inside folder
         return Frame(label: name,
-                     imageName: name,
-                     image: image,
+                     imageName: "Frame.png",
                      frame: frame,
                      elements: controls)
     }

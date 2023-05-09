@@ -85,7 +85,7 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
             // TODO: Move image inside "Image" folder
             if let fileURL {
                 let fromPath = fileURL.appendingPathComponent("screen.png")
-                var toPath = fileURL.appendingPathComponent("Images")
+                var toPath = fileURL.appendingPathComponent(FolderName.images)
                 try fileManager.createDirectory(at: toPath, withIntermediateDirectories: true)
                 
                 toPath = toPath.appendingPathComponent("Frame.png")
@@ -98,7 +98,7 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
         case .release:
             if let fileURL {
                 let fromPath = fileURL.appendingPathComponent("Frame/screen.png")
-                var toPath = fileURL.appendingPathComponent("Images")
+                var toPath = fileURL.appendingPathComponent(FolderName.images)
                 try fileManager.createDirectory(at: toPath, withIntermediateDirectories: true)
                 
                 toPath = toPath.appendingPathComponent("Frame.png")

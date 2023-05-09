@@ -4,18 +4,6 @@
   ],
   "frames" : [
     {
-      "label" : "Frame2",
-      "frame" : [
-        [
-          2340,
-          0
-        ],
-        [
-          1170,
-          3407
-        ]
-      ],
-      "type" : "frame",
       "elements" : [
         {
           "isAccessibilityElement" : true,
@@ -469,21 +457,26 @@
           "isTabTrait" : true,
           "isModal" : false
         }
-      ]
-    },
-    {
-      "label" : "Frame",
+      ],
+      "label" : "Frame2",
       "frame" : [
         [
-          0,
+          2340,
           0
         ],
         [
           1170,
-          3372
+          3407
         ]
       ],
       "type" : "frame",
+      "imageLocation" : {
+        "file" : {
+          "name" : "Frame2.png"
+        }
+      }
+    },
+    {
       "elements" : [
         {
           "isAccessibilityElement" : true,
@@ -749,7 +742,24 @@
             ]
           }
         }
-      ]
+      ],
+      "label" : "Frame",
+      "frame" : [
+        [
+          0,
+          0
+        ],
+        [
+          1170,
+          3372
+        ]
+      ],
+      "type" : "frame",
+      "imageLocation" : {
+        "file" : {
+          "name" : "Frame.png"
+        }
+      }
     }
   ]
 }

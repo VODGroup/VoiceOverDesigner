@@ -31,6 +31,7 @@ extension VODesignDocumentProtocol {
 
 extension VODesignDocumentProtocol {
     public func addFrame(with newImage: Image) {
+        // TODO: Move image inside folder
         let frame = Frame(image: newImage)
         artboard.frames.append(frame)
         
@@ -51,7 +52,6 @@ extension Frame {
         
         self.init(label: name,
                   imageName: name,
-                  image: image,
                   frame: frame,
                   elements: [])
     }

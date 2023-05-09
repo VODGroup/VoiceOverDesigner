@@ -8,6 +8,7 @@ enum FileName {
 
 public enum FolderName {
     static let quickLook = "QuickView"
+    static let images = "Images"
     
     public static var quickLookPath: String {
         "\(FolderName.quickLook)/\(FileName.quickLookFile)"
