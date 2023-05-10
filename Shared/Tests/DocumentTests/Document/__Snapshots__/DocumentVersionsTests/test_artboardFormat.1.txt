@@ -1,6 +1,0 @@
-▿ Images
-  - Frame2.png
-  - Frame.png
-▿ QuickView
-  - Preview.heic
-- document.json

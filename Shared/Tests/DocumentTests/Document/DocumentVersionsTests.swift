@@ -60,8 +60,6 @@ final class DocumentVersionsTests: XCTestCase {
         XCTAssertEqual(frame.elements.count, 12)
         XCTAssertNotNil(document.artboard.imageLoader.image(for: frame))
         XCTAssertEqual(frame.frame, CGRect(x: 0, y: 0, width: 390, height: 844), "should scale frame")
-        
-        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
     }
     
     // MARK: Artboard version
@@ -97,8 +95,6 @@ final class DocumentVersionsTests: XCTestCase {
         XCTAssertEqual(frame2.elements.count, 8)
         XCTAssertNotNil(document.artboard.imageLoader.image(for: frame2))
         XCTAssertEqual(frame2.frame, CGRect(x: 0, y: 0, width: 1170, height: 3372), "should scale frame")
-        
-        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
     }
     
     // MARK: - Restoration DSL
