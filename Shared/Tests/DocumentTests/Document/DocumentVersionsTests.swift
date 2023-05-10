@@ -26,7 +26,7 @@ final class DocumentVersionsTests: XCTestCase {
         assertSnapshot(matching: document.fileURL!, as: .folderStructure)
     }
     
-    func test_betaDocument_whenReads_shouldMoveElementsToFirstFrame() throws {
+    func test_betaDocument_whenRead_shouldMoveElementsToFirstFrame() throws {
         let document = try XCTUnwrap(Sample().document(name: "BetaVersionFormat", testCase: self))
         
         let frame = try XCTUnwrap(document.artboard.frames.first)
@@ -52,7 +52,7 @@ final class DocumentVersionsTests: XCTestCase {
         assertSnapshot(matching: document.fileURL!, as: .folderStructure)
     }
     
-    func test_canReadFrameFileFormat() throws {
+    func test_frameDocument_whenRead_shouldReadAsFirstFrame() throws {
         let document = try XCTUnwrap(Sample().document(name: "FrameVersionFormat", testCase: self))
         
         let frame = try XCTUnwrap(document.artboard.frames.first)
@@ -81,8 +81,7 @@ final class DocumentVersionsTests: XCTestCase {
         assertSnapshot(matching: document.fileURL!, as: .folderStructure)
     }
     
-    
-    func test_artboardFormat() throws {
+    func test_artboardDocument_whenRead_shouldReadContent() throws {
         let document = try XCTUnwrap(Sample().document(name: "ArtboardFormat", testCase: self))
         
         let artboard = document.artboard
