@@ -31,8 +31,11 @@ final class DocumentVersionsTests: XCTestCase {
         
         let frame = try XCTUnwrap(document.artboard.frames.first)
         
-        XCTAssertEqual(frame.elements.count, 12)
-        XCTAssertNotNil(document.artboard.imageLoader.image(for: frame))
+        assert(
+            frame: frame, at: document,
+            numberOfElements: 12,
+            rect: CGRect(x: 0, y: 0, width: 390, height: 844)
+        )
     }
     
     // MARK: - Frame version
@@ -57,9 +60,11 @@ final class DocumentVersionsTests: XCTestCase {
         
         let frame = try XCTUnwrap(document.artboard.frames.first)
         
-        XCTAssertEqual(frame.elements.count, 12)
-        XCTAssertNotNil(document.artboard.imageLoader.image(for: frame))
-        XCTAssertEqual(frame.frame, CGRect(x: 0, y: 0, width: 390, height: 844), "should scale frame")
+        assert(
+            frame: frame, at: document,
+            numberOfElements: 12,
+            rect: CGRect(x: 0, y: 0, width: 390, height: 844)
+        )
     }
     
     // MARK: Artboard version
@@ -87,14 +92,18 @@ final class DocumentVersionsTests: XCTestCase {
         XCTAssertEqual(artboard.controlsWithoutFrames.count, 0)
         
         let frame1 = try XCTUnwrap(artboard.frames.first)
-        XCTAssertEqual(frame1.elements.count, 10)
-        XCTAssertNotNil(document.artboard.imageLoader.image(for: frame1))
-        XCTAssertEqual(frame1.frame, CGRect(x: 2340, y: 0, width: 1170, height: 3407), "should scale frame")
+        assert(
+            frame: frame1, at: document,
+            numberOfElements: 10,
+            rect: CGRect(x: 2340, y: 0, width: 1170, height: 3407)
+        )
         
         let frame2 = try XCTUnwrap(artboard.frames.last)
-        XCTAssertEqual(frame2.elements.count, 8)
-        XCTAssertNotNil(document.artboard.imageLoader.image(for: frame2))
-        XCTAssertEqual(frame2.frame, CGRect(x: 0, y: 0, width: 1170, height: 3372), "should scale frame")
+        assert(
+            frame: frame2, at: document,
+            numberOfElements: 8,
+            rect: CGRect(x: 0, y: 0, width: 1170, height: 3372)
+        )
     }
     
     // MARK: - Restoration DSL
@@ -108,6 +117,15 @@ final class DocumentVersionsTests: XCTestCase {
         }
     }
 
+    func assert(
+        frame: Frame, at document: VODesignDocument,
+        numberOfElements: Int, rect: CGRect,
+        file: StaticString = #filePath, line: UInt = #line
+    ) {
+        XCTAssertEqual(frame.elements.count, numberOfElements, file: file, line: line)
+        XCTAssertNotNil(document.artboard.imageLoader.image(for: frame), file: file, line: line)
+        XCTAssertEqual(frame.frame, rect, "should scale frame", file: file, line: line)
+    }
 #elseif os(iOS)
     
     func test_canReadDocumentWithoutFrameFolder() async throws {
