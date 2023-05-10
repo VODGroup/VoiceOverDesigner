@@ -1,7 +1,0 @@
-▿ Images
-  - Frame.png
-▿ Frame
-  - controls.json
-  - info.json
-▿ QuickView
-  - Preview.png
