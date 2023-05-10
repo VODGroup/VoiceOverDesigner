@@ -35,7 +35,7 @@ final class DocumentVersionsTests: XCTestCase {
             numberOfElements: 12,
             rect: CGRect(x: 0, y: 0, width: 390, height: 844)
         )
-        
+
         assertSnapshot(matching: document.fileURL!, as: .folderStructure)
     }
     
@@ -66,7 +66,7 @@ final class DocumentVersionsTests: XCTestCase {
             numberOfElements: 12,
             rect: CGRect(x: 0, y: 0, width: 390, height: 844)
         )
-
+        
         assertSnapshot(matching: document.fileURL!, as: .folderStructure)
     }
     
@@ -102,7 +102,7 @@ final class DocumentVersionsTests: XCTestCase {
         )
         
         let frame2 = try XCTUnwrap(artboard.frames.last)
-
+        
         assert(
             frame: frame2, at: document,
             numberOfElements: 8,
