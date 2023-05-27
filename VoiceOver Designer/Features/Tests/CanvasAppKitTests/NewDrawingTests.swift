@@ -83,8 +83,9 @@ class NewDrawingTests: CanvasAfterDidLoadTests {
     func addFrame() {
         let image = try! XCTUnwrap(Sample().image(name: Sample.image3xScale))
         sut.add(image: image)
+    }
+    
     func test_createControlsWhenDocumentImageNil() {
-        removeImage()
         sut.mouseDown(on: start10)
         sut.mouseUp(on: end60)
         XCTAssertNotNil(drawnControls.first, "Should create control")
