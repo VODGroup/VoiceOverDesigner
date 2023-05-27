@@ -1,15 +1,17 @@
 import Foundation
+import Artboard
 
-extension Array where Element == any AccessibilityView {
+extension Array where Element == any ArtboardElement {
     
     @discardableResult
-    public mutating func wrapInContainer(
-        _ items: [A11yDescription],
+    public mutating func wrap<Container: ArtboardContainer & InstantiatableContainer>(
+        in type: Container.Type,
+        _ items: [any ArtboardElement],
         label:  String
-    ) -> A11yContainer? {
+    ) -> Container? {
         guard items.count > 0 else { return nil }
 
-        var extractedElements = [A11yDescription]()
+        var extractedElements = [any ArtboardElement]()
 
         var insertIndex: Int?
         for item in items.reversed() {
@@ -22,7 +24,7 @@ extension Array where Element == any AccessibilityView {
             extractedElements.append(item)
         }
 
-        let container = A11yContainer(
+        let container = Container(
             elements: extractedElements.reversed(),
             frame: extractedElements
                 .map(\.frame)
@@ -37,6 +39,13 @@ extension Array where Element == any AccessibilityView {
         return container
     }
     
+    private mutating func removeEmptyContainers() {
+        forEachContainer { containerIndex, container in
+            if container.elements.isEmpty {
+                remove(at: containerIndex)
+            }
+        }
+    }
     
     public mutating func unwrapContainer(_ container: A11yContainer) {
         guard let containerIndex = remove(container) else { return }
@@ -44,7 +53,7 @@ extension Array where Element == any AccessibilityView {
     }
     
     /// - Returns: Container index
-    mutating func removeFromContainers(_ item: A11yDescription) -> Int? {
+    mutating func removeFromContainers(_ item: any ArtboardElement) -> Int? {
         for (containerIndex, view) in enumerated().reversed() {
             guard let container = view as? A11yContainer
             else { continue }
@@ -68,14 +77,6 @@ extension Array where Element == any AccessibilityView {
             iterator(containerIndex, container)
         }
     }
-    
-    private mutating func removeEmptyContainers() {
-        forEachContainer { containerIndex, container in
-            if container.elements.isEmpty {
-                remove(at: containerIndex)
-            }
-        }
-    }
 }
 
 extension Array where Element == CGRect {
@@ -90,7 +91,7 @@ extension Array where Element == CGRect {
     }
 }
 
-public extension Array where Element == any AccessibilityView {
+public extension Array where Element == any ArtboardElement {
     func container(for description: A11yDescription) -> A11yContainer? {
         extractContainers().first(where: {
             $0.contains(description)
@@ -99,7 +100,7 @@ public extension Array where Element == any AccessibilityView {
 }
 
 
-public extension Array where Element == any AccessibilityView {
+public extension Array where Element == any ArtboardElement {
     
     // Delete only top-level elements
     @discardableResult
@@ -125,5 +126,25 @@ public extension Array where Element == any AccessibilityView {
         
         remove(at: indexToDelete)
         return indexToDelete
+    }
+}
+
+extension Artboard {
+    public typealias InsertionContext = ((any ArtboardContainer)?, Int)
+    public func remove(
+        _ model: any ArtboardElement
+    ) -> InsertionContext? {
+        if let parent = model.parent {
+            if let insertionIndex = parent.elements.remove(model) {
+                return (parent, insertionIndex)
+            }
+        } else {
+            if let insertionIndex = controlsWithoutFrames.remove(model) {
+                return (nil, insertionIndex)
+            }
+        }
+        
+        assertionFailure("Can't find parent to remove")
+        return nil // Can't find to remove
     }
 }

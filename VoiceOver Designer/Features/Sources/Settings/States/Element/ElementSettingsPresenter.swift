@@ -10,7 +10,7 @@ import Document
 
 public protocol SettingsDelegate: AnyObject {
     func updateValue()
-    func delete(model: any AccessibilityView)
+    func delete(model: any ArtboardElement)
 }
 
 public protocol SettingsUI: AnyObject {

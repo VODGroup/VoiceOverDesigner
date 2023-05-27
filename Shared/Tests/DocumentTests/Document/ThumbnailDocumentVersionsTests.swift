@@ -18,6 +18,11 @@ final class ThumbnailDocumentVersionsTests: XCTestCase {
         XCTAssertNotNil(thumbnail)
     }
     
+    func test_canReadArtboardVersionFormatWithHeicPreview() async throws {
+        let thumbnail = try await thumbnail(for: "ArtboardFormat")
+        XCTAssertNotNil(thumbnail)
+    }
+    
     // TODO: Invalidate png
 }
 

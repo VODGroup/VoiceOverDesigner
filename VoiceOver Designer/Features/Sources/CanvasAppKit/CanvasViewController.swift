@@ -53,13 +53,6 @@ public class CanvasViewController: NSViewController {
             .removeDuplicates()
             .sink(receiveValue: updateCursor)
             .store(in: &cancellables)
-        
-        presenter
-            .controlsPublisher
-            .map { !$0.isEmpty }
-            .removeDuplicates()
-            .sink(receiveValue: view().updateDragnDropVisibility(hasDrawnControls:))
-            .store(in: &cancellables)
     }
     
     private func updateCursor(_ value: DrawingController.Pointer?) {
@@ -71,22 +64,7 @@ public class CanvasViewController: NSViewController {
         case .hover:
             NSCursor.openHand.push()
         case .resize(let corner):
-            
-            // There's no system resizing images so takes from WebKit
-            // see or should take custom image/private cursor: https://stackoverflow.com/questions/49297201/diagonal-resizing-mouse-pointer
-            let image: NSImage = {
-                
-                switch corner {
-                case .topLeft, .bottomRight:
-                    return NSImage(byReferencingFile: "/System/Library/Frameworks/WebKit.framework/Versions/Current/Frameworks/WebCore.framework/Resources/northWestSouthEastResizeCursor.png")!
-                    
-                case .topRight, .bottomLeft:
-                    return NSImage(byReferencingFile: "/System/Library/Frameworks/WebKit.framework/Versions/Current/Frameworks/WebCore.framework/Resources/northEastSouthWestResizeCursor.png")!
-                }
-            }()
-            
-            NSCursor(image: image, hotSpot: NSPoint(x: 8, y: 8)).push()
-            
+            NSCursor.resizing(for: corner).push()
         case .crosshair:
             NSCursor.crosshair.push()
         case .copy:
@@ -96,21 +74,22 @@ public class CanvasViewController: NSViewController {
     
     public override func viewDidAppear() {
         super.viewDidAppear()
+        view().addImageButton.action = #selector(addImageButtonTapped)
+        view().addImageButton.target = self
         
         view.window?.delegate = self
         DispatchQueue.main.async {
             self.presenter.didLoad(
-                ui: self.view().controlsView,
+                uiContent: self.view().contentView,
+                uiScroll: self.view(),
                 initialScale: 1, // Will be scaled by scrollView
                 previewSource: self.view()
                 // TODO: Scale Preview also by UIScrollView?
             )
             
-            self.updateView()
             self.addMouseTracking()
             self.addMenuItem()
             self.observe()
-
         }
     }
     
@@ -123,11 +102,6 @@ public class CanvasViewController: NSViewController {
         canvasSubMenu.addItem(addImageItem)
         canvasMenuItem.submenu = canvasSubMenu
         menu.addItem(canvasMenuItem)
-    }
-    
-    func updateView() {
-        view().setImage(presenter.document.image)
-        view().updateDragnDropVisibility(hasDrawnControls: !presenter.document.controls.isEmpty)
     }
     
     public override var representedObject: Any? {
@@ -144,7 +118,9 @@ public class CanvasViewController: NSViewController {
         presenter.mouseMoved(on: location(from: event))
         
         // TODO: Can crash if happend before document loading
-        guard let control = presenter.ui.control(at: location(from: event)) else {
+        guard let control = presenter
+            .uiContent
+            .control(at: location(from: event)) else {
             return
         }
         
@@ -155,8 +131,11 @@ public class CanvasViewController: NSViewController {
     
     func location(from event: NSEvent) -> CGPoint {
         let inWindow = event.locationInWindow
-        let inView = view().backgroundImageView.convert(inWindow, from: nil)
-        return inView.flippendVertical(in: view().backgroundImageView)
+        let inView = view().contentView
+            .convert(inWindow, from: nil)
+//            .flippendVertical(in: view().contentView) // It's already flipped by contentView
+        
+        return inView
     }
     
     
@@ -183,27 +162,21 @@ public class CanvasViewController: NSViewController {
     }
     
     public func select(_ model: A11yDescription) {
-        guard let control = view().controlsView.drawnControls
-            .first(where: { control in
-                control.model === model
-            })
-        else { return }
-        
-        presenter.select(control: control)
+        presenter.select(model)
     }
     
     public func publishControlChanges() {
         presenter.publishControlChanges()
     }
     
-    public func delete(model: any AccessibilityView) {
+    public func delete(model: any ArtboardElement) {
         presenter.remove(model)
     }
     
     @objc func addImageButtonTapped() {
         Task {
             if let image = await requestImage() {
-                presentImage(image)
+                presenter.add(image: image)
             }
         }
     }
@@ -220,18 +193,11 @@ public class CanvasViewController: NSViewController {
         guard let url = imagePanel.url, let image = NSImage(contentsOf: url) else { return nil }
         return image
     }
-    
-    func presentImage(_ image: NSImage) {
-        presenter.update(image: image)
-        view().setImage(image)
-        view().backgroundImageView.image = image
-        presenter.publishControlChanges()
-    }
 }
 
 extension CanvasViewController {
     public func image(
-        for model: any AccessibilityView
+        for model: any ArtboardElement
     ) async -> CGImage? {
         guard let control = view().control(for: model)
         else { return nil }
@@ -272,9 +238,7 @@ extension CanvasViewController: NSWindowDelegate {
 
 extension CanvasViewController: DragNDropDelegate {
     public func didDrag(image: NSImage) {
-        presenter.update(image: image)
-        view().setImage(image)
-        presenter.publishControlChanges()
+        presenter.add(image: image)
     }
     
     public func didDrag(path: URL) {
@@ -297,5 +261,25 @@ extension CGPoint {
         CGPoint(x: x,
                 y: view.frame.height - y
         )
+    }
+}
+
+extension NSCursor {
+    static func resizing(for corner: RectCorner) -> NSCursor {
+        // There's no system resizing images so takes from WebKit
+        // see or should take custom image/private cursor: https://stackoverflow.com/questions/49297201/diagonal-resizing-mouse-pointer
+        let image: NSImage = resizingImage(for: corner)
+        
+        return NSCursor(image: image, hotSpot: NSPoint(x: 8, y: 8))
+    }
+                        
+    private static func resizingImage(for corner: RectCorner) -> NSImage {
+        switch corner {
+        case .topLeft, .bottomRight:
+            return NSImage(byReferencingFile: "/System/Library/Frameworks/WebKit.framework/Versions/Current/Frameworks/WebCore.framework/Resources/northWestSouthEastResizeCursor.png")!
+            
+        case .topRight, .bottomLeft:
+            return NSImage(byReferencingFile: "/System/Library/Frameworks/WebKit.framework/Versions/Current/Frameworks/WebCore.framework/Resources/northEastSouthWestResizeCursor.png")!
+        }
     }
 }

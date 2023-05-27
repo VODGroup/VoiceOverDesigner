@@ -7,7 +7,7 @@ final class DocumentImage_ScaleTests: XCTestCase {
     let scaledSize = CGSize(width: 390, height: 180)
     let rawSize = CGSize(width: 1170, height: 540)
     
-    let imageName = "screenWith3xScale.png"
+    let imageName = Sample.image3xScale
     let documentName = "TestFile1"
     
     // No test saved document, but keep it here for feature tests
@@ -35,23 +35,43 @@ final class DocumentImage_ScaleTests: XCTestCase {
     func test_APPKit_whenCreateFileFromImage_shouldSetImageSizeWithScale() throws {
         let document = VODesignDocument(image: try imageWith3xScale())
 
-        XCTAssertEqual(document.imageSize, scaledSize)
-        XCTAssertEqual(document.frameInfo.imageScale, 3)
+        let frame = try XCTUnwrap(document.artboard.frames.first)
+        XCTAssertEqual(
+            frame.frame,
+            CGRect(origin: .zero,
+                   size: scaledSize),
+            "Frame should be scaled")
     }
     
     func test_APPKit_whenUpdateImageExternaly_shouldSetImageSizeWithScale() throws {
         let document = try VODesignDocument(type: uti)
-        document.updateImage(try imageWith3xScale())
         
-        XCTAssertEqual(document.imageSize, scaledSize)
-        XCTAssertEqual(document.frameInfo.imageScale, 3)
+        document.addFrame(with: try imageWith3xScale())
+        
+        let frame = try XCTUnwrap(document.artboard.frames.first)
+        XCTAssertEqual(
+            frame.frame,
+            CGRect(origin: .zero,
+                   size: scaledSize),
+            "Frame should be scaled")
     }
+    
+    func test_whenAddImage_shouldCreateFrameOfImageSize() throws {
+        let document = try VODesignDocument(type: uti)
+        
+        document.addFrame(with: try imageWith3xScale())
+        
+        let frame = try XCTUnwrap(document.artboard.frames.first, "should create frame from image")
+        XCTAssertEqual(frame.frame, CGRect(origin: .zero, size: scaledSize), "should use scaled frame")
+    }
+    
+    // TODO: Second image should add another frame
     
 #elseif os(iOS)
 
     func test_UIKitReadImageSizeWithoutScale() throws {
         let document = VODesignDocument(fileName: documentName)
-        document.updateImage(try imageWith3xScale())
+        document.addFrame(with: try imageWith3xScale())
         XCTAssertEqual(document.image?.size, rawSize)
         
         document.frameInfo.imageScale = 3 // Explicitly set image scale from AppKit

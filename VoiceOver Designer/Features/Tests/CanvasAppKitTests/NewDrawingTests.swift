@@ -66,6 +66,23 @@ class NewDrawingTests: CanvasAfterDidLoadTests {
                        rect10to50)
     }
     
+    // MARK: - Artboard
+    func test_frameOnScreen_whenAddElementInsideFrame_shouldAddElementToFrame() throws {
+        addFrame()
+        XCTAssertNotNil(document.artboard.frames.first)
+        
+        sut.mouseDown(on: start10)
+        sut.mouseUp(on: end60)
+        
+        let frame = try XCTUnwrap(document.artboard.frames.first)
+        XCTAssertEqual(frame.elements.count, 1)
+        
+        XCTAssertEqual(document.artboard.controlsWithoutFrames.count, 0)
+    }
+    
+    func addFrame() {
+        let image = try! XCTUnwrap(Sample().image(name: Sample.image3xScale))
+        sut.add(image: image)
     func test_createControlsWhenDocumentImageNil() {
         removeImage()
         sut.mouseDown(on: start10)

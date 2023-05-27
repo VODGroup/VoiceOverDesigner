@@ -36,19 +36,32 @@ let package = Package(
     ],
     targets: [
         .target(
+            name: "Artboard"
+        ),
+        .testTarget(
+            name: "ArtboardTests",
+            dependencies: [
+                "Artboard"
+            ]
+        ),
+        .target(
             name: "Document",
             dependencies: [
+                "Artboard",
                 .productItem(name: "CustomDump", package: "swift-custom-dump"),
             ]),
         .target(
             name: "DocumentTestHelpers",
-            dependencies: ["Document"],
+            dependencies: [
+                "Artboard",
+                "Document"],
             path: "TestHelpers/DocumentTestHelpers",
             resources: [
                 .process("Samples/screenWith3xScale.png"),
                 .copy("Samples/BetaVersionFormat.vodesign"),
                 .copy("Samples/FrameVersionFormat.vodesign"),
                 .copy("Samples/FrameVersionFormatWithHeicPreview.vodesign"),
+                .copy("Samples/ArtboardFormat.vodesign"),
             ]
         ),
         .testTarget(
