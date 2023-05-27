@@ -79,10 +79,9 @@ class NewDrawingTests: CanvasAfterDidLoadTests {
         
         XCTAssertEqual(document.artboard.controlsWithoutFrames.count, 0)
     }
-        
+    
     func test_createControlsWhenDocumentImageNil() {
         // TODO: Remove image?
-        
         sut.mouseDown(on: start10)
         sut.mouseUp(on: end60)
         XCTAssertNotNil(drawnControls.first, "Should create control")
