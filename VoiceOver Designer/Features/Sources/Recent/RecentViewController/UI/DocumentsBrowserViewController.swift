@@ -7,7 +7,6 @@ public protocol RecentRouter: AnyObject {
     func show(document: VODesignDocument) -> Void
 }
 
-
 public class DocumentsBrowserViewController: NSViewController {
 
     public weak var router: RecentRouter?
@@ -35,9 +34,6 @@ public class DocumentsBrowserViewController: NSViewController {
        
         
     }
-    
-    
-
     
     /// Sometimel layout is called right after loading from storyboard, presenter is not set and a crash happened.
     /// I added check that presenter is not nil, but we had to call reloadData as as result
@@ -78,7 +74,6 @@ extension DocumentsBrowserViewController: DragNDropDelegate {
         show(document: document)
     }
 }
-
 
 extension DocumentsBrowserViewController : NSCollectionViewDataSource {
     
@@ -152,9 +147,6 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
             return item
         }
     }
-    
-
-    
 }
 
 extension DocumentsBrowserViewController: NSCollectionViewDelegateFlowLayout {
@@ -174,8 +166,6 @@ extension DocumentsBrowserViewController: NSCollectionViewDelegateFlowLayout {
 }
 
 extension DocumentsBrowserViewController: NSCollectionViewDelegate {
-    
-    
     
     public func collectionView(
         _ collectionView: NSCollectionView,

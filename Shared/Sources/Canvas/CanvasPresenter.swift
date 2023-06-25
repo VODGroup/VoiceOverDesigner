@@ -9,6 +9,7 @@ import Document
 import CoreText
 import Combine
 import TextRecognition
+import Foundation
 
 public protocol CanvasScrollViewProtocol: AnyObject {
     func fitToWindow(animated: Bool)
@@ -194,10 +195,14 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     // MARK: Image
-    public func add(image: Image) {
-        update(image: image)
-        // TODO: Check that image is drawn
-//        drawFramesOnUI()
+    public override func add(image: Image) {
+        super.add(image: image)
+        
+        // TODO: Remove old?
+        drawingController.draw(
+            artboard: document.artboard,
+            scale: scale)
+        
         publishControlChanges()
     }
 }
