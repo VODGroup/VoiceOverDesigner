@@ -167,7 +167,8 @@ public class CanvasViewController: NSViewController {
     
     @objc func addImageButtonTapped() {
         Task {
-            if let image = await requestImage() {
+            if let path = await requestImage(),
+               let image = NSImage(contentsOf: path) {
                 presenter.add(image: image)
             }
         }
@@ -177,11 +178,11 @@ public class CanvasViewController: NSViewController {
         if let selectedControl = presenter.selectedControl?.model {
             let newModel = selectedControl.copy()
             newModel.frame = newModel.frame.offsetBy(dx: 40, dy: 40)
-            presenter.add(newModel)
+            presenter.append(control: newModel)
         }
     }
 
-    func requestImage() async -> NSImage? {
+    func requestImage() async -> URL? {
         guard let window = view.window else { return nil }
         let imagePanel = NSOpenPanel()
         imagePanel.allowedFileTypes = NSImage.imageTypes
@@ -190,8 +191,7 @@ public class CanvasViewController: NSViewController {
         imagePanel.allowsMultipleSelection = false
         let modalResponse = await imagePanel.beginSheetModal(for: window)
         guard modalResponse == .OK else { return nil }
-        guard let url = imagePanel.url, let image = NSImage(contentsOf: url) else { return nil }
-        return image
+        return imagePanel.url
     }
 }
 
@@ -238,7 +238,9 @@ extension CanvasViewController: NSWindowDelegate {
 
 extension CanvasViewController: DragNDropDelegate {
     public func didDrag(image: NSImage) {
+        let shouldAnimate = presenter.document.artboard.frames.count != 0
         presenter.add(image: image)
+        view().fitToWindow(animated: shouldAnimate)
     }
     
     public func didDrag(path: URL) {

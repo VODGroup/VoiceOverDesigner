@@ -31,11 +31,23 @@ extension VODesignDocumentProtocol {
 
 extension VODesignDocumentProtocol {
     public func addFrame(with newImage: Image) {
-        // TODO: Move image inside folder
-        let frame = Frame(image: newImage)
+        let frame = Frame(image: newImage,
+                          frame: artboard.suggestFrame(for: newImage.size))
         artboard.frames.append(frame)
         
         invalidateWrapperIfPossible(fileInRoot: FolderName.quickLook)
+    }
+}
+
+extension Artboard {
+    func suggestFrame(for size: CGSize) -> CGRect {
+        guard let lastFrame = frames.last?.frame
+        else { return CGRect(origin: .zero, size: size) }
+        
+        let origin = CGPoint(x: lastFrame.maxX + lastFrame.width * 0.2,
+                             y: lastFrame.minY)
+        
+        return CGRect(origin: origin, size: size)
     }
 }
 
@@ -45,13 +57,13 @@ public protocol PreviewSourceProtocol: AnyObject {
 }
 
 extension Frame {
-    public convenience init(image: Image) {
+    public convenience init(image: Image, frame: CGRect) {
         let name = UUID().uuidString // TODO: Create fancy name
 
-        let frame = CGRect(origin: .zero, size: image.size)
+//        let frame = CGRect(origin: .zero, size: image.size)
         
         self.init(label: name,
-                  imageName: name,
+                  imageLocation: .cache(image: image),
                   frame: frame,
                   elements: [])
     }

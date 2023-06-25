@@ -86,8 +86,17 @@ public class Frame: ArtboardContainer {
 }
 
 public enum ImageLocation: Codable {
+    case cache(image: NSImage)
     case file(name: String)
     case url(url: URL)
+    
+    public func encode(to encoder: Encoder) throws {
+        fatalError()
+    }
+    
+    public init(from decoder: Decoder) throws {
+        fatalError()
+    }
 }
 
 public protocol ImageLoading {

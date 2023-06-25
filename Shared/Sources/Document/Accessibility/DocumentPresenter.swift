@@ -57,7 +57,7 @@ open class DocumentPresenter {
     }
     
     // MARK:
-    public func update(image: Image) {
+    open func add(image: Image) {
         document.addFrame(with: image)
     }
     
