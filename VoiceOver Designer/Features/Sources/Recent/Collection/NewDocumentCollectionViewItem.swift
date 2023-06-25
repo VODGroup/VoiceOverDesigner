@@ -32,7 +32,7 @@ final class NewDocumentCollectionViewItem: NSCollectionViewItem {
 
 final class NewDocView: NSView {
 
-    private let tintColor = NSColor.secondaryLabelColor
+    private let borderColor = NSColor.secondaryLabelColor
     
     private lazy var plusImageView: NSImageView = {
         let image = NSImage(
@@ -40,7 +40,7 @@ final class NewDocView: NSView {
             accessibilityDescription: NSLocalizedString("Create New Project", comment: "Collection view item")
         )
         var symbolConfig = NSImage.SymbolConfiguration(pointSize: 24.0, weight: .regular, scale: .large)
-        symbolConfig = symbolConfig.applying(.init(paletteColors: [tintColor]))
+        symbolConfig = symbolConfig.applying(.init(paletteColors: [borderColor]))
         let imageView = NSImageView()
         imageView.image = image?.withSymbolConfiguration(symbolConfig)
         imageView.isEditable = false
@@ -49,7 +49,7 @@ final class NewDocView: NSView {
     
     private lazy var newTextField: NSTextField = {
         let textField = NSTextField(labelWithString: NSLocalizedString("New Project", comment: "Collection view item"))
-        textField.textColor = tintColor
+        textField.textColor = borderColor
         textField.isEditable = false
         textField.isBordered = false
         textField.alignment = .center
@@ -127,7 +127,7 @@ final class NewDocView: NSView {
         border.frame = frame
         border.path = CGPath(roundedRect: pathFrame, cornerWidth: DocumentCornerRadius, cornerHeight: DocumentCornerRadius, transform: nil)
         border.fillColor = nil
-        border.strokeColor = tintColor.cgColor
+        border.strokeColor = borderColor.cgColor
         
         border.lineWidth = borderWidth
         border.lineDashPattern = [5.0, 5.0]
