@@ -31,6 +31,16 @@ open class DragNDropImageView: NSView {
         return label
     }()
     
+    lazy var border: BorderedLayer = {
+        let border = BorderedLayer()
+        border.cornerRadius = 10
+        
+        wantsLayer = true
+        layer?.addSublayer(border)
+        
+        return border
+    } ()
+    
     var text: String = "" {
         didSet {
             label.stringValue = text
@@ -51,8 +61,16 @@ open class DragNDropImageView: NSView {
         let size = label.frame.size
         label.frame = CGRect(
             origin: CGPoint(x: (bounds.width-size.width)/2,
-                            y: (bounds.height-size.height)/2),
+                            y: (bounds.height-size.height) - safeAreaInsets.top - 50),
             size: size)
+        
+        let inset: CGFloat = 10
+        let bottomInset: CGFloat = 40
+        border.frame = CGRect(
+            origin: CGPoint(x: bounds.origin.x + inset,
+                            y: bounds.origin.y + bottomInset + inset),
+            size: CGSize(width: bounds.size.width - inset * 2,
+                         height: bounds.size.height - safeAreaInsets.top - bottomInset - inset * 2))
     }
 
     
@@ -104,6 +122,7 @@ open class DragNDropImageView: NSView {
     
     func show(text: String, changeTo nextText: String? = nil) {
         label.isHidden = false
+        border.isHidden = false
         self.text = text
         
         if let nextText = nextText {
@@ -115,5 +134,34 @@ open class DragNDropImageView: NSView {
     
     func hideText() {
         label.isHidden = true
+        border.isHidden = true
+    }
+}
+
+class BorderedLayer: CAShapeLayer {
+    override init() {
+        super.init()
+        
+        fillColor = nil
+        strokeColor = NSColor.secondaryLabelColor.cgColor
+        
+        lineWidth = 2
+        lineDashPattern = [5.0, 5.0]
+    }
+    
+    override init(layer: Any) {
+        super.init(layer: layer)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSublayers() {
+        super.layoutSublayers()
+        
+        let pathFrame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
+            .insetBy(dx: borderWidth/2, dy: borderWidth/2)
+        path = CGPath(roundedRect: pathFrame, cornerWidth: cornerRadius, cornerHeight: cornerRadius, transform: nil)
     }
 }
