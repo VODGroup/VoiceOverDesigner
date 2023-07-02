@@ -45,10 +45,9 @@ class DocumentWrappersInvalidationTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
         
-        document = try XCTUnwrap(Sample()
-            .document(name: "FrameVersionFormat", testCase: self))
+        document = try Sample().document(name: .frame, testCase: self)
         
-        path = try XCTUnwrap(Sample().documentPath(name: "FrameVersionFormat"))
+        path = try XCTUnwrap(Sample().documentPath(name: .frame))
     }
     
     func test_matchesContentAfterReading() {
