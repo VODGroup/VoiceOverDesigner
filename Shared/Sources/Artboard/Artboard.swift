@@ -38,11 +38,15 @@ public class Artboard {
 }
 
 /// Domain object that is used for drawing
-public class Frame: ArtboardContainer {
+public class Frame: ArtboardContainer, ObservableObject {
     public var type: ArtboardType = .frame
     
-    public var label: String
-    public var imageLocation: ImageLocation
+    public var label: String {
+        willSet { objectWillChange.send() }
+    }
+    public var imageLocation: ImageLocation {
+        willSet { objectWillChange.send() }
+    }
     public var frame: CGRect
     
     /// In absolute coordinates
@@ -79,26 +83,16 @@ public class Frame: ArtboardContainer {
 
     // MARK: ArtboardElement
     public static func == (lhs: Frame, rhs: Frame) -> Bool {
-        lhs.label == rhs.label // TODO: Better comparison
+        lhs.label == rhs.label &&
+        lhs.imageLocation == rhs.imageLocation
     }
 }
 
-public enum ImageLocation {
-    case cache(image: NSImage)
+public enum ImageLocation: Codable, Equatable {
     case file(name: String)
     case url(url: URL)
-    
-    public static func from(dto: ImageLocationDto) -> Self {
-        switch dto {
-        case .file(let name): return .file(name: name)
-        case .url(let url): return .url(url: url)
-        }
-    }
-}
-
-public enum ImageLocationDto: Codable {
-    case file(name: String)
-    case url(url: URL)
+    /// Temporary data stored during design process, shouldn't be encoded
+    case tmp(name: String, data: Data)
 }
 
 public protocol ImageLoading {

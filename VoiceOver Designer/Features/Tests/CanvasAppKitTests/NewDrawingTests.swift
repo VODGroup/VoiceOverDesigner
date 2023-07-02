@@ -80,6 +80,12 @@ class NewDrawingTests: CanvasAfterDidLoadTests {
         XCTAssertEqual(document.artboard.controlsWithoutFrames.count, 0)
     }
     
+    func test_createControlsWhenDocumentImageNil() {
+        sut.mouseDown(on: start10)
+        sut.mouseUp(on: end60)
+        XCTAssertNotNil(drawnControls.first, "Should create control")
+    }
+    
     func addFrame() {
         let image = try! XCTUnwrap(Sample().image(name: Sample.image3xScale))
         sut.add(image: image)
@@ -98,7 +104,6 @@ class NewDrawingTests: CanvasAfterDidLoadTests {
         
         XCTAssertEqual(numberOfDrawnLayers, 2)
     }
-    
 }
 
 extension CGPoint {
