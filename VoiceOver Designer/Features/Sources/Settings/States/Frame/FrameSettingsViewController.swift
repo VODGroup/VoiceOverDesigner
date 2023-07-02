@@ -13,9 +13,9 @@ public class FrameSettingsViewController: NSHostingController<FrameSettingsView>
     let frame: Frame
     weak var delegate: SettingsDelegate?
     
-    public init(frame: Frame) {
+    public init(frame: Frame, delegate: SettingsDelegate) {
         self.frame = frame
-        super.init(rootView: FrameSettingsView(frame: frame, updateValue: delegate?.updateValue))
+        super.init(rootView: FrameSettingsView(frame: frame, updateValue: delegate.updateValue))
     }
     
     @available(*, unavailable)
@@ -28,14 +28,13 @@ public class FrameSettingsViewController: NSHostingController<FrameSettingsView>
 public struct FrameSettingsView: View {
     @ObservedObject var frame: Frame
     var updateValue: (() -> Void)?
-    @State var isImageImporterPresented = false
+    @State private var isImageImporterPresented = false
     
     public var body: some View {
         ScrollView {
             Form {
-                TextField("Frame label:", text: $frame.label)
-                
-                Button("Change Image", action: changeImageButtonTapped)
+                TextField("Name:", text: $frame.label)
+                Button("Upload Image from Disk", action: changeImageButtonTapped)
             }
             .padding()
             
@@ -49,22 +48,25 @@ public struct FrameSettingsView: View {
     }
     
     private func applyFileImporter(result: Result<URL, Error>) {
-        frame.applyFileImporter(result: result)
-        updateValue?()
+        do {
+            try frame.applyFileImporter(result: result)
+            updateValue?()
+        } catch {
+            // TODO: show alert?
+        }
     }
 }
 
 
 extension Frame {
-    func applyFileImporter(result: Result<URL, Error>) {
+    func applyFileImporter(result: Result<URL, Error>) throws {
         switch result {
         case .success(let url):
-            imageLocation = .file(name: url.lastPathComponent)
+            imageLocation = .tmp(name: url.lastPathComponent, data: try Data(contentsOf: url))
             // Copy image to document?
             // Reload image?
         case .failure(let failure):
-            // Handle
-            break
+            throw failure
         }
     }
 }
