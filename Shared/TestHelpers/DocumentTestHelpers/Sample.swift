@@ -40,7 +40,7 @@ public class Sample {
         let copyPath = cacheFolder.appendingPathComponent(name)
         
         testCase.addTeardownBlock {
-            try FileManager.default.removeItem(at: copyPath)
+            try? FileManager.default.removeItem(at: copyPath)
         }
         
         try fileManager.copyItem(
