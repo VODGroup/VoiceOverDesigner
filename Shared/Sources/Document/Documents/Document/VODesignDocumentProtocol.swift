@@ -30,9 +30,13 @@ extension VODesignDocumentProtocol {
 }
 
 extension VODesignDocumentProtocol {
-    public func addFrame(with newImage: Image) {
+    public func addFrame(
+        with newImage: Image,
+        origin: CGPoint
+    ) {
         let frame = Frame(image: newImage,
-                          frame: artboard.suggestFrame(for: newImage.size))
+                          frame: CGRect(origin: origin,
+                                        size: newImage.size))
         artboard.frames.append(frame)
         
         invalidateWrapperIfPossible(fileInRoot: FolderName.quickLook)
@@ -40,14 +44,17 @@ extension VODesignDocumentProtocol {
 }
 
 extension Artboard {
-    func suggestFrame(for size: CGSize) -> CGRect {
+    
+    public func suggestOrigin() -> CGPoint {
         guard let lastFrame = frames.last?.frame
-        else { return CGRect(origin: .zero, size: size) }
+        else { return .zero }
         
         let origin = CGPoint(x: lastFrame.maxX + lastFrame.width * 0.2,
                              y: lastFrame.minY)
-        
-        return CGRect(origin: origin, size: size)
+        return origin
+    }
+    func suggestFrame(for size: CGSize) -> CGRect {
+        return CGRect(origin: suggestOrigin(), size: size)
     }
 }
 

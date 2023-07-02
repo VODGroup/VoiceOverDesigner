@@ -101,6 +101,11 @@ public extension DrawingView {
     }
     
     func removeAll() {
+        for frame in frames.reversed() {
+            frame.removeFromSuperlayer()
+            frames.remove(at: frames.count - 1)
+        }
+        
         for control in drawnControls.reversed() {
             control.removeFromSuperlayer()
             drawnControls.remove(at: drawnControls.count - 1)

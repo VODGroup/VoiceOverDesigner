@@ -41,6 +41,8 @@ public class DrawingController {
         artboard: Artboard,
         scale: CGFloat
     ) {
+        view.removeAll()
+        
         for frame in artboard.frames {
             draw(frame: frame,
                  imageLoader: artboard.imageLoader,

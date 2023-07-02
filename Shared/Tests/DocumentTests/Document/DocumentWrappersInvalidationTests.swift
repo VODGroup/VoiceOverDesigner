@@ -56,7 +56,7 @@ class DocumentWrappersInvalidationTests: XCTestCase {
     }
     
     func test_whenUpdateImage_shouldInvalidateQuickLookFile() throws {
-        document.addFrame(with: Image())
+        document.addFrame(with: Image(), origin: .zero)
         
         XCTAssertNil(firstFrame?[FolderName.quickLook], "quickLook is invalidated")
     }

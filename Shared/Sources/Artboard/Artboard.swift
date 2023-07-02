@@ -85,18 +85,22 @@ public class Frame: ArtboardContainer {
     }
 }
 
-public enum ImageLocation: Codable {
+public enum ImageLocation {
     case cache(image: NSImage)
     case file(name: String)
     case url(url: URL)
     
-    public func encode(to encoder: Encoder) throws {
-        fatalError()
+    public static func from(dto: ImageLocationDto) -> Self {
+        switch dto {
+        case .file(let name): return .file(name: name)
+        case .url(let url): return .url(url: url)
+        }
     }
-    
-    public init(from decoder: Decoder) throws {
-        fatalError()
-    }
+}
+
+public enum ImageLocationDto: Codable {
+    case file(name: String)
+    case url(url: URL)
 }
 
 public protocol ImageLoading {

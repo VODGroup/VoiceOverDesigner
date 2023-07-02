@@ -8,7 +8,7 @@
 import AppKit
 
 public protocol DragNDropDelegate: AnyObject {
-    func didDrag(image: NSImage)
+    func didDrag(image: NSImage, locationInWindow: CGPoint)
     func didDrag(path: URL)
 }
 
@@ -48,6 +48,8 @@ open class DragNDropImageView: NSView {
         }
     }
     
+    public var scale: CGFloat = 1
+    
     public override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -66,13 +68,36 @@ open class DragNDropImageView: NSView {
         
         let inset: CGFloat = 10
         let bottomInset: CGFloat = 40
-        border.frame = CGRect(
-            origin: CGPoint(x: bounds.origin.x + inset,
-                            y: bounds.origin.y + bottomInset + inset),
-            size: CGSize(width: bounds.size.width - inset * 2,
-                         height: bounds.size.height - safeAreaInsets.top - bottomInset - inset * 2))
+        
+        border.frame = bounds
+        
+        if let imageSize, let cursorLocation {
+            let scaledSize = imageSize.scaled(scale)
+            let centeredOrigin = CGPoint(x: cursorLocation.x - scaledSize.width / 2,
+                                         y: cursorLocation.y - scaledSize.height / 2)
+            
+            let flippedOrigin = CGPoint(x: cursorLocation.x,
+                                        y: cursorLocation.y - scaledSize.height)
+            border.borderFrame = CGRect(origin: flippedOrigin,
+                                        size: scaledSize)
+        } else {
+            let fullFrame = CGRect(
+                    origin: CGPoint(x: bounds.origin.x + inset,
+                                    y: bounds.origin.y + bottomInset + inset),
+                    size: CGSize(width: bounds.size.width - inset * 2,
+                                 height: bounds.size.height - safeAreaInsets.top - bottomInset - inset * 2))
+            
+            border.borderFrame = fullFrame
+        }
+        
     }
 
+    private var cursorLocation: NSPoint? {
+        didSet {
+            needsLayout = true
+        }
+    }
+    private var imageSize: NSSize?
     
     // MARK: - Dragging
     func registerDragging() {
@@ -81,24 +106,36 @@ open class DragNDropImageView: NSView {
     }
     
     public override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
+        imageSize = sender.image()?.size
         isWaitingForFile = true
         show(text: NSLocalizedString("Drop!", comment: ""))
         return .copy
     }
     
+    override open func draggingUpdated(_ sender: NSDraggingInfo) -> NSDragOperation {
+        cursorLocation = cursorLocation(from: sender)
+        return .move
+    }
+    
+    private func cursorLocation(from sender: NSDraggingInfo) -> CGPoint {
+        convert(sender.draggingLocation, from: sender.draggingDestinationWindow?.contentView)
+    }
+    
     open override func draggingExited(_ sender: NSDraggingInfo?) {
         show(text: NSLocalizedString("Drag image here", comment: ""))
+        imageSize = nil
     }
     
     open override func draggingEnded(_ sender: NSDraggingInfo) {
         isWaitingForFile = false
+        imageSize = nil
     }
     
     public override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
         let pasteboard = sender.draggingPasteboard
         
-        if let image = NSImage(pasteboard: pasteboard) {
-            delegate?.didDrag(image: image)
+        if let image = sender.image() {
+            delegate?.didDrag(image: image, locationInWindow: sender.draggingLocation)
             hideText()
             return true
         }
@@ -157,11 +194,41 @@ class BorderedLayer: CAShapeLayer {
         fatalError("init(coder:) has not been implemented")
     }
     
+    var borderFrame: CGRect? {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
     override func layoutSublayers() {
         super.layoutSublayers()
         
-        let pathFrame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
-            .insetBy(dx: borderWidth/2, dy: borderWidth/2)
-        path = CGPath(roundedRect: pathFrame, cornerWidth: cornerRadius, cornerHeight: cornerRadius, transform: nil)
+        path = CGPath(roundedRect: (borderFrame ?? bounds).insetBy(dx: borderWidth/2, dy: borderWidth/2),
+                      cornerWidth: cornerRadius,
+                      cornerHeight: cornerRadius,
+                      transform: nil)
+    }
+}
+
+extension NSDraggingInfo {
+    func image() -> NSImage? {
+        let pasteboard = draggingPasteboard
+        let image = NSImage(pasteboard: pasteboard)
+        return image
+    }
+    
+}
+
+extension CGSize {
+    func scaled(_ scale: CGFloat) -> Self {
+        CGSize(width: width * scale,
+               height: height * scale)
+    }
+}
+
+// TODO: Remove duplication
+extension NSEvent {
+    func location(in view: NSView) -> CGPoint {
+        view.convert(locationInWindow, from: nil)
     }
 }

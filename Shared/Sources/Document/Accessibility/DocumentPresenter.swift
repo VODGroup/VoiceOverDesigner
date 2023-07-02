@@ -57,8 +57,9 @@ open class DocumentPresenter {
     }
     
     // MARK:
-    open func add(image: Image) {
-        document.addFrame(with: image)
+    open func add(image: Image, origin: CGPoint) {
+        document.addFrame(with: image, origin: origin)
+        
     }
     
     public func append(control: any ArtboardElement) {
