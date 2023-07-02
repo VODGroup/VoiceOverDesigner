@@ -8,11 +8,11 @@ public class Sample {
     
     public static var image3xScale = "screenWith3xScale.png"
     
-    public func image(name: String) -> Image? {
+    public func image(name: String) throws -> Image {
 #if os(macOS)
-        return Bundle.module.image(forResource: name)
+        return try XCTUnwrap(Bundle.module.image(forResource: name))
 #elseif os(iOS)
-        return Image(named: name, in: Bundle.module, with: nil)
+        return try XCTUnwrap(Image(named: name, in: Bundle.module, with: nil))
 #endif
     }
     

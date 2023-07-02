@@ -18,7 +18,7 @@ final class DocumentVersionsTests: XCTestCase {
     
     // MARK: - Beta format
     func test_betaDocument_whenRead_shouldUpdateStructure() throws {
-        let document = try XCTUnwrap(Sample().document(name: .beta, testCase: self))
+        let document = try Sample().document(name: .beta, testCase: self)
         
         // Read on file creation
         
@@ -26,7 +26,7 @@ final class DocumentVersionsTests: XCTestCase {
     }
     
     func test_betaDocument_whenSave_shouldUpdateStructure() throws {
-        let document = try XCTUnwrap(Sample().document(name: .beta, testCase: self))
+        let document = try Sample().document(name: .beta, testCase: self)
 
         saveDocumentAndRemoveAtTearDown(document: document, name: "BetaFormatNewStructure")
         
@@ -34,7 +34,7 @@ final class DocumentVersionsTests: XCTestCase {
     }
     
     func test_betaDocument_whenRead_shouldMoveElementsToFirstFrame() throws {
-        let document = try XCTUnwrap(Sample().document(name: .beta, testCase: self))
+        let document = try Sample().document(name: .beta, testCase: self)
         
         let frame = try XCTUnwrap(document.artboard.frames.first)
         
@@ -47,7 +47,7 @@ final class DocumentVersionsTests: XCTestCase {
     
     // MARK: - Frame version
     func test_frameDocument_whenRead_shouldUpdateStructure() throws {
-        let document = try XCTUnwrap(Sample().document(name: .frame, testCase: self))
+        let document = try Sample().document(name: .frame, testCase: self)
         
         // Read on file creation
         
@@ -55,7 +55,7 @@ final class DocumentVersionsTests: XCTestCase {
     }
     
     func test_frameDocument_whenSave_shouldUpdateStructure() throws {
-        let document = try XCTUnwrap(Sample().document(name: .frame, testCase: self))
+        let document = try Sample().document(name: .frame, testCase: self)
 
         saveDocumentAndRemoveAtTearDown(document: document, name: "FrameFormatNewStructure")
         
@@ -63,7 +63,7 @@ final class DocumentVersionsTests: XCTestCase {
     }
     
     func test_frameDocument_whenRead_shouldReadAsFirstFrame() throws {
-        let document = try XCTUnwrap(Sample().document(name: .frame, testCase: self))
+        let document = try Sample().document(name: .frame, testCase: self)
         
         let frame = try XCTUnwrap(document.artboard.frames.first)
         
@@ -76,7 +76,7 @@ final class DocumentVersionsTests: XCTestCase {
     
     // MARK: Artboard version
     func test_artboardDocument_whenRead_shouldUpdateStructure() throws {
-        let document = try XCTUnwrap(Sample().document(name: .artboard, testCase: self))
+        let document = try Sample().document(name: .artboard, testCase: self)
         
         // Read on file creation
         
@@ -84,7 +84,7 @@ final class DocumentVersionsTests: XCTestCase {
     }
     
     func test_artboardDocument_whenSave_shouldUpdateStructure() throws {
-        let document = try XCTUnwrap(Sample().document(name: .artboard, testCase: self))
+        let document = try Sample().document(name: .artboard, testCase: self)
 
         saveDocumentAndRemoveAtTearDown(document: document, name: "ArtboardFormatNewStructure")
         
@@ -92,7 +92,7 @@ final class DocumentVersionsTests: XCTestCase {
     }
     
     func test_artboardDocument_whenRead_shouldReadContent() throws {
-        let document = try XCTUnwrap(Sample().document(name: .artboard, testCase: self))
+        let document = try Sample().document(name: .artboard, testCase: self)
         
         let artboard = document.artboard
         XCTAssertEqual(artboard.frames.count, 2)
@@ -136,7 +136,7 @@ final class DocumentVersionsTests: XCTestCase {
 #elseif os(iOS)
     
     func test_canReadDocumentWithoutFrameFolder() async throws {
-        let document = try XCTUnwrap(Sample().document(name: .beta))
+        let document = try Sample().document(name: .beta)
         
         await document.read()
 
@@ -147,8 +147,8 @@ final class DocumentVersionsTests: XCTestCase {
         })
     }
     
-    func test_canReadFrameFileFolrmat() async throws {
-        let document = try XCTUnwrap(Sample().document(name: .frame))
+    func test_canReadFrameFileFormat() async throws {
+        let document = try Sample().document(name: .frame)
         
         await document.read()
 
