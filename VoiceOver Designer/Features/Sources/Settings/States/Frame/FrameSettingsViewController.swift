@@ -1,12 +1,5 @@
-//
-//  File.swift
-//  
-//
-//  Created by Andrey Plotnikov on 02.07.2023.
-//
-
-import Foundation
 import Artboard
+import Foundation
 import SwiftUI
 
 public class FrameSettingsViewController: NSHostingController<FrameSettingsView> {
