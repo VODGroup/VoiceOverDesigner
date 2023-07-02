@@ -38,13 +38,18 @@ public class Artboard {
 }
 
 /// Domain object that is used for drawing
-public class Frame: ArtboardContainer {
+public class Frame: ArtboardContainer, ObservableObject {
     public var type: ArtboardType = .frame
     
     @DecodableDefault.RandomUUID
     public var id: UUID
-    public var label: String
-    public var imageLocation: ImageLocation
+    public var label: String {
+        willSet { objectWillChange.send() }
+    }
+    public var imageLocation: ImageLocation {
+        willSet { objectWillChange.send() }
+    }
+
     public var frame: CGRect
     
     /// In absolute coordinates
@@ -81,11 +86,12 @@ public class Frame: ArtboardContainer {
 
     // MARK: ArtboardElement
     public static func == (lhs: Frame, rhs: Frame) -> Bool {
-        lhs.label == rhs.label // TODO: Better comparison
+        lhs.label == rhs.label &&
+        lhs.imageLocation == rhs.imageLocation
     }
 }
 
-public enum ImageLocation {
+public enum ImageLocation: Equatable {
     case cache(image: NSImage)
     case file(name: String)
     case url(url: URL)

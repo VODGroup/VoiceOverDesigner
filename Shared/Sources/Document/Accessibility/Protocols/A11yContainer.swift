@@ -193,11 +193,6 @@ extension A11yContainer {
     }
 }
 
-public enum A11yElement: Codable {
-    case description(A11yDescription)
-    case container(A11yContainer)
-}
-
 extension ArtboardElement {
     public func copy() -> any ArtboardElement {
         switch self.cast {

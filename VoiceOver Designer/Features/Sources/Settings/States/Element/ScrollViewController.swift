@@ -11,8 +11,8 @@ public class ScrollViewController: NSViewController {
         view().addSubviewAndConstraints(child.view)
     }
     
-    func view() -> ScrollView {
-        view as! ScrollView
+    func view() -> ScrollContainerView {
+        view as! ScrollContainerView
     }
     
     public static func fromStoryboard() -> ScrollViewController {
@@ -21,7 +21,7 @@ public class ScrollViewController: NSViewController {
     }
 }
 
-public class ScrollView: NSView {
+public class ScrollContainerView: NSView {
     @IBOutlet weak var scrollView: NSScrollView!
     @IBOutlet var contentView: NSView!
     

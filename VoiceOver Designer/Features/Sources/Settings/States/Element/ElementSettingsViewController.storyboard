@@ -12,7 +12,7 @@
         <scene sceneID="XOO-ii-QJZ">
             <objects>
                 <viewController storyboardIdentifier="ScrollView" id="U2f-R7-Q2a" customClass="ScrollViewController" customModule="Settings" sceneMemberID="viewController">
-                    <view key="view" id="cLK-md-r8c" customClass="ScrollView" customModule="Settings">
+                    <view key="view" id="cLK-md-r8c" customClass="ScrollContainerView" customModule="Settings">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="1025"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
