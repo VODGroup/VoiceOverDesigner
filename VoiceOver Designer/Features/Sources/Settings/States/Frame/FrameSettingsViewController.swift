@@ -56,8 +56,6 @@ extension Frame {
         switch result {
         case .success(let url):
             imageLocation = .tmp(name: url.lastPathComponent, data: try Data(contentsOf: url))
-            // Copy image to document?
-            // Reload image?
         case .failure(let failure):
             throw failure
         }
