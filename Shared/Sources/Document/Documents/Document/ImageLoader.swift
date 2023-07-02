@@ -9,8 +9,6 @@ public class ImageLoader: ImageLoading {
     }
     public func image(for frame: Frame) -> Image? {
         switch frame.imageLocation {
-        case .cache(let image):
-            return image
         case .file(let name):
             let filePath = documentPath()!
                 .appendingPathComponent(FolderName.images)
@@ -21,7 +19,11 @@ public class ImageLoader: ImageLoading {
             // TODO: Load from the internet and cache inside a .vodesign document
             fatalError()
         case let .tmp(_, data):
-            return Image(data: data)
+            if let data {
+                return Image(data: data)
+            } else {
+                return nil
+            }
         }
     }
 }
