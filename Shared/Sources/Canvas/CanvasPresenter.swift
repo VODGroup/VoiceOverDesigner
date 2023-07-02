@@ -63,7 +63,6 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     private func redraw(artboard: Artboard) {
-        drawingController.view.removeAll()
         drawingController.draw(
             artboard: artboard,
             scale: scale)
@@ -195,15 +194,18 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     // MARK: Image
-    public override func add(image: Image) {
-        super.add(image: image)
+    public override func add(image: Image, origin: CGPoint) {
+        super.add(image: image, origin: origin)
         
-        // TODO: Remove old?
         drawingController.draw(
             artboard: document.artboard,
             scale: scale)
         
         publishControlChanges()
+    }
+    
+    public func add(image: Image) {
+        add(image: image, origin: document.artboard.suggestOrigin())
     }
 }
 

@@ -84,6 +84,21 @@ class NewDrawingTests: CanvasAfterDidLoadTests {
         let image = try! XCTUnwrap(Sample().image(name: Sample.image3xScale))
         sut.add(image: image)
     }
+    
+    // MARK: - Frame drawing
+    func test_whenDrawFrame_shouldAddFrameLayer() {
+        addFrame()
+        
+        XCTAssertEqual(numberOfDrawnLayers, 1)
+    }
+    
+    func test_whenDraw2Frames_shouldAddFrameLayer() {
+        addFrame()
+        addFrame()
+        
+        XCTAssertEqual(numberOfDrawnLayers, 2)
+    }
+    
 }
 
 extension CGPoint {

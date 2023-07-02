@@ -69,7 +69,7 @@ extension DocumentsBrowserViewController: DragNDropDelegate {
         show(document: document)
     }
     
-    public func didDrag(image: NSImage) {
+    public func didDrag(image: NSImage, locationInWindow: CGPoint) {
         let document = VODesignDocument(image: image)
         show(document: document)
     }

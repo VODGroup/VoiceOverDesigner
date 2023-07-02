@@ -75,6 +75,8 @@ class CanvasView: FlippedView {
             self.scrollView.updateHud(to: newLevel) // Animator calls another function
         }
         
+        dragnDropView.scale = newLevel
+        
         scrollView?.setMagnification(
             newLevel,
             centeredAt: contentView.hud.selectedControlFrame?.center ?? contentView.frame.center)
@@ -91,7 +93,7 @@ class CanvasView: FlippedView {
     private var fitingMagnification: CGFloat? {
         let contentSize = contentView.intrinsicContentSize
         
-        let insetScale: CGFloat = 1.05
+        let insetScale: CGFloat = 1
         let sizeWithOffset = CGSize(width: contentSize.width * insetScale,
                                     height: contentSize.height * insetScale)
         

@@ -50,6 +50,10 @@ extension CanvasPresenterTests {
         drawnControls.count
     }
     
+    var numberOfDrawnLayers: Int? {
+        controller.controlsView.layer?.sublayers?.count
+    }
+    
     func didLoad() {
         sut.didLoad(uiContent: controller.controlsView,
                     uiScroll: uiScrollSpy,

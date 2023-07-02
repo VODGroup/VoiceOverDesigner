@@ -21,8 +21,6 @@ public class CanvasViewController: NSViewController {
     public var presenter: CanvasPresenter!
     private var cancellables: Set<AnyCancellable> = []
     
-    var trackingArea: NSTrackingArea!
-    
     public override func viewDidLoad() {
         super.viewDidLoad()
         view().dragnDropView.delegate = self
@@ -36,6 +34,7 @@ public class CanvasViewController: NSViewController {
         }
     }
     
+    var trackingArea: NSTrackingArea!
     private func addMouseTracking() {
         trackingArea = NSTrackingArea(
             rect: view.bounds,
@@ -131,14 +130,8 @@ public class CanvasViewController: NSViewController {
     }
     
     func location(from event: NSEvent) -> CGPoint {
-        let inWindow = event.locationInWindow
-        let inView = view().contentView
-            .convert(inWindow, from: nil)
-//            .flippendVertical(in: view().contentView) // It's already flipped by contentView
-        
-        return inView
+        event.location(in: view().contentView)
     }
-    
     
     // MARK:
     public override func mouseDown(with event: NSEvent) {
@@ -238,9 +231,10 @@ extension CanvasViewController: NSWindowDelegate {
 }
 
 extension CanvasViewController: DragNDropDelegate {
-    public func didDrag(image: NSImage) {
+    public func didDrag(image: NSImage, locationInWindow: CGPoint) {
+        let locationInCanvas = view().contentView.convert(locationInWindow, from: nil)
         let shouldAnimate = presenter.document.artboard.frames.count != 0
-        presenter.add(image: image)
+        presenter.add(image: image, origin: locationInCanvas)
         view().fitToWindow(animated: shouldAnimate)
     }
     
@@ -284,5 +278,11 @@ extension NSCursor {
         case .topRight, .bottomLeft:
             return NSImage(byReferencingFile: "/System/Library/Frameworks/WebKit.framework/Versions/Current/Frameworks/WebCore.framework/Resources/northEastSouthWestResizeCursor.png")!
         }
+    }
+}
+
+extension NSEvent {
+    func location(in view: NSView) -> CGPoint {
+        view.convert(locationInWindow, from: nil)
     }
 }
