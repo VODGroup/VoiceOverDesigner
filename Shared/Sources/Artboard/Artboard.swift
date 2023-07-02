@@ -91,6 +91,8 @@ public class Frame: ArtboardContainer, ObservableObject {
 public enum ImageLocation: Codable, Equatable {
     case file(name: String)
     case url(url: URL)
+    /// Temporary data stored during design process, shouldn't be encoded
+    case tmp(name: String, data: Data)
 }
 
 public protocol ImageLoading {

@@ -56,8 +56,7 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
                 
                 return containerSettings
             case .frame(let frame):
-                let frameSettings = FrameSettingsViewController(frame: frame)
-                frameSettings.delegate = self.settingsDelegate
+                let frameSettings = FrameSettingsViewController(frame: frame, delegate: settingsDelegate)
                 return frameSettings
             }
         }
