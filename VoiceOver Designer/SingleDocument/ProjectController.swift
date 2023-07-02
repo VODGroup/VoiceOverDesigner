@@ -101,9 +101,8 @@ extension ProjectController {
 
     func showSettings(for model: any ArtboardElement) {
         switch model.cast {
-        case .frame:
-            // TODO: Implement frame's settings
-            settings.state = .empty
+        case .frame(let frame):
+            settings.state = .frame(frame)
         case .container(let container):
             settings.state = .container(container)
         case .element(let element):

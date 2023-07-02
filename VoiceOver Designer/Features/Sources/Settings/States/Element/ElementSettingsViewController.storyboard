@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="6l9-zf-wkv">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="6l9-zf-wkv">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21701"/>
         <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,7 +11,7 @@
         <scene sceneID="XOO-ii-QJZ">
             <objects>
                 <viewController storyboardIdentifier="ScrollView" id="U2f-R7-Q2a" customClass="ScrollViewController" customModule="Settings" sceneMemberID="viewController">
-                    <view key="view" id="cLK-md-r8c" customClass="ScrollView" customModule="Settings">
+                    <view key="view" id="cLK-md-r8c" customClass="ScrollContainerView" customModule="Settings">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="1025"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>

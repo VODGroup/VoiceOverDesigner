@@ -8,6 +8,7 @@ public enum DetailsState: StateProtocol {
     case empty
     case control(A11yDescription)
     case container(A11yContainer)
+    case frame(Frame)
     
     public static var `default`: Self = .empty
 }
@@ -54,6 +55,10 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
                 self.recognizeText(for: container)
                 
                 return containerSettings
+            case .frame(let frame):
+                let frameSettings = FrameSettingsViewController(frame: frame)
+                frameSettings.delegate = self.settingsDelegate
+                return frameSettings
             }
         }
     }
@@ -85,7 +90,7 @@ extension SettingsStateViewController: PurchaseUnlockerDelegate {
             recognizeText(for: element)
         case .container(let container):
             recognizeText(for: container)
-        case .empty:
+        case .frame, .empty:
             return
         }
     }
@@ -151,6 +156,10 @@ extension SettingsStateViewController {
         case .control(let element):
             if let selectedElement = result?.control as? A11yDescription {
                 return element == selectedElement
+            }
+        case .frame(let frame):
+            if let selectedElement = result?.control as? Frame {
+                return frame == selectedElement
             }
         case .empty:
             return false
