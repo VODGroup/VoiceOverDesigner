@@ -22,7 +22,7 @@ final class DocumentVersionsTests: XCTestCase {
         
         // Read on file creation
         
-        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
+        assertFolder(document)
     }
     
     func test_betaDocument_whenSave_shouldUpdateStructure() throws {
@@ -30,7 +30,7 @@ final class DocumentVersionsTests: XCTestCase {
 
         saveDocumentAndRemoveAtTearDown(document: document, name: "BetaFormatNewStructure")
         
-        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
+        assertFolder(document)
     }
     
     func test_betaDocument_whenRead_shouldMoveElementsToFirstFrame() throws {
@@ -51,7 +51,7 @@ final class DocumentVersionsTests: XCTestCase {
         
         // Read on file creation
         
-        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
+        assertFolder(document)
     }
     
     func test_frameDocument_whenSave_shouldUpdateStructure() throws {
@@ -59,7 +59,7 @@ final class DocumentVersionsTests: XCTestCase {
 
         saveDocumentAndRemoveAtTearDown(document: document, name: "FrameFormatNewStructure")
         
-        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
+        assertFolder(document)
     }
     
     func test_frameDocument_whenRead_shouldReadAsFirstFrame() throws {
@@ -80,7 +80,7 @@ final class DocumentVersionsTests: XCTestCase {
         
         // Read on file creation
         
-        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
+        assertFolder(document)
     }
     
     func test_artboardDocument_whenSave_shouldUpdateStructure() throws {
@@ -88,7 +88,7 @@ final class DocumentVersionsTests: XCTestCase {
 
         saveDocumentAndRemoveAtTearDown(document: document, name: "ArtboardFormatNewStructure")
         
-        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
+        assertFolder(document)
     }
     
     func test_artboardDocument_whenRead_shouldReadContent() throws {
@@ -133,6 +133,25 @@ final class DocumentVersionsTests: XCTestCase {
         XCTAssertNotNil(document.artboard.imageLoader.image(for: frame), file: file, line: line)
         XCTAssertEqual(frame.frame, rect, "should scale frame", file: file, line: line)
     }
+    
+    func assertFolder(
+        _ document: VODesignDocument,
+        file: StaticString = #file,
+        testName: String = #function,
+        line: UInt = #line
+    ) {
+        let testBundle = Bundle.module.resourceURL!
+        
+        assertSnapshot(
+            matching: document.fileURL!,
+            as: .folderStructure,
+            testBundleResourceURL: testBundle,
+            file: file,
+            testName: testName,
+            line: line
+        )
+    }
+    
 #elseif os(iOS)
     
     func test_canReadDocumentWithoutFrameFolder() async throws {
