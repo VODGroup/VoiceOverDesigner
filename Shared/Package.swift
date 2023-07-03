@@ -78,7 +78,11 @@ let package = Package(
                 .product(name: "SnapshotTesting",
                          package: "swift-snapshot-testing"),
                 "FolderSnapshot",
-            ]),
+            ],
+            resources: [
+                .copy("Document/__Snapshots__")
+            ]
+        ),
         
         .target(
             name: "TextRecognition",
