@@ -33,7 +33,7 @@ public func assertSnapshot<Value, Format>(
     var snapshotDirectory: String? = nil
     
     for folder in folderCandidates {
-        let referenceSnapshotURLInTestBundle = folder.appendingPathComponent( "\(sanitizePathComponent(testName)).txt")
+        let referenceSnapshotURLInTestBundle = folder.appendingPathComponent("\(sanitizePathComponent(testName)).1.txt")
         if FileManager.default.fileExists(atPath: referenceSnapshotURLInTestBundle.path) {
             // The snapshot file is present in the test bundle, so we will instruct snapshot-testing to use the folder
             // pointing to the snapshots in the test bundle, instead of the default.
