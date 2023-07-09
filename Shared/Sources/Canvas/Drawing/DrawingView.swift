@@ -109,7 +109,7 @@ public extension DrawingView {
         
         for control in drawnControls.reversed() {
             control.removeFromSuperlayer()
-            drawnControls.remove(at: drawnControls.count - 1)
+            _ = drawnControls.popLast()
         }
     }
     
@@ -127,5 +127,11 @@ public extension DrawingView {
         hud.removeFromSuperlayer()
         addSublayer(hud)
         hud.zPosition = 10_000
+    }
+    
+    func drawnControls(for container: any ArtboardContainer) -> [A11yControlLayer] {
+        drawnControls.filter { layer in
+            container.elements.contains { $0 === layer.model }
+        }
     }
 }
