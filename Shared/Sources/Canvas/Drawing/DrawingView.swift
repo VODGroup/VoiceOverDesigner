@@ -123,4 +123,10 @@ public extension DrawingView {
         addSublayer(hud)
         hud.zPosition = 10_000
     }
+    
+    func drawnControls(for container: any ArtboardContainer) -> [A11yControlLayer] {
+        drawnControls.filter { layer in
+            container.elements.contains { $0 === layer.model }
+        }
+    }
 }

@@ -26,13 +26,14 @@ public class MoveAction {
         let aligned = view.alignmentOverlay.alignToAny(control, frame: frame, drawnControls: view.drawnControls)
         
         control.updateWithoutAnimation {
-            let alignedOffest = aligned.origin - control.frame.origin
-            
+            let alignedOffset = aligned.origin - control.frame.origin
             control.frame = aligned
             
-            if let contanier = control.model as? any ArtboardContainer {
-                for element in contanier.elements {
-                    element.frame = element.frame.offsetBy(dx: alignedOffest.x, dy: alignedOffest.y)
+            if let container = control.model as? any ArtboardContainer {
+                // Won't work on nested containers or should be recursive
+                for layer in view.drawnControls(for: container) {
+                    layer.frame = layer.frame
+                        .offsetBy(dx: alignedOffset.x, dy: alignedOffset.y)
                 }
             }
         }
