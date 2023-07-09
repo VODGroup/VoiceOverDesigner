@@ -16,12 +16,6 @@ final class DocumentVersionsTests: XCTestCase {
 
 #if os(macOS)
     
-    override func setUpWithError() throws {
-        try super.setUpWithError()
-        
-        throw XCTSkip("Won't work on CI. Also, the result snapshots is not correct")
-    }
-    
     // MARK: - Beta format
     func test_betaDocument_whenRead_shouldUpdateStructure() throws {
         let document = try Sample().document(name: .beta, testCase: self)
@@ -32,6 +26,7 @@ final class DocumentVersionsTests: XCTestCase {
     }
     
     func test_betaDocument_whenSave_shouldUpdateStructure() throws {
+        throw XCTSkip("Won't work on CI. Also, the result snapshots is not correct")
         let document = try Sample().document(name: .beta, testCase: self)
 
         saveDocumentAndRemoveAtTearDown(document: document, name: "BetaFormatNewStructure")
@@ -61,6 +56,7 @@ final class DocumentVersionsTests: XCTestCase {
     }
     
     func test_frameDocument_whenSave_shouldUpdateStructure() throws {
+        throw XCTSkip("Won't work on CI. Also, the result snapshots is not correct")
         let document = try Sample().document(name: .frame, testCase: self)
 
         saveDocumentAndRemoveAtTearDown(document: document, name: "FrameFormatNewStructure")
@@ -90,6 +86,7 @@ final class DocumentVersionsTests: XCTestCase {
     }
     
     func test_artboardDocument_whenSave_shouldUpdateStructure() throws {
+        throw XCTSkip("Won't work on CI. Also, the result snapshots is not correct")
         let document = try Sample().document(name: .artboard, testCase: self)
 
         saveDocumentAndRemoveAtTearDown(document: document, name: "ArtboardFormatNewStructure")
