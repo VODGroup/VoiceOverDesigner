@@ -61,7 +61,7 @@ extension SceneDelegate {
         closePresentedDocument()
         
         let document = VODesignDocument(fileURL: url)
-        let controller = PreviewMainViewController(document: document)
+        let controller = ArtboardPreviewViewController(document: document)
         controller.title = url.lastPathComponent
         
         if UIDevice.current.userInterfaceIdiom == .phone {

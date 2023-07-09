@@ -67,7 +67,20 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
         
         let packageWrapper = contents as! FileWrapper
         
-        try read(from: packageWrapper)
+        do {
+            let (version, artboard) = try read(from: packageWrapper)
+            
+            self.artboard = artboard
+            artboard.imageLoader = ImageLoader(documentPath: { [weak self] in
+                self?.fileURL
+            })
+            
+            // Do need to call migration ??
+            
+        } catch {
+            print(error)
+            throw error
+        }
     }
     
     public override func contents(forType typeName: String) throws -> Any {
