@@ -163,10 +163,13 @@ extension VODesignDocumentProtocol {
             let codingService = ArtboardElementCodingService()
             let controls = try codingService.controls(from: controlsWrapper.regularFileContents!)
             
+            let imageData = documentWrapper.fileWrappers![FileName.screen]!.regularFileContents!
+            let imageSize = Image(data: imageData)?.size ?? .zero
+            
             let artboard = Artboard(frames: [
                 Frame(label: "Frame",
                       imageName: "Frame.png",
-                      frame: CGRect(origin: .zero, size: .zero), // TODO: image.size
+                      frame: CGRect(origin: .zero, size: imageSize),
                       elements: controls)
             ])
             

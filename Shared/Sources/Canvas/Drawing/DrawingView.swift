@@ -104,7 +104,7 @@ public extension DrawingView {
     func removeAll() {
         for control in drawnControls.reversed() {
             control.removeFromSuperlayer()
-            drawnControls.remove(at: drawnControls.count - 1)
+            _ = drawnControls.popLast()
         }
     }
     
