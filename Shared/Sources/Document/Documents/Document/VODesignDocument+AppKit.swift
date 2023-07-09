@@ -48,7 +48,7 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
         
         displayName = image.name() ?? Date().description
         
-        addFrame(with: image)
+        addFrame(with: image, origin: .zero)
     }
     
     // MARK: - Override

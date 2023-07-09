@@ -80,15 +80,29 @@ class NewDrawingTests: CanvasAfterDidLoadTests {
         XCTAssertEqual(document.artboard.controlsWithoutFrames.count, 0)
     }
     
+    func test_createControlsWhenDocumentImageNil() {
+        sut.mouseDown(on: start10)
+        sut.mouseUp(on: end60)
+        XCTAssertNotNil(drawnControls.first, "Should create control")
+    }
+    
     func addFrame() {
         let image = try! XCTUnwrap(Sample().image(name: Sample.image3xScale))
         sut.add(image: image)
     }
     
-    func test_createControlsWhenDocumentImageNil() {
-        sut.mouseDown(on: start10)
-        sut.mouseUp(on: end60)
-        XCTAssertNotNil(drawnControls.first, "Should create control")
+    // MARK: - Frame drawing
+    func test_whenDrawFrame_shouldAddFrameLayer() {
+        addFrame()
+        
+        XCTAssertEqual(numberOfDrawnLayers, 1)
+    }
+    
+    func test_whenDraw2Frames_shouldAddFrameLayer() {
+        addFrame()
+        addFrame()
+        
+        XCTAssertEqual(numberOfDrawnLayers, 2)
     }
 }
 

@@ -106,7 +106,6 @@ class FrameDTO: Codable {
     public var imageLocation: ImageLocation
     public var frame: CGRect
     public var elements: [ArtboardElementDecodable]
-    // TODO: Image reference
 }
 
 class SimpleFrameDTO: Codable {

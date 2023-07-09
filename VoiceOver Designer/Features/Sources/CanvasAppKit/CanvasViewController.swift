@@ -10,6 +10,7 @@ import Document
 import CommonUI
 import Canvas
 import Combine
+import AppKit
 
 public class CanvasViewController: NSViewController {
     
@@ -19,8 +20,6 @@ public class CanvasViewController: NSViewController {
     
     public var presenter: CanvasPresenter!
     private var cancellables: Set<AnyCancellable> = []
-    
-    var trackingArea: NSTrackingArea!
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +34,7 @@ public class CanvasViewController: NSViewController {
         }
     }
     
+    var trackingArea: NSTrackingArea!
     private func addMouseTracking() {
         trackingArea = NSTrackingArea(
             rect: view.bounds,
@@ -130,14 +130,8 @@ public class CanvasViewController: NSViewController {
     }
     
     func location(from event: NSEvent) -> CGPoint {
-        let inWindow = event.locationInWindow
-        let inView = view().contentView
-            .convert(inWindow, from: nil)
-//            .flippendVertical(in: view().contentView) // It's already flipped by contentView
-        
-        return inView
+        event.location(in: view().contentView)
     }
-    
     
     // MARK:
     public override func mouseDown(with event: NSEvent) {
@@ -175,13 +169,14 @@ public class CanvasViewController: NSViewController {
     
     @objc func addImageButtonTapped() {
         Task {
-            if let image = await requestImage() {
+            if let path = await requestImage(),
+               let image = NSImage(contentsOf: path) {
                 presenter.add(image: image)
             }
         }
     }
     
-    func requestImage() async -> NSImage? {
+    func requestImage() async -> URL? {
         guard let window = view.window else { return nil }
         let imagePanel = NSOpenPanel()
         imagePanel.allowedFileTypes = NSImage.imageTypes
@@ -190,8 +185,7 @@ public class CanvasViewController: NSViewController {
         imagePanel.allowsMultipleSelection = false
         let modalResponse = await imagePanel.beginSheetModal(for: window)
         guard modalResponse == .OK else { return nil }
-        guard let url = imagePanel.url, let image = NSImage(contentsOf: url) else { return nil }
-        return image
+        return imagePanel.url
     }
 }
 
@@ -237,8 +231,11 @@ extension CanvasViewController: NSWindowDelegate {
 }
 
 extension CanvasViewController: DragNDropDelegate {
-    public func didDrag(image: NSImage) {
-        presenter.add(image: image)
+    public func didDrag(image: NSImage, locationInWindow: CGPoint) {
+        let locationInCanvas = view().contentView.convert(locationInWindow, from: nil)
+        let shouldAnimate = presenter.document.artboard.frames.count != 0
+        presenter.add(image: image, origin: locationInCanvas)
+        view().fitToWindow(animated: shouldAnimate)
     }
     
     public func didDrag(path: URL) {
@@ -281,5 +278,11 @@ extension NSCursor {
         case .topRight, .bottomLeft:
             return NSImage(byReferencingFile: "/System/Library/Frameworks/WebKit.framework/Versions/Current/Frameworks/WebCore.framework/Resources/northEastSouthWestResizeCursor.png")!
         }
+    }
+}
+
+extension NSEvent {
+    func location(in view: NSView) -> CGPoint {
+        view.convert(locationInWindow, from: nil)
     }
 }
