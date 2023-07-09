@@ -16,10 +16,10 @@ final class DocumentVersionsTests: XCTestCase {
 
 #if os(macOS)
     
-    override func setUp() {
-        super.setUp()
+    override func setUpWithError() throws {
+        try super.setUpWithError()
         
-        XCTSkip("Won't work on CI. Also, the result snapshots is not correct")
+        throw XCTSkip("Won't work on CI. Also, the result snapshots is not correct")
     }
     
     // MARK: - Beta format
