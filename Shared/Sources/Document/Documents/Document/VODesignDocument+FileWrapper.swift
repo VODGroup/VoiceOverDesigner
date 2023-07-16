@@ -36,6 +36,10 @@ extension VODesignDocumentProtocol {
             switch frame.imageLocation {
                 
             case .file(name: let name):
+                if let existedWrapper = imagesFolderWrapper.fileWrappers?[name] {
+                    return
+                }
+                 
                 if let imageWrapper = try? FileWrapper(url: artboard.imageLoader.url(for: name)) {
                     imageWrapper.preferredFilename = name
                 

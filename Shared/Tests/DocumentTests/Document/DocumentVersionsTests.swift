@@ -88,7 +88,6 @@ final class DocumentVersionsTests: XCTestCase {
     }
     
     func test_artboardDocument_whenSave_shouldUpdateStructure() throws {
-        throw XCTSkip("Won't work on CI. Also, the result snapshots is not correct")
         let document = try Sample().document(name: .artboard, testCase: self)
 
         try saveDocumentAndRemoveAtTearDown(document: document, name: "ArtboardFormatNewStructure")
