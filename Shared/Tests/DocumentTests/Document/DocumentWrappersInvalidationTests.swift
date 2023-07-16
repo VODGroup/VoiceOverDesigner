@@ -47,7 +47,7 @@ class DocumentWrappersInvalidationTests: XCTestCase {
         
         let documentName = String.artboard
         document = try Sample().document(name: documentName, testCase: self)
-        document.fileURL!
+        
         path = try XCTUnwrap(Sample().documentPath(name: documentName))
     }
     
