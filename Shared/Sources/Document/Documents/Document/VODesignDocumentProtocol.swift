@@ -35,26 +35,22 @@ extension VODesignDocumentProtocol {
         origin: CGPoint
     ) {
         let frame = Frame(image: newImage,
-                          frame: CGRect(origin: origin,
+                          frame: CGRect(origin: .zero,
                                         size: newImage.size))
         artboard.frames.append(frame)
         
-        invalidateWrapperIfPossible(fileInRoot: FolderName.quickLook)
+        documentWrapper.invalidateIfPossible(file: FolderName.quickLook)
     }
     
     public func update(image: ImageLocation, for frame: Frame) {
         switch frame.imageLocation {
             
         case .file(name: let name):
-            if let existedWrapper = imagesFolderWrapper.fileWrappers?[name] {
-                imagesFolderWrapper.removeFileWrapper(existedWrapper)
-            }
+            imagesFolderWrapper.invalidateIfPossible(file: name)
         case .url(url: _):
             fatalError("Don't know is some code is needed here")
         case .tmp(name: let name, data: _):
-            if let existedWrapper = imagesFolderWrapper.fileWrappers?[name] {
-                imagesFolderWrapper.removeFileWrapper(existedWrapper)
-            }
+            imagesFolderWrapper.invalidateIfPossible(file: name)
         }
         
         frame.imageLocation = image

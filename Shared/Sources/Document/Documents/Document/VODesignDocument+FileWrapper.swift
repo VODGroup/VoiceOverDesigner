@@ -18,12 +18,12 @@ extension VODesignDocumentProtocol {
         storeImagesAsFileWrappers()
         
         // Save artboard's structure
-        invalidateWrapperIfPossible(fileInRoot: FileName.document)
+        documentWrapper.invalidateIfPossible(file: FileName.document)
         let documentStructureWrapper = try documentStructureFileWrapper()
         self.documentWrapper.addFileWrapper(documentStructureWrapper)
 
         // Preview depends on elements and should be invalidated
-        invalidateWrapperIfPossible(fileInRoot: FolderName.quickLook)
+        documentWrapper.invalidateIfPossible(file: FolderName.quickLook)
         if let previewWrapper = previewWrapper() {
             documentWrapper.addFileWrapper(previewWrapper)
         }
@@ -279,25 +279,8 @@ extension VODesignDocumentProtocol {
                      elements: controls)
     }
     
-    private func createEmptyDocumentWrapper() {
+    func createEmptyDocumentWrapper() {
         self.documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
-    }
-    
-    private func addEmptyFrameWrapper() {
-        let frameWrapper = FileWrapper(directoryWithFileWrappers: [:])
-        frameWrapper.preferredFilename = defaultFrameName
-        self.documentWrapper.addFileWrapper(frameWrapper)
-    }
-    
-    func recreateDocumentWrapper() {
-        createEmptyDocumentWrapper()
-//        addEmptyFrameWrapper()
-    }
-    
-    func invalidateWrapperIfPossible(fileInRoot: String) {
-        if let wrapper = documentWrapper.fileWrappers?[fileInRoot] {
-            documentWrapper.removeFileWrapper(wrapper)
-        }
     }
 }
 

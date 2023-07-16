@@ -53,11 +53,12 @@ extension VODesignDocument {
     }
     
     public func saveAndRemoveAtTearDown(name: String, testCase: XCTestCase) throws {
-        try save(name: name, testCase: testCase)
         testCase.addTeardownBlock {
             let testFilePath = await VODesignDocument.testURL(name: name)
             try FileManager.default.removeItem(at: testFilePath)
         }
+        
+        try save(name: name, testCase: testCase)
     }
     
 //    public func read() throws {

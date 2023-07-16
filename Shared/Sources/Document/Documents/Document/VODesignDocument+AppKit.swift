@@ -93,7 +93,7 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
                     to: toPath)
             }
            
-            recreateDocumentWrapper()
+            createEmptyDocumentWrapper() 
         case .release:
             if let fileURL {
                 let fromPath = fileURL.appendingPathComponent("Frame/screen.png")
