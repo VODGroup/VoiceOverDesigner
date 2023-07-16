@@ -45,9 +45,10 @@ class DocumentWrappersInvalidationTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
         
-        document = try Sample().document(name: .frame, testCase: self)
-        
-        path = try XCTUnwrap(Sample().documentPath(name: .frame))
+        let documentName = String.artboard
+        document = try Sample().document(name: documentName, testCase: self)
+        document.fileURL!
+        path = try XCTUnwrap(Sample().documentPath(name: documentName))
     }
     
     func test_matchesContentAfterReading() {
