@@ -32,9 +32,6 @@ public class CanvasViewController: NSViewController {
         super.viewDidLoad()
         view().dragnDropView.delegate = self
         
-        view().addImageButton.action = #selector(addImageButtonTapped)
-        view().addImageButton.target = self
-        
         view.window?.delegate = self
         
         presenter.didLoad(uiContent: view().contentView,
@@ -45,6 +42,7 @@ public class CanvasViewController: NSViewController {
         setImage()
         addMouseTracking()
         addMenuItem()
+        view().isEmpty = self.presenter.document.artboard.isEmpty
     }
     
     public override func viewDidAppear() {
@@ -93,6 +91,7 @@ public class CanvasViewController: NSViewController {
             .store(in: &cancellables)
     }
     
+
     private func stopPointerObserving() {
         cancellables.forEach { cancellable in
             cancellable.cancel()
