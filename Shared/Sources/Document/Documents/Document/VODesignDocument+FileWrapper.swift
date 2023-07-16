@@ -4,17 +4,6 @@ extension VODesignDocumentProtocol {
     
     // MARK: - Write
     func fileWrapper() throws -> FileWrapper {
-//        for frame in artboard.frames {
-//            guard let frameWrapper = try? frameWrapper(for: frame)
-//            else { continue }
-//
-//            documentWrapper.addFileWrapper(frameWrapper)
-//        }
-        
-//        if let controlsWithoutFrame = try? controlsWrapper(for: artboard.controlsWithoutFrames) {
-//            documentWrapper.addFileWrapper(controlsWithoutFrame)
-//        }
-        
         storeImagesAsFileWrappers()
         
         // Save artboard's structure
@@ -68,26 +57,6 @@ extension VODesignDocumentProtocol {
         documentWrapper.addFileWrapper(imagesFolderWrapper)
         return imagesFolderWrapper
     }
-    
-//    private func frameWrapper(for frame: Frame) throws -> FileWrapper {
-//        let frameWrapper = documentWrapper.fileWrappers?[frame.label] ?? FileWrapper.createDirectory(preferredFilename: frame.label)
-//
-//        // Just invalidate controls every time to avoid lose of user's data
-//        frameWrapper.invalidateIfPossible(file: FileName.controls)
-//        frameWrapper.addFileWrapper(try controlsWrapper(for: frame.elements))
-//
-//        if frameWrapper.fileWrappers?[FileName.screen] == nil,
-//           let imageWrapper = imageWrapper(frame: frame) {
-//            frameWrapper.addFileWrapper(imageWrapper)
-//        }
-//
-////        if frameWrapper.fileWrappers?[FileName.info] == nil {
-////            let frameMetaWrapper = infoWrapper()
-////            frameWrapper.addFileWrapper(frameMetaWrapper)
-////        }
-//
-//        return frameWrapper
-//    }
 }
 
 enum DocumentVersion {
@@ -127,15 +96,6 @@ extension VODesignDocumentProtocol {
             return [documentWrapper]
         }
     }
-    
-//    private func controlsWrapper(
-//        for controls: [any ArtboardElement]
-//    ) throws -> FileWrapper {
-//        let codingService = ArtboardElementCodingService()
-//        let wrapper = FileWrapper(regularFileWithContents: try codingService.data(from: controls))
-//        wrapper.preferredFilename = FileName.controls
-//        return wrapper
-//    }
 
     private func documentStructureFileWrapper(
     ) throws -> FileWrapper {
