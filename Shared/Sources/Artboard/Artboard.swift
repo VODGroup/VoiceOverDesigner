@@ -35,6 +35,10 @@ public class Artboard {
     }
     
     public var imageLoader: ImageLoading!
+    
+    public var isEmpty: Bool {
+        frames.isEmpty && controlsWithoutFrames.isEmpty
+    }
 }
 
 /// Domain object that is used for drawing
