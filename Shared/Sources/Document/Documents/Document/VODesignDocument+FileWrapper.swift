@@ -49,7 +49,7 @@ extension VODesignDocumentProtocol {
                 break // Do nothing, location will be saved at document.json
             case .tmp(name: let name, data: let data):
                 if let imageWrapper = imageWrapper(frame: frame) {
-                    documentWrapper.addFileWrapper(imageWrapper)
+                    imagesFolderWrapper.addFileWrapper(imageWrapper)
                 }
                 
                 // Update location

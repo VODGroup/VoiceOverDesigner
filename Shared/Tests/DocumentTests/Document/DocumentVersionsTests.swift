@@ -132,24 +132,6 @@ final class DocumentVersionsTests: XCTestCase {
         XCTAssertEqual(frame.frame, rect, "should scale frame", file: file, line: line)
     }
     
-    func assertFolder(
-        _ document: VODesignDocument,
-        file: StaticString = #file,
-        testName: String = #function,
-        line: UInt = #line
-    ) {
-        let testBundle = Bundle.module.resourceURL!
-        
-        assertSnapshot(
-            matching: document.fileURL!,
-            as: .folderStructure,
-            testBundleResourceURL: testBundle,
-            file: file,
-            testName: testName,
-            line: line
-        )
-    }
-    
 #elseif os(iOS)
     
     func test_canReadDocumentWithoutFrameFolder() async throws {
@@ -189,3 +171,21 @@ extension Document {
     }
 }
 #endif
+
+func assertFolder(
+    _ document: VODesignDocument,
+    file: StaticString = #file,
+    testName: String = #function,
+    line: UInt = #line
+) {
+    let testBundle = Bundle.module.resourceURL!
+    
+    assertSnapshot(
+        matching: document.fileURL!,
+        as: .folderStructure,
+        testBundleResourceURL: testBundle,
+        file: file,
+        testName: testName,
+        line: line
+    )
+}

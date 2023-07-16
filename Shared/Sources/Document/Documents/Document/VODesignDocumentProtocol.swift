@@ -41,6 +41,24 @@ extension VODesignDocumentProtocol {
         
         invalidateWrapperIfPossible(fileInRoot: FolderName.quickLook)
     }
+    
+    public func update(image: ImageLocation, for frame: Frame) {
+        switch frame.imageLocation {
+            
+        case .file(name: let name):
+            if let existedWrapper = imagesFolderWrapper.fileWrappers?[name] {
+                imagesFolderWrapper.removeFileWrapper(existedWrapper)
+            }
+        case .url(url: _):
+            fatalError("Don't know is some code is needed here")
+        case .tmp(name: let name, data: _):
+            if let existedWrapper = imagesFolderWrapper.fileWrappers?[name] {
+                imagesFolderWrapper.removeFileWrapper(existedWrapper)
+            }
+        }
+        
+        frame.imageLocation = image
+    }
 }
 
 extension Artboard {

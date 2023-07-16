@@ -60,6 +60,28 @@ class DocumentWrappersInvalidationTests: XCTestCase {
         
         XCTAssertNil(firstFrame?[FolderName.quickLook], "quickLook is invalidated")
     }
+    
+    func test_whenUpdateImage_shouldInvalidateWrapper() throws {
+        // Arrange: has a document with frame's image
+        document.addFrame(with: Image(), origin: .zero)
+        try document.saveAndRemoveAtTearDown(name: "ImageInvalidation", testCase: self)
+        let imageFileWrappers = try XCTUnwrap(document.imagesFolderWrapper.fileWrappers?.values)
+        XCTAssertEqual(imageFileWrappers.count, 2)
+        let originalImageWrapper = try XCTUnwrap(imageFileWrappers.first)
+        
+        // Act: update frame's image
+        let frame = try XCTUnwrap(document.artboard.frames.first)
+        document.update(image: .tmp(name: "NewImage", data: Data()), for: frame)
+        
+        try document.save(name: "ImageInvalidation", testCase: self)
+        let invalidatedImageWrapper = try XCTUnwrap(document.imagesFolderWrapper.fileWrappers?.values.first)
+        
+        // Assert: shouldInvalidate previous image
+        assertFolder(document)
+        let imageFileWrappers2 = try XCTUnwrap(document.imagesFolderWrapper.fileWrappers?.values)
+        XCTAssertEqual(imageFileWrappers2.count, 2)
+        XCTAssertNotEqual(originalImageWrapper, invalidatedImageWrapper)
+    }
 }
 
 extension FileWrapper {

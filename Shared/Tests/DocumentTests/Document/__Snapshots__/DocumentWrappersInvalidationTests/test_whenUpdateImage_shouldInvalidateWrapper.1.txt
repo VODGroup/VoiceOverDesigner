@@ -1,5 +1,4 @@
 ▿ Images
   - NewImage
-  - Frame2.png
   - Frame.png
 - document.json
