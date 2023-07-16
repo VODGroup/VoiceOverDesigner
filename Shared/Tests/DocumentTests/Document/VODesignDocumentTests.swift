@@ -60,7 +60,7 @@ class VODesignDocumentPersistanceTests: XCTestCase {
         XCTContext.runActivity(named: "Read document with same name") { _ in
             let document2 = VODesignDocument(
                 fileName: fileName,
-                rootPath: VODesignDocument.path)
+                rootPath: VODesignDocument.cacheFolder)
             
             andLoad(document2)
         }

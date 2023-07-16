@@ -9,12 +9,12 @@ extension VODesignDocument {
     }
     
     public static func testURL(name: String) -> URL {
-        return Self.path
+        return Self.cacheFolder
             .appendingPathComponent("\(name).vodesign",
                                     isDirectory: false)
     }
     
-    public static var path: URL {
+    public static var cacheFolder: URL {
         FileManager.default.urls(
             for: .cachesDirectory,
             in: .userDomainMask).first!
