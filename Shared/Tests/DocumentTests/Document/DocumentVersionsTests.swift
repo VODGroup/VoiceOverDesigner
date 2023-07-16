@@ -29,7 +29,7 @@ final class DocumentVersionsTests: XCTestCase {
         throw XCTSkip("Won't work on CI. Also, the result snapshots is not correct")
         let document = try Sample().document(name: .beta, testCase: self)
 
-        saveDocumentAndRemoveAtTearDown(document: document, name: "BetaFormatNewStructure")
+        try saveDocumentAndRemoveAtTearDown(document: document, name: "BetaFormatNewStructure")
         
         assertFolder(document)
     }
@@ -61,7 +61,7 @@ final class DocumentVersionsTests: XCTestCase {
         throw XCTSkip("Won't work on CI. Also, the result snapshots is not correct")
         let document = try Sample().document(name: .frame, testCase: self)
 
-        saveDocumentAndRemoveAtTearDown(document: document, name: "FrameFormatNewStructure")
+        try saveDocumentAndRemoveAtTearDown(document: document, name: "FrameFormatNewStructure")
         
         assertFolder(document)
     }
@@ -93,7 +93,7 @@ final class DocumentVersionsTests: XCTestCase {
         throw XCTSkip("Won't work on CI. Also, the result snapshots is not correct")
         let document = try Sample().document(name: .artboard, testCase: self)
 
-        saveDocumentAndRemoveAtTearDown(document: document, name: "ArtboardFormatNewStructure")
+        try saveDocumentAndRemoveAtTearDown(document: document, name: "ArtboardFormatNewStructure")
         
         assertFolder(document)
     }
@@ -126,11 +126,11 @@ final class DocumentVersionsTests: XCTestCase {
     // MARK: - Restoration DSL
     private let fileManager = FileManager.default
     
-    private func saveDocumentAndRemoveAtTearDown(document: VODesignDocument, name: String) {
-        document.save(testCase: self, fileName: name)
+    private func saveDocumentAndRemoveAtTearDown(document: VODesignDocument, name: String) throws {
+        try document.save(testCase: self, fileName: name)
         addTeardownBlock {
-            let testFilePath = Sample().resourcesPath().appendingPathComponent("\(name).vodesign")
-            try? self.fileManager.removeItem(at: testFilePath)
+            let testFilePath = await VODesignDocument.testURL(name: name)
+            try self.fileManager.removeItem(at: testFilePath)
         }
     }
 

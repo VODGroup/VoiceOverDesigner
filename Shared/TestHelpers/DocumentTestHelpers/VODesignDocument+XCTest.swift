@@ -26,33 +26,30 @@ extension VODesignDocument {
 extension VODesignDocument {
     public static func testDocument(
         name: String,
-        saveImmediately: Bool = false,
         testCase: XCTestCase
     ) -> VODesignDocument {
         if !FileManager.default.fileExists(atPath: testURL(name: name).path) {
             FileManager.default.createFile(atPath: testURL(name: name).path, contents: Data())
         }
         let document = VODesignDocument(file: testURL(name: name))
-        if saveImmediately {
-            document.save(testCase: testCase, fileName: name)
-        }
         return document
     }
     
-    public func save(testCase: XCTestCase, fileName: String) {
+    public func save(testCase: XCTestCase, fileName: String) throws {
         let expectation = testCase.expectation(description: "Save file")
+        
+        var resultError: Error?
         save(to: Self.testURL(name: fileName), ofType: vodesign, for: .saveOperation) { error in
-            if let error = error {
-                Swift.print("saving error: \(error)")
-            } else {
-                Swift.print("saved successfully")
-            }
-            
-            // TODO: Handle
+            resultError = error
+
             expectation.fulfill()
         }
         
         testCase.wait(for: [expectation], timeout: 1)
+        
+        if let resultError {
+            throw resultError
+        }
     }
     
 //    public func read() throws {

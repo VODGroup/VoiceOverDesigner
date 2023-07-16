@@ -126,8 +126,6 @@ extension VODesignDocumentProtocol {
         return imageWrapper
     }
     
-    
-    
     private func previewWrapper() -> FileWrapper? {
         guard let image = previewSource?.previewImage(), // TODO: Provide default image
               let imageData = image.heic(compressionQuality: 0.51)
@@ -157,7 +155,7 @@ extension VODesignDocumentProtocol {
         
         let fileVersion = packageWrapper.documentVersion()
         
-        // Keep referente to gently update files for iCloud
+        // Keep reference to gently update files for iCloud
         self.documentWrapper = packageWrapper
         
         switch fileVersion {
