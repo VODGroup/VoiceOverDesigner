@@ -1,14 +1,17 @@
 import Artboard
 import Foundation
 import SwiftUI
+import Document
 
 public class FrameSettingsViewController: NSHostingController<FrameSettingsView> {
+    let document: VODesignDocumentProtocol
     let frame: Frame
     weak var delegate: SettingsDelegate?
     
-    public init(frame: Frame, delegate: SettingsDelegate) {
+    public init(document: VODesignDocumentProtocol, frame: Frame, delegate: SettingsDelegate) {
+        self.document = document
         self.frame = frame
-        super.init(rootView: FrameSettingsView(frame: frame, updateValue: delegate.updateValue))
+        super.init(rootView: FrameSettingsView(document: document, frame: frame, updateValue: delegate.updateValue))
     }
     
     @available(*, unavailable)
@@ -19,6 +22,7 @@ public class FrameSettingsViewController: NSHostingController<FrameSettingsView>
 
 
 public struct FrameSettingsView: View {
+    let document: VODesignDocumentProtocol
     @ObservedObject var frame: Frame
     var updateValue: (() -> Void)?
     @State private var isImageImporterPresented = false

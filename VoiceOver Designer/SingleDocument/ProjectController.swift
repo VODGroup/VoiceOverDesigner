@@ -28,6 +28,7 @@ class ProjectController: NSSplitViewController {
         canvas.inject(presenter: canvasPresenter)
         
         settings = SettingsStateViewController.fromStoryboard()
+        settings.document = document
         settings.textRecognitionCoordinator = TextRecognitionCoordinator(
             imageSource: canvas)
         

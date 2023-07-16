@@ -81,6 +81,8 @@ class DocumentWrappersInvalidationTests: XCTestCase {
         let imageFileWrappers2 = try XCTUnwrap(document.imagesFolderWrapper.fileWrappers?.values)
         XCTAssertEqual(imageFileWrappers2.count, 2)
         XCTAssertNotEqual(originalImageWrapper, invalidatedImageWrapper)
+        
+        // TODO: Test size invalidating
     }
 }
 
