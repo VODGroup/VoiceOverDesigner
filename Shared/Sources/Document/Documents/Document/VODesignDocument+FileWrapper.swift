@@ -217,6 +217,8 @@ extension VODesignDocumentProtocol {
                     try readFrameWrapper(frameWrapper)
                 ])
                 
+                documentWrapper.removeFileWrapper(frameWrapper)
+                
                 return (.release, artboard)
             }
             

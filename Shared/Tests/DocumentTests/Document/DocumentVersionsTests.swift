@@ -57,7 +57,6 @@ final class DocumentVersionsTests: XCTestCase {
     }
     
     func test_frameDocument_whenSave_shouldUpdateStructure() throws {
-        throw XCTSkip("Won't work on CI. Also, the result snapshots is not correct")
         let document = try Sample().document(name: .frame, testCase: self)
 
         try saveDocumentAndRemoveAtTearDown(document: document, name: "FrameFormatNewStructure")
