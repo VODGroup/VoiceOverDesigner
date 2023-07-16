@@ -22,4 +22,10 @@ public class ImageLoader: ImageLoading {
             return image
         }
     }
+    
+    public func url(for imageName: String) -> URL {
+        documentPath()!
+            .appendingPathComponent(FolderName.images)
+            .appendingPathComponent(imageName)
+    }
 }

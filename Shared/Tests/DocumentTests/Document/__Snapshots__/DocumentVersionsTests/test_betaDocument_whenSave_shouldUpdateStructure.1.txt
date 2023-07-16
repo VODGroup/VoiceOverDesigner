@@ -1,5 +1,3 @@
 ▿ Images
   - Frame.png
-▿ QuickView
-  - Preview.png
-- controls.json
+- document.json

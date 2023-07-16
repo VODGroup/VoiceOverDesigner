@@ -82,7 +82,6 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
         let fileManager = FileManager.default
         switch version {
         case .beta:
-            // TODO: Move image inside "Image" folder
             if let fileURL {
                 let fromPath = fileURL.appendingPathComponent("screen.png")
                 var toPath = fileURL.appendingPathComponent(FolderName.images)

@@ -15,6 +15,8 @@ extension VODesignDocumentProtocol {
 //            documentWrapper.addFileWrapper(controlsWithoutFrame)
 //        }
         
+        storeImagesAsFileWrappers()
+        
         // Save artboard's structure
         invalidateWrapperIfPossible(fileInRoot: FileName.document)
         let documentStructureWrapper = try documentStructureFileWrapper()
@@ -27,6 +29,40 @@ extension VODesignDocumentProtocol {
         }
 
         return documentWrapper
+    }
+    
+    private func storeImagesAsFileWrappers() {
+        for frame in artboard.frames {
+            switch frame.imageLocation {
+                
+            case .file(name: let name):
+                if let imageWrapper = try? FileWrapper(url: artboard.imageLoader.url(for: name)) {
+                    imageWrapper.preferredFilename = name
+                
+                    imagesFolderWrapper.addFileWrapper(imageWrapper)
+                }
+            case .url(url: let url):
+                break // Do nothing, location will be saved at document.json
+            case .tmp(name: let name, data: let data):
+                if let imageWrapper = imageWrapper(frame: frame) {
+                    documentWrapper.addFileWrapper(imageWrapper)
+                }
+                
+                // Update location
+                frame.imageLocation = .file(name: name)
+            }
+        }
+    }
+    
+    var imagesFolderWrapper: FileWrapper {
+        if let existedWrapper = documentWrapper.fileWrappers?["Images"] {
+            return existedWrapper
+        }
+        
+        let imagesFolderWrapper = FileWrapper(directoryWithFileWrappers: [:])
+        imagesFolderWrapper.preferredFilename = "Images"
+        documentWrapper.addFileWrapper(imagesFolderWrapper)
+        return imagesFolderWrapper
     }
     
 //    private func frameWrapper(for frame: Frame) throws -> FileWrapper {
@@ -249,7 +285,7 @@ extension VODesignDocumentProtocol {
     
     func recreateDocumentWrapper() {
         createEmptyDocumentWrapper()
-        addEmptyFrameWrapper()
+//        addEmptyFrameWrapper()
     }
     
     func invalidateWrapperIfPossible(fileInRoot: String) {

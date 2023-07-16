@@ -134,6 +134,7 @@ public enum ImageLocationDto: Codable {
 
 public protocol ImageLoading {
     func image(for frame: Frame) -> Image?
+    func url(for imageName: String) -> URL
 }
 
 public class DummyImageLoader: ImageLoading {
@@ -141,5 +142,9 @@ public class DummyImageLoader: ImageLoading {
     
     public func image(for frame: Frame) -> Image? {
         return nil
+    }
+    
+    public func url(for imageName: String) -> URL {
+        return URL(string: "")!
     }
 }

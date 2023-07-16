@@ -26,7 +26,6 @@ final class DocumentVersionsTests: XCTestCase {
     }
     
     func test_betaDocument_whenSave_shouldUpdateStructure() throws {
-        throw XCTSkip("Won't work on CI. Also, the result snapshots is not correct")
         let document = try Sample().document(name: .beta, testCase: self)
 
         try saveDocumentAndRemoveAtTearDown(document: document, name: "BetaFormatNewStructure")
