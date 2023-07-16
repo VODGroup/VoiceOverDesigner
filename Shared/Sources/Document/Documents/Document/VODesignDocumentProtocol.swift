@@ -56,7 +56,8 @@ extension VODesignDocumentProtocol {
         frame.imageLocation = image
         let image = artboard.imageLoader.image(for: frame)
         
-        frame.frame = CGRect(origin: frame.frame.origin, size: image?.size ?? frame.frame.size)
+        frame.frame = CGRect(origin: frame.frame.origin,
+                             size: image?.size ?? frame.frame.size)
     }
 }
 

@@ -32,6 +32,20 @@ class DocumentWrappersInvalidationTests: XCTestCase {
         // Assert: shouldInvalidate previous image
         assertFolder(document)
     }
+    
+    func test_whenUpdateImage_shouldUpdateFrameSize() throws {
+        let document = try Sample().document(name: .artboard, testCase: self)
+        
+        let frame1 = try XCTUnwrap(document.artboard.frames.first)
+        XCTAssertEqual(frame1.frame, CGRect(x: 2340, y: 0, width: 1170, height: 3407))
+        
+        let frame2 = try XCTUnwrap(document.artboard.frames.last)
+        let image = document.artboard.imageLoader.image(for: frame2)!
+        let imageLocation = ImageLocation.tmp(name: "NewImage", data: image.heic()!)
+        document.update(image: imageLocation, for: frame1)
+
+        XCTAssertEqual(frame1.frame, CGRect(x: 2340, y: 0, width: 1170, height: 3272)) // Height is different
+    }
 }
 
 extension FileWrapper {
