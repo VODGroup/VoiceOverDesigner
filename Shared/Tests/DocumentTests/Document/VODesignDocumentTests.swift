@@ -50,7 +50,7 @@ class VODesignDocumentPersistanceTests: XCTestCase {
         }
         
         try XCTContext.runActivity(named: "Save document and remove from memory") { _ in
-            try document!.save(testCase: self, fileName: fileName)
+            try document!.save(name: fileName, testCase: self)
             addTeardownBlock {
                 try! VODesignDocument.removeTestDocument(name: fileName)
             }
@@ -89,12 +89,7 @@ class VODesignDocumentPersistanceTests: XCTestCase {
     func testWhenSaveNewDocument_shouldHaveCorrectExtensions() throws {
         let document = VODesignDocument.with2Controls(name: "TestFile2", testCase: self)
         
-        try XCTContext.runActivity(named: "Save document to disk") { _ in
-            try document.save(testCase: self, fileName: "TestFile2")
-            addTeardownBlock {
-                try! VODesignDocument.removeTestDocument(name: "TestFile2")
-            }
-        }
+        try document.saveAndRemoveAtTearDown(name: "TestFile2", testCase: self)
         
         XCTAssertEqual(document.fileURL?.pathExtension, "vodesign")
     }

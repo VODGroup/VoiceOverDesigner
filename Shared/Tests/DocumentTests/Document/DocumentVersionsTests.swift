@@ -28,7 +28,7 @@ final class DocumentVersionsTests: XCTestCase {
     func test_betaDocument_whenSave_shouldUpdateStructure() throws {
         let document = try Sample().document(name: .beta, testCase: self)
 
-        try saveDocumentAndRemoveAtTearDown(document: document, name: "BetaFormatNewStructure")
+        try document.saveAndRemoveAtTearDown(name: "BetaFormatNewStructure", testCase: self)
         
         assertFolder(document)
     }
@@ -59,7 +59,7 @@ final class DocumentVersionsTests: XCTestCase {
     func test_frameDocument_whenSave_shouldUpdateStructure() throws {
         let document = try Sample().document(name: .frame, testCase: self)
 
-        try saveDocumentAndRemoveAtTearDown(document: document, name: "FrameFormatNewStructure")
+        try document.saveAndRemoveAtTearDown(name: "FrameFormatNewStructure", testCase: self)
         
         assertFolder(document)
     }
@@ -90,7 +90,7 @@ final class DocumentVersionsTests: XCTestCase {
     func test_artboardDocument_whenSave_shouldUpdateStructure() throws {
         let document = try Sample().document(name: .artboard, testCase: self)
 
-        try saveDocumentAndRemoveAtTearDown(document: document, name: "ArtboardFormatNewStructure")
+        try document.saveAndRemoveAtTearDown(name: "ArtboardFormatNewStructure", testCase: self)
         
         assertFolder(document)
     }
@@ -121,15 +121,6 @@ final class DocumentVersionsTests: XCTestCase {
     }
     
     // MARK: - Restoration DSL
-    private let fileManager = FileManager.default
-    
-    private func saveDocumentAndRemoveAtTearDown(document: VODesignDocument, name: String) throws {
-        try document.save(testCase: self, fileName: name)
-        addTeardownBlock {
-            let testFilePath = await VODesignDocument.testURL(name: name)
-            try self.fileManager.removeItem(at: testFilePath)
-        }
-    }
 
     func assert(
         frame: Frame, at document: VODesignDocument,

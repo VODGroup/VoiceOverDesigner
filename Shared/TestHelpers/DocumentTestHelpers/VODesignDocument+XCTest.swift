@@ -35,11 +35,11 @@ extension VODesignDocument {
         return document
     }
     
-    public func save(testCase: XCTestCase, fileName: String) throws {
+    public func save(name: String, testCase: XCTestCase) throws {
         let expectation = testCase.expectation(description: "Save file")
         
         var resultError: Error?
-        save(to: Self.testURL(name: fileName), ofType: vodesign, for: .saveOperation) { error in
+        save(to: Self.testURL(name: name), ofType: vodesign, for: .saveOperation) { error in
             resultError = error
 
             expectation.fulfill()
@@ -49,6 +49,14 @@ extension VODesignDocument {
         
         if let resultError {
             throw resultError
+        }
+    }
+    
+    public func saveAndRemoveAtTearDown(name: String, testCase: XCTestCase) throws {
+        try save(name: name, testCase: testCase)
+        testCase.addTeardownBlock {
+            let testFilePath = await VODesignDocument.testURL(name: name)
+            try FileManager.default.removeItem(at: testFilePath)
         }
     }
     
