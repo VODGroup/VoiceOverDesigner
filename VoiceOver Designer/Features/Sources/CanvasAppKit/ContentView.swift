@@ -36,8 +36,9 @@ class ContentView: FlippedView, DrawingView {
     
     private var boundingBox: CGRect {
         guard let sublayers = layer?
-            .sublayers?
-            .dropFirst(), // Skip HUDLayer.TODO: Make it simpler
+            .sublayers?.filter({ layer in
+                !(layer is HUDLayer) // Skip HudLayer
+            }),
               sublayers.count > 0
         else { return defaultBoundingBox }
         

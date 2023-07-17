@@ -54,6 +54,8 @@ open class DragNDropImageView: NSView {
         super.awakeFromNib()
         
         registerDragging()
+        
+        hideText()
     }
     
     open override func layout() {
@@ -75,7 +77,7 @@ open class DragNDropImageView: NSView {
             let scaledSize = imageSize.scaled(scale)
             let centeredOrigin = CGPoint(x: cursorLocation.x - scaledSize.width / 2,
                                          y: cursorLocation.y - scaledSize.height / 2)
-            
+            // TODO: Use centeredOrigin, but had to move origin of inserted view
             let flippedOrigin = CGPoint(x: cursorLocation.x,
                                         y: cursorLocation.y - scaledSize.height)
             border.borderFrame = CGRect(origin: flippedOrigin,
@@ -157,6 +159,10 @@ open class DragNDropImageView: NSView {
     
     let defaultText = NSLocalizedString("Drag'n'Drop image here", comment: "")
     
+    public func showDefaultText() {
+        show(text: defaultText)
+    }
+    
     func show(text: String, changeTo nextText: String? = nil) {
         label.isHidden = false
         border.isHidden = false
@@ -169,7 +175,7 @@ open class DragNDropImageView: NSView {
         }
     }
     
-    func hideText() {
+    public func hideText() {
         label.isHidden = true
         border.isHidden = true
     }

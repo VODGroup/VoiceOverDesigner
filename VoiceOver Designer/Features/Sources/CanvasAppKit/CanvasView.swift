@@ -44,11 +44,21 @@ class CanvasView: FlippedView {
         footer.layer?.backgroundColor = NSColor.quaternaryLabelColor.cgColor
         footer.isHidden = false
         
-//        dragnDropView.isHidden = true
+        dragnDropView.hideText()
         addImageButton.isHidden = true
         
         clipView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    var isEmpty: Bool = true {
+        didSet {
+            if isEmpty {
+                dragnDropView.showDefaultText()
+            } else {
+                dragnDropView.hideText()
+            }
+        }
     }
     
     // MARK: - Magnification

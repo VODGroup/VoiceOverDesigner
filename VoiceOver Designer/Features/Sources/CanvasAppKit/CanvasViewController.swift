@@ -90,6 +90,8 @@ public class CanvasViewController: NSViewController {
             self.addMouseTracking()
             self.addMenuItem()
             self.observe()
+            
+            self.view().isEmpty = self.presenter.document.artboard.isEmpty
         }
     }
     
