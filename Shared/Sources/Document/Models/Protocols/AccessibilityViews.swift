@@ -40,6 +40,8 @@ public protocol AccessibilityElement: AccessibilityView {
     var value: String { get set }
     var hint: String { get set }
     var trait: A11yTraits { get set }
+
+    static func copy(from: any AccessibilityView) -> (any AccessibilityView)?
 }
 
 
