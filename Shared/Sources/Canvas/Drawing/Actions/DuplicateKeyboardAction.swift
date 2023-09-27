@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Document
 
 protocol KeyboardAction: AnyObject {}
 
@@ -42,10 +41,8 @@ public class DuplicateKeyboardAction: KeyboardAction {
                 return event
             }
 
-            if
-                let selectedControl = self?.presenter?.selectedControl?.model as? A11yDescription
-            {
-                let newModel = A11yDescription.copy(from: selectedControl)
+            if let selectedControl = self?.presenter?.selectedControl?.model {
+                let newModel = selectedControl.copy()
                 newModel.frame = newModel.frame.offsetBy(dx: 40, dy: 40)
                 self?.presenter?.add(newModel)
             }

@@ -164,11 +164,4 @@ public class A11yDescription: Codable, Equatable, ObservableObject {
     }
 }
 
-extension A11yDescription: AccessibilityElement {
-    public static func copy(from: any AccessibilityView) -> (any AccessibilityView)? {
-        if from is A11yDescription {
-            return Self.copy(from: from)
-        }
-        return nil
-    }
-}
+extension A11yDescription: AccessibilityElement {}
