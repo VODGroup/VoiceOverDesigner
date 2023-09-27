@@ -77,13 +77,4 @@ public extension A11yControlLayer {
         control.backgroundColor = model.color.cgColor
         return control
     }
-
-    static func copy(from layer: A11yControlLayer) -> A11yControlLayer {
-        let control = A11yControlLayer()
-        control.model = layer.model
-        control.frame = layer.frame
-        control.backgroundColor = layer.backgroundColor
-        return control
-    }
 }
-
