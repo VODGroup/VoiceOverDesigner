@@ -7,23 +7,6 @@
 
 import Foundation
 
-protocol KeyboardAction: AnyObject {}
-
-public final class KeyboardActionsFactory {
-
-    var actions: [KeyboardAction] = []
-
-    public init(
-        presenter: CanvasPresenter
-    ) {
-#if canImport(AppKit)
-        actions = [DuplicateKeyboardAction(presenter: presenter)]
-#else
-        actions = []
-#endif
-    }
-}
-
 #if canImport(AppKit)
 import AppKit
 public class DuplicateKeyboardAction: KeyboardAction {
