@@ -117,6 +117,7 @@ public class CanvasViewController: NSViewController {
         guard let menu = NSApplication.shared.menu, menu.item(withTitle: "Canvas") == nil else { return }
         let canvasMenuItem = NSMenuItem(title: "Canvas", action: nil, keyEquivalent: "")
         let canvasSubMenu = NSMenu(title: "Canvas")
+        canvasSubMenu.autoenablesItems = false
         let addImageItem = NSMenuItem(title: "Add image", action: #selector(addImageButtonTapped), keyEquivalent: "")
         duplicateItem = NSMenuItem(title: "Duplicate", action: #selector(duplicateMenuSelected), keyEquivalent: "d")
         canvasSubMenu.addItem(addImageItem)
