@@ -14,8 +14,6 @@ public class CanvasPresenter: DocumentPresenter {
     
     public weak var ui: DrawingView!
     var drawingController: DrawingController!
-    
-    private var keyboardListener: KeyboardActionsFactory?
 
     public func didLoad(
         ui: DrawingView,
@@ -24,7 +22,6 @@ public class CanvasPresenter: DocumentPresenter {
     ) {
         self.ui = ui
         self.scale = initialScale
-        self.keyboardListener = KeyboardActionsFactory(presenter: self)
         self.drawingController = DrawingController(view: ui)
         self.document.previewSource = previewSource
         draw(controls: document.controls)
