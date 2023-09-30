@@ -5,7 +5,7 @@ public enum AccessibilityViewTypeDto: String, Codable {
     case container
 }
 
-public enum AccessibilityViewCast {
+public enum AccessibilityViewCast: Equatable {
     case element(_ element: A11yDescription)
     case container(_ container: A11yContainer)
 }

@@ -3,6 +3,7 @@ import Document
 
 protocol ProjectRouterDelegate: AnyObject {
     func closeProject(document: NSDocument)
+    func openPresentationMode(document: NSDocument)
 }
 
 extension ProjectController: NSToolbarDelegate {
@@ -23,6 +24,7 @@ extension ProjectController: NSToolbarDelegate {
                 splitView: splitView,
                 dividerIndex: 1
             )
+        case .presentation: return presentationSideBarItem()
         default: return nil
         }
     }
@@ -37,6 +39,7 @@ extension ProjectController: NSToolbarDelegate {
             .flexibleSpace,
 //            .voiceControlLabel,
             .shareDocument,
+            .presentation,
             .trailingSidebar
         ]
     }
@@ -46,6 +49,7 @@ extension ProjectController: NSToolbarDelegate {
          .sidebarTrackingSeparator,
 //            .voiceControlLabel,
          .backButtonLabel,
+         .presentation,
          .trailingSidebar,
          .leadingSidebar,
          .itemListTrackingSeparator,
@@ -106,7 +110,19 @@ extension ProjectController {
         item.toolTip = NSLocalizedString("Close inspector sidebar", comment: "")
         return item
     }
-    
+
+    private func presentationSideBarItem() -> NSToolbarItem {
+        let item = NSToolbarItem(itemIdentifier: .presentation)
+        item.label = NSLocalizedString("Presentation", comment: "")
+        item.target = self
+        item.action = #selector(presentationModeTapped(sender:))
+        item.isBordered = true
+        item.image = NSImage(systemSymbolName: "play.display",
+                             accessibilityDescription: "Open presentation mode")!
+        item.toolTip = NSLocalizedString("Open presentation mode", comment: "")
+        return item
+    }
+
     @objc private func showLabels(sender: NSToolbarItem) {
         sender.action = #selector(hideLabels(sender:))
         canvas.presenter.showLabels()
@@ -139,6 +155,10 @@ extension ProjectController {
             toolbar.insertItem(withItemIdentifier: .itemListTrackingSeparator, at: 4)
         }
     }
+
+    @objc private func presentationModeTapped(sender: NSToolbarItem) {
+        router?.openPresentationMode(document: document)
+    }
 }
 
 extension NSToolbarItem {
@@ -160,6 +180,7 @@ extension NSToolbarItem.Identifier {
 //    static let voiceControlLabel = NSToolbarItem.Identifier(rawValue: "VoiceControlLabel")
     static let backButtonLabel = NSToolbarItem.Identifier(rawValue: "BackButtonLabel")
     static let trailingSidebar = NSToolbarItem.Identifier(rawValue: "TrailingSidebar")
+    static let presentation = NSToolbarItem.Identifier(rawValue: "Presentation")
     static let leadingSidebar = NSToolbarItem.Identifier(rawValue: "LeadingSidebar")
     static let itemListTrackingSeparator = NSToolbarItem.Identifier("ItemListTrackingSeparator")
     static let shareDocument = NSToolbarItem.Identifier("ShareDocument")

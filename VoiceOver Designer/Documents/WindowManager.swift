@@ -1,6 +1,8 @@
 import Recent
 import AppKit
 import Document
+import Presentation
+import SwiftUI
 
 class WindowManager: NSObject {
     
@@ -68,5 +70,21 @@ extension WindowManager: ProjectRouterDelegate {
         document.close()
         
         recentWindowController.embedProjectsViewControllerInWindow()
+    }
+
+    func openPresentationMode(document: NSDocument) {
+        guard let document = document as? VODesignDocument else {
+            return
+        }
+        document.save(self)
+
+        let hostingController = NSHostingController(rootView: PresentationView(
+            document: .init(document)
+        ))
+        hostingController.title = NSLocalizedString("Presentation", comment: "")
+
+        let window = NSWindow(contentViewController: hostingController)
+
+        window.makeKeyAndOrderFront(recentWindowController)
     }
 }
