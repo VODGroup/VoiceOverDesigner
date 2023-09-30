@@ -60,7 +60,7 @@ public struct PresentationView: View {
                     height: document.imageSize.height / document.frameInfo.imageScale
                 )
         } else {
-            Rectangle()
+            Color.clear
                 .frame(width: document.imageSize.width, height: document.imageSize.height)
         }
     }
