@@ -21,7 +21,8 @@ public class CanvasViewController: NSViewController {
     private var cancellables: Set<AnyCancellable> = []
     
     var trackingArea: NSTrackingArea!
-    
+    private var duplicateItem: NSMenuItem?
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         view().dragnDropView.delegate = self
@@ -48,6 +49,9 @@ public class CanvasViewController: NSViewController {
     }
     
     private func observe() {
+        presenter.selectedPublisher
+            .sink { [weak self] view in self?.duplicateItem?.isEnabled = view != nil }
+            .store(in: &cancellables)
         presenter
             .pointerPublisher
             .removeDuplicates()
@@ -113,8 +117,11 @@ public class CanvasViewController: NSViewController {
         guard let menu = NSApplication.shared.menu, menu.item(withTitle: "Canvas") == nil else { return }
         let canvasMenuItem = NSMenuItem(title: "Canvas", action: nil, keyEquivalent: "")
         let canvasSubMenu = NSMenu(title: "Canvas")
+        canvasSubMenu.autoenablesItems = false
         let addImageItem = NSMenuItem(title: "Add image", action: #selector(addImageButtonTapped), keyEquivalent: "")
+        duplicateItem = NSMenuItem(title: "Duplicate", action: #selector(duplicateMenuSelected), keyEquivalent: "d")
         canvasSubMenu.addItem(addImageItem)
+        canvasSubMenu.addItem(duplicateItem!)
         canvasMenuItem.submenu = canvasSubMenu
         menu.addItem(canvasMenuItem)
     }
@@ -200,7 +207,15 @@ public class CanvasViewController: NSViewController {
             }
         }
     }
-    
+
+    @objc private func duplicateMenuSelected() {
+        if let selectedControl = presenter.selectedControl?.model {
+            let newModel = selectedControl.copy()
+            newModel.frame = newModel.frame.offsetBy(dx: 40, dy: 40)
+            presenter.add(newModel)
+        }
+    }
+
     func requestImage() async -> NSImage? {
         guard let window = view.window else { return nil }
         let imagePanel = NSOpenPanel()
