@@ -9,9 +9,18 @@ import SwiftUI
 import Document
 
 public struct PresentationView: View {
+    public enum Constants {
+        public static let controlsWidth: CGFloat = 300
+        public static let windowPadding: CGFloat = 80
 
-    let document: VODesignDocumentPresentation
+        static let selectedControlPadding: CGFloat = 40
+        static let animation: Animation = .linear(duration: 0.15)
+    }
+
+    @State var document: VODesignDocumentPresentation
+
     @State var selectedControl: (any AccessibilityView)?
+    @State var hoveredControl: (any AccessibilityView)?
 
     public var body: some View {
         ZStack {
@@ -29,8 +38,8 @@ public struct PresentationView: View {
     }
 
     public init(document: VODesignDocumentPresentation) {
-        self.document = document
-        selectedControl = document.controls.first
+        _document = .init(initialValue: document)
+        _selectedControl = .init(initialValue: document.flatControls.first)
     }
 
     @ViewBuilder
@@ -67,36 +76,55 @@ public struct PresentationView: View {
 
     private var controls: some View {
         ZStack(alignment: .topLeading) {
+            // TODO: label as id - bad idea. We should provide truly unique id.
+            // We don't need editing here so id can be generated at start
             ForEach(document.controls, id: \.label) { control in
                 switch control.cast {
                     case .container(let container):
-                        controlRectangle(control)
-                            .zIndex(-1)
-                            .accessibilityLabel(container.label)
-
-                        // TODO: accessibility modifiers
+                        controlContainer(container)
                     case .element(let element):
-                        controlRectangle(control)
-                            .accessibilityHidden(!element.isAccessibilityElement)
-                            .accessibilityLabel(element.label)
-                            .accessibilityHint(element.hint)
-                            .accessibilityValue(element.value)
-//                            .accessibilityAddTraits(element.trait)
-//                            adjustableOptions: AdjustableOptions,
-//                            customActions: A11yCustomActions
+                        controlElement(element)
                 }
             }
         }
+    }
+
+    private func controlContainer(_ container: A11yContainer) -> some View {
+        ZStack(alignment: .topLeading) {
+            controlRectangle(container)
+                .zIndex(-1)
+                .accessibilityLabel(container.label)
+            ForEach(container.elements, id: \.label) {
+                controlElement($0)
+            }
+        }
+        // TODO: accessibility modifiers
+    }
+
+    private func controlElement(_ element: A11yDescription) -> some View {
+        controlRectangle(element)
+            .accessibilityHidden(!element.isAccessibilityElement)
+            .accessibilityLabel(element.label)
+            .accessibilityHint(element.hint)
+            .accessibilityValue(element.value)
+//                            .accessibilityAddTraits(element.trait)
+//                            adjustableOptions: AdjustableOptions,
+//                            customActions: A11yCustomActions
     }
 
     @ViewBuilder
     private func controlRectangle(_ control: any AccessibilityView) -> some View {
         RoundedRectangle(cornerRadius: 6, style: .continuous)
             .foregroundStyle(
-                {
-                    isControlSelected(control)
-                    ? Color(nsColor: control.color.withAlphaComponent(0.8))
-                    : Color(nsColor: control.color)
+                { () -> SwiftUI.Color in
+                    switch (isControlSelected(control), isControlHovered(control)) {
+                        case (true, _):
+                            return Color(nsColor: control.color.withSystemEffect(.deepPressed))
+                        case (false, true):
+                            return Color(nsColor: control.color.withSystemEffect(.pressed))
+                        case (false, false):
+                            return Color(nsColor: control.color)
+                    }
                 }()
             )
             .offset(
@@ -104,104 +132,241 @@ public struct PresentationView: View {
                 y: control.frame.origin.y
             )
             .frame(width: control.frame.width, height: control.frame.height)
+            .onHover { inside in
+                withAnimation(Constants.animation) {
+                    if inside {
+                        hoveredControl = control
+                    } else {
+                        hoveredControl = nil
+                    }
+                }
+            }
+            .onTapGesture {
+                select(control)
+            }
+            .contentShape(
+                Rectangle()
+                    .offset(
+                        x: control.frame.origin.x,
+                        y: control.frame.origin.y
+                    )
+            )
     }
 
     // MARK: - List
 
     private var list: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            ForEach(document.controls, id: \.label) { control in
-                switch control.cast {
-                    case .container(let container):
-                        controlText(control)
-                            .opacity(isControlSelected(control) ? 1 : 0.4)
-                        ForEach(container.elements, id: \.label) { element in
+        VStack(alignment: .leading, spacing: 12) {
+            ForEach(Array(document.controls.enumerated()), id: \.1.label) { index, control in
+                Group {
+                    switch control.cast {
+                        case .container(let container):
+                            VStack(alignment: .leading, spacing: 4) {
+                                controlText(container)
+                                ForEach(container.elements, id: \.label) { element in
+                                    controlText(element)
+                                        .padding(.leading, 16)
+                                        .overlay(alignment: .leadingFirstTextBaseline) {
+                                            listButton(control, index: index)
+                                        }
+                                }
+                            }
+                            .padding(
+                                .vertical,
+                                isControlSelected(control) ? Constants.selectedControlPadding : 0
+                            )
+                        case .element(let element):
                             controlText(element)
-                                .opacity(isControlSelected(control) ? 1 : 0.4)
-                                .padding(.leading, 16)
-                        }
-                    case .element(let element):
-                        controlText(control)
-                            .opacity(isControlSelected(control) ? 1 : 0.4)
+                                .padding(
+                                    .vertical,
+                                    isControlSelected(control) ? Constants.selectedControlPadding : 0
+                                )
+                                .overlay(alignment: .leading) {
+                                    listButton(control, index: index)
+                                }
+                    }
                 }
             }
         }
-        .padding(16)
+        .padding(.leading, 24)
+        .padding(8)
         .frame(minWidth: 300, maxHeight: .infinity, alignment: .leading)
+    }
+
+    private func listButton(_ control: any AccessibilityView, index: Int) -> some View {
+        Group {
+            if
+                isControlSelected(control),
+                let element = control.element,
+                element.isAdjustable
+            {
+                VStack {
+                    Button {
+                        element.adjustableOptions.accessibilityIncrement()
+                        document.update(control: element)
+                    } label: {
+                        Image(systemName: "arrow.up")
+                    }
+                    .keyboardShortcut(.upArrow, modifiers: [])
+                    .buttonStyle(.borderless)
+                    .disabled(!element.adjustableOptions.canIncrement)
+                    Button {
+                        element.adjustableOptions.accessibilityDecrement()
+                        document.update(control: element)
+                    } label: {
+                        Image(systemName: "arrow.down")
+                    }
+                    .keyboardShortcut(.downArrow, modifiers: [])
+                    .buttonStyle(.borderless)
+                    .disabled(!element.adjustableOptions.canDecrement)
+                }
+            }
+            if let previousItem = document.flatControls[safe: index - 1], isControlSelected(previousItem) {
+                Button {
+                    if let nextItem = document.flatControls[safe: index] {
+                        select(nextItem)
+                    }
+                } label: {
+                    Image(systemName: "arrow.right")
+                }
+                .keyboardShortcut(.rightArrow, modifiers: [])
+                .buttonStyle(.borderless)
+            }
+            if let nextItem = document.flatControls[safe: index + 1], isControlSelected(nextItem) {
+                Button {
+                    if let previousItem = document.flatControls[safe: index] {
+                        select(previousItem)
+                    }
+                } label: {
+                    Image(systemName: "arrow.left")
+                }
+                .keyboardShortcut(.leftArrow, modifiers: [])
+                .buttonStyle(.borderless)
+            }
+        }
+        .padding(.leading, -24)
     }
 
     @ViewBuilder
     private func controlText(_ control: any AccessibilityView) -> some View {
-        switch control.cast {
-            case .container(let container):
-                Text(container.label)
-                    .font(.body)
+        Group {
+            switch control.cast {
+                case .container(let container):
+                    Text(container.label)
+                        .font(isControlSelected(control) ? .headline : .body)
+                        .multilineTextAlignment(.leading)
+                        .overlay(alignment: .leading) {
+                            Image(systemName: "chevron.forward")
+                                .padding(.leading, -12)
+                                .opacity(0.6)
+                        }
+                case .element(let element):
+                    Text(AttributedString(
+                        element
+                            .voiceOverTextAttributed(font: .preferredFont(
+                                forTextStyle: isControlSelected(control) ? .headline : .body
+                            ))
+                    ))
                     .multilineTextAlignment(.leading)
-            case .element(let element):
-                Text(AttributedString(
-                    element
-                        .voiceOverTextAttributed(font: .preferredFont(forTextStyle: .body))
-                ))
-                .multilineTextAlignment(.leading)
+            }
+        }
+    }
+
+    func select(_ control: any AccessibilityView) {
+        withAnimation(Constants.animation) {
+            selectedControl = control
         }
     }
 
     func isControlSelected(_ control: any AccessibilityView) -> Bool {
         control.cast == selectedControl?.cast
     }
+
+    func isControlHovered(_ control: any AccessibilityView) -> Bool {
+        control.cast == hoveredControl?.cast
+    }
 }
 
-let previewDocument = VODesignDocumentPresentation(
-    controls: [
-        A11yContainer(
-            elements: [
-                A11yDescription(
-                    isAccessibilityElement: true,
-                    label: "Long long long long long long long long long long long name",
-                    value: "",
-                    hint: "",
-                    trait: .button,
-                    frame: .init(x: 100, y: 100, width: 50, height: 50),
-                    adjustableOptions: .init(options: []),
-                    customActions: .defaultValue
-                )
-            ],
-            frame: .init(x: 80, y: 80, width: 90, height: 90),
-            label: "Some container",
-            isModal: false,
-            isTabTrait: false,
-            isEnumerated: false,
-            containerType: .semanticGroup,
-            navigationStyle: .automatic
-        ),
-        A11yDescription(
-            isAccessibilityElement: true,
-            label: "haha",
-            value: "1",
-            hint: "Some hint",
-            trait: .header,
-            frame: .init(x: 10, y: 10, width: 50, height: 50),
-            adjustableOptions: .init(options: []),
-            customActions: .defaultValue
-        ),
-        A11yDescription(
-            isAccessibilityElement: true,
-            label: "wow",
-            value: "",
-            hint: "",
-            trait: .button,
-            frame: .init(x: 100, y: 100, width: 50, height: 50),
-            adjustableOptions: .init(options: []),
-            customActions: .defaultValue
-        )
-    ],
+extension Collection {
+    private func distance(from startIndex: Index) -> Int {
+        distance(from: startIndex, to: self.endIndex)
+    }
+
+    private func distance(to endIndex: Index) -> Int {
+        distance(from: self.startIndex, to: endIndex)
+    }
+
+    subscript(safe index: Index) -> Iterator.Element? {
+        if distance(to: index) >= 0 && distance(from: index) > 0 {
+            return self[index]
+        }
+        return nil
+    }
+}
+
+#if DEBUG
+
+private let controls: [any AccessibilityView] = [
+    A11yContainer(
+        elements: [
+            A11yDescription(
+                isAccessibilityElement: true,
+                label: "Long long long long long long long long long long long name",
+                value: "",
+                hint: "",
+                trait: .button,
+                frame: .init(x: 100, y: 100, width: 50, height: 50),
+                adjustableOptions: .init(options: []),
+                customActions: .defaultValue
+            )
+        ],
+        frame: .init(x: 80, y: 80, width: 90, height: 90),
+        label: "Some container",
+        isModal: false,
+        isTabTrait: false,
+        isEnumerated: false,
+        containerType: .semanticGroup,
+        navigationStyle: .automatic
+    ),
+    A11yDescription(
+        isAccessibilityElement: true,
+        label: "haha",
+        value: "1",
+        hint: "Some hint",
+        trait: .adjustable,
+        frame: .init(x: 10, y: 10, width: 50, height: 50),
+        adjustableOptions: .init(options: ["1", "2"], currentIndex: 1),
+        customActions: .defaultValue
+    ),
+    A11yDescription(
+        isAccessibilityElement: true,
+        label: "wow",
+        value: "",
+        hint: "",
+        trait: .button,
+        frame: .init(x: 150, y: 250, width: 80, height: 20),
+        adjustableOptions: .init(options: []),
+        customActions: .defaultValue
+    )
+]
+
+private let previewDocument = VODesignDocumentPresentation(
+    controls: controls,
+    flatControls: controls.flatMap {
+        switch $0.cast {
+            case .container(let container):
+                return container.elements
+            case .element(let element):
+                return [element]
+        }
+    },
     image: nil,
     imageSize: .init(width: 300, height: 300),
     frameInfo: .default
 )
 
 #Preview {
-    PresentationView(
-        document: previewDocument
-    )
+    PresentationView(document: previewDocument)
 }
+
+#endif

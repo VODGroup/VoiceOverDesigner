@@ -27,6 +27,13 @@ extension AccessibilityView {
             fatalError()
         }
     }
+
+    public var element: A11yDescription? {
+        if let element = self as? A11yDescription {
+            return element
+        }
+        return nil
+    }
 }
 
 public protocol AccessibilityContainer: AccessibilityView {

@@ -82,6 +82,12 @@ extension WindowManager: ProjectRouterDelegate {
             document: .init(document)
         ))
         hostingController.title = NSLocalizedString("Presentation", comment: "")
+        hostingController.preferredContentSize = .init(
+            width: document.imageSize.width + 
+                PresentationView.Constants.controlsWidth +
+                PresentationView.Constants.windowPadding,
+            height: document.imageSize.height + PresentationView.Constants.windowPadding
+        )
 
         let window = NSWindow(contentViewController: hostingController)
 
