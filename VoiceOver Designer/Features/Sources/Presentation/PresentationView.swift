@@ -22,6 +22,16 @@ public struct PresentationView: View {
     @State var selectedControl: (any AccessibilityView)?
     @State var hoveredControl: (any AccessibilityView)?
 
+    let scrollViewSize = CGSize(width: 800, height: 900)
+    
+    var minimalScaleFactor: CGFloat {
+        let h = scrollViewSize.width / document.imageSizeScaled.width
+        let v = scrollViewSize.height / document.imageSizeScaled.height
+        
+        // TODO: Add minimal limit for long documents
+        return min(h, v)
+    }
+    
     public var body: some View {
         ZStack {
             Color.clear
@@ -35,6 +45,13 @@ public struct PresentationView: View {
                 list
             }
         }
+        .frame(
+            minWidth: scrollViewSize.width +
+                PresentationView.Constants.controlsWidth +
+                PresentationView.Constants.windowPadding,
+            minHeight: scrollViewSize.height +
+                PresentationView.Constants.windowPadding
+        )
     }
 
     public init(document: VODesignDocumentPresentation) {
@@ -50,13 +67,10 @@ public struct PresentationView: View {
                 .overlay(alignment: .topLeading) {
                     controls
                 }
+            // TODO: Something should be changed here
+                .scaleEffect(CGSize(width: minimalScaleFactor,
+                                    height: minimalScaleFactor))
         }
-        .frame(
-            minWidth: min(400, document.imageSize.width),
-            idealWidth: document.imageSize.width,
-            minHeight: min(400, document.imageSize.height),
-            idealHeight: document.imageSize.height
-        )
     }
 
     @ViewBuilder
@@ -65,12 +79,13 @@ public struct PresentationView: View {
             Image(nsImage: image)
                 .resizable()
                 .frame(
-                    width: document.imageSize.width / document.frameInfo.imageScale,
-                    height: document.imageSize.height / document.frameInfo.imageScale
+                    width: document.imageSizeScaled.width,
+                    height: document.imageSizeScaled.height
                 )
         } else {
             Color.clear
-                .frame(width: document.imageSize.width, height: document.imageSize.height)
+                .frame(width: document.imageSize.width,
+                       height: document.imageSize.height)
         }
     }
 

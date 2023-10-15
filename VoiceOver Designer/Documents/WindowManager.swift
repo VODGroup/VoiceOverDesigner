@@ -15,7 +15,15 @@ class WindowManager: NSObject {
     }()
     
     private var newDocumentIsCreated = false
-    
+    private var projectController: ProjectController?
+
+    enum Mode {
+        case document
+        case preview
+    }
+
+    private var mode: Mode?
+
     func start() {
         if newDocumentIsCreated {
             // Document has been created from [NSDocumentController openUntitledDocumentAndDisplay:error:]
@@ -51,7 +59,8 @@ extension WindowManager: RecentDelegate {
         newDocumentIsCreated = true
         
         let split = ProjectController(document: document, router: self)
-        
+        projectController = split
+
         let window = recentWindowController.window!
         recentWindowController.setupToolbarAppearance(title: document.displayName,
                                                       toolbar: split.toolbar)
@@ -59,6 +68,7 @@ extension WindowManager: RecentDelegate {
         
         document.addWindowController(recentWindowController)
         window.makeKeyAndOrderFront(self)
+        mode = .document
     }
 }
 
@@ -78,19 +88,23 @@ extension WindowManager: ProjectRouterDelegate {
         }
         document.save(self)
 
+        switch mode {
+        case .document, nil:
+            recentWindowController.window?.contentViewController = presentation(document: document)
+            mode = .preview
+        case .preview:
+            if let projectController {
+                recentWindowController.window?.contentViewController = projectController
+                mode = .document
+            }
+        }
+    }
+
+    private func presentation(document: VODesignDocument) -> NSViewController {
         let hostingController = NSHostingController(rootView: PresentationView(
             document: .init(document)
         ))
         hostingController.title = NSLocalizedString("Presentation", comment: "")
-        hostingController.preferredContentSize = .init(
-            width: document.imageSize.width + 
-                PresentationView.Constants.controlsWidth +
-                PresentationView.Constants.windowPadding,
-            height: document.imageSize.height + PresentationView.Constants.windowPadding
-        )
-
-        let window = NSWindow(contentViewController: hostingController)
-
-        window.makeKeyAndOrderFront(recentWindowController)
+        return hostingController
     }
 }
