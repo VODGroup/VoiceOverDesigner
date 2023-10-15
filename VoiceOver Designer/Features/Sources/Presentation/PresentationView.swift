@@ -22,7 +22,7 @@ public struct PresentationView: View {
     @State var selectedControl: (any AccessibilityView)?
     @State var hoveredControl: (any AccessibilityView)?
 
-    let scrollViewSize = CGSize(width: 800, height: 900)
+    let scrollViewSize = CGSize(width: 600, height: 900)
     
     var minimalScaleFactor: CGFloat {
         let h = scrollViewSize.width / document.imageSizeScaled.width
@@ -67,7 +67,10 @@ public struct PresentationView: View {
                 .overlay(alignment: .topLeading) {
                     controls
                 }
-            // TODO: Something should be changed here
+                .frame(
+                    width: document.imageSizeScaled.width*minimalScaleFactor,
+                    height: document.imageSizeScaled.height*minimalScaleFactor
+                )
                 .scaleEffect(CGSize(width: minimalScaleFactor,
                                     height: minimalScaleFactor))
         }
