@@ -25,6 +25,12 @@ public struct PresentationView: View {
     let scrollViewSize = CGSize(width: 600, height: 900)
     
     var minimalScaleFactor: CGFloat {
+        guard 
+            document.imageSizeScaled.width != 0, 
+            document.imageSizeScaled.height != 0
+        else {
+            return 1
+        }
         let h = scrollViewSize.width / document.imageSizeScaled.width
         let v = scrollViewSize.height / document.imageSizeScaled.height
         
