@@ -193,7 +193,12 @@ public struct PresentationView: View {
                                     controlText(element)
                                         .padding(.leading, 16)
                                         .overlay(alignment: .leadingFirstTextBaseline) {
-                                            listButton(control, index: index)
+                                            if let index = document.flatControls.firstIndex(of: element) {
+                                                listButton(
+                                                    element,
+                                                    index: index
+                                                )
+                                            }
                                         }
                                 }
                             }
@@ -203,12 +208,10 @@ public struct PresentationView: View {
                             )
                         case .element(let element):
                             controlText(element)
-                                .padding(
-                                    .vertical,
-                                    isControlSelected(control) ? Constants.selectedControlPadding : 0
-                                )
                                 .overlay(alignment: .leading) {
-                                    listButton(control, index: index)
+                                    if let index = document.flatControls.firstIndex(of: element) {
+                                        listButton(element, index: index)
+                                    }
                                 }
                     }
                 }
@@ -219,12 +222,14 @@ public struct PresentationView: View {
         .frame(width: 300, alignment: .leading)
     }
 
-    private func listButton(_ control: any AccessibilityView, index: Int) -> some View {
+    private func listButton(
+        _ element: A11yDescription,
+        index: Int
+    ) -> some View {
         Group {
             if
-                isControlSelected(control),
-                let element = control.element,
-                element.isAdjustable
+                isControlSelected(element),
+                element.adjustableOptions.options.count > 1
             {
                 VStack {
                     Button {
@@ -247,7 +252,10 @@ public struct PresentationView: View {
                     .disabled(!element.adjustableOptions.canDecrement)
                 }
             }
-            if let previousItem = document.flatControls[safe: index - 1], isControlSelected(previousItem) {
+            if
+                let previousItem = document.flatControls[safe: index - 1],
+                isControlSelected(previousItem)
+            {
                 Button {
                     if let nextItem = document.flatControls[safe: index] {
                         select(nextItem)
@@ -258,7 +266,10 @@ public struct PresentationView: View {
                 .keyboardShortcut(.rightArrow, modifiers: [])
                 .buttonStyle(.borderless)
             }
-            if let nextItem = document.flatControls[safe: index + 1], isControlSelected(nextItem) {
+            if
+                let nextItem = document.flatControls[safe: index + 1],
+                isControlSelected(nextItem)
+            {
                 Button {
                     if let previousItem = document.flatControls[safe: index] {
                         select(previousItem)
@@ -286,6 +297,10 @@ public struct PresentationView: View {
                                 .padding(.leading, -12)
                                 .opacity(0.6)
                         }
+                        .padding(
+                            .vertical,
+                            isControlSelected(control) ? Constants.selectedControlPadding : 0
+                        )
                 case .element(let element):
                     Text(AttributedString(
                         element
@@ -294,6 +309,10 @@ public struct PresentationView: View {
                             ))
                     ))
                     .multilineTextAlignment(.leading)
+                    .padding(
+                        .vertical,
+                        isControlSelected(control) ? Constants.selectedControlPadding : 0
+                    )
             }
         }
     }
@@ -343,6 +362,16 @@ private let controls: [any AccessibilityView] = [
                 hint: "",
                 trait: .button,
                 frame: .init(x: 100, y: 100, width: 50, height: 50),
+                adjustableOptions: .init(options: []),
+                customActions: .defaultValue
+            ),
+            A11yDescription(
+                isAccessibilityElement: true,
+                label: "Next element",
+                value: "25",
+                hint: "",
+                trait: .adjustable,
+                frame: .init(x: 120, y: 120, width: 60, height: 60),
                 adjustableOptions: .init(options: []),
                 customActions: .defaultValue
             )
