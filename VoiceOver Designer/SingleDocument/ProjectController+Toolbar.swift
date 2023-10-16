@@ -3,7 +3,7 @@ import Document
 
 protocol ProjectRouterDelegate: AnyObject {
     func closeProject(document: NSDocument)
-    func openPresentationMode(document: NSDocument)
+    func togglePresentationMode(document: VODesignDocument)
 }
 
 extension ProjectController: NSToolbarDelegate {
@@ -157,7 +157,7 @@ extension ProjectController {
     }
 
     @objc private func presentationModeTapped(sender: NSToolbarItem) {
-        router?.openPresentationMode(document: document)
+        router?.togglePresentationMode(document: document)
     }
 }
 

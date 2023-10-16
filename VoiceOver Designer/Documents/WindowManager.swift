@@ -82,10 +82,7 @@ extension WindowManager: ProjectRouterDelegate {
         recentWindowController.embedProjectsViewControllerInWindow()
     }
 
-    func openPresentationMode(document: NSDocument) {
-        guard let document = document as? VODesignDocument else {
-            return
-        }
+    func togglePresentationMode(document: VODesignDocument) {
         document.save(self)
 
         switch mode {
