@@ -68,8 +68,8 @@ public struct PresentationView: View {
                     controls
                 }
                 .frame(
-                    width: document.imageSizeScaled.width*minimalScaleFactor,
-                    height: document.imageSizeScaled.height*minimalScaleFactor
+                    width: document.imageSizeScaled.width * minimalScaleFactor,
+                    height: document.imageSizeScaled.height * minimalScaleFactor
                 )
                 .scaleEffect(CGSize(width: minimalScaleFactor,
                                     height: minimalScaleFactor))
@@ -208,7 +208,7 @@ public struct PresentationView: View {
         }
         .padding(.leading, 24)
         .padding(8)
-        .frame(minWidth: 300, maxHeight: .infinity, alignment: .leading)
+        .frame(width: 300, alignment: .leading)
     }
 
     private func listButton(_ control: any AccessibilityView, index: Int) -> some View {
@@ -291,6 +291,7 @@ public struct PresentationView: View {
     }
 
     func select(_ control: any AccessibilityView) {
+        guard control is A11yDescription else { return }
         withAnimation(Constants.animation) {
             selectedControl = control
         }
