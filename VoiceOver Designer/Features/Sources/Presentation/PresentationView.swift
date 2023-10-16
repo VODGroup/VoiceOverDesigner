@@ -39,6 +39,7 @@ public struct PresentationView: View {
                 if #available(macOS 13.0, *) {
                     scroll
                         .scrollIndicators(.never)
+                        .scrollDisabled(true)
                 } else {
                     scroll
                 }
@@ -52,6 +53,7 @@ public struct PresentationView: View {
             minHeight: scrollViewSize.height +
                 PresentationView.Constants.windowPadding
         )
+        .aspectRatio(1, contentMode: .fit)
     }
 
     public init(document: VODesignDocumentPresentation) {
