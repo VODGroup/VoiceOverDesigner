@@ -185,14 +185,17 @@ extension DocumentsBrowserViewController: NSCollectionViewDelegate {
             return
         }
         
+        let cell = collectionView.item(at: indexPath) as? DocumentCellViewItem
+        cell?.projectCellView.state = .loading
+        
         Task {
             do {
-                let cell = collectionView.item(at: indexPath) as? DocumentCellViewItem
-                cell?.projectCellView.state = .loading
                 let document = try await presenter.document(at: indexPath)
                 
-                show(document: document)
-                
+                await MainActor.run {
+                    cell?.projectCellView.state = .image
+                    show(document: document)
+                }
             } catch let error {
                 print(error)
             }
