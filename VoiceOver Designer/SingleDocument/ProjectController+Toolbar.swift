@@ -31,13 +31,15 @@ extension ProjectController: NSToolbarDelegate {
     public func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         [
             // Title
+//            .toggleSidebar,
             .documentsButtonLabel,
-//            .leadingSidebar,
+            .leadingSidebar,
             .sidebarTrackingSeparator,
             .flexibleSpace,
 //            .voiceControlLabel,
             .shareDocument,
-//            .trailingSidebar
+            .space,
+            .trailingSidebar
         ]
     }
     
@@ -70,16 +72,17 @@ extension ProjectController {
         item.target = self
         item.action = #selector(showRecentDidPressed(sender:))
         item.isBordered = true
-        item.image = NSImage(systemSymbolName: "rectangle.grid.3x2.fill",
+        item.image = NSImage(systemSymbolName: "rectangle.grid.3x2",
                              accessibilityDescription: "Show recent documents")!
         item.toolTip = NSLocalizedString("Go to my documents", comment: "")
-//        item.isNavigational = true
+        item.isNavigational = true
         return item
     }
     
     private func shareDocumentItem() -> NSToolbarItem {
         let item = NSSharingServicePickerToolbarItem(itemIdentifier: .shareDocument)
         item.delegate = document
+        item.isNavigational = true
         return item
     }
     

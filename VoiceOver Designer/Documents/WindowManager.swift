@@ -14,7 +14,6 @@ class WindowManager: NSObject {
         
         window.title = NSLocalizedString("Recent documents", comment: "Window's title")
         window.toolbar = controller.toolbar()
-        window.styleMask = [.closable, .miniaturizable, .resizable, .titled, .unifiedTitleAndToolbar]
         
         prepare(window)
         
@@ -60,6 +59,7 @@ class WindowManager: NSObject {
         window.tabbingMode = .preferred
         window.tabbingIdentifier = "TabbingId"
         window.setFrameAutosaveName("Projects")
+        window.styleMask = [.closable, .miniaturizable, .resizable, .titled, .fullSizeContentView]
     }
 }
 
