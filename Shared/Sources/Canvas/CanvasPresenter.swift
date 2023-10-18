@@ -14,7 +14,7 @@ public class CanvasPresenter: DocumentPresenter {
     
     public weak var ui: DrawingView!
     var drawingController: DrawingController!
-    
+
     public func didLoad(
         ui: DrawingView,
         initialScale: CGFloat,
