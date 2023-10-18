@@ -24,8 +24,8 @@ public class CanvasPresenter: DocumentPresenter {
         self.scale = initialScale
         self.drawingController = DrawingController(view: ui)
         self.document.previewSource = previewSource
-        draw(controls: document.controls)
         
+        redraw(controls: document.controls)
     }
     
     private var scale: CGFloat = 1
