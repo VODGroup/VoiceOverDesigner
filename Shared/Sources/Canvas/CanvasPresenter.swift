@@ -24,22 +24,15 @@ public class CanvasPresenter: DocumentPresenter {
         self.scale = initialScale
         self.drawingController = DrawingController(view: ui)
         self.document.previewSource = previewSource
-        draw(controls: document.controls)
         
-        redrawOnControlChanges()
-    }
-    
-    public func stopObserving() {
-        cancellables.forEach { cancellable in
-            cancellable.cancel()
-        }
+        redraw(controls: document.controls)
     }
     
     private var scale: CGFloat = 1
     
     private var cancellables = Set<AnyCancellable>()
     
-    private func redrawOnControlChanges() {
+    public func subscribeOnControlChanges() {
         controlsPublisher
             .sink(receiveValue: redraw(controls:))
             .store(in: &cancellables)
@@ -47,6 +40,12 @@ public class CanvasPresenter: DocumentPresenter {
         selectedPublisher
             .sink(receiveValue: updateSelectedControl)
             .store(in: &cancellables)
+    }
+    
+    public func stopObserving() {
+        cancellables.forEach { cancellable in
+            cancellable.cancel()
+        }
     }
     
     private func redraw(controls: [any AccessibilityView]) {

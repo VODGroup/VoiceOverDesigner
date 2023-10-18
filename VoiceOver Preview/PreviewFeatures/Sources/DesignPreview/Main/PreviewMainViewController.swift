@@ -25,6 +25,11 @@ public class PreviewMainViewController: UIViewController {
         super.viewDidLoad()
         
         loadAndDraw()
+    }
+    
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         addDocumentStateObserving()
     }
     

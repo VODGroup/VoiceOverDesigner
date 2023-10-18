@@ -17,7 +17,10 @@ let package = Package(
         .library(
             name: "Settings",
             targets: ["Settings"]),
-        
+        .library(
+            name: "Presentation",
+            targets: ["Presentation"]),
+
         .library(
             name: "Recent",
             targets: ["Recent"]),
@@ -71,6 +74,12 @@ let package = Package(
                 .product(name: "Document", package: "Shared"),
                 .product(name: "TextRecognition", package: "Shared"),
                 .product(name: "Purchases", package: "Shared")
+            ]
+        ),
+        .target(
+            name: "Presentation",
+            dependencies: [
+                .product(name: "Document", package: "Shared"),
             ]
         ),
         .target(

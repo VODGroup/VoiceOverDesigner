@@ -75,16 +75,26 @@ public struct AdjustableOptions: Codable {
     }
     
     public mutating func accessibilityIncrement() {
-        guard let currentIndex = currentIndex, currentIndex < options.count - 1 else {
+        guard let currentIndex, canIncrement else {
             return
         }
         self.currentIndex = currentIndex + 1
     }
     
     public mutating func accessibilityDecrement() {
-        guard let currentIndex = currentIndex, currentIndex > 0 else {
+        guard let currentIndex, canDecrement else {
             return
         }
         self.currentIndex = currentIndex - 1
+    }
+
+    public var canIncrement: Bool {
+        guard let currentIndex else { return false }
+        return currentIndex < options.count - 1
+    }
+
+    public var canDecrement: Bool {
+        guard let currentIndex else { return false }
+        return currentIndex > 0
     }
 }

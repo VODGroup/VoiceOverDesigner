@@ -10,6 +10,7 @@ import Document
 import CommonUI
 import Canvas
 import Combine
+import AppKit
 
 public class CanvasViewController: NSViewController {
     
@@ -19,6 +20,7 @@ public class CanvasViewController: NSViewController {
     
     public var presenter: CanvasPresenter!
     private var cancellables: Set<AnyCancellable> = []
+    private let pointerService = PointerService()
     
     var trackingArea: NSTrackingArea!
     private var duplicateItem: NSMenuItem?
@@ -26,14 +28,36 @@ public class CanvasViewController: NSViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         view().dragnDropView.delegate = self
+        
+        view().addImageButton.action = #selector(addImageButtonTapped)
+        view().addImageButton.target = self
+        
+        view.window?.delegate = self
+        
+        presenter.didLoad(
+            ui: self.view().controlsView,
+            initialScale: 1, // Will be scaled by scrollView
+            previewSource: self.view()
+            // TODO: Scale Preview also by UIScrollView?
+        )
+        
+        setImage()
+        addMouseTracking()
+        addMenuItem()
+    }
+    
+    public override func viewDidAppear() {
+        super.viewDidAppear()
+        
+        presenter.subscribeOnControlChanges()
+        observe()
     }
     
     public override func viewWillDisappear() {
         super.viewWillDisappear()
-        
-        cancellables.forEach { cancellable in
-            cancellable.cancel()
-        }
+                
+        presenter.stopObserving()
+        stopPointerObserving()
     }
     
     private func addMouseTracking() {
@@ -55,60 +79,13 @@ public class CanvasViewController: NSViewController {
         presenter
             .pointerPublisher
             .removeDuplicates()
-            .sink(receiveValue: updateCursor)
+            .sink(receiveValue: pointerService.updateCursor(_:))
             .store(in: &cancellables)
     }
     
-    private func updateCursor(_ value: DrawingController.Pointer?) {
-        NSCursor.current.pop()
-        guard let value else { return NSCursor.arrow.push() }
-        switch value {
-        case .dragging:
-            NSCursor.closedHand.push()
-        case .hover:
-            NSCursor.openHand.push()
-        case .resize(let corner):
-            
-            // There's no system resizing images so takes from WebKit
-            // see or should take custom image/private cursor: https://stackoverflow.com/questions/49297201/diagonal-resizing-mouse-pointer
-            let image: NSImage = {
-                
-                switch corner {
-                case .topLeft, .bottomRight:
-                    return NSImage(byReferencingFile: "/System/Library/Frameworks/WebKit.framework/Versions/Current/Frameworks/WebCore.framework/Resources/northWestSouthEastResizeCursor.png")!
-                    
-                case .topRight, .bottomLeft:
-                    return NSImage(byReferencingFile: "/System/Library/Frameworks/WebKit.framework/Versions/Current/Frameworks/WebCore.framework/Resources/northEastSouthWestResizeCursor.png")!
-                }
-            }()
-            
-            NSCursor(image: image, hotSpot: NSPoint(x: 8, y: 8)).push()
-            
-        case .crosshair:
-            NSCursor.crosshair.push()
-        case .copy:
-            NSCursor.dragCopy.push()
-        }
-    }
-    
-    public override func viewDidAppear() {
-        super.viewDidAppear()
-        view().addImageButton.action = #selector(addImageButtonTapped)
-        view().addImageButton.target = self
-        
-        view.window?.delegate = self
-        DispatchQueue.main.async {
-            self.presenter.didLoad(
-                ui: self.view().controlsView,
-                initialScale: 1, // Will be scaled by scrollView
-                previewSource: self.view()
-                // TODO: Scale Preview also by UIScrollView?
-            )
-            
-            self.setImage()
-            self.addMouseTracking()
-            self.addMenuItem()
-            self.observe()
+    private func stopPointerObserving() {
+        cancellables.forEach { cancellable in
+            cancellable.cancel()
         }
     }
     

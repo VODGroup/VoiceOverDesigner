@@ -41,6 +41,7 @@
 		1ECE12DF2969B91700A3E917 /* WindowRestorationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE12DE2969B91700A3E917 /* WindowRestorationTests.swift */; };
 		1EEE25C32944ADC900B84F01 /* Navigator in Frameworks */ = {isa = PBXBuildFile; productRef = 1EEE25C22944ADC900B84F01 /* Navigator */; };
 		742D242A2ADD939200EC224A /* RecentWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742D24292ADD939200EC224A /* RecentWindowController.swift */; };
+		236A3C182AC756B200156F00 /* Presentation in Frameworks */ = {isa = PBXBuildFile; productRef = 236A3C172AC756B200156F00 /* Presentation */; };
 		7439CD4429C664A800A557FC /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7439CD4329C664A800A557FC /* StoreKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -129,6 +130,7 @@
 				7439CD4429C664A800A557FC /* StoreKit.framework in Frameworks */,
 				1EEE25C32944ADC900B84F01 /* Navigator in Frameworks */,
 				1E5DAF512927E87F00AA37D1 /* Document in Frameworks */,
+				236A3C182AC756B200156F00 /* Presentation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +320,7 @@
 				1E4D4C4F2927DC4F00742057 /* CanvasAppKit */,
 				1E5DAF502927E87F00AA37D1 /* Document */,
 				1EEE25C22944ADC900B84F01 /* Navigator */,
+				236A3C172AC756B200156F00 /* Presentation */,
 			);
 			productName = "VoiceOver Designer";
 			productReference = 1E1D7FED281D5CBE00B64954 /* VoiceOver Designer.app */;
@@ -956,6 +959,10 @@
 		1EEE25C22944ADC900B84F01 /* Navigator */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Navigator;
+		};
+		236A3C172AC756B200156F00 /* Presentation */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Presentation;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

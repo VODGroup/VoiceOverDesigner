@@ -1,6 +1,7 @@
 import Recent
 import AppKit
 import Document
+import SwiftUI
 
 class WindowManager: NSObject {
     
@@ -35,7 +36,8 @@ class WindowManager: NSObject {
     }()
     
     private var newDocumentIsCreated = false
-    
+    private var projectController: ProjectController?
+
     func start() {
         print("Start")
         

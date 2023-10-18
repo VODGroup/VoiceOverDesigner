@@ -24,6 +24,8 @@ extension ProjectController: NSToolbarDelegate {
                 splitView: splitView,
                 dividerIndex: 1
             )
+        case .presentation: return presentationSideBarItem()
+        case .editor: return editorSideBarItem()
         default: return nil
         }
     }
@@ -38,6 +40,8 @@ extension ProjectController: NSToolbarDelegate {
             .flexibleSpace,
 //            .voiceControlLabel,
             .shareDocument,
+            .presentation,
+//            .editor,
             .space,
             .trailingSidebar
         ]
@@ -48,10 +52,20 @@ extension ProjectController: NSToolbarDelegate {
          .sidebarTrackingSeparator,
 //            .voiceControlLabel,
          .documentsButtonLabel,
+         .presentation,
+         .editor,
          .trailingSidebar,
          .leadingSidebar,
          .itemListTrackingSeparator,
          .shareDocument]
+    }
+
+    var presentationAllowedItems: [NSToolbarItem.Identifier] {
+        [
+            .documentsButtonLabel,
+            .editor,
+            .shareDocument
+        ]
     }
 }
 
@@ -109,7 +123,33 @@ extension ProjectController {
         item.toolTip = NSLocalizedString("Close inspector sidebar", comment: "")
         return item
     }
-    
+
+    private func presentationSideBarItem() -> NSToolbarItem {
+        let item = NSToolbarItem(itemIdentifier: .presentation)
+        item.label = NSLocalizedString("Presentation", comment: "")
+        item.target = self
+        item.action = #selector(presentationModeTapped(sender:))
+        item.isBordered = true
+        item.image = NSImage(systemSymbolName: "play.display",
+                             accessibilityDescription: "Open presentation mode")!
+        item.toolTip = NSLocalizedString("Open presentation mode", comment: "")
+        item.isNavigational = true
+        return item
+    }
+
+    private func editorSideBarItem() -> NSToolbarItem {
+        let item = NSToolbarItem(itemIdentifier: .editor)
+        item.label = NSLocalizedString("Editor", comment: "")
+        item.target = self
+        item.action = #selector(editorModeTapped(sender:))
+        item.isBordered = true
+        item.image = NSImage(systemSymbolName: "square.on.square.dashed",
+                             accessibilityDescription: "Open editor mode")!
+        item.toolTip = NSLocalizedString("Open editor mode", comment: "")
+        item.isNavigational = true
+        return item
+    }
+
     @objc private func showLabels(sender: NSToolbarItem) {
         sender.action = #selector(hideLabels(sender:))
         canvas.presenter.showLabels()
@@ -123,7 +163,7 @@ extension ProjectController {
         
         sender.enableLabels()
     }
-    
+
     @objc private func showRecentDidPressed(sender: NSToolbarItem) {
         router?.showRecent()
     }
@@ -140,6 +180,28 @@ extension ProjectController {
             toolbar.removeItem(at: 4)
         } else {
             toolbar.insertItem(withItemIdentifier: .itemListTrackingSeparator, at: 4)
+        }
+    }
+
+    @objc private func presentationModeTapped(sender: NSToolbarItem) {
+        toggle(.presentation)
+
+        guard let toolbar = sender.toolbar else { return }
+        Set(toolbarAllowedItemIdentifiers(toolbar))
+            .subtracting(presentationAllowedItems)
+            .forEach {
+                toolbar.removeItem(identifier: $0)
+            }
+
+        toolbar.insertItem(withItemIdentifier: .editor, at: toolbar.items.endIndex)
+    }
+
+    @objc private func editorModeTapped(sender: NSToolbarItem) {
+        toggle(.editor)
+
+        guard let toolbar = sender.toolbar else { return }
+        if let prevIndex = toolbar.removeItem(identifier: .editor) {
+            toolbar.insertItem(withItemIdentifier: .presentation, at: prevIndex)
         }
     }
 }
@@ -163,6 +225,8 @@ extension NSToolbarItem.Identifier {
 //    static let voiceControlLabel = NSToolbarItem.Identifier(rawValue: "VoiceControlLabel")
     static let documentsButtonLabel = NSToolbarItem.Identifier(rawValue: "DocumentsButtonLabel")
     static let trailingSidebar = NSToolbarItem.Identifier(rawValue: "TrailingSidebar")
+    static let presentation = NSToolbarItem.Identifier(rawValue: "Presentation")
+    static let editor = NSToolbarItem.Identifier(rawValue: "Editor")
     static let leadingSidebar = NSToolbarItem.Identifier(rawValue: "LeadingSidebar")
     static let itemListTrackingSeparator = NSToolbarItem.Identifier("ItemListTrackingSeparator")
     static let shareDocument = NSToolbarItem.Identifier("ShareDocument")
@@ -170,6 +234,19 @@ extension NSToolbarItem.Identifier {
 
 extension VODesignDocument: NSSharingServicePickerToolbarItemDelegate {
     public func items(for pickerToolbarItem: NSSharingServicePickerToolbarItem) -> [Any] {
-        [fileURL]
+        [fileURL as Any]
+    }
+}
+
+private extension NSToolbar {
+
+    @discardableResult
+    func removeItem(identifier: NSToolbarItem.Identifier) -> Int? {
+        if let index = items
+            .firstIndex(where: { $0.itemIdentifier == identifier }) {
+            removeItem(at: index)
+            return index
+        }
+        return nil
     }
 }

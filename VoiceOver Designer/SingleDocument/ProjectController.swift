@@ -6,6 +6,8 @@ import AppKit
 import Document
 import Combine
 import TextRecognition
+import Presentation
+import SwiftUI
 
 extension CanvasPresenter: TextBasedPresenter {}
 
@@ -44,27 +46,62 @@ class ProjectController: NSSplitViewController {
     let canvas: CanvasViewController
     private let settings: SettingsStateViewController
     private(set) weak var router: ProjectRouterDelegate?
-    
-    var document: VODesignDocument!
-    private var cancellables = Set<AnyCancellable>()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+
+    private lazy var textSidebar: NSSplitViewItem = {
         let textSidebar = NSSplitViewItem(sidebarWithViewController: navigator)
         textSidebar.minimumThickness = 250
         textSidebar.allowsFullHeightLayout = true
         textSidebar.isSpringLoaded = true
-        
+        return textSidebar
+    }()
+
+    private lazy var canvasItem = NSSplitViewItem(viewController: canvas)
+
+    private lazy var settingsSidebar: NSSplitViewItem = {
         settings.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             settings.view.widthAnchor.constraint(equalToConstant: 400),
         ])
-        let settingsSidebar = NSSplitViewItem(viewController: settings)
-        
-        addSplitViewItem(textSidebar)
-        addSplitViewItem(NSSplitViewItem(viewController: canvas))
-        addSplitViewItem(settingsSidebar)
+        return NSSplitViewItem(viewController: settings)
+    }()
+
+    var document: VODesignDocument!
+    private var cancellables = Set<AnyCancellable>()
+
+    enum Mode {
+        case editor
+        case presentation
+    }
+
+    private var mode: Mode?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        toggle(.editor)
+    }
+
+    func toggle(_ newMode: Mode) {
+        guard newMode != mode else {
+            return
+        }
+        defer { mode = newMode }
+        document?.save(self)
+
+        switch newMode {
+            case .editor:
+                splitViewItems.forEach { removeSplitViewItem($0) }
+                addSplitViewItem(textSidebar)
+                addSplitViewItem(canvasItem)
+                addSplitViewItem(settingsSidebar)
+            case .presentation:
+                splitViewItems.forEach { removeSplitViewItem($0) }
+                addSplitViewItem(NSSplitViewItem(viewController: presentation(document: document)))
+        }
+    }
+    
+    override func viewDidAppear() {
+        super.viewDidAppear()
         
         canvas.presenter
             .selectedPublisher
@@ -110,6 +147,14 @@ extension ProjectController {
     
     func hideSettings() {
         settings.state = .empty
+    }
+
+    private func presentation(document: VODesignDocument) -> NSViewController {
+        let hostingController = NSHostingController(rootView: PresentationView(
+            document: .init(document)
+        ))
+        hostingController.title = NSLocalizedString("Presentation", comment: "")
+        return hostingController
     }
 }
 
