@@ -50,7 +50,7 @@ public class CanvasViewController: NSViewController {
         super.viewDidAppear()
         
         presenter.subscribeOnControlChanges()
-        observePointer()
+        observe()
     }
     
     public override func viewWillDisappear() {
