@@ -36,9 +36,6 @@ public class DocumentsBrowserViewController: NSViewController {
         
     }
     
-    
-
-    
     /// Sometimel layout is called right after loading from storyboard, presenter is not set and a crash happened.
     /// I added check that presenter is not nil, but we had to call reloadData as as result
     private var needReloadDataOnStart = false
@@ -62,8 +59,6 @@ public class DocumentsBrowserViewController: NSViewController {
     lazy var backingScaleFactor: CGFloat = {
         view.window?.backingScaleFactor ??  NSScreen.main?.backingScaleFactor ?? 1
     }()
-    
-    
 }
 
 extension DocumentsBrowserViewController: DragNDropDelegate {
@@ -78,7 +73,6 @@ extension DocumentsBrowserViewController: DragNDropDelegate {
         show(document: document)
     }
 }
-
 
 extension DocumentsBrowserViewController : NSCollectionViewDataSource {
     
@@ -126,9 +120,6 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
             
             item.configureContextMenu(items: collectionItem.menu.map(\.item),
                                       renameAction: collectionItem.renameAction)
-            
-            
-            
 
             item.readThumbnail(documentURL: url,
                                backingScaleFactor: backingScaleFactor)
@@ -152,9 +143,6 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
             return item
         }
     }
-    
-
-    
 }
 
 extension DocumentsBrowserViewController: NSCollectionViewDelegateFlowLayout {
@@ -174,9 +162,7 @@ extension DocumentsBrowserViewController: NSCollectionViewDelegateFlowLayout {
 }
 
 extension DocumentsBrowserViewController: NSCollectionViewDelegate {
-    
-    
-    
+
     public func collectionView(
         _ collectionView: NSCollectionView,
         didSelectItemsAt indexPaths: Set<IndexPath>
@@ -185,20 +171,23 @@ extension DocumentsBrowserViewController: NSCollectionViewDelegate {
             return
         }
         
+        let cell = collectionView.item(at: indexPath) as? DocumentCellViewItem
+        cell?.projectCellView.state = .loading
+        
         Task {
             do {
-                let cell = collectionView.item(at: indexPath) as? DocumentCellViewItem
-                cell?.projectCellView.state = .loading
                 let document = try await presenter.document(at: indexPath)
                 
-                show(document: document)
-                
+                await MainActor.run {
+                    cell?.projectCellView.state = .image
+                    show(document: document)
+                    collectionView.deselectAll(self)
+                }
             } catch let error {
                 print(error)
             }
         }
     }
-    
 }
 
 extension DocumentsBrowserViewController: DocumentsProviderDelegate {
@@ -208,5 +197,3 @@ extension DocumentsBrowserViewController: DocumentsProviderDelegate {
         view.window?.toolbar?.resetLanguageButton()
     }
 }
-
-

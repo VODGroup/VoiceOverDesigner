@@ -2,6 +2,7 @@ import AppKit
 import Document
 
 protocol ProjectRouterDelegate: AnyObject {
+    func showRecent()
     func closeProject(document: NSDocument)
     func togglePresentationMode(document: VODesignDocument)
 }
@@ -14,7 +15,7 @@ extension ProjectController: NSToolbarDelegate {
     ) -> NSToolbarItem? {
         switch itemIdentifier {
 //        case .voiceControlLabel: return labelItem()
-        case .backButtonLabel: return backItem()
+        case .documentsButtonLabel: return documentsItem()
         case .trailingSidebar: return trailingSideBarItem()
         case .leadingSidebar: return leadingSideBarItem()
         case .shareDocument: return shareDocumentItem()
@@ -31,15 +32,16 @@ extension ProjectController: NSToolbarDelegate {
     
     public func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         [
-            .flexibleSpace,
+            // Title
+//            .toggleSidebar,
+            .documentsButtonLabel,
             .leadingSidebar,
             .sidebarTrackingSeparator,
-            .backButtonLabel,
-            .flexibleSpace,
             .flexibleSpace,
 //            .voiceControlLabel,
             .shareDocument,
             .presentation,
+            .space,
             .trailingSidebar
         ]
     }
@@ -48,7 +50,7 @@ extension ProjectController: NSToolbarDelegate {
         [.toggleSidebar,
          .sidebarTrackingSeparator,
 //            .voiceControlLabel,
-         .backButtonLabel,
+         .documentsButtonLabel,
          .presentation,
          .trailingSidebar,
          .leadingSidebar,
@@ -68,14 +70,14 @@ extension ProjectController {
 //        return item
 //    }
     
-    private func backItem() -> NSToolbarItem {
-        let item = NSToolbarItem(itemIdentifier: .backButtonLabel)
-        item.label = NSLocalizedString("Back", comment: "")
+    private func documentsItem() -> NSToolbarItem {
+        let item = NSToolbarItem(itemIdentifier: .documentsButtonLabel)
+        item.label = NSLocalizedString("Recent", comment: "")
         item.target = self
-        item.action = #selector(backDidPressed(sender:))
+        item.action = #selector(showRecentDidPressed(sender:))
         item.isBordered = true
-        item.image = NSImage(systemSymbolName: "chevron.backward",
-                             accessibilityDescription: "Back to documents")!
+        item.image = NSImage(systemSymbolName: "rectangle.grid.3x2",
+                             accessibilityDescription: "Show recent documents")!
         item.toolTip = NSLocalizedString("Go to my documents", comment: "")
         item.isNavigational = true
         return item
@@ -84,6 +86,7 @@ extension ProjectController {
     private func shareDocumentItem() -> NSToolbarItem {
         let item = NSSharingServicePickerToolbarItem(itemIdentifier: .shareDocument)
         item.delegate = document
+        item.isNavigational = true
         return item
     }
     
@@ -137,8 +140,8 @@ extension ProjectController {
         sender.enableLabels()
     }
     
-    @objc private func backDidPressed(sender: NSToolbarItem) {
-        router?.closeProject(document: document)
+    @objc private func showRecentDidPressed(sender: NSToolbarItem) {
+        router?.showRecent()
     }
     
     @objc private func leadingSideBarTapped(sender: NSToolbarItem) {
@@ -178,7 +181,7 @@ extension NSToolbarItem {
 
 extension NSToolbarItem.Identifier {
 //    static let voiceControlLabel = NSToolbarItem.Identifier(rawValue: "VoiceControlLabel")
-    static let backButtonLabel = NSToolbarItem.Identifier(rawValue: "BackButtonLabel")
+    static let documentsButtonLabel = NSToolbarItem.Identifier(rawValue: "DocumentsButtonLabel")
     static let trailingSidebar = NSToolbarItem.Identifier(rawValue: "TrailingSidebar")
     static let presentation = NSToolbarItem.Identifier(rawValue: "Presentation")
     static let leadingSidebar = NSToolbarItem.Identifier(rawValue: "LeadingSidebar")
