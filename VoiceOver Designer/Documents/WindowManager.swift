@@ -1,7 +1,6 @@
 import Recent
 import AppKit
 import Document
-import Presentation
 import SwiftUI
 
 class WindowManager: NSObject {
@@ -38,13 +37,6 @@ class WindowManager: NSObject {
     
     private var newDocumentIsCreated = false
     private var projectController: ProjectController?
-
-    enum Mode {
-        case document
-        case preview
-    }
-
-    private var mode: Mode?
 
     func start() {
         print("Start")
@@ -130,28 +122,5 @@ extension WindowManager: ProjectRouterDelegate {
         
         // TODO: Is it needed?
         showRecent()
-    }
-
-    func togglePresentationMode(document: VODesignDocument) {
-        document.save(self)
-
-        switch mode {
-        case .document, nil:
-            recentWindowController.window?.contentViewController = presentation(document: document)
-            mode = .preview
-        case .preview:
-            if let projectController {
-                recentWindowController.window?.contentViewController = projectController
-                mode = .document
-            }
-        }
-    }
-
-    private func presentation(document: VODesignDocument) -> NSViewController {
-        let hostingController = NSHostingController(rootView: PresentationView(
-            document: .init(document)
-        ))
-        hostingController.title = NSLocalizedString("Presentation", comment: "")
-        return hostingController
     }
 }
