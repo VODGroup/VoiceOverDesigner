@@ -1,9 +1,9 @@
 import AppKit
 import Document // For @Storage
 
-class DocumentsTabViewController: NSTabViewController {
+public class DocumentsTabViewController: NSTabViewController {
     
-    init(router: RecentRouter) {
+    public init(router: RecentRouter) {
         super.init(nibName: nil, bundle: nil)
         
         let userDocuments = NSTabViewItem(viewController: documentsBrowserController(presenter: UserDocumentsPresenter(), router: router))
@@ -27,7 +27,7 @@ class DocumentsTabViewController: NSTabViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewWillAppear() {
+    public override func viewWillAppear() {
         super.viewWillAppear()
         
         view.window?.toolbarStyle = .unified
@@ -54,7 +54,7 @@ class DocumentsTabViewController: NSTabViewController {
 
 // MARK: - Toolbar
 extension DocumentsTabViewController {
-    func toolbar() -> NSToolbar {
+    public func toolbar() -> NSToolbar {
         let toolbar = NSToolbar()
         toolbar.delegate = self
         toolbar.displayMode = .iconOnly
@@ -65,15 +65,15 @@ extension DocumentsTabViewController {
         return toolbar
     }
     
-    override func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+    public override func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         return [.documents, .flexibleSpace]
     }
     
-    override func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+    public override func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         return [.documents, .language]
     }
     
-    override func toolbar(
+    public override func toolbar(
         _ toolbar: NSToolbar,
         itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier,
         willBeInsertedIntoToolbar flag: Bool

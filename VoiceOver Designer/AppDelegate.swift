@@ -15,6 +15,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var windowManager = WindowManager.shared
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        let isDefaultLaunch = aNotification.userInfo?[NSApplication.launchIsDefaultUserInfoKey] as? Bool ?? false
+        
+        print("Is default launch \(isDefaultLaunch)")
+        
         windowManager.start()
         
 #if DEBUG

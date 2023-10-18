@@ -50,9 +50,6 @@
                             <outlet property="scrollView" destination="tIb-SF-SA9" id="rgP-Dv-B6L"/>
                         </connections>
                     </view>
-                    <connections>
-                        <outlet property="contentView" destination="d0l-AM-UqR" id="YNU-xy-36v"/>
-                    </connections>
                 </viewController>
                 <customObject id="o9l-1z-44d" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
