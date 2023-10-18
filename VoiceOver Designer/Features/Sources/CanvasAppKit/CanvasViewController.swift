@@ -27,14 +27,36 @@ public class CanvasViewController: NSViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         view().dragnDropView.delegate = self
+        
+        view().addImageButton.action = #selector(addImageButtonTapped)
+        view().addImageButton.target = self
+        
+        view.window?.delegate = self
+        
+        presenter.didLoad(
+            ui: self.view().controlsView,
+            initialScale: 1, // Will be scaled by scrollView
+            previewSource: self.view()
+            // TODO: Scale Preview also by UIScrollView?
+        )
+        
+        setImage()
+        addMouseTracking()
+        addMenuItem()
+    }
+    
+    public override func viewDidAppear() {
+        super.viewDidAppear()
+        
+        presenter.subscribeOnControlChanges()
+        observePointer()
     }
     
     public override func viewWillDisappear() {
         super.viewWillDisappear()
-        
-        cancellables.forEach { cancellable in
-            cancellable.cancel()
-        }
+                
+        presenter.stopObserving()
+        stopPointerObserving()
     }
     
     private func addMouseTracking() {
@@ -49,7 +71,7 @@ public class CanvasViewController: NSViewController {
         view.addTrackingArea(trackingArea)
     }
     
-    private func observe() {
+    private func observePointer() {
         presenter
             .pointerPublisher
             .removeDuplicates()
@@ -57,24 +79,9 @@ public class CanvasViewController: NSViewController {
             .store(in: &cancellables)
     }
     
-    public override func viewDidAppear() {
-        super.viewDidAppear()
-        view().addImageButton.action = #selector(addImageButtonTapped)
-        view().addImageButton.target = self
-        
-        view.window?.delegate = self
-        DispatchQueue.main.async {
-            self.presenter.didLoad(
-                ui: self.view().controlsView,
-                initialScale: 1, // Will be scaled by scrollView
-                previewSource: self.view()
-                // TODO: Scale Preview also by UIScrollView?
-            )
-            
-            self.setImage()
-            self.addMouseTracking()
-            self.addMenuItem()
-            self.observe()
+    private func stopPointerObserving() {
+        cancellables.forEach { cancellable in
+            cancellable.cancel()
         }
     }
     

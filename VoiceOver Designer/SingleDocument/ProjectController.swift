@@ -65,6 +65,10 @@ class ProjectController: NSSplitViewController {
         addSplitViewItem(textSidebar)
         addSplitViewItem(NSSplitViewItem(viewController: canvas))
         addSplitViewItem(settingsSidebar)
+    }
+    
+    override func viewDidAppear() {
+        super.viewDidAppear()
         
         canvas.presenter
             .selectedPublisher
