@@ -76,10 +76,10 @@ extension WindowManager: RecentDelegate {
         // TODO: Check that this document is not opened in another tab
         
         let split = ProjectController(document: document, router: self)
-        
-        let newWindow: NSWindow = NSWindow(contentViewController: split)
+        let state = ProjectStateController(editor: split)
+        let newWindow: NSWindow = NSWindow(contentViewController: state)
         newWindow.title = document.displayName
-        newWindow.toolbar = split.toolbar
+        newWindow.toolbar = state.toolbar
         prepare(newWindow)
         
         let windowController = NSWindowController(window: newWindow)

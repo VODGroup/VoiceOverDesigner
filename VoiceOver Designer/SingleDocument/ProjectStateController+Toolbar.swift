@@ -6,7 +6,7 @@ protocol ProjectRouterDelegate: AnyObject {
     func closeProject(document: NSDocument)
 }
 
-extension ProjectController: NSToolbarDelegate {
+extension ProjectStateController: NSToolbarDelegate {
     public func toolbar(
         _ toolbar: NSToolbar,
         itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier,
@@ -20,7 +20,7 @@ extension ProjectController: NSToolbarDelegate {
         case .itemListTrackingSeparator:
             return NSTrackingSeparatorToolbarItem(
                 identifier: .itemListTrackingSeparator,
-                splitView: splitView,
+                splitView: editor.splitView,
                 dividerIndex: 1
             )
         case .presentation: return presentationSideBarItem()
@@ -60,7 +60,7 @@ extension ProjectController: NSToolbarDelegate {
          .presentation,
          .editor,
          .trailingSidebar,
-         .itemListTrackingSeparator,
+//         .itemListTrackingSeparator,
          ]
     }
 
@@ -73,7 +73,7 @@ extension ProjectController: NSToolbarDelegate {
     }
 }
 
-extension ProjectController {
+extension ProjectStateController {
 //    private func labelItem() -> NSToolbarItem {
 //        let item = NSToolbarItem(itemIdentifier: .voiceControlLabel)
 //        item.label = NSLocalizedString("Labels", comment: "")
@@ -99,7 +99,7 @@ extension ProjectController {
     
     private func shareDocumentItem() -> NSToolbarItem {
         let item = NSSharingServicePickerToolbarItem(itemIdentifier: .shareDocument)
-        item.delegate = document
+        item.delegate = editor.document
         item.isNavigational = true
         return item
     }
@@ -146,29 +146,29 @@ extension ProjectController {
     // MARK: - Voice Control labels
     @objc private func showLabels(sender: NSToolbarItem) {
         sender.action = #selector(hideLabels(sender:))
-        canvas.presenter.showLabels()
+        editor.canvas.presenter.showLabels()
         
         sender.disableLabels()
     }
     
     @objc private func hideLabels(sender: NSToolbarItem) {
         sender.action = #selector(showLabels(sender:))
-        canvas.presenter.hideLabels()
+        editor.canvas.presenter.hideLabels()
         
         sender.enableLabels()
     }
 
     @objc private func showRecentDidPressed(sender: NSToolbarItem) {
-        router?.showRecent()
+        editor.router?.showRecent()
     }
     
     @objc private func leadingSideBarTapped(sender: NSToolbarItem) {
-        guard let firstSplitView = splitViewItems.first else { return }
+        guard let firstSplitView = editor.splitViewItems.first else { return }
         firstSplitView.animator().isCollapsed.toggle()
     }
     
     @objc private func trailingSideBarTapped(sender: NSToolbarItem) {
-        guard let lastSplitView = splitViewItems.last else { return }
+        guard let lastSplitView = editor.splitViewItems.last else { return }
         lastSplitView.animator().isCollapsed.toggle()
         if lastSplitView.isCollapsed {
             toolbar.removeItem(at: 4)
@@ -183,7 +183,6 @@ extension ProjectController {
     }
     
     @objc func enablePresentation() {
-        toggle(.presentation)
         stopMenuItem.isHidden.toggle()
         playMenuItem.isHidden.toggle()
         
@@ -193,11 +192,18 @@ extension ProjectController {
                 toolbar.removeItem(identifier: $0)
             }
         
-        toolbar.insertItem(withItemIdentifier: .editor, at: toolbar.items.endIndex.advanced(by: -2)) // Inspector and space
+        toolbar.insertItem(withItemIdentifier: .editor, at: toolbar.items.endIndex)
+        
+        setAllTabs(to: .presentation)
+    }
+    
+    private func setAllTabs(to state: ProjectWindowState) {
+        view.window?.tabGroup?.windows.compactMap( { $0.contentViewController as? ProjectStateController} ).forEach({ controller in
+            controller.state = state
+        })
     }
     
     @objc func stopPresentation() {
-        toggle(.editor)
         stopMenuItem.isHidden.toggle()
         playMenuItem.isHidden.toggle()
         
@@ -208,6 +214,8 @@ extension ProjectController {
                 toolbar.insertItem(withItemIdentifier: .trailingSidebar, at: toolbar.items.endIndex)
             }
         }
+        
+        setAllTabs(to: .editor)
     }
 
     @objc private func editorModeTapped(sender: NSToolbarItem) {
