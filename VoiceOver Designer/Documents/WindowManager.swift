@@ -79,7 +79,8 @@ extension WindowManager: RecentDelegate {
         let state = ProjectStateController(editor: split)
         let newWindow: NSWindow = NSWindow(contentViewController: state)
         newWindow.title = document.displayName
-        newWindow.toolbar = state.toolbar
+        newWindow.toolbar = state.toolbar()
+        
         prepare(newWindow)
         
         let windowController = NSWindowController(window: newWindow)

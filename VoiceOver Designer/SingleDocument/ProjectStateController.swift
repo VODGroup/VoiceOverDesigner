@@ -29,9 +29,11 @@ class ProjectStateController: StateViewController<ProjectWindowState> {
         self.stateFactory = { [weak self] state in
             guard let self = self else { fatalError() }
             
+            ProjectWindowState.default = state // New document will keep state in sync with opened documents
+            view.window?.toolbar = self.toolbar(for: state)
+            
             switch state {
             case .editor:
-                view.window?.toolbar = toolbar
                 return editor
                 
             case .presentation:
@@ -40,14 +42,6 @@ class ProjectStateController: StateViewController<ProjectWindowState> {
                 ))
                 hostingController.title = NSLocalizedString("Presentation", comment: "")
                 hostingController.view.layer?.backgroundColor = .clear
-                
-                let toolbar = PresentationToolbar()
-                toolbar.editorSideBarItem.target = self
-                toolbar.editorSideBarItem.action = #selector(stopPresentation)
-                toolbar.editorSideBarItem.menuFormRepresentation = stopMenuItem
-
-                view.window?.toolbar = toolbar
-                
                 return hostingController
             }
         }
@@ -76,10 +70,25 @@ class ProjectStateController: StateViewController<ProjectWindowState> {
         addMenuItem()
     }
     
-    public var toolbar: NSToolbar {
+    public var editorToolbar: NSToolbar {
         let toolbar: NSToolbar = NSToolbar()
         toolbar.delegate = self
         return toolbar
+    }
+    
+    private lazy var presentationToolbar: NSToolbar = {
+        let toolbar = PresentationToolbar()
+        toolbar.editorSideBarItem.target = self
+        toolbar.editorSideBarItem.action = #selector(stopPresentation)
+        toolbar.editorSideBarItem.menuFormRepresentation = stopMenuItem
+        return toolbar
+    }()
+    
+    func toolbar(for state: ProjectWindowState = .default) -> NSToolbar {
+        switch state {
+        case .editor: editorToolbar
+        case .presentation: presentationToolbar
+        }
     }
     
     private func addMenuItem() {

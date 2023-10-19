@@ -157,9 +157,9 @@ extension ProjectStateController {
         guard let lastSplitView = editor.splitViewItems.last else { return }
         lastSplitView.animator().isCollapsed.toggle()
         if lastSplitView.isCollapsed {
-            toolbar.removeItem(at: 4)
+            editorToolbar.removeItem(at: 4)
         } else {
-            toolbar.insertItem(withItemIdentifier: .itemListTrackingSeparator, at: 4)
+            editorToolbar.insertItem(withItemIdentifier: .itemListTrackingSeparator, at: 4)
         }
     }
 
@@ -172,13 +172,13 @@ extension ProjectStateController {
         stopMenuItem.isHidden.toggle()
         playMenuItem.isHidden.toggle()
         
-        Set(toolbarAllowedItemIdentifiers(toolbar))
+        Set(toolbarAllowedItemIdentifiers(editorToolbar))
             .subtracting(presentationAllowedItems)
             .forEach {
-                toolbar.removeItem(identifier: $0)
+                editorToolbar.removeItem(identifier: $0)
             }
         
-        toolbar.insertItem(withItemIdentifier: .editor, at: toolbar.items.endIndex)
+        editorToolbar.insertItem(withItemIdentifier: .editor, at: editorToolbar.items.endIndex)
         
         setAllTabs(to: .presentation)
     }
@@ -193,11 +193,11 @@ extension ProjectStateController {
         stopMenuItem.isHidden.toggle()
         playMenuItem.isHidden.toggle()
         
-        if let prevIndex = toolbar.removeItem(identifier: .editor) {
-            toolbar.insertItem(withItemIdentifier: .presentation, at: prevIndex - 1)
+        if let prevIndex = editorToolbar.removeItem(identifier: .editor) {
+            editorToolbar.insertItem(withItemIdentifier: .presentation, at: prevIndex - 1)
             
             if #available(*, macOS 14.0) {
-                toolbar.insertItem(withItemIdentifier: .trailingSidebar, at: toolbar.items.endIndex)
+                editorToolbar.insertItem(withItemIdentifier: .trailingSidebar, at: editorToolbar.items.endIndex)
             }
         }
         
