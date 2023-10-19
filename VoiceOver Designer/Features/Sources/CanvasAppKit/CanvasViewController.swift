@@ -43,7 +43,6 @@ public class CanvasViewController: NSViewController {
         
         setImage()
         addMouseTracking()
-        addMenuItem()
     }
     
     public override func viewDidAppear() {
@@ -89,18 +88,19 @@ public class CanvasViewController: NSViewController {
         }
     }
     
-    // TODO: try to extract?
-    func addMenuItem() {
-        guard let menu = NSApplication.shared.menu, menu.item(withTitle: "Canvas") == nil else { return }
-        let canvasMenuItem = NSMenuItem(title: "Canvas", action: nil, keyEquivalent: "")
-        let canvasSubMenu = NSMenu(title: "Canvas")
+    public func makeCanvasMenu() -> NSMenuItem {
+        let addImageItem = NSMenuItem(title: NSLocalizedString("Add image", comment: ""), action: #selector(addImageButtonTapped), keyEquivalent: "")
+        let duplicateItem = NSMenuItem(title: NSLocalizedString("Duplicate", comment: ""), action: #selector(duplicateMenuSelected), keyEquivalent: "d")
+        self.duplicateItem = duplicateItem
+        
+        let canvasMenuItem = NSMenuItem(title: NSLocalizedString("Canvas", comment: ""), action: nil, keyEquivalent: "")
+        let canvasSubMenu = NSMenu(title: NSLocalizedString("Canvas", comment: ""))
         canvasSubMenu.autoenablesItems = false
-        let addImageItem = NSMenuItem(title: "Add image", action: #selector(addImageButtonTapped), keyEquivalent: "")
-        duplicateItem = NSMenuItem(title: "Duplicate", action: #selector(duplicateMenuSelected), keyEquivalent: "d")
         canvasSubMenu.addItem(addImageItem)
-        canvasSubMenu.addItem(duplicateItem!)
+        canvasSubMenu.addItem(duplicateItem)
         canvasMenuItem.submenu = canvasSubMenu
-        menu.addItem(canvasMenuItem)
+        
+        return canvasMenuItem
     }
     
     func setImage() {

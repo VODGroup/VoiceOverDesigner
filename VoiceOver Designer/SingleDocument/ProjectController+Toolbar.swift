@@ -16,7 +16,6 @@ extension ProjectController: NSToolbarDelegate {
 //        case .voiceControlLabel: return labelItem()
         case .documentsButtonLabel: return documentsItem()
         case .trailingSidebar: return trailingSideBarItem()
-        case .leadingSidebar: return leadingSideBarItem()
         case .shareDocument: return shareDocumentItem()
         case .itemListTrackingSeparator:
             return NSTrackingSeparatorToolbarItem(
@@ -31,33 +30,38 @@ extension ProjectController: NSToolbarDelegate {
     }
     
     public func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        [
-            // Title
-//            .toggleSidebar,
-            .documentsButtonLabel,
-            .leadingSidebar,
+        var result: [NSToolbarItem.Identifier] = [
+            .toggleSidebar,
             .sidebarTrackingSeparator,
-            .flexibleSpace,
-//            .voiceControlLabel,
+            
+            .documentsButtonLabel,
             .shareDocument,
+            // Title
+            .flexibleSpace,
             .presentation,
-//            .editor,
-            .space,
-            .trailingSidebar
         ]
+        
+        if #available(macOS 14.0, *) {
+            result.append(.inspectorTrackingSeparator)
+            result.append(.flexibleSpace)
+            result.append(.toggleInspector)
+        } else {
+            result.append(.trailingSidebar)
+        }
+        
+        return result
     }
     
     public func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         [.toggleSidebar,
          .sidebarTrackingSeparator,
-//            .voiceControlLabel,
          .documentsButtonLabel,
+         .shareDocument,
          .presentation,
          .editor,
          .trailingSidebar,
-         .leadingSidebar,
          .itemListTrackingSeparator,
-         .shareDocument]
+         ]
     }
 
     var presentationAllowedItems: [NSToolbarItem.Identifier] {
@@ -100,18 +104,7 @@ extension ProjectController {
         return item
     }
     
-    private func leadingSideBarItem() -> NSToolbarItem {
-        let item = NSToolbarItem(itemIdentifier: .leadingSidebar)
-        item.label = NSLocalizedString("Navigator", comment: "")
-        item.target = self
-        item.action = #selector(leadingSideBarTapped(sender:))
-        item.isBordered = true
-        item.image = NSImage(systemSymbolName: "sidebar.leading",
-                             accessibilityDescription: "Close navigator sidebar")!
-        item.toolTip = NSLocalizedString("Close navigator sidebar", comment: "")
-        return item
-    }
-    
+    @available(macOS, obsoleted: 14.0)
     private func trailingSideBarItem() -> NSToolbarItem {
         let item = NSToolbarItem(itemIdentifier: .trailingSidebar)
         item.label = NSLocalizedString("Inspector", comment: "")
@@ -133,7 +126,7 @@ extension ProjectController {
         item.image = NSImage(systemSymbolName: "play.display",
                              accessibilityDescription: "Open presentation mode")!
         item.toolTip = NSLocalizedString("Open presentation mode", comment: "")
-        item.isNavigational = true
+        item.menuFormRepresentation = playMenuItem
         return item
     }
 
@@ -146,10 +139,11 @@ extension ProjectController {
         item.image = NSImage(systemSymbolName: "square.on.square.dashed",
                              accessibilityDescription: "Open editor mode")!
         item.toolTip = NSLocalizedString("Open editor mode", comment: "")
-        item.isNavigational = true
+        item.menuFormRepresentation = stopMenuItem
         return item
     }
 
+    // MARK: - Voice Control labels
     @objc private func showLabels(sender: NSToolbarItem) {
         sender.action = #selector(hideLabels(sender:))
         canvas.presenter.showLabels()
@@ -183,26 +177,41 @@ extension ProjectController {
         }
     }
 
+    // MARK: - Presentation mode
     @objc private func presentationModeTapped(sender: NSToolbarItem) {
+        enablePresentation()
+    }
+    
+    @objc func enablePresentation() {
         toggle(.presentation)
-
-        guard let toolbar = sender.toolbar else { return }
+        stopMenuItem.isHidden.toggle()
+        playMenuItem.isHidden.toggle()
+        
         Set(toolbarAllowedItemIdentifiers(toolbar))
             .subtracting(presentationAllowedItems)
             .forEach {
                 toolbar.removeItem(identifier: $0)
             }
-
-        toolbar.insertItem(withItemIdentifier: .editor, at: toolbar.items.endIndex)
+        
+        toolbar.insertItem(withItemIdentifier: .editor, at: toolbar.items.endIndex.advanced(by: -2)) // Inspector and space
+    }
+    
+    @objc func stopPresentation() {
+        toggle(.editor)
+        stopMenuItem.isHidden.toggle()
+        playMenuItem.isHidden.toggle()
+        
+        if let prevIndex = toolbar.removeItem(identifier: .editor) {
+            toolbar.insertItem(withItemIdentifier: .presentation, at: prevIndex - 1)
+            
+            if #available(*, macOS 14.0) {
+                toolbar.insertItem(withItemIdentifier: .trailingSidebar, at: toolbar.items.endIndex)
+            }
+        }
     }
 
     @objc private func editorModeTapped(sender: NSToolbarItem) {
-        toggle(.editor)
-
-        guard let toolbar = sender.toolbar else { return }
-        if let prevIndex = toolbar.removeItem(identifier: .editor) {
-            toolbar.insertItem(withItemIdentifier: .presentation, at: prevIndex)
-        }
+        stopPresentation()
     }
 }
 

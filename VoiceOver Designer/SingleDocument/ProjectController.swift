@@ -36,7 +36,20 @@ class ProjectController: NSSplitViewController {
         super.init(nibName: nil, bundle: nil)
         
         settings.settingsDelegate = self
+    
+        // Should be handled by cancelOperation, but the function not calling https://stackoverflow.com/a/7777469/3300148
+        keyListener = NSEvent.addLocalMonitorForEvents(matching: [.keyDown], handler: { [weak self] event in
+            let escapeKeyCode: UInt16 = 53
+            if event.keyCode == escapeKeyCode {
+                if self?.mode == .presentation {
+                    self?.stopPresentation()
+                }
+            }
+            return event
+        })
     }
+    
+    var keyListener: Any?
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -58,11 +71,10 @@ class ProjectController: NSSplitViewController {
     private lazy var canvasItem = NSSplitViewItem(viewController: canvas)
 
     private lazy var settingsSidebar: NSSplitViewItem = {
-        settings.view.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            settings.view.widthAnchor.constraint(equalToConstant: 400),
-        ])
-        return NSSplitViewItem(viewController: settings)
+        let settingsSplit = NSSplitViewItem(inspectorWithViewController: settings)
+        settingsSplit.minimumThickness = 400
+        settingsSplit.maximumThickness = 400
+        return settingsSplit
     }()
 
     var document: VODesignDocument!
@@ -79,6 +91,7 @@ class ProjectController: NSSplitViewController {
         super.viewDidLoad()
 
         toggle(.editor)
+        addMenuItem()
     }
 
     func toggle(_ newMode: Mode) {
@@ -88,15 +101,30 @@ class ProjectController: NSSplitViewController {
         defer { mode = newMode }
         document?.save(self)
 
+        let window = view.window
+//        window?.toggleToolbarShown(self)
+//        window?.toggleFullScreen(self)
+//        window?.titlebarAppearsTransparent = true
+        
         switch newMode {
-            case .editor:
-                splitViewItems.forEach { removeSplitViewItem($0) }
-                addSplitViewItem(textSidebar)
-                addSplitViewItem(canvasItem)
-                addSplitViewItem(settingsSidebar)
-            case .presentation:
-                splitViewItems.forEach { removeSplitViewItem($0) }
-                addSplitViewItem(NSSplitViewItem(viewController: presentation(document: document)))
+        case .editor:
+//            window?.styleMask.formUnion(.titled)
+//            window?.toolbar = toolbar
+            
+            splitViewItems.forEach { removeSplitViewItem($0) }
+            addSplitViewItem(textSidebar)
+            addSplitViewItem(canvasItem)
+            addSplitViewItem(settingsSidebar)
+            
+        case .presentation:
+//            window?.styleMask.remove(.titled)
+            NSApplication.shared.presentationOptions.formUnion(.autoHideToolbar)
+            
+            splitViewItems.forEach { removeSplitViewItem($0) }
+            
+            
+            let controller = presentation(document: document)
+            addSplitViewItem(NSSplitViewItem(viewController: controller))
         }
     }
     
@@ -123,6 +151,35 @@ class ProjectController: NSSplitViewController {
         let toolbar: NSToolbar = NSToolbar()
         toolbar.delegate = self
         return toolbar
+    }
+    
+    private func addMenuItem() {
+        guard let menu = NSApplication.shared.menu else { return }
+        guard menu.item(withTitle: NSLocalizedString("Play", comment: "")) == nil else { return }
+        
+        menu.insertItem(canvas.makeCanvasMenu(), at: 3)
+        menu.insertItem(makePlayPresentationMenu(), at: 4)
+    }
+    
+    let playMenuItem = NSMenuItem(title: NSLocalizedString("Play", comment: ""), 
+                                  action: #selector(enablePresentation),
+                                  keyEquivalent: "p")
+    let stopMenuItem = NSMenuItem(title: NSLocalizedString("Stop", comment: ""), 
+                                  action: #selector(stopPresentation),
+                                  keyEquivalent: "\(KeyEquivalent.escape.character)")
+    
+    private func makePlayPresentationMenu() -> NSMenuItem {
+        let slideshowMenu = NSMenuItem(title: "Play", action: nil, keyEquivalent: "")
+        let slideshowSubmenu = NSMenu(title: "Play")
+        slideshowSubmenu.autoenablesItems = false
+        slideshowSubmenu.addItem(playMenuItem)
+        slideshowSubmenu.addItem(stopMenuItem)
+        slideshowMenu.submenu = slideshowSubmenu
+        
+        stopMenuItem.isHidden = true
+        stopMenuItem.keyEquivalentModifierMask = []
+        
+        return slideshowMenu
     }
 }
 
