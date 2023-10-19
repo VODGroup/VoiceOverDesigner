@@ -24,7 +24,6 @@ extension ProjectStateController: NSToolbarDelegate {
                 dividerIndex: 1
             )
         case .presentation: return presentationSideBarItem()
-        case .editor: return editorSideBarItem()
         default: return nil
         }
     }
@@ -58,7 +57,6 @@ extension ProjectStateController: NSToolbarDelegate {
          .documentsButtonLabel,
          .shareDocument,
          .presentation,
-         .editor,
          .trailingSidebar,
 //         .itemListTrackingSeparator,
          ]
@@ -123,23 +121,10 @@ extension ProjectStateController {
         item.target = self
         item.action = #selector(presentationModeTapped(sender:))
         item.isBordered = true
-        item.image = NSImage(systemSymbolName: "play.display",
+        item.image = NSImage(systemSymbolName: "play.fill",
                              accessibilityDescription: "Open presentation mode")!
         item.toolTip = NSLocalizedString("Open presentation mode", comment: "")
         item.menuFormRepresentation = playMenuItem
-        return item
-    }
-
-    private func editorSideBarItem() -> NSToolbarItem {
-        let item = NSToolbarItem(itemIdentifier: .editor)
-        item.label = NSLocalizedString("Editor", comment: "")
-        item.target = self
-        item.action = #selector(editorModeTapped(sender:))
-        item.isBordered = true
-        item.image = NSImage(systemSymbolName: "square.on.square.dashed",
-                             accessibilityDescription: "Open editor mode")!
-        item.toolTip = NSLocalizedString("Open editor mode", comment: "")
-        item.menuFormRepresentation = stopMenuItem
         return item
     }
 

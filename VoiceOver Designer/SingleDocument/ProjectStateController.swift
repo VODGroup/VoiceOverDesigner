@@ -121,9 +121,9 @@ class PresentationToolbar: NSToolbar {
     
     lazy var editorSideBarItem: NSToolbarItem = {
         let item = NSToolbarItem(itemIdentifier: .editor)
-        item.label = NSLocalizedString("Editor", comment: "")
+        item.label = NSLocalizedString("Edit", comment: "")
         item.isBordered = true
-        item.image = NSImage(systemSymbolName: "square.on.square.dashed",
+        item.image = NSImage(systemSymbolName: "highlighter",
                              accessibilityDescription: "Open editor mode")!
         item.toolTip = NSLocalizedString("Open editor mode", comment: "")
         

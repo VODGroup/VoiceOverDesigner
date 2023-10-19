@@ -260,8 +260,8 @@
 			children = (
 				742D24292ADD939200EC224A /* RecentWindowController.swift */,
 				742D242B2AE0BF9800EC224A /* ProjectStateController.swift */,
-				1E0030B72896C50400B2E238 /* ProjectController.swift */,
 				1EC992DA28B119730020041B /* ProjectStateController+Toolbar.swift */,
+				1E0030B72896C50400B2E238 /* ProjectController.swift */,
 			);
 			path = SingleDocument;
 			sourceTree = "<group>";
