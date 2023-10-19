@@ -152,6 +152,7 @@ extension ProjectStateController {
         firstSplitView.animator().isCollapsed.toggle()
     }
     
+    @available(macOS, obsoleted: 14.0)
     @objc private func trailingSideBarTapped(sender: NSToolbarItem) {
         guard let lastSplitView = editor.splitViewItems.last else { return }
         lastSplitView.animator().isCollapsed.toggle()
