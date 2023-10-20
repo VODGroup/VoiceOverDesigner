@@ -162,10 +162,12 @@ extension ProjectStateController {
     @objc private func trailingSideBarTapped(sender: NSToolbarItem) {
         guard let lastSplitView = editor.splitViewItems.last else { return }
         lastSplitView.animator().isCollapsed.toggle()
+        
+        let lastIndex = editorToolbar.items.endIndex
         if lastSplitView.isCollapsed {
-            editorToolbar.removeItem(at: 4)
+            editorToolbar.removeItem(at: lastIndex)
         } else {
-            editorToolbar.insertItem(withItemIdentifier: .itemListTrackingSeparator, at: 4)
+            editorToolbar.insertItem(withItemIdentifier: .itemListTrackingSeparator, at: lastIndex)
         }
     }
 
@@ -190,9 +192,11 @@ extension ProjectStateController {
     }
     
     private func setAllTabs(to state: ProjectWindowState) {
-        view.window?.tabGroup?.windows.compactMap( { $0.contentViewController as? ProjectStateController} ).forEach({ controller in
-            controller.state = state
-        })
+        view.window?.tabGroup?.windows
+            .compactMap( { $0.contentViewController as? ProjectStateController} )
+            .forEach({ controller in
+                controller.state = state
+            })
     }
     
     @objc func stopPresentation() {
@@ -201,10 +205,6 @@ extension ProjectStateController {
         
         if let prevIndex = editorToolbar.removeItem(identifier: .editor) {
             editorToolbar.insertItem(withItemIdentifier: .presentation, at: prevIndex - 1)
-            
-            if #available(*, macOS 14.0) {
-                editorToolbar.insertItem(withItemIdentifier: .trailingSidebar, at: editorToolbar.items.endIndex)
-            }
         }
         
         setAllTabs(to: .editor)
