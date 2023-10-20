@@ -43,23 +43,29 @@ extension ProjectStateController: NSToolbarDelegate {
         if #available(macOS 14.0, *) {
             result.append(.inspectorTrackingSeparator)
             result.append(.flexibleSpace)
-            result.append(.toggleInspector)
-        } else {
-            result.append(.trailingSidebar)
         }
+        
+        result.append(.trailingSidebar)
         
         return result
     }
     
     public func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        [.toggleSidebar,
+        var result: [NSToolbarItem.Identifier] = [.toggleSidebar,
          .sidebarTrackingSeparator,
          .documentsButtonLabel,
          .shareDocument,
          .presentation,
-         .trailingSidebar,
-//         .itemListTrackingSeparator,
          ]
+        
+        if #available(macOS 14.0, *) {
+            result.append(.inspectorTrackingSeparator)
+            result.append(.flexibleSpace)
+        }
+        
+        result.append(.trailingSidebar)
+        
+        return result
     }
 
     var presentationAllowedItems: [NSToolbarItem.Identifier] {
