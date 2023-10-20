@@ -143,16 +143,20 @@ public struct PresentationView: View {
         RoundedRectangle(cornerRadius: 6, style: .continuous)
             .foregroundStyle(
                 { () -> SwiftUI.Color in
-                    switch (isControlSelected(control), isControlHovered(control)) {
-                        case (true, _):
-                            return Color(nsColor: control.color.withSystemEffect(.deepPressed))
-                        case (false, true):
-                            return Color(nsColor: control.color.withSystemEffect(.pressed))
-                        case (false, false):
-                            return Color(nsColor: control.color)
+                    if isControlSelected(control) {
+                        return Color(nsColor: control.color.withSystemEffect(.deepPressed))
+                    } else {
+                        return Color(nsColor: control.color)
                     }
                 }()
             )
+            .overlay {
+                if isControlHovered(control) {
+                    RoundedRectangle(cornerRadius: 6, style: .continuous)
+                        .strokeBorder(Color.black, style: .init(lineWidth: 1))
+                        .foregroundStyle(.clear)
+                }
+            }
             .offset(
                 x: control.frame.origin.x,
                 y: control.frame.origin.y
