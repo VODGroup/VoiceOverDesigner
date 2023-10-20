@@ -6,11 +6,9 @@ import AppKit
 import Document
 import Combine
 import TextRecognition
-import Presentation
-import SwiftUI
 
 extension CanvasPresenter: TextBasedPresenter {}
-
+    
 class ProjectController: NSSplitViewController {
     
     init(
@@ -58,46 +56,21 @@ class ProjectController: NSSplitViewController {
     private lazy var canvasItem = NSSplitViewItem(viewController: canvas)
 
     private lazy var settingsSidebar: NSSplitViewItem = {
-        settings.view.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            settings.view.widthAnchor.constraint(equalToConstant: 400),
-        ])
-        return NSSplitViewItem(viewController: settings)
+        let settingsSplit = NSSplitViewItem(inspectorWithViewController: settings)
+        settingsSplit.minimumThickness = 400
+        settingsSplit.maximumThickness = 400
+        return settingsSplit
     }()
 
     var document: VODesignDocument!
     private var cancellables = Set<AnyCancellable>()
 
-    enum Mode {
-        case editor
-        case presentation
-    }
-
-    private var mode: Mode?
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        toggle(.editor)
-    }
-
-    func toggle(_ newMode: Mode) {
-        guard newMode != mode else {
-            return
-        }
-        defer { mode = newMode }
-        document?.save(self)
-
-        switch newMode {
-            case .editor:
-                splitViewItems.forEach { removeSplitViewItem($0) }
-                addSplitViewItem(textSidebar)
-                addSplitViewItem(canvasItem)
-                addSplitViewItem(settingsSidebar)
-            case .presentation:
-                splitViewItems.forEach { removeSplitViewItem($0) }
-                addSplitViewItem(NSSplitViewItem(viewController: presentation(document: document)))
-        }
+        addSplitViewItem(textSidebar)
+        addSplitViewItem(canvasItem)
+        addSplitViewItem(settingsSidebar)
     }
     
     override func viewDidAppear() {
@@ -117,12 +90,6 @@ class ProjectController: NSSplitViewController {
         }
         
         canvas.presenter.stopObserving()
-    }
-    
-    public var toolbar: NSToolbar {
-        let toolbar: NSToolbar = NSToolbar()
-        toolbar.delegate = self
-        return toolbar
     }
 }
 
@@ -147,14 +114,6 @@ extension ProjectController {
     
     func hideSettings() {
         settings.state = .empty
-    }
-
-    private func presentation(document: VODesignDocument) -> NSViewController {
-        let hostingController = NSHostingController(rootView: PresentationView(
-            document: .init(document)
-        ))
-        hostingController.title = NSLocalizedString("Presentation", comment: "")
-        return hostingController
     }
 }
 

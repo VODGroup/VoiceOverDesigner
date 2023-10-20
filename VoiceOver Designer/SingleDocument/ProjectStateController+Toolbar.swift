@@ -6,7 +6,7 @@ protocol ProjectRouterDelegate: AnyObject {
     func closeProject(document: NSDocument)
 }
 
-extension ProjectController: NSToolbarDelegate {
+extension ProjectStateController: NSToolbarDelegate {
     public func toolbar(
         _ toolbar: NSToolbar,
         itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier,
@@ -16,48 +16,56 @@ extension ProjectController: NSToolbarDelegate {
 //        case .voiceControlLabel: return labelItem()
         case .documentsButtonLabel: return documentsItem()
         case .trailingSidebar: return trailingSideBarItem()
-        case .leadingSidebar: return leadingSideBarItem()
         case .shareDocument: return shareDocumentItem()
         case .itemListTrackingSeparator:
             return NSTrackingSeparatorToolbarItem(
                 identifier: .itemListTrackingSeparator,
-                splitView: splitView,
+                splitView: editor.splitView,
                 dividerIndex: 1
             )
         case .presentation: return presentationSideBarItem()
-        case .editor: return editorSideBarItem()
         default: return nil
         }
     }
     
     public func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        [
-            // Title
-//            .toggleSidebar,
-            .documentsButtonLabel,
-            .leadingSidebar,
+        var result: [NSToolbarItem.Identifier] = [
+            .toggleSidebar,
             .sidebarTrackingSeparator,
-            .flexibleSpace,
-//            .voiceControlLabel,
+            
+            .documentsButtonLabel,
             .shareDocument,
+            // Title
+            .flexibleSpace,
             .presentation,
-//            .editor,
-            .space,
-            .trailingSidebar
         ]
+        
+        if #available(macOS 14.0, *) {
+            result.append(.inspectorTrackingSeparator)
+            result.append(.flexibleSpace)
+        }
+        
+        result.append(.trailingSidebar)
+        
+        return result
     }
     
     public func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        [.toggleSidebar,
+        var result: [NSToolbarItem.Identifier] = [.toggleSidebar,
          .sidebarTrackingSeparator,
-//            .voiceControlLabel,
          .documentsButtonLabel,
+         .shareDocument,
          .presentation,
-         .editor,
-         .trailingSidebar,
-         .leadingSidebar,
-         .itemListTrackingSeparator,
-         .shareDocument]
+         ]
+        
+        if #available(macOS 14.0, *) {
+            result.append(.inspectorTrackingSeparator)
+            result.append(.flexibleSpace)
+        }
+        
+        result.append(.trailingSidebar)
+        
+        return result
     }
 
     var presentationAllowedItems: [NSToolbarItem.Identifier] {
@@ -69,7 +77,7 @@ extension ProjectController: NSToolbarDelegate {
     }
 }
 
-extension ProjectController {
+extension ProjectStateController {
 //    private func labelItem() -> NSToolbarItem {
 //        let item = NSToolbarItem(itemIdentifier: .voiceControlLabel)
 //        item.label = NSLocalizedString("Labels", comment: "")
@@ -95,23 +103,12 @@ extension ProjectController {
     
     private func shareDocumentItem() -> NSToolbarItem {
         let item = NSSharingServicePickerToolbarItem(itemIdentifier: .shareDocument)
-        item.delegate = document
+        item.delegate = editor.document
         item.isNavigational = true
         return item
     }
     
-    private func leadingSideBarItem() -> NSToolbarItem {
-        let item = NSToolbarItem(itemIdentifier: .leadingSidebar)
-        item.label = NSLocalizedString("Navigator", comment: "")
-        item.target = self
-        item.action = #selector(leadingSideBarTapped(sender:))
-        item.isBordered = true
-        item.image = NSImage(systemSymbolName: "sidebar.leading",
-                             accessibilityDescription: "Close navigator sidebar")!
-        item.toolTip = NSLocalizedString("Close navigator sidebar", comment: "")
-        return item
-    }
-    
+    @available(macOS, obsoleted: 14.0)
     private func trailingSideBarItem() -> NSToolbarItem {
         let item = NSToolbarItem(itemIdentifier: .trailingSidebar)
         item.label = NSLocalizedString("Inspector", comment: "")
@@ -130,79 +127,91 @@ extension ProjectController {
         item.target = self
         item.action = #selector(presentationModeTapped(sender:))
         item.isBordered = true
-        item.image = NSImage(systemSymbolName: "play.display",
+        item.image = NSImage(systemSymbolName: "play.fill",
                              accessibilityDescription: "Open presentation mode")!
         item.toolTip = NSLocalizedString("Open presentation mode", comment: "")
-        item.isNavigational = true
+        item.menuFormRepresentation = playMenuItem
         return item
     }
 
-    private func editorSideBarItem() -> NSToolbarItem {
-        let item = NSToolbarItem(itemIdentifier: .editor)
-        item.label = NSLocalizedString("Editor", comment: "")
-        item.target = self
-        item.action = #selector(editorModeTapped(sender:))
-        item.isBordered = true
-        item.image = NSImage(systemSymbolName: "square.on.square.dashed",
-                             accessibilityDescription: "Open editor mode")!
-        item.toolTip = NSLocalizedString("Open editor mode", comment: "")
-        item.isNavigational = true
-        return item
-    }
-
+    // MARK: - Voice Control labels
     @objc private func showLabels(sender: NSToolbarItem) {
         sender.action = #selector(hideLabels(sender:))
-        canvas.presenter.showLabels()
+        editor.canvas.presenter.showLabels()
         
         sender.disableLabels()
     }
     
     @objc private func hideLabels(sender: NSToolbarItem) {
         sender.action = #selector(showLabels(sender:))
-        canvas.presenter.hideLabels()
+        editor.canvas.presenter.hideLabels()
         
         sender.enableLabels()
     }
 
     @objc private func showRecentDidPressed(sender: NSToolbarItem) {
-        router?.showRecent()
+        editor.router?.showRecent()
     }
     
     @objc private func leadingSideBarTapped(sender: NSToolbarItem) {
-        guard let firstSplitView = splitViewItems.first else { return }
+        guard let firstSplitView = editor.splitViewItems.first else { return }
         firstSplitView.animator().isCollapsed.toggle()
     }
     
+    @available(macOS, obsoleted: 14.0)
     @objc private func trailingSideBarTapped(sender: NSToolbarItem) {
-        guard let lastSplitView = splitViewItems.last else { return }
+        guard let lastSplitView = editor.splitViewItems.last else { return }
         lastSplitView.animator().isCollapsed.toggle()
+        
+        let lastIndex = editorToolbar.items.endIndex
         if lastSplitView.isCollapsed {
-            toolbar.removeItem(at: 4)
+            editorToolbar.removeItem(at: lastIndex)
         } else {
-            toolbar.insertItem(withItemIdentifier: .itemListTrackingSeparator, at: 4)
+            editorToolbar.insertItem(withItemIdentifier: .itemListTrackingSeparator, at: lastIndex)
         }
     }
 
+    // MARK: - Presentation mode
     @objc private func presentationModeTapped(sender: NSToolbarItem) {
-        toggle(.presentation)
-
-        guard let toolbar = sender.toolbar else { return }
-        Set(toolbarAllowedItemIdentifiers(toolbar))
+        enablePresentation()
+    }
+    
+    @objc func enablePresentation() {
+        stopMenuItem.isHidden.toggle()
+        playMenuItem.isHidden.toggle()
+        
+        Set(toolbarAllowedItemIdentifiers(editorToolbar))
             .subtracting(presentationAllowedItems)
             .forEach {
-                toolbar.removeItem(identifier: $0)
+                editorToolbar.removeItem(identifier: $0)
             }
-
-        toolbar.insertItem(withItemIdentifier: .editor, at: toolbar.items.endIndex)
+        
+        editorToolbar.insertItem(withItemIdentifier: .editor, at: editorToolbar.items.endIndex)
+        
+        setAllTabs(to: .presentation)
+    }
+    
+    private func setAllTabs(to state: ProjectWindowState) {
+        view.window?.tabGroup?.windows
+            .compactMap( { $0.contentViewController as? ProjectStateController} )
+            .forEach({ controller in
+                controller.state = state
+            })
+    }
+    
+    @objc func stopPresentation() {
+        stopMenuItem.isHidden.toggle()
+        playMenuItem.isHidden.toggle()
+        
+        if let prevIndex = editorToolbar.removeItem(identifier: .editor) {
+            editorToolbar.insertItem(withItemIdentifier: .presentation, at: prevIndex - 1)
+        }
+        
+        setAllTabs(to: .editor)
     }
 
     @objc private func editorModeTapped(sender: NSToolbarItem) {
-        toggle(.editor)
-
-        guard let toolbar = sender.toolbar else { return }
-        if let prevIndex = toolbar.removeItem(identifier: .editor) {
-            toolbar.insertItem(withItemIdentifier: .presentation, at: prevIndex)
-        }
+        stopPresentation()
     }
 }
 
