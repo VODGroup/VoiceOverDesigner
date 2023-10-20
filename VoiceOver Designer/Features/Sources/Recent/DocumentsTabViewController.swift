@@ -6,18 +6,22 @@ public class DocumentsTabViewController: NSTabViewController {
     public init(router: RecentRouter) {
         super.init(nibName: nil, bundle: nil)
         
-        let userDocuments = NSTabViewItem(viewController: documentsBrowserController(presenter: UserDocumentsPresenter(), router: router))
-        userDocuments.label = NSLocalizedString("My documents", comment: "Tab's label")
-        userDocuments.image = NSImage(systemSymbolName: "tray.full", accessibilityDescription: "My documents")
+        let documentsController = documentsBrowserController(presenter: UserDocumentsPresenter(), router: router)
+        documentsController.title = NSLocalizedString("Recent documents", comment: "Tab's title")
+        let userDocumentsTab = NSTabViewItem(viewController: documentsController)
+        userDocumentsTab.label = NSLocalizedString("My documents", comment: "Tab's label")
+        userDocumentsTab.image = NSImage(systemSymbolName: "tray.full", accessibilityDescription: "My documents")
         
-        let samples = NSTabViewItem(viewController: documentsBrowserController(
+        let samplesController = documentsBrowserController(
             presenter: SamplesDocumentsPresenter(),
-            router: router))
-        samples.label = NSLocalizedString("Samples", comment: "Tab's label")
-        samples.image = NSImage(systemSymbolName: "sparkles.rectangle.stack", accessibilityDescription: "Samples")
+            router: router)
+        samplesController.title = NSLocalizedString("Samples", comment: "Tab's title")
+        let samplesTab = NSTabViewItem(viewController: samplesController)
+        samplesTab.label = NSLocalizedString("Samples", comment: "Tab's label")
+        samplesTab.image = NSImage(systemSymbolName: "sparkles.rectangle.stack", accessibilityDescription: "Samples")
         
-        addTabViewItem(userDocuments)
-        addTabViewItem(samples)
+        addTabViewItem(userDocumentsTab)
+        addTabViewItem(samplesTab)
         
         tabStyle = .unspecified
         selectedTabViewItemIndex = Self.lastSelectedTabIndex
@@ -38,6 +42,7 @@ public class DocumentsTabViewController: NSTabViewController {
         router: RecentRouter
     ) -> DocumentsBrowserViewController {
         let projects = DocumentsBrowserViewController.fromStoryboard()
+        projects.title = "1"
         projects.presenter = presenter
         projects.router = router
         return projects

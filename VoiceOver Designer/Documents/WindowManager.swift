@@ -13,7 +13,6 @@ class WindowManager: NSObject {
         let controller = DocumentsTabViewController(router: rootWindowController)
         let window = NSWindow(contentViewController: controller)
         
-        window.title = NSLocalizedString("Recent documents", comment: "Window's title")
         window.toolbar = controller.toolbar()
         
         prepare(window)
