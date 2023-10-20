@@ -35,10 +35,11 @@ class CanvasPresenterTests: XCTestCase {
 // MARK: - DSL
 
 extension CanvasPresenterTests {
-    func didLoad() {
+    func didLoadAndAppear() {
         sut.didLoad(ui: controller.controlsView,
                     initialScale: 1,
                     previewSource: PreviewSourceDummy())
+        sut.subscribeOnControlChanges()
     }
     
     var drawnControls: [any AccessibilityView] {
