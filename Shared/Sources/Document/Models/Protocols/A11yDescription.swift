@@ -28,7 +28,7 @@ public class A11yDescription: Codable, Equatable, ObservableObject {
     }
     
     public init(
-        id: UUID,
+        id: UUID = UUID(),
         isAccessibilityElement: Bool,
         label: String,
         value: String,
