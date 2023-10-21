@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="6l9-zf-wkv">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="6l9-zf-wkv">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22154"/>
         <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -68,19 +68,17 @@
             <objects>
                 <viewController id="6l9-zf-wkv" customClass="ElementSettingsViewController" customModule="Settings" sceneMemberID="viewController">
                     <view key="view" id="sJP-cf-aea" customClass="ElementSettingsView" customModule="Settings">
-                        <rect key="frame" x="0.0" y="0.0" width="455" height="1000"/>
+                        <rect key="frame" x="0.0" y="0.0" width="455" height="1038"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" verticalHuggingPriority="251" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fBF-Lg-mkf" customClass="FlippedStackView" customModule="CanvasAppKit">
-                                <rect key="frame" x="25" y="154" width="405" height="846"/>
+                                <rect key="frame" x="25" y="0.0" width="405" height="1038"/>
                                 <subviews>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="500" translatesAutoresizingMaskIntoConstraints="NO" id="JZg-MT-gb1">
-                                        <rect key="frame" x="-2" y="815" width="354" height="31"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="350" id="wGU-7w-KVi"/>
-                                        </constraints>
-                                        <textFieldCell key="cell" selectable="YES" title="Москва, кнопка" id="egg-Nz-KWw">
+                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="500" translatesAutoresizingMaskIntoConstraints="NO" id="JZg-MT-gb1">
+                                        <rect key="frame" x="-2" y="815" width="409" height="223"/>
+                                        <textFieldCell key="cell" selectable="YES" id="egg-Nz-KWw">
                                             <font key="font" textStyle="largeTitle" name=".SFNS-Regular"/>
+                                            <string key="title">Москва, кнопкаМосква, кнопкаМосква, кнопкаМосква, кнопкаМосква, кнопкаМосква, кнопкаМосква, кнопкаМосква, кнопкаМосква, кнопкаМосква, кнопкаМосква, кнопкаМосква, кнопка</string>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
@@ -118,7 +116,7 @@
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="WKs-Fa-hRc">
                                         <rect key="frame" x="0.0" y="92" width="405" height="41"/>
                                         <subviews>
-                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nBS-l4-nDu">
+                                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nBS-l4-nDu">
                                                 <rect key="frame" x="-2" y="25" width="32" height="16"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Hint" id="eli-Tf-1Q7">
                                                     <font key="font" textStyle="headline" name=".SFNS-Bold"/>
@@ -126,7 +124,7 @@
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WsT-Ca-Xcr">
+                                            <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WsT-Ca-Xcr">
                                                 <rect key="frame" x="0.0" y="0.0" width="405" height="22"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" bezelStyle="round" id="Vdr-nI-M75">
                                                     <font key="font" metaFont="system"/>
