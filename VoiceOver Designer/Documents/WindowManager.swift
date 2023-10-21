@@ -69,7 +69,7 @@ extension WindowManager: RecentDelegate {
     func createNewDocumentWindow(
         document: VODesignDocument
     ) {
-        print("will open \(document.fileURL?.absoluteString ?? "Unkonwn fileURL")")
+        print("will open \(document.fileURL?.absoluteString ?? "Unknown fileURL")")
         newDocumentIsCreated = true
         
         // TODO: Check that this document is not opened in another tab

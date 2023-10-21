@@ -5,12 +5,7 @@ public enum AccessibilityViewTypeDto: String, Codable {
     case container
 }
 
-public enum AccessibilityViewCast: Equatable {
-    case element(_ element: A11yDescription)
-    case container(_ container: A11yContainer)
-}
-
-public protocol AccessibilityView: AnyObject, Equatable, Decodable {
+public protocol AccessibilityView: AnyObject, Identifiable, Equatable, Decodable {
     var label: String { get set }
     var frame: CGRect { get set }
     
@@ -49,4 +44,31 @@ public protocol AccessibilityElement: AccessibilityView {
     var trait: A11yTraits { get set }
 }
 
+public enum AccessibilityViewCast: Equatable, Identifiable {
+    case element(_ element: A11yDescription)
+    case container(_ container: A11yContainer)
 
+    public var id: UUID {
+        switch self {
+            case .element(let element):
+                element.id
+            case .container(let container):
+                container.id
+        }
+    }
+    public var frame: CGRect {
+        switch self {
+            case .element(let element):
+                element.frame
+            case .container(let container):
+                container.frame
+        }
+    }
+
+    public var element: A11yDescription? {
+        if case let .element(element) = self {
+            return element
+        }
+        return nil
+    }
+}

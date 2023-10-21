@@ -2,6 +2,7 @@ import Foundation
 
 public class A11yContainer: Codable, AccessibilityContainer, ObservableObject {
     public init(
+        id: UUID = UUID(),
         elements: [A11yDescription],
         frame: CGRect,
         label: String,
@@ -16,17 +17,20 @@ public class A11yContainer: Codable, AccessibilityContainer, ObservableObject {
         self.label = label
         self.containerType = containerType
         self.navigationStyle = navigationStyle
+        self.id = id
         
         self.isModal = isModal
         self.isTabTrait = isTabTrait
         self.isEnumerated = isEnumerated
     }
-    
-    
+
     public static func ==(lhs: A11yContainer, rhs: A11yContainer) -> Bool {
         lhs.frame == rhs.frame && lhs.elements == rhs.elements && lhs.label == rhs.label
     }
-    
+
+    @DecodableDefault.RandomUUID
+    public var id: UUID
+
     public var elements: [A11yDescription]
     public var frame: CGRect
     
@@ -63,6 +67,7 @@ public class A11yContainer: Codable, AccessibilityContainer, ObservableObject {
     
     public static func copy(from model: A11yContainer) -> A11yContainer {
         A11yContainer(
+            id: UUID(),
             elements: model.elements.map({ element in
                 A11yDescription.copy(from: element)
             }),
