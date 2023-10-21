@@ -4,6 +4,8 @@
 //
 //  Created by Andrey Plotnikov on 13.08.2022.
 //
+
+import CoreGraphics
 import Foundation
 @testable import Document
 
