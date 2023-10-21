@@ -51,17 +51,17 @@ public enum AccessibilityViewCast: Equatable, Identifiable {
     public var id: UUID {
         switch self {
             case .element(let element):
-                element.id
+                return element.id
             case .container(let container):
-                container.id
+                return container.id
         }
     }
     public var frame: CGRect {
         switch self {
             case .element(let element):
-                element.frame
+                return element.frame
             case .container(let container):
-                container.frame
+                return container.frame
         }
     }
 
