@@ -5,6 +5,7 @@
 //  Created by Andrey Plotnikov on 30.12.2022.
 //
 
+import CoreGraphics
 import Foundation
 @testable import Document
 

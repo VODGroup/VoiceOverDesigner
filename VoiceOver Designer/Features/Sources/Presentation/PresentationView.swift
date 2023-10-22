@@ -358,8 +358,10 @@ extension Collection {
 
 private let controls: [any AccessibilityView] = [
     A11yContainer(
+        id: UUID(),
         elements: [
             A11yDescription(
+                id: UUID(),
                 isAccessibilityElement: true,
                 label: "Long long long long long long long long long long long name",
                 value: "",
@@ -370,6 +372,7 @@ private let controls: [any AccessibilityView] = [
                 customActions: .defaultValue
             ),
             A11yDescription(
+                id: UUID(),
                 isAccessibilityElement: true,
                 label: "Next element",
                 value: "25",
@@ -389,6 +392,7 @@ private let controls: [any AccessibilityView] = [
         navigationStyle: .automatic
     ),
     A11yDescription(
+        id: UUID(),
         isAccessibilityElement: true,
         label: "haha",
         value: "1",
@@ -399,6 +403,7 @@ private let controls: [any AccessibilityView] = [
         customActions: .defaultValue
     ),
     A11yDescription(
+        id: UUID(),
         isAccessibilityElement: true,
         label: "wow",
         value: "",
