@@ -113,14 +113,4 @@ extension WindowManager: ProjectRouterDelegate {
             addTabOrCreateWindow(with: makeRecentWindow())
         }
     }
-    
-    func closeProject(document: NSDocument) {
-        document.removeWindowController(rootWindowController)
-        
-        document.save(self)
-        document.close()
-        
-        // TODO: Is it needed?
-        showRecent()
-    }
 }

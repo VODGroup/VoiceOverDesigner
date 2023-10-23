@@ -3,7 +3,6 @@ import Document
 
 protocol ProjectRouterDelegate: AnyObject {
     func showRecent()
-    func closeProject(document: NSDocument)
 }
 
 extension ProjectStateController: NSToolbarDelegate {
