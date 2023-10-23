@@ -85,7 +85,7 @@ extension ProjectStateController {
     
     private func shareDocumentItem() -> NSToolbarItem {
         let item = NSSharingServicePickerToolbarItem(itemIdentifier: .shareDocument)
-        item.delegate = editor.document
+        item.delegate = document
         item.isNavigational = true
         return item
     }
@@ -106,23 +106,8 @@ extension ProjectStateController {
         return item
     }
 
-    // MARK: - Voice Control labels
-    @objc private func showLabels(sender: NSToolbarItem) {
-        sender.action = #selector(hideLabels(sender:))
-        editor.canvas.presenter.showLabels()
-        
-        sender.disableLabels()
-    }
-    
-    @objc private func hideLabels(sender: NSToolbarItem) {
-        sender.action = #selector(showLabels(sender:))
-        editor.canvas.presenter.hideLabels()
-        
-        sender.enableLabels()
-    }
-
     @objc private func showRecentDidPressed(sender: NSToolbarItem) {
-        editor.router?.showRecent()
+        router?.showRecent()
     }
     
     @objc private func leadingSideBarTapped(sender: NSToolbarItem) {

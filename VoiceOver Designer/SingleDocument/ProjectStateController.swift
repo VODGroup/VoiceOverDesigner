@@ -9,6 +9,7 @@ import AppKit
 import Presentation
 import SwiftUI
 import Settings // TODO: Move StateViewController out of settings
+import Document
 
 enum ProjectWindowState: StateProtocol {
     case editor
@@ -19,10 +20,17 @@ enum ProjectWindowState: StateProtocol {
 
 class ProjectStateController: StateViewController<ProjectWindowState> {
     
-    var editor: ProjectController
+    let document: VODesignDocument
+    private(set) weak var router: ProjectRouterDelegate?
     
-    init(editor: ProjectController!) {
-        self.editor = editor
+    lazy var editor: ProjectController = {
+        ProjectController(document: document, router: router!)
+    }()
+    
+    init(document: VODesignDocument,
+         router: ProjectRouterDelegate) {
+        self.document = document
+        self.router = router
         
         super.init(nibName: nil, bundle: nil)
         
@@ -34,15 +42,17 @@ class ProjectStateController: StateViewController<ProjectWindowState> {
             
             switch state {
             case .editor:
-                return editor
+                addCanvasMenu(editor.canvas.makeCanvasMenu())
+                return editor // Use cached value to speed up
                 
             case .presentation:
+                removeCanvasMenu()
                 let hostingController = NSHostingController(rootView: PresentationView(
-                    document: .init(editor.document)
+                    document: .init(document)
                 ))
                 hostingController.title = NSLocalizedString("Presentation", comment: "")
                 hostingController.view.layer?.backgroundColor = .clear
-                return hostingController
+                return hostingController // Should be invalidated on every launch to redraw 
             }
         }
         
@@ -77,7 +87,7 @@ class ProjectStateController: StateViewController<ProjectWindowState> {
     }
     
     private lazy var presentationToolbar: NSToolbar = {
-        let toolbar = PresentationToolbar(actionDelegate: editor.router)
+        let toolbar = PresentationToolbar(actionDelegate: router)
         toolbar.editorSideBarItem.target = self
         toolbar.editorSideBarItem.action = #selector(stopPresentation)
         toolbar.editorSideBarItem.menuFormRepresentation = stopMenuItem
@@ -95,8 +105,20 @@ class ProjectStateController: StateViewController<ProjectWindowState> {
         guard let menu = NSApplication.shared.menu else { return }
         guard menu.item(withTitle: NSLocalizedString("Play", comment: "")) == nil else { return }
         
-        menu.insertItem(editor.canvas.makeCanvasMenu(), at: 3)
+        
         menu.insertItem(makePlayPresentationMenu(), at: 4)
+    }
+    
+    private func addCanvasMenu(_ canvasMenu: NSMenuItem) {
+        guard let menu = NSApplication.shared.menu else { return }
+        guard menu.item(withTitle: canvasMenu.title) == nil else { return }
+        
+        menu.insertItem(canvasMenu, at: 3)
+    }
+    
+    private func removeCanvasMenu() {
+        guard let menu = NSApplication.shared.menu else { return }
+//        menu.removeItem(<#T##item: NSMenuItem##NSMenuItem#>)
     }
     
     let playMenuItem = NSMenuItem(title: NSLocalizedString("Play", comment: ""),
