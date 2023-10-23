@@ -19,26 +19,13 @@ class PresentationToolbar: NSToolbar {
     }
     
     lazy var editorSideBarItem: NSToolbarItem = {
-        let item = NSToolbarItem(itemIdentifier: .editor)
-        item.label = NSLocalizedString("Edit", comment: "")
-        item.isBordered = true
-        item.image = NSImage(systemSymbolName: "highlighter",
-                             accessibilityDescription: "Open editor mode")!
-        item.toolTip = NSLocalizedString("Open editor mode", comment: "")
-        
-        return item
+        NSToolbarItem.editorSideBarItem()
     }()
     
     lazy var documentsItem: NSToolbarItem = {
-        let item = NSToolbarItem(itemIdentifier: .documentsButtonLabel)
-        item.label = NSLocalizedString("Recent", comment: "")
+        let item = NSToolbarItem.makeDocumentsItem()
         item.target = self
         item.action = #selector(showRecentDidPressed(sender:))
-        item.isBordered = true
-        item.image = NSImage(systemSymbolName: "rectangle.grid.3x2",
-                             accessibilityDescription: "Show recent documents")!
-        item.toolTip = NSLocalizedString("Go to my documents", comment: "")
-        item.isNavigational = true
         return item
     }()
     
