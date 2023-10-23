@@ -7,7 +7,7 @@
 
 import AppKit
 
-public extension CanvasViewController {
+extension CanvasViewController {
     func makeCanvasMenu() -> NSMenuItem {
         let addImageItem = NSMenuItem(title: NSLocalizedString("Add image", comment: ""), action: #selector(addImageButtonTapped), keyEquivalent: "")
         let duplicateItem = NSMenuItem(title: NSLocalizedString("Duplicate", comment: ""), action: #selector(duplicateMenuSelected), keyEquivalent: "d")

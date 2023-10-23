@@ -42,7 +42,7 @@ class ProjectStateController: StateViewController<ProjectWindowState> {
             
             switch state {
             case .editor:
-                addCanvasMenu(editor.canvas.makeCanvasMenu())
+                addCanvasMenu()
                 return editor // Use cached value to speed up
                 
             case .presentation:
@@ -52,7 +52,7 @@ class ProjectStateController: StateViewController<ProjectWindowState> {
                 ))
                 hostingController.title = NSLocalizedString("Presentation", comment: "")
                 hostingController.view.layer?.backgroundColor = .clear
-                return hostingController // Should be invalidated on every launch to redraw 
+                return hostingController // Should be invalidated on every launch to redraw
             }
         }
         
@@ -109,8 +109,10 @@ class ProjectStateController: StateViewController<ProjectWindowState> {
         menu.insertItem(makePlayPresentationMenu(), at: 4)
     }
     
-    private func addCanvasMenu(_ canvasMenu: NSMenuItem) {
+    private func addCanvasMenu() {
         guard let menu = NSApplication.shared.menu else { return }
+        
+        let canvasMenu = editor.canvas.canvasMenu
         guard menu.item(withTitle: canvasMenu.title) == nil else { return }
         
         menu.insertItem(canvasMenu, at: 3)
@@ -118,7 +120,8 @@ class ProjectStateController: StateViewController<ProjectWindowState> {
     
     private func removeCanvasMenu() {
         guard let menu = NSApplication.shared.menu else { return }
-//        menu.removeItem(<#T##item: NSMenuItem##NSMenuItem#>)
+        guard let itemIndex = menu.items.firstIndex(of: editor.canvas.canvasMenu) else { return }
+        menu.removeItem(at: itemIndex)
     }
     
     let playMenuItem = NSMenuItem(title: NSLocalizedString("Play", comment: ""),

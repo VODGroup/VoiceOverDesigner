@@ -25,6 +25,10 @@ public class CanvasViewController: NSViewController {
     var trackingArea: NSTrackingArea!
     var duplicateItem: NSMenuItem?
 
+    public lazy var canvasMenu: NSMenuItem = {
+        makeCanvasMenu()
+    }()
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         view().dragnDropView.delegate = self
