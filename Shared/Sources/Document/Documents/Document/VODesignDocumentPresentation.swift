@@ -12,10 +12,6 @@ public struct VODesignDocumentPresentation {
     public private(set) var flatControls: [A11yDescription]
     public let image: Image?
     public let imageSize: CGSize
-    public var imageSizeScaled: CGSize {
-        CGSize(width: imageSize.width / frameInfo.imageScale,
-               height: imageSize.height / frameInfo.imageScale)
-    }
     public let frameInfo: FrameInfo
 
     public init(

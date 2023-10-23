@@ -26,13 +26,13 @@ public struct PresentationView: View {
     
     var minimalScaleFactor: CGFloat {
         guard 
-            document.imageSizeScaled.width != 0, 
-            document.imageSizeScaled.height != 0
+            document.imageSize.width != 0,
+            document.imageSize.height != 0
         else {
             return 1
         }
-        let h = scrollViewSize.width / document.imageSizeScaled.width
-        let v = scrollViewSize.height / document.imageSizeScaled.height
+        let h = scrollViewSize.width / document.imageSize.width
+        let v = scrollViewSize.height / document.imageSize.height
         
         // TODO: Add minimal limit for long documents
         return min(h, v)
@@ -76,8 +76,8 @@ public struct PresentationView: View {
                     controls
                 }
                 .frame(
-                    width: document.imageSizeScaled.width * minimalScaleFactor,
-                    height: document.imageSizeScaled.height * minimalScaleFactor
+                    width: document.imageSize.width * minimalScaleFactor,
+                    height: document.imageSize.height * minimalScaleFactor
                 )
                 .scaleEffect(CGSize(width: minimalScaleFactor,
                                     height: minimalScaleFactor))
@@ -90,8 +90,8 @@ public struct PresentationView: View {
             Image(nsImage: image)
                 .resizable()
                 .frame(
-                    width: document.imageSizeScaled.width,
-                    height: document.imageSizeScaled.height
+                    width: document.imageSize.width,
+                    height: document.imageSize.height
                 )
         } else {
             Color.clear
