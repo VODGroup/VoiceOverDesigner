@@ -356,82 +356,28 @@ extension Collection {
 
 #if DEBUG
 
-private let controls: [any AccessibilityView] = [
-    A11yContainer(
-        id: UUID(),
-        elements: [
-            A11yDescription(
-                id: UUID(),
-                isAccessibilityElement: true,
-                label: "Long long long long long long long long long long long name",
-                value: "",
-                hint: "",
-                trait: .button,
-                frame: .init(x: 100, y: 100, width: 50, height: 50),
-                adjustableOptions: .init(options: []),
-                customActions: .defaultValue
-            ),
-            A11yDescription(
-                id: UUID(),
-                isAccessibilityElement: true,
-                label: "Next element",
-                value: "25",
-                hint: "",
-                trait: .adjustable,
-                frame: .init(x: 120, y: 120, width: 60, height: 60),
-                adjustableOptions: .init(options: []),
-                customActions: .defaultValue
-            )
-        ],
-        frame: .init(x: 80, y: 80, width: 90, height: 90),
-        label: "Some container",
-        isModal: false,
-        isTabTrait: false,
-        isEnumerated: false,
-        containerType: .semanticGroup,
-        navigationStyle: .automatic
-    ),
-    A11yDescription(
-        id: UUID(),
-        isAccessibilityElement: true,
-        label: "haha",
-        value: "1",
-        hint: "Some hint",
-        trait: .adjustable,
-        frame: .init(x: 10, y: 10, width: 50, height: 50),
-        adjustableOptions: .init(options: ["1", "2"], currentIndex: 1),
-        customActions: .defaultValue
-    ),
-    A11yDescription(
-        id: UUID(),
-        isAccessibilityElement: true,
-        label: "wow",
-        value: "",
-        hint: "",
-        trait: .button,
-        frame: .init(x: 150, y: 250, width: 80, height: 20),
-        adjustableOptions: .init(options: []),
-        customActions: .defaultValue
-    )
-]
+extension PresentationView {
+    init(path: URL) {
+        let document = VODesignDocument(file: path)
+        let presentation = VODesignDocumentPresentation(document)
+        
+        self.init(document: presentation)
+    }
+    
+    static func make(sampleRelativePath: String) -> PresentationView {
+        PresentationView(path: samplesURL.appendingPathComponent(sampleRelativePath + ".vodesign"))
+    }
+}
 
-private let previewDocument = VODesignDocumentPresentation(
-    controls: controls,
-    flatControls: controls.flatMap {
-        switch $0.cast {
-            case .container(let container):
-                return container.elements
-            case .element(let element):
-                return [element]
-        }
-    },
-    image: nil,
-    imageSize: .init(width: 300, height: 300),
-    frameInfo: .default
-)
 
+let samplesURL = URL(fileURLWithPath: "/Users/mikhail/Developer/VoiceOverSamples")
 #Preview {
-    PresentationView(document: previewDocument)
+    Group {
+        PresentationView.make(sampleRelativePath: "Ru/OneTwoTrip/Главная страница")
+        PresentationView.make(sampleRelativePath: "Ru/Dodo Pizza/Меню")
+        PresentationView.make(sampleRelativePath: "Ru/OneTwoTrip/Авиа фильтры")
+        PresentationView.make(sampleRelativePath: "Ru/OneTwoTrip/Пассажиры")
+    }
 }
 
 #endif
