@@ -44,6 +44,7 @@
 		742D242A2ADD939200EC224A /* RecentWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742D24292ADD939200EC224A /* RecentWindowController.swift */; };
 		742D242C2AE0BF9800EC224A /* ProjectStateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742D242B2AE0BF9800EC224A /* ProjectStateController.swift */; };
 		7439CD4429C664A800A557FC /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7439CD4329C664A800A557FC /* StoreKit.framework */; };
+		74866ADE2AE6DFBA00D42AFA /* PresentationToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74866ADD2AE6DFBA00D42AFA /* PresentationToolbar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,6 +120,7 @@
 		742D24292ADD939200EC224A /* RecentWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentWindowController.swift; sourceTree = "<group>"; };
 		742D242B2AE0BF9800EC224A /* ProjectStateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStateController.swift; sourceTree = "<group>"; };
 		7439CD4329C664A800A557FC /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		74866ADD2AE6DFBA00D42AFA /* PresentationToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationToolbar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -260,6 +262,7 @@
 			children = (
 				742D24292ADD939200EC224A /* RecentWindowController.swift */,
 				742D242B2AE0BF9800EC224A /* ProjectStateController.swift */,
+				74866ADD2AE6DFBA00D42AFA /* PresentationToolbar.swift */,
 				1EC992DA28B119730020041B /* ProjectStateController+Toolbar.swift */,
 				1E0030B72896C50400B2E238 /* ProjectController.swift */,
 			);
@@ -446,6 +449,7 @@
 				1EC992DB28B119730020041B /* ProjectStateController+Toolbar.swift in Sources */,
 				1E1D7FF1281D5CBE00B64954 /* AppDelegate.swift in Sources */,
 				742D242A2ADD939200EC224A /* RecentWindowController.swift in Sources */,
+				74866ADE2AE6DFBA00D42AFA /* PresentationToolbar.swift in Sources */,
 				1E80529528B4F42900743023 /* MainMenu.swift in Sources */,
 				1E80528928B4E71E00743023 /* WindowManager.swift in Sources */,
 				1EC752EC28B511730064CF2F /* VODesignDocument+Window.swift in Sources */,

@@ -77,7 +77,7 @@ class ProjectStateController: StateViewController<ProjectWindowState> {
     }
     
     private lazy var presentationToolbar: NSToolbar = {
-        let toolbar = PresentationToolbar()
+        let toolbar = PresentationToolbar(actionDelegate: editor.router)
         toolbar.editorSideBarItem.target = self
         toolbar.editorSideBarItem.action = #selector(stopPresentation)
         toolbar.editorSideBarItem.menuFormRepresentation = stopMenuItem
@@ -118,44 +118,5 @@ class ProjectStateController: StateViewController<ProjectWindowState> {
         stopMenuItem.keyEquivalentModifierMask = []
         
         return slideshowMenu
-    }
-}
-
-class PresentationToolbar: NSToolbar {
-    init() {
-        super.init(identifier: NSToolbar.Identifier("Presentation"))
-        
-        delegate = self
-    }
-    
-    lazy var editorSideBarItem: NSToolbarItem = {
-        let item = NSToolbarItem(itemIdentifier: .editor)
-        item.label = NSLocalizedString("Edit", comment: "")
-        item.isBordered = true
-        item.image = NSImage(systemSymbolName: "highlighter",
-                             accessibilityDescription: "Open editor mode")!
-        item.toolTip = NSLocalizedString("Open editor mode", comment: "")
-        
-        return item
-    }()
-}
-
-extension PresentationToolbar: NSToolbarDelegate {
-    public func toolbar(
-        _ toolbar: NSToolbar,
-        itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier,
-        willBeInsertedIntoToolbar flag: Bool
-    ) -> NSToolbarItem? {
-        switch itemIdentifier {
-        case .editor: return editorSideBarItem
-        default: return nil
-        }
-    }
-    
-    public func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        return [
-            .flexibleSpace,
-            .editor
-        ]
     }
 }
