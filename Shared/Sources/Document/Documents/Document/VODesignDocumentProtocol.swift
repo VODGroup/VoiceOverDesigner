@@ -30,7 +30,7 @@ extension VODesignDocumentProtocol {
 #if os(macOS)
         frameInfo.imageScale = newImage.recommendedLayerContentsScale(1)
 #elseif os(iOS)
-        frameInfo.imageScale = 1 // iOS can't exract scale information
+        frameInfo.imageScale = 1 // iOS can't extract scale information
 #endif
     }
 }
