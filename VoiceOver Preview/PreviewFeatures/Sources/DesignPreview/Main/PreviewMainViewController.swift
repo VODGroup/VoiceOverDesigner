@@ -94,12 +94,12 @@ public class PreviewMainViewController: UIViewController {
     @ViewBuilder
     private func makeView(for model: any AccessibilityView) -> some SwiftUI.View {
         let onDismiss = { [weak self] in
-            guard let self else { return }
+            guard let self = self else { return }
             self.presenter.deselect()
         }
         
         let onDelete = { [weak self] in
-            guard let self else { return }
+            guard let self = self else { return }
             self.presenter.remove(model)
         }
         
