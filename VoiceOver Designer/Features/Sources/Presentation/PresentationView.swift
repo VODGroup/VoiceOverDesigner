@@ -50,6 +50,7 @@ public struct PresentationView: View {
                     scroll
                 }
                 list
+                    .accessibilityHidden(true) // VoiceOver should read elements over the image
             }
         }
         .frame(
