@@ -218,6 +218,8 @@ public struct PresentationView: View {
                                     if let index = document.flatControls.firstIndex(of: element) {
                                         listButton(element, index: index)
                                     }
+                                }.onTapGesture {
+                                    select(element)
                                 }
                     }
                 }
