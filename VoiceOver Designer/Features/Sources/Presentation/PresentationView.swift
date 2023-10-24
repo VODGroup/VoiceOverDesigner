@@ -43,11 +43,11 @@ public struct PresentationView: View {
             Color.clear
             HStack {
                 if #available(macOS 13.0, *) {
-                    scroll
+                    canvasScroll
                         .scrollIndicators(.never)
                         .scrollDisabled(true)
                 } else {
-                    scroll
+                    canvasScroll
                 }
                 ScrollView {
                     list
@@ -70,12 +70,12 @@ public struct PresentationView: View {
     }
 
     @ViewBuilder
-    private var scroll: some View {
+    private var canvasScroll: some View {
         ScrollView([.horizontal, .vertical]) {
-            scrollContent
+            backgroundImage
                 .accessibilityHidden(true) // Hide image...
                 .overlay(alignment: .topLeading) {
-                    controls // ... but reveal controls
+                    controlsOverlay // ... but reveal controls
                 }
                 .frame(
                     width: document.imageSize.width * minimalScaleFactor,
@@ -87,7 +87,7 @@ public struct PresentationView: View {
     }
 
     @ViewBuilder
-    private var scrollContent: some View {
+    private var backgroundImage: some View {
         if let image = document.image {
             Image(nsImage: image)
                 .resizable()
@@ -102,7 +102,7 @@ public struct PresentationView: View {
         }
     }
 
-    private var controls: some View {
+    private var controlsOverlay: some View {
         ZStack(alignment: .topLeading) {
             // We don't need editing here so id can be generated at start
             ForEach(document.controls, id: \.id) { control in
