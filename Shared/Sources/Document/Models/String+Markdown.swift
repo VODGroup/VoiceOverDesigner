@@ -1,5 +1,7 @@
 import Foundation
 
+@available(macOS 12, *)
+@available(iOS 15, *)
 private let multilineMarkdown = AttributedString.MarkdownParsingOptions(interpretedSyntax: .inlineOnlyPreservingWhitespace)
 
 @available(macOS 12, *)
