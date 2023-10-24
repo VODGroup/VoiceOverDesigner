@@ -144,7 +144,7 @@ public struct PresentationView: View {
         RoundedRectangle(cornerRadius: 6, style: .continuous)
             .foregroundStyle(
                 { () -> SwiftUI.Color in
-                    if isControlSelected(control) {
+                    if isControlHovered(control) {
                         return Color(nsColor: control.color.withSystemEffect(.deepPressed))
                     } else {
                         return Color(nsColor: control.color)
@@ -152,10 +152,11 @@ public struct PresentationView: View {
                 }()
             )
             .overlay {
-                if isControlHovered(control) {
-                    RoundedRectangle(cornerRadius: 6, style: .continuous)
-                        .strokeBorder(Color.black, style: .init(lineWidth: 1))
+                if isControlSelected(control) {
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .strokeBorder(Color.black, style: .init(lineWidth: 8))
                         .foregroundStyle(.clear)
+                        .padding(-6) // Outer border
                 }
             }
             .offset(
