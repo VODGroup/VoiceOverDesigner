@@ -15,8 +15,8 @@ extension A11yDescription {
         isAccessibilityElement: Bool = true,
         label: String = "",
         value: String = "",
-        hint: String = "",
         trait: A11yTraits = .none,
+        hint: String = "",
         frame: CGRect = .zero,
         adjustableOption: AdjustableOptions = .testMake(),
         customActions: A11yCustomActions = .testMake()

@@ -10,8 +10,9 @@ import Document
 
 public struct PresentationView: View {
     public enum Constants {
-        public static let controlsWidth: CGFloat = 300
-        public static let windowPadding: CGFloat = 80
+        public static let controlsWidth: CGFloat = 500
+        public static let leadingSpacer: CGFloat = 100
+        public static let cursorButtonPadding: CGFloat = 24
 
         static let selectedControlPadding: CGFloat = 40
         static let animation: Animation = .linear(duration: 0.15)
@@ -42,25 +43,29 @@ public struct PresentationView: View {
         ZStack {
             Color.clear
             HStack {
+                Spacer(minLength: PresentationView.Constants.leadingSpacer)
                 if #available(macOS 13.0, *) {
-                    scroll
+                    canvasScroll
                         .scrollIndicators(.never)
                         .scrollDisabled(true)
                 } else {
-                    scroll
+                    canvasScroll
                 }
-                list
-                    .accessibilityHidden(true) // VoiceOver should read elements over the image
+                ScrollView {
+                    list
+                        .padding(EdgeInsets(top: 80, leading: Constants.cursorButtonPadding, bottom: 80, trailing: 80))
+                        // Frame's width should be fixed. Otherwise hover effect brakes for long text
+                        // For long text list's width recalculates and hover lose y coordinate
+                        .frame(width: PresentationView.Constants.controlsWidth)
+                }.accessibilityHidden(true) // VoiceOver should read elements over the image
             }
         }
         .frame(
             minWidth: scrollViewSize.width +
-                PresentationView.Constants.controlsWidth +
-                PresentationView.Constants.windowPadding,
-            minHeight: scrollViewSize.height +
-                PresentationView.Constants.windowPadding
+                Constants.leadingSpacer +
+                Constants.controlsWidth,
+            minHeight: scrollViewSize.height
         )
-        .aspectRatio(1, contentMode: .fit)
     }
 
     public init(document: VODesignDocumentPresentation) {
@@ -69,12 +74,12 @@ public struct PresentationView: View {
     }
 
     @ViewBuilder
-    private var scroll: some View {
+    private var canvasScroll: some View {
         ScrollView([.horizontal, .vertical]) {
-            scrollContent
-                .accessibilityHidden(true)
+            backgroundImage
+                .accessibilityHidden(true) // Hide image...
                 .overlay(alignment: .topLeading) {
-                    controls
+                    controlsOverlay // ... but reveal controls
                 }
                 .frame(
                     width: document.imageSize.width * minimalScaleFactor,
@@ -86,7 +91,7 @@ public struct PresentationView: View {
     }
 
     @ViewBuilder
-    private var scrollContent: some View {
+    private var backgroundImage: some View {
         if let image = document.image {
             Image(nsImage: image)
                 .resizable()
@@ -101,11 +106,10 @@ public struct PresentationView: View {
         }
     }
 
-    private var controls: some View {
+    private var controlsOverlay: some View {
         ZStack(alignment: .topLeading) {
-            // TODO: label as id - bad idea. We should provide truly unique id.
             // We don't need editing here so id can be generated at start
-            ForEach(document.controls, id: \.label) { control in
+            ForEach(document.controls, id: \.id) { control in
                 switch control.cast {
                     case .container(let container):
                         controlContainer(container)
@@ -121,7 +125,7 @@ public struct PresentationView: View {
             controlRectangle(container)
                 .zIndex(-1)
                 .accessibilityLabel(container.label)
-            ForEach(container.elements, id: \.label) {
+            ForEach(container.elements, id: \.id) {
                 controlElement($0)
             }
         }
@@ -144,7 +148,7 @@ public struct PresentationView: View {
         RoundedRectangle(cornerRadius: 6, style: .continuous)
             .foregroundStyle(
                 { () -> SwiftUI.Color in
-                    if isControlSelected(control) {
+                    if isControlHovered(control) {
                         return Color(nsColor: control.color.withSystemEffect(.deepPressed))
                     } else {
                         return Color(nsColor: control.color)
@@ -152,10 +156,11 @@ public struct PresentationView: View {
                 }()
             )
             .overlay {
-                if isControlHovered(control) {
-                    RoundedRectangle(cornerRadius: 6, style: .continuous)
-                        .strokeBorder(Color.black, style: .init(lineWidth: 1))
+                if isControlSelected(control) {
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .strokeBorder(Color.black, style: .init(lineWidth: 8))
                         .foregroundStyle(.clear)
+                        .padding(-6) // Outer border
                 }
             }
             .offset(
@@ -188,7 +193,7 @@ public struct PresentationView: View {
 
     private var list: some View {
         VStack(alignment: .leading, spacing: 12) {
-            ForEach(Array(document.controls.enumerated()), id: \.1.label) { index, control in
+            ForEach(Array(document.controls.enumerated()), id: \.1.id) { index, control in
                 Group {
                     switch control.cast {
                         case .container(let container):
@@ -217,14 +222,13 @@ public struct PresentationView: View {
                                     if let index = document.flatControls.firstIndex(of: element) {
                                         listButton(element, index: index)
                                     }
+                                }.onTapGesture {
+                                    select(element)
                                 }
                     }
                 }
             }
         }
-        .padding(.leading, 24)
-        .padding(8)
-        .frame(width: 300, alignment: .leading)
     }
 
     private func listButton(
@@ -286,7 +290,7 @@ public struct PresentationView: View {
                 .buttonStyle(.borderless)
             }
         }
-        .padding(.leading, -24)
+        .padding(.leading, -Constants.cursorButtonPadding)
     }
 
     @ViewBuilder
@@ -295,7 +299,7 @@ public struct PresentationView: View {
             switch control.cast {
                 case .container(let container):
                     Text(container.label)
-                        .font(isControlSelected(control) ? .headline : .body)
+                        .font(font(for: container))
                         .multilineTextAlignment(.leading)
                         .overlay(alignment: .leading) {
                             Image(systemName: "chevron.forward")
@@ -309,9 +313,10 @@ public struct PresentationView: View {
                 case .element(let element):
                     Text(AttributedString(
                         element
-                            .voiceOverTextAttributed(font: .preferredFont(
-                                forTextStyle: isControlSelected(control) ? .headline : .body
-                            ))
+                            .voiceOverTextAttributed(
+                                font: font(for: element),
+                                breakParts: true
+                            )
                     ))
                     .multilineTextAlignment(.leading)
                     .padding(
@@ -320,6 +325,19 @@ public struct PresentationView: View {
                     )
             }
         }
+    }
+    
+    private func font(for control: any AccessibilityView) -> NSFont {
+        let isSelected = isControlSelected(control)
+        
+        return .preferredFont(forTextStyle: isSelected ? .headline : .footnote)
+            .withSize(isSelected ? 40 : 20)
+    }
+    
+    private func font(for container: A11yContainer) -> SwiftUI.Font {
+        let isSelected = isControlSelected(container)
+        
+        return Font.system(size: isSelected ? 40 : 20)
     }
 
     func select(_ control: any AccessibilityView) {
