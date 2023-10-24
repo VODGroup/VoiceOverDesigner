@@ -1,4 +1,4 @@
-// swift-tools-version: 5.5
+// swift-tools-version: 5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Shared",
     defaultLocalization: "en",
-    platforms: [.iOS(.v13), .macOS(.v12)],
+    platforms: [.iOS(.v16), .macOS(.v12)],
     products: [
         .library(
             name: "Document",
@@ -28,6 +28,9 @@ let package = Package(
         .library(
             name: "Purchases",
             targets: ["Purchases"]),
+        .library(
+            name: "Presentation",
+            targets: ["Presentation"]),
     ],
     dependencies: [
         .package(url: "git@github.com:pointfreeco/swift-custom-dump.git",
@@ -38,7 +41,7 @@ let package = Package(
         .target(
             name: "Document",
             dependencies: [
-                .productItem(name: "CustomDump", package: "swift-custom-dump"),
+                .product(name: "CustomDump", package: "swift-custom-dump"),
             ]),
         .target(
             name: "DocumentTestHelpers",
@@ -106,7 +109,7 @@ let package = Package(
             name: "SamplesTests",
             dependencies: [
                 "Samples",
-                .productItem(name: "CustomDump", package: "swift-custom-dump"),
+                .product(name: "CustomDump", package: "swift-custom-dump"),
             ]),
         .executableTarget(name: "SamplesStructure", dependencies: [
             "Samples",
@@ -123,5 +126,11 @@ let package = Package(
             dependencies: [
                 "Purchases",
             ]),
+        .target(
+            name: "Presentation",
+            dependencies: [
+                "Document",
+            ]
+        ),
     ]
 )

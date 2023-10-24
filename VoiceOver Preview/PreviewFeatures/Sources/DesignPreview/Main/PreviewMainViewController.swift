@@ -6,6 +6,7 @@ import Combine
 
 import SwiftUI
 import SettingsSwiftUI
+import Presentation
 
 public class PreviewMainViewController: UIViewController {
     private var presenter: CanvasPresenter!
@@ -119,8 +120,10 @@ public class PreviewMainViewController: UIViewController {
     }
     
     private func embedCanvas() {
-        let canvas = ScrollViewController.controller(presenter: presenter)
-        
+//        let canvas = ScrollViewController.controller(presenter: presenter)
+        let canvas = UIHostingController(rootView: PresentationView(
+            document: .init(document)
+        ))
         addChild(canvas)
         view.addSubview(canvas.view)
         canvas.view.frame = view.frame // TODO: Constraints

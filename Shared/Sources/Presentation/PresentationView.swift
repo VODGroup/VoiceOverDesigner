@@ -93,7 +93,7 @@ public struct PresentationView: View {
     @ViewBuilder
     private var backgroundImage: some View {
         if let image = document.image {
-            Image(nsImage: image)
+            Image(uiImage: image)
                 .resizable()
                 .frame(
                     width: document.imageSize.width,
@@ -149,9 +149,9 @@ public struct PresentationView: View {
             .foregroundStyle(
                 { () -> SwiftUI.Color in
                     if isControlHovered(control) {
-                        return Color(nsColor: control.color.withSystemEffect(.deepPressed))
+                        return Color(control.color)
                     } else {
-                        return Color(nsColor: control.color)
+                        return Color(control.color)
                     }
                 }()
             )
@@ -327,7 +327,7 @@ public struct PresentationView: View {
         }
     }
     
-    private func font(for control: any AccessibilityView) -> NSFont {
+    private func font(for control: any AccessibilityView) -> VOFont {
         let isSelected = isControlSelected(control)
         
         return .preferredFont(forTextStyle: isSelected ? .headline : .footnote)
@@ -377,7 +377,7 @@ extension Collection {
 
 extension PresentationView {
     init(path: URL) {
-        let document = VODesignDocument(file: path)
+        let document = VODesignDocument(fileURL: path)
         let presentation = VODesignDocumentPresentation(document)
         
         self.init(document: presentation)
