@@ -1,5 +1,7 @@
 import Foundation
 
+private let multilineMarkdown = AttributedString.MarkdownParsingOptions(interpretedSyntax: .inlineOnlyPreservingWhitespace)
+
 @available(macOS 12, *)
 @available(iOS 15, *)
 extension NSMutableAttributedString {
@@ -8,7 +10,9 @@ extension NSMutableAttributedString {
         if markdown.isEmpty {
             return // Do nothing, otherwise it will crash
         }
-        append(try! NSAttributedString(markdown: markdown))
+        
+        append(try! NSAttributedString(markdown: markdown,
+                                       options: multilineMarkdown))
     }
     
     static func += (lhs: NSMutableAttributedString, rhs: String) {

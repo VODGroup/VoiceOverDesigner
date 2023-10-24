@@ -49,8 +49,9 @@ public struct PresentationView: View {
                 } else {
                     scroll
                 }
-                list
-                    .accessibilityHidden(true) // VoiceOver should read elements over the image
+                ScrollView {
+                    list
+                }.accessibilityHidden(true) // VoiceOver should read elements over the image
             }
         }
         .frame(
@@ -308,9 +309,10 @@ public struct PresentationView: View {
                 case .element(let element):
                     Text(AttributedString(
                         element
-                            .voiceOverTextAttributed(font: .preferredFont(
-                                forTextStyle: isControlSelected(control) ? .headline : .body
-                            ))
+                            .voiceOverTextAttributed(
+                                font: font(for: element),
+                                breakParts: true
+                            )
                     ))
                     .multilineTextAlignment(.leading)
                     .padding(
@@ -319,6 +321,13 @@ public struct PresentationView: View {
                     )
             }
         }
+    }
+    
+    private func font(for control: any AccessibilityView) -> NSFont {
+        let isSelected = isControlSelected(control)
+        
+        return .preferredFont(forTextStyle: isSelected ? .headline : .footnote)
+            .withSize(isSelected ? 30 : 20)
     }
 
     func select(_ control: any AccessibilityView) {

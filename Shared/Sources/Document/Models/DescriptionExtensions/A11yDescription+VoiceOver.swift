@@ -9,11 +9,12 @@ import UIKit
 public typealias Font = UIFont
 #endif
 
+let markdownBreak = "\n"
 extension A11yDescription {
     
     @available(macOS 12, *)
     @available(iOS 15, *)
-    public func voiceOverTextAttributed(font: Font?) -> NSAttributedString {
+    public func voiceOverTextAttributed(font: Font?, breakParts: Bool = false) -> NSAttributedString {
         let result = NSMutableAttributedString()
         
         if trait.contains(.selected) {
@@ -24,14 +25,10 @@ extension A11yDescription {
         
         if !value.isEmpty {
             let valueString = isAdjustable ? (adjustableOptions.currentValue ?? "") : value
-            result += ": \(valueString.italic)"
+            result += ":\(breakParts ? markdownBreak : " ")\(valueString.italic)"
         }
         
-        var traitsDescription = self.traitDescription
-
-        if !hint.isEmpty {
-            traitsDescription.append("\(hint)")
-        }
+        let traitsDescription = self.traitDescription
 
         if result.isEmpty && traitsDescription.isEmpty {
             result += Localization.traitEmptyDescription.italic
@@ -43,8 +40,15 @@ extension A11yDescription {
             } else {
                 let trailingPeriod = result.string.hasSuffix(".") ? "" : "."
                 result += NSAttributedString(string: trailingPeriod + " ")
+                if breakParts { result += markdownBreak }
                 let trait = traitsDescription.joined(separator: " ")
                 result += trait.markdown(color: .color(for: self))
+                
+                if !hint.isEmpty {
+                    if breakParts { result += markdownBreak }
+                    result += " "
+                    result += hint
+                }
             }
         } else {
             result.addAttribute(.foregroundColor, value: Color.label, range: result.string.fullRange)
@@ -104,6 +108,12 @@ extension A11yDescription {
     @available(iOS 15, *)
     public var voiceOverText: String {
         voiceOverTextAttributed(font: nil).string
+    }
+    
+    @available(macOS 12, *)
+    @available(iOS 15, *)
+    public var voiceOverTextWithLineBreaks: String {
+        voiceOverTextAttributed(font: nil, breakParts: true).string
     }
 }
 
