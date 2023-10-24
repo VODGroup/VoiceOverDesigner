@@ -114,16 +114,17 @@ public class PreviewMainViewController: UIViewController {
         default:
             EmptyView()
         }
-        
-        
-        
     }
     
     private func embedCanvas() {
-//        let canvas = ScrollViewController.controller(presenter: presenter)
-        let canvas = UIHostingController(rootView: PresentationView(
-            document: .init(document)
-        ))
+        let isPhone = UIDevice.current.userInterfaceIdiom == .phone
+        let canvas = if isPhone {
+            ScrollViewController.controller(presenter: presenter)
+        } else {
+            UIHostingController(rootView: PresentationView(
+                document: .init(document)
+            ))
+        }
         addChild(canvas)
         view.addSubview(canvas.view)
         canvas.view.frame = view.frame // TODO: Constraints
