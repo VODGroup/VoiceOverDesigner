@@ -72,9 +72,9 @@ public struct PresentationView: View {
     private var scroll: some View {
         ScrollView([.horizontal, .vertical]) {
             scrollContent
-                .accessibilityHidden(true)
+                .accessibilityHidden(true) // Hide image...
                 .overlay(alignment: .topLeading) {
-                    controls
+                    controls // ... but reveal controls
                 }
                 .frame(
                     width: document.imageSize.width * minimalScaleFactor,
@@ -103,9 +103,8 @@ public struct PresentationView: View {
 
     private var controls: some View {
         ZStack(alignment: .topLeading) {
-            // TODO: label as id - bad idea. We should provide truly unique id.
             // We don't need editing here so id can be generated at start
-            ForEach(document.controls, id: \.label) { control in
+            ForEach(document.controls, id: \.id) { control in
                 switch control.cast {
                     case .container(let container):
                         controlContainer(container)
@@ -121,7 +120,7 @@ public struct PresentationView: View {
             controlRectangle(container)
                 .zIndex(-1)
                 .accessibilityLabel(container.label)
-            ForEach(container.elements, id: \.label) {
+            ForEach(container.elements, id: \.id) {
                 controlElement($0)
             }
         }
@@ -188,7 +187,7 @@ public struct PresentationView: View {
 
     private var list: some View {
         VStack(alignment: .leading, spacing: 12) {
-            ForEach(Array(document.controls.enumerated()), id: \.1.label) { index, control in
+            ForEach(Array(document.controls.enumerated()), id: \.1.id) { index, control in
                 Group {
                     switch control.cast {
                         case .container(let container):
