@@ -330,7 +330,7 @@ public struct PresentationView: View {
         let isSelected = isControlSelected(control)
         
         return .preferredFont(forTextStyle: isSelected ? .headline : .footnote)
-            .withSize(isSelected ? 30 : 20)
+            .withSize(isSelected ? 40 : 20)
     }
 
     func select(_ control: any AccessibilityView) {
