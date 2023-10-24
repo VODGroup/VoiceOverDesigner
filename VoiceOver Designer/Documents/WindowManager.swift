@@ -74,8 +74,7 @@ extension WindowManager: RecentDelegate {
         
         // TODO: Check that this document is not opened in another tab
         
-        let split = ProjectController(document: document, router: self)
-        let state = ProjectStateController(editor: split)
+        let state = ProjectStateController(document: document, router: self)
         let newWindow: NSWindow = NSWindow(contentViewController: state)
         newWindow.title = document.displayName
         newWindow.toolbar = state.toolbar()
@@ -112,15 +111,5 @@ extension WindowManager: ProjectRouterDelegate {
             // Add tab
             addTabOrCreateWindow(with: makeRecentWindow())
         }
-    }
-    
-    func closeProject(document: NSDocument) {
-        document.removeWindowController(rootWindowController)
-        
-        document.save(self)
-        document.close()
-        
-        // TODO: Is it needed?
-        showRecent()
     }
 }

@@ -23,8 +23,12 @@ public class CanvasViewController: NSViewController {
     private let pointerService = PointerService()
     
     var trackingArea: NSTrackingArea!
-    private var duplicateItem: NSMenuItem?
+    var duplicateItem: NSMenuItem?
 
+    public lazy var canvasMenu: NSMenuItem = {
+        makeCanvasMenu()
+    }()
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         view().dragnDropView.delegate = self
@@ -86,21 +90,6 @@ public class CanvasViewController: NSViewController {
         cancellables.forEach { cancellable in
             cancellable.cancel()
         }
-    }
-    
-    public func makeCanvasMenu() -> NSMenuItem {
-        let addImageItem = NSMenuItem(title: NSLocalizedString("Add image", comment: ""), action: #selector(addImageButtonTapped), keyEquivalent: "")
-        let duplicateItem = NSMenuItem(title: NSLocalizedString("Duplicate", comment: ""), action: #selector(duplicateMenuSelected), keyEquivalent: "d")
-        self.duplicateItem = duplicateItem
-        
-        let canvasMenuItem = NSMenuItem(title: NSLocalizedString("Canvas", comment: ""), action: nil, keyEquivalent: "")
-        let canvasSubMenu = NSMenu(title: NSLocalizedString("Canvas", comment: ""))
-        canvasSubMenu.autoenablesItems = false
-        canvasSubMenu.addItem(addImageItem)
-        canvasSubMenu.addItem(duplicateItem)
-        canvasMenuItem.submenu = canvasSubMenu
-        
-        return canvasMenuItem
     }
     
     func setImage() {
@@ -185,7 +174,7 @@ public class CanvasViewController: NSViewController {
         }
     }
 
-    @objc private func duplicateMenuSelected() {
+    @objc func duplicateMenuSelected() {
         if let selectedControl = presenter.selectedControl?.model {
             let newModel = selectedControl.copy()
             newModel.frame = newModel.frame.offsetBy(dx: 40, dy: 40)

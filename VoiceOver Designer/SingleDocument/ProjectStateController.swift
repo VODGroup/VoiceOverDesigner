@@ -9,6 +9,7 @@ import AppKit
 import Presentation
 import SwiftUI
 import Settings // TODO: Move StateViewController out of settings
+import Document
 
 enum ProjectWindowState: StateProtocol {
     case editor
@@ -19,10 +20,17 @@ enum ProjectWindowState: StateProtocol {
 
 class ProjectStateController: StateViewController<ProjectWindowState> {
     
-    var editor: ProjectController
+    let document: VODesignDocument
+    private(set) weak var router: ProjectRouterDelegate?
     
-    init(editor: ProjectController!) {
-        self.editor = editor
+    lazy var editor: ProjectController = {
+        ProjectController(document: document, router: router!)
+    }()
+    
+    init(document: VODesignDocument,
+         router: ProjectRouterDelegate) {
+        self.document = document
+        self.router = router
         
         super.init(nibName: nil, bundle: nil)
         
@@ -34,15 +42,17 @@ class ProjectStateController: StateViewController<ProjectWindowState> {
             
             switch state {
             case .editor:
-                return editor
+                addCanvasMenu()
+                return editor // Use cached value to speed up
                 
             case .presentation:
+                removeCanvasMenu()
                 let hostingController = NSHostingController(rootView: PresentationView(
-                    document: .init(editor.document)
+                    document: .init(document)
                 ))
                 hostingController.title = NSLocalizedString("Presentation", comment: "")
                 hostingController.view.layer?.backgroundColor = .clear
-                return hostingController
+                return hostingController // Should be invalidated on every launch to redraw
             }
         }
         
@@ -77,7 +87,7 @@ class ProjectStateController: StateViewController<ProjectWindowState> {
     }
     
     private lazy var presentationToolbar: NSToolbar = {
-        let toolbar = PresentationToolbar()
+        let toolbar = PresentationToolbar(actionDelegate: router)
         toolbar.editorSideBarItem.target = self
         toolbar.editorSideBarItem.action = #selector(stopPresentation)
         toolbar.editorSideBarItem.menuFormRepresentation = stopMenuItem
@@ -95,8 +105,23 @@ class ProjectStateController: StateViewController<ProjectWindowState> {
         guard let menu = NSApplication.shared.menu else { return }
         guard menu.item(withTitle: NSLocalizedString("Play", comment: "")) == nil else { return }
         
-        menu.insertItem(editor.canvas.makeCanvasMenu(), at: 3)
+        
         menu.insertItem(makePlayPresentationMenu(), at: 4)
+    }
+    
+    private func addCanvasMenu() {
+        guard let menu = NSApplication.shared.menu else { return }
+        
+        let canvasMenu = editor.canvas.canvasMenu
+        guard menu.item(withTitle: canvasMenu.title) == nil else { return }
+        
+        menu.insertItem(canvasMenu, at: 3)
+    }
+    
+    private func removeCanvasMenu() {
+        guard let menu = NSApplication.shared.menu else { return }
+        guard let itemIndex = menu.items.firstIndex(of: editor.canvas.canvasMenu) else { return }
+        menu.removeItem(at: itemIndex)
     }
     
     let playMenuItem = NSMenuItem(title: NSLocalizedString("Play", comment: ""),
@@ -118,44 +143,5 @@ class ProjectStateController: StateViewController<ProjectWindowState> {
         stopMenuItem.keyEquivalentModifierMask = []
         
         return slideshowMenu
-    }
-}
-
-class PresentationToolbar: NSToolbar {
-    init() {
-        super.init(identifier: NSToolbar.Identifier("Presentation"))
-        
-        delegate = self
-    }
-    
-    lazy var editorSideBarItem: NSToolbarItem = {
-        let item = NSToolbarItem(itemIdentifier: .editor)
-        item.label = NSLocalizedString("Edit", comment: "")
-        item.isBordered = true
-        item.image = NSImage(systemSymbolName: "highlighter",
-                             accessibilityDescription: "Open editor mode")!
-        item.toolTip = NSLocalizedString("Open editor mode", comment: "")
-        
-        return item
-    }()
-}
-
-extension PresentationToolbar: NSToolbarDelegate {
-    public func toolbar(
-        _ toolbar: NSToolbar,
-        itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier,
-        willBeInsertedIntoToolbar flag: Bool
-    ) -> NSToolbarItem? {
-        switch itemIdentifier {
-        case .editor: return editorSideBarItem
-        default: return nil
-        }
-    }
-    
-    public func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-        return [
-            .flexibleSpace,
-            .editor
-        ]
     }
 }
