@@ -12,6 +12,7 @@ public struct PresentationView: View {
     public enum Constants {
         public static let controlsWidth: CGFloat = 500
         public static let leadingSpacer: CGFloat = 100
+        public static let cursorButtonPadding: CGFloat = 24
 
         static let selectedControlPadding: CGFloat = 40
         static let animation: Animation = .linear(duration: 0.15)
@@ -52,7 +53,7 @@ public struct PresentationView: View {
                 }
                 ScrollView {
                     list
-                        .padding(EdgeInsets(top: 80, leading: 0, bottom: 80, trailing: 80))
+                        .padding(EdgeInsets(top: 80, leading: Constants.cursorButtonPadding, bottom: 80, trailing: 80))
                         // Frame's width should be fixed. Otherwise hover effect brakes for long text
                         // For long text list's width recalculates and hover lose y coordinate
                         .frame(width: PresentationView.Constants.controlsWidth)
@@ -61,8 +62,8 @@ public struct PresentationView: View {
         }
         .frame(
             minWidth: scrollViewSize.width +
-            PresentationView.Constants.leadingSpacer +
-                PresentationView.Constants.controlsWidth,
+                Constants.leadingSpacer +
+                Constants.controlsWidth,
             minHeight: scrollViewSize.height
         )
     }
@@ -289,7 +290,7 @@ public struct PresentationView: View {
                 .buttonStyle(.borderless)
             }
         }
-        .padding(.leading, -24)
+        .padding(.leading, -Constants.cursorButtonPadding)
     }
 
     @ViewBuilder
@@ -298,7 +299,7 @@ public struct PresentationView: View {
             switch control.cast {
                 case .container(let container):
                     Text(container.label)
-                        .font(isControlSelected(control) ? .headline : .body)
+                        .font(font(for: container))
                         .multilineTextAlignment(.leading)
                         .overlay(alignment: .leading) {
                             Image(systemName: "chevron.forward")
@@ -331,6 +332,12 @@ public struct PresentationView: View {
         
         return .preferredFont(forTextStyle: isSelected ? .headline : .footnote)
             .withSize(isSelected ? 40 : 20)
+    }
+    
+    private func font(for container: A11yContainer) -> SwiftUI.Font {
+        let isSelected = isControlSelected(container)
+        
+        return Font.system(size: isSelected ? 40 : 20)
     }
 
     func select(_ control: any AccessibilityView) {
