@@ -10,30 +10,30 @@ struct TraitsView: View {
     }
     
     public var body: some View {
-        Group {
-            Section(content: {
-                flowView(elements: Traits.type)
-            }, header: {
-                SectionTitle("Type Traits")
-            })
-            
-            Section(content: {
-                flowView(elements: Traits.behaviour)
-            }, header: {
-                SectionTitle("Behaviour Traits")
-            })
-            
-            Section(content: {
-                flowView(elements: Traits.text)
-            }, header: {
-                SectionTitle("Text Traits")
-            })
-        }
+        Section(content: {
+            flowView(elements: Traits.type)
+        }, header: {
+            SectionTitle("Type Traits")
+        })
+        
+        Section(content: {
+            flowView(elements: Traits.behaviour)
+        }, header: {
+            SectionTitle("Behaviour Traits")
+        })
+        
+        Section(content: {
+            flowView(elements: Traits.text)
+        }, header: {
+            SectionTitle("Text Traits")
+        })
     }
+    
+    
     
     private func flowView(elements: [Traits]) -> some View {
         Group {
-            if #available(iOS 16, *) {
+            if #available(iOS 16, macOS 13, *) {
                 FlowLayout(spacing: 10) {
                     ForEach(elements) { trait in
                         Toggle(trait.name, isOn: $selection.bind(trait.trait))
@@ -50,7 +50,6 @@ struct TraitsView: View {
         }
         .padding(.vertical)
         .toggleStyle(.button)
-        .buttonBorderShape(.capsule)
         .buttonStyle(.bordered)
     }
 }

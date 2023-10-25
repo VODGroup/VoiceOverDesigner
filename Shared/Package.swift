@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Shared",
     defaultLocalization: "en",
-    platforms: [.iOS(.v13), .macOS(.v12)],
+    platforms: [.iOS(.v15), .macOS(.v12)],
     products: [
         .library(
             name: "Document",
@@ -28,6 +28,10 @@ let package = Package(
         .library(
             name: "Purchases",
             targets: ["Purchases"]),
+        .library(
+            name: "ElementSettings",
+            targets: ["ElementSettings"]
+        )
     ],
     dependencies: [
         .package(url: "git@github.com:pointfreeco/swift-custom-dump.git",
@@ -123,5 +127,11 @@ let package = Package(
             dependencies: [
                 "Purchases",
             ]),
+        .target(
+            name: "ElementSettings",
+            dependencies: [
+                "Document"
+            ]
+        )
     ]
 )

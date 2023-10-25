@@ -1,7 +1,7 @@
 import SwiftUI
 import Document
 
-
+#if os(iOS)
 public struct ElementSettingsEditorView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var element: A11yDescription
@@ -32,6 +32,38 @@ public struct ElementSettingsEditorView: View {
     
 
 }
+#endif
+
+#if os(macOS)
+public struct ElementSettingsEditorView: View {
+    @Environment(\.dismiss) var dismiss
+    @ObservedObject var element: A11yDescription
+    var deleteAction: () -> Void
+    
+    public init(element: A11yDescription, delete: @escaping () -> Void) {
+        self.element = element
+        self.deleteAction = delete
+    }
+    
+    public var body: some View {
+        ScrollView {
+            ElementSettingsView(element: element)
+                .padding()
+        }
+        .navigationTitle(Text("Element"))
+        .toolbar {
+            EditorToolbar(dismiss: dismiss, delete: delete)
+        }
+    }
+    
+    private func delete() {
+        deleteAction()
+        dismiss()
+    }
+    
+
+}
+#endif
 
 
 public struct ElementSettingsView: View {
@@ -43,8 +75,7 @@ public struct ElementSettingsView: View {
     
     public var body: some View {
         Form {
-            Text(element.voiceOverText)
-                .font(.largeTitle)
+            Text(element.voiceOverTextAttributed(font: .preferredFont(forTextStyle: .largeTitle)))
             
             TextValue(title: "Label", value: $element.label)
             ValueView(value: $element.value, adjustableOptions: $element.adjustableOptions, traits: $element.trait)
@@ -70,7 +101,17 @@ public struct ElementSettingsView: View {
 #if DEBUG
 struct ElementSettingsView_Previews: PreviewProvider {
     static var previews: some View {
+#if os(iOS)
         ElementSettingsEditorView(element: .empty(frame: .zero), delete: {})
+        #endif
+        
+        #if os(macOS)
+        NavigationView {
+            Text("Example")
+            ElementSettingsEditorView(element: .empty(frame: .zero), delete: {})
+        }
+
+        #endif
     }
 }
 #endif

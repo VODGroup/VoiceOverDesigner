@@ -86,7 +86,7 @@ private struct TagSize: PreferenceKey {
 }
 
 
-@available(iOS 16, *)
+@available(iOS 16, macOS 13, *)
 struct FlowLayout: Layout {
     
     let spacing: CGFloat

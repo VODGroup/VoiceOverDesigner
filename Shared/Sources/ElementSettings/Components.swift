@@ -49,6 +49,10 @@ struct EditorToolbar: ToolbarContent {
         deleteToolbarItem
     }
     
+    
+    
+    
+    
     private var closeToolbarItem: some ToolbarContent {
         ToolbarItem(placement: .cancellationAction, content: {
             Button(action: dismiss.callAsFunction, label: {
@@ -65,8 +69,18 @@ struct EditorToolbar: ToolbarContent {
         })
     }
     
+    @ToolbarContentBuilder
     private var deleteToolbarItem: some ToolbarContent {
-        ToolbarItem(placement: .bottomBar, content: {
+        
+        let placement: ToolbarItemPlacement = {
+            #if os(iOS)
+            return .bottomBar
+            #elseif os(macOS)
+            return .primaryAction
+            #endif
+        }()
+        
+        ToolbarItem(placement: placement, content: {
             Button(role: .destructive, action: presentDialog, label: {
                 Image(systemName: "trash")
                     .accessibilityLabel(Text("Delete"))

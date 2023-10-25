@@ -5,7 +5,7 @@ import Canvas
 import Combine
 
 import SwiftUI
-import SettingsSwiftUI
+import ElementSettings
 
 public class PreviewMainViewController: UIViewController {
     private var presenter: CanvasPresenter!

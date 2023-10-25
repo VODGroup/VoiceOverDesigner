@@ -2,6 +2,7 @@ import Document
 import SwiftUI
 
 
+#if os(iOS)
 public struct ContainerSettingsEditorView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var container: A11yContainer
@@ -30,7 +31,33 @@ public struct ContainerSettingsEditorView: View {
         dismiss()
     }
 }
+#endif
 
+#if os(macOS)
+public struct ContainerSettingsEditorView: View {
+    @Environment(\.dismiss) var dismiss
+    @ObservedObject var container: A11yContainer
+    var deleteAction: () -> Void
+    
+    public init(container: A11yContainer, delete: @escaping () -> Void) {
+        self.container = container
+        self.deleteAction = delete
+    }
+    
+    public var body: some View {
+        ContainerSettingsView(container: container)
+            .toolbar {
+                // For some reason @Environment doesn't propagate to ToolbarContent
+                EditorToolbar(dismiss: dismiss, delete: delete)
+            }
+    }
+    
+    private func delete() {
+        deleteAction()
+        dismiss()
+    }
+}
+#endif
 
 public struct ContainerSettingsView: View {
     
@@ -86,7 +113,17 @@ public struct ContainerSettingsView: View {
 #if DEBUG
 struct ContainerSettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        ContainerSettingsEditorView(container: .init(elements: [], frame: .zero, label: "er"), delete: {})
+#if os(iOS)
+        ContainerSettingsEditorView(container: .init(elements: [], frame: .zero, label: "Containeer"), delete: {})
+        #endif
+        
+        #if os(macOS)
+        NavigationView {
+            Text("Example")
+            ContainerSettingsEditorView(container: .init(elements: [], frame: .zero, label: "Container"), delete: {})
+        }
+
+        #endif
     }
 }
 #endif
