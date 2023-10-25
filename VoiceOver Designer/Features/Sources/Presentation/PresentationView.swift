@@ -20,11 +20,11 @@ public struct PresentationView: View {
 
     @State var document: VODesignDocumentPresentation
 
-    @State var selectedControl: (any AccessibilityView)?
+    @State var selectedControl: AccessibilityViewCast?
     @State var hoveredControl: (any AccessibilityView)?
 
     let scrollViewSize = CGSize(width: 600, height: 900)
-    
+
     var minimalScaleFactor: CGFloat {
         guard 
             document.imageSize.width != 0,
@@ -51,13 +51,27 @@ public struct PresentationView: View {
                 } else {
                     canvasScroll
                 }
-                ScrollView {
-                    list
-                        .padding(EdgeInsets(top: 80, leading: Constants.cursorButtonPadding, bottom: 80, trailing: 80))
-                        // Frame's width should be fixed. Otherwise hover effect brakes for long text
-                        // For long text list's width recalculates and hover lose y coordinate
-                        .frame(width: PresentationView.Constants.controlsWidth)
-                }.accessibilityHidden(true) // VoiceOver should read elements over the image
+                list
+            }
+            .onKeyboardShortcut(key: .leftArrow, modifiers: []) {
+                if
+                    let selected = selectedControl?.element,
+                    let index = document.flatControls.firstIndex(of: selected)
+                {
+                    if let prev = document.flatControls[safe: index - 1] {
+                        select(prev)
+                    }
+                }
+            }
+            .onKeyboardShortcut(key: .rightArrow, modifiers: []) {
+                if
+                    let selected = selectedControl?.element,
+                    let index = document.flatControls.firstIndex(of: selected)
+                {
+                    if let next = document.flatControls[safe: index + 1] {
+                        select(next)
+                    }
+                }
             }
         }
         .frame(
@@ -70,7 +84,7 @@ public struct PresentationView: View {
 
     public init(document: VODesignDocumentPresentation) {
         _document = .init(initialValue: document)
-        _selectedControl = .init(initialValue: document.flatControls.first)
+        _selectedControl = .init(initialValue: document.flatControls.first?.cast)
     }
 
     @ViewBuilder
@@ -192,41 +206,62 @@ public struct PresentationView: View {
     // MARK: - List
 
     private var list: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            ForEach(Array(document.controls.enumerated()), id: \.1.id) { index, control in
-                Group {
-                    switch control.cast {
-                        case .container(let container):
-                            VStack(alignment: .leading, spacing: 4) {
-                                controlText(container)
-                                ForEach(container.elements, id: \.label) { element in
-                                    controlText(element)
-                                        .padding(.leading, 16)
-                                        .overlay(alignment: .leadingFirstTextBaseline) {
-                                            if let index = document.flatControls.firstIndex(of: element) {
-                                                listButton(
-                                                    element,
-                                                    index: index
-                                                )
-                                            }
-                                        }
-                                }
-                            }
-                            .padding(
-                                .vertical,
-                                isControlSelected(control) ? Constants.selectedControlPadding : 0
-                            )
-                        case .element(let element):
-                            controlText(element)
-                                .overlay(alignment: .leading) {
-                                    if let index = document.flatControls.firstIndex(of: element) {
-                                        listButton(element, index: index)
-                                    }
-                                }.onTapGesture {
-                                    select(element)
-                                }
+        ScrollView {
+            ScrollViewReader { proxy in
+                VStack(alignment: .leading, spacing: 12) {
+                    ForEach(Array(document.controls.enumerated()), id: \.1.id) { index, item in
+                        listItem(item, index: index)
                     }
                 }
+                .padding(EdgeInsets(top: 80, leading: Constants.cursorButtonPadding, bottom: 80, trailing: 80))
+                // Frame's width should be fixed. Otherwise hover effect brakes for long text
+                // For long text list's width recalculates and hover lose y coordinate
+                .frame(width: PresentationView.Constants.controlsWidth)
+                .onChange(of: selectedControl, perform: { newValue in
+                    if let newValue {
+                        withAnimation(Constants.animation) {
+                            proxy.scrollTo(newValue.id, anchor: .center)
+                        }
+                    }
+                })
+            }
+            .accessibilityHidden(true) // VoiceOver should read elements over the image
+        }
+    }
+
+    private func listItem(
+        _ item: any AccessibilityView,
+        index: Int
+    ) -> some View {
+        Group {
+            switch item.cast {
+            case .container(let container):
+                VStack(alignment: .leading, spacing: 4) {
+                    controlText(container)
+                    ForEach(container.elements, id: \.label) { element in
+                        controlText(element)
+                            .id(element.id)
+                            .padding(.leading, 16)
+                            .overlay(alignment: .leadingFirstTextBaseline) {
+                                if let index = document.flatControls.firstIndex(of: element) {
+                                    listButton(
+                                        element,
+                                        index: index
+                                    )
+                                }
+                            }
+                    }
+                }
+            case .element(let element):
+                controlText(element)
+                    .id(element.id)
+                    .overlay(alignment: .leading) {
+                        if let index = document.flatControls.firstIndex(of: element) {
+                            listButton(element, index: index)
+                        }
+                    }.onTapGesture {
+                        select(element)
+                    }
             }
         }
     }
@@ -272,7 +307,6 @@ public struct PresentationView: View {
                 } label: {
                     Image(systemName: "arrow.right")
                 }
-                .keyboardShortcut(.rightArrow, modifiers: [])
                 .buttonStyle(.borderless)
             }
             if
@@ -286,7 +320,6 @@ public struct PresentationView: View {
                 } label: {
                     Image(systemName: "arrow.left")
                 }
-                .keyboardShortcut(.leftArrow, modifiers: [])
                 .buttonStyle(.borderless)
             }
         }
@@ -343,16 +376,35 @@ public struct PresentationView: View {
     func select(_ control: any AccessibilityView) {
         guard control is A11yDescription else { return }
         withAnimation(Constants.animation) {
-            selectedControl = control
+            selectedControl = control.cast
         }
     }
 
     func isControlSelected(_ control: any AccessibilityView) -> Bool {
-        control.cast == selectedControl?.cast
+        control.cast == selectedControl
     }
 
     func isControlHovered(_ control: any AccessibilityView) -> Bool {
         control.cast == hoveredControl?.cast
+    }
+}
+
+extension View {
+    /// Adds an underlying hidden button with a performing action that is triggered on pressed shortcut
+    /// - Parameters:
+    ///   - key: Key equivalents consist of a letter, punctuation, or function key that can be combined with an optional set of modifier keys to specify a keyboard shortcut.
+    ///   - modifiers: A set of key modifiers that you can add to a gesture.
+    ///   - perform: Action to perform when the shortcut is pressed
+    public func onKeyboardShortcut(key: KeyEquivalent, modifiers: EventModifiers = .command, perform: @escaping () -> ()) -> some View {
+        ZStack {
+            Button("") {
+                perform()
+            }
+            .opacity(0)
+            .keyboardShortcut(key, modifiers: modifiers)
+
+            self
+        }
     }
 }
 
@@ -389,7 +441,7 @@ extension PresentationView {
 }
 
 
-let samplesURL = URL(fileURLWithPath: "/Users/mikhail/Developer/VoiceOverSamples")
+let samplesURL = URL(fileURLWithPath: "/Users/agpone/Developer/VoiceOverSamples")
 #Preview {
     Group {
         PresentationView.make(sampleRelativePath: "Ru/OneTwoTrip/Главная страница")
