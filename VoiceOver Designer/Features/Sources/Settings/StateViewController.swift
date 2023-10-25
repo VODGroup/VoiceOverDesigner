@@ -24,6 +24,11 @@ where State: StateProtocol {
         addController(for: state)
     }
     
+    
+    open override func loadView() {
+        view = NSView()
+    }
+    
     // MARK: State
     
     open var state: State = .default {
@@ -48,14 +53,11 @@ where State: StateProtocol {
         addChild(newController)
         view.addSubview(newController.view)
         view.pinToBounds(newController.view)
-//        newController.didMove(toParent: self)
-        
         currentController = newController
     }
     
     private func removeCurrentIfExists() {
         if let currentController = currentController {
-//            currentController.willMove(toParent: nil)
             currentController.view.removeFromSuperview()
             currentController.removeFromParent()
         }
