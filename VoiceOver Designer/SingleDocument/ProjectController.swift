@@ -91,6 +91,10 @@ class ProjectController: NSSplitViewController {
         
         canvas.presenter.stopObserving()
     }
+
+    override func cancelOperation(_ sender: Any?) {
+        canvas.presenter.cancelOperation()
+    }
 }
 
 // MARK: Settings visibility

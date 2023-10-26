@@ -75,7 +75,7 @@ extension WindowManager: RecentDelegate {
         // TODO: Check that this document is not opened in another tab
         
         let state = ProjectStateController(document: document, router: self)
-        let newWindow: NSWindow = NSWindow(contentViewController: state)
+        let newWindow: NSWindow = WindowWithCancel(contentViewController: state)
         newWindow.title = document.displayName
         newWindow.toolbar = state.toolbar()
         
@@ -83,8 +83,7 @@ extension WindowManager: RecentDelegate {
         
         let windowController = NSWindowController(window: newWindow)
         document.addWindowController(windowController)
-        
-        
+
         addTabOrCreateWindow(with: newWindow)
     }
     
@@ -100,7 +99,7 @@ extension WindowManager: RecentDelegate {
 }
 
 extension WindowManager: ProjectRouterDelegate {
-    
+
     func showRecent() {
         if let recentWindowTab = NSApplication.shared.keyWindow?.tabGroup?.windows.first(where: { window in
             window.contentViewController is DocumentsTabViewController
@@ -111,5 +110,14 @@ extension WindowManager: ProjectRouterDelegate {
             // Add tab
             addTabOrCreateWindow(with: makeRecentWindow())
         }
+    }
+}
+
+private final class WindowWithCancel: NSWindow {
+
+    // Should be cancelOperation, but macos has a bug. cancelOperation(sender:) doesn't work, this does.
+    // https://stackoverflow.com/a/42440020
+    @objc func cancel(_ sender: Any?) {
+        contentViewController?.cancelOperation(sender)
     }
 }

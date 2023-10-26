@@ -42,9 +42,7 @@ public protocol DrawingView: View {
     var alignmentOverlay: AlignmentOverlayProtocol { get }
     
     var copyListener: CopyModifierAction { get set }
-    
-    var escListener: EscModifierAction { get }
-    
+
     var hud: HUDLayer { get }
 }
 
