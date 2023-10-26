@@ -10,8 +10,6 @@ import Document
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     
-    // Creating document controller here make set it to NSDocumentController.shared automatically
-    private let documentController = VODocumentController() // Called by the iOS, we had to just keep reference
     private var windowManager = WindowManager.shared
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {

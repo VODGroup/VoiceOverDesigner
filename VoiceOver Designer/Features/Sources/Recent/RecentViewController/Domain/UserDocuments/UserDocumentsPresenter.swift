@@ -4,7 +4,10 @@ import AppKit
 
 class UserDocumentsPresenter: DocumentBrowserPresenterProtocol {
     let fileManager = FileManager.default
-    public weak var documentController: NSDocumentController? = VODocumentController.shared
+    
+    private var documentController: NSDocumentController {
+        NSDocumentController.shared
+    }
     
     public init() {}
     
@@ -16,9 +19,8 @@ class UserDocumentsPresenter: DocumentBrowserPresenterProtocol {
     }
     
     private var recentItems: [URL] {
-        documentController?.recentDocumentURLs ?? []
+        documentController.recentDocumentURLs ?? []
     }
-    
     
     private let metadataProvider = MetadataProvider(containerIdentifier: containerId,
                                                     fileExtension: vodesign)
@@ -95,7 +97,7 @@ class UserDocumentsPresenter: DocumentBrowserPresenterProtocol {
     
     func duplicate(_ documentURL: URL) {
         do {
-            try documentController?.duplicateDocument(withContentsOf: documentURL, copying: true, displayName: documentURL.fileName)
+            try documentController.duplicateDocument(withContentsOf: documentURL, copying: true, displayName: documentURL.fileName)
         } catch {
             Swift.print(error)
         }
