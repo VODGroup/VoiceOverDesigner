@@ -18,8 +18,8 @@ enum ProjectWindowState: StateProtocol {
     static var `default`: ProjectWindowState = .editor
 }
 
-class ProjectStateController: StateViewController<ProjectWindowState> {
-    
+final class ProjectStateController: StateViewController<ProjectWindowState> {
+
     let document: VODesignDocument
     private(set) weak var router: ProjectRouterDelegate?
     
@@ -31,7 +31,7 @@ class ProjectStateController: StateViewController<ProjectWindowState> {
          router: ProjectRouterDelegate) {
         self.document = document
         self.router = router
-        
+
         super.init(nibName: nil, bundle: nil)
         
         self.stateFactory = { [weak self] state in
@@ -55,19 +55,14 @@ class ProjectStateController: StateViewController<ProjectWindowState> {
                 return hostingController // Should be invalidated on every launch to redraw
             }
         }
-        
-        // Should be handled by cancelOperation, but the function not calling https://stackoverflow.com/a/7777469/3300148
-        keyListener = NSEvent.addLocalMonitorForEvents(matching: [.keyDown], handler: { [weak self] event in
-            let escapeKeyCode: UInt16 = 53
-            if event.keyCode == escapeKeyCode {
-                if self?.state == .presentation {
-                    self?.stopPresentation()
-                }
-            }
-            return event
-        })
     }
-    
+
+    override func cancelOperation(_ sender: Any?) {
+        if state == .presentation {
+            stopPresentation()
+        }
+    }
+
     var keyListener: Any?
     
     required init?(coder: NSCoder) {
