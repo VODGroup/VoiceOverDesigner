@@ -106,8 +106,8 @@ public struct PresentationView: View {
 
     @ViewBuilder
     private var backgroundImage: some View {
-        if let image = document.image {
-            Image(uiImage: image)
+        if let image = document.imageView {
+            image
                 .resizable()
                 .frame(
                     width: document.imageSize.width,
@@ -429,7 +429,11 @@ extension Collection {
 
 extension PresentationView {
     init(path: URL) {
+        #if os(macOS)
+        let document = VODesignDocument(file: path)
+        #elseif os(iOS)
         let document = VODesignDocument(fileURL: path)
+        #endif
         let presentation = VODesignDocumentPresentation(document)
         
         self.init(document: presentation)

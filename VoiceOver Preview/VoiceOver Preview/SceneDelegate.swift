@@ -63,8 +63,9 @@ extension SceneDelegate {
         let document = VODesignDocument(fileURL: url)
         let controller = PreviewMainViewController(document: document)
         controller.title = url.lastPathComponent
-        
-        if UIDevice.current.userInterfaceIdiom == .phone {
+
+        let shouldPresent = controller.traitCollection.horizontalSizeClass == .compact
+        if shouldPresent {
             window?.rootViewController?.present(controller, animated: true)
         } else {
             controller.navigationItem.leftBarButtonItem = UIBarButtonItem(

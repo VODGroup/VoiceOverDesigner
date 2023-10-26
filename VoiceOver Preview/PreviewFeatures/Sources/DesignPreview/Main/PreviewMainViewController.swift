@@ -117,8 +117,8 @@ public class PreviewMainViewController: UIViewController {
     }
     
     private func embedCanvas() {
-        let isPhone = UIDevice.current.userInterfaceIdiom == .phone
-        let canvas = if isPhone {
+        let shouldDisplayPreview = traitCollection.horizontalSizeClass == .compact
+        let canvas = if shouldDisplayPreview {
             ScrollViewController.controller(presenter: presenter)
         } else {
             UIHostingController(rootView: PresentationView(
