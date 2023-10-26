@@ -187,6 +187,11 @@ public class CanvasPresenter: DocumentPresenter {
             control.model === model
         }
     }
+
+    // MARK: - View actions
+    public func cancelOperation() {
+        drawingController.cancelOperation()
+    }
 }
 
 // MARK: - Undo

@@ -17,9 +17,7 @@ class ControlsView: FlippedView, DrawingView {
     lazy var alignmentOverlay = AlignmentOverlayFactory().overlay(for: self)
     
     var copyListener = CopyModifierFactory().make()
-    
-    var escListener = EscModifierFactory().make()
-    
+
     var hud = HUDLayer()
     
     override func layout() {
