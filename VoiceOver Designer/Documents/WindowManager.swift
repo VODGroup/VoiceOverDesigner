@@ -116,6 +116,7 @@ extension WindowManager: ProjectRouterDelegate {
 private final class WindowWithCancel: NSWindow {
 
     // Should be cancelOperation, but macos has a bug. cancelOperation(sender:) doesn't work, this does.
+    // https://stackoverflow.com/a/42440020
     @objc func cancel(_ sender: Any?) {
         contentViewController?.cancelOperation(sender)
     }
