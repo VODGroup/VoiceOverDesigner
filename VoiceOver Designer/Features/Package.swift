@@ -71,9 +71,11 @@ let package = Package(
         .target(
             name: "Settings",
             dependencies: [
+                "CommonUI",
                 .product(name: "Document", package: "Shared"),
                 .product(name: "TextRecognition", package: "Shared"),
-                .product(name: "Purchases", package: "Shared")
+                .product(name: "Purchases", package: "Shared"),
+                .product(name: "ElementSettings", package: "Shared")
             ]
         ),
         .target(

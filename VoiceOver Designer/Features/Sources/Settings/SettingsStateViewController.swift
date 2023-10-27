@@ -2,6 +2,9 @@ import Foundation
 import AppKit
 import Document
 import Purchases
+import CommonUI
+import ElementSettings
+import SwiftUI
 
 public enum DetailsState: StateProtocol {
 
@@ -45,15 +48,17 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
                 return scrollViewController
                 
             case .container(let container):
-                let containerSettings = ContainerSettingsViewController.fromStoryboard()
-                containerSettings.presenter = ContainerSettingsPresenter(
-                    container: container,
-                    delegate: self.settingsDelegate)
-                containerSettings.textRecognitionUnlockPresenter = self.textRecognitionUnlockPresenter
+                
+                let containerView = ContainerSettingsEditorView(container: container,
+                                                                delete: { [weak self] in
+                    self?.settingsDelegate.delete(model: container)
+                })
+                
+                let containerViewController = NSHostingController(rootView: containerView)
                 
                 self.recognizeText(for: container)
                 
-                return containerSettings
+                return containerViewController
             }
         }
     }

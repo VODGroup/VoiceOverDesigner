@@ -10,6 +10,7 @@ import Presentation
 import SwiftUI
 import Settings // TODO: Move StateViewController out of settings
 import Document
+import CommonUI
 
 enum ProjectWindowState: StateProtocol {
     case editor
