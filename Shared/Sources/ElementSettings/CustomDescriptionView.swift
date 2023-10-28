@@ -15,11 +15,12 @@ struct CustomDescriptionView: View {
                         value: $customDescription.value)
                 }, label: {
                     label(value: customDescription)
-                }).textFieldStyle(.roundedBorder)
+                })
             }
             .onDelete(perform: { indexSet in
                 selection.descriptions.remove(atOffsets: indexSet)
             })
+            .textFieldStyle(.roundedBorder)
             Button(action: {
                 selection.addNewCustomDescription(.empty)
             }, label: {
@@ -31,9 +32,12 @@ struct CustomDescriptionView: View {
     }
     
     @ViewBuilder
-    private func content(label: Binding<String>, value: Binding<String>) -> some View {
-        TextField("Label", text: label)
-        TextField("Value", text: value)
+    private func content(
+        label: Binding<String>,
+        value: Binding<String>
+    ) -> some View {
+        TextField("Label:", text: label)
+        TextField("Value:", text: value)
     }
     
     private func label(value: A11yCustomDescription) -> some View {

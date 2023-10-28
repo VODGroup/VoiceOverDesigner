@@ -32,7 +32,7 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
             
             switch state {
             case .empty:
-                return EmptyViewController.fromStoryboard()
+                return NSHostingController(rootView: EmptySettingsView())
                 
             case .control(let element):
                 
@@ -136,12 +136,6 @@ extension SettingsStateViewController {
         if let receiver = currentController as? SearchType {
             return receiver
         }
-        
-        if let scrollViewController = currentController as? ScrollViewController,
-           let contentReceiver = scrollViewController.child as? SearchType {
-            return contentReceiver
-        }
-        
         return nil
     }
     
