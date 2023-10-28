@@ -35,7 +35,6 @@ public struct ContainerSettingsEditorView: View {
 
 #if os(macOS)
 public struct ContainerSettingsEditorView: View {
-    @Environment(\.dismiss) var dismiss
     @ObservedObject var container: A11yContainer
     var deleteAction: () -> Void
     
@@ -45,34 +44,44 @@ public struct ContainerSettingsEditorView: View {
     }
     
     public var body: some View {
-        ContainerSettingsView(container: container)
-            .toolbar {
-                // For some reason @Environment doesn't propagate to ToolbarContent
-                EditorToolbar(dismiss: dismiss, delete: delete)
-            }
+        ScrollView {
+            ContainerSettingsView(container: container)
+                .padding()
+        }
     }
     
     private func delete() {
         deleteAction()
-        dismiss()
     }
 }
 #endif
 
-public struct ContainerSettingsView: View {
+struct ContainerSettingsView: View {
     
     @ObservedObject var container: A11yContainer
 
     
-    public init(container: A11yContainer) {
+    init(container: A11yContainer) {
         self.container = container
     }
     
-    public var body: some View {
+    var body: some View {
         Form {
             Text(container.label)
                 .font(.largeTitle)
+            
+            #if os(iOS)
             TextValue(title: "Label", value: $container.label)
+            #endif
+            
+            #if os(macOS)
+            
+            // TODO: Add label to form (probably LabeledContent, but it's only from macOS 13)
+            TextRecognitionComboBoxView(text: $container.label)
+            
+            #endif
+            
+            
             containerTypePicker
             navigationStylePicker
             optionsView

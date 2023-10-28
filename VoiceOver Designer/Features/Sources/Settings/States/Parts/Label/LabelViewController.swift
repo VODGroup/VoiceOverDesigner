@@ -17,9 +17,9 @@ class LabelViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if !textRecognitionUnlockPresenter.isUnlocked() {
+//        if !textRecognitionUnlockPresenter.isUnlocked() {
             embedTextRecognitionOffer()
-        }
+//        }
     }
     
     private weak var purchaseController: NSViewController?

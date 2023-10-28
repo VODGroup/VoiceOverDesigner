@@ -1,4 +1,6 @@
 import AppKit
+import SwiftUI
+import ElementSettings
 
 class TextRecognitionComboBox: NSComboBox {
    
@@ -20,3 +22,4 @@ class TextRecognitionComboBox: NSComboBox {
         isEditable = true
     }
 }
+

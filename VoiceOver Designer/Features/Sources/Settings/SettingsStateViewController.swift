@@ -19,6 +19,7 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
     
     public weak var settingsDelegate: SettingsDelegate!
     public var textRecognitionCoordinator: TextRecognitionCoordinator!
+    
     lazy var textRecognitionUnlockPresenter = UnlockPresenter(
         productId: .textRecognition,
         unlockerDelegate: self)
@@ -54,7 +55,7 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
                     self?.settingsDelegate.delete(model: container)
                 })
                 
-                let containerViewController = NSHostingController(rootView: containerView)
+                let containerViewController = HostingReceiverController { containerView }
                 
                 self.recognizeText(for: container)
                 
@@ -162,5 +163,25 @@ extension SettingsStateViewController {
         }
         
         return false
+    }
+}
+
+
+final class HostingReceiverController<Content: View>: NSHostingController<AnyView>, TextRecogitionReceiver {
+    
+    let content: Content
+    
+    init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+        super.init(rootView: AnyView(content()))
+    }
+    
+    @available(*, unavailable)
+    @MainActor required dynamic init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func presentTextRecognition(_ alternatives: [String]) {
+        rootView = AnyView(content.textRecognitionResults(alternatives))
     }
 }
