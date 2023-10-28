@@ -30,7 +30,14 @@ struct TextValue: View {
     
     public var body: some View {
         Section(content: {
+            #if os(iOS)
             TextField(title, text: $value)
+            #endif
+            
+            #if os(macOS)
+            TextRecognitionComboBoxView(text: $value)
+            #endif
+            
         }, header: {
             SectionTitle(title)
         })

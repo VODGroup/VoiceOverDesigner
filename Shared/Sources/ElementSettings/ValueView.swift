@@ -22,21 +22,31 @@ struct ValueView: View {
                 Spacer()
                 Toggle("Is Adjustable", isOn: $traits.bind(.adjustable))
                     .fixedSize()
-                
             }  
         })
     }
     
     
+    @ViewBuilder
     func defaultView(value: Binding<String>) -> some View {
+        #if os(iOS)
         TextField("Value", text: value)
-            
+        #endif
+        #if os(macOS)
+        TextRecognitionComboBoxView(text: value)
+        #endif
     }
     
     @ViewBuilder
     func adjustableView(options: Binding<AdjustableOptions>) -> some View {
         ForEach(options.wrappedValue.options.indices, id: \.self) { index in
-            TextField("", text: options.options[index])
+            
+            #if os(iOS)
+            TextField("\(index)", text: options.options[index])
+            #endif
+            #if os(macOS)
+            TextRecognitionComboBoxView(text: options.options[index])
+            #endif
         }
         .onDelete(perform: { indexSet in
             options.wrappedValue.options.remove(atOffsets: indexSet)

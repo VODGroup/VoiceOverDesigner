@@ -38,7 +38,7 @@ struct CustomDescriptionView: View {
     
     private func label(value: A11yCustomDescription) -> some View {
         HStack {
-            let index = selection.descriptions.firstIndex(of: value)
+            let index = selection.descriptions.firstIndex(of: value).flatMap { $0 + 1 }
             Text("Description \(index ?? 0)")
             Spacer()
             Button(action: {

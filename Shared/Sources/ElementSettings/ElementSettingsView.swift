@@ -36,7 +36,6 @@ public struct ElementSettingsEditorView: View {
 
 #if os(macOS)
 public struct ElementSettingsEditorView: View {
-    @Environment(\.dismiss) var dismiss
     @ObservedObject var element: A11yDescription
     var deleteAction: () -> Void
     
@@ -50,15 +49,10 @@ public struct ElementSettingsEditorView: View {
             ElementSettingsView(element: element)
                 .padding()
         }
-        .navigationTitle(Text("Element"))
-        .toolbar {
-            EditorToolbar(dismiss: dismiss, delete: delete)
-        }
     }
     
     private func delete() {
         deleteAction()
-        dismiss()
     }
     
 
@@ -77,13 +71,24 @@ public struct ElementSettingsView: View {
         Form {
             Text(element.voiceOverTextAttributed(font: .preferredFont(forTextStyle: .largeTitle)))
             
-            TextValue(title: "Label", value: $element.label)
-            ValueView(value: $element.value, adjustableOptions: $element.adjustableOptions, traits: $element.trait)
+            TextValue(
+                title: "Label",
+                value: $element.label
+            )
+            ValueView(
+                value: $element.value,
+                adjustableOptions: $element.adjustableOptions,
+                traits: $element.trait
+            )
             TraitsView(selection: $element.trait)
             
             CustomActionsView(selection: $element.customActions)
             CustomDescriptionView(selection: $element.customDescriptions)
-            TextValue(title: "Hint", value: $element.hint)
+            Section(content: {
+                TextField("Hint", text: $element.hint)
+            }, header: {
+                SectionTitle("Hint")
+            })
             Toggle("Is accessible?", isOn: $element.isAccessibilityElement)
             
         }

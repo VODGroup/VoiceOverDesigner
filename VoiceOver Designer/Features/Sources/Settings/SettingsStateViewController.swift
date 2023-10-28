@@ -35,19 +35,16 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
                 return EmptyViewController.fromStoryboard()
                 
             case .control(let element):
-                let elementSettings = ElementSettingsViewController.fromStoryboard()
-                elementSettings.presenter = ElementSettingsPresenter(
-                    element: element,
-                    delegate: self.settingsDelegate)
-                elementSettings.textRecognitionUnlockPresenter = self.textRecognitionUnlockPresenter
                 
+                
+                let containerView = ElementSettingsEditorView(element: element,
+                                                                delete: { [weak self] in
+                    self?.settingsDelegate.delete(model: element)
+                })
+                
+                let containerViewController = HostingReceiverController { containerView }
                 self.recognizeText(for: element)
-                
-                let scrollViewController = ScrollViewController.fromStoryboard()
-                scrollViewController.embed(elementSettings)
-                
-                return scrollViewController
-                
+                return containerViewController
             case .container(let container):
                 
                 let containerView = ContainerSettingsEditorView(container: container,
@@ -101,7 +98,7 @@ import TextRecognition
 extension SettingsStateViewController {
     
     func recognizeText(for model: any AccessibilityView) {
-        guard textRecognitionUnlockPresenter.isUnlocked() else { return }
+//        guard textRecognitionUnlockPresenter.isUnlocked() else { return }
         
         Task {
             guard let result = try? await textRecognitionCoordinator.recongizeText(for: model) 

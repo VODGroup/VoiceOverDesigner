@@ -42,10 +42,8 @@ struct TraitsView: View {
             } else {
                 FlowView(elements: elements) { trait in
                     Toggle(trait.name, isOn: $selection.bind(trait.trait))
-                    
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                
             }
         }
         .padding(.vertical)
