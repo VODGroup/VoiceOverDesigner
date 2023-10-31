@@ -70,7 +70,7 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
             artboard.imageLoader = ImageLoader(documentPath: { [weak self] in self?.fileURL
             })
             
-            try! performDocumentMigration(from: version)
+            try performDocumentMigration(from: version)
             
         } catch let error {
             Swift.print(error)

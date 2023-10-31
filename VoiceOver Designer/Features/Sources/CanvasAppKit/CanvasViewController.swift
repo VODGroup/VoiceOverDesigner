@@ -40,8 +40,10 @@ public class CanvasViewController: NSViewController {
                           previewSource: view())
         
         addMouseTracking()
-        addMenuItem()
         view().isEmpty = presenter.document.artboard.isEmpty
+        
+        // TODO: Don't fit properly
+        view().fitToWindow(animated: false)
     }
     
     public override func viewDidAppear() {
@@ -95,17 +97,6 @@ public class CanvasViewController: NSViewController {
         cancellables.forEach { cancellable in
             cancellable.cancel()
         }
-    }
-    
-    // TODO: try to extract?
-    func addMenuItem() {
-        guard let menu = NSApplication.shared.menu, menu.item(withTitle: "Canvas") == nil else { return }
-        let canvasMenuItem = NSMenuItem(title: "Canvas", action: nil, keyEquivalent: "")
-        let canvasSubMenu = NSMenu(title: "Canvas")
-        let addImageItem = NSMenuItem(title: "Add image", action: #selector(addImageButtonTapped), keyEquivalent: "")
-        canvasSubMenu.addItem(addImageItem)
-        canvasMenuItem.submenu = canvasSubMenu
-        menu.addItem(canvasMenuItem)
     }
     
     public override var representedObject: Any? {
