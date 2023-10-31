@@ -7,6 +7,7 @@ public enum ArtboardType: String, Codable {
 }
 
 public protocol ArtboardElement: AnyObject, Equatable {
+    var id: UUID { get }
     var label: String { get set }
     var frame: CGRect { get set }
     

@@ -1,7 +1,7 @@
 import Foundation
 @_exported import Artboard
 
-public enum ArtboardElementCast {
+public enum ArtboardElementCast: Equatable {
     case element(_ element: A11yDescription)
     case container(_ container: A11yContainer)
     case frame(_ frame: Frame)

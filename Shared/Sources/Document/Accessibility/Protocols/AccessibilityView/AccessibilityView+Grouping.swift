@@ -25,7 +25,6 @@ extension Array where Element == any ArtboardElement {
         }
 
         let container = Container(
-            id: .init(),
             elements: extractedElements.reversed(),
             frame: extractedElements
                 .map(\.frame)

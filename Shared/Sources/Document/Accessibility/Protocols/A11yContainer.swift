@@ -59,7 +59,7 @@ public class A11yContainer: Codable, ObservableObject {
     @DecodableDefault.RandomUUID
     public var id: UUID
 
-    public var elements: [A11yDescription]
+    public var controls: [A11yDescription]
     public var frame: CGRect
     
     public var label: String {
@@ -97,7 +97,9 @@ public class A11yContainer: Codable, ObservableObject {
         A11yContainer(
             id: UUID(),
             elements: model.elements.map({ element in
-                A11yDescription.copy(from: element)
+                // TODO: Restore
+                // A11yDescription.copy(from: element)
+                fatalError()
             }),
             frame: model.frame,
             label: model.label,

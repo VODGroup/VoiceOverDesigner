@@ -50,12 +50,19 @@ public struct FrameSettingsView: View {
     }
 }
 
+enum ImageError: Error {
+    case noImageAtPath
+}
 
 extension Frame {
     func applyFileImporter(result: Result<URL, Error>) throws {
         switch result {
         case .success(let url):
-            imageLocation = .tmp(name: url.lastPathComponent, data: try Data(contentsOf: url))
+            guard let image = NSImage(path: url) else {
+                throw ImageError.noImageAtPath
+            }
+            
+            imageLocation = .cache(image: image)
         case .failure(let failure):
             throw failure
         }

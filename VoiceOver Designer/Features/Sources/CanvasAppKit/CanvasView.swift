@@ -11,22 +11,6 @@ import CommonUI
 import Document
 import Canvas
 
-class ControlsView: FlippedView, DrawingView {
-    var drawnControls: [A11yControlLayer] = []
-    
-    lazy var alignmentOverlay = AlignmentOverlayFactory().overlay(for: self)
-    
-    var copyListener = CopyModifierFactory().make()
-
-    var hud = HUDLayer()
-    
-    override func layout() {
-        super.layout()
-        
-        hud.frame = bounds
-    }
-}
-
 class CanvasView: FlippedView {
     
     @IBOutlet weak var scrollView: CanvasScrollView!
@@ -34,7 +18,6 @@ class CanvasView: FlippedView {
     @IBOutlet weak var clipView: NSClipView!
     
     @IBOutlet weak var contentView: ContentView!
-    @IBOutlet weak var controlsView: ControlsView!
    
     @IBOutlet weak var dragnDropView: DragNDropImageView!
     

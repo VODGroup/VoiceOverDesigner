@@ -20,8 +20,8 @@ public struct PresentationView: View {
 
     @State var document: VODesignDocumentPresentation
 
-    @State var selectedControl: AccessibilityViewCast?
-    @State var hoveredControl: (any AccessibilityView)?
+    @State var selectedControl: (any ArtboardElement)?
+    @State var hoveredControl: (any ArtboardElement)?
 
     let scrollViewSize = CGSize(width: 600, height: 900)
 
@@ -53,26 +53,27 @@ public struct PresentationView: View {
                 }
                 list
             }
-            .onKeyboardShortcut(key: .leftArrow, modifiers: []) {
-                if
-                    let selected = selectedControl?.element,
-                    let index = document.flatControls.firstIndex(of: selected)
-                {
-                    if let prev = document.flatControls[safe: index - 1] {
-                        select(prev)
-                    }
-                }
-            }
-            .onKeyboardShortcut(key: .rightArrow, modifiers: []) {
-                if
-                    let selected = selectedControl?.element,
-                    let index = document.flatControls.firstIndex(of: selected)
-                {
-                    if let next = document.flatControls[safe: index + 1] {
-                        select(next)
-                    }
-                }
-            }
+            // TODO: Restore
+//            .onKeyboardShortcut(key: .leftArrow, modifiers: []) {
+//                if
+//                    let selected = selectedControl?.element,
+//                    let index = document.flatControls.firstIndex(of: selected)
+//                {
+//                    if let prev = document.flatControls[safe: index - 1] {
+//                        select(prev)
+//                    }
+//                }
+//            }
+//            .onKeyboardShortcut(key: .rightArrow, modifiers: []) {
+//                if
+//                    let selected = selectedControl?.element,
+//                    let index = document.flatControls.firstIndex(of: selected)
+//                {
+//                    if let next = document.flatControls[safe: index + 1] {
+//                        select(next)
+//                    }
+//                }
+//            }
         }
         .frame(
             minWidth: scrollViewSize.width +
@@ -84,7 +85,7 @@ public struct PresentationView: View {
 
     public init(document: VODesignDocumentPresentation) {
         _document = .init(initialValue: document)
-        _selectedControl = .init(initialValue: document.flatControls.first?.cast)
+        _selectedControl = .init(initialValue: document.flatControls.first)
     }
 
     @ViewBuilder
@@ -129,6 +130,9 @@ public struct PresentationView: View {
                         controlContainer(container)
                     case .element(let element):
                         controlElement(element)
+                    case .frame(let frame):
+                        // TODO: Add frame
+                        fatalError()
                 }
             }
         }
@@ -139,9 +143,10 @@ public struct PresentationView: View {
             controlRectangle(container)
                 .zIndex(-1)
                 .accessibilityLabel(container.label)
-            ForEach(container.elements, id: \.id) {
-                controlElement($0)
-            }
+            // TODO: Restore
+//            ForEach(container.elements, id: \.id) {
+//                controlElement($0)
+//            }
         }
         // TODO: accessibility modifiers
     }
@@ -158,7 +163,7 @@ public struct PresentationView: View {
     }
 
     @ViewBuilder
-    private func controlRectangle(_ control: any AccessibilityView) -> some View {
+    private func controlRectangle(_ control: any ArtboardElement) -> some View {
         RoundedRectangle(cornerRadius: 6, style: .continuous)
             .foregroundStyle(
                 { () -> SwiftUI.Color in
@@ -217,20 +222,21 @@ public struct PresentationView: View {
                 // Frame's width should be fixed. Otherwise hover effect brakes for long text
                 // For long text list's width recalculates and hover lose y coordinate
                 .frame(width: PresentationView.Constants.controlsWidth)
-                .onChange(of: selectedControl, perform: { newValue in
-                    if let newValue {
-                        withAnimation(Constants.animation) {
-                            proxy.scrollTo(newValue.id, anchor: .center)
-                        }
-                    }
-                })
+                // TODO: Restore
+//                .onChange(of: selectedControl, perform: { newValue in
+//                    if let newValue {
+//                        withAnimation(Constants.animation) {
+//                            proxy.scrollTo(newValue.id, anchor: .center)
+//                        }
+//                    }
+//                })
             }
             .accessibilityHidden(true) // VoiceOver should read elements over the image
         }
     }
 
     private func listItem(
-        _ item: any AccessibilityView,
+        _ item: any ArtboardElement,
         index: Int
     ) -> some View {
         Group {
@@ -242,14 +248,15 @@ public struct PresentationView: View {
                         controlText(element)
                             .id(element.id)
                             .padding(.leading, 16)
-                            .overlay(alignment: .leadingFirstTextBaseline) {
-                                if let index = document.flatControls.firstIndex(of: element) {
-                                    listButton(
-                                        element,
-                                        index: index
-                                    )
-                                }
-                            }
+                            // TODO: Restore
+//                            .overlay(alignment: .leadingFirstTextBaseline) {
+//                                if let index = document.flatControls.firstIndex(of: element) {
+//                                    listButton(
+//                                        element,
+//                                        index: index
+//                                    )
+//                                }
+//                            }
                     }
                 }
             case .element(let element):
@@ -262,6 +269,9 @@ public struct PresentationView: View {
                     }.onTapGesture {
                         select(element)
                     }
+                
+            case .frame(let frame):
+                fatalError()
             }
         }
     }
@@ -327,7 +337,7 @@ public struct PresentationView: View {
     }
 
     @ViewBuilder
-    private func controlText(_ control: any AccessibilityView) -> some View {
+    private func controlText(_ control: any ArtboardElement) -> some View {
         Group {
             switch control.cast {
                 case .container(let container):
@@ -356,11 +366,14 @@ public struct PresentationView: View {
                         .vertical,
                         isControlSelected(control) ? Constants.selectedControlPadding : 0
                     )
+                case .frame(let frame):
+                    // TODO: Restore
+                    fatalError()
             }
         }
     }
     
-    private func font(for control: any AccessibilityView) -> NSFont {
+    private func font(for control: any ArtboardElement) -> NSFont {
         let isSelected = isControlSelected(control)
         
         return .preferredFont(forTextStyle: isSelected ? .headline : .footnote)
@@ -373,18 +386,18 @@ public struct PresentationView: View {
         return Font.system(size: isSelected ? 40 : 20)
     }
 
-    func select(_ control: any AccessibilityView) {
+    func select(_ control: any ArtboardElement) {
         guard control is A11yDescription else { return }
         withAnimation(Constants.animation) {
-            selectedControl = control.cast
+            selectedControl = control
         }
     }
 
-    func isControlSelected(_ control: any AccessibilityView) -> Bool {
-        control.cast == selectedControl
+    func isControlSelected(_ control: any ArtboardElement) -> Bool {
+        control.cast == selectedControl?.cast
     }
 
-    func isControlHovered(_ control: any AccessibilityView) -> Bool {
+    func isControlHovered(_ control: any ArtboardElement) -> Bool {
         control.cast == hoveredControl?.cast
     }
 }
