@@ -12,11 +12,9 @@ public class DrawingController {
         case crosshair
         case copy
     }
-
     
     public init(view: DrawingView) {
         self.view = view
-        view.escListener.setDelegate(self)
         
 #if os(macOS)
         view.wantsLayer = true
@@ -204,10 +202,8 @@ public class DrawingController {
         
         return action?.end(at: coordinate)
     }
-}
 
-extension DrawingController: EscModifierActionDelegate {
-    public func didPressed() {
+    public func cancelOperation() {
         action?.cancel()
         action = nil
     }

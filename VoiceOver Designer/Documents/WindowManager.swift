@@ -1,6 +1,7 @@
 import Recent
 import AppKit
 import Document
+import SwiftUI
 
 class WindowManager: NSObject {
     
@@ -8,19 +9,43 @@ class WindowManager: NSObject {
     
     let documentsPresenter = DocumentPresenterFactory().presenter()
     
-    lazy var recentWindowController: RecentWindowController = {
-        RecentWindowController.fromStoryboard(delegate: self, presenter: documentsPresenter)
+    func makeRecentWindow() -> NSWindow {
+        let controller = DocumentsTabViewController(router: rootWindowController)
+        let window = NSWindow(contentViewController: controller)
+        
+        window.toolbar = controller.toolbar()
+        
+        prepare(window)
+        
+        window.minSize = CGSize(width: 800, height: 700) // Two rows, 5 columns
+        window.isRestorable = false
+        window.titlebarAppearsTransparent = false
+        
+        rootWindowController.window = window
+
+        return window
+    }
+    
+    lazy var rootWindowController: RecentWindowController = {
+        let windowController = RecentWindowController()
+        windowController.delegate = self
+        windowController.presenter = documentsPresenter
+        
+        return windowController
     }()
     
     private var newDocumentIsCreated = false
-    
+    private var projectController: ProjectController?
+
     func start() {
+        print("Start")
+        
         if newDocumentIsCreated {
             // Document has been created from [NSDocumentController openUntitledDocumentAndDisplay:error:]
             return
         }
         if documentsPresenter.shouldShowThisController {
-            showDocumentSelector()
+            self.showRecent()
         } else {
             // TODO: Do we need it or document will open automatically?
             showNewDocument()
@@ -30,43 +55,69 @@ class WindowManager: NSObject {
     private func showNewDocument() {
         createNewDocumentWindow(document: VODesignDocument())
     }
-     
-    private func showDocumentSelector() {
-        recentWindowController.embedProjectsViewControllerInWindow()
-        recentWindowController.window?.makeKeyAndOrderFront(self)
-    }
     
-    private func hideDocumentSelector() {
-        recentWindowController.window?.close()
+    func prepare(_ window: NSWindow) {
+        window.tabbingMode = .preferred
+        window.tabbingIdentifier = "TabbingId"
+        window.setFrameAutosaveName("Projects")
+        window.styleMask = [.closable, .miniaturizable, .resizable, .titled, .fullSizeContentView]
     }
 }
 
 extension WindowManager: RecentDelegate {
+    
     func createNewDocumentWindow(
         document: VODesignDocument
     ) {
-        print("will open \(document.fileURL?.absoluteString ?? "Unkonwn fileURL")")
+        print("will open \(document.fileURL?.absoluteString ?? "Unknown fileURL")")
         newDocumentIsCreated = true
         
-        let split = ProjectController(document: document, router: self)
+        // TODO: Check that this document is not opened in another tab
         
-        let window = recentWindowController.window!
-        recentWindowController.setupToolbarAppearance(title: document.displayName,
-                                                      toolbar: split.toolbar)
-        window.contentViewController = split
+        let state = ProjectStateController(document: document, router: self)
+        let newWindow: NSWindow = WindowWithCancel(contentViewController: state)
+        newWindow.title = document.displayName
+        newWindow.toolbar = state.toolbar()
         
-        document.addWindowController(recentWindowController)
-        window.makeKeyAndOrderFront(self)
+        prepare(newWindow)
+        
+        let windowController = NSWindowController(window: newWindow)
+        document.addWindowController(windowController)
+
+        addTabOrCreateWindow(with: newWindow)
+    }
+    
+    func addTabOrCreateWindow(with window: NSWindow) {
+        let application = NSApplication.shared
+        if let keyWindow = application.keyWindow {
+            keyWindow.tabGroup?.addWindow(window)
+            keyWindow.tabGroup?.selectedWindow = window
+        } else {
+            window.makeKeyAndOrderFront(self)
+        }
     }
 }
 
 extension WindowManager: ProjectRouterDelegate {
-    func closeProject(document: NSDocument) {
-        document.removeWindowController(recentWindowController)
-        
-        document.save(self)
-        document.close()
-        
-        recentWindowController.embedProjectsViewControllerInWindow()
+
+    func showRecent() {
+        if let recentWindowTab = NSApplication.shared.keyWindow?.tabGroup?.windows.first(where: { window in
+            window.contentViewController is DocumentsTabViewController
+        }) {
+            // Already in tabs
+            recentWindowTab.makeKeyAndOrderFront(self)
+        } else {
+            // Add tab
+            addTabOrCreateWindow(with: makeRecentWindow())
+        }
+    }
+}
+
+private final class WindowWithCancel: NSWindow {
+
+    // Should be cancelOperation, but macos has a bug. cancelOperation(sender:) doesn't work, this does.
+    // https://stackoverflow.com/a/42440020
+    @objc func cancel(_ sender: Any?) {
+        contentViewController?.cancelOperation(sender)
     }
 }

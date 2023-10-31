@@ -24,7 +24,8 @@ public class A11yContainer: Codable, ObservableObject {
     }
     
     public init(
-        elements: [A11yDescription],
+        id: UUID = UUID(),
+        elements: [any ArtboardElement],
         frame: CGRect,
         label: String,
         isModal: Bool = false,
@@ -33,11 +34,12 @@ public class A11yContainer: Codable, ObservableObject {
         containerType: ContainerType = .semanticGroup,
         navigationStyle: NavigationStyle = .automatic
     ) {
-        self.controls = elements
+        self.controls = elements as! [A11yDescription] // TODO: It's fragile
         self.frame = frame
         self.label = label
         self.containerType = containerType
         self.navigationStyle = navigationStyle
+        self.id = id
         
         self.isModal = isModal
         self.isTabTrait = isTabTrait
@@ -47,14 +49,16 @@ public class A11yContainer: Codable, ObservableObject {
             control.parent = self
         }
     }
-    
-    
+
     public static func ==(lhs: A11yContainer, rhs: A11yContainer) -> Bool {
         lhs.frame == rhs.frame
         && lhs.controls == rhs.controls
         && lhs.label == rhs.label
     }
-    
+
+    @DecodableDefault.RandomUUID
+    public var id: UUID
+
     public var controls: [A11yDescription]
     public var frame: CGRect
     
@@ -87,21 +91,6 @@ public class A11yContainer: Codable, ObservableObject {
     @DecodableDefault.NavigationStyle
     public var navigationStyle: NavigationStyle {
         willSet { objectWillChange.send() }
-    }
-    
-    public static func copy(from model: A11yContainer) -> A11yContainer {
-        A11yContainer(
-            elements: model.controls.map({ element in
-                A11yDescription.copy(from: element)
-            }),
-            frame: model.frame,
-            label: model.label,
-            isModal: model.isModal,
-            isTabTrait: model.isTabTrait,
-            isEnumerated: model.isEnumerated,
-            containerType: model.containerType,
-            navigationStyle: model.navigationStyle
-        )
     }
     
     public enum ContainerType: String, Codable, CaseIterable, Identifiable {
@@ -185,25 +174,5 @@ extension A11yContainer {
      */
     public func flattenWithElements() -> [any ArtboardElement] {
         [self] + controls
-    }
-}
-
-extension ArtboardElement {
-    public func copy() -> any ArtboardElement {
-        switch self.cast {
-        case .frame(let frame):
-            // TODO: Implement copying
-            fatalError()
-        case .container(let container):
-            return A11yContainer.copy(from: container)
-        case .element(let element):
-            return A11yDescription.copy(from: element)
-        }
-    }
-    
-    public func copyWithoutLabel() -> any ArtboardElement {
-        let copy = self.copy()
-        copy.label = ""
-        return copy
     }
 }

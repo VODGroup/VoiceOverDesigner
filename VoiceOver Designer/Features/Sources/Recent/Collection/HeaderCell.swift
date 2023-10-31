@@ -35,7 +35,7 @@ final class HeaderCell: NSView, NSCollectionViewSectionHeaderView {
     }
 
     required init?(coder: NSCoder) {
-        fatalError()
+        fatalError("init(coder:) has not been implemented")
     }
     
     static let id = NSUserInterfaceItemIdentifier(rawValue: "sectionHeader")

@@ -20,7 +20,7 @@ public class CanvasPresenter: DocumentPresenter {
     public weak var uiContent: DrawingView!
     public weak var uiScroll: CanvasScrollViewProtocol!
     var drawingController: DrawingController!
-    
+
     public func didLoad(
         uiContent: DrawingView,
         uiScroll: CanvasScrollViewProtocol,
@@ -33,26 +33,15 @@ public class CanvasPresenter: DocumentPresenter {
         self.drawingController = DrawingController(view: uiContent)
         self.document.previewSource = previewSource
         
-        drawingController.draw(
-            artboard: document.artboard,
-            scale: scale)
-        
+        redraw(artboard: document.artboard)
         uiScroll.fitToWindow(animated: true)
-        
-        redrawOnControlChanges()
-    }
-    
-    public func stopObserving() {
-        cancellables.forEach { cancellable in
-            cancellable.cancel()
-        }
     }
     
     private var scale: CGFloat = 1
     
     private var cancellables = Set<AnyCancellable>()
     
-    private func redrawOnControlChanges() {
+    public func subscribeOnControlChanges() {
         artboardPublisher
             .sink(receiveValue: redraw(artboard:))
             .store(in: &cancellables)
@@ -60,6 +49,12 @@ public class CanvasPresenter: DocumentPresenter {
         selectedPublisher
             .sink(receiveValue: updateSelectedControl)
             .store(in: &cancellables)
+    }
+    
+    public func stopObserving() {
+        cancellables.forEach { cancellable in
+            cancellable.cancel()
+        }
     }
     
     private func redraw(artboard: Artboard) {
@@ -77,6 +72,7 @@ public class CanvasPresenter: DocumentPresenter {
     // MARK: Mouse
     public func mouseDown(on location: CGPoint) {
         uiContent.hud.hideHUD()
+
         drawingController.mouseDown(on: location,
                                     selectedControl: selectedControl)
     }
@@ -85,8 +81,7 @@ public class CanvasPresenter: DocumentPresenter {
         drawingController.drag(to: location)
     }
     
-    
-    public func mouseMoved(on location: CGPoint) {        
+    public func mouseMoved(on location: CGPoint) {
         drawingController.mouseMoved(on: location,
                                      selectedControl: selectedControl)
     }
@@ -191,6 +186,11 @@ public class CanvasPresenter: DocumentPresenter {
         uiContent.drawnControls.first { control in
             control.model === model
         }
+    }
+
+    // MARK: - View actions
+    public func cancelOperation() {
+        drawingController.cancelOperation()
     }
     
     // MARK: Image

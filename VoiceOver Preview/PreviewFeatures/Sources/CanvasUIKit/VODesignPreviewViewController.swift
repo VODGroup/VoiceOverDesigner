@@ -29,7 +29,7 @@ public final class VODesignPreviewViewController: UIViewController {
         
         draw()
         
-#if !DEBUG
+#if DEBUG
         addGestures()
 #endif
     }

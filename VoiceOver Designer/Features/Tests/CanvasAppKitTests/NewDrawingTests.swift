@@ -81,6 +81,7 @@ class NewDrawingTests: CanvasAfterDidLoadTests {
     }
     
     func test_createControlsWhenDocumentImageNil() {
+        // TODO: Remove image?
         sut.mouseDown(on: start10)
         sut.mouseUp(on: end60)
         XCTAssertNotNil(drawnControls.first, "Should create control")
@@ -104,6 +105,7 @@ class NewDrawingTests: CanvasAfterDidLoadTests {
         
         XCTAssertEqual(numberOfDrawnLayers, 2)
     }
+    
 }
 
 extension CGPoint {

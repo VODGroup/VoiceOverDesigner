@@ -107,12 +107,14 @@ extension VODesignDocumentProtocol {
     
     private func imageWrapper(frame: Frame) -> FileWrapper? {
         // Saving temporary data to document and setting to back file
-        if case let .tmp(name, data) = frame.imageLocation {
-            guard let data else { return nil }
-            let imageWrapper = FileWrapper(regularFileWithContents: data)
-            imageWrapper.preferredFilename = name
-            frame.imageLocation = .file(name: name)
-            return imageWrapper
+        if case .cache(image: let image) = frame.imageLocation {
+            // TODO: Restore
+            fatalError()
+//            guard let data else { return nil }
+//            let imageWrapper = FileWrapper(regularFileWithContents: data)
+//            imageWrapper.preferredFilename = name
+//            frame.imageLocation = .file(name: name)
+//            return imageWrapper
         }
         
         guard let imageData = artboard.imageLoader.image(for: frame)?.png()

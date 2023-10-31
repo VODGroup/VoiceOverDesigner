@@ -20,18 +20,44 @@ public class CanvasViewController: NSViewController {
     
     public var presenter: CanvasPresenter!
     private var cancellables: Set<AnyCancellable> = []
+    private let pointerService = PointerService()
+    
+    var duplicateItem: NSMenuItem?
+
+    public lazy var canvasMenu: NSMenuItem = {
+        makeCanvasMenu()
+    }()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         view().dragnDropView.delegate = self
+        
+        view.window?.delegate = self
+        
+        presenter.didLoad(uiContent: view().contentView,
+                          uiScroll: view(),
+                          initialScale: 1,
+                          previewSource: view())
+        
+        addMouseTracking()
+        view().isEmpty = presenter.document.artboard.isEmpty
+        
+        // TODO: Don't fit properly
+        view().fitToWindow(animated: false)
+    }
+    
+    public override func viewDidAppear() {
+        super.viewDidAppear()
+        
+        presenter.subscribeOnControlChanges()
+        observe()
     }
     
     public override func viewWillDisappear() {
         super.viewWillDisappear()
-        
-        cancellables.forEach { cancellable in
-            cancellable.cancel()
-        }
+                
+        presenter.stopObserving()
+        stopPointerObserving()
     }
     
     var trackingArea: NSTrackingArea!
@@ -48,62 +74,29 @@ public class CanvasViewController: NSViewController {
     }
     
     private func observe() {
+        presenter.selectedPublisher
+            .sink { [weak self] view in self?.duplicateItem?.isEnabled = view != nil }
+            .store(in: &cancellables)
+        
         presenter
             .pointerPublisher
             .removeDuplicates()
-            .sink(receiveValue: updateCursor)
+            .sink(receiveValue: pointerService.updateCursor(_:))
+            .store(in: &cancellables)
+        
+        presenter
+            .artboardPublisher
+            .map { !$0.isEmpty }
+            .removeDuplicates()
+            .sink(receiveValue: view().updateDragnDropVisibility(hasDrawnControls:))
             .store(in: &cancellables)
     }
     
-    private func updateCursor(_ value: DrawingController.Pointer?) {
-        NSCursor.current.pop()
-        guard let value else { return NSCursor.arrow.push() }
-        switch value {
-        case .dragging:
-            NSCursor.closedHand.push()
-        case .hover:
-            NSCursor.openHand.push()
-        case .resize(let corner):
-            NSCursor.resizing(for: corner).push()
-        case .crosshair:
-            NSCursor.crosshair.push()
-        case .copy:
-            NSCursor.dragCopy.push()
+
+    private func stopPointerObserving() {
+        cancellables.forEach { cancellable in
+            cancellable.cancel()
         }
-    }
-    
-    public override func viewDidAppear() {
-        super.viewDidAppear()
-        view().addImageButton.action = #selector(addImageButtonTapped)
-        view().addImageButton.target = self
-        
-        view.window?.delegate = self
-        DispatchQueue.main.async {
-            self.presenter.didLoad(
-                uiContent: self.view().contentView,
-                uiScroll: self.view(),
-                initialScale: 1, // Will be scaled by scrollView
-                previewSource: self.view()
-                // TODO: Scale Preview also by UIScrollView?
-            )
-            
-            self.addMouseTracking()
-            self.addMenuItem()
-            self.observe()
-            
-            self.view().isEmpty = self.presenter.document.artboard.isEmpty
-        }
-    }
-    
-    // TODO: try to extract?
-    func addMenuItem() {
-        guard let menu = NSApplication.shared.menu, menu.item(withTitle: "Canvas") == nil else { return }
-        let canvasMenuItem = NSMenuItem(title: "Canvas", action: nil, keyEquivalent: "")
-        let canvasSubMenu = NSMenu(title: "Canvas")
-        let addImageItem = NSMenuItem(title: "Add image", action: #selector(addImageButtonTapped), keyEquivalent: "")
-        canvasSubMenu.addItem(addImageItem)
-        canvasMenuItem.submenu = canvasSubMenu
-        menu.addItem(canvasMenuItem)
     }
     
     public override var representedObject: Any? {
@@ -177,7 +170,15 @@ public class CanvasViewController: NSViewController {
             }
         }
     }
-    
+
+    @objc func duplicateMenuSelected() {
+        if let selectedControl = presenter.selectedControl?.model {
+            let newModel = selectedControl.copy()
+            newModel.frame = newModel.frame.offsetBy(dx: 40, dy: 40)
+            presenter.append(control: newModel)
+        }
+    }
+
     func requestImage() async -> URL? {
         guard let window = view.window else { return nil }
         let imagePanel = NSOpenPanel()

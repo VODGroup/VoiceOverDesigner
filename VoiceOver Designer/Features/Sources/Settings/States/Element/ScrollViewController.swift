@@ -26,9 +26,19 @@ public class ScrollContainerView: NSView {
     @IBOutlet var contentView: NSView!
     
     func addSubviewAndConstraints(_ subview: NSView) {
-        contentView.addSubview(subview)
-        contentView.pinToBounds(subview)
+        scrollView.documentView = subview
+        subview.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            subview.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            subview.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            subview.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+        ])
     }
+}
+
+final class ClipView: NSClipView {
+    override var isFlipped: Bool { true }
 }
 
 extension NSView {
@@ -37,9 +47,9 @@ extension NSView {
         
         NSLayoutConstraint.activate([
             subview.topAnchor.constraint(equalTo: topAnchor),
-            subview.rightAnchor.constraint(equalTo: rightAnchor),
+            subview.trailingAnchor.constraint(equalTo: trailingAnchor),
             subview.bottomAnchor.constraint(equalTo: bottomAnchor),
-            subview.leftAnchor.constraint(equalTo: leftAnchor),
+            subview.leadingAnchor.constraint(equalTo: leadingAnchor),
         ])
     }
 }

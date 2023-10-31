@@ -26,7 +26,7 @@
 			<key>LSTypeIsPackage</key>
 			<true/>
 			<key>NSDocumentClass</key>
-			<string>VODesignDocument</string>
+			<string>Document.VODesignDocument</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>

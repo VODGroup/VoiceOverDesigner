@@ -8,7 +8,7 @@ import Combine
 import TextRecognition
 
 extension CanvasPresenter: TextBasedPresenter {}
-
+    
 class ProjectController: NSSplitViewController {
     
     init(
@@ -44,27 +44,37 @@ class ProjectController: NSSplitViewController {
     let canvas: CanvasViewController
     private let settings: SettingsStateViewController
     private(set) weak var router: ProjectRouterDelegate?
-    
-    var document: VODesignDocument!
-    private var cancellables = Set<AnyCancellable>()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+
+    private lazy var textSidebar: NSSplitViewItem = {
         let textSidebar = NSSplitViewItem(sidebarWithViewController: navigator)
         textSidebar.minimumThickness = 250
         textSidebar.allowsFullHeightLayout = true
         textSidebar.isSpringLoaded = true
-        
-        settings.view.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            settings.view.widthAnchor.constraint(equalToConstant: 400),
-        ])
-        let settingsSidebar = NSSplitViewItem(viewController: settings)
-        
+        return textSidebar
+    }()
+
+    private lazy var canvasItem = NSSplitViewItem(viewController: canvas)
+
+    private lazy var settingsSidebar: NSSplitViewItem = {
+        let settingsSplit = NSSplitViewItem(inspectorWithViewController: settings)
+        settingsSplit.minimumThickness = 400
+        settingsSplit.maximumThickness = 400
+        return settingsSplit
+    }()
+
+    var document: VODesignDocument!
+    private var cancellables = Set<AnyCancellable>()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
         addSplitViewItem(textSidebar)
-        addSplitViewItem(NSSplitViewItem(viewController: canvas))
+        addSplitViewItem(canvasItem)
         addSplitViewItem(settingsSidebar)
+    }
+    
+    override func viewDidAppear() {
+        super.viewDidAppear()
         
         canvas.presenter
             .selectedPublisher
@@ -81,11 +91,9 @@ class ProjectController: NSSplitViewController {
         
         canvas.presenter.stopObserving()
     }
-    
-    public var toolbar: NSToolbar {
-        let toolbar: NSToolbar = NSToolbar()
-        toolbar.delegate = self
-        return toolbar
+
+    override func cancelOperation(_ sender: Any?) {
+        canvas.presenter.cancelOperation()
     }
 }
 

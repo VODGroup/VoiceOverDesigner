@@ -6,7 +6,7 @@ extension UIScrollView {
         self.contentSize = contentSize
         
         /// Fit to width for iPhone, keep image width for iPhone's screen on iPad
-        let minimalWidth = min(bounds.width, contentSize.width/UIScreen.main.scale) // Probaly scale should be got from document
+        let minimalWidth = min(bounds.width, contentSize.width)
         let scale = updateZoomScaleToFitContent(width: minimalWidth)
         
         // We had to calculate manually because first layout do it wrong

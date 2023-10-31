@@ -31,7 +31,7 @@ public class VoiceOverLayout {
                 accessibilityContainer: view,
                 frame: .relativeToParent(element.frame))
         case .frame(_):
-            fatalError("Imlement")
+            fatalError("Implement")
         }
     }
     
