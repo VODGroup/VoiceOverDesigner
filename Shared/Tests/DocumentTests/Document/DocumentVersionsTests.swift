@@ -77,7 +77,7 @@ final class DocumentVersionsTests: XCTestCase {
             rect: CGRect(x: 0, y: 0, width: 390, height: 844)
         )
         
-        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
+        assertFolder(document)
     }
     
     // MARK: Artboard version
@@ -120,7 +120,7 @@ final class DocumentVersionsTests: XCTestCase {
             rect: CGRect(x: 0, y: 0, width: 1170, height: 3372)
         )
 
-        assertSnapshot(matching: document.fileURL!, as: .folderStructure)
+        assertFolder(document)
     }
     
     // MARK: - Restoration DSL
