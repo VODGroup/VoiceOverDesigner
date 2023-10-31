@@ -29,6 +29,7 @@ public class A11yDescription: Codable, Equatable, ObservableObject, ArtboardElem
     }
     
     public init(
+        id: UUID = UUID(),
         isAccessibilityElement: Bool,
         label: String,
         value: String,
@@ -46,9 +47,11 @@ public class A11yDescription: Codable, Equatable, ObservableObject, ArtboardElem
         self.frame = frame
         self.adjustableOptions = adjustableOptions
         self.customActions = customActions
+        self.id = id
     }
     
     enum CodingKeys: CodingKey {
+        case id
         case isAccessibilityElement
         case label
         case value
@@ -62,6 +65,7 @@ public class A11yDescription: Codable, Equatable, ObservableObject, ArtboardElem
     
     required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        self._id = try container.decode(DecodableDefault.RandomUUID.self, forKey: .id)
         self.isAccessibilityElement = try container.decode(Bool.self, forKey: .isAccessibilityElement)
         self.label = try container.decode(String.self, forKey: .label)
         self.value = try container.decode(String.self, forKey: .value)
@@ -75,6 +79,7 @@ public class A11yDescription: Codable, Equatable, ObservableObject, ArtboardElem
     
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.id, forKey: .id)
         try container.encode(self.isAccessibilityElement, forKey: .isAccessibilityElement)
         try container.encode(self.label, forKey: .label)
         try container.encode(self.value, forKey: .value)
@@ -85,8 +90,10 @@ public class A11yDescription: Codable, Equatable, ObservableObject, ArtboardElem
         try container.encode(self._customActions, forKey: .customActions)
         try container.encode(self._customDescriptions, forKey: .customDescriptions)
     }
-    
-    
+
+    @DecodableDefault.RandomUUID
+    public var id: UUID
+
     @Published public var isAccessibilityElement: Bool
     @Published public var label: String
     @Published public var value: String
@@ -141,6 +148,7 @@ public class A11yDescription: Codable, Equatable, ObservableObject, ArtboardElem
     
     public static func empty(frame: CGRect) -> A11yDescription {
         A11yDescription(
+            id: UUID(),
             isAccessibilityElement: true,
             label: "",
             value: "",
@@ -154,6 +162,7 @@ public class A11yDescription: Codable, Equatable, ObservableObject, ArtboardElem
     
     public static func copy(from descr: A11yDescription) -> A11yDescription {
         A11yDescription(
+            id: UUID(),
             isAccessibilityElement: descr.isAccessibilityElement,
             label: descr.label,
             value: descr.value,

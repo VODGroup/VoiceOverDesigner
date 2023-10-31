@@ -141,5 +141,20 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
     public var undo: UndoManager? {
         undoManager
     }
+    
+    public override var displayName: String! {
+        get {
+            let parts = super.displayName.split(separator: ".")
+            
+            if parts.count > 1 {
+                return parts.dropLast().joined(separator: ".") // "SomeDocumentName.vodesign"
+            } else {
+                return super.displayName // "Untitled 4"
+            }
+        }
+        set {
+            super.displayName = newValue
+        }
+    }
 }
 #endif

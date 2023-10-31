@@ -133,5 +133,40 @@ class A11yDescriptionTests_EN: XCTestCase {
         
         XCTAssertEqual(descr.voiceOverText, "Street: Main Avenu. is editing")
     }
+    
+    func test_hintAfterTrait() throws {
+        let descr = A11yDescription.testMake(
+            label: "Purchase",
+            value: "10 dollars",
+            trait: [.button],
+            hint: "Tap twice")
+        
+        XCTAssertEqual(descr.voiceOverText, "Purchase: 10 dollars. Button. Tap twice")
+    }
+    
+    
+    func test_hintAfterTrait_withBreaks() throws {
+        let descr = A11yDescription.testMake(
+            label: "Purchase",
+            value: "10 dollars",
+            trait: [.button],
+            hint: "Tap twice")
+        
+        XCTAssertEqual(descr.voiceOverTextWithLineBreaks, "Purchase:\n10 dollars. \nButton.\n Tap twice")
+    }
+
+    func test_markdownLinebreak() {
+        let result = NSMutableAttributedString()
+        
+        result += "first"
+        result += markdownBreak
+        result += "second"
+        
+        XCTAssertEqual(result.string, 
+"""
+first
+second
+""")
+    }
 }
 

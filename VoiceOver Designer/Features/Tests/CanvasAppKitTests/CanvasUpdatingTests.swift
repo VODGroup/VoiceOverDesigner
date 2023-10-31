@@ -6,7 +6,7 @@ import DocumentTestHelpers
 class CanvasUpdatingTests: CanvasPresenterTests {
     
     func test_emptyDocument_whenLoad_shouldDrawNothing() {
-        didLoad()
+        didLoadAndAppear()
         
         XCTAssertEqual(numberOfDrawnViews, 0)
     }
@@ -15,7 +15,7 @@ class CanvasUpdatingTests: CanvasPresenterTests {
         XCTContext.runActivity(named: "Open document") { _ in
             setControls(count: 2)
             
-            didLoad()
+            didLoadAndAppear()
             
             XCTAssertEqual(numberOfDrawnViews, 2)
         }

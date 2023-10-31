@@ -271,7 +271,7 @@ extension NSCursor {
         
         return NSCursor(image: image, hotSpot: NSPoint(x: 8, y: 8))
     }
-                        
+    
     private static func resizingImage(for corner: RectCorner) -> NSImage {
         switch corner {
         case .topLeft, .bottomRight:

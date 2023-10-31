@@ -19,7 +19,7 @@ class CanvasView: FlippedView {
     
     @IBOutlet weak var contentView: ContentView!
     @IBOutlet weak var addImageButton: NSButton!
-   
+    
     @IBOutlet weak var dragnDropView: DragNDropImageView!
     
     @IBOutlet weak var zoomOutButton: NSButton!

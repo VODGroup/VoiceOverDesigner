@@ -66,8 +66,8 @@ public protocol PreviewSourceProtocol: AnyObject {
 extension Frame {
     public convenience init(image: Image, frame: CGRect) {
         let name = UUID().uuidString // TODO: Create fancy name
-
-//        let frame = CGRect(origin: .zero, size: image.size)
+        
+        //        let frame = CGRect(origin: .zero, size: image.size)
         
         self.init(label: name,
                   imageLocation: .tmp(name: name, data: image.heic()), // TODO: It's strange to conver to custom format, better to kee

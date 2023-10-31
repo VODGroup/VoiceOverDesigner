@@ -4,21 +4,25 @@
 //
 //  Created by Andrey Plotnikov on 13.08.2022.
 //
+
+import CoreGraphics
 import Foundation
 @testable import Document
 
 extension A11yDescription {
     public static func testMake(
+        id: UUID = .init(),
         isAccessibilityElement: Bool = true,
         label: String = "",
         value: String = "",
-        hint: String = "",
         trait: A11yTraits = .none,
+        hint: String = "",
         frame: CGRect = .zero,
         adjustableOption: AdjustableOptions = .testMake(),
         customActions: A11yCustomActions = .testMake()
     ) -> A11yDescription {
         A11yDescription(
+            id: id,
             isAccessibilityElement: isAccessibilityElement,
             label: label,
             value: value,

@@ -31,10 +31,14 @@ public class NavigatorController: NSViewController {
         
         enableDragging()
         
-        observe()
-        
         outlineView.style = .sourceList
         outlineView.allowsMultipleSelection = true
+    }
+    
+    public override func viewDidAppear() {
+        super.viewDidAppear()
+        
+        observe()
     }
     
     public override func viewWillDisappear() {
