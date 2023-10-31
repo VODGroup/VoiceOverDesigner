@@ -104,6 +104,9 @@ public enum ImageLocation: Equatable {
         switch dto {
         case .file(let name): return .file(name: name)
         case .url(let url): return .url(url: url)
+        case .tmp(name: let name, data: let data):
+            // TODO: Optionals
+            return .cache(image: NSImage(data: data!)!)
         }
     }
 }

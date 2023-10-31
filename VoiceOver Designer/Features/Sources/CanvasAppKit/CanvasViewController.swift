@@ -39,10 +39,9 @@ public class CanvasViewController: NSViewController {
                           initialScale: 1,
                           previewSource: view())
         
-        setImage()
         addMouseTracking()
         addMenuItem()
-        view().isEmpty = self.presenter.document.artboard.isEmpty
+        view().isEmpty = presenter.document.artboard.isEmpty
     }
     
     public override func viewDidAppear() {
@@ -84,7 +83,7 @@ public class CanvasViewController: NSViewController {
             .store(in: &cancellables)
         
         presenter
-            .controlsPublisher
+            .artboardPublisher
             .map { !$0.isEmpty }
             .removeDuplicates()
             .sink(receiveValue: view().updateDragnDropVisibility(hasDrawnControls:))
@@ -107,11 +106,6 @@ public class CanvasViewController: NSViewController {
         canvasSubMenu.addItem(addImageItem)
         canvasMenuItem.submenu = canvasSubMenu
         menu.addItem(canvasMenuItem)
-    }
-    
-    func setImage() {
-        view().setFrames(presenter.document.artboard.frames)
-        view().updateDragnDropVisibility(hasDrawnControls: !presenter.document.controls.isEmpty)
     }
     
     public override var representedObject: Any? {
