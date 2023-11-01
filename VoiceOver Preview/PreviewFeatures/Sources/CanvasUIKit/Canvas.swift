@@ -14,7 +14,6 @@ class Canvas: UIView, DrawingView {
     var scale: CGFloat = 1
     
     var copyListener: CopyModifierAction = ManualCopyCommand()
-    var escListener: EscModifierAction = EmptyEscModifierAction()
     
     override func layoutSubviews() {
         super.layoutSubviews()

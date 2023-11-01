@@ -99,7 +99,7 @@ public class Frame: ArtboardContainer, ObservableObject {
 }
 
 public enum ImageLocation: Equatable {
-    case cache(image: NSImage)
+    case cache(image: Image)
     case file(name: String)
     case url(url: URL)
     
@@ -109,7 +109,7 @@ public enum ImageLocation: Equatable {
         case .url(let url): return .url(url: url)
         case .tmp(name: let name, data: let data):
             // TODO: Optionals
-            return .cache(image: NSImage(data: data!)!)
+            return .cache(image: Image(data: data!)!)
         }
     }
 }
