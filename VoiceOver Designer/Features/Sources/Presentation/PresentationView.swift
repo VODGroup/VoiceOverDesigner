@@ -20,7 +20,7 @@ public struct PresentationView: View {
 
     @State var document: VODesignDocumentPresentation
 
-    @State var selectedControl: (any ArtboardElement)?
+    @State var selectedControl: A11yDescription?
     @State var hoveredControl: (any ArtboardElement)?
 
     let scrollViewSize = CGSize(width: 600, height: 900)
@@ -53,27 +53,26 @@ public struct PresentationView: View {
                 }
                 list
             }
-            // TODO: Restore
-//            .onKeyboardShortcut(key: .leftArrow, modifiers: []) {
-//                if
-//                    let selected = selectedControl?.element,
-//                    let index = document.flatControls.firstIndex(of: selected)
-//                {
-//                    if let prev = document.flatControls[safe: index - 1] {
-//                        select(prev)
-//                    }
-//                }
-//            }
-//            .onKeyboardShortcut(key: .rightArrow, modifiers: []) {
-//                if
-//                    let selected = selectedControl?.element,
-//                    let index = document.flatControls.firstIndex(of: selected)
-//                {
-//                    if let next = document.flatControls[safe: index + 1] {
-//                        select(next)
-//                    }
-//                }
-//            }
+            .onKeyboardShortcut(key: .leftArrow, modifiers: []) {
+                if
+                    let selected = selectedControl,
+                    let index = document.flatControls.firstIndex(of: selected)
+                {
+                    if let prev = document.flatControls[safe: index - 1] {
+                        select(prev)
+                    }
+                }
+            }
+            .onKeyboardShortcut(key: .rightArrow, modifiers: []) {
+                if
+                    let selected = selectedControl,
+                    let index = document.flatControls.firstIndex(of: selected)
+                {
+                    if let next = document.flatControls[safe: index + 1] {
+                        select(next)
+                    }
+                }
+            }
         }
         .frame(
             minWidth: scrollViewSize.width +
@@ -115,7 +114,8 @@ public struct PresentationView: View {
                     height: document.imageSize.height
                 )
         } else {
-            Color.clear
+            Color.gray
+                .opacity(0.25)
                 .frame(width: document.imageSize.width,
                        height: document.imageSize.height)
         }
@@ -143,10 +143,10 @@ public struct PresentationView: View {
             controlRectangle(container)
                 .zIndex(-1)
                 .accessibilityLabel(container.label)
-            // TODO: Restore
-//            ForEach(container.elements, id: \.id) {
-//                controlElement($0)
-//            }
+            // TODO: extractElements doesn't see anything inside container
+            ForEach(container.elements.extractElements(), id: \.id) {
+                controlElement($0)
+            }
         }
         // TODO: accessibility modifiers
     }
@@ -222,14 +222,13 @@ public struct PresentationView: View {
                 // Frame's width should be fixed. Otherwise hover effect brakes for long text
                 // For long text list's width recalculates and hover lose y coordinate
                 .frame(width: PresentationView.Constants.controlsWidth)
-                // TODO: Restore
-//                .onChange(of: selectedControl, perform: { newValue in
-//                    if let newValue {
-//                        withAnimation(Constants.animation) {
-//                            proxy.scrollTo(newValue.id, anchor: .center)
-//                        }
-//                    }
-//                })
+                .onChange(of: selectedControl, perform: { newValue in
+                    if let newValue {
+                        withAnimation(Constants.animation) {
+                            proxy.scrollTo(newValue.id, anchor: .center)
+                        }
+                    }
+                })
             }
             .accessibilityHidden(true) // VoiceOver should read elements over the image
         }
@@ -244,19 +243,20 @@ public struct PresentationView: View {
             case .container(let container):
                 VStack(alignment: .leading, spacing: 4) {
                     controlText(container)
-                    ForEach(container.elements, id: \.label) { element in
+                    // TODO: Should not be extractElements. Should be able to render any layers inside
+                    ForEach(container.elements.extractElements(), id: \.label) { element in
                         controlText(element)
                             .id(element.id)
                             .padding(.leading, 16)
                             // TODO: Restore
-//                            .overlay(alignment: .leadingFirstTextBaseline) {
-//                                if let index = document.flatControls.firstIndex(of: element) {
-//                                    listButton(
-//                                        element,
-//                                        index: index
-//                                    )
-//                                }
-//                            }
+                            .overlay(alignment: .leadingFirstTextBaseline) {
+                                if let index = document.flatControls.firstIndex(of: element) {
+                                    listButton(
+                                        element,
+                                        index: index
+                                    )
+                                }
+                            }
                     }
                 }
             case .element(let element):
@@ -387,7 +387,7 @@ public struct PresentationView: View {
     }
 
     func select(_ control: any ArtboardElement) {
-        guard control is A11yDescription else { return }
+        guard let control = control as? A11yDescription else { return }
         withAnimation(Constants.animation) {
             selectedControl = control
         }
@@ -453,14 +453,101 @@ extension PresentationView {
     }
 }
 
+extension A11yDescription {
+    static func fake(
+        id: UUID = .init(),
+        frame: CGRect
+    ) -> A11yDescription {
+        A11yDescription(
+            id: id,
+            isAccessibilityElement: true,
+            label: "hi",
+            value: "",
+            hint: "",
+            trait: .header,
+            frame: frame,
+            adjustableOptions: .init(options: []),
+            customActions: .defaultValue
+        )
+    }
+}
+
+let id = UUID()
+let id2 = UUID()
+let id3 = UUID()
+let id4 = UUID()
+
+let frame1 = CGRect(x: 30, y: 30, width: 20, height: 20)
+let frame2 = CGRect(x: 70, y: 70, width: 20, height: 20)
 
 let samplesURL = URL(fileURLWithPath: "/Users/agpone/Developer/VoiceOverSamples")
 #Preview {
     Group {
-        PresentationView.make(sampleRelativePath: "Ru/OneTwoTrip/Главная страница")
-        PresentationView.make(sampleRelativePath: "Ru/Dodo Pizza/Меню")
-        PresentationView.make(sampleRelativePath: "Ru/OneTwoTrip/Авиа фильтры")
-        PresentationView.make(sampleRelativePath: "Ru/OneTwoTrip/Пассажиры")
+//        PresentationView.make(sampleRelativePath: "Ru/OneTwoTrip/Главная страница")
+//        PresentationView.make(sampleRelativePath: "Ru/Dodo Pizza/Меню")
+//        PresentationView.make(sampleRelativePath: "Ru/OneTwoTrip/Авиа фильтры")
+//        PresentationView.make(sampleRelativePath: "Ru/OneTwoTrip/Пассажиры")
+        PresentationView(
+            document: .init(
+                controls: [
+                    A11yDescription.fake(id: id, frame: frame1),
+                    A11yContainer(
+                        elements: [
+                            A11yDescription.fake(id: id2, frame: frame2)
+                        ],
+                        frame: .init(x: 5, y: 5, width: 200, height: 200),
+                        label: "some"
+                    )
+                ],
+                flatControls: [
+                    A11yDescription.fake(id: id, frame: frame1),
+                    A11yDescription.fake(id: id2, frame: frame2)
+                ],
+                image: nil,
+                imageSize: .init(width: 500, height: 500)
+            )
+        )
+        PresentationView(
+            document: .init(
+                {
+                    let d = VODesignDocument()
+                    let a = Artboard(
+                        frames: [
+                            .init(
+                                label: "wow",
+                                imageName: "image",
+                                frame: .init(x: 10, y: 10, width: 300, height: 300),
+                                elements: [
+                                    A11yDescription.fake(id: id, frame: frame1),
+                                    A11yContainer(
+                                        id: id3,
+                                        elements: [
+                                            A11yDescription.fake(id: id2, frame: frame2)
+                                        ],
+                                        frame: .init(x: 5, y: 5, width: 200, height: 200),
+                                        label: "some"
+                                    )
+                                ]
+                            )
+                        ],
+                        controlsWithoutFrames: [
+                            A11yDescription.fake(id: id, frame: frame1),
+                            A11yContainer(
+                                id: id3,
+                                elements: [
+                                    A11yDescription.fake(id: id2, frame: frame2)
+                                ],
+                                frame: .init(x: 5, y: 5, width: 200, height: 200),
+                                label: "some"
+                            )
+                        ]
+                    )
+                    a.imageLoader = DummyImageLoader()
+                    d.artboard = a
+                    return d
+                }()
+            )
+        )
     }
 }
 

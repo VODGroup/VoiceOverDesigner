@@ -13,7 +13,7 @@ public protocol ArtboardElement: AnyObject, Equatable {
     
     var type: ArtboardType { get }
     
-    /// Had to be `weak`
+    /// Must be `weak`
     var parent: (any ArtboardContainer)? { get set }
 }
 

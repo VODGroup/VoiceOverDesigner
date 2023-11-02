@@ -12,43 +12,31 @@ public struct VODesignDocumentPresentation {
     public private(set) var flatControls: [A11yDescription]
     public let image: Image?
     public let imageSize: CGSize
-    public let frameInfo: FrameInfo
 
     public init(
         controls: [any ArtboardElement],
         flatControls: [A11yDescription],
         image: Image?,
-        imageSize: CGSize,
-        frameInfo: FrameInfo
+        imageSize: CGSize
     ) {
         self.controls = controls
         self.flatControls = flatControls
         self.image = image
         self.imageSize = imageSize
-        self.frameInfo = frameInfo
     }
 
     public init(_ document: VODesignDocumentProtocol) {
-        self.controls = document.controls
-        self.flatControls = document.controls.reduce(into: [], { partialResult, view in
-            switch view.cast {
-                case .container(let container):
-                // partialResult.append(contentsOf: container.elements)
-                // TODO: Restore
-                fatalError()
-                case .element(let element):
-                    partialResult.append(element)
-                case .frame(_):
-                    // TODO: Add support
-                    fatalError()
-            }
-        })
-        
-        // TODO: Read from frame
-        fatalError("Read from first frame")
-//        self.image = document.image
-//        self.imageSize = document.imageSize
-//        self.frameInfo = document.frameInfo
+        self.controls = document.artboard.controlsWithoutFrames
+        self.flatControls = document.artboard.controlsWithoutFrames.extractElements()
+
+        if let firstFrame = document.artboard.frames.first {
+            let image = document.artboard.imageLoader.image(for: firstFrame)
+            self.image = image
+            self.imageSize = firstFrame.frame.size
+        } else {
+            self.image = nil
+            self.imageSize = .zero
+        }
     }
 
     public mutating func update(control: any ArtboardElement) {
