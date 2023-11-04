@@ -497,11 +497,31 @@ let samplesURL = URL(fileURLWithPath: "/Users/agpone/Developer/VoiceOverSamples"
                         ],
                         frame: .init(x: 5, y: 5, width: 200, height: 200),
                         label: "some"
+                    ),
+                    A11yDescription(
+                        isAccessibilityElement: true,
+                        label: "wow",
+                        value: "1",
+                        hint: "",
+                        trait: .adjustable,
+                        frame: .init(x: 100, y: 100, width: 100, height: 100),
+                        adjustableOptions: .init(options: ["1", "2"], currentIndex: 0),
+                        customActions: .defaultValue
                     )
                 ],
                 flatControls: [
                     A11yDescription.fake(id: id, frame: frame1),
-                    A11yDescription.fake(id: id2, frame: frame2)
+                    A11yDescription.fake(id: id2, frame: frame2),
+                    A11yDescription(
+                        isAccessibilityElement: true,
+                        label: "wow",
+                        value: "1",
+                        hint: "",
+                        trait: .adjustable,
+                        frame: .init(x: 100, y: 100, width: 100, height: 100),
+                        adjustableOptions: .init(options: ["1", "2"], currentIndex: 0),
+                        customActions: .defaultValue
+                    )
                 ],
                 image: nil,
                 imageSize: .init(width: 500, height: 500)

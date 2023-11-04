@@ -39,21 +39,19 @@ public struct VODesignDocumentPresentation {
         }
     }
 
-    public mutating func update(control: any ArtboardElement) {
+    public mutating func update(control: A11yDescription) {
         // TODO: Restore
-//        controls = controls.map {
-//            if $0.cast == control.cast {
-//                return control
-//            }
-//            return $0
-//        }
-//        if let element = control.element {
-//            flatControls = flatControls.map {
-//                if $0 == element {
-//                    return element
-//                }
-//                return $0
-//            }
-//        }
+        controls = controls.map {
+            if $0.cast == control.cast {
+                return control
+            }
+            return $0
+        }
+        flatControls = flatControls.map {
+            if $0 == control {
+                return control
+            }
+            return $0
+        }
     }
 }
