@@ -6,28 +6,71 @@
 //
 
 import Foundation
+import CustomDump
 
 public struct VODesignDocumentPresentation {
-    public private(set) var controls: [any ArtboardElement]
-    public private(set) var flatControls: [A11yDescription]
+    /// Storage for all elements
+    public private(set) var controls: [UUID: any ArtboardElement]
+    /// Elements order
+    public let orderedControlIds: [UUID]
+
+    public private(set) var orderedControls: [any ArtboardElement]
+
+    /// Subset of controls containing ONLY A11yDescription elements.
+    /// Used for navigating <->
+    public private(set) var flatControls: [UUID]
+
     public let image: Image?
     public let imageSize: CGSize
 
     public init(
-        controls: [any ArtboardElement],
-        flatControls: [A11yDescription],
+        controls: [UUID: any ArtboardElement],
+        orderedControlIds: [UUID],
+        flatControls: [UUID],
         image: Image?,
         imageSize: CGSize
     ) {
         self.controls = controls
+        self.orderedControlIds = orderedControlIds
+        self.orderedControls = orderedControlIds.compactMap { controls[$0] }
         self.flatControls = flatControls
         self.image = image
         self.imageSize = imageSize
     }
 
     public init(_ document: VODesignDocumentProtocol) {
-        self.controls = document.artboard.controlsWithoutFrames
-        self.flatControls = document.artboard.controlsWithoutFrames.extractElements()
+        customDump(document)
+
+        var order: [UUID] = []
+        var flatOrder: [UUID] = []
+        self.controls = document.artboard.frames
+            .reduce(into: [:], { result, frame in
+                frame.elements.forEach {
+                    result[$0.id] = $0
+                    order.append($0.id)
+                    for element in $0.extractElements() {
+                        flatOrder.append(element.id)
+                    }
+                }
+            })
+
+        for control in document.artboard.controlsWithoutFrames {
+            self.controls[control.id] = control
+            order.append(control.id)
+            for element in control.extractElements() {
+                flatOrder.append(element.id)
+            }
+        }
+
+        self.orderedControlIds = order
+        self.flatControls = flatOrder
+
+        self.orderedControls = []
+        for orderedControlId in orderedControlIds {
+            if let control = self.controls[orderedControlId] {
+                self.orderedControls.append(control)
+            }
+        }
 
         if let firstFrame = document.artboard.frames.first {
             let image = document.artboard.imageLoader.image(for: firstFrame)
@@ -39,19 +82,9 @@ public struct VODesignDocumentPresentation {
         }
     }
 
+    /// Used for updating element. Adjustable properties
     public mutating func update(control: A11yDescription) {
-        // TODO: Restore
-        controls = controls.map {
-            if $0.cast == control.cast {
-                return control
-            }
-            return $0
-        }
-        flatControls = flatControls.map {
-            if $0 == control {
-                return control
-            }
-            return $0
-        }
+        controls[control.id] = control
+        self.orderedControls = orderedControlIds.compactMap { controls[$0] }
     }
 }

@@ -5,6 +5,7 @@
 //  Created by Alex Agapov on 29.09.2023.
 //
 
+import CustomDump
 import SwiftUI
 import Document
 
@@ -56,21 +57,21 @@ public struct PresentationView: View {
             .onKeyboardShortcut(key: .leftArrow, modifiers: []) {
                 if
                     let selected = selectedControl,
-                    let index = document.flatControls.firstIndex(of: selected)
+                    let index = document.flatControls.firstIndex(of: selected.id),
+                    let prevIndex = document.flatControls[safe: index - 1],
+                    let prev = document.controls[prevIndex]
                 {
-                    if let prev = document.flatControls[safe: index - 1] {
-                        select(prev)
-                    }
+                    select(prev)
                 }
             }
             .onKeyboardShortcut(key: .rightArrow, modifiers: []) {
                 if
                     let selected = selectedControl,
-                    let index = document.flatControls.firstIndex(of: selected)
+                    let index = document.flatControls.firstIndex(of: selected.id),
+                    let nextIndex = document.flatControls[safe: index + 1],
+                    let next = document.controls[nextIndex]
                 {
-                    if let next = document.flatControls[safe: index + 1] {
-                        select(next)
-                    }
+                    select(next)
                 }
             }
         }
@@ -84,7 +85,11 @@ public struct PresentationView: View {
 
     public init(document: VODesignDocumentPresentation) {
         _document = .init(initialValue: document)
-        _selectedControl = .init(initialValue: document.flatControls.first)
+        _selectedControl = .init(
+            initialValue: document.flatControls.first.flatMap {
+                document.controls[$0] as? A11yDescription
+            }
+        )
     }
 
     @ViewBuilder
@@ -124,7 +129,7 @@ public struct PresentationView: View {
     private var controlsOverlay: some View {
         ZStack(alignment: .topLeading) {
             // We don't need editing here so id can be generated at start
-            ForEach(document.controls, id: \.id) { control in
+            ForEach(document.orderedControls, id: \.id) { control in
                 switch control.cast {
                     case .container(let container):
                         controlContainer(container)
@@ -214,8 +219,8 @@ public struct PresentationView: View {
         ScrollView {
             ScrollViewReader { proxy in
                 VStack(alignment: .leading, spacing: 12) {
-                    ForEach(Array(document.controls.enumerated()), id: \.1.id) { index, item in
-                        listItem(item, index: index)
+                    ForEach(Array(document.orderedControls), id: \.id) { item in
+                        listItem(item)
                     }
                 }
                 .padding(EdgeInsets(top: 80, leading: Constants.cursorButtonPadding, bottom: 80, trailing: 80))
@@ -234,44 +239,49 @@ public struct PresentationView: View {
         }
     }
 
+    @ViewBuilder
     private func listItem(
-        _ item: any ArtboardElement,
-        index: Int
+        _ item: any ArtboardElement
     ) -> some View {
-        Group {
-            switch item.cast {
-            case .container(let container):
-                VStack(alignment: .leading, spacing: 4) {
-                    controlText(container)
-                    // TODO: Should not be extractElements. Should be able to render any layers inside
-                    ForEach(container.elements.extractElements(), id: \.label) { element in
-                        controlText(element)
-                            .id(element.id)
-                            .padding(.leading, 16)
-                            // TODO: Restore
-                            .overlay(alignment: .leadingFirstTextBaseline) {
-                                if let index = document.flatControls.firstIndex(of: element) {
-                                    listButton(
-                                        element,
-                                        index: index
-                                    )
-                                }
+        switch item.cast {
+        case .container(let container):
+            VStack(alignment: .leading, spacing: 4) {
+                controlText(container)
+                // TODO: Should not be extractElements. Should be able to render any number of layers inside
+                ForEach(container.elements.extractElements(), id: \.id) { element in
+                    controlText(element)
+                        .id(element.id)
+                        .overlay(alignment: .leading) {
+                            if let index = document.flatControls.firstIndex(of: element.id) {
+                                listButton(element, index: index)
                             }
-                    }
-                }
-            case .element(let element):
-                controlText(element)
-                    .id(element.id)
-                    .overlay(alignment: .leading) {
-                        if let index = document.flatControls.firstIndex(of: element) {
-                            listButton(element, index: index)
+                        }.onTapGesture {
+                            select(element)
                         }
-                    }.onTapGesture {
-                        select(element)
+                        .padding(.horizontal, 16)
+                }
+            }
+        case .element(let element):
+            controlText(element)
+                .id(element.id)
+                .overlay(alignment: .leading) {
+                    if let index = document.flatControls.firstIndex(of: element.id) {
+                        listButton(element, index: index)
                     }
-                
-            case .frame(let frame):
-                fatalError()
+                }.onTapGesture {
+                    select(element)
+                }
+
+        case .frame(let frame):
+            VStack(alignment: .leading, spacing: 4) {
+                controlText(frame)
+                // TODO: Should not be extractElements. Should be able to render any number of layers inside
+                Text("Frame todo")
+                // Should be listItem
+//                ForEach(frame.elements, id: \.id) { element in
+//                    listItem(element)
+//                        .padding(.horizontal, 16)
+//                }
             }
         }
     }
@@ -307,11 +317,13 @@ public struct PresentationView: View {
                 }
             }
             if
-                let previousItem = document.flatControls[safe: index - 1],
+                let previousItemId = document.flatControls[safe: index - 1],
+                let previousItem = document.controls[previousItemId],
                 isControlSelected(previousItem)
             {
                 Button {
-                    if let nextItem = document.flatControls[safe: index] {
+                    if let nextItemId = document.flatControls[safe: index],
+                       let nextItem = document.controls[nextItemId] {
                         select(nextItem)
                     }
                 } label: {
@@ -320,11 +332,13 @@ public struct PresentationView: View {
                 .buttonStyle(.borderless)
             }
             if
-                let nextItem = document.flatControls[safe: index + 1],
+                let nextItemId = document.flatControls[safe: index + 1],
+                let nextItem = document.controls[nextItemId],
                 isControlSelected(nextItem)
             {
                 Button {
-                    if let previousItem = document.flatControls[safe: index] {
+                    if let previousItemId = document.flatControls[safe: index],
+                       let previousItem = document.controls[previousItemId] {
                         select(previousItem)
                     }
                 } label: {
@@ -349,10 +363,6 @@ public struct PresentationView: View {
                                 .padding(.leading, -12)
                                 .opacity(0.6)
                         }
-                        .padding(
-                            .vertical,
-                            isControlSelected(control) ? Constants.selectedControlPadding : 0
-                        )
                 case .element(let element):
                     Text(AttributedString(
                         element
@@ -367,8 +377,14 @@ public struct PresentationView: View {
                         isControlSelected(control) ? Constants.selectedControlPadding : 0
                     )
                 case .frame(let frame):
-                    // TODO: Restore
-                    fatalError()
+                    Text(frame.label)
+                        .font(font(for: frame))
+                        .multilineTextAlignment(.leading)
+                        .overlay(alignment: .leading) {
+                            Image(systemName: "chevron.forward")
+                                .padding(.leading, -12)
+                                .opacity(0.6)
+                        }
             }
         }
     }
@@ -381,12 +397,15 @@ public struct PresentationView: View {
     }
     
     private func font(for container: A11yContainer) -> SwiftUI.Font {
-        let isSelected = isControlSelected(container)
-        
-        return Font.system(size: isSelected ? 40 : 20)
+        Font.system(size: 20)
+    }
+
+    private func font(for frame: Frame) -> SwiftUI.Font {
+        Font.system(size: 20)
     }
 
     func select(_ control: any ArtboardElement) {
+        customDump(control)
         guard let control = control as? A11yDescription else { return }
         withAnimation(Constants.animation) {
             selectedControl = control
@@ -456,15 +475,17 @@ extension PresentationView {
 extension A11yDescription {
     static func fake(
         id: UUID = .init(),
+        label: String,
+        trait: A11yTraits,
         frame: CGRect
     ) -> A11yDescription {
         A11yDescription(
             id: id,
             isAccessibilityElement: true,
-            label: "hi",
+            label: label,
             value: "",
             hint: "",
-            trait: .header,
+            trait: trait,
             frame: frame,
             adjustableOptions: .init(options: []),
             customActions: .defaultValue
@@ -479,6 +500,7 @@ let id4 = UUID()
 
 let frame1 = CGRect(x: 30, y: 30, width: 20, height: 20)
 let frame2 = CGRect(x: 70, y: 70, width: 20, height: 20)
+let frame3 = CGRect(x: 170, y: 170, width: 40, height: 40)
 
 let samplesURL = URL(fileURLWithPath: "/Users/agpone/Developer/VoiceOverSamples")
 #Preview {
@@ -487,46 +509,6 @@ let samplesURL = URL(fileURLWithPath: "/Users/agpone/Developer/VoiceOverSamples"
 //        PresentationView.make(sampleRelativePath: "Ru/Dodo Pizza/Меню")
 //        PresentationView.make(sampleRelativePath: "Ru/OneTwoTrip/Авиа фильтры")
 //        PresentationView.make(sampleRelativePath: "Ru/OneTwoTrip/Пассажиры")
-        PresentationView(
-            document: .init(
-                controls: [
-                    A11yDescription.fake(id: id, frame: frame1),
-                    A11yContainer(
-                        elements: [
-                            A11yDescription.fake(id: id2, frame: frame2)
-                        ],
-                        frame: .init(x: 5, y: 5, width: 200, height: 200),
-                        label: "some"
-                    ),
-                    A11yDescription(
-                        isAccessibilityElement: true,
-                        label: "wow",
-                        value: "1",
-                        hint: "",
-                        trait: .adjustable,
-                        frame: .init(x: 100, y: 100, width: 100, height: 100),
-                        adjustableOptions: .init(options: ["1", "2"], currentIndex: 0),
-                        customActions: .defaultValue
-                    )
-                ],
-                flatControls: [
-                    A11yDescription.fake(id: id, frame: frame1),
-                    A11yDescription.fake(id: id2, frame: frame2),
-                    A11yDescription(
-                        isAccessibilityElement: true,
-                        label: "wow",
-                        value: "1",
-                        hint: "",
-                        trait: .adjustable,
-                        frame: .init(x: 100, y: 100, width: 100, height: 100),
-                        adjustableOptions: .init(options: ["1", "2"], currentIndex: 0),
-                        customActions: .defaultValue
-                    )
-                ],
-                image: nil,
-                imageSize: .init(width: 500, height: 500)
-            )
-        )
         PresentationView(
             document: .init(
                 {
@@ -538,11 +520,21 @@ let samplesURL = URL(fileURLWithPath: "/Users/agpone/Developer/VoiceOverSamples"
                                 imageName: "image",
                                 frame: .init(x: 10, y: 10, width: 300, height: 300),
                                 elements: [
-                                    A11yDescription.fake(id: id, frame: frame1),
+                                    A11yDescription.fake(
+                                        id: id,
+                                        label: "hi",
+                                        trait: .header,
+                                        frame: frame1
+                                    ),
                                     A11yContainer(
                                         id: id3,
                                         elements: [
-                                            A11yDescription.fake(id: id2, frame: frame2)
+                                            A11yDescription.fake(
+                                                id: id2,
+                                                label: "hi2",
+                                                trait: .button,
+                                                frame: frame2
+                                            )
                                         ],
                                         frame: .init(x: 5, y: 5, width: 200, height: 200),
                                         label: "some"
@@ -551,14 +543,11 @@ let samplesURL = URL(fileURLWithPath: "/Users/agpone/Developer/VoiceOverSamples"
                             )
                         ],
                         controlsWithoutFrames: [
-                            A11yDescription.fake(id: id, frame: frame1),
-                            A11yContainer(
-                                id: id3,
-                                elements: [
-                                    A11yDescription.fake(id: id2, frame: frame2)
-                                ],
-                                frame: .init(x: 5, y: 5, width: 200, height: 200),
-                                label: "some"
+                            A11yDescription.fake(
+                                id: id4,
+                                label: "hi4",
+                                trait: .link,
+                                frame: frame3
                             )
                         ]
                     )
