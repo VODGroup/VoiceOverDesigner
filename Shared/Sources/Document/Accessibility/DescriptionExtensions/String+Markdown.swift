@@ -2,13 +2,19 @@ import Foundation
 
 @available(macOS 12, *)
 @available(iOS 15, *)
+private let multilineMarkdown = AttributedString.MarkdownParsingOptions(interpretedSyntax: .inlineOnlyPreservingWhitespace)
+
+@available(macOS 12, *)
+@available(iOS 15, *)
 extension NSMutableAttributedString {
     
     func append(markdown: String) {
         if markdown.isEmpty {
             return // Do nothing, otherwise it will crash
         }
-        append(try! NSAttributedString(markdown: markdown))
+        
+        append(try! NSAttributedString(markdown: markdown,
+                                       options: multilineMarkdown))
     }
     
     static func += (lhs: NSMutableAttributedString, rhs: String) {

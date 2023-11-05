@@ -18,7 +18,6 @@ class CanvasView: FlippedView {
     @IBOutlet weak var clipView: NSClipView!
     
     @IBOutlet weak var contentView: ContentView!
-    @IBOutlet weak var addImageButton: NSButton!
    
     @IBOutlet weak var dragnDropView: DragNDropImageView!
     
@@ -45,7 +44,6 @@ class CanvasView: FlippedView {
         footer.isHidden = false
         
         dragnDropView.hideText()
-        addImageButton.isHidden = true
         
         clipView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -114,6 +112,11 @@ class CanvasView: FlippedView {
     }
     
     // MARK: - Image
+    func updateDragnDropVisibility(hasDrawnControls: Bool) {
+        dragnDropView.isHidden = hasDrawnControls
+        footer.isHidden = hasDrawnControls
+    }
+    
     func image(at frame: CGRect) async -> CGImage? {
         contentView.image(at: frame)
     }

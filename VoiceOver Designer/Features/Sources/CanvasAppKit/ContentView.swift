@@ -12,8 +12,6 @@ class ContentView: FlippedView, DrawingView {
     
     var copyListener = CopyModifierFactory().make()
     
-    var escListener = EscModifierFactory().make()
-    
     var hud = HUDLayer()
     
     override func layout() {

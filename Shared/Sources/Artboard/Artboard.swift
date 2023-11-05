@@ -45,12 +45,14 @@ public class Artboard {
 public class Frame: ArtboardContainer, ObservableObject {
     public var type: ArtboardType = .frame
     
+    public var id: UUID
     public var label: String {
         willSet { objectWillChange.send() }
     }
     public var imageLocation: ImageLocation {
         willSet { objectWillChange.send() }
     }
+
     public var frame: CGRect
     
     /// In absolute coordinates
@@ -63,18 +65,22 @@ public class Frame: ArtboardContainer, ObservableObject {
         frame: CGRect,
         elements: [any ArtboardElement]
     ) {
-        self.init(label: label,
-                  imageLocation: .file(name: imageName),
-                  frame: frame,
-                  elements: elements)
+        self.init(
+            id: UUID(),
+            label: label,
+            imageLocation: .file(name: imageName),
+            frame: frame,
+            elements: elements)
     }
     
     public init(
+        id: UUID = UUID(),
         label: String,
         imageLocation: ImageLocation,
         frame: CGRect,
         elements: [any ArtboardElement]
     ) {
+        self.id = id
         self.label = label
         self.imageLocation = imageLocation
         self.frame = frame
@@ -92,11 +98,38 @@ public class Frame: ArtboardContainer, ObservableObject {
     }
 }
 
-public enum ImageLocation: Codable, Equatable {
+public enum ImageLocation: Equatable {
+    case cache(image: Image)
+    case file(name: String)
+    case url(url: URL)
+    
+    public static func from(dto: ImageLocationDto) -> Self {
+        switch dto {
+        case .file(let name): return .file(name: name)
+        case .url(let url): return .url(url: url)
+        case .tmp(name: let name, data: let data):
+            // TODO: Optionals
+            return .cache(image: Image(data: data!)!)
+        }
+    }
+}
+
+public enum ImageLocationDto: Codable {
     case file(name: String)
     case url(url: URL)
     /// Temporary data stored during design process, shouldn't be encoded
     case tmp(name: String, data: Data?)
+    
+    public static func from(_ model: ImageLocation) -> Self {
+        switch model {
+        case .file(let name): return .file(name: name)
+        case .url(let url): return .url(url: url)
+        case .cache(image: let image):
+            // TODO: Add code
+            // return .tmp(name: <#T##String#>, data: <#T##Data?#>)
+            fatalError()
+        }
+    }
 }
 
 public protocol ImageLoading {

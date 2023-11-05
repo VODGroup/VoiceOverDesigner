@@ -71,7 +71,7 @@ class ArtboardElementDecodable: Codable {
             // TODO: Implement
             let dto = try FrameDTO(from: decoder)
             self.view = Frame(label: dto.label,
-                              imageLocation: dto.imageLocation,
+                              imageLocation: .from(dto: dto.imageLocation),
                               frame: dto.frame,
                               elements: dto.elements.map(\.view))
         case .element:
@@ -97,27 +97,17 @@ class FrameDTO: Codable {
     init(frame: Frame) {
         self.label = frame.label
         self.frame = frame.frame
-        self.imageLocation = frame.imageLocation
+        self.imageLocation = .from(frame.imageLocation)
         self.elements = frame.elements.map(ArtboardElementDecodable.init(view:))
+        
+        self.id = frame.id
     }
     
     public var type: ArtboardType = .frame
+    @DecodableDefault.RandomUUID
+    public var id: UUID
     public var label: String
-    public var imageLocation: ImageLocation
+    public var imageLocation: ImageLocationDto
     public var frame: CGRect
     public var elements: [ArtboardElementDecodable]
-}
-
-class SimpleFrameDTO: Codable {
-    init(frame: Frame) {
-        self.label = frame.label
-        self.frame = frame.frame
-        self.elements = frame.elements.map(ArtboardElementDecodable.init(view:))
-    }
-    
-    public var type: ArtboardType = .frame
-    public var label: String
-    public var frame: CGRect
-    public var elements: [ArtboardElementDecodable]
-    // TODO: Image reference
 }

@@ -13,9 +13,13 @@ final class ArtboardElementArrayTests: XCTestCase {
     }
     
     func testExample() throws {
+        let container = A11yContainer(elements: [A11yDescription.testMake(),
+                                                 A11yDescription.testMake()],
+                                      frame: .zero,
+                                      label: "TestName")
+        
         var array = [any ArtboardElement]()
-        array.append(A11yContainer(elements: [.testMake(), .testMake()],
-                                   frame: .zero, label: "TestName"))
+        array.append(container)
         
         let extracted = array.extractElements()
         XCTAssertEqual(extracted.count, 2)

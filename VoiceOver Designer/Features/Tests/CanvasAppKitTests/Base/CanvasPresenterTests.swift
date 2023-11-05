@@ -37,6 +37,12 @@ class CanvasPresenterTests: XCTestCase {
 // MARK: - DSL
 
 extension CanvasPresenterTests {
+    func didLoadAndAppear() {
+        didLoad()
+        
+        // Did Appear
+        sut.subscribeOnControlChanges()
+    }
     
     var drawnControls: [any ArtboardElement] {
         controller.controlsView.drawnControls.compactMap(\.model)

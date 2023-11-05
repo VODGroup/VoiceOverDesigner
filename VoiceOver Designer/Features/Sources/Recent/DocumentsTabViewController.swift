@@ -1,23 +1,27 @@
 import AppKit
 import Document // For @Storage
 
-class DocumentsTabViewController: NSTabViewController {
+public class DocumentsTabViewController: NSTabViewController {
     
-    init(router: RecentRouter) {
+    public init(router: RecentRouter) {
         super.init(nibName: nil, bundle: nil)
         
-        let userDocuments = NSTabViewItem(viewController: documentsBrowserController(presenter: UserDocumentsPresenter(), router: router))
-        userDocuments.label = NSLocalizedString("My documents", comment: "Tab's label")
-        userDocuments.image = NSImage(systemSymbolName: "tray.full", accessibilityDescription: "My documents")
+        let documentsController = documentsBrowserController(presenter: UserDocumentsPresenter(), router: router)
+        documentsController.title = NSLocalizedString("Recent documents", comment: "Tab's title")
+        let userDocumentsTab = NSTabViewItem(viewController: documentsController)
+        userDocumentsTab.label = NSLocalizedString("My documents", comment: "Tab's label")
+        userDocumentsTab.image = NSImage(systemSymbolName: "tray.full", accessibilityDescription: "My documents")
         
-        let samples = NSTabViewItem(viewController: documentsBrowserController(
+        let samplesController = documentsBrowserController(
             presenter: SamplesDocumentsPresenter(),
-            router: router))
-        samples.label = NSLocalizedString("Samples", comment: "Tab's label")
-        samples.image = NSImage(systemSymbolName: "sparkles.rectangle.stack", accessibilityDescription: "Samples")
+            router: router)
+        samplesController.title = NSLocalizedString("Samples", comment: "Tab's title")
+        let samplesTab = NSTabViewItem(viewController: samplesController)
+        samplesTab.label = NSLocalizedString("Samples", comment: "Tab's label")
+        samplesTab.image = NSImage(systemSymbolName: "sparkles.rectangle.stack", accessibilityDescription: "Samples")
         
-        addTabViewItem(userDocuments)
-        addTabViewItem(samples)
+        addTabViewItem(userDocumentsTab)
+        addTabViewItem(samplesTab)
         
         tabStyle = .unspecified
         selectedTabViewItemIndex = Self.lastSelectedTabIndex
@@ -27,7 +31,7 @@ class DocumentsTabViewController: NSTabViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewWillAppear() {
+    public override func viewWillAppear() {
         super.viewWillAppear()
         
         view.window?.toolbarStyle = .unified
@@ -38,6 +42,7 @@ class DocumentsTabViewController: NSTabViewController {
         router: RecentRouter
     ) -> DocumentsBrowserViewController {
         let projects = DocumentsBrowserViewController.fromStoryboard()
+        projects.title = "1"
         projects.presenter = presenter
         projects.router = router
         return projects
@@ -54,7 +59,7 @@ class DocumentsTabViewController: NSTabViewController {
 
 // MARK: - Toolbar
 extension DocumentsTabViewController {
-    func toolbar() -> NSToolbar {
+    public func toolbar() -> NSToolbar {
         let toolbar = NSToolbar()
         toolbar.delegate = self
         toolbar.displayMode = .iconOnly
@@ -65,15 +70,15 @@ extension DocumentsTabViewController {
         return toolbar
     }
     
-    override func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+    public override func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         return [.documents, .flexibleSpace]
     }
     
-    override func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+    public override func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         return [.documents, .language]
     }
     
-    override func toolbar(
+    public override func toolbar(
         _ toolbar: NSToolbar,
         itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier,
         willBeInsertedIntoToolbar flag: Bool

@@ -6,7 +6,7 @@ import Document
 class CancellingActionsTests: CanvasAfterDidLoadTests {
     
     func pressEsc() {
-        controller.controlsView.escListener.delegate?.didPressed()
+        sut.cancelOperation()
     }
     
     @MainActor

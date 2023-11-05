@@ -21,7 +21,7 @@ final class DocumentVersionsTests: XCTestCase {
         let document = try Sample().document(name: .beta, testCase: self)
         
         // Read on file creation
-        
+
         assertFolder(document)
     }
     
@@ -44,6 +44,8 @@ final class DocumentVersionsTests: XCTestCase {
             numberOfElements: 12,
             rect: CGRect(x: 0, y: 0, width: 390, height: 844)
         )
+
+        assertFolder(document)
     }
     
     // MARK: - Frame version
@@ -74,6 +76,8 @@ final class DocumentVersionsTests: XCTestCase {
             numberOfElements: 12,
             rect: CGRect(x: 0, y: 0, width: 390, height: 844)
         )
+        
+        assertFolder(document)
     }
     
     // MARK: Artboard version
@@ -109,11 +113,14 @@ final class DocumentVersionsTests: XCTestCase {
         )
         
         let frame2 = try XCTUnwrap(artboard.frames.last)
+        
         assert(
             frame: frame2, at: document,
             numberOfElements: 8,
             rect: CGRect(x: 0, y: 0, width: 1170, height: 3372)
         )
+
+        assertFolder(document)
     }
     
     // MARK: - Restoration DSL

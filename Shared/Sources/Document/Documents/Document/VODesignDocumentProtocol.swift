@@ -70,7 +70,7 @@ extension Frame {
 //        let frame = CGRect(origin: .zero, size: image.size)
         
         self.init(label: name,
-                  imageLocation: .tmp(name: name, data: image.heic()), // TODO: It's strange to conver to custom format, better to kee
+                  imageLocation: .cache(image: image),
                   frame: frame,
                   elements: [])
     }
