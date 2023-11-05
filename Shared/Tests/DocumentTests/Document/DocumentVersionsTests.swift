@@ -183,7 +183,7 @@ final class DocumentVersionsTests: XCTestCase {
 #elseif os(iOS)
     
     func test_canReadDocumentWithoutFrameFolder() async throws {
-        let document = try Sample().document(name: .beta)
+        let document = try Sample().document(name: .beta, testCase: self)
         
         await document.read()
 
@@ -195,7 +195,7 @@ final class DocumentVersionsTests: XCTestCase {
     }
     
     func test_canReadFrameFileFormat() async throws {
-        let document = try Sample().document(name: .frame)
+        let document = try Sample().document(name: .frame, testCase: self)
         
         await document.read()
 
@@ -209,7 +209,7 @@ final class DocumentVersionsTests: XCTestCase {
 }
 
 #if os(iOS)
-extension Document {
+extension AppleDocument {
     func read() async {
         await withCheckedContinuation({ continuation in
             open(completionHandler: { _ in
@@ -237,8 +237,15 @@ func assertFolder(
 ) {
     let testBundle = Bundle.module.resourceURL!
     
+    let url: URL
+#if os(macOS)
+    url = document.fileURL!
+#elseif os(iOS)
+    url = document.fileURL
+#endif
+    
     assertSnapshot(
-        matching: document.fileURL!,
+        matching: url,
         as: .folderStructure,
         testBundleResourceURL: testBundle,
         file: file,
