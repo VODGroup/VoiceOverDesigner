@@ -275,13 +275,8 @@ public struct PresentationView: View {
         case .frame(let frame):
             VStack(alignment: .leading, spacing: 4) {
                 controlText(frame)
-                // TODO: Should not be extractElements. Should be able to render any number of layers inside
                 Text("Frame todo")
                 // Should be listItem
-//                ForEach(frame.elements, id: \.id) { element in
-//                    listItem(element)
-//                        .padding(.horizontal, 16)
-//                }
             }
         }
     }
