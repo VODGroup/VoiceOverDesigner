@@ -23,10 +23,12 @@ class DocumentWrappersInvalidationTests: XCTestCase {
     func test_documentWithImage_whenUpdateImage_shouldInvalidateWrapper() throws {
         // Arrange
         let document = try Sample().document(name: .artboard, testCase: self)
+        let image = Sample().image3x()
         
         // Act: update frame's image
         let frame = try XCTUnwrap(document.artboard.frames.first)
-        document.update(image: .tmp(name: "NewImage", data: Data()), for: frame)
+        
+        document.update(image: .cache(image: image), for: frame)
         try document.saveAndRemoveAtTearDown(name: "ImageInvalidation", testCase: self)
         
         // Assert: shouldInvalidate previous image
@@ -41,7 +43,7 @@ class DocumentWrappersInvalidationTests: XCTestCase {
         
         let frame2 = try XCTUnwrap(document.artboard.frames.last)
         let image = document.artboard.imageLoader.image(for: frame2)!
-        let imageLocation = ImageLocation.tmp(name: "NewImage", data: image.heic()!)
+        let imageLocation = ImageLocation.cache(image: image)
         document.update(image: imageLocation, for: frame1)
 
         XCTAssertEqual(frame1.frame, CGRect(x: 2340, y: 0, width: 1170, height: 3272)) // Height is different

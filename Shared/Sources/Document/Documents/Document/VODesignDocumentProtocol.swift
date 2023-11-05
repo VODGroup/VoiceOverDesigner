@@ -49,8 +49,10 @@ extension VODesignDocumentProtocol {
             imagesFolderWrapper.invalidateIfPossible(file: name)
         case .url(url: _):
             fatalError("Don't know is some code is needed here")
-        case .tmp(name: let name, data: _):
-            imagesFolderWrapper.invalidateIfPossible(file: name)
+        case .cache(_):
+            // TODO: convert to file
+            fatalError("Convert to file")
+//            imagesFolderWrapper.invalidateIfPossible(file: name)
         }
         
         frame.imageLocation = image

@@ -36,13 +36,21 @@ extension VODesignDocumentProtocol {
                 }
             case .url(url: let url):
                 break // Do nothing, location will be saved at document.json
-            case .tmp(name: let name, data: let data):
-                if let imageWrapper = imageWrapper(frame: frame) {
-                    imagesFolderWrapper.addFileWrapper(imageWrapper)
+            case .cache(let image):
+                guard let imageData = artboard.imageLoader.image(for: frame)?.png()
+                else {
+                    print("No image to store")
+                    return
                 }
                 
+                let imageWrapper = FileWrapper(regularFileWithContents: imageData)
+                imageWrapper.preferredFilename = FileName.screen
+                
+                imagesFolderWrapper.addFileWrapper(imageWrapper)
+                
                 // Update location
-                frame.imageLocation = .file(name: name)
+                // TODO: Name should be different
+                frame.imageLocation = .file(name: FileName.screen)
             }
         }
     }
@@ -103,27 +111,6 @@ extension VODesignDocumentProtocol {
         let wrapper = FileWrapper(regularFileWithContents: try codingService.data(from: artboard))
         wrapper.preferredFilename = FileName.document
         return wrapper
-    }
-    
-    private func imageWrapper(frame: Frame) -> FileWrapper? {
-        // Saving temporary data to document and setting to back file
-        if case .cache(image: let image) = frame.imageLocation {
-            // TODO: Restore
-            fatalError()
-//            guard let data else { return nil }
-//            let imageWrapper = FileWrapper(regularFileWithContents: data)
-//            imageWrapper.preferredFilename = name
-//            frame.imageLocation = .file(name: name)
-//            return imageWrapper
-        }
-        
-        guard let imageData = artboard.imageLoader.image(for: frame)?.png()
-        else { return nil }
-        
-        let imageWrapper = FileWrapper(regularFileWithContents: imageData)
-        imageWrapper.preferredFilename = FileName.screen
-        
-        return imageWrapper
     }
     
     private func previewWrapper() -> FileWrapper? {
