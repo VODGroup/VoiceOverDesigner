@@ -405,7 +405,6 @@ public struct PresentationView: View {
     }
 
     func select(_ control: any ArtboardElement) {
-        customDump(control)
         guard let control = control as? A11yDescription else { return }
         withAnimation(Constants.animation) {
             selectedControl = control
@@ -518,7 +517,7 @@ let samplesURL = URL(fileURLWithPath: "/Users/agpone/Developer/VoiceOverSamples"
                             .init(
                                 label: "wow",
                                 imageName: "image",
-                                frame: .init(x: 10, y: 10, width: 300, height: 300),
+                                frame: .init(x: 0, y: 0, width: 300, height: 300),
                                 elements: [
                                     A11yDescription.fake(
                                         id: id,
@@ -536,7 +535,7 @@ let samplesURL = URL(fileURLWithPath: "/Users/agpone/Developer/VoiceOverSamples"
                                                 frame: frame2
                                             )
                                         ],
-                                        frame: .init(x: 5, y: 5, width: 200, height: 200),
+                                        frame: .init(x: 55, y: 55, width: 200, height: 200),
                                         label: "some"
                                     )
                                 ]

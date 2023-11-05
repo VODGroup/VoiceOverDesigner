@@ -6,10 +6,10 @@
 //
 
 import Foundation
-import CustomDump
 
 public struct VODesignDocumentPresentation {
-    /// Storage for all elements
+    /// Storage for all elements.
+    /// Containers are unwrapped and every element inside is stored.
     public private(set) var controls: [UUID: any ArtboardElement]
     /// Elements order
     public let orderedControlIds: [UUID]
@@ -39,8 +39,6 @@ public struct VODesignDocumentPresentation {
     }
 
     public init(_ document: VODesignDocumentProtocol) {
-        customDump(document)
-
         var order: [UUID] = []
         var flatOrder: [UUID] = []
         self.controls = document.artboard.frames
@@ -49,6 +47,7 @@ public struct VODesignDocumentPresentation {
                     result[$0.id] = $0
                     order.append($0.id)
                     for element in $0.extractElements() {
+                        result[element.id] = element
                         flatOrder.append(element.id)
                     }
                 }
@@ -58,6 +57,7 @@ public struct VODesignDocumentPresentation {
             self.controls[control.id] = control
             order.append(control.id)
             for element in control.extractElements() {
+                self.controls[element.id] = element
                 flatOrder.append(element.id)
             }
         }
