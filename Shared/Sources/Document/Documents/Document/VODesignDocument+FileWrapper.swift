@@ -4,8 +4,6 @@ extension VODesignDocumentProtocol {
     
     // MARK: - Write
     func fileWrapper() throws -> FileWrapper {
-        storeImagesAsFileWrappers()
-        
         // Save artboard's structure
         documentWrapper.invalidateIfPossible(file: FileName.document)
         let documentStructureWrapper = try documentStructureFileWrapper()
@@ -20,7 +18,7 @@ extension VODesignDocumentProtocol {
         return documentWrapper
     }
     
-    private func storeImagesAsFileWrappers() {
+    func storeImagesAsFileWrappers() {
         for frame in artboard.frames {
             switch frame.imageLocation {
                 

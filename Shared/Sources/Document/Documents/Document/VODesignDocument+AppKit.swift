@@ -51,10 +51,13 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
         addFrame(with: image, origin: .zero)
     }
     
+    var version: DocumentVersion!
+    
     // MARK: - Override
     
     public override func fileWrapper(ofType typeName: String) throws -> FileWrapper {
         Swift.print("Will save")
+        storeImagesAsFileWrappers()
         return try fileWrapper()
     }
     
@@ -64,13 +67,16 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
         defer { undoManager?.enableUndoRegistration() }
         
         do {
-            let (version, artboard) = try read(from: packageWrapper)
+            let (version, artboard) = try read(from: packageWrapper,
+                                               documentURL: fileURL!)
             
             self.artboard = artboard
-            artboard.imageLoader = ImageLoader(documentPath: { [weak self] in self?.fileURL
+            self.version = version
+            artboard.imageLoader = ImageLoader(documentPath: { [weak self] in 
+                self?.fileURL
             })
             
-            try performDocumentMigration(from: version)
+            prepareFormatForArtboard(for: version)
             
         } catch let error {
             Swift.print(error)
@@ -78,33 +84,12 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
         }
     }
     
-    private func performDocumentMigration(from version: DocumentVersion) throws {
-        let fileManager = FileManager.default
+    private func prepareFormatForArtboard(for version: DocumentVersion) {
         switch version {
         case .beta:
-            if let fileURL {
-                let fromPath = fileURL.appendingPathComponent("screen.png")
-                var toPath = fileURL.appendingPathComponent(FolderName.images)
-                try fileManager.createDirectory(at: toPath, withIntermediateDirectories: true)
-                
-                toPath = toPath.appendingPathComponent("Frame.png")
-                try fileManager.moveItem(
-                    at: fromPath,
-                    to: toPath)
-            }
-           
-            createEmptyDocumentWrapper() 
+            createEmptyDocumentWrapper()
         case .release:
-            if let fileURL {
-                let fromPath = fileURL.appendingPathComponent("Frame/screen.png")
-                var toPath = fileURL.appendingPathComponent(FolderName.images)
-                try fileManager.createDirectory(at: toPath, withIntermediateDirectories: true)
-                
-                toPath = toPath.appendingPathComponent("Frame.png")
-                try fileManager.moveItem(
-                    at: fromPath,
-                    to: toPath)
-            }
+            break
         case .artboard:
             break
         }
