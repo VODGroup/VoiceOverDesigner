@@ -17,7 +17,7 @@ final class DocumentVersionsTests: XCTestCase {
 #if os(macOS)
     
     // MARK: - Beta format
-    func test_betaDocument_whenRead_shouldUpdateStructure() throws {
+    func test_betaDocument_whenRead_shouldKeepStructure() throws {
         let document = try Sample().document(name: .beta, testCase: self)
         
         // Read on file creation
