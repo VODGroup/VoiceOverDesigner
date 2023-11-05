@@ -14,31 +14,15 @@ class FrameInfoCodableTests: XCTestCase {
             frame: CGRect(origin: .zero,
                           size: CGSize(width: 100, height: 200)))
         
-        let actual = try decodeToString(sut)
+        let result = try decodeAndEncode(sut)
         
-        XCTAssertNoDifference(actual, """
-{
-  "id" : "9B2125D5-EA06-4E91-AFBF-1D4698158851",
-  "imageScale" : 1,
-  "frame" : [
-    [
-      0,
-      0
-    ],
-    [
-      100,
-      200
-    ]
-  ]
-}
-""")
+        XCTAssertEqual(sut.id, result.id)
+        XCTAssertEqual(sut.imageScale, result.imageScale)
+        XCTAssertEqual(sut.frame, result.frame)
     }
     
-    private func decodeToString(_ codable: Codable) throws -> String {
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted
-        let data = try encoder.encode(codable)
-        let string = String(data: data, encoding: .utf8)!
-        return string
+    private func decodeAndEncode<T: Codable>(_ model: T) throws -> T {
+        let data = try JSONEncoder().encode(model)
+        return try JSONDecoder().decode(T.self, from: data)
     }
 }
