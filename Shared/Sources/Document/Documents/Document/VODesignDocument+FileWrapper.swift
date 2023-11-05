@@ -22,7 +22,7 @@ extension VODesignDocumentProtocol {
         for frame in artboard.frames {
             switch frame.imageLocation {
                 
-            case .file(name: let name):
+            case .file(let name):
                 if let existedWrapper = imagesFolderWrapper.fileWrappers?[name] {
                     return
                 }
@@ -32,8 +32,14 @@ extension VODesignDocumentProtocol {
                 
                     imagesFolderWrapper.addFileWrapper(imageWrapper)
                 }
-            case .url(url: let url):
-                break // Do nothing, location will be saved at document.json
+            case .url(let url):
+                if let imageWrapper = try? FileWrapper(url: url) {
+                    imageWrapper.preferredFilename = "Frame.png"
+                    
+                    imagesFolderWrapper.addFileWrapper(imageWrapper)
+                } else {
+                    
+                }
             case .cache(let image):
                 guard let imageData = artboard.imageLoader.image(for: frame)?.png()
                 else {
@@ -42,13 +48,13 @@ extension VODesignDocumentProtocol {
                 }
                 
                 let imageWrapper = FileWrapper(regularFileWithContents: imageData)
-                imageWrapper.preferredFilename = FileName.screen
+                imageWrapper.preferredFilename = "Frame.png"
                 
                 imagesFolderWrapper.addFileWrapper(imageWrapper)
                 
                 // Update location
                 // TODO: Name should be different
-                frame.imageLocation = .file(name: FileName.screen)
+                frame.imageLocation = .file(name: "Frame.png") // TODO: Use url
             }
         }
     }
@@ -129,7 +135,8 @@ extension VODesignDocumentProtocol {
 extension VODesignDocumentProtocol {
     
     func read(
-        from packageWrapper: FileWrapper
+        from packageWrapper: FileWrapper,
+        documentURL: URL
     ) throws -> (DocumentVersion, Artboard) {
         guard packageWrapper.isDirectory else {
             // Some file from tests creates as a directory
@@ -152,9 +159,12 @@ extension VODesignDocumentProtocol {
             let imageData = documentWrapper.fileWrappers![FileName.screen]!.regularFileContents!
             let imageSize = Image(data: imageData)?.size ?? .zero
             
+            let imageUrl = documentURL
+                .appendingPathComponent(FileName.screen)
+            
             let artboard = Artboard(frames: [
                 Frame(label: "Frame",
-                      imageName: "Frame.png",
+                      imageLocation: .url(url: imageUrl),
                       frame: CGRect(origin: .zero, size: imageSize),
                       elements: controls)
             ])
@@ -163,7 +173,7 @@ extension VODesignDocumentProtocol {
         case .release:
             if let frameWrapper = documentWrapper.fileWrappers?[defaultFrameName] {
                 let artboard = Artboard(frames: [
-                    try readFrameWrapper(frameWrapper)
+                    try readFrameWrapper(frameWrapper, documentURL: documentURL)
                 ])
                 
                 documentWrapper.removeFileWrapper(frameWrapper)
@@ -182,7 +192,10 @@ extension VODesignDocumentProtocol {
     }
     
     /// For version .release
-    private func readFrameWrapper(_ frameWrapper: FileWrapper) throws -> Frame {
+    private func readFrameWrapper(
+        _ frameWrapper: FileWrapper,
+        documentURL: URL
+    ) throws -> Frame {
         print("Read wrapper \(frameWrapper.filename)")
         let frameFolder = frameWrapper.fileWrappers!
 
@@ -217,9 +230,11 @@ extension VODesignDocumentProtocol {
         
         let name = frameWrapper.filename ?? UUID().uuidString
         
-        // TODO: Put image inside folder
+        let imageUrl = documentURL
+            .appendingPathComponent("Frame")
+            .appendingPathComponent(FileName.screen)
         return Frame(label: name,
-                     imageName: "Frame.png",
+                     imageLocation: .url(url: imageUrl),
                      frame: frame,
                      elements: controls)
     }

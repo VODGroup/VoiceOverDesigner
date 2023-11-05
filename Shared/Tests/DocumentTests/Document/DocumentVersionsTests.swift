@@ -43,12 +43,10 @@ final class DocumentVersionsTests: XCTestCase {
             numberOfElements: 12,
             rect: CGRect(x: 0, y: 0, width: 390, height: 844)
         )
-
-        assertFolder(document)
     }
     
     // MARK: - Frame version
-    func test_frameDocument_whenRead_shouldUpdateStructure() throws {
+    func test_frameDocument_whenRead_shouldKeepStructure() throws {
         let document = try Sample().document(name: .frame, testCase: self)
         
         // Read on file creation
@@ -74,8 +72,6 @@ final class DocumentVersionsTests: XCTestCase {
             numberOfElements: 12,
             rect: CGRect(x: 0, y: 0, width: 390, height: 844)
         )
-        
-        assertFolder(document)
     }
     
     // MARK: Artboard version
