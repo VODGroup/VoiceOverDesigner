@@ -42,20 +42,25 @@ extension VODesignDocumentProtocol {
         documentWrapper.invalidateIfPossible(file: FolderName.quickLook)
     }
     
-    public func update(image: ImageLocation, for frame: Frame) {
+    public func update(image: Image, for frame: Frame) {
+        var featureName: String = UUID().uuidString
+        
         switch frame.imageLocation {
-            
-        case .file(name: let name):
+        case .relativeFile(let path):
+            let name = URL(filePath: path).lastPathComponent
             imagesFolderWrapper.invalidateIfPossible(file: name)
-        case .url(url: _):
+            
+            featureName = name // Will use to keep naming
+        case .remote(let url):
             fatalError("Don't know is some code is needed here")
         case .cache(_):
             // TODO: convert to file
-            fatalError("Convert to file")
+            fatalError("Remove old file from cache")
 //            imagesFolderWrapper.invalidateIfPossible(file: name)
         }
         
-        frame.imageLocation = image
+        // TODO: Add to cache folder with given name
+        frame.imageLocation = .cache(image: image, name: featureName)
         let image = artboard.imageLoader.image(for: frame)
         
         frame.frame = CGRect(origin: frame.frame.origin,
@@ -90,7 +95,8 @@ extension Frame {
 //        let frame = CGRect(origin: .zero, size: image.size)
         
         self.init(label: name,
-                  imageLocation: .cache(image: image),
+                  imageLocation: .cache(image: image,
+                                        name: UUID().uuidString), // TODO: Make fancy name. Call to ChatGPT!!
                   frame: frame,
                   elements: [])
     }

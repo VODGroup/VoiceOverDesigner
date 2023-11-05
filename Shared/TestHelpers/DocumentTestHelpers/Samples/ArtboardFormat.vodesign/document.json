@@ -471,8 +471,8 @@
       ],
       "type" : "frame",
       "imageLocation" : {
-        "file" : {
-          "name" : "Frame2.png"
+        "relativeFile" : {
+          "path" : "Images/Frame2.png"
         }
       }
     },
@@ -756,8 +756,8 @@
       ],
       "type" : "frame",
       "imageLocation" : {
-        "file" : {
-          "name" : "Frame.png"
+        "relativeFile" : {
+          "path" : "Images/Frame.png"
         }
       }
     }

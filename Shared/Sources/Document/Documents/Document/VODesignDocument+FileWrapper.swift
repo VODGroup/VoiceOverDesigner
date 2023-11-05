@@ -22,43 +22,42 @@ extension VODesignDocumentProtocol {
         for frame in artboard.frames {
             switch frame.imageLocation {
                 
-            case .file(let name):
+            case .relativeFile(let path):
+                let url = URL(filePath: path)
+                let name = url.lastPathComponent
+                
                 if let existedWrapper = imagesFolderWrapper.fileWrappers?[name] {
                     return
                 }
                  
-                if let imageWrapper = try? FileWrapper(url: artboard.imageLoader.url(for: name)) {
-                    imageWrapper.preferredFilename = name
-                
-                    imagesFolderWrapper.addFileWrapper(imageWrapper)
-                }
-            case .url(let url):
-                if let existedWrapper = imagesFolderWrapper.fileWrappers?["Frame.png"] {
-                    return
-                }
-                
-                if let imageWrapper = try? FileWrapper(url: url) {
+                if let imageWrapper = try? FileWrapper(url: artboard.imageLoader.fullPath(relativeTo: path)) {
                     imageWrapper.preferredFilename = "Frame.png"
-                    
+                
                     imagesFolderWrapper.addFileWrapper(imageWrapper)
-                } else {
                     
+                    let url = URL(filePath: "Images")
+                        .appendingPathComponent("Frame.png").path()
+                    frame.imageLocation = .relativeFile(path: url)
                 }
-            case .cache(let image):
-                guard let imageData = artboard.imageLoader.image(for: frame)?.png()
+            case .remote(let url):
+                // TODO: Move to local files?
+                fatalError()
+                
+            case .cache(let image, let name):
+                // No check for existed wrapper because we will move from .cached to .fileRelative state
+                
+                guard let imageData = image.png()
                 else {
                     print("No image to store")
                     return
                 }
                 
                 let imageWrapper = FileWrapper(regularFileWithContents: imageData)
-                imageWrapper.preferredFilename = "Frame.png"
+                imageWrapper.preferredFilename = name
                 
                 imagesFolderWrapper.addFileWrapper(imageWrapper)
                 
-                // Update location
-                // TODO: Name should be different
-                frame.imageLocation = .file(name: "Frame.png") // TODO: Use url
+                frame.imageLocation = .relativeFile(path: "Images/\(name)")
             }
         }
     }
@@ -139,8 +138,7 @@ extension VODesignDocumentProtocol {
 extension VODesignDocumentProtocol {
     
     func read(
-        from packageWrapper: FileWrapper,
-        documentURL: URL
+        from packageWrapper: FileWrapper
     ) throws -> (DocumentVersion, Artboard) {
         guard packageWrapper.isDirectory else {
             // Some file from tests creates as a directory
@@ -163,12 +161,9 @@ extension VODesignDocumentProtocol {
             let imageData = documentWrapper.fileWrappers![FileName.screen]!.regularFileContents!
             let imageSize = Image(data: imageData)?.size ?? .zero
             
-            let imageUrl = documentURL
-                .appendingPathComponent(FileName.screen)
-            
             let artboard = Artboard(frames: [
                 Frame(label: "Frame",
-                      imageLocation: .url(url: imageUrl),
+                      imageLocation: .relativeFile(path: FileName.screen),
                       frame: CGRect(origin: .zero, size: imageSize),
                       elements: controls)
             ])
@@ -177,7 +172,7 @@ extension VODesignDocumentProtocol {
         case .release:
             if let frameWrapper = documentWrapper.fileWrappers?[defaultFrameName] {
                 let artboard = Artboard(frames: [
-                    try readFrameWrapper(frameWrapper, documentURL: documentURL)
+                    try readFrameWrapper(frameWrapper)
                 ])
                 
                 documentWrapper.removeFileWrapper(frameWrapper)
@@ -197,8 +192,7 @@ extension VODesignDocumentProtocol {
     
     /// For version .release
     private func readFrameWrapper(
-        _ frameWrapper: FileWrapper,
-        documentURL: URL
+        _ frameWrapper: FileWrapper
     ) throws -> Frame {
         print("Read wrapper \(frameWrapper.filename)")
         let frameFolder = frameWrapper.fileWrappers!
@@ -234,11 +228,8 @@ extension VODesignDocumentProtocol {
         
         let name = frameWrapper.filename ?? UUID().uuidString
         
-        let imageUrl = documentURL
-            .appendingPathComponent("Frame")
-            .appendingPathComponent(FileName.screen)
         return Frame(label: name,
-                     imageLocation: .url(url: imageUrl),
+                     imageLocation: .relativeFile(path: "Frame/\(FileName.screen)"),
                      frame: frame,
                      elements: controls)
     }
@@ -262,3 +253,4 @@ extension FileWrapper {
         }
     }
 }
+

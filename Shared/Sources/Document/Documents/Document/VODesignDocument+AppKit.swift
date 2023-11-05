@@ -67,8 +67,7 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
         defer { undoManager?.enableUndoRegistration() }
         
         do {
-            let (version, artboard) = try read(from: packageWrapper,
-                                               documentURL: fileURL!)
+            let (version, artboard) = try read(from: packageWrapper)
             
             self.artboard = artboard
             self.version = version

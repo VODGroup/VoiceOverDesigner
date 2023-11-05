@@ -68,7 +68,7 @@ public class Frame: ArtboardContainer, ObservableObject {
         self.init(
             id: UUID(),
             label: label,
-            imageLocation: .file(name: imageName),
+            imageLocation: .relativeFile(path: imageName),
             frame: frame,
             elements: elements)
     }
@@ -99,31 +99,31 @@ public class Frame: ArtboardContainer, ObservableObject {
 }
 
 public enum ImageLocation: Equatable {
-    case cache(image: Image)
-    case file(name: String)
-    case url(url: URL)
+    case cache(image: Image, name: String)
+    case relativeFile(path: String)
+    case remote(url: URL)
     
     public static func from(dto: ImageLocationDto) -> Self {
         switch dto {
-        case .file(let name): return .file(name: name)
-        case .url(let url): return .url(url: url)
+        case .relativeFile(let name): return .relativeFile(path: name)
+        case .remote(let url): return .remote(url: url)
         case .tmp(name: let name, data: let data):
             // TODO: Optionals
-            return .cache(image: Image(data: data!)!)
+            return .cache(image: Image(data: data!)!, name: name)
         }
     }
 }
 
 public enum ImageLocationDto: Codable {
-    case file(name: String)
-    case url(url: URL)
+    case relativeFile(path: String)
+    case remote(url: URL)
     /// Temporary data stored during design process, shouldn't be encoded
     case tmp(name: String, data: Data?)
     
     public static func from(_ model: ImageLocation) -> Self {
         switch model {
-        case .file(let name): return .file(name: name)
-        case .url(let url): return .url(url: url)
+        case .relativeFile(let path): return .relativeFile(path: path)
+        case .remote(let url): return .remote(url: url)
         case .cache(image: let image):
             // TODO: Add code
             // return .tmp(name: <#T##String#>, data: <#T##Data?#>)
@@ -134,7 +134,7 @@ public enum ImageLocationDto: Codable {
 
 public protocol ImageLoading {
     func image(for frame: Frame) -> Image?
-    func url(for imageName: String) -> URL
+    func fullPath(relativeTo relativePath: String) -> URL
 }
 
 public class DummyImageLoader: ImageLoading {
@@ -144,7 +144,7 @@ public class DummyImageLoader: ImageLoading {
         return nil
     }
     
-    public func url(for imageName: String) -> URL {
+    public func fullPath(relativeTo relativePath: String) -> URL {
         return URL(string: "")!
     }
 }

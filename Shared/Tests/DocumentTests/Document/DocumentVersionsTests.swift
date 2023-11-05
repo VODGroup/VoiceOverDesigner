@@ -45,6 +45,20 @@ final class DocumentVersionsTests: XCTestCase {
         )
     }
     
+    func test_betaDocument_whenOpen_shouldLoadImage() throws {
+        let document = try Sample().document(name: .beta, testCase: self)
+        
+        XCTAssertNotNil(try document.imageFromFirstFrame())
+    }
+    
+    func test_betaDocument_whenOpenAndSaveWithSameName_shouldLoadImage() throws {
+        let document = try Sample().document(name: .beta, testCase: self)
+        
+        try document.saveAndRemoveAtTearDown(name: .beta, testCase: self)
+        
+        XCTAssertNotNil(try document.imageFromFirstFrame())
+    }
+    
     // MARK: - Frame version
     func test_frameDocument_whenRead_shouldKeepStructure() throws {
         let document = try Sample().document(name: .frame, testCase: self)
@@ -62,6 +76,14 @@ final class DocumentVersionsTests: XCTestCase {
         assertFolder(document)
     }
     
+    func test_frameDocument_whenReadAfterMigration_shouldKeepStructure() throws {
+        let document = try Sample().document(name: .frame, testCase: self)
+        
+        try document.saveAndRemoveAtTearDown(name: "FrameVersionFormat", testCase: self)
+        
+        XCTAssertNotNil(try document.imageFromFirstFrame())
+    }
+    
     func test_frameDocument_whenRead_shouldReadAsFirstFrame() throws {
         let document = try Sample().document(name: .frame, testCase: self)
         
@@ -72,6 +94,20 @@ final class DocumentVersionsTests: XCTestCase {
             numberOfElements: 12,
             rect: CGRect(x: 0, y: 0, width: 390, height: 844)
         )
+    }
+    
+    func test_frameDocument_whenOpen_shouldLoadImage() throws {
+        let document = try Sample().document(name: .frame, testCase: self)
+        
+        XCTAssertNotNil(try document.imageFromFirstFrame())
+    }
+    
+    func test_frameDocument_whenOpenAndSaveWithSameName_shouldLoadImage() throws {
+        let document = try Sample().document(name: .frame, testCase: self)
+        
+        try document.saveAndRemoveAtTearDown(name: .frame, testCase: self)
+        
+        XCTAssertNotNil(try document.imageFromFirstFrame())
     }
     
     // MARK: Artboard version
@@ -115,6 +151,22 @@ final class DocumentVersionsTests: XCTestCase {
 
         assertFolder(document)
     }
+    
+    func test_artboardDocument_whenOpen_shouldLoadImage() throws {
+        let document = try Sample().document(name: .artboard, testCase: self)
+        
+        XCTAssertNotNil(try document.imageFromFirstFrame())
+    }
+    
+    func test_artboardDocument_whenOpenAndSaveWithSameName_shouldLoadImage() throws {
+        let document = try Sample().document(name: .artboard, testCase: self)
+        
+        try document.saveAndRemoveAtTearDown(name: .artboard, testCase: self)
+        
+        XCTAssertNotNil(try document.imageFromFirstFrame())
+    }
+    
+    // TODO: Test that we can rename document, but image should keep relative path
     
     // MARK: - Restoration DSL
 
@@ -167,6 +219,15 @@ extension Document {
     }
 }
 #endif
+
+
+extension VODesignDocumentProtocol {
+    func imageFromFirstFrame() throws -> Image? {
+        let frame = try XCTUnwrap(artboard.frames.first)
+        let image = artboard.imageLoader?.image(for: frame)
+        return image
+    }
+}
 
 func assertFolder(
     _ document: VODesignDocument,
