@@ -33,6 +33,10 @@ extension VODesignDocumentProtocol {
                     imagesFolderWrapper.addFileWrapper(imageWrapper)
                 }
             case .url(let url):
+                if let existedWrapper = imagesFolderWrapper.fileWrappers?["Frame.png"] {
+                    return
+                }
+                
                 if let imageWrapper = try? FileWrapper(url: url) {
                     imageWrapper.preferredFilename = "Frame.png"
                     
