@@ -2,18 +2,8 @@ import Foundation
 
 extension Array where Element == any ArtboardElement {
     public func extractElements() -> [A11yDescription] {
-        reduce([A11yDescription]()) { result, next in
-            var newResult = result
-            
-            switch next.cast {
-            case .frame(let frame):
-                newResult.append(contentsOf: frame.elements.extractElements())
-            case .container(let container):
-                newResult.append(contentsOf: container.controls)
-            case .element(let element):
-                newResult.append(element)
-            }
-            return newResult
+        reduce(into: [A11yDescription]()) { result, next in
+            result.append(contentsOf: next.extractElements())
         }
     }
     
@@ -30,3 +20,17 @@ extension Array where Element == any ArtboardElement {
     }
 }
 
+extension ArtboardElement {
+    public func extractElements() -> [A11yDescription] {
+        var result: [A11yDescription] = []
+        switch cast {
+        case .frame(let frame):
+            result.append(contentsOf: frame.elements.extractElements())
+        case .container(let container):
+            result.append(contentsOf: container.controls)
+        case .element(let element):
+            result.append(element)
+        }
+        return result
+    }
+}
