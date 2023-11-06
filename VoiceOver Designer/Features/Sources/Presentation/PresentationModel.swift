@@ -9,8 +9,8 @@ import Foundation
 import Document
 import SwiftUI
 
-final class PresentationModel: ObservableObject {
-    public enum Constants {
+public final class PresentationModel: ObservableObject {
+    enum Constants {
         static let animation: Animation = .linear(duration: 0.15)
     }
 
@@ -36,7 +36,7 @@ final class PresentationModel: ObservableObject {
         }
     }
 
-    public func handle(_ action: Action) {
+    func handle(_ action: Action) {
         switch action {
         case .select(let artboardElement):
             guard let control = artboardElement as? A11yDescription else { return }

@@ -10,6 +10,7 @@ import SwiftUI
 import Document
 
 public struct PresentationView: View {
+
     public enum Constants {
         public static let controlsWidth: CGFloat = 500
         public static let leadingSpacer: CGFloat = 100
@@ -35,7 +36,11 @@ public struct PresentationView: View {
         // TODO: Add minimal limit for long documents
         return min(h, v)
     }
-    
+
+    public init(model: PresentationModel) {
+        self._model = .init(wrappedValue: model)
+    }
+
     public var body: some View {
         ZStack {
             Color.clear
