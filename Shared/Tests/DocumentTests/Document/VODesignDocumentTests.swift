@@ -40,7 +40,7 @@ class VODesignDocumentPersistanceTests: XCTestCase {
     private func createDocumentAndSave(
         _ documentSetup: (_ fileName: String) -> VODesignDocument,
         andLoad: (VODesignDocument) -> Void
-    ) {
+    ) throws {
         let fileName = "TestFile1"
         
         var document: VODesignDocument?
@@ -49,8 +49,8 @@ class VODesignDocumentPersistanceTests: XCTestCase {
             document = documentSetup(fileName)
         }
         
-        XCTContext.runActivity(named: "Save document and remove from memory") { _ in
-            document!.save(testCase: self, fileName: fileName)
+        try XCTContext.runActivity(named: "Save document and remove from memory") { _ in
+            try document!.save(name: fileName, testCase: self)
             addTeardownBlock {
                 try! VODesignDocument.removeTestDocument(name: fileName)
             }
@@ -60,14 +60,14 @@ class VODesignDocumentPersistanceTests: XCTestCase {
         XCTContext.runActivity(named: "Read document with same name") { _ in
             let document2 = VODesignDocument(
                 fileName: fileName,
-                rootPath: VODesignDocument.path)
+                rootPath: VODesignDocument.cacheFolder)
             
             andLoad(document2)
         }
     }
     
     func test_saveDocumentWithElementsNotInFrames_whenReadByName_shouldKeepObjects() throws {
-        createDocumentAndSave { fileName in
+        try createDocumentAndSave { fileName in
             VODesignDocument.with2Controls(name: fileName, testCase: self)
         } andLoad: { document in
             XCTAssertEqual(document.artboard.controlsWithoutFrames.count, 2, "Should contain controls")
@@ -75,7 +75,7 @@ class VODesignDocumentPersistanceTests: XCTestCase {
     }
     
     func test_saveDocumentWithElementsInFrames_whenReadByName_shouldKeepObjects() throws {
-        createDocumentAndSave { fileName in
+        try createDocumentAndSave { fileName in
             VODesignDocument.with2ControlsInFrame(name: fileName, testCase: self)
         } andLoad: { document in
             let frames = document.artboard.frames
@@ -89,12 +89,7 @@ class VODesignDocumentPersistanceTests: XCTestCase {
     func testWhenSaveNewDocument_shouldHaveCorrectExtensions() throws {
         let document = VODesignDocument.with2Controls(name: "TestFile2", testCase: self)
         
-        XCTContext.runActivity(named: "Save document to disk") { _ in
-            document.save(testCase: self, fileName: "TestFile2")
-            addTeardownBlock {
-                try! VODesignDocument.removeTestDocument(name: "TestFile2")
-            }
-        }
+        try document.saveAndRemoveAtTearDown(name: "TestFile2", testCase: self)
         
         XCTAssertEqual(document.fileURL?.pathExtension, "vodesign")
     }

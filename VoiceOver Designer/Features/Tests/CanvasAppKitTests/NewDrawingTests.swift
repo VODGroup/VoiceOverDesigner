@@ -88,7 +88,7 @@ class NewDrawingTests: CanvasAfterDidLoadTests {
     }
     
     func addFrame() {
-        let image = try! XCTUnwrap(Sample().image(name: Sample.image3xScale))
+        let image = Sample().image3x()
         sut.add(image: image)
     }
     

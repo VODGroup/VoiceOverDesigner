@@ -4,60 +4,49 @@ import DocumentTestHelpers
 
 class DocumentWrappersInvalidationTests: XCTestCase {
     
-    var document: VODesignDocument!
-    var path: URL!
-
-    // MARK: - DSL
-    private var framePath: URL {
-        path.appendingPathComponent(defaultFrameName)
-    }
-    
-    private func pathInFrame(_ fileName: String) -> URL {
-        path
-            .appendingPathComponent(defaultFrameName)
-            .appendingPathComponent(fileName)
-    }
-    
-    var firstFrame: FileWrapper? {
-        document.frameWrappers[0]
-    }
-    
-    private func assertMatchContentInFrame(
-        _ fileName: String,
-        file: StaticString = #file, line: UInt = #line
-    ) throws {
-        let wrapper = try XCTUnwrap(firstFrame?[fileName], file: file, line: line)
-        let path = pathInFrame(fileName)
-        XCTAssertTrue(wrapper.matchesContents(of: path), file: file, line: line)
-    }
-    
-    private func assertNotMatchContentInFrame(
-        _ fileName: String,
-        file: StaticString = #file, line: UInt = #line
-    ) throws {
-        let wrapper = try XCTUnwrap(firstFrame?[fileName], file: file, line: line)
-        let path = pathInFrame(fileName)
-        XCTAssertFalse(wrapper.matchesContents(of: path), file: file, line: line)
-    }
-    
-    // MARK: - Tests
-    
-    override func setUpWithError() throws {
-        try super.setUpWithError()
+    func test_documentWithImage_matchesContentAfterReading() throws {
+        let document = try Sample().document(name: .artboard, testCase: self)
         
-        document = try Sample().document(name: .frame, testCase: self)
+        let path = try XCTUnwrap(Sample().documentPath(name: .artboard))
         
-        path = try XCTUnwrap(Sample().documentPath(name: .frame))
-    }
-    
-    func test_matchesContentAfterReading() {
         XCTAssertTrue(document.documentWrapper.matchesContents(of: path))
     }
     
-    func test_whenUpdateImage_shouldInvalidateQuickLookFile() throws {
+    func test_documentWithImage_whenUpdateImage_shouldInvalidateQuickLookFile() throws {
+        let document = try Sample().document(name: .artboard, testCase: self)
+        
         document.addFrame(with: Image(), origin: .zero)
         
-        XCTAssertNil(firstFrame?[FolderName.quickLook], "quickLook is invalidated")
+        XCTAssertNil(document.frameWrappers[0][FolderName.quickLook], "quickLook is invalidated")
+    }
+    
+    func test_documentWithImage_whenUpdateImage_shouldInvalidateWrapper() throws {
+        // Arrange
+        let document = try Sample().document(name: .artboard, testCase: self)
+        let image = Sample().image3x()
+        
+        // Act: update frame's image
+        let frame = try XCTUnwrap(document.artboard.frames.first)
+        
+        document.update(image: image, for: frame)
+        
+        try document.saveAndRemoveAtTearDown(name: "ImageInvalidation", testCase: self)
+        
+        // Assert: shouldInvalidate previous image
+        assertFolder(document)
+    }
+    
+    func test_whenUpdateImage_shouldUpdateFrameSize() throws {
+        let document = try Sample().document(name: .artboard, testCase: self)
+        
+        let frame1 = try XCTUnwrap(document.artboard.frames.first)
+        XCTAssertEqual(frame1.frame, CGRect(x: 2340, y: 0, width: 1170, height: 3407))
+        
+        let frame2 = try XCTUnwrap(document.artboard.frames.last)
+        let image = document.artboard.imageLoader.image(for: frame2)!
+        document.update(image: image, for: frame1)
+
+        XCTAssertEqual(frame1.frame, CGRect(x: 2340, y: 0, width: 1170, height: 3272)) // Height is different
     }
 }
 

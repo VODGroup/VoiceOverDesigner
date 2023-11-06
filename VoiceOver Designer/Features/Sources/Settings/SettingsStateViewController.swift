@@ -14,7 +14,7 @@ public enum DetailsState: StateProtocol {
 }
 
 public class SettingsStateViewController: StateViewController<DetailsState> {
-    
+    public var document: VODesignDocumentProtocol!
     public weak var settingsDelegate: SettingsDelegate!
     public var textRecognitionCoordinator: TextRecognitionCoordinator!
     lazy var textRecognitionUnlockPresenter = UnlockPresenter(
@@ -56,7 +56,7 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
                 
                 return containerSettings
             case .frame(let frame):
-                let frameSettings = FrameSettingsViewController(frame: frame, delegate: settingsDelegate)
+                let frameSettings = FrameSettingsViewController(document: document, frame: frame, delegate: settingsDelegate)
                 return frameSettings
             }
         }

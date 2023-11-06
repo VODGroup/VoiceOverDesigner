@@ -1,14 +1,17 @@
 import Artboard
 import Foundation
 import SwiftUI
+import Document
 
 public class FrameSettingsViewController: NSHostingController<FrameSettingsView> {
+    let document: VODesignDocumentProtocol
     let frame: Frame
     weak var delegate: SettingsDelegate?
     
-    public init(frame: Frame, delegate: SettingsDelegate) {
+    public init(document: VODesignDocumentProtocol, frame: Frame, delegate: SettingsDelegate) {
+        self.document = document
         self.frame = frame
-        super.init(rootView: FrameSettingsView(frame: frame, updateValue: delegate.updateValue))
+        super.init(rootView: FrameSettingsView(document: document, frame: frame, updateValue: delegate.updateValue))
     }
     
     @available(*, unavailable)
@@ -19,6 +22,7 @@ public class FrameSettingsViewController: NSHostingController<FrameSettingsView>
 
 
 public struct FrameSettingsView: View {
+    let document: VODesignDocumentProtocol
     @ObservedObject var frame: Frame
     var updateValue: (() -> Void)?
     @State private var isImageImporterPresented = false
@@ -32,7 +36,9 @@ public struct FrameSettingsView: View {
             .padding()
             
         }
-        .fileImporter(isPresented: $isImageImporterPresented, allowedContentTypes: [.image], onCompletion: applyFileImporter(result:))
+        .fileImporter(isPresented: $isImageImporterPresented,
+                      allowedContentTypes: [.image],
+                      onCompletion: applyFileImporter(result:))
     }
     
     
@@ -42,7 +48,16 @@ public struct FrameSettingsView: View {
     
     private func applyFileImporter(result: Result<URL, Error>) {
         do {
-            try frame.applyFileImporter(result: result)
+            switch result {
+            case .success(let url):
+                guard let image = NSImage(path: url) else {
+                    throw ImageError.noImageAtPath
+                }
+                document.update(image: image, for: frame)
+            case .failure(let failure):
+                throw failure
+            }
+            
             updateValue?()
         } catch {
             // TODO: show alert?
@@ -52,19 +67,4 @@ public struct FrameSettingsView: View {
 
 enum ImageError: Error {
     case noImageAtPath
-}
-
-extension Frame {
-    func applyFileImporter(result: Result<URL, Error>) throws {
-        switch result {
-        case .success(let url):
-            guard let image = NSImage(path: url) else {
-                throw ImageError.noImageAtPath
-            }
-            
-            imageLocation = .cache(image: image)
-        case .failure(let failure):
-            throw failure
-        }
-    }
 }

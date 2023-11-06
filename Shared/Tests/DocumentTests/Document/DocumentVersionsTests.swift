@@ -17,7 +17,7 @@ final class DocumentVersionsTests: XCTestCase {
 #if os(macOS)
     
     // MARK: - Beta format
-    func test_betaDocument_whenRead_shouldUpdateStructure() throws {
+    func test_betaDocument_whenRead_shouldKeepStructure() throws {
         let document = try Sample().document(name: .beta, testCase: self)
         
         // Read on file creation
@@ -26,10 +26,9 @@ final class DocumentVersionsTests: XCTestCase {
     }
     
     func test_betaDocument_whenSave_shouldUpdateStructure() throws {
-        throw XCTSkip("Won't work on CI. Also, the result snapshots is not correct")
         let document = try Sample().document(name: .beta, testCase: self)
 
-        saveDocumentAndRemoveAtTearDown(document: document, name: "BetaFormatNewStructure")
+        try document.saveAndRemoveAtTearDown(name: "BetaFormatNewStructure", testCase: self)
         
         assertFolder(document)
     }
@@ -44,12 +43,24 @@ final class DocumentVersionsTests: XCTestCase {
             numberOfElements: 12,
             rect: CGRect(x: 0, y: 0, width: 390, height: 844)
         )
-
-        assertFolder(document)
+    }
+    
+    func test_betaDocument_whenOpen_shouldLoadImage() throws {
+        let document = try Sample().document(name: .beta, testCase: self)
+        
+        XCTAssertNotNil(try document.imageFromFirstFrame())
+    }
+    
+    func test_betaDocument_whenOpenAndSaveWithSameName_shouldLoadImage() throws {
+        let document = try Sample().document(name: .beta, testCase: self)
+        
+        try document.saveAndRemoveAtTearDown(name: .beta, testCase: self)
+        
+        XCTAssertNotNil(try document.imageFromFirstFrame())
     }
     
     // MARK: - Frame version
-    func test_frameDocument_whenRead_shouldUpdateStructure() throws {
+    func test_frameDocument_whenRead_shouldKeepStructure() throws {
         let document = try Sample().document(name: .frame, testCase: self)
         
         // Read on file creation
@@ -58,12 +69,19 @@ final class DocumentVersionsTests: XCTestCase {
     }
     
     func test_frameDocument_whenSave_shouldUpdateStructure() throws {
-        throw XCTSkip("Won't work on CI. Also, the result snapshots is not correct")
         let document = try Sample().document(name: .frame, testCase: self)
 
-        saveDocumentAndRemoveAtTearDown(document: document, name: "FrameFormatNewStructure")
+        try document.saveAndRemoveAtTearDown(name: "FrameFormatNewStructure", testCase: self)
         
         assertFolder(document)
+    }
+    
+    func test_frameDocument_whenReadAfterMigration_shouldKeepStructure() throws {
+        let document = try Sample().document(name: .frame, testCase: self)
+        
+        try document.saveAndRemoveAtTearDown(name: "FrameVersionFormat", testCase: self)
+        
+        XCTAssertNotNil(try document.imageFromFirstFrame())
     }
     
     func test_frameDocument_whenRead_shouldReadAsFirstFrame() throws {
@@ -76,8 +94,20 @@ final class DocumentVersionsTests: XCTestCase {
             numberOfElements: 12,
             rect: CGRect(x: 0, y: 0, width: 390, height: 844)
         )
+    }
+    
+    func test_frameDocument_whenOpen_shouldLoadImage() throws {
+        let document = try Sample().document(name: .frame, testCase: self)
         
-        assertFolder(document)
+        XCTAssertNotNil(try document.imageFromFirstFrame())
+    }
+    
+    func test_frameDocument_whenOpenAndSaveWithSameName_shouldLoadImage() throws {
+        let document = try Sample().document(name: .frame, testCase: self)
+        
+        try document.saveAndRemoveAtTearDown(name: .frame, testCase: self)
+        
+        XCTAssertNotNil(try document.imageFromFirstFrame())
     }
     
     // MARK: Artboard version
@@ -90,10 +120,9 @@ final class DocumentVersionsTests: XCTestCase {
     }
     
     func test_artboardDocument_whenSave_shouldUpdateStructure() throws {
-        throw XCTSkip("Won't work on CI. Also, the result snapshots is not correct")
         let document = try Sample().document(name: .artboard, testCase: self)
 
-        saveDocumentAndRemoveAtTearDown(document: document, name: "ArtboardFormatNewStructure")
+        try document.saveAndRemoveAtTearDown(name: "ArtboardFormatNewStructure", testCase: self)
         
         assertFolder(document)
     }
@@ -123,16 +152,23 @@ final class DocumentVersionsTests: XCTestCase {
         assertFolder(document)
     }
     
-    // MARK: - Restoration DSL
-    private let fileManager = FileManager.default
-    
-    private func saveDocumentAndRemoveAtTearDown(document: VODesignDocument, name: String) {
-        document.save(testCase: self, fileName: name)
-        addTeardownBlock {
-            let testFilePath = Sample().resourcesPath().appendingPathComponent("\(name).vodesign")
-            try? self.fileManager.removeItem(at: testFilePath)
-        }
+    func test_artboardDocument_whenOpen_shouldLoadImage() throws {
+        let document = try Sample().document(name: .artboard, testCase: self)
+        
+        XCTAssertNotNil(try document.imageFromFirstFrame())
     }
+    
+    func test_artboardDocument_whenOpenAndSaveWithSameName_shouldLoadImage() throws {
+        let document = try Sample().document(name: .artboard, testCase: self)
+        
+        try document.saveAndRemoveAtTearDown(name: .artboard, testCase: self)
+        
+        XCTAssertNotNil(try document.imageFromFirstFrame())
+    }
+    
+    // TODO: Test that we can rename document, but image should keep relative path
+    
+    // MARK: - Restoration DSL
 
     func assert(
         frame: Frame, at document: VODesignDocument,
@@ -144,28 +180,10 @@ final class DocumentVersionsTests: XCTestCase {
         XCTAssertEqual(frame.frame, rect, "should scale frame", file: file, line: line)
     }
     
-    func assertFolder(
-        _ document: VODesignDocument,
-        file: StaticString = #file,
-        testName: String = #function,
-        line: UInt = #line
-    ) {
-        let testBundle = Bundle.module.resourceURL!
-        
-        assertSnapshot(
-            matching: document.fileURL!,
-            as: .folderStructure,
-            testBundleResourceURL: testBundle,
-            file: file,
-            testName: testName,
-            line: line
-        )
-    }
-    
 #elseif os(iOS)
     
     func test_canReadDocumentWithoutFrameFolder() async throws {
-        let document = try Sample().document(name: .beta)
+        let document = try Sample().document(name: .beta, testCase: self)
         
         await document.read()
 
@@ -177,7 +195,7 @@ final class DocumentVersionsTests: XCTestCase {
     }
     
     func test_canReadFrameFileFormat() async throws {
-        let document = try Sample().document(name: .frame)
+        let document = try Sample().document(name: .frame, testCase: self)
         
         await document.read()
 
@@ -191,7 +209,7 @@ final class DocumentVersionsTests: XCTestCase {
 }
 
 #if os(iOS)
-extension Document {
+extension AppleDocument {
     func read() async {
         await withCheckedContinuation({ continuation in
             open(completionHandler: { _ in
@@ -201,3 +219,37 @@ extension Document {
     }
 }
 #endif
+
+
+extension VODesignDocumentProtocol {
+    func imageFromFirstFrame() throws -> Image? {
+        let frame = try XCTUnwrap(artboard.frames.first)
+        let image = artboard.imageLoader?.image(for: frame)
+        return image
+    }
+}
+
+func assertFolder(
+    _ document: VODesignDocument,
+    file: StaticString = #file,
+    testName: String = #function,
+    line: UInt = #line
+) {
+    let testBundle = Bundle.module.resourceURL!
+    
+    let url: URL
+#if os(macOS)
+    url = document.fileURL!
+#elseif os(iOS)
+    url = document.fileURL
+#endif
+    
+    assertSnapshot(
+        matching: url,
+        as: .folderStructure,
+        testBundleResourceURL: testBundle,
+        file: file,
+        testName: testName,
+        line: line
+    )
+}
