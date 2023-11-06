@@ -10,36 +10,37 @@ import SwiftUI
 import Document
 
 public struct PresentationView: View {
+
     public enum Constants {
         public static let controlsWidth: CGFloat = 500
         public static let leadingSpacer: CGFloat = 100
         public static let cursorButtonPadding: CGFloat = 24
 
         static let selectedControlPadding: CGFloat = 40
-        static let animation: Animation = .linear(duration: 0.15)
     }
 
-    @State var document: VODesignDocumentPresentation
-
-    @State var selectedControl: A11yDescription?
-    @State var hoveredControl: (any ArtboardElement)?
+    @StateObject var model: PresentationModel
 
     let scrollViewSize = CGSize(width: 600, height: 900)
 
     var minimalScaleFactor: CGFloat {
         guard 
-            document.imageSize.width != 0,
-            document.imageSize.height != 0
+            model.document.imageSize.width != 0,
+            model.document.imageSize.height != 0
         else {
             return 1
         }
-        let h = scrollViewSize.width / document.imageSize.width
-        let v = scrollViewSize.height / document.imageSize.height
-        
+        let h = scrollViewSize.width / model.document.imageSize.width
+        let v = scrollViewSize.height / model.document.imageSize.height
+
         // TODO: Add minimal limit for long documents
         return min(h, v)
     }
-    
+
+    public init(model: PresentationModel) {
+        self._model = .init(wrappedValue: model)
+    }
+
     public var body: some View {
         ZStack {
             Color.clear
@@ -55,24 +56,10 @@ public struct PresentationView: View {
                 list
             }
             .onKeyboardShortcut(key: .leftArrow, modifiers: []) {
-                if
-                    let selected = selectedControl,
-                    let index = document.flatControls.firstIndex(of: selected.id),
-                    let prevIndex = document.flatControls[safe: index - 1],
-                    let prev = document.controls[prevIndex]
-                {
-                    select(prev)
-                }
+                model.handle(.prev)
             }
             .onKeyboardShortcut(key: .rightArrow, modifiers: []) {
-                if
-                    let selected = selectedControl,
-                    let index = document.flatControls.firstIndex(of: selected.id),
-                    let nextIndex = document.flatControls[safe: index + 1],
-                    let next = document.controls[nextIndex]
-                {
-                    select(next)
-                }
+                model.handle(.next)
             }
         }
         .frame(
@@ -80,15 +67,6 @@ public struct PresentationView: View {
                 Constants.leadingSpacer +
                 Constants.controlsWidth,
             minHeight: scrollViewSize.height
-        )
-    }
-
-    public init(document: VODesignDocumentPresentation) {
-        _document = .init(initialValue: document)
-        _selectedControl = .init(
-            initialValue: document.flatControls.first.flatMap {
-                document.controls[$0] as? A11yDescription
-            }
         )
     }
 
@@ -101,8 +79,8 @@ public struct PresentationView: View {
                     controlsOverlay // ... but reveal controls
                 }
                 .frame(
-                    width: document.imageSize.width * minimalScaleFactor,
-                    height: document.imageSize.height * minimalScaleFactor
+                    width: model.document.imageSize.width * minimalScaleFactor,
+                    height: model.document.imageSize.height * minimalScaleFactor
                 )
                 .scaleEffect(CGSize(width: minimalScaleFactor,
                                     height: minimalScaleFactor))
@@ -111,25 +89,25 @@ public struct PresentationView: View {
 
     @ViewBuilder
     private var backgroundImage: some View {
-        if let image = document.image {
+        if let image = model.document.image {
             Image(nsImage: image)
                 .resizable()
                 .frame(
-                    width: document.imageSize.width,
-                    height: document.imageSize.height
+                    width: model.document.imageSize.width,
+                    height: model.document.imageSize.height
                 )
         } else {
             Color.gray
                 .opacity(0.25)
-                .frame(width: document.imageSize.width,
-                       height: document.imageSize.height)
+                .frame(width: model.document.imageSize.width,
+                       height: model.document.imageSize.height)
         }
     }
 
     private var controlsOverlay: some View {
         ZStack(alignment: .topLeading) {
             // We don't need editing here so id can be generated at start
-            ForEach(document.orderedControls, id: \.id) { control in
+            ForEach(model.document.orderedControls, id: \.id) { control in
                 switch control.cast {
                     case .container(let container):
                         controlContainer(container)
@@ -193,13 +171,7 @@ public struct PresentationView: View {
             )
             .frame(width: control.frame.width, height: control.frame.height)
             .onHover { inside in
-                withAnimation(Constants.animation) {
-                    if inside {
-                        hoveredControl = control
-                    } else {
-                        hoveredControl = nil
-                    }
-                }
+                model.handle(.hover(control, inside))
             }
             .onTapGesture {
                 select(control)
@@ -219,7 +191,7 @@ public struct PresentationView: View {
         ScrollView {
             ScrollViewReader { proxy in
                 VStack(alignment: .leading, spacing: 12) {
-                    ForEach(Array(document.orderedControls), id: \.id) { item in
+                    ForEach(Array(model.document.orderedControls), id: \.id) { item in
                         listItem(item)
                     }
                 }
@@ -227,9 +199,9 @@ public struct PresentationView: View {
                 // Frame's width should be fixed. Otherwise hover effect brakes for long text
                 // For long text list's width recalculates and hover lose y coordinate
                 .frame(width: PresentationView.Constants.controlsWidth)
-                .onChange(of: selectedControl, perform: { newValue in
+                .onChange(of: model.selectedControl, perform: { newValue in
                     if let newValue {
-                        withAnimation(Constants.animation) {
+                        withAnimation(PresentationModel.Constants.animation) {
                             proxy.scrollTo(newValue.id, anchor: .center)
                         }
                     }
@@ -252,7 +224,7 @@ public struct PresentationView: View {
                     controlText(element)
                         .id(element.id)
                         .overlay(alignment: .leading) {
-                            if let index = document.flatControls.firstIndex(of: element.id) {
+                            if let index = model.document.flatControls.firstIndex(of: element.id) {
                                 listButton(element, index: index)
                             }
                         }.onTapGesture {
@@ -265,7 +237,7 @@ public struct PresentationView: View {
             controlText(element)
                 .id(element.id)
                 .overlay(alignment: .leading) {
-                    if let index = document.flatControls.firstIndex(of: element.id) {
+                    if let index = model.document.flatControls.firstIndex(of: element.id) {
                         listButton(element, index: index)
                     }
                 }.onTapGesture {
@@ -292,8 +264,7 @@ public struct PresentationView: View {
             {
                 VStack {
                     Button {
-                        element.adjustableOptions.accessibilityIncrement()
-                        document.update(control: element)
+                        model.handle(.increment(element))
                     } label: {
                         Image(systemName: "arrow.up")
                     }
@@ -301,8 +272,7 @@ public struct PresentationView: View {
                     .buttonStyle(.borderless)
                     .disabled(!element.adjustableOptions.canIncrement)
                     Button {
-                        element.adjustableOptions.accessibilityDecrement()
-                        document.update(control: element)
+                        model.handle(.decrement(element))
                     } label: {
                         Image(systemName: "arrow.down")
                     }
@@ -312,13 +282,13 @@ public struct PresentationView: View {
                 }
             }
             if
-                let previousItemId = document.flatControls[safe: index - 1],
-                let previousItem = document.controls[previousItemId],
+                let previousItemId = model.document.flatControls[safe: index - 1],
+                let previousItem = model.document.controls[previousItemId],
                 isControlSelected(previousItem)
             {
                 Button {
-                    if let nextItemId = document.flatControls[safe: index],
-                       let nextItem = document.controls[nextItemId] {
+                    if let nextItemId = model.document.flatControls[safe: index],
+                       let nextItem = model.document.controls[nextItemId] {
                         select(nextItem)
                     }
                 } label: {
@@ -327,13 +297,13 @@ public struct PresentationView: View {
                 .buttonStyle(.borderless)
             }
             if
-                let nextItemId = document.flatControls[safe: index + 1],
-                let nextItem = document.controls[nextItemId],
+                let nextItemId = model.document.flatControls[safe: index + 1],
+                let nextItem = model.document.controls[nextItemId],
                 isControlSelected(nextItem)
             {
                 Button {
-                    if let previousItemId = document.flatControls[safe: index],
-                       let previousItem = document.controls[previousItemId] {
+                    if let previousItemId = model.document.flatControls[safe: index],
+                       let previousItem = model.document.controls[previousItemId] {
                         select(previousItem)
                     }
                 } label: {
@@ -400,18 +370,15 @@ public struct PresentationView: View {
     }
 
     func select(_ control: any ArtboardElement) {
-        guard let control = control as? A11yDescription else { return }
-        withAnimation(Constants.animation) {
-            selectedControl = control
-        }
+        model.handle(.select(control))
     }
 
     func isControlSelected(_ control: any ArtboardElement) -> Bool {
-        control.cast == selectedControl?.cast
+        control.cast == model.selectedControl?.cast
     }
 
     func isControlHovered(_ control: any ArtboardElement) -> Bool {
-        control.cast == hoveredControl?.cast
+        control.cast == model.hoveredControl?.cast
     }
 }
 
@@ -458,32 +425,11 @@ extension PresentationView {
         let document = VODesignDocument(file: path)
         let presentation = VODesignDocumentPresentation(document)
         
-        self.init(document: presentation)
+        self.init(model: .init(document: presentation))
     }
     
     static func make(sampleRelativePath: String) -> PresentationView {
         PresentationView(path: samplesURL.appendingPathComponent(sampleRelativePath + ".vodesign"))
-    }
-}
-
-extension A11yDescription {
-    static func fake(
-        id: UUID = .init(),
-        label: String,
-        trait: A11yTraits,
-        frame: CGRect
-    ) -> A11yDescription {
-        A11yDescription(
-            id: id,
-            isAccessibilityElement: true,
-            label: label,
-            value: "",
-            hint: "",
-            trait: trait,
-            frame: frame,
-            adjustableOptions: .init(options: []),
-            customActions: .defaultValue
-        )
     }
 }
 
@@ -503,54 +449,6 @@ let samplesURL = URL(fileURLWithPath: "/Users/agpone/Developer/VoiceOverSamples"
 //        PresentationView.make(sampleRelativePath: "Ru/Dodo Pizza/Меню")
 //        PresentationView.make(sampleRelativePath: "Ru/OneTwoTrip/Авиа фильтры")
 //        PresentationView.make(sampleRelativePath: "Ru/OneTwoTrip/Пассажиры")
-        PresentationView(
-            document: .init(
-                {
-                    let d = VODesignDocument()
-                    let a = Artboard(
-                        frames: [
-                            .init(
-                                label: "wow",
-                                imageName: "image",
-                                frame: .init(x: 0, y: 0, width: 300, height: 300),
-                                elements: [
-                                    A11yDescription.fake(
-                                        id: id,
-                                        label: "hi",
-                                        trait: .header,
-                                        frame: frame1
-                                    ),
-                                    A11yContainer(
-                                        id: id3,
-                                        elements: [
-                                            A11yDescription.fake(
-                                                id: id2,
-                                                label: "hi2",
-                                                trait: .button,
-                                                frame: frame2
-                                            )
-                                        ],
-                                        frame: .init(x: 55, y: 55, width: 200, height: 200),
-                                        label: "some"
-                                    )
-                                ]
-                            )
-                        ],
-                        controlsWithoutFrames: [
-                            A11yDescription.fake(
-                                id: id4,
-                                label: "hi4",
-                                trait: .link,
-                                frame: frame3
-                            )
-                        ]
-                    )
-                    a.imageLoader = DummyImageLoader()
-                    d.artboard = a
-                    return d
-                }()
-            )
-        )
     }
 }
 
