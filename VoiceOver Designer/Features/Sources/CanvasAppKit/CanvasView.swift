@@ -85,29 +85,29 @@ class CanvasView: FlippedView {
         
         dragnDropView.scale = newLevel
         
+        let center = contentView.hud.selectedControlFrame?.center ?? contentView.frame.center
+        
         scrollView?.setMagnification(
             newLevel,
-            centeredAt: contentView.hud.selectedControlFrame?.center ?? contentView.frame.center)
+            centeredAt: center)
     }
     
     private var isImageMagnificationFitsToWindow: Bool {
-        if let fitingMagnification {
-            return abs(fitingMagnification - scrollView.magnification) < 0.01
+        if let fittingMagnification {
+            return abs(fittingMagnification - scrollView.magnification) < 0.01
         } else {
             return false
         }
     }
     
-    private var fitingMagnification: CGFloat? {
+    private var fittingMagnification: CGFloat? {
         let contentSize = contentView.intrinsicContentSize
         
         let insetScale: CGFloat = 1
         let sizeWithOffset = CGSize(width: contentSize.width * insetScale,
                                     height: contentSize.height * insetScale)
         
-        // TODO: Check width
-        let scrollViewVisibleHeight = scrollView.frame.height
-        return min(scrollViewVisibleHeight / sizeWithOffset.height,
+        return min(scrollView.frame.height / sizeWithOffset.height,
                    scrollView.frame.width / sizeWithOffset.width)
     }
     
@@ -134,32 +134,32 @@ class CanvasView: FlippedView {
 
 extension CanvasView: CanvasScrollViewProtocol {
     func fitToWindow(animated: Bool) {
-        if let fitingMagnification {
-            setMagnification(to: fitingMagnification, animated: animated)
+        if let fittingMagnification {
+            setMagnification(to: fittingMagnification, animated: animated)
         }
     }
 }
 
 extension CanvasView: PreviewSourceProtocol {
     func previewImage() -> Image? {
-        contentView.imageRepresentatation()
+        contentView.imageRepresentation()
     }
 }
 
 extension NSView {
     
-    func imageRepresentatation() -> Image? {
+    func imageRepresentation() -> Image? {
         let mySize = bounds.size
         let imgSize = mySize
-        guard let bir = bitmapImageRepForCachingDisplay(in: bounds) else {
+        guard let bitmap = bitmapImageRepForCachingDisplay(in: bounds) else {
             return nil
         }
         
-        bir.size = imgSize
-        cacheDisplay(in: bounds, to: bir)
+        bitmap.size = imgSize
+        cacheDisplay(in: bounds, to: bitmap)
         
         let image = Image(size: imgSize)
-        image.addRepresentation(bir)
+        image.addRepresentation(bitmap)
         return image
     }
 }

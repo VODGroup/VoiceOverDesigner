@@ -34,7 +34,7 @@ public class CanvasPresenter: DocumentPresenter {
         self.document.previewSource = previewSource
         
         redraw(artboard: document.artboard)
-        uiScroll.fitToWindow(animated: true)
+        
     }
     
     private var scale: CGFloat = 1
