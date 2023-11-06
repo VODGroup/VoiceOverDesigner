@@ -157,15 +157,6 @@ public class CanvasPresenter: DocumentPresenter {
         }
     }
     
-    // MARK: - Labels
-    public func showLabels() {
-        uiContent.addLabels()
-    }
-    
-    public func hideLabels() {
-        uiContent.removeLabels()
-    }
-    
     public var pointerPublisher: AnyPublisher<DrawingController.Pointer?, Never> {
         drawingController.pointerPublisher
     }
