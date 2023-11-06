@@ -7,6 +7,7 @@ import os
 
 import QuickLookThumbnailing
 
+/// NSDocument subclass, represents `.vodesign` document's format
 public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
 
     // MARK: - Data
@@ -51,13 +52,24 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
         addFrame(with: image, origin: .zero)
     }
     
+    var version: DocumentVersion!
+    
     // MARK: - Override
     
-    public override func fileWrapper(ofType typeName: String) throws -> FileWrapper {
+    /// Writing operation. 
+    ///
+    /// Update's file structure during saving.
+    override public func fileWrapper(ofType typeName: String) throws -> FileWrapper {
         Swift.print("Will save")
+        storeImagesAsFileWrappers()
         return try fileWrapper()
     }
     
+    /// Reads artboard and prepare artboard after migration in memory.
+    ///
+    /// > Important: Keep ``documentWrapper`` as reference to files, update it if you need invalidation
+    ///
+    /// > Note: Does not change document's structure
     override public func read(from packageWrapper: FileWrapper, ofType typeName: String) throws {
         
         undoManager?.disableUndoRegistration()
@@ -67,10 +79,12 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
             let (version, artboard) = try read(from: packageWrapper)
             
             self.artboard = artboard
-            artboard.imageLoader = ImageLoader(documentPath: { [weak self] in self?.fileURL
+            self.version = version
+            artboard.imageLoader = ImageLoader(documentPath: { [weak self] in 
+                self?.fileURL
             })
             
-            try performDocumentMigration(from: version)
+            prepareFormatForArtboard(for: version)
             
         } catch let error {
             Swift.print(error)
@@ -78,34 +92,12 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
         }
     }
     
-    private func performDocumentMigration(from version: DocumentVersion) throws {
-        let fileManager = FileManager.default
+    private func prepareFormatForArtboard(for version: DocumentVersion) {
         switch version {
         case .beta:
-            // TODO: Move image inside "Image" folder
-            if let fileURL {
-                let fromPath = fileURL.appendingPathComponent("screen.png")
-                var toPath = fileURL.appendingPathComponent(FolderName.images)
-                try fileManager.createDirectory(at: toPath, withIntermediateDirectories: true)
-                
-                toPath = toPath.appendingPathComponent("Frame.png")
-                try fileManager.moveItem(
-                    at: fromPath,
-                    to: toPath)
-            }
-           
-            recreateDocumentWrapper()
+            createEmptyDocumentWrapper()
         case .release:
-            if let fileURL {
-                let fromPath = fileURL.appendingPathComponent("Frame/screen.png")
-                var toPath = fileURL.appendingPathComponent(FolderName.images)
-                try fileManager.createDirectory(at: toPath, withIntermediateDirectories: true)
-                
-                toPath = toPath.appendingPathComponent("Frame.png")
-                try fileManager.moveItem(
-                    at: fromPath,
-                    to: toPath)
-            }
+            break
         case .artboard:
             break
         }

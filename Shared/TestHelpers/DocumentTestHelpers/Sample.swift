@@ -16,6 +16,10 @@ public class Sample {
 #endif
     }
     
+    public func image3x() -> Image {
+        try! image(name: Sample.image3xScale)
+    }
+    
     public func documentPath(name: String) -> URL? {
         return Bundle.module.url(forResource: name, withExtension: "vodesign")
     }

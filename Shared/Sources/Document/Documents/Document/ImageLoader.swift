@@ -1,6 +1,7 @@
 import Foundation
 import Artboard
 
+/// Loads remote or local image
 public class ImageLoader: ImageLoading {
     public typealias DocumentPath = () -> URL?
     let documentPath: DocumentPath
@@ -9,17 +10,24 @@ public class ImageLoader: ImageLoading {
     }
     public func image(for frame: Frame) -> Image? {
         switch frame.imageLocation {
-        case .file(let name):
-            let filePath = documentPath()!
-                .appendingPathComponent(FolderName.images)
-                .appendingPathComponent(name)
+        case .relativeFile(let path):
+            let filePath = fullPath(relativeTo: path)
+            
+            print("Load image relative path: \(filePath)")
+            
             return Image(path: filePath)
             
-        case .url(let url):
-            // TODO: Load from the internet and cache inside a .vodesign document
-            fatalError()
-        case .cache(let image):
+        case .remote(let url):
+            print("Load remote image from \(url.path)")
+                // TODO: Load from the internet and cache inside a .vodesign document
+                fatalError()
+        case .cache(let image, let name):
             return image
         }
+    }
+    
+    public func fullPath(relativeTo relativePath: String) -> URL {
+        documentPath()!
+            .appendingPathComponent(relativePath)
     }
 }

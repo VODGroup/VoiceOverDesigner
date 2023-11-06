@@ -5,8 +5,8 @@ import Artboard
 public typealias OptionalDescriptionSubject = CurrentValueSubject<(any ArtboardElement)?, Never>
 
 /**
- Top level object that controls abstract VODesignDocumentProtocol
- 
+ Top level object that controls abstract VODesignDocumentProtocol and publish changes
+
  Responsibility:
  - Publish updates after any changes on control's level to initiate UI update of any ViewController
  - Undo changes on controls level

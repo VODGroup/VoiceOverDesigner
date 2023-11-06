@@ -1,6 +1,7 @@
 import Foundation
 import Combine
 
+/// Universal abstraction over UIDocument and NSDocument
 public protocol VODesignDocumentProtocol: AnyObject {
     
     // MARK: - Data
@@ -11,6 +12,12 @@ public protocol VODesignDocumentProtocol: AnyObject {
     /// - Renamed as `NSDocument` and `UIDocument` have different `UndoManager` signature
     var undo: UndoManager? { get }
     
+    /// In-memory representation of document's structure in file system
+    /// 
+    /// Contains:
+    /// - `Images/` folder
+    /// - `document.json`
+    /// - `QuickView/Preview.heic`
     var documentWrapper: FileWrapper { get set }
     
     var previewSource: PreviewSourceProtocol? { get set }
@@ -35,11 +42,36 @@ extension VODesignDocumentProtocol {
         origin: CGPoint
     ) {
         let frame = Frame(image: newImage,
-                          frame: CGRect(origin: origin,
+                          frame: CGRect(origin: .zero,
                                         size: newImage.size))
         artboard.frames.append(frame)
         
-        invalidateWrapperIfPossible(fileInRoot: FolderName.quickLook)
+        documentWrapper.invalidateIfPossible(file: FolderName.quickLook)
+    }
+    
+    public func update(image: Image, for frame: Frame) {
+        var featureName: String = UUID().uuidString
+        
+        switch frame.imageLocation {
+        case .relativeFile(let path):
+            let name = URL(filePath: path).lastPathComponent
+            imagesFolderWrapper.invalidateIfPossible(file: name)
+            
+            featureName = name // Will use to keep naming
+        case .remote(let url):
+            fatalError("Don't know is some code is needed here")
+        case .cache(_):
+            // TODO: convert to file
+            fatalError("Remove old file from cache")
+//            imagesFolderWrapper.invalidateIfPossible(file: name)
+        }
+        
+        // TODO: Add to cache folder with given name
+        frame.imageLocation = .cache(image: image, name: featureName)
+        let image = artboard.imageLoader.image(for: frame)
+        
+        frame.frame = CGRect(origin: frame.frame.origin,
+                             size: image?.size ?? frame.frame.size)
     }
 }
 
@@ -70,7 +102,8 @@ extension Frame {
 //        let frame = CGRect(origin: .zero, size: image.size)
         
         self.init(label: name,
-                  imageLocation: .cache(image: image),
+                  imageLocation: .cache(image: image,
+                                        name: UUID().uuidString), // TODO: Make fancy name. Call to ChatGPT!!
                   frame: frame,
                   elements: [])
     }

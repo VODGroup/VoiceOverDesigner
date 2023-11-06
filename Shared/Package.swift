@@ -1,4 +1,4 @@
-// swift-tools-version: 5.5
+// swift-tools-version: 5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Shared",
     defaultLocalization: "en",
-    platforms: [.iOS(.v13), .macOS(.v12)],
+    platforms: [.iOS(.v16), .macOS(.v13)],
     products: [
         .library(
             name: "Document",
@@ -54,7 +54,7 @@ let package = Package(
             name: "Document",
             dependencies: [
                 "Artboard",
-                .productItem(name: "CustomDump", package: "swift-custom-dump"),
+                .product(name: "CustomDump", package: "swift-custom-dump"),
             ]),
         .target(
             name: "DocumentTestHelpers",
@@ -132,7 +132,7 @@ let package = Package(
             name: "SamplesTests",
             dependencies: [
                 "Samples",
-                .productItem(name: "CustomDump", package: "swift-custom-dump"),
+                .product(name: "CustomDump", package: "swift-custom-dump"),
             ]),
         .executableTarget(name: "SamplesStructure", dependencies: [
             "Samples",
