@@ -170,18 +170,6 @@ public class CanvasPresenter: DocumentPresenter {
         drawingController.pointerPublisher
     }
     
-    // MARK: - Deletion
-    override public func remove(_ model: any ArtboardElement) {
-        guard let control = control(for: model) else {
-            return
-        }
-        
-        // TODO: Register Delete Undo on child
-        uiContent.delete(control: control)
-        
-        super.remove(model)
-    }
-    
     private func control(for model: any ArtboardElement) -> A11yControlLayer? {
         uiContent.drawnControls.first { control in
             control.model === model
