@@ -1,6 +1,7 @@
 import Foundation
 import Combine
 
+/// Universal abstraction over UIDocument and NSDocument
 public protocol VODesignDocumentProtocol: AnyObject {
     
     // MARK: - Data
@@ -11,6 +12,12 @@ public protocol VODesignDocumentProtocol: AnyObject {
     /// - Renamed as `NSDocument` and `UIDocument` have different `UndoManager` signature
     var undo: UndoManager? { get }
     
+    /// In-memory representation of document's structure in file system
+    /// 
+    /// Contains:
+    /// - `Images/` folder
+    /// - `document.json`
+    /// - `QuickView/Preview.heic`
     var documentWrapper: FileWrapper { get set }
     
     var previewSource: PreviewSourceProtocol? { get set }

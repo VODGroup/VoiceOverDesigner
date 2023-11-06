@@ -7,6 +7,7 @@ import os
 
 import QuickLookThumbnailing
 
+/// NSDocument subclass, represents `.vodesign` document's format
 public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
 
     // MARK: - Data
@@ -55,12 +56,20 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
     
     // MARK: - Override
     
-    public override func fileWrapper(ofType typeName: String) throws -> FileWrapper {
+    /// Writing operation. 
+    ///
+    /// Update's file structure during saving.
+    override public func fileWrapper(ofType typeName: String) throws -> FileWrapper {
         Swift.print("Will save")
         storeImagesAsFileWrappers()
         return try fileWrapper()
     }
     
+    /// Reads artboard and prepare artboard after migration in memory.
+    ///
+    /// > Important: Keep ``documentWrapper`` as reference to files, update it if you need invalidation
+    ///
+    /// > Note: Does not change document's structure
     override public func read(from packageWrapper: FileWrapper, ofType typeName: String) throws {
         
         undoManager?.disableUndoRegistration()

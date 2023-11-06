@@ -21,7 +21,7 @@ public extension Image {
 }
 #endif
 
-/// Data layer with hierarchical structure if element
+/// Data layer with hierarchical structure of element
 public class Artboard {
 //    let figmaURL: String
     public var frames: [Frame]

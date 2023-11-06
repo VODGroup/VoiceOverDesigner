@@ -1,6 +1,7 @@
 import Foundation
 import Artboard
 
+/// Loads remote or local image
 public class ImageLoader: ImageLoading {
     public typealias DocumentPath = () -> URL?
     let documentPath: DocumentPath
