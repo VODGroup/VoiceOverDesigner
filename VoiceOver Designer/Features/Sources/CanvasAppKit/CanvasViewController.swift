@@ -43,7 +43,6 @@ public class CanvasViewController: NSViewController {
         view().isEmpty = presenter.document.artboard.isEmpty
         
         // TODO: Don't fit properly
-        view().fitToWindow(animated: false)
     }
     
     public override func viewDidAppear() {
@@ -51,6 +50,9 @@ public class CanvasViewController: NSViewController {
         
         presenter.subscribeOnControlChanges()
         observe()
+        
+        // Zoom after layout of scrollView
+        view().fitToWindow(animated: false)
     }
     
     public override func viewWillDisappear() {
