@@ -48,9 +48,9 @@ public class A11yControlLayer: CALayer {
         }
     }
     
-    public var isHiglighted: Bool = false {
+    public var isHighlighted: Bool = false {
         didSet {
-            let alpha = isHiglighted
+            let alpha = isHighlighted
             ? config.highlightedAlpha
             : config.normalAlpha
             
