@@ -69,7 +69,6 @@ open class DragNDropImageView: NSView {
             size: size)
         
         let inset: CGFloat = 10
-        let bottomInset: CGFloat = 40
         
         border.frame = bounds
         
@@ -85,9 +84,9 @@ open class DragNDropImageView: NSView {
         } else {
             let fullFrame = CGRect(
                     origin: CGPoint(x: bounds.origin.x + inset,
-                                    y: bounds.origin.y + bottomInset + inset),
+                                    y: bounds.origin.y + inset),
                     size: CGSize(width: bounds.size.width - inset * 2,
-                                 height: bounds.size.height - safeAreaInsets.top - bottomInset - inset * 2))
+                                 height: bounds.size.height - safeAreaInsets.top - inset * 2))
             
             border.borderFrame = fullFrame
         }

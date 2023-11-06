@@ -114,7 +114,8 @@ class CanvasView: FlippedView {
     // MARK: - Image
     func updateDragnDropVisibility(hasDrawnControls: Bool) {
         dragnDropView.isHidden = hasDrawnControls
-        footer.isHidden = hasDrawnControls
+
+        footer.isHidden = !hasDrawnControls
     }
     
     func image(at frame: CGRect) async -> CGImage? {

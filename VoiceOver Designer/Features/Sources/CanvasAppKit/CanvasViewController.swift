@@ -42,7 +42,7 @@ public class CanvasViewController: NSViewController {
         addMouseTracking()
         view().isEmpty = presenter.document.artboard.isEmpty
         
-        // TODO: Don't fit properly
+        view().updateDragnDropVisibility(hasDrawnControls: !presenter.document.artboard.isEmpty)
     }
     
     public override func viewDidAppear() {
