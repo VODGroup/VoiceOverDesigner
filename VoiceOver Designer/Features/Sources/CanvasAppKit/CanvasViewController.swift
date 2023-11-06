@@ -243,8 +243,9 @@ extension CanvasViewController: DragNDropDelegate {
         view().fitToWindow(animated: shouldAnimate)
     }
     
-    public func didDrag(path: URL) {
-        // TODO: Add support. Or decline this files
+    public func didDrag(path: URL) -> Bool {
+        // TODO: Add support
+        return false
     }
 }
 
