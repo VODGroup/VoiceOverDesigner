@@ -108,6 +108,12 @@ let package = Package(
             ]
         ),
         .testTarget(
+            name: "PresentationTests",
+            dependencies: [
+                "Presentation"
+            ]
+        ),
+        .testTarget(
             name: "NavigatorTests",
             dependencies: [
                 "Navigator",
