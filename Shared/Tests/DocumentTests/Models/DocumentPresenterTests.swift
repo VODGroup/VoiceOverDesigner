@@ -88,6 +88,32 @@ final class DocumentPresenterTests: XCTestCase {
         XCTAssertEqual(sut.controlsWithoutFrame.count, 1)
     }
     
+    // MARK: Artboard
+    func test_artboard_whenAddFrame_shouldAddFrameWithControl() throws {
+        try addFrameWithElement()
+        let frame = try document.firstFrame()
+        XCTAssertFalse(frame.elements.isEmpty)
+    }
+    
+    func test_artboard_whenRemoveFrame_shouldRemoveEverything() throws {
+        try addFrameWithElement()
+        let frame = try document.firstFrame()
+
+        sut.remove(frame)
+        
+        XCTAssertTrue(document.artboard.isEmpty)
+    }
+    
+    func test_artboard_whenRemoveFrame_andRestore_shouldRestoreFrame() throws {
+        try addFrameWithElement()
+        let frame = try document.firstFrame()
+        
+        sut.remove(frame)
+        sut.undo()
+        
+        XCTAssertFalse(document.artboard.frames.isEmpty)
+    }
+    
     // MARK: DSL
     private func addTwoElementsAndWrapInContainer() throws -> A11yContainer {
         sut.disableUndoRegistration()
@@ -97,6 +123,11 @@ final class DocumentPresenterTests: XCTestCase {
         sut.enableUndoRegistration()
         
         return container
+    }
+    
+    private func addFrameWithElement() throws {
+        sut.add(image: Sample().image3x(), origin: .zero)
+        sut.append(control: A11yDescription.testMake(frame: CGRect(x: 0, y: 0, width: 20, height: 20)))
     }
 }
 

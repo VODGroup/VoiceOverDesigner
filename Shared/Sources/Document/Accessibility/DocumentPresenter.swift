@@ -106,7 +106,11 @@ open class DocumentPresenter {
         if let parent {
             parent.elements.insert(model, at: insertionIndex)
         } else {
-            document.artboard.controlsWithoutFrames.insert(model, at: insertionIndex)
+            if let frame = model as? Frame {
+                document.artboard.frames.insert(frame, at: insertionIndex)
+            } else {
+                document.artboard.controlsWithoutFrames.insert(model, at: insertionIndex)
+            }
         }
         
         publishControlChanges()

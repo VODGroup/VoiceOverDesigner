@@ -157,29 +157,8 @@ public class CanvasPresenter: DocumentPresenter {
         }
     }
     
-    // MARK: - Labels
-    public func showLabels() {
-        uiContent.addLabels()
-    }
-    
-    public func hideLabels() {
-        uiContent.removeLabels()
-    }
-    
     public var pointerPublisher: AnyPublisher<DrawingController.Pointer?, Never> {
         drawingController.pointerPublisher
-    }
-    
-    // MARK: - Deletion
-    override public func remove(_ model: any ArtboardElement) {
-        guard let control = control(for: model) else {
-            return
-        }
-        
-        // TODO: Register Delete Undo on child
-        uiContent.delete(control: control)
-        
-        super.remove(model)
     }
     
     private func control(for model: any ArtboardElement) -> A11yControlLayer? {

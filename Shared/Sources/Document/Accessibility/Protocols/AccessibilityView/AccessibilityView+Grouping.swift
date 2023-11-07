@@ -139,7 +139,11 @@ extension Artboard {
                 return (parent, insertionIndex)
             }
         } else {
-            if let insertionIndex = controlsWithoutFrames.remove(model) {
+            if let frame = model as? Frame,
+                let insertionIndex = frames.firstIndex(of: frame) {
+                frames.remove(at: insertionIndex)
+                return (nil, insertionIndex)
+            } else if let insertionIndex = controlsWithoutFrames.remove(model) {
                 return (nil, insertionIndex)
             }
         }

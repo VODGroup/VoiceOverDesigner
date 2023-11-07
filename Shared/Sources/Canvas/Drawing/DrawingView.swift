@@ -89,17 +89,6 @@ public extension DrawingView {
         }
     }
     
-    func removeLabels() {
-        for control in drawnControls {
-            control.removeLabel()
-        }
-    }
-    func addLabels() {
-        for control in drawnControls {
-            control.addLabel()
-        }
-    }
-    
     func removeAll() {
         for frame in frames.reversed() {
             frame.removeFromSuperlayer()

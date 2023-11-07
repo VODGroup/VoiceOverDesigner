@@ -43,7 +43,7 @@ class CanvasView: FlippedView {
         footer.layer?.backgroundColor = NSColor.quaternaryLabelColor.cgColor
         footer.isHidden = false
         
-        dragnDropView.hideText()
+        dragnDropView.hideTextAndBorder()
         
         clipView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -54,7 +54,7 @@ class CanvasView: FlippedView {
             if isEmpty {
                 dragnDropView.showDefaultText()
             } else {
-                dragnDropView.hideText()
+                dragnDropView.hideTextAndBorder()
             }
         }
     }
@@ -113,8 +113,13 @@ class CanvasView: FlippedView {
     
     // MARK: - Image
     func updateDragnDropVisibility(hasDrawnControls: Bool) {
-        dragnDropView.isHidden = hasDrawnControls
-        footer.isHidden = hasDrawnControls
+        if hasDrawnControls {
+            dragnDropView.hideTextAndBorder()
+        } else {
+            dragnDropView.showDefaultText()
+        }
+
+        footer.isHidden = !hasDrawnControls
     }
     
     func image(at frame: CGRect) async -> CGImage? {

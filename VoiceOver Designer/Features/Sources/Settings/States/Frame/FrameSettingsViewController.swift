@@ -11,7 +11,7 @@ public class FrameSettingsViewController: NSHostingController<FrameSettingsView>
     public init(document: VODesignDocumentProtocol, frame: Frame, delegate: SettingsDelegate) {
         self.document = document
         self.frame = frame
-        super.init(rootView: FrameSettingsView(document: document, frame: frame, updateValue: delegate.updateValue))
+        super.init(rootView: FrameSettingsView(document: document, frame: frame, delegate: delegate))
     }
     
     @available(*, unavailable)
@@ -24,20 +24,34 @@ public class FrameSettingsViewController: NSHostingController<FrameSettingsView>
 public struct FrameSettingsView: View {
     let document: VODesignDocumentProtocol
     @ObservedObject var frame: Frame
-    var updateValue: (() -> Void)?
+    weak var delegate: SettingsDelegate?
+    
     @State private var isImageImporterPresented = false
     
     public var body: some View {
         ScrollView {
             Form {
                 TextField("Name:", text: $frame.label)
-                Button("Upload Image from Disk", action: changeImageButtonTapped)
+                HStack {
+                    Button("Replace image",
+                           systemImage: "arrow.triangle.2.circlepath",
+                           action: changeImageButtonTapped)
+
+                    Spacer()
+                    
+                    Button("Delete", systemImage: "trash") {
+                        delegate?.delete(model: frame)
+                    }
+                    .buttonStyle(.plain)
+                    .padding(10)
+                }
+                .controlSize(.large)
             }
             .padding()
             
         }
         .fileImporter(isPresented: $isImageImporterPresented,
-                      allowedContentTypes: [.image],
+                      allowedContentTypes: [.image], // TODO: Allow another .vodesign files
                       onCompletion: applyFileImporter(result:))
     }
     
@@ -58,7 +72,7 @@ public struct FrameSettingsView: View {
                 throw failure
             }
             
-            updateValue?()
+            delegate?.updateValue()
         } catch {
             // TODO: show alert?
         }

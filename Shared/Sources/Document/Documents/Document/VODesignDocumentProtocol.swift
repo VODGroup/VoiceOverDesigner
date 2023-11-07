@@ -42,7 +42,7 @@ extension VODesignDocumentProtocol {
         origin: CGPoint
     ) {
         let frame = Frame(image: newImage,
-                          frame: CGRect(origin: .zero,
+                          frame: CGRect(origin: origin,
                                         size: newImage.size))
         artboard.frames.append(frame)
         

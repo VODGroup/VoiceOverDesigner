@@ -41,15 +41,6 @@ class SettingsTests: XCTestCase {
             Color.validColor.withAlphaComponent(0.5).cgColor
         )
     }
-    
-    func test_whenSettingsUpdateLabel_shouldUpdateLayerLabel() throws {
-        sut.updateLabel(to: "Test")
-        
-        let labelString = control.label?.string as? String
-        
-        XCTAssertEqual(labelString, "Test")
-        XCTAssertTrue(delegate.didUpdateValue)
-    }
 }
 
 class FakeSettingsDelegate: SettingsDelegate {

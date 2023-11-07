@@ -9,7 +9,7 @@ import AppKit
 
 public protocol DragNDropDelegate: AnyObject {
     func didDrag(image: NSImage, locationInWindow: CGPoint)
-    func didDrag(path: URL)
+    func didDrag(path: URL) -> Bool
 }
 
 open class DragNDropImageView: NSView {
@@ -55,7 +55,7 @@ open class DragNDropImageView: NSView {
         
         registerDragging()
         
-        hideText()
+        hideTextAndBorder()
     }
     
     open override func layout() {
@@ -65,11 +65,10 @@ open class DragNDropImageView: NSView {
         let size = label.frame.size
         label.frame = CGRect(
             origin: CGPoint(x: (bounds.width-size.width)/2,
-                            y: (bounds.height-size.height) - safeAreaInsets.top - 50),
+                            y: (bounds.height-size.height)/2),
             size: size)
         
         let inset: CGFloat = 10
-        let bottomInset: CGFloat = 40
         
         border.frame = bounds
         
@@ -85,9 +84,9 @@ open class DragNDropImageView: NSView {
         } else {
             let fullFrame = CGRect(
                     origin: CGPoint(x: bounds.origin.x + inset,
-                                    y: bounds.origin.y + bottomInset + inset),
+                                    y: bounds.origin.y + inset),
                     size: CGSize(width: bounds.size.width - inset * 2,
-                                 height: bounds.size.height - safeAreaInsets.top - bottomInset - inset * 2))
+                                 height: bounds.size.height - safeAreaInsets.top - inset * 2))
             
             border.borderFrame = fullFrame
         }
@@ -110,7 +109,7 @@ open class DragNDropImageView: NSView {
     public override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
         imageSize = sender.image()?.size
         isWaitingForFile = true
-        show(text: NSLocalizedString("Drop!", comment: ""))
+        hideText()
         return .copy
     }
     
@@ -124,7 +123,7 @@ open class DragNDropImageView: NSView {
     }
     
     open override func draggingExited(_ sender: NSDraggingInfo?) {
-        show(text: NSLocalizedString("Drag image here", comment: ""))
+        show(text: defaultText)
         imageSize = nil
     }
     
@@ -138,7 +137,7 @@ open class DragNDropImageView: NSView {
         
         if let image = sender.image() {
             delegate?.didDrag(image: image, locationInWindow: sender.draggingLocation)
-            hideText()
+            hideTextAndBorder()
             return true
         }
         
@@ -146,18 +145,21 @@ open class DragNDropImageView: NSView {
            let data = item.data(forType: .fileURL),
            let string = String(data: data, encoding: .utf8) {
             let url = URL(fileURLWithPath: string)
-            delegate?.didDrag(path: url)
-            hideText()
-            return true
+            if delegate?.didDrag(path: url) == true {
+                hideTextAndBorder()
+                return true
+            } else {
+                show(text: NSLocalizedString("Don't know what it is :-(", comment: ""),
+                     changeTo: defaultText)
+                return false
+            }
+            
         }
-        
-        show(text: NSLocalizedString("Another time...", comment: ""),
-             changeTo: defaultText)
         
         return false
     }
     
-    let defaultText = NSLocalizedString("Drag'n'Drop image here", comment: "")
+    let defaultText = NSLocalizedString("Add your screenshot", comment: "")
     
     public func showDefaultText() {
         show(text: defaultText)
@@ -177,6 +179,10 @@ open class DragNDropImageView: NSView {
     
     public func hideText() {
         label.isHidden = true
+    }
+    
+    public func hideTextAndBorder() {
+        hideText()
         border.isHidden = true
     }
 }
