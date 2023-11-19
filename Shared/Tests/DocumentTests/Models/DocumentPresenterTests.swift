@@ -32,8 +32,11 @@ final class DocumentPresenterTests: XCTestCase {
         sut.append(control: element1)
         XCTAssertEqual(sut.controlsWithoutFrame.count, 1)
         
-        sut.document.undo?.undo()
+        sut.undo()
         XCTAssertTrue(sut.controlsWithoutFrame.isEmpty)
+        
+        sut.redo()
+        XCTAssertFalse(sut.controlsWithoutFrame.isEmpty)
     }
     
     // MARK: - Container
@@ -76,6 +79,9 @@ final class DocumentPresenterTests: XCTestCase {
         
         sut.undo()
         XCTAssertEqual(container.elements.count, 2)
+        
+        sut.redo()
+        XCTAssertEqual(container.elements.count, 1)
     }
     
     func test_container_whenRemoveContainer_shouldRemoveEverything() throws {
@@ -86,6 +92,9 @@ final class DocumentPresenterTests: XCTestCase {
         
         sut.undo()
         XCTAssertEqual(sut.controlsWithoutFrame.count, 1)
+        
+        sut.redo()
+        XCTAssertTrue(sut.controlsWithoutFrame.isEmpty)
     }
     
     // MARK: Artboard
@@ -112,6 +121,9 @@ final class DocumentPresenterTests: XCTestCase {
         sut.undo()
         
         XCTAssertFalse(document.artboard.frames.isEmpty)
+        
+        sut.redo()
+        XCTAssertTrue(document.artboard.frames.isEmpty)
     }
     
     // MARK: DSL
@@ -133,6 +145,7 @@ final class DocumentPresenterTests: XCTestCase {
     }
 }
 
+// MARK: - Undo
 extension DocumentPresenter {
     func disableUndoRegistration() {
         document.undo?.disableUndoRegistration()
@@ -143,5 +156,9 @@ extension DocumentPresenter {
     }
     func undo() {
         document.undo?.undo()
+    }
+    
+    func redo() {
+        document.undo?.redo()
     }
 }
