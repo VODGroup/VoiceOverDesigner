@@ -48,6 +48,10 @@ extension CanvasPresenterTests {
         controller.controlsView.drawnControls.compactMap(\.model)
     }
     
+    var drawnFrames: [CALayer] {
+        controller.controlsView.frames
+    }
+    
     var documentControls: [any ArtboardElement] {
         sut.document.artboard.controlsWithoutFrames
     }

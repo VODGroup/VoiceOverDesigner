@@ -66,3 +66,15 @@ extension VODesignDocument {
 //    }
 }
 #endif
+
+public extension VODesignDocumentProtocol {
+    func firstFrame() throws -> Frame {
+        try XCTUnwrap(artboard.frames.first)
+    }
+    
+    func imageFromFirstFrame() throws -> Image? {
+        let frame = try firstFrame()
+        let image = artboard.imageLoader?.image(for: frame)
+        return image
+    }
+}

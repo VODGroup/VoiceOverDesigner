@@ -40,13 +40,15 @@ extension VODesignDocumentProtocol {
     public func addFrame(
         with newImage: Image,
         origin: CGPoint
-    ) {
+    ) -> Frame {
         let frame = Frame(image: newImage,
                           frame: CGRect(origin: origin,
                                         size: newImage.size))
         artboard.frames.append(frame)
         
         documentWrapper.invalidateIfPossible(file: FolderName.quickLook)
+        
+        return frame
     }
     
     public func update(image: Image, for frame: Frame) {

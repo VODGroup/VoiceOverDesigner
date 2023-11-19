@@ -58,8 +58,13 @@ open class DocumentPresenter {
     
     // MARK:
     open func add(image: Image, origin: CGPoint) {
-        document.addFrame(with: image, origin: origin)
+        let frame = document.addFrame(with: image, origin: origin)
         
+        document.undo?.registerUndo(withTarget: self, handler: { target in
+            target.remove(frame)
+        })
+        
+        publishControlChanges()
     }
     
     public func append(control: any ArtboardElement) {

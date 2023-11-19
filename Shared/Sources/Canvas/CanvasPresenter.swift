@@ -173,16 +173,6 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     // MARK: Image
-    public override func add(image: Image, origin: CGPoint) {
-        super.add(image: image, origin: origin)
-        
-        drawingController.draw(
-            artboard: document.artboard,
-            scale: scale)
-        
-        publishControlChanges()
-    }
-    
     public func add(image: Image) {
         add(image: image, origin: document.artboard.suggestOrigin())
     }
