@@ -49,6 +49,10 @@ extension VODesignDocumentProtocol {
         documentWrapper.invalidateIfPossible(file: FolderName.quickLook)
     }
     
+    public func invalidateQuickViewPreview() {
+        documentWrapper.invalidateIfPossible(file: FolderName.quickLook)
+    }
+    
     public func update(image: Image, for frame: Frame) {
         var featureName: String = UUID().uuidString
         

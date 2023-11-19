@@ -58,8 +58,17 @@ open class DocumentPresenter {
     
     // MARK:
     open func add(image: Image, origin: CGPoint) {
-        document.addFrame(with: image, origin: origin)
+        document.invalidateQuickViewPreview()
         
+        let frame = Frame(image: image,
+                          frame: CGRect(origin: origin,
+                                        size: image.size))
+        
+        add(frame, into: nil, at: document.artboard.frames.count)
+        
+        document.undo?.registerUndo(withTarget: self, handler: { target in
+            target.remove(frame)
+        })
     }
     
     public func append(control: any ArtboardElement) {
@@ -92,13 +101,13 @@ open class DocumentPresenter {
         document.undo?.registerUndo(
             withTarget: self,
             handler: { presenter in
-                presenter.restore(model,
-                                  into: parent,
-                                  at: insertionIndex)
+                presenter.add(model,
+                              into: parent,
+                              at: insertionIndex)
         })
     }
     
-    private func restore(
+    private func add(
         _ model: any ArtboardElement,
         into parent: (any ArtboardContainer)?,
         at insertionIndex: Int
