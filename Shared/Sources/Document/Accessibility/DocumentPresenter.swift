@@ -64,11 +64,9 @@ open class DocumentPresenter {
                           frame: CGRect(origin: origin,
                                         size: image.size))
         
-        add(frame, into: nil, at: document.artboard.frames.count)
-        
-        document.undo?.registerUndo(withTarget: self, handler: { target in
-            target.remove(frame)
-        })
+        add(frame,
+            into: nil,
+            at: document.artboard.frames.count)
     }
     
     public func append(control: any ArtboardElement) {
@@ -124,6 +122,12 @@ open class DocumentPresenter {
         
         publishControlChanges()
         select(model)
+        
+        document.undo?.registerUndo(
+            withTarget: self,
+            handler: { presenter in
+                presenter.remove(model)
+            })
     }
     
     @discardableResult
