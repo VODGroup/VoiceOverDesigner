@@ -174,10 +174,12 @@ public class CanvasViewController: NSViewController {
     }
 
     @objc func duplicateMenuSelected() {
-        if let selectedControl = presenter.selectedControl?.model {
+        if let selectedControl = (presenter.selectedControl as? A11yControlLayer)?.model {
             let newModel = selectedControl.copy()
             newModel.frame = newModel.frame.offsetBy(dx: 40, dy: 40)
             presenter.append(control: newModel)
+        } else {
+            // TODO: Duplicate menu should be disabled in this case
         }
     }
 

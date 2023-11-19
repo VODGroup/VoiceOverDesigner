@@ -10,6 +10,7 @@ import CoreText
 import Combine
 import TextRecognition
 import Foundation
+import QuartzCore
 
 public protocol CanvasScrollViewProtocol: AnyObject {
     func fitToWindow(animated: Bool)
@@ -74,7 +75,7 @@ public class CanvasPresenter: DocumentPresenter {
         uiContent.hud.hideHUD()
 
         drawingController.mouseDown(on: location,
-                                    selectedControl: selectedControl)
+                                    selectedControl: selectedControl as? A11yControlLayer)
     }
     
     public func mouseDragged(on location: CGPoint) {
@@ -83,7 +84,7 @@ public class CanvasPresenter: DocumentPresenter {
     
     public func mouseMoved(on location: CGPoint) {
         drawingController.mouseMoved(on: location,
-                                     selectedControl: selectedControl)
+                                     selectedControl: selectedControl as? A11yControlLayer)
     }
    
     @discardableResult
@@ -136,8 +137,7 @@ public class CanvasPresenter: DocumentPresenter {
             let selectedFrame = uiContent.frames.first { frame in
                 frame.frame == selectedDescription!.frame
             }
-            uiContent.hud.selectedControlFrame = selectedFrame?.frame
-            uiContent.hud.tintColor = Color.red.cgColor
+            selectedControl = selectedFrame
             
         case .element, .container:
             let selectedControl = uiContent.drawnControls.first(where: { control in
@@ -150,10 +150,10 @@ public class CanvasPresenter: DocumentPresenter {
         }
     }
     
-    public private(set) var selectedControl: A11yControlLayer? {
+    public private(set) var selectedControl: CALayer? {
         didSet {
             uiContent.hud.selectedControlFrame = selectedControl?.frame
-            uiContent.hud.tintColor = selectedControl?.model?.color.cgColor.copy(alpha: 1)
+            uiContent.hud.tintColor = (selectedControl as? A11yControlLayer)?.model?.color.cgColor.copy(alpha: 1) ?? Color.red.cgColor
         }
     }
     

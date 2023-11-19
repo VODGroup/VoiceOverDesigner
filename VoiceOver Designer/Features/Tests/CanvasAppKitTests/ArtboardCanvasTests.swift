@@ -21,6 +21,12 @@ class ArtboardAddImageTests: CanvasAfterDidLoadTests {
         XCTAssertEqual(drawnFrames.count, 1)
     }
     
+    func test_whenAddImage_shouldSelectFrame() {
+        sut.add(image: Sample().image3x())
+        
+        XCTAssertNotNil(sut.selectedControl)
+    }
+    
     func test_whenAddImageAndUndo_shouldRemoveFrameFromDocument() throws {
         sut.add(image: Sample().image3x())
         
