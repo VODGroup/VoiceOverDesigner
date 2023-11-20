@@ -20,45 +20,49 @@ extension VODesignDocumentProtocol {
     
     func storeImagesAsFileWrappers() {
         for frame in artboard.frames {
-            switch frame.imageLocation {
-                
-            case .relativeFile(let path):
-                let url = URL(filePath: path)
-                let name = url.lastPathComponent
-                
-                if let existedWrapper = imagesFolderWrapper.fileWrappers?[name] {
-                    return
-                }
-                 
-                if let imageWrapper = try? FileWrapper(url: artboard.imageLoader.fullPath(relativeTo: path)) {
-                    imageWrapper.preferredFilename = "Frame.png"
-                
-                    imagesFolderWrapper.addFileWrapper(imageWrapper)
-                    
-                    let url = URL(filePath: "Images")
-                        .appendingPathComponent("Frame.png").path()
-                    frame.imageLocation = .relativeFile(path: url)
-                }
-            case .remote(let url):
-                // TODO: Move to local files?
-                fatalError()
-                
-            case .cache(let image, let name):
-                // No check for existed wrapper because we will move from .cached to .fileRelative state
-                
-                guard let imageData = image.png()
-                else {
-                    print("No image to store")
-                    return
-                }
-                
-                let imageWrapper = FileWrapper(regularFileWithContents: imageData)
-                imageWrapper.preferredFilename = name
+            migrateImageIfNeeded(frame: frame)
+        }
+    }
+    
+    func migrateImageIfNeeded(frame: Frame) {
+        switch frame.imageLocation {
+            
+        case .relativeFile(let path):
+            let url = URL(filePath: path)
+            let name = url.lastPathComponent
+            
+            if let existedWrapper = imagesFolderWrapper.fileWrappers?[name] {
+                return
+            }
+            
+            if let imageWrapper = try? FileWrapper(url: artboard.imageLoader.fullPath(relativeTo: path)) {
+                imageWrapper.preferredFilename = "Frame.png"
                 
                 imagesFolderWrapper.addFileWrapper(imageWrapper)
                 
-                frame.imageLocation = .relativeFile(path: "Images/\(name)")
+                let url = URL(filePath: "Images")
+                    .appendingPathComponent("Frame.png").path()
+                frame.imageLocation = .relativeFile(path: url)
             }
+        case .remote(let url):
+            // TODO: Move to local files?
+            fatalError()
+            
+        case .cache(let image, let name):
+            // No check for existed wrapper because we will move from .cached to .fileRelative state
+            
+            guard let imageData = image.png()
+            else {
+                print("No image to store")
+                return
+            }
+            
+            let imageWrapper = FileWrapper(regularFileWithContents: imageData)
+            imageWrapper.preferredFilename = name
+            
+            imagesFolderWrapper.addFileWrapper(imageWrapper)
+            
+            frame.imageLocation = .relativeFile(path: "Images/\(name)")
         }
     }
     

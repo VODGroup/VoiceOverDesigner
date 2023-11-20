@@ -10,19 +10,22 @@ class CanvasPresenterTests: XCTestCase {
     var document: VODesignDocumentProtocol!
     var uiScrollSpy: CanvasScrollViewSpy!
     
+    let testDocumentName = "Test"
+    
     override func setUp() {
         super.setUp()
         
         controller = EmptyViewController()
         uiScrollSpy = CanvasScrollViewSpy()
         
-        document = DocumentFake()
+        document = VODesignDocument(fileName: testDocumentName)
         
         sut = CanvasPresenter(document: document)
     }
     
     override func tearDownWithError() throws {
-        try? VODesignDocument.removeTestDocument(name: "Test")
+        // Usually a test not saves the document and there is nothing to delete
+        try? VODesignDocument.removeTestDocument(name: testDocumentName)
         document = nil
         sut = nil
         controller = nil
