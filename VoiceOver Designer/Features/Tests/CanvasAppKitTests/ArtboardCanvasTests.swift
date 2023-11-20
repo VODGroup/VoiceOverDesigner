@@ -42,4 +42,21 @@ class ArtboardAddImageTests: CanvasAfterDidLoadTests {
         
         XCTAssertTrue(drawnFrames.isEmpty)
     }
+    
+    /// There was a bug when several images expect migration,
+    /// but the first was  `.relativeFile` and it calls `return` in migration loop instead of `break` operation,
+    /// As a result all other `.cache` images skip migration
+    func test_whenAddImageAndSave_shouldMigrateBothImageFromCache() throws {
+        sut.add(image: Sample().image3x())
+        
+        try save()
+        
+        sut.add(image: Sample().image3x())
+        
+        try save()
+    }
+    
+    private func save() throws {
+        try (sut.document as! VODesignDocument).save(name: testDocumentName, testCase: self)
+    }
 }
