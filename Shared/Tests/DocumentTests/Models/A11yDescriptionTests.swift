@@ -24,6 +24,14 @@ class A11yDescriptionTests_EN: XCTestCase {
         
         XCTAssertEqual(descr.voiceOverText, "City: Yekaterinburg")
     }
+    
+    func test_emptyLabel_withValue() throws {
+        let descr = A11yDescription.testMake(
+            label: "",
+            value: "Yekaterinburg")
+        
+        XCTAssertEqual(descr.voiceOverText, "Yekaterinburg")
+    }
 
     func test_labelWithValueAndTrait() throws {
         let descr = A11yDescription.testMake(
