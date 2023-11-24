@@ -23,9 +23,13 @@ extension A11yDescription {
             result += label
         }
         
-        if !value.isEmpty {
+        let valueString = isAdjustable ? (adjustableOptions.currentValue ?? "") : value
+        if !valueString.isEmpty {
             let valueString = isAdjustable ? (adjustableOptions.currentValue ?? "") : value
-            result += ":\(breakParts ? markdownBreak : " ")\(valueString.italic)"
+            if !result.isEmpty {
+                result += ":\(breakParts ? markdownBreak : " ")"
+            }
+            result += "\(valueString.italic)"
         }
         
         let traitsDescription = self.traitDescription

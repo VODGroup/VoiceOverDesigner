@@ -60,7 +60,6 @@ class A11yDescriptionTests_EN: XCTestCase {
         XCTAssertEqual(descr.voiceOverText, "City: Yekaterinburg. Dimmed. Button.")
     }
     
-    
     func test_whenRemoveLastAdjustableOption_shouldRemoveAdjustableTrait() throws {
         let descr = A11yDescription.testMake(
             value: "",
@@ -78,17 +77,15 @@ class A11yDescriptionTests_EN: XCTestCase {
         XCTAssertEqual(descr.adjustableOptions.isEmpty, true)
     }
     
-    func test_addingAdjustableOption_withSample() throws {
-        let descr = A11yDescription.testMake()
+    func test_addingAdjustableOption_shouldMakeEnumeratedByDefault() throws {
+        let descr = A11yDescription.testMake(label: "Pizza")
         
-        let options = ["Small", "Medium", "Big"]
-        
-        for option in options {
-            descr.addAdjustableOption(defaultValue: option)
-        }
+        ["Small", "Medium", "Big"].forEach(descr.addAdjustableOption(defaultValue:))
+
         XCTAssertTrue(descr.trait.contains(.adjustable))
         XCTAssertEqual(descr.adjustableOptions.isEmpty, false)
         XCTAssertEqual(descr.adjustableOptions.options.count, 3)
+        XCTAssertEqual(descr.voiceOverText, "Pizza: Small, 1 of 3. Adjustable.")
     }
     
     func test_selectingAdjustableOption_shouldSetValue() throws {
