@@ -34,7 +34,7 @@ open class DocumentPresenter {
                 presenter.controls = oldValue
             })
             
-            publishControlChanges()
+            publishArtboardChanges()
         }
         
         get {
@@ -42,7 +42,7 @@ open class DocumentPresenter {
         }
     }
     
-    public func publishControlChanges() {
+    public func publishArtboardChanges() {
         artboardPublisher.send(document.artboard)
     }
     
@@ -86,14 +86,14 @@ open class DocumentPresenter {
             handler: { presenter in
                 presenter.remove(control)
         })
-        publishControlChanges()
+        publishArtboardChanges()
     }
     
     open func remove(_ model: any ArtboardElement) {
         guard let (parent, insertionIndex) = document.artboard.remove(model)
         else { return }
 
-        publishControlChanges()
+        publishArtboardChanges()
         deselect()
         
         document.undo?.registerUndo(
@@ -120,7 +120,7 @@ open class DocumentPresenter {
             }
         }
         
-        publishControlChanges()
+        publishArtboardChanges()
         select(model)
         
         document.undo?.registerUndo(

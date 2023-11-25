@@ -156,8 +156,8 @@ public class CanvasViewController: NSViewController {
         presenter.select(model)
     }
     
-    public func publishControlChanges() {
-        presenter.publishControlChanges()
+    public func publishArtboardChanges() {
+        presenter.publishArtboardChanges()
     }
     
     public func delete(model: any ArtboardElement) {

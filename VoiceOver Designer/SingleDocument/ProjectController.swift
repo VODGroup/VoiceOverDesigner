@@ -126,7 +126,7 @@ extension ProjectController {
 
 extension ProjectController: SettingsDelegate {
     public func updateValue() {
-        canvas.publishControlChanges()
+        canvas.publishArtboardChanges()
     }
     
     public func delete(model: any ArtboardElement) {
