@@ -66,6 +66,17 @@ class ContainerSettingsViewController: NSViewController {
         renderSettings()
     }
     
+    @IBAction func traitButtonsAsAdjustableDidChanged(_ sender: Any) {
+        presenter.container.treatButtonsAsAdjustable = view().treatAsAdjustable
+        
+        if view().treatAsAdjustable {
+            presenter.container.navigationStyle = .combined // Heuristics that is useful for Switch Control too
+            presenter.container.isEnumerated = true
+        }
+        
+        renderSettings()
+    }
+    
     @IBAction func isEnumerateDidChanged(sender: Any) {
         presenter.container.isEnumerated = view().isEnumerated
     }

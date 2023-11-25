@@ -30,6 +30,7 @@ public class A11yContainer: Codable, ObservableObject {
         label: String,
         isModal: Bool = false,
         isTabTrait: Bool = false,
+        treatButtonsAsAdjustableValues: Bool = false,
         isEnumerated: Bool = false,
         containerType: ContainerType = .semanticGroup,
         navigationStyle: NavigationStyle = .automatic
@@ -43,6 +44,7 @@ public class A11yContainer: Codable, ObservableObject {
         
         self.isModal = isModal
         self.isTabTrait = isTabTrait
+        self.treatButtonsAsAdjustable = treatButtonsAsAdjustableValues
         self.isEnumerated = isEnumerated
         
         for control in controls {
@@ -82,6 +84,11 @@ public class A11yContainer: Codable, ObservableObject {
     public var isEnumerated: Bool {
         willSet { objectWillChange.send() }
     }
+    
+    @DecodableDefault.False
+    public var treatButtonsAsAdjustable: Bool {
+        willSet { objectWillChange.send() }
+    }
    
     @DecodableDefault.ContainerType
     public var containerType: ContainerType {
@@ -94,11 +101,11 @@ public class A11yContainer: Codable, ObservableObject {
     }
     
     public enum ContainerType: String, Codable, CaseIterable, Identifiable {
-//        case none
+        case none
 //        case dataTable
         case semanticGroup
         case list
-        case landmark
+//        case landmark
         
         public var id: Self { self }
     }
@@ -133,6 +140,7 @@ public class A11yContainer: Codable, ObservableObject {
         case isEnumerated
         case containerType
         case navigationStyle
+        case treatButtonsAsAdjustable
     }
     
     public required init(from decoder: Decoder) throws {
@@ -146,7 +154,8 @@ public class A11yContainer: Codable, ObservableObject {
         self.containerType = try container.decode(ContainerType.self, forKey: .containerType)
         self.navigationStyle = try container.decode(NavigationStyle.self, forKey: .navigationStyle)
         self.isTabTrait = try container.decode(Bool.self, forKey: .isTabTrait)
-        
+        self.treatButtonsAsAdjustable = (try? container.decode(Bool.self, forKey: .treatButtonsAsAdjustable)) ?? false
+
         for control in controls {
             control.parent = self
         }
@@ -164,6 +173,7 @@ public class A11yContainer: Codable, ObservableObject {
         try container.encode(containerType, forKey: .containerType)
         try container.encode(navigationStyle, forKey: .navigationStyle)
         try container.encode(isTabTrait, forKey: .isTabTrait)
+        try container.encode(treatButtonsAsAdjustable, forKey: .treatButtonsAsAdjustable)
     }
 }
 
@@ -174,5 +184,39 @@ extension A11yContainer {
      */
     public func flattenWithElements() -> [any ArtboardElement] {
         [self] + controls
+    }
+}
+
+// MARK: - Adjustable Proxy
+extension A11yContainer {
+    
+    public var canTraitAsAdjustable: Bool {
+        buttons.count > 1
+    }
+    
+    public var adjustableProxy: A11yDescription? {
+        guard treatButtonsAsAdjustable,
+              canTraitAsAdjustable else {
+            return nil
+        }
+        
+        let proxy =  A11yDescription(
+            isAccessibilityElement: true,
+            label: label,
+            value: "",
+            hint: "",
+            trait: .adjustable,
+            frame: frame,
+            adjustableOptions: AdjustableOptions(
+                options: buttons.map { $0.label },
+                currentIndex: 0,
+                isEnumerated: isEnumerated),
+            customActions: A11yCustomActions())
+        
+        return proxy
+    }
+    
+    var buttons: [A11yDescription] {
+        controls.filter { $0.trait == .button }
     }
 }
