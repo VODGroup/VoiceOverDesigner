@@ -92,17 +92,6 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
         }
     }
     
-    private func prepareFormatForArtboard(for version: DocumentVersion) {
-        switch version {
-        case .beta:
-            createEmptyDocumentWrapper()
-        case .release:
-            break
-        case .artboard:
-            break
-        }
-    }
-    
     // MARK: Static
     public override class var autosavesInPlace: Bool {
         return true

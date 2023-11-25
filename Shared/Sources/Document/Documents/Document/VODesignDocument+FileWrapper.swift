@@ -238,7 +238,18 @@ extension VODesignDocumentProtocol {
                      elements: controls)
     }
     
-    func createEmptyDocumentWrapper() {
+    func prepareFormatForArtboard(for version: DocumentVersion) {
+        switch version {
+        case .beta:
+            createEmptyDocumentWrapper()
+        case .release:
+            break
+        case .artboard:
+            break
+        }
+    }
+    
+    private func createEmptyDocumentWrapper() {
         self.documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
     }
 }
