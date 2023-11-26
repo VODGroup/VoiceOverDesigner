@@ -5,13 +5,6 @@ import DocumentTestHelpers
 import SnapshotTesting
 import FolderSnapshot
 
-typealias FileSample = String
-extension FileSample {
-    static var beta = "BetaVersionFormat"
-    static var frame = "FrameVersionFormat"
-    static var artboard = "ArtboardFormat"
-}
-
 final class DocumentVersionsTests: XCTestCase {
 
 #if os(macOS)

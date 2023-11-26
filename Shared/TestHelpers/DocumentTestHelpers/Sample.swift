@@ -2,6 +2,13 @@ import Foundation
 import Document
 import XCTest
 
+public typealias FileSample = String
+public extension FileSample {
+    static var beta = "BetaVersionFormat"
+    static var frame = "FrameVersionFormat"
+    static var artboard = "ArtboardFormat"
+}
+
 public class Sample {
     
     public init() {}
