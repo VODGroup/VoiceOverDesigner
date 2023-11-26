@@ -30,12 +30,15 @@ class ScrollView: UIView {
     }
     
     @IBOutlet weak var voiceOverHint: UIView!
+    
     var isVoiceOverHintHidden: Bool = false {
         didSet {
             voiceOverHint.transform = CGAffineTransform(
                 translationX: 0,
                 y: isVoiceOverHintHidden ? 150: 0)
             
+            // Layout depends on current assistive technology
+            invalidateVoiceOverLayout()
         }
     }
 }
@@ -51,6 +54,11 @@ extension ScrollView: UIScrollViewDelegate {
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         container
+    }
+    
+    private func invalidateVoiceOverLayout() {
+        layout = nil
+        updateVoiceOverLayoutForCanvas()
     }
     
     func updateVoiceOverLayoutForCanvas() {

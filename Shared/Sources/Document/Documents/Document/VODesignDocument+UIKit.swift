@@ -10,7 +10,14 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
     public var elements: [any ArtboardElement] = []
     public var image: Image?
     public var frameInfo: FrameInfo = .default
-    public var artboard: Artboard = Artboard()
+    public lazy var artboard: Artboard = {
+        let artboard = Artboard()
+        artboard.imageLoader = ImageLoader(documentPath: { [weak self] in self?.fileURL
+        })
+        return artboard
+    }()
+    
+    var version: DocumentVersion!
     
     public var imageSize: CGSize {
         return image?
@@ -61,13 +68,31 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
         }
     }
     
+    // TODO: Remove duplication with AppKit
     public override func load(fromContents contents: Any, ofType typeName: String?) throws {
         undoManager?.disableUndoRegistration()
         defer { undoManager?.enableUndoRegistration() }
         
         let packageWrapper = contents as! FileWrapper
         
-        try read(from: packageWrapper)
+        undoManager?.disableUndoRegistration()
+        defer { undoManager?.enableUndoRegistration() }
+        
+        do {
+            let (version, artboard) = try read(from: packageWrapper)
+            
+            self.artboard = artboard
+            self.version = version
+            artboard.imageLoader = ImageLoader(documentPath: { [weak self] in
+                self?.fileURL
+            })
+            
+            prepareFormatForArtboard(for: version)
+            
+        } catch let error {
+            Swift.print(error)
+            throw error
+        }
     }
     
     public override func contents(forType typeName: String) throws -> Any {

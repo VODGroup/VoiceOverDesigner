@@ -112,12 +112,12 @@ public class CanvasPresenter: DocumentPresenter {
             
         case let translate as TranslateAction:
             registerUndo(for: translate)
-            publishControlChanges()
+            publishArtboardChanges()
             select(translate.control.model)
             
         case let resize as ResizeAction:
             registerUndo(for: resize)
-            publishControlChanges()
+            publishArtboardChanges()
             // Should be selected already
             
         case .none:
@@ -183,7 +183,7 @@ extension CanvasPresenter {
     func registerUndo(for action: Undoable) {
         document.undo?.registerUndo(withTarget: self, handler: { target in
             action.undo()
-            target.publishControlChanges()
+            target.publishArtboardChanges()
         })
     }
 }

@@ -88,25 +88,32 @@ public class NavigatorController: NSViewController {
             return expandAndSelect(model)
         }
         
-        
         outlineView.selectRowIndexes(IndexSet(integer: index),
                                      byExtendingSelection: false)
     }
     
     private func expandAndSelect(_ element: any ArtboardElement) {
+        expandParents(of: element)
         
-        guard case let .element(description) = element.cast else { return }
-        guard let container = document.container(for: description) else { return }
-        // Expanding Container
-        outlineView.expandItem(container, expandChildren: false)
-        
-        
-        // Selecting element inside of container
-        let rowToSelect = outlineView.row(forItem: description)
+        let rowToSelect = outlineView.row(forItem: element)
         guard isValid(row: rowToSelect) else { return }
         
         outlineView.selectRowIndexes(IndexSet(integer: rowToSelect), byExtendingSelection: false)
+    }
+    
+    private func expandParents(of element: any ArtboardElement) {
+        // Iterate parents
+        var elementToExpand = element
+        var elementsToExpand = [any ArtboardElement]()
+        while let parent = elementToExpand.parent {
+            elementsToExpand.append(parent)
+            elementToExpand = parent
+        }
         
+        // Expand starting from top elements
+        for elementToExpand in elementsToExpand.reversed() {
+            outlineView.expandItem(elementToExpand, expandChildren: false)
+        }
     }
 
     /**

@@ -43,14 +43,18 @@ public final class VODesignPreviewViewController: UIViewController {
 extension VODesignPreviewViewController {
     
     private func draw() {
+        let frame = presenter.document.artboard.frames.first!
+        draw(frame: frame)
+    }
+    
+    private func draw(frame: Frame?) {
         self.view().canvas.removeAll() // TODO: Move clearing inside? drawingController?
         
-        let frame = presenter.document.artboard.frames.first
         let image = frame.flatMap(presenter.document.artboard.imageLoader.image(for:))
         
         view().set(image: image, // TODO: Support several frames
                    scale: 1) // TODO: Restore scale presenter.document.frameInfo.imageScale)
-        view().controls = presenter.document.controls
+        view().controls = frame?.elements ?? []
         presenter.didLoad(
             uiContent: view().canvas,
             uiScroll: self,

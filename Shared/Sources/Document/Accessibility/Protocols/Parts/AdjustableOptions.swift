@@ -12,10 +12,12 @@ import Foundation
 public struct AdjustableOptions: Codable {
     public init(
         options: [String],
-        currentIndex: Int? = nil
+        currentIndex: Int? = nil,
+        isEnumerated: Bool = true
     ) {
         self.options = options
         self.currentIndex = currentIndex
+        self.isEnumerated = isEnumerated
     }
     
     public var options: [String]
