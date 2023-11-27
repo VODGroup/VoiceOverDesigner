@@ -14,6 +14,15 @@ extension Artboard {
         
         // TODO: Add redo
         switch (dropElement, insertionIndex) {
+        
+        // Avoid NSOutlineViewDropOnItemIndex at the beginning
+        // Drop on element to create container
+        case (let secondElement as A11yDescription, NSOutlineViewDropOnItemIndex):
+            wrapInContainer(
+                [draggingElement, secondElement],
+                undoManager: undoManager)
+            
+            return true
             
         // Move inside container
         case (let container as any ArtboardContainer, insertionIndex):
@@ -23,16 +32,7 @@ extension Artboard {
                  undoManager: undoManager)
             
             return true
-            
-        // Drop on element to create container
-        case (let secondElement as A11yDescription, NSOutlineViewDropOnItemIndex):
-            wrapInContainer(
-                draggingElement,
-                secondElement,
-                undoManager: undoManager)
-            
-            return true
-            
+        
         // Move element on artboard's level
         case (nil, insertionIndex):
             moveElementOnArtboardLevel(
@@ -55,7 +55,11 @@ extension Artboard {
     ) {
         let insertionParentOfDragging = element.parent
         
-        container.elements.insert(element, at: insertionIndex)
+        if insertionIndex == NSOutlineViewDropOnItemIndex { // TODO: Make it optional
+            container.elements.append(element)
+        } else {
+            container.elements.insert(element, at: insertionIndex)
+        }
         
         // Remove after modification of element to keep stable insertionIndex
         let insertionIndexOfDraggingForUndo = element.removeFromParent()
@@ -68,17 +72,21 @@ extension Artboard {
         })
     }
     
-    func wrapInContainer(
-        _ firstElement: any ArtboardElement,
-        _ secondElement: any ArtboardElement,
+    public func wrapInContainer(
+        _ elements: [any ArtboardElement],
+//        _ firstElement: any ArtboardElement,
+//        _ secondElement: any ArtboardElement,
         undoManager: UndoManager?
-    ) {
-        let insertionParentOfDragging = firstElement.parent
-        let insertionParent2 = secondElement.parent
-        let insertionIndexForUndo2 = secondElement.removeFromParent()
-        let insertionIndexOfDraggingForUndo = firstElement.removeFromParent()
-        
-        let elements = [firstElement, secondElement]
+    ) -> A11yContainer {
+        let insertionParentOfDragging = elements.first?.parent
+//        let insertionParent2 = secondElement.parent
+//        let insertionIndexForUndo2 = secondElement.removeFromParent()
+        let insertionIndexOfDraggingForUndo = elements.first?.removeFromParent()
+//        
+        for element in elements.reversed() {
+            element.removeFromParent()
+        }
+//        let elements = [firstElement, secondElement]
         
         let container = A11yContainer(
             elements: elements,
@@ -87,18 +95,21 @@ extension Artboard {
                 .commonFrame
                 .insetBy(dx: -20, dy: -20),
             label: "Container")
+        container.parent = insertionParentOfDragging ?? self
         
         insertionParentOfDragging?.elements.insert(container, at: insertionIndexOfDraggingForUndo!) // TODO: Если оба элемента в одном контейнере, то они могут сместиться на -1. Или нет, если первый элемент был после второго
         
         undoManager?.registerUndo(withTarget: self, handler: { artboard in
             _ = container.removeFromParent()
-            insertionParentOfDragging?.elements.insert(
-                firstElement,
-                at: insertionIndexOfDraggingForUndo!)
-            insertionParent2?.elements.insert(
-                secondElement,
-                at: insertionIndexForUndo2!)
+//            insertionParentOfDragging?.elements.insert(
+//                firstElement,
+//                at: insertionIndexOfDraggingForUndo!)
+//            insertionParent2?.elements.insert(
+//                secondElement,
+//                at: insertionIndexForUndo2!)
         })
+        
+        return container
     }
     
     func moveElementOnArtboardLevel(
@@ -107,7 +118,7 @@ extension Artboard {
         undoManager: UndoManager?
     ) {
         let insertionParentOfDragging = draggingElement.parent
-        controlsWithoutFrames.insert(draggingElement, at: insertionIndex)
+        elements.insert(draggingElement, at: insertionIndex)
         
         let insertionIndexOfDraggingForUndo = draggingElement.removeFromParent()
         

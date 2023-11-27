@@ -22,24 +22,49 @@ public extension Image {
 #endif
 
 /// Data layer with hierarchical structure of element
-public class Artboard {
-//    let figmaURL: String
-    public var frames: [Frame]
+public class Artboard: ArtboardContainer {
+    public static func == (lhs: Artboard, rhs: Artboard) -> Bool {
+        return true // Single instance
+    }
     
-    // TODO: Confirm Artboard to ArtboardContainer and place in inside elements
-    public var controlsWithoutFrames: [any ArtboardElement]
+    public var elements: [any ArtboardElement] = []
+    
+    public var id: UUID = UUID()
+    
+    public var label: String = "Artboard"
+    
+    public var frame: CGRect = .zero
+    
+    public var type: ArtboardType = .frame
+    
+    public var parent: (any ArtboardContainer)? = nil
+    
+//    let figmaURL: String
+    
+    public var frames: [Frame] {
+        elements.compactMap { element in
+            element as? Frame
+        }
+    }
+
+    public var controlsOutsideOfFrames: [any ArtboardElement] {
+        elements.filter { !($0 is Frame) }
+    }
     
     public init(
         frames: [Frame] = [],
         controlsWithoutFrames: [any ArtboardElement] = []) {
-        self.frames = frames
-        self.controlsWithoutFrames = controlsWithoutFrames
+        self.elements = frames + controlsWithoutFrames
+            
+        for element in elements {
+            element.parent = self
+        }
     }
     
     public var imageLoader: ImageLoading!
     
     public var isEmpty: Bool {
-        frames.isEmpty && controlsWithoutFrames.isEmpty
+        elements.isEmpty
     }
 }
 

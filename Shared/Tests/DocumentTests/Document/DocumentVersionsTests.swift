@@ -125,7 +125,7 @@ final class DocumentVersionsTests: XCTestCase {
         
         let artboard = document.artboard
         XCTAssertEqual(artboard.frames.count, 2)
-        XCTAssertEqual(artboard.controlsWithoutFrames.count, 0)
+        XCTAssertEqual(artboard.controlsOutsideOfFrames.count, 0)
         
         let frame1 = try XCTUnwrap(artboard.frames.first)
         assert(

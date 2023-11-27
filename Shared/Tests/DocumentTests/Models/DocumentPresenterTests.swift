@@ -30,13 +30,13 @@ final class DocumentPresenterTests: XCTestCase {
     
     func test_appendElement() {
         sut.append(control: element1)
-        XCTAssertEqual(sut.controlsWithoutFrame.count, 1)
+        XCTAssertEqual(sut.elements.count, 1)
         
         sut.undo()
-        XCTAssertTrue(sut.controlsWithoutFrame.isEmpty)
+        XCTAssertTrue(sut.elements.isEmpty)
         
         sut.redo()
-        XCTAssertFalse(sut.controlsWithoutFrame.isEmpty)
+        XCTAssertFalse(sut.elements.isEmpty)
     }
     
     // MARK: - Container
@@ -46,8 +46,8 @@ final class DocumentPresenterTests: XCTestCase {
         
         let container = sut.wrapInContainer([element1, element2])
         
-        XCTAssertEqual(sut.controlsWithoutFrame.count, 1)
-        XCTAssertTrue(sut.controlsWithoutFrame.first is A11yContainer)
+        XCTAssertEqual(sut.elements.count, 1)
+        XCTAssertTrue(sut.elements.first is A11yContainer)
         XCTAssertEqual(container?.elements.count, 2)
     }
     
@@ -59,7 +59,8 @@ final class DocumentPresenterTests: XCTestCase {
         
         let container = sut.wrapInContainer([element1, element2])
         
-        XCTAssertEqual(sut.controlsWithoutFrame.count, 0, "Remove controls outside frame")
+        XCTAssertEqual(sut.elements.count, 1)
+        XCTAssertTrue(sut.elements.first is Frame)
         let containerInFrame = sut.document.artboard.frames.first?.elements.first
         XCTAssertTrue(containerInFrame is A11yContainer)
         XCTAssertEqual(container?.elements.count, 2)
@@ -87,7 +88,7 @@ final class DocumentPresenterTests: XCTestCase {
         sut.append(control: element2)
         
         sut.remove(element1)
-        XCTAssertEqual(sut.controlsWithoutFrame.count, 1)
+        XCTAssertEqual(sut.elements.count, 1)
     }
     
     func test_delete2Element() {
@@ -96,7 +97,7 @@ final class DocumentPresenterTests: XCTestCase {
         
         sut.remove(element2)
         
-        XCTAssertEqual(sut.controlsWithoutFrame.count, 1)
+        XCTAssertEqual(sut.elements.count, 1)
     }
     
     // MARK: Containers
@@ -117,13 +118,13 @@ final class DocumentPresenterTests: XCTestCase {
         let container = try addTwoElementsAndWrapInContainer()
         
         sut.remove(container)
-        XCTAssertTrue(sut.controlsWithoutFrame.isEmpty)
+        XCTAssertTrue(sut.elements.isEmpty)
         
         sut.undo()
-        XCTAssertEqual(sut.controlsWithoutFrame.count, 1)
+        XCTAssertEqual(sut.elements.count, 1)
         
         sut.redo()
-        XCTAssertTrue(sut.controlsWithoutFrame.isEmpty)
+        XCTAssertTrue(sut.elements.isEmpty)
     }
     
     // MARK: Artboard

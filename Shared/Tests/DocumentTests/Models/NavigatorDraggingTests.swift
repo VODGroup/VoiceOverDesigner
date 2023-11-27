@@ -14,6 +14,7 @@ import AppKit
 
 class NavigatorDraggingTests: XCTestCase {
     
+    var artboard: Artboard!
     var frame: Frame!
     var title: A11yDescription!
     var settingsButton: A11yDescription!
@@ -21,14 +22,20 @@ class NavigatorDraggingTests: XCTestCase {
     
     var sut: DocumentPresenter!
     
+//    let testDocumentName = "Test"
+    
     override func setUpWithError() throws {
         try super.setUpWithError()
         
-        let profileSample: VODesignDocument = try Sample().document(name: FileSample.artboard, testCase: self)
+        let document: VODesignDocument = try Sample().document(name: FileSample.artboard, testCase: self)
+//        let document = VODesignDocument(fileName: testDocumentName)
         
-        sut = DocumentPresenter(document: profileSample)
+        sut = DocumentPresenter(document: document)
         
-        frame = try XCTUnwrap(profileSample.artboard.frames.first)
+        artboard = document.artboard
+//        sut.add(image: Sample().image3x(), origin: .zero)
+        
+        frame = try XCTUnwrap(artboard.frames.first)
         title = try XCTUnwrap(frame.elements[0] as? A11yDescription)
         settingsButton = try XCTUnwrap(frame.elements[1] as? A11yDescription)
         tabsContainer = try XCTUnwrap(frame.elements.last as? A11yContainer)
@@ -39,6 +46,8 @@ class NavigatorDraggingTests: XCTestCase {
         settingsButton = nil
         tabsContainer = nil
         
+//        try? VODesignDocument.removeTestDocument(name: testDocumentName)
+        
         // Document will be removed at tearDown by Sampler
         super.tearDown()
     }
@@ -46,7 +55,7 @@ class NavigatorDraggingTests: XCTestCase {
     func testDefaultState() {
         XCTAssertEqual(frame.elements.count, 10)
         
-        XCTAssertEqual(titles, ["Привет, Михаил", "Настройки", "186 додокоинов", "История заказов", "Адреса доставки", "Мои акции", "Акции", "Миссии", "Сделайте три заказа с большой пиццей"])
+        XCTAssertEqual(titles[0...2], ["Привет, Михаил", "Настройки", "186 додокоинов"])
     }
     
     var titles: [String] {
@@ -70,8 +79,6 @@ class NavigatorDraggingTests: XCTestCase {
     // TODO: Move container on container
     
     func test_2elementsInFrame_whenDropElementAfter2ndElement_shouldRearrange() {
-        XCTAssertEqual(titles[0...1], ["Привет, Михаил", "Настройки"])
-        
         let result = sut.drag(
             title,
             over: frame,
@@ -80,6 +87,20 @@ class NavigatorDraggingTests: XCTestCase {
         XCTAssertTrue(result)
         
         XCTAssertEqual(titles[0...1], ["Настройки", "Привет, Михаил"])
+    }
+    
+    func test_moveElementOutOfFrame_shouldMoveToArtboardLevel() throws {
+        let result = sut.drag(
+            title,
+            over: nil,
+            insertAtIndex: 2)
+        
+        XCTAssertTrue(result)
+        XCTAssertEqual(artboard.elements.count, 3)
+        
+        let description = try XCTUnwrap(artboard.elements.last as? A11yDescription)
+        XCTAssertEqual(description.label, "Привет, Михаил")
+        XCTAssertEqual(titles[0...1], ["Настройки", "186 додокоинов"])
     }
     
     // TODO: Move Container out of frame

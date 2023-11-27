@@ -160,7 +160,7 @@ extension NavigatorController: NSOutlineViewDataSource {
         switch item {
         case .none:
             // Top-level frames
-            return document.artboard.frames.count + document.artboard.controlsWithoutFrames.count
+            return document.artboard.elements.count
         case let frame as Frame:
             // Containers
             return frame.elements.count
@@ -179,12 +179,7 @@ extension NavigatorController: NSOutlineViewDataSource {
     ) -> Any {
         switch item {
         case .none:
-            if index < document.artboard.frames.count {
-                return document.artboard.frames[index]
-            } else {
-                let controlIndex = index - document.artboard.frames.count
-                return document.artboard.controlsWithoutFrames[controlIndex]
-            }
+            return document.artboard.elements[index]
         case let frame as Frame:
             return frame.elements[index]
         case let container as A11yContainer:

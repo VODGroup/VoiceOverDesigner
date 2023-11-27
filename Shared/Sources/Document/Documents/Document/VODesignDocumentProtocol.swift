@@ -24,19 +24,6 @@ public protocol VODesignDocumentProtocol: AnyObject {
 }
 
 extension VODesignDocumentProtocol {
-    @available(*, deprecated, message: "Use `artboard`")
-    public var controls: [any ArtboardElement] {
-        get {
-            artboard.controlsWithoutFrames
-        }
-        
-        set {
-            artboard.controlsWithoutFrames = newValue
-        }
-    }
-}
-
-extension VODesignDocumentProtocol {
     public func addFrame(
         with newImage: Image,
         origin: CGPoint
@@ -44,7 +31,8 @@ extension VODesignDocumentProtocol {
         let frame = Frame(image: newImage,
                           frame: CGRect(origin: origin,
                                         size: newImage.size))
-        artboard.frames.append(frame)
+        frame.parent = artboard // TODO: Remove this code from helpers
+        artboard.elements.append(frame)
         
         documentWrapper.invalidateIfPossible(file: FolderName.quickLook)
     }

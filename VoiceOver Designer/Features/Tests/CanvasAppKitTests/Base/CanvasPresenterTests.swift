@@ -56,7 +56,7 @@ extension CanvasPresenterTests {
     }
     
     var documentControls: [any ArtboardElement] {
-        sut.document.artboard.controlsWithoutFrames
+        sut.document.artboard.elements
     }
     
     var numberOfDrawnViews: Int {

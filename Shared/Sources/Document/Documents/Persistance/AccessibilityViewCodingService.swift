@@ -41,10 +41,12 @@ class ArtboardWrapper: Codable {
             ArtboardElementDecodable(view: frame)
         })
         
-        self.controlsWithoutFrames = artboard.controlsWithoutFrames.map({ control in
+        self.controlsWithoutFrames = artboard.controlsOutsideOfFrames.map({ control in
             ArtboardElementDecodable(view: control)
         })
     }
+
+    // TODO: Simplify to have only elements
     
     public var frames: [ArtboardElementDecodable]
     public var controlsWithoutFrames: [ArtboardElementDecodable]
