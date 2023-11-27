@@ -25,6 +25,8 @@ public extension Image {
 public class Artboard {
 //    let figmaURL: String
     public var frames: [Frame]
+    
+    // TODO: Confirm Artboard to ArtboardContainer and place in inside elements
     public var controlsWithoutFrames: [any ArtboardElement]
     
     public init(

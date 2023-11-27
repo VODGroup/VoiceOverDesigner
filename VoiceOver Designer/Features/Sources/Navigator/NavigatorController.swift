@@ -3,19 +3,14 @@ import Combine
 import Document
 import Artboard
 
-public protocol TextBasedPresenter: DocumentPresenter {
-    var selectedPublisher: OptionalDescriptionSubject { get }
-    func wrapInContainer(_ elements: [any ArtboardElement]) -> A11yContainer?
-}
-
 public class NavigatorController: NSViewController {
     
-    var presenter: TextBasedPresenter!
+    var presenter: DocumentPresenter!
     
     @IBOutlet var outlineView: NSOutlineView!
     
     func inject(document: VODesignDocument,
-                presenter: TextBasedPresenter)
+                presenter: DocumentPresenter)
     {
         self.document = document
         self.presenter = presenter
@@ -123,7 +118,7 @@ public class NavigatorController: NSViewController {
         - returns: A Boolean that indicates is row valid or not
      */
     private func isValid(row: Int) -> Bool {
-        row != -1
+        row != NSOutlineViewDropOnItemIndex
     }
     
     private func updateCell(for model: (any ArtboardElement)?, shouldSelect: Bool) {
@@ -256,7 +251,7 @@ extension NavigatorController: NSOutlineViewDelegate {
 extension NavigatorController {
     public static func fromStoryboard(
         document: VODesignDocument,
-        presenter: TextBasedPresenter
+        presenter: DocumentPresenter
     ) -> NavigatorController {
         let controller = NSStoryboard(
             name: "NavigatorController",

@@ -6,8 +6,6 @@ import AppKit
 import Document
 import Combine
 import TextRecognition
-
-extension CanvasPresenter: TextBasedPresenter {}
     
 class ProjectController: NSSplitViewController {
     

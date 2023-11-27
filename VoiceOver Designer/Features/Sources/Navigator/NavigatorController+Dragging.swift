@@ -16,53 +16,48 @@ extension NavigatorController {
         outlineView.setDraggingSourceOperationMask(NSDragOperation.every, forLocal: true)
     }
     
-    public func outlineView(_ outlineView: NSOutlineView, pasteboardWriterForItem item: Any) -> NSPasteboardWriting? {
+    public func outlineView(
+        _ outlineView: NSOutlineView,
+        pasteboardWriterForItem item: Any
+    ) -> NSPasteboardWriting? {
         let pbItem:NSPasteboardItem = NSPasteboardItem()
         pbItem.setDataProvider(self, forTypes: [REORDER_PASTEBOARD_TYPE])
         return pbItem
     }
     
-    public func outlineView(_ outlineView: NSOutlineView, draggingSession session: NSDraggingSession, willBeginAt screenPoint: NSPoint, forItems draggedItems: [Any]) {
+    public func outlineView(
+        _ outlineView: NSOutlineView, draggingSession session: NSDraggingSession,
+        willBeginAt screenPoint: NSPoint, forItems draggedItems: [Any]
+    ) {
         draggedNode = draggedItems[0] as? any ArtboardElement
         session.draggingPasteboard.setData(Data(), forType: REORDER_PASTEBOARD_TYPE)
     }
     
-    public func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
+    public func outlineView(
+        _ outlineView: NSOutlineView,
+        validateDrop info: NSDraggingInfo,
+        proposedItem item: Any?, 
+        proposedChildIndex index: Int
+    ) -> NSDragOperation {
         return .move
     }
     
-    public func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex toIndex: Int) -> Bool {
-        if toIndex == NSOutlineViewDropOnItemIndex,
-           let onElement = item as? any ArtboardElement {
-
-            document.controls.wrap(
-                in: A11yContainer.self,
-                [draggedNode!, onElement].extractElements(),
-                label: "Container")
-            
-            outlineView.reloadData()
-            
-            return true
-        } else if let element = draggedNode as? A11yDescription {
-            
-            let currentParent = outlineView.parent(forItem: draggedNode) as? A11yContainer
-            
-            document.controls.move(element, fromContainer: currentParent,
-                                   toIndex: toIndex, toContainer: item as? A11yContainer)
-            
-            outlineView.reloadData()
-            return true
-        } else if let container = draggedNode as? A11yContainer, item == nil {
-            let didMove = document.controls.move(container, to: toIndex)
-            outlineView.reloadData()
-            return didMove
-        }
+    public func outlineView(
+        _ outlineView: NSOutlineView,
+        acceptDrop info: NSDraggingInfo,
+        item: Any?,
+        childIndex toIndex: Int
+    ) -> Bool {
+        defer { outlineView.reloadData() }
         
         // TODO: Make animated reload
-        //        outlineView.moveItem(at: fromIndex, inParent: nil,
-        //                             to: toIndex, inParent: nil)
+//        outlineView.moveItem(at: fromIndex, inParent: nil,
+//                             to: toIndex, inParent: nil)
         
-        return false
+        return presenter.drag(
+            draggedNode!,
+            over: item as! (any ArtboardElement),
+            insertAtIndex: toIndex)
     }
     
     public func outlineView(_ outlineView: NSOutlineView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {

@@ -134,14 +134,52 @@ open class DocumentPresenter {
     public func wrapInContainer(
         _ elements: [any ArtboardElement]
     ) -> A11yContainer? {
-        controls.wrap(
-            in: A11yContainer.self,
-            elements.extractElements(),
-            label: "Container")
+        let frame = elements.compactMap({ element in
+            element.parent as? Frame
+        }).first
+        
+        if let frame {
+            let container = frame.wrap(
+                    in: A11yContainer.self,
+                    elements.extractElements(),
+                    label: "Container")
+            
+            publishArtboardChanges()
+            
+            return container
+        } else {
+            return document.artboard.controlsWithoutFrames
+                .wrap(
+                    in: A11yContainer.self,
+                    elements.extractElements(),
+                    label: "Container")
+        }
     }
     
     public func unwrapContainer(_ container: A11yContainer) {
         controls.unwrapContainer(container)
+    }
+    
+    public func drag(
+        _ draggingElement: any ArtboardElement,
+        over dropElement: (any ArtboardElement)?,
+        insertAtIndex: Int
+    ) -> Bool {
+        
+        let didDrag = document.artboard
+            .drag(draggingElement,
+                  over: dropElement,
+                  insertionIndex: insertAtIndex,
+                  undoManager: document.undo)
+        
+        if didDrag {
+            publishArtboardChanges() // Some changes happened
+            document.undo?.registerUndo(withTarget: self, handler: { presenter in
+                presenter.publishArtboardChanges() // Some changes will happen after undo
+            })
+        }
+        
+        return didDrag
     }
 }
 
