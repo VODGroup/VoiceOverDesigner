@@ -5,68 +5,74 @@ import CustomDump
 class GroupingNameTests: A11yDescriptionArrayTests {
     
     func test_simpleMove() {
-        sut.move(el1, fromContainer: nil, toIndex: 2, toContainer: nil)
+        drag(el1, over: nil, insertionIndex: 2)
+        
         sut.assert(labels: "2", "1", "3")
     }
     
-    // MARK: - Inside containers
-    
-    @discardableResult
-    func wrap(_ elements: [A11yDescription], label: String = "Container1") -> A11yContainer? {
-        sut.wrap(in: A11yContainer.self, elements, label: label)
-    }
+    // MARK: - Inside container
     
     func test_correctDescription() {
-        wrap([el1], label: "Container1")
-        sut.assert(labels: "Container1: 1", "2", "3")
+        sut.wrapInContainer([el1], undoManager: nil)
+        
+        sut.assert(labels: "Container: 1", "2", "3")
     }
     
     func test_whenMove2IntoContainer_shouldMoveToContainer() {
-        let container = wrap([el1], label: "Container1")
+        let container = wrap([el1])
         
-        sut.move(el2, fromContainer: nil,
-                 toIndex: 1, toContainer: container!)
+        drag(el2, over: container, insertionIndex: 1)
         
-        sut.assert(labels: "Container1: 1, 2", "3")
+        sut.assert(labels: "Container: 1, 2", "3")
     }
     
     // MARK: Outside containers
     
     func test_whenMove1OutOfContainer_shouldKeepContainerEmpty() {
-        let container = wrap([el1], label: "Container")
+        let container = wrap([el1])
         
-        sut.move(el1, fromContainer: container,
-                 toIndex: 1, toContainer: nil)
+        drag(el1, over: nil, insertionIndex: 1)
         
         sut.assert(labels: "Container", "1", "2", "3")
     }
     
     func test_whenMoveInSameContainer() {
-        let container = wrap([el1, el2], label: "Container")
+        let container = wrap([el1, el2])
         
-        sut.move(el1, fromContainer: container,
-                 toIndex: 2, toContainer: container)
+        drag(el1, over: container, insertionIndex: 2)
         
         sut.assert(labels: "Container: 2, 1", "3")
     }
     
     func test_whenMoveInSameContainerToBeginning() {
-        let container = wrap([el1, el2], label: "Container")
+        let container = wrap([el1, el2])
         sut.assert(labels: "Container: 1, 2", "3")
         
-        sut.move(el2, fromContainer: container,
-                 toIndex: 0, toContainer: container)
+        drag(el2, over: container, insertionIndex: 0)
         
         sut.assert(labels: "Container: 2, 1", "3")
     }
     
     func test_whenMoveFromOneContainerToAnother() {
-        let container1 = wrap([el1], label: "Container1")
-        let container2 = wrap([el2], label: "Container2")
+        let container1 = wrap([el1])
+        let container2 = wrap([el2])
         
-        sut.move(el1, fromContainer: container1,
-                 toIndex: 0, toContainer: container2)
-        
-        sut.assert(labels: "Container1", "Container2: 1, 2", "3")
+        drag(el1, over: container2, insertionIndex: 0)
+
+        sut.assert(labels: "Container", "Container: 1, 2", "3")
+    }
+    
+    // MARK: - DSL
+    @discardableResult
+    func wrap(_ elements: [A11yDescription]) -> A11yContainer? {
+        return sut.wrapInContainer(elements, undoManager: nil)
+    }
+    
+    func drag(
+        _ draggingElement: any ArtboardElement,
+        over dropElement: (any ArtboardElement)?,
+        insertionIndex: Int
+    ) {
+        _ = sut.drag(draggingElement, over: dropElement, insertionIndex: insertionIndex, undoManager: nil)
     }
 }

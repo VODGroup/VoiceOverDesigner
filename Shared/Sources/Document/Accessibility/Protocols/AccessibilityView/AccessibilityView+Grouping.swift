@@ -54,15 +54,22 @@ extension Artboard {
         undoManager: UndoManager?
     ) {
         let insertionParentOfDragging = element.parent
-        
-        if insertionIndex == NSOutlineViewDropOnItemIndex { // TODO: Make it optional
+        var insertionIndexOfDraggingForUndo: Int? = nil
+
+        let moveToArtboardLevel = insertionIndex == NSOutlineViewDropOnItemIndex // TODO: Make it optional
+        if moveToArtboardLevel {
             container.elements.append(element)
         } else {
-            container.elements.insert(element, at: insertionIndex)
+            let inSameContainer = container === element.parent
+            if inSameContainer {
+                container.elements.move(element, to: insertionIndex)
+            } else {
+                // Diferent containers
+                insertionIndexOfDraggingForUndo = element.removeFromParent()
+                container.elements.insert(element, at: insertionIndex)
+                
+            }
         }
-        
-        // Remove after modification of element to keep stable insertionIndex
-        let insertionIndexOfDraggingForUndo = element.removeFromParent()
         
         undoManager?.registerUndo(withTarget: self, handler: { artboard in
             container.elements.remove(element)
@@ -98,6 +105,8 @@ extension Artboard {
         container.parent = insertionParentOfDragging ?? self
         
         insertionParentOfDragging?.elements.insert(container, at: insertionIndexOfDraggingForUndo!) // TODO: Если оба элемента в одном контейнере, то они могут сместиться на -1. Или нет, если первый элемент был после второго
+        
+        self.elements.removeEmptyContainers()
         
         undoManager?.registerUndo(withTarget: self, handler: { artboard in
             _ = container.removeFromParent()
@@ -313,12 +322,8 @@ extension Artboard {
                 return (parent, insertionIndex)
             }
         } else {
-            if let frame = model as? Frame,
-                let insertionIndex = frames.firstIndex(of: frame) {
-                frames.remove(at: insertionIndex)
-                return (nil, insertionIndex)
-            } else if let insertionIndex = controlsWithoutFrames.remove(model) {
-                return (nil, insertionIndex)
+            if let insertionIndex = elements.remove(model) {
+                return (self, insertionIndex)
             }
         }
         

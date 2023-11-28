@@ -56,7 +56,7 @@ extension NavigatorController {
         
         return presenter.drag(
             draggedNode!,
-            over: item as! (any ArtboardElement),
+            over: item as? (any ArtboardElement),
             insertAtIndex: toIndex)
     }
     

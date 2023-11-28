@@ -4,7 +4,7 @@ import CustomDump
 
 class A11yDescriptionArrayTests: XCTestCase {
     
-    var sut: [any ArtboardElement] = []
+    var sut: Artboard!
     var el1: A11yDescription!
     var el2: A11yDescription!
     var el3: A11yDescription!
@@ -16,11 +16,23 @@ class A11yDescriptionArrayTests: XCTestCase {
         el2 = A11yDescription.make(label: "2")
         el3 = A11yDescription.make(label: "3")
         
-        sut = [
+        sut = Artboard(frames: [], controlsWithoutFrames: [
             el1,
             el2,
             el3,
-        ]
+        ])
+    }
+}
+
+extension Artboard {
+    func assert(
+        labels: String...,
+        file: StaticString = #file, line: UInt = #line
+    ) {
+        XCTAssertNoDifference(
+            elements.recursiveDescription(),
+            labels,
+            file: file, line: line)
     }
 }
 
