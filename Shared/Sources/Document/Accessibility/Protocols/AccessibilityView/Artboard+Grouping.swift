@@ -140,88 +140,8 @@ extension Artboard {
     }
 }
 
-extension Frame {
-    @discardableResult
-    public func wrap<Container: ArtboardContainer & InstantiatableContainer>(
-        in type: Container.Type,
-        _ items: [any ArtboardElement],
-        label:  String
-    ) -> Container? {
-        guard items.count > 0 else { return nil }
-        
-        var extractedElements = [any ArtboardElement]()
-        
-        var insertIndex: Int?
-        for item in items.reversed() {
-            guard let index = item.removeFromParent() else {
-                continue
-            }
-            
-            insertIndex = index // We used reversed order and the last set will be first index
-            
-            extractedElements.append(item)
-        }
-        
-        let container = Container(
-            elements: extractedElements.reversed(),
-            frame: extractedElements
-                .map(\.frame)
-                .commonFrame
-                .insetBy(dx: -20, dy: -20),
-            label: label)
-        
-        elements.insert(container, at: insertIndex ?? 0)
-        
-        elements.removeEmptyContainers()
-        
-        return container
-    }
-}
-
-extension ArtboardElement {
-    fileprivate func removeFromParent() -> Int? {
-        parent?.elements.remove(self)
-    }
-}
-
 extension Array where Element == any ArtboardElement {
-    
-    @discardableResult
-    public mutating func wrap<Container: ArtboardContainer & InstantiatableContainer>(
-        in type: Container.Type,
-        _ items: [any ArtboardElement],
-        label:  String
-    ) -> Container? {
-        guard items.count > 0 else { return nil }
 
-        var extractedElements = [any ArtboardElement]()
-
-        var insertIndex: Int?
-        for item in items.reversed() {
-            guard let index = removeFromContainers(item) ?? remove(item) else {
-                continue
-            }
-            
-            insertIndex = index // We used reversed order and the last set will be first index
-                
-            extractedElements.append(item)
-        }
-
-        let container = Container(
-            elements: extractedElements.reversed(),
-            frame: extractedElements
-                .map(\.frame)
-                .commonFrame
-                .insetBy(dx: -20, dy: -20),
-            label: label)
-
-        insert(container, at: insertIndex ?? 0)
-        
-        removeEmptyContainers()
-        
-        return container
-    }
-    
     fileprivate mutating func removeEmptyContainers() {
         forEachContainer { containerIndex, container in
             if container.elements.isEmpty {
@@ -234,22 +154,7 @@ extension Array where Element == any ArtboardElement {
         guard let containerIndex = remove(container) else { return }
         insert(contentsOf: container.elements.reversed(), at: containerIndex)
     }
-    
-    /// - Returns: Container index
-    mutating func removeFromContainers(_ item: any ArtboardElement) -> Int? {
-        for (containerIndex, view) in enumerated().reversed() {
-            guard let container = view as? A11yContainer
-            else { continue }
-            
-            guard let _ = container.remove(item)
-            else { continue }
-            
-            return containerIndex
-        }
-        
-        return nil
-    }
-    
+
     func forEachContainer(
         _ iterator: (_ containerIndex: Int, _ container: A11yContainer) -> Void
     ) {
@@ -273,15 +178,6 @@ extension Array where Element == CGRect {
         return result
     }
 }
-
-public extension Array where Element == any ArtboardElement {
-    func container(for description: A11yDescription) -> A11yContainer? {
-        extractContainers().first(where: {
-            $0.contains(description)
-        })
-    }
-}
-
 
 public extension Array where Element == any ArtboardElement {
     
@@ -329,5 +225,11 @@ extension Artboard {
         
         assertionFailure("Can't find parent to remove")
         return nil // Can't find to remove
+    }
+}
+
+extension ArtboardElement {
+    fileprivate func removeFromParent() -> Int? {
+        parent?.elements.remove(self)
     }
 }

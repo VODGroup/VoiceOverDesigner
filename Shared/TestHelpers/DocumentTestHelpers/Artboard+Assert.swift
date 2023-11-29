@@ -2,30 +2,8 @@ import Document
 import XCTest
 import CustomDump
 
-class A11yDescriptionArrayTests: XCTestCase {
-    
-    var sut: Artboard!
-    var el1: A11yDescription!
-    var el2: A11yDescription!
-    var el3: A11yDescription!
-    
-    override func setUp() {
-        super.setUp()
-        
-        el1 = A11yDescription.make(label: "1")
-        el2 = A11yDescription.make(label: "2")
-        el3 = A11yDescription.make(label: "3")
-        
-        sut = Artboard(frames: [], controlsWithoutFrames: [
-            el1,
-            el2,
-            el3,
-        ])
-    }
-}
-
 extension Artboard {
-    func assert(
+    public func assert(
         labels: String...,
         file: StaticString = #file, line: UInt = #line
     ) {
@@ -69,7 +47,7 @@ extension Array where Element == any ArtboardElement {
 
 // TODO: Remove duplicate
 extension A11yDescription {
-    static func make(label: String) -> A11yDescription {
+    public static func make(label: String) -> A11yDescription {
         A11yDescription(
             isAccessibilityElement: true,
             label: label,

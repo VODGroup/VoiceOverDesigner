@@ -1,8 +1,28 @@
 import Document
 import XCTest
 import CustomDump
+import DocumentTestHelpers
 
-class GroupingNameTests: A11yDescriptionArrayTests {
+class HierarchicalMovementTests: XCTestCase {
+    
+    var sut: Artboard!
+    var el1: A11yDescription!
+    var el2: A11yDescription!
+    var el3: A11yDescription!
+    
+    override func setUp() {
+        super.setUp()
+        
+        el1 = A11yDescription.make(label: "1")
+        el2 = A11yDescription.make(label: "2")
+        el3 = A11yDescription.make(label: "3")
+        
+        sut = Artboard(frames: [], controlsWithoutFrames: [
+            el1,
+            el2,
+            el3,
+        ])
+    }
     
     func test_simpleMove() {
         drag(el1, over: nil, insertionIndex: 2)

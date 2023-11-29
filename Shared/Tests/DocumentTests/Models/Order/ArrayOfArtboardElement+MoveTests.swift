@@ -1,7 +1,22 @@
 import XCTest
 import Document
 
-class A11yDescriptionArrayMoveTests: A11yDescriptionArrayTests {
+class ArrayOfArtboardElement_MoveTests: XCTestCase {
+    
+    var sut: [A11yDescription]!
+    var el1: A11yDescription!
+    var el2: A11yDescription!
+    var el3: A11yDescription!
+    
+    override func setUp() {
+        super.setUp()
+        
+        el1 = A11yDescription.make(label: "1")
+        el2 = A11yDescription.make(label: "2")
+        el3 = A11yDescription.make(label: "3")
+        
+        sut = [el1, el2, el3]
+    }
     
     // MARK: Move first
     func test_move0_to0_shouldNotMove() {
