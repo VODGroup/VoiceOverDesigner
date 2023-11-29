@@ -21,8 +21,16 @@ class NavigatorDraggingTests: XCTestCase {
     var tabsContainer: A11yContainer!
     
     var sut: DocumentPresenter!
-    
+    var undoManager: UndoManager?
 //    let testDocumentName = "Test"
+    
+    func undo() {
+        undoManager?.undo()
+    }
+    
+    func redo() {
+        undoManager?.redo()
+    }
     
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -30,6 +38,7 @@ class NavigatorDraggingTests: XCTestCase {
         let document: VODesignDocument = try Sample().document(name: FileSample.artboard, testCase: self)
 //        let document = VODesignDocument(fileName: testDocumentName)
         
+        undoManager = document.undoManager
         sut = DocumentPresenter(document: document)
         
         artboard = document.artboard
@@ -86,6 +95,12 @@ class NavigatorDraggingTests: XCTestCase {
         
         XCTAssertTrue(result)
         
+        XCTAssertEqual(titles[0...1], ["Настройки", "Привет, Михаил"])
+        
+        undo()
+        XCTAssertEqual(titles[0...1], ["Привет, Михаил", "Настройки"])
+        
+        redo()
         XCTAssertEqual(titles[0...1], ["Настройки", "Привет, Михаил"])
     }
     

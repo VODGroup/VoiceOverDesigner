@@ -62,6 +62,9 @@ extension Artboard {
         } else {
             let inSameContainer = container === element.parent
             if inSameContainer {
+                insertionIndexOfDraggingForUndo = container.elements.firstIndex(where: { anElement in
+                    anElement === element
+                })
                 container.elements.move(element, to: insertionIndex)
             } else {
                 // Diferent containers
@@ -76,6 +79,10 @@ extension Artboard {
             insertionParentOfDragging?.elements.insert(
                 element,
                 at: insertionIndexOfDraggingForUndo!)
+            
+            undoManager?.registerUndo(withTarget: artboard, handler: { artboard in
+                artboard.move(element, inside: container, insertionIndex: insertionIndex, undoManager: undoManager)
+            })
         })
     }
     
