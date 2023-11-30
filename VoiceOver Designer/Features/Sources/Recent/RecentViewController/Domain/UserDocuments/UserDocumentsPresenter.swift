@@ -19,7 +19,7 @@ class UserDocumentsPresenter: DocumentBrowserPresenterProtocol {
     }
     
     private var recentItems: [URL] {
-        documentController.recentDocumentURLs ?? []
+        documentController.recentDocumentURLs
     }
     
     private let metadataProvider = MetadataProvider(containerIdentifier: containerId,

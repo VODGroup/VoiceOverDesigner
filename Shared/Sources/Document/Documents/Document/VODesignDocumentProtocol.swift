@@ -50,9 +50,9 @@ extension VODesignDocumentProtocol {
             imagesFolderWrapper.invalidateIfPossible(file: name)
             
             featureName = name // Will use to keep naming
-        case .remote(let url):
+        case .remote(_):
             fatalError("Don't know is some code is needed here")
-        case .cache(_):
+        case .cache(_, _):
             // TODO: convert to file
             fatalError("Remove old file from cache")
 //            imagesFolderWrapper.invalidateIfPossible(file: name)

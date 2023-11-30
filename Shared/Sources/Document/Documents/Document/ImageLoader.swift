@@ -21,7 +21,7 @@ public class ImageLoader: ImageLoading {
             print("Load remote image from \(url.path)")
                 // TODO: Load from the internet and cache inside a .vodesign document
                 fatalError()
-        case .cache(let image, let name):
+        case .cache(let image, _):
             return image
         }
     }

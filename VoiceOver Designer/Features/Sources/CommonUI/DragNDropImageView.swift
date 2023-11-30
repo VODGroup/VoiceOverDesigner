@@ -74,8 +74,8 @@ open class DragNDropImageView: NSView {
         
         if let imageSize, let cursorLocation {
             let scaledSize = imageSize.scaled(scale)
-            let centeredOrigin = CGPoint(x: cursorLocation.x - scaledSize.width / 2,
-                                         y: cursorLocation.y - scaledSize.height / 2)
+//            let centeredOrigin = CGPoint(x: cursorLocation.x - scaledSize.width / 2,
+//                                         y: cursorLocation.y - scaledSize.height / 2)
             // TODO: Use centeredOrigin, but had to move origin of inserted view
             let flippedOrigin = CGPoint(x: cursorLocation.x,
                                         y: cursorLocation.y - scaledSize.height)

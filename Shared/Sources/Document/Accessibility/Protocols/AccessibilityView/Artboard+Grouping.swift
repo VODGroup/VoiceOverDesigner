@@ -87,6 +87,7 @@ extension Artboard {
         })
     }
     
+    @discardableResult
     public func wrapInContainer(
         _ elements: [any ArtboardElement],
         undoManager: UndoManager?

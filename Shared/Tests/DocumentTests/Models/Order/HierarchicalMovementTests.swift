@@ -49,7 +49,7 @@ class HierarchicalMovementTests: XCTestCase {
     // MARK: Outside containers
     
     func test_whenMove1OutOfContainer_shouldKeepContainerEmpty() {
-        let container = wrap([el1])
+        wrap([el1])
         
         drag(el1, over: nil, insertionIndex: 1)
         
@@ -74,7 +74,7 @@ class HierarchicalMovementTests: XCTestCase {
     }
     
     func test_whenMoveFromOneContainerToAnother() {
-        let container1 = wrap([el1])
+        wrap([el1])
         let container2 = wrap([el2])
         
         drag(el1, over: container2, insertionIndex: 0)

@@ -151,7 +151,7 @@ public enum ImageLocationDto: Codable {
         switch model {
         case .relativeFile(let path): return .relativeFile(path: path)
         case .remote(let url): return .remote(url: url)
-        case .cache(image: let image):
+        case .cache(_):
             // TODO: Add code
             // return .tmp(name: <#T##String#>, data: <#T##Data?#>)
             fatalError()

@@ -31,7 +31,8 @@ extension VODesignDocumentProtocol {
             let url = URL(filePath: path)
             let name = url.lastPathComponent
             
-            if let existedWrapper = imagesFolderWrapper.fileWrappers?[name] {
+            let wrapperExists = imagesFolderWrapper.fileWrappers?[name] != nil
+            if wrapperExists {
                 return
             }
             
@@ -44,7 +45,7 @@ extension VODesignDocumentProtocol {
                     .appendingPathComponent("Frame.png").path()
                 frame.imageLocation = .relativeFile(path: url)
             }
-        case .remote(let url):
+        case .remote(_):
             // TODO: Move to local files?
             fatalError()
             
@@ -198,7 +199,7 @@ extension VODesignDocumentProtocol {
     private func readFrameWrapper(
         _ frameWrapper: FileWrapper
     ) throws -> Frame {
-        print("Read wrapper \(frameWrapper.filename)")
+        print("Read wrapper \(frameWrapper.filename ?? "null")")
         let frameFolder = frameWrapper.fileWrappers!
 
         var controls: [any ArtboardElement] = []
