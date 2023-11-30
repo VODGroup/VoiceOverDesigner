@@ -24,14 +24,7 @@ class NavigatorDraggingTests: XCTestCase {
     var undoManager: UndoManager?
 //    let testDocumentName = "Test"
     
-    func undo() {
-        undoManager?.undo()
-    }
-    
-    func redo() {
-        undoManager?.redo()
-    }
-    
+    // TODO: use fake document and artboard.assert(labels: ...)
     override func setUpWithError() throws {
         try super.setUpWithError()
         
@@ -63,14 +56,8 @@ class NavigatorDraggingTests: XCTestCase {
     
     func testDefaultState() {
         XCTAssertEqual(frame.elements.count, 10)
-        
-        XCTAssertEqual(titles[0...2], ["Привет, Михаил", "Настройки", "186 додокоинов"])
-    }
-    
-    var titles: [String] {
-        frame.elements.compactMap({ element in
-            (element as? A11yDescription)?.label
-        })
+        XCTAssertEqual(artboard.elements.count, 2)
+        XCTAssertEqual(labels[0...2], ["Привет, Михаил", "Настройки", "186 додокоинов"])
     }
     
     func test_2elementsInFrame_whenDropOnElement_shouldCreateContainer() throws {
@@ -80,8 +67,16 @@ class NavigatorDraggingTests: XCTestCase {
             insertAtIndex: -1)
         
         XCTAssertTrue(result)
-        let newContainer = try XCTUnwrap(frame.elements.first as? A11yContainer, "wrap in container")
-        XCTAssertEqual(newContainer.elements.count, 2)
+        
+        XCTAssertEqual(labels[0...2], ["Container", "186 додокоинов", "История заказов"])
+        
+        undo()
+        XCTAssertEqual(labels[0...2], ["Привет, Михаил", "Настройки", "186 додокоинов"])
+        
+        redo()
+        let newContainer2 = try XCTUnwrap(frame.elements.first as? A11yContainer, "wrap in container")
+        XCTAssertEqual(newContainer2.elements.count, 2)
+        XCTAssertEqual(labels[0...2], ["Container", "Привет, Михаил", "Настройки"])
     }
     
     // TODO: Move container on element
@@ -95,13 +90,13 @@ class NavigatorDraggingTests: XCTestCase {
         
         XCTAssertTrue(result)
         
-        XCTAssertEqual(titles[0...1], ["Настройки", "Привет, Михаил"])
+        XCTAssertEqual(labels[0...1], ["Настройки", "Привет, Михаил"])
         
         undo()
-        XCTAssertEqual(titles[0...1], ["Привет, Михаил", "Настройки"])
+        XCTAssertEqual(labels[0...1], ["Привет, Михаил", "Настройки"])
         
         redo()
-        XCTAssertEqual(titles[0...1], ["Настройки", "Привет, Михаил"])
+        XCTAssertEqual(labels[0...1], ["Настройки", "Привет, Михаил"])
     }
     
     func test_moveElementOutOfFrame_shouldMoveToArtboardLevel() throws {
@@ -111,14 +106,36 @@ class NavigatorDraggingTests: XCTestCase {
             insertAtIndex: 2)
         
         XCTAssertTrue(result)
-        XCTAssertEqual(artboard.elements.count, 3)
+        XCTAssertEqual(artboard.elements.count, 3, "Add element on artboard's level")
+        XCTAssertEqual(artboard.elements.last?.label, "Привет, Михаил")
+        XCTAssertEqual(labels[0...1], ["Настройки", "186 додокоинов"])
         
-        let description = try XCTUnwrap(artboard.elements.last as? A11yDescription)
-        XCTAssertEqual(description.label, "Привет, Михаил")
-        XCTAssertEqual(titles[0...1], ["Настройки", "186 додокоинов"])
+        undo()
+        XCTAssertEqual(artboard.elements.count, 2)
+        XCTAssertEqual(artboard.elements.last?.label, "Frame")
+        XCTAssertEqual(labels[0...2], ["Привет, Михаил", "Настройки", "186 додокоинов"])
+        
+        redo()
+        XCTAssertEqual(artboard.elements.last?.label, "Привет, Михаил")
+        XCTAssertEqual(labels[0...1], ["Настройки", "186 додокоинов"])
     }
     
     // TODO: Move Container out of frame
     // TODO: Move container on frame
     // TODO: Another frame
+    
+    
+    // MARK: - DSL
+    
+    func undo() {
+        undoManager?.undo()
+    }
+    
+    func redo() {
+        undoManager?.redo()
+    }
+    
+    var labels: [String] {
+        frame.elements.map(\.label)
+    }
 }

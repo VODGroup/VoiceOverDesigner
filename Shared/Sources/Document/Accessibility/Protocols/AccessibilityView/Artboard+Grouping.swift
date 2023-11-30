@@ -15,8 +15,8 @@ extension Artboard {
         // TODO: Add redo
         switch (dropElement, insertionIndex) {
         
-        // Avoid NSOutlineViewDropOnItemIndex at the beginning
         // Drop on element to create container
+        // Avoid NSOutlineViewDropOnItemIndex at the beginning
         case (let secondElement as A11yDescription, NSOutlineViewDropOnItemIndex):
             wrapInContainer(
                 [draggingElement, secondElement],
@@ -35,10 +35,10 @@ extension Artboard {
         
         // Move element on artboard's level
         case (nil, insertionIndex):
-            moveElementOnArtboardLevel(
-                draggingElement: draggingElement,
-                insertionIndex: insertionIndex,
-                undoManager: undoManager)
+            move(draggingElement,
+                 inside: self,
+                 insertionIndex: insertionIndex,
+                 undoManager: undoManager)
             
             return true
         
@@ -53,33 +53,34 @@ extension Artboard {
         insertionIndex: Int,
         undoManager: UndoManager?
     ) {
-        let insertionParentOfDragging = element.parent
-        var insertionIndexOfDraggingForUndo: Int? = nil
+        var insertionContext: InsertionContext?
 
         let moveToArtboardLevel = insertionIndex == NSOutlineViewDropOnItemIndex // TODO: Make it optional
         if moveToArtboardLevel {
             container.elements.append(element)
+            // TODO: Undo
         } else {
             let inSameContainer = container === element.parent
             if inSameContainer {
-                insertionIndexOfDraggingForUndo = container.elements.firstIndex(where: { anElement in
+                let insertionIndexForUndo = container.elements.firstIndex(where: { anElement in
                     anElement === element
-                })
+                })! // TODO: Explicit unwrap
+                
                 container.elements.move(element, to: insertionIndex)
+                
+                insertionContext = InsertionContext(element: element, parent: container, insertionIndex: insertionIndexForUndo)
             } else {
                 // Diferent containers
-                insertionIndexOfDraggingForUndo = element.removeFromParent()
+                insertionContext = element.removeFromParent()
                 container.elements.insert(element, at: insertionIndex)
-                
             }
         }
         
         undoManager?.registerUndo(withTarget: self, handler: { artboard in
             container.elements.remove(element)
-            insertionParentOfDragging?.elements.insert(
-                element,
-                at: insertionIndexOfDraggingForUndo!)
+            insertionContext?.restore() // Not pass undoManager because use another restoration type
             
+            // Redo
             undoManager?.registerUndo(withTarget: artboard, handler: { artboard in
                 artboard.move(element, inside: container, insertionIndex: insertionIndex, undoManager: undoManager)
             })
@@ -88,20 +89,16 @@ extension Artboard {
     
     public func wrapInContainer(
         _ elements: [any ArtboardElement],
-//        _ firstElement: any ArtboardElement,
-//        _ secondElement: any ArtboardElement,
         undoManager: UndoManager?
     ) -> A11yContainer {
-        let insertionParentOfDragging = elements.first?.parent
-//        let insertionParent2 = secondElement.parent
-//        let insertionIndexForUndo2 = secondElement.removeFromParent()
-        let insertionIndexOfDraggingForUndo = elements.first?.removeFromParent()
-//        
-        for element in elements.reversed() {
-            element.removeFromParent()
-        }
-//        let elements = [firstElement, secondElement]
+        let insertionContext = elements.first?.removeFromParent(undoManager: undoManager)
         
+        for element in elements
+            .dropFirst()
+            .reversed() {
+            element.removeFromParent(undoManager: undoManager)
+        }
+
         let container = A11yContainer(
             elements: elements,
             frame: elements
@@ -109,41 +106,22 @@ extension Artboard {
                 .commonFrame
                 .insetBy(dx: -20, dy: -20),
             label: "Container")
-        container.parent = insertionParentOfDragging ?? self
+        container.parent = insertionContext?.parent ?? self
         
-        insertionParentOfDragging?.elements.insert(container, at: insertionIndexOfDraggingForUndo!) // TODO: Если оба элемента в одном контейнере, то они могут сместиться на -1. Или нет, если первый элемент был после второго
+        insertionContext?.parent?.elements
+            .insert(container, // <-- Insert container
+                    at: insertionContext!.insertionIndex)
+        // TODO: Если оба элемента в одном контейнере, то они могут сместиться на -1. Или нет, если первый элемент был после второго
         
         self.elements.removeEmptyContainers()
         
         undoManager?.registerUndo(withTarget: self, handler: { artboard in
-            _ = container.removeFromParent()
-//            insertionParentOfDragging?.elements.insert(
-//                firstElement,
-//                at: insertionIndexOfDraggingForUndo!)
-//            insertionParent2?.elements.insert(
-//                secondElement,
-//                at: insertionIndexForUndo2!)
+            _ = container.removeFromParent(undoManager: undoManager)
+            
+            // + implicit undo from `removeFromParent`
         })
         
         return container
-    }
-    
-    func moveElementOnArtboardLevel(
-        draggingElement: any ArtboardElement,
-        insertionIndex: Int,
-        undoManager: UndoManager?
-    ) {
-        let insertionParentOfDragging = draggingElement.parent
-        elements.insert(draggingElement, at: insertionIndex)
-        
-        let insertionIndexOfDraggingForUndo = draggingElement.removeFromParent()
-        
-        undoManager?.registerUndo(withTarget: self, handler: { artboard in
-            _ = draggingElement.removeFromParent()
-            insertionParentOfDragging?.elements.insert(
-                draggingElement,
-                at: insertionIndexOfDraggingForUndo!)
-        })
     }
 }
 
@@ -215,28 +193,74 @@ public extension Array where Element == any ArtboardElement {
     }
 }
 
+public class InsertionContext {
+    public init(
+        element: any ArtboardElement,
+        parent: (any ArtboardContainer)?,
+        insertionIndex: Int
+    ) {
+        self.element = element
+        self.parent = parent
+        self.insertionIndex = insertionIndex
+    }
+    
+    let element: any ArtboardElement
+    var parent: (any ArtboardContainer)?
+    let insertionIndex: Int
+    
+    func restore() {
+        parent?.elements
+            .insert(element,
+                    at: insertionIndex)
+    }
+    
+    func restore(undoManager: UndoManager?) {
+        restore()
+        
+        // TODO: What to do here?
+//        undoManager?.registerUndo(withTarget: self, handler: { selfRef in
+//            selfRef.element.removeFromParent(undoManager: undoManager)
+//        })
+    }
+}
+
 extension Artboard {
-    public typealias InsertionContext = ((any ArtboardContainer)?, Int)
+    
     public func remove(
         _ model: any ArtboardElement
     ) -> InsertionContext? {
-        if let parent = model.parent {
-            if let insertionIndex = parent.elements.remove(model) {
-                return (parent, insertionIndex)
-            }
+        if let _ = model.parent {
+            return model.removeFromParent()
+        } else if let insertionIndex = elements.remove(model) {
+                return InsertionContext(element: model, parent: nil, insertionIndex: insertionIndex)
         } else {
-            if let insertionIndex = elements.remove(model) {
-                return (self, insertionIndex)
-            }
+            return nil
         }
-        
-        assertionFailure("Can't find parent to remove")
-        return nil // Can't find to remove
     }
 }
 
 extension ArtboardElement {
-    fileprivate func removeFromParent() -> Int? {
-        parent?.elements.remove(self)
+    fileprivate func removeFromParent() -> InsertionContext? {
+        let parent = parent
+        guard let insertionIndex = parent?.elements.remove(self)
+        else { return nil }
+
+        return InsertionContext(element: self,
+                                parent: parent,
+                                insertionIndex: insertionIndex)
+    }
+    
+    @discardableResult
+    fileprivate func removeFromParent(undoManager: UndoManager?) -> InsertionContext? {
+        guard let insertionContext = removeFromParent() else {
+            return nil
+        }
+        
+        undoManager?.registerUndo(withTarget: self, handler: { selfRef in
+
+            insertionContext.restore(undoManager: undoManager)
+        })
+        
+        return insertionContext
     }
 }

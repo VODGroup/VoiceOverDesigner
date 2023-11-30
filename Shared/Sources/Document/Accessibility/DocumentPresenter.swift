@@ -90,7 +90,7 @@ open class DocumentPresenter {
     }
     
     open func remove(_ model: any ArtboardElement) {
-        guard let (parent, insertionIndex) = document.artboard.remove(model)
+        guard let insertionContext = document.artboard.remove(model)
         else { return }
 
         publishArtboardChanges()
@@ -99,9 +99,10 @@ open class DocumentPresenter {
         document.undo?.registerUndo(
             withTarget: self,
             handler: { presenter in
+                // TODO: use restore of InsertionContext
                 presenter.add(model,
-                              into: parent,
-                              at: insertionIndex)
+                              into: insertionContext.parent,
+                              at: insertionContext.insertionIndex)
         })
     }
     
