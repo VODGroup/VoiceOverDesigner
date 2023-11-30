@@ -41,8 +41,8 @@ extension XCTestCase {
         )
         
         await action()
+        await fulfillment(of: [expectation], timeout: timeout)
         
-        wait(for: [expectation], timeout: timeout)
         cancellable.cancel()
         
         let unwrappedResult = try XCTUnwrap(
