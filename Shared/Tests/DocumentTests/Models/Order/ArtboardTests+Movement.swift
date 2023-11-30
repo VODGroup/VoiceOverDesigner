@@ -3,7 +3,7 @@ import XCTest
 import CustomDump
 import DocumentTestHelpers
 
-class HierarchicalMovementTests: XCTestCase {
+class ArtboardTests_Movement: XCTestCase {
     
     var sut: Artboard!
     var el1: A11yDescription!

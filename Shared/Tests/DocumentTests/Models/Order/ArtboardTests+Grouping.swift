@@ -2,7 +2,7 @@ import XCTest
 import Document
 import Artboard
 
-final class GroupingTests: XCTestCase {
+final class ArtboardTests_Grouping: XCTestCase {
     
     var item1: A11yDescription!
     var item2: A11yDescription!

@@ -8,11 +8,10 @@
 import XCTest
 import Document
 import DocumentTestHelpers
-import Canvas
 import Samples
 import AppKit
 
-class NavigatorDraggingTests: XCTestCase {
+class DocumentPresenterTests_Movement: XCTestCase {
     
     var artboard: Artboard!
     var frame: Frame!

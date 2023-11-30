@@ -1,7 +1,7 @@
 import XCTest
 import Document
 
-class ArrayOfArtboardElement_MoveTests: XCTestCase {
+class ArtboardElementArrayTests_Movement: XCTestCase {
     
     var sut: [A11yDescription]!
     var el1: A11yDescription!
