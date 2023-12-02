@@ -145,6 +145,16 @@ open class DocumentPresenter {
         elements.unwrapContainer(container)
     }
     
+    public func canDrag(
+        _ draggingElement: any ArtboardElement,
+        over dropElement: (any ArtboardElement)?,
+        insertionIndex: Int
+    ) -> Bool {
+        document.artboard.canDrag(draggingElement,
+                                  over: dropElement,
+                                  insertionIndex: insertionIndex)
+    }
+    
     public func drag(
         _ draggingElement: any ArtboardElement,
         over dropElement: (any ArtboardElement)?,

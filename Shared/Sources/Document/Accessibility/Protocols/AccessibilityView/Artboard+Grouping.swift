@@ -5,6 +5,40 @@ private let NSOutlineViewDropOnItemIndex = -1
 
 extension Artboard {
     
+    enum DragType {
+        case wrapInContainer(secondElement: A11yDescription)
+        case moveInsideContainer(container: any ArtboardContainer, insertionIndex: Int)
+        case moveOnArtboardLevel(insertionIndex: Int)
+    }
+    
+    public func canDrag(
+        _ draggingElement: any ArtboardElement,
+        over dropElement: (any ArtboardElement)?,
+        insertionIndex: Int
+    ) -> Bool {
+        dragType(draggingElement, over: dropElement, insertionIndex: insertionIndex) != nil
+    }
+    
+    private func dragType(
+        _ draggingElement: any ArtboardElement,
+        over dropElement: (any ArtboardElement)?,
+        insertionIndex: Int) -> DragType? {
+            switch (dropElement, insertionIndex) {
+            // Avoid NSOutlineViewDropOnItemIndex at the beginning
+            case (let secondElement as A11yDescription, NSOutlineViewDropOnItemIndex):
+                return .wrapInContainer(secondElement: secondElement)
+                
+            case (let container as any ArtboardContainer, insertionIndex):
+                return .moveInsideContainer(container: container, insertionIndex: insertionIndex)
+                
+            case (nil, insertionIndex):
+                return .moveOnArtboardLevel(insertionIndex: insertionIndex)
+                
+            default:
+                return nil
+            }
+        }
+    
     public func drag(
         _ draggingElement: any ArtboardElement,
         over dropElement: (any ArtboardElement)?,
@@ -12,39 +46,31 @@ extension Artboard {
         undoManager: UndoManager?
     ) -> Bool {
         
-        // TODO: Add redo
-        switch (dropElement, insertionIndex) {
-        
-        // Drop on element to create container
-        // Avoid NSOutlineViewDropOnItemIndex at the beginning
-        case (let secondElement as A11yDescription, NSOutlineViewDropOnItemIndex):
+        let dragType = dragType(draggingElement, over: dropElement, insertionIndex: insertionIndex)
+        switch dragType {
+
+        case .wrapInContainer(let secondElement):
             wrapInContainer(
                 [draggingElement, secondElement],
                 undoManager: undoManager)
             
-            return true
-            
-        // Move inside container
-        case (let container as any ArtboardContainer, insertionIndex):
+        case .moveInsideContainer(let container, let insertionIndex):
             move(draggingElement,
                  inside: container,
                  insertionIndex: insertionIndex,
                  undoManager: undoManager)
-            
-            return true
         
-        // Move element on artboard's level
-        case (nil, insertionIndex):
+        case .moveOnArtboardLevel(let insertionIndex):
             move(draggingElement,
                  inside: self,
                  insertionIndex: insertionIndex,
                  undoManager: undoManager)
             
-            return true
-        
         default:
             return false
         }
+        
+        return true
     }
     
     func move(

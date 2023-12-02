@@ -39,7 +39,11 @@ extension NavigatorController {
         proposedItem item: Any?, 
         proposedChildIndex index: Int
     ) -> NSDragOperation {
-        return .move
+        let canDrag = presenter
+            .canDrag(draggedNode!,
+                     over: item as? (any ArtboardElement),
+                     insertionIndex: index)
+        return canDrag ? .move : []
     }
     
     public func outlineView(
