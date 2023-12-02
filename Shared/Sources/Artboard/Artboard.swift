@@ -22,22 +22,13 @@ public extension Image {
 #endif
 
 /// Data layer with hierarchical structure of element
-public class Artboard: ArtboardContainer {
+public class Artboard: Node {
     public static func == (lhs: Artboard, rhs: Artboard) -> Bool {
         return true // Single instance
     }
     
     public var elements: [any ArtboardElement] = []
-    
-    public var id: UUID = UUID()
-    
-    public var label: String = "Artboard"
-    
-    public var frame: CGRect = .zero
-    
-    public var type: ArtboardType = .frame
-    
-    public var parent: (any ArtboardContainer)? = nil
+    public var parent: (any Container)? = nil
     
 //    let figmaURL: String
     
@@ -84,7 +75,7 @@ public class Frame: ArtboardContainer, ObservableObject {
     
     /// In absolute coordinates
     public var elements: [any ArtboardElement]
-    public var parent: (any ArtboardContainer)? = nil
+    public var parent: (any Container)? = nil
     
     public convenience init(
         label: String,

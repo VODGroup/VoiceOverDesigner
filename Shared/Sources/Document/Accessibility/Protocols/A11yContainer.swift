@@ -68,7 +68,7 @@ public class A11yContainer: Codable, ObservableObject {
         willSet { objectWillChange.send() }
     }
     public var type: ArtboardType = .container
-    public weak var parent: (any ArtboardContainer)? = nil
+    public weak var parent: (any Container)? = nil
     
     @DecodableDefault.False
     public var isModal: Bool {

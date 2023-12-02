@@ -49,7 +49,7 @@ extension Artboard {
     
     func move(
         _ element: any ArtboardElement,
-        inside container: any ArtboardContainer,
+        inside container: any Container,
         insertionIndex: Int,
         undoManager: UndoManager?
     ) {
@@ -197,7 +197,7 @@ public extension Array where Element == any ArtboardElement {
 public class InsertionContext {
     public init(
         element: any ArtboardElement,
-        parent: (any ArtboardContainer)?,
+        parent: (any Container)?,
         insertionIndex: Int
     ) {
         self.element = element
@@ -206,7 +206,7 @@ public class InsertionContext {
     }
     
     let element: any ArtboardElement
-    var parent: (any ArtboardContainer)?
+    var parent: (any Container)?
     let insertionIndex: Int
     
     func restore() {

@@ -108,7 +108,7 @@ open class DocumentPresenter {
     
     private func add(
         _ model: any ArtboardElement,
-        into parent: (any ArtboardContainer)?,
+        into parent: (any Container)?,
         at insertionIndex: Int
     ) {
         if let parent {

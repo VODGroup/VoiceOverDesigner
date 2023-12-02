@@ -98,8 +98,8 @@ public class NavigatorController: NSViewController {
     
     private func expandParents(of element: any ArtboardElement) {
         // Iterate parents
-        var elementToExpand = element
-        var elementsToExpand = [any ArtboardElement]()
+        var elementToExpand: Child = element
+        var elementsToExpand = [Any]()
         while let parent = elementToExpand.parent {
             elementsToExpand.append(parent)
             elementToExpand = parent
