@@ -54,26 +54,26 @@ extension Artboard {
         undoManager: UndoManager?
     ) {
         var insertionContext: InsertionContext?
-
-        let moveToArtboardLevel = insertionIndex == NSOutlineViewDropOnItemIndex // TODO: Make it optional
+        var insertionIndex = insertionIndex
+        let moveToArtboardLevel = insertionIndex == NSOutlineViewDropOnItemIndex // TODO: Make it optional if -1
+        
         if moveToArtboardLevel {
-            container.elements.append(element)
-            // TODO: Undo
+            insertionIndex = container.elements.count // Will append
+        }
+        
+        let inSameContainer = container === element.parent
+        if inSameContainer {
+            let insertionIndexForUndo = container.elements.firstIndex(where: { anElement in
+                anElement === element
+            })! // TODO: Explicit unwrap
+            
+            container.elements.move(element, to: insertionIndex)
+            
+            insertionContext = InsertionContext(element: element, parent: container, insertionIndex: insertionIndexForUndo)
         } else {
-            let inSameContainer = container === element.parent
-            if inSameContainer {
-                let insertionIndexForUndo = container.elements.firstIndex(where: { anElement in
-                    anElement === element
-                })! // TODO: Explicit unwrap
-                
-                container.elements.move(element, to: insertionIndex)
-                
-                insertionContext = InsertionContext(element: element, parent: container, insertionIndex: insertionIndexForUndo)
-            } else {
-                // Diferent containers
-                insertionContext = element.removeFromParent()
-                container.elements.insert(element, at: insertionIndex)
-            }
+            // Diferent containers
+            insertionContext = element.removeFromParent()
+            container.elements.insert(element, at: insertionIndex)
         }
         
         undoManager?.registerUndo(withTarget: self, handler: { artboard in

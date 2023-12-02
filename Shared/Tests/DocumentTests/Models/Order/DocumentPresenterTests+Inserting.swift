@@ -2,7 +2,7 @@ import XCTest
 import Document
 import DocumentTestHelpers
 
-final class DocumentPresenterTests: XCTestCase {
+final class DocumentPresenterTests_Inserting: XCTestCase {
 
     var sut: DocumentPresenter!
     var document: VODesignDocumentProtocol!
@@ -50,36 +50,6 @@ final class DocumentPresenterTests: XCTestCase {
         XCTAssertTrue(sut.elements.first is A11yContainer)
         XCTAssertEqual(container?.elements.count, 2)
     }
-    
-    func test_elementsInFrame_whenWrapsInContainer_shouldWrapToContainerInFrame() {
-        sut.add(image: Sample().image3x(), origin: .zero)
-        
-        sut.append(control: element1)
-        sut.append(control: element2)
-        
-        let container = sut.wrapInContainer([element1, element2])
-        
-        XCTAssertEqual(sut.elements.count, 1)
-        XCTAssertTrue(sut.elements.first is Frame)
-        let containerInFrame = sut.document.artboard.frames.first?.elements.first
-        XCTAssertTrue(containerInFrame is A11yContainer)
-        XCTAssertEqual(container?.elements.count, 2)
-    }
-    
-//    func test_elementsInFrameWrapedInContainer_whenUndo_shouldPutElementsInFrame() {
-//        sut.disableUndoRegistration()
-//        sut.add(image: Sample().image3x(), origin: .zero)
-//        sut.append(control: element1)
-//        sut.append(control: element2)
-//        sut.enableUndoRegistration()
-//        
-//        let container = sut.wrapInContainer([element1, element2])
-//        sut.undo()
-//        
-//        XCTAssertEqual(sut.controlsWithoutFrame.count, 0)
-//        let frame = sut.document.artboard.frames.first
-//        XCTAssertEqual(frame?.elements.count, 2)
-//    }
     
     // MARK: - Delete
     // MARK: Elements

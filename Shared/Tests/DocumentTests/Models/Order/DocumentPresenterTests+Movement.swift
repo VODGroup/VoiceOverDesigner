@@ -98,11 +98,32 @@ class DocumentPresenterTests_Movement: XCTestCase {
         XCTAssertEqual(labels[0...1], ["Настройки", "Привет, Михаил"])
     }
     
-    func test_moveElementOutOfFrame_shouldMoveToArtboardLevel() throws {
+    func test_moveElementAfterFrame_shouldMoveToArtboardLevel() throws {
         let result = sut.drag(
             title,
             over: nil,
             insertAtIndex: 2)
+        
+        XCTAssertTrue(result)
+        XCTAssertEqual(artboard.elements.count, 3, "Add element on artboard's level")
+        XCTAssertEqual(artboard.elements.last?.label, "Привет, Михаил")
+        XCTAssertEqual(labels[0...1], ["Настройки", "186 додокоинов"])
+        
+        undo()
+        XCTAssertEqual(artboard.elements.count, 2)
+        XCTAssertEqual(artboard.elements.last?.label, "Frame")
+        XCTAssertEqual(labels[0...2], ["Привет, Михаил", "Настройки", "186 додокоинов"])
+        
+        redo()
+        XCTAssertEqual(artboard.elements.last?.label, "Привет, Михаил")
+        XCTAssertEqual(labels[0...1], ["Настройки", "186 додокоинов"])
+    }
+    
+    func test_moveElementOutOfFrame_shouldMoveToArtboardLevel() throws {
+        let result = sut.drag(
+            title,
+            over: nil,
+            insertAtIndex: -1)
         
         XCTAssertTrue(result)
         XCTAssertEqual(artboard.elements.count, 3, "Add element on artboard's level")
