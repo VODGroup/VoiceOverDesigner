@@ -43,9 +43,9 @@ public class Artboard: Node {
     }
     
     public init(
-        frames: [Frame] = [],
-        controlsWithoutFrames: [any ArtboardElement] = []) {
-        self.elements = frames + controlsWithoutFrames
+        elements: [any ArtboardElement] = []
+    ) {
+        self.elements = elements
             
         for element in elements {
             element.parent = self

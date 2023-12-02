@@ -5,7 +5,7 @@ class ArtboardElementCodingService {
     let decoder = JSONDecoder()
     
     func data(from artboard: Artboard) throws -> Data {
-        let encodableWrapper = ArtboardWrapper(artboard: artboard)
+        let encodableWrapper = DocumentWrapper(artboard: artboard)
         
         encoder.outputFormatting = .prettyPrinted
         let data = try! encoder.encode(encodableWrapper)
@@ -19,37 +19,24 @@ class ArtboardElementCodingService {
     }
     
     func artboard(from data: Data) throws -> Artboard {
-        let wrapper = try decoder.decode(ArtboardWrapper.self, from: data)
+        let wrapper = try decoder.decode(DocumentWrapper.self, from: data)
         
         let artboard = Artboard(
-            frames: wrapper.frames.compactMap({ element in
-                element.view as? Frame
-            }),
-            controlsWithoutFrames: wrapper.controlsWithoutFrames.compactMap({ element in
-                element.view as? A11yDescription
-                // TODO: Add containers
-            })
+            elements: wrapper.elements.map(\.view)
         )
             
         return artboard
     }
 }
 
-class ArtboardWrapper: Codable {
+class DocumentWrapper: Codable {
     init(artboard: Artboard) {
-        self.frames = artboard.frames.map({ frame in
+        self.elements = artboard.elements.map({ frame in
             ArtboardElementDecodable(view: frame)
         })
-        
-        self.controlsWithoutFrames = artboard.controlsOutsideOfFrames.map({ control in
-            ArtboardElementDecodable(view: control)
-        })
     }
-
-    // TODO: Simplify to have only elements
     
-    public var frames: [ArtboardElementDecodable]
-    public var controlsWithoutFrames: [ArtboardElementDecodable]
+    public var elements: [ArtboardElementDecodable]
 }
 
 class ArtboardElementDecodable: Codable {

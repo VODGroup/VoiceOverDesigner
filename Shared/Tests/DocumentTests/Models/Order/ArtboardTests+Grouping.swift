@@ -10,7 +10,7 @@ final class ArtboardTests_Grouping: XCTestCase {
     
     var elements: [any ArtboardElement]! {
         set {
-            artboard = Artboard(frames: [], controlsWithoutFrames: newValue)
+            artboard = Artboard(elements: newValue)
         }
         
         get {

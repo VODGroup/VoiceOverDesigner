@@ -17,7 +17,7 @@ class ArtboardTests_Movement: XCTestCase {
         el2 = A11yDescription.make(label: "2")
         el3 = A11yDescription.make(label: "3")
         
-        sut = Artboard(frames: [], controlsWithoutFrames: [
+        sut = Artboard(elements: [
             el1,
             el2,
             el3,

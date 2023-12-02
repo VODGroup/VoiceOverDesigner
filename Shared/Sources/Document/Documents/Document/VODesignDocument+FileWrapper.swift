@@ -166,7 +166,7 @@ extension VODesignDocumentProtocol {
             let imageData = documentWrapper.fileWrappers![FileName.screen]!.regularFileContents!
             let imageSize = Image(data: imageData)?.size ?? .zero
             
-            let artboard = Artboard(frames: [
+            let artboard = Artboard(elements: [
                 Frame(label: "Frame",
                       imageLocation: .relativeFile(path: FileName.screen),
                       frame: CGRect(origin: .zero, size: imageSize),
@@ -176,7 +176,7 @@ extension VODesignDocumentProtocol {
             return (.beta, artboard)
         case .release:
             if let frameWrapper = documentWrapper.fileWrappers?[defaultFrameName] {
-                let artboard = Artboard(frames: [
+                let artboard = Artboard(elements: [
                     try readFrameWrapper(frameWrapper)
                 ])
                 
@@ -186,8 +186,8 @@ extension VODesignDocumentProtocol {
             }
             
         case .artboard:
-            if let artboardWrapper = documentWrapper.fileWrappers?[FileName.document] {
-                let artboard = try! ArtboardElementCodingService().artboard(from: artboardWrapper.regularFileContents!)
+            if let documentWrapper = documentWrapper.fileWrappers?[FileName.document] {
+                let artboard = try! ArtboardElementCodingService().artboard(from: documentWrapper.regularFileContents!)
                 return (.artboard, artboard)
             }
         }
