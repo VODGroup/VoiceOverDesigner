@@ -77,10 +77,7 @@ class DocumentPresenterTests_Movement: XCTestCase {
         XCTAssertEqual(newContainer2.elements.count, 2)
         XCTAssertEqual(labels[0...2], ["Container", "Привет, Михаил", "Настройки"])
     }
-    
-    // TODO: Move container on element
-    // TODO: Move container on container
-    
+
     func test_2elementsInFrame_whenDropElementAfter2ndElement_shouldRearrange() {
         let result = sut.drag(
             title,
@@ -140,6 +137,9 @@ class DocumentPresenterTests_Movement: XCTestCase {
         XCTAssertEqual(labels[0...1], ["Настройки", "186 додокоинов"])
     }
     
+    
+    // TODO: Move container on element
+    // TODO: Move container on container
     // TODO: Move Container out of frame
     // TODO: Move container on frame
     // TODO: Another frame
