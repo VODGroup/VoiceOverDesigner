@@ -63,7 +63,7 @@ open class DocumentPresenter {
                                         size: image.size))
         
         add(frame,
-            into: nil,
+            into: document.artboard,
             at: document.artboard.frames.count)
     }
     
@@ -101,21 +101,18 @@ open class DocumentPresenter {
             handler: { presenter in
                 // TODO: use restore of InsertionContext
                 presenter.add(model,
-                              into: insertionContext.parent,
+                              into: insertionContext.parent!,
                               at: insertionContext.insertionIndex)
         })
     }
     
     private func add(
         _ model: any ArtboardElement,
-        into parent: (any Container)?,
+        into parent: (any Container),
         at insertionIndex: Int
     ) {
-        if let parent {
-            parent.elements.insert(model, at: insertionIndex)
-        } else {
-            document.artboard.elements.insert(model, at: insertionIndex)
-        }
+        parent.elements.insert(model, at: insertionIndex)
+        model.parent = parent
         
         publishArtboardChanges()
         select(model)
