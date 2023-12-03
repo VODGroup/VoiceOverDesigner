@@ -115,11 +115,13 @@ extension Artboard {
         _ elements: [any ArtboardElement],
         undoManager: UndoManager?
     ) -> A11yContainer {
+        // TODO: Sort by artboards index
+        
         let draggingElement = elements.first!
         let parent = draggingElement.parent
         
         /// Place container on the place of first element
-        let insertionIndex = draggingElement.parent?.elements.firstIndex(where: { control in
+        var insertionIndex = draggingElement.parent?.elements.firstIndex(where: { control in
             control === draggingElement
         })
         
@@ -138,8 +140,13 @@ extension Artboard {
                 .insetBy(dx: -20, dy: -20),
             label: "Container")
         
-        (parent ?? self).insert(container, // <-- Insert container
-                                at: insertionIndex!)
+        let isValidInsertion = insertionIndex! <= (parent ?? self).elements.count 
+        if isValidInsertion {
+            (parent ?? self).insert(container, // <-- Insert container
+                                    at: insertionIndex!)
+        } else {
+            (parent ?? self).append(container)
+        }
         
         removeEmptyContainers()
         

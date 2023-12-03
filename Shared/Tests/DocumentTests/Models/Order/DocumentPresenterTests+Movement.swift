@@ -17,6 +17,7 @@ class DocumentPresenterTests_Movement: XCTestCase {
     var frame: Frame!
     var title: A11yDescription!
     var settingsButton: A11yDescription!
+    var gift: A11yDescription!
     
     var sut: DocumentPresenter!
     var undoManager: UndoManager?
@@ -40,11 +41,11 @@ class DocumentPresenterTests_Movement: XCTestCase {
         
         title = A11yDescription.testMake(label: "Title")
         settingsButton = A11yDescription.testMake(label: "Settings")
-        
+        gift = A11yDescription.testMake(label: "Gift")
         sut.append(control: title)
         sut.append(control: settingsButton)
         sut.append(control: A11yDescription.testMake(label: "Coins"))
-        sut.append(control: A11yDescription.testMake(label: "Gift"))
+        sut.append(control: gift)
         undoManager?.enableUndoRegistration()
     }
     
@@ -69,6 +70,8 @@ Frame:
 message,
 file: file, line: line)
     }
+    
+    // MARK: - Wrapping
     
     func assertUndoToDefaultAndRedo(
         _ expected: String,
@@ -122,7 +125,27 @@ Frame:
  Gift
 """)
     }
+    
+    func test_moveLastElementOnFirstElement_shouldCreateContainer() throws {
+        let result = sut.drag(
+            gift,
+            over: title,
+            insertAtIndex: -1)
+        
+        XCTAssertTrue(result)
+        assertUndoToDefaultAndRedo(
+"""
+Frame:
+ Settings
+ Coins
+ Container:
+  Gift
+  Title
+"""
+        )
+    }
 
+    // MARK: Moving
     func test_2elementsInFrame_whenDropElementAfter2ndElement_shouldRearrange() {
         let result = sut.drag(
             title,
