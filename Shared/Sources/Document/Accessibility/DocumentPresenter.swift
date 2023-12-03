@@ -120,6 +120,9 @@ open class DocumentPresenter {
     public func wrapInContainer(
         _ elements: [any ArtboardElement]
     ) -> A11yContainer? {
+        document.undo?.registerUndo(withTarget: self, handler: { presenter in
+            presenter.publishArtboardChanges() // Some changes will happen after undo
+        })
         
         let container = document.artboard.wrapInContainer(
             elements,
@@ -149,6 +152,10 @@ open class DocumentPresenter {
         over dropElement: (any ArtboardElement)?,
         insertAtIndex: Int
     ) -> Bool {
+        // Update document after undoing on model layer
+        document.undo?.registerUndo(withTarget: self, handler: { presenter in
+            presenter.publishArtboardChanges() // Some changes will happen after undo
+        })
         
         let didDrag = document.artboard
             .drag(draggingElement,
@@ -158,9 +165,6 @@ open class DocumentPresenter {
         
         if didDrag {
             publishArtboardChanges() // Some changes happened
-            document.undo?.registerUndo(withTarget: self, handler: { presenter in
-                presenter.publishArtboardChanges() // Some changes will happen after undo
-            })
         }
         
         return didDrag
