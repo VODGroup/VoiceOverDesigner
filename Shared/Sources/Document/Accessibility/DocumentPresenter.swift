@@ -74,11 +74,9 @@ open class DocumentPresenter {
         
         // TODO: Manage parents by artboard
         if let frameThatOverlaps {
-            control.parent = frameThatOverlaps
-            frameThatOverlaps.elements.append(control)
+            frameThatOverlaps.append(control)
         } else {
-            control.parent = document.artboard
-            document.artboard.elements.append(control)
+            document.artboard.append(control)
         }
         
         document.undo?.registerUndo(
@@ -90,7 +88,7 @@ open class DocumentPresenter {
     }
     
     open func remove(_ model: any ArtboardElement) {
-        guard let insertionContext = document.artboard.remove(model)
+        guard let insertionContext: InsertionContext = document.artboard.remove(model)
         else { return }
 
         publishArtboardChanges()
@@ -108,11 +106,10 @@ open class DocumentPresenter {
     
     private func add(
         _ model: any ArtboardElement,
-        into parent: (any Container),
+        into parent: BaseContainer,
         at insertionIndex: Int
     ) {
-        parent.elements.insert(model, at: insertionIndex)
-        model.parent = parent
+        parent.insert(model, at: insertionIndex)
         
         publishArtboardChanges()
         select(model)

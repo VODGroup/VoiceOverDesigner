@@ -79,21 +79,6 @@ extension Array where Element == any ArtboardElement {
             remove(element)
         }
     }
-    
-    /// - Returns: Element index
-    @discardableResult
-    public mutating func remove(_ element: Element) -> Int? {
-        let from = firstIndex(where: { control in
-            control === element
-        })
-        
-        if let from {
-            remove(at: from)
-            return from
-        }
-        
-        return nil
-    }
 }
         
 extension Array where Element == A11yDescription {
@@ -114,3 +99,9 @@ extension Array where Element == A11yDescription {
     }
 }
 
+
+extension BaseContainer {
+    public func move(_ node: any ArtboardElement, to index: Int) {
+        elements.move(node, to: index)
+    }
+}

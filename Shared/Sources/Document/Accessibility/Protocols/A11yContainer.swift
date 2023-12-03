@@ -2,18 +2,9 @@ import Foundation
 import Artboard
 
 extension A11yContainer: ArtboardContainer, InstantiatableContainer {
-    
-    public var elements: [any ArtboardElement] {
-        get {
-            controls
-        }
-        set(newValue) {
-            controls = newValue as! [A11yDescription]
-        }
-    }
 }
 
-public class A11yContainer: Codable, ObservableObject {
+public class A11yContainer: BaseContainer, Codable, ObservableObject {
 
     required convenience public init(
         elements: [any ArtboardElement],
@@ -38,6 +29,9 @@ public class A11yContainer: Codable, ObservableObject {
         self.controls = elements as! [A11yDescription] // TODO: It's fragile
         self.frame = frame
         self.label = label
+        
+        super.init(elements: elements)
+        
         self.containerType = containerType
         self.navigationStyle = navigationStyle
         self.id = id
@@ -47,9 +41,6 @@ public class A11yContainer: Codable, ObservableObject {
         self.treatButtonsAsAdjustable = treatButtonsAsAdjustableValues
         self.isEnumerated = isEnumerated
         
-        for control in controls {
-            control.parent = self
-        }
     }
 
     public static func ==(lhs: A11yContainer, rhs: A11yContainer) -> Bool {
@@ -61,14 +52,23 @@ public class A11yContainer: Codable, ObservableObject {
     @DecodableDefault.RandomUUID
     public var id: UUID
 
+    @available(*, deprecated, renamed: "elements")
     public var controls: [A11yDescription]
+    public override var elements: [any ArtboardElement] {
+        get {
+            controls
+        }
+        set(newValue) {
+            controls = newValue as! [A11yDescription]
+        }
+    }
+    
     public var frame: CGRect
     
     public var label: String {
         willSet { objectWillChange.send() }
     }
     public var type: ArtboardType = .container
-    public weak var parent: (any Container)? = nil
     
     @DecodableDefault.False
     public var isModal: Bool {
@@ -123,11 +123,6 @@ public class A11yContainer: Codable, ObservableObject {
         controls.contains(element)
     }
     
-    @discardableResult
-    public func remove(_ element: any ArtboardElement) -> Int? {
-        elements.remove(element)
-    }
-    
     enum CodingKeys: CodingKey {
         case type
         case label
@@ -148,17 +143,16 @@ public class A11yContainer: Codable, ObservableObject {
         
         self.label = try container.decode(String.self, forKey: .label)
         self.frame = try container.decode(CGRect.self, forKey: .frame)
-        self.controls = try container.decode([A11yDescription].self, forKey: .elements)
+        self.controls = try container.decode([A11yDescription].self, forKey: .elements) // TODO: Nested containers are possible
+        
+        super.init(elements: controls)
+        
         self.isModal = try container.decode(Bool.self, forKey: .isModal)
         self.isEnumerated = try container.decode(Bool.self, forKey: .isEnumerated)
         self.containerType = try container.decode(ContainerType.self, forKey: .containerType)
         self.navigationStyle = try container.decode(NavigationStyle.self, forKey: .navigationStyle)
         self.isTabTrait = try container.decode(Bool.self, forKey: .isTabTrait)
         self.treatButtonsAsAdjustable = (try? container.decode(Bool.self, forKey: .treatButtonsAsAdjustable)) ?? false
-
-        for control in controls {
-            control.parent = self
-        }
     }
     
     public func encode(to encoder: Encoder) throws {

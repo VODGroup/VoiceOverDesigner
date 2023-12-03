@@ -22,13 +22,10 @@ public extension Image {
 #endif
 
 /// Data layer with hierarchical structure of element
-public class Artboard: Node {
+public class Artboard: BaseContainer, Node {
     public static func == (lhs: Artboard, rhs: Artboard) -> Bool {
         return true // Single instance
     }
-    
-    public var elements: [any ArtboardElement] = []
-    public var parent: (any Container)? = nil
     
 //    let figmaURL: String
     
@@ -42,25 +39,19 @@ public class Artboard: Node {
         elements.filter { !($0 is Frame) }
     }
     
-    public init(
-        elements: [any ArtboardElement] = []
-    ) {
-        self.elements = elements
-            
-        for element in elements {
-            element.parent = self
-        }
-    }
-    
     public var imageLoader: ImageLoading!
     
     public var isEmpty: Bool {
         elements.isEmpty
     }
+    
+    public init(elements: [any ArtboardElement] = []) {
+        super.init(elements: elements)
+    }
 }
 
 /// Domain object that is used for drawing
-public class Frame: ArtboardContainer, ObservableObject {
+public class Frame: BaseContainer, ArtboardContainer, ObservableObject {
     public var type: ArtboardType = .frame
     
     public var id: UUID
@@ -71,11 +62,8 @@ public class Frame: ArtboardContainer, ObservableObject {
         willSet { objectWillChange.send() }
     }
 
-    public var frame: CGRect
-    
     /// In absolute coordinates
-    public var elements: [any ArtboardElement]
-    public var parent: (any Container)? = nil
+    public var frame: CGRect
     
     public convenience init(
         label: String,
@@ -98,15 +86,13 @@ public class Frame: ArtboardContainer, ObservableObject {
         frame: CGRect,
         elements: [any ArtboardElement]
     ) {
+        
         self.id = id
         self.label = label
         self.imageLocation = imageLocation
         self.frame = frame
-        self.elements = elements
         
-        for element in elements {
-            element.parent = self
-        }
+        super.init(elements: elements)
     }
 
     // MARK: ArtboardElement

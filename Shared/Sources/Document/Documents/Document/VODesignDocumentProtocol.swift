@@ -31,8 +31,7 @@ extension VODesignDocumentProtocol {
         let frame = Frame(image: newImage,
                           frame: CGRect(origin: origin,
                                         size: newImage.size))
-        frame.parent = artboard // TODO: Remove this code from helpers
-        artboard.elements.append(frame)
+        artboard.append(frame)
         
         documentWrapper.invalidateIfPossible(file: FolderName.quickLook)
     }

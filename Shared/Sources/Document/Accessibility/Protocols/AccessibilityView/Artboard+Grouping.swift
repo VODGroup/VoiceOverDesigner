@@ -75,7 +75,7 @@ extension Artboard {
     
     func move(
         _ element: any ArtboardElement,
-        inside container: any Container,
+        inside container: BaseContainer,
         insertionIndex: Int,
         undoManager: UndoManager?
     ) {
@@ -93,17 +93,17 @@ extension Artboard {
                 anElement === element
             })! // TODO: Explicit unwrap
             
-            container.elements.move(element, to: insertionIndex)
+            container.move(element, to: insertionIndex)
             
             insertionContext = InsertionContext(element: element, parent: container, insertionIndex: insertionIndexForUndo)
         } else {
             // Diferent containers
             insertionContext = element.removeFromParent()
-            container.elements.insert(element, at: insertionIndex)
+            container.insert(element, at: insertionIndex)
         }
         
         undoManager?.registerUndo(withTarget: self, handler: { artboard in
-            container.elements.remove(element)
+            container.remove(element)
             insertionContext?.restore() // Not pass undoManager because use another restoration type
             
             // Redo
@@ -133,9 +133,8 @@ extension Artboard {
                 .commonFrame
                 .insetBy(dx: -20, dy: -20),
             label: "Container")
-        container.parent = insertionContext?.parent ?? self
         
-        insertionContext?.parent?.elements
+        (insertionContext?.parent ?? self)
             .insert(container, // <-- Insert container
                     at: insertionContext!.insertionIndex)
         // TODO: Если оба элемента в одном контейнере, то они могут сместиться на -1. Или нет, если первый элемент был после второго
@@ -227,7 +226,7 @@ public extension Array where Element == any ArtboardElement {
 public class InsertionContext {
     public init(
         element: any ArtboardElement,
-        parent: (any Container)?,
+        parent: BaseContainer?,
         insertionIndex: Int
     ) {
         self.element = element
@@ -236,14 +235,12 @@ public class InsertionContext {
     }
     
     let element: any ArtboardElement
-    var parent: (any Container)?
+    var parent: BaseContainer?
     let insertionIndex: Int
     
     func restore() {
-        parent?.elements
-            .insert(element,
-                    at: insertionIndex)
-        element.parent = parent
+        parent?.insert(element,
+                       at: insertionIndex)
     }
     
     func restore(undoManager: UndoManager?) {
@@ -274,7 +271,7 @@ extension Artboard {
 extension ArtboardElement {
     fileprivate func removeFromParent() -> InsertionContext? {
         let parent = parent
-        guard let insertionIndex = parent?.elements.remove(self)
+        guard let insertionIndex = parent?.remove(self)
         else { return nil }
 
         return InsertionContext(element: self,
