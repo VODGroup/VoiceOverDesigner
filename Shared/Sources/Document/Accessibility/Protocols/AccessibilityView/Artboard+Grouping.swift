@@ -143,9 +143,13 @@ extension Artboard {
         self.elements.removeEmptyContainers()
         
         undoManager?.registerUndo(withTarget: self, handler: { artboard in
-            _ = container.removeFromParent(undoManager: undoManager)
+            _ = container.removeFromParent()
             
             // + implicit undo from `removeFromParent`
+            
+            undoManager?.registerUndo(withTarget: self, handler: { artboard in
+                self.wrapInContainer(elements, undoManager: undoManager)
+            })
         })
         
         return container
@@ -239,6 +243,7 @@ public class InsertionContext {
         parent?.elements
             .insert(element,
                     at: insertionIndex)
+        element.parent = parent
     }
     
     func restore(undoManager: UndoManager?) {

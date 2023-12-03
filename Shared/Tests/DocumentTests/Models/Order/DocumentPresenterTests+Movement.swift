@@ -148,6 +148,7 @@ class DocumentPresenterTests_Movement: XCTestCase {
     // TODO: Move Container out of frame
     // TODO: Move container on frame
     // TODO: Another frame
+    // TODO: Test that empty containers are removed but will be restored by undo
     
     
     // MARK: - DSL
