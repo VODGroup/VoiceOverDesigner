@@ -13,7 +13,6 @@ import DocumentTestHelpers
 extension VODesignDocument {
     static func with2Controls(name: String, testCase: XCTestCase) -> VODesignDocument {
         let document = VODesignDocument.testDocument(name: name, testCase: testCase)
-        // TODO: Set parents
         document.artboard.elements = [
             A11yDescription.testMake(label: "Label1"),
             A11yDescription.testMake(label: "Label2"),
@@ -23,7 +22,6 @@ extension VODesignDocument {
     
     static func with2ControlsInFrame(name: String, testCase: XCTestCase) -> VODesignDocument {
         let document = VODesignDocument.testDocument(name: name, testCase: testCase)
-        // TODO: Set parents
         document.artboard.elements = [Frame(
             label: "Frame1",
             imageName: "Frame1.png",
