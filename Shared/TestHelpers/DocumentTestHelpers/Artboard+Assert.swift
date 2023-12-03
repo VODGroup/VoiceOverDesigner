@@ -44,7 +44,7 @@ extension Array where Element == any ArtboardElement {
                 let elementsDescription = (container.elements as [any ArtboardElement])
                     .recursiveDescription()
                     .joined(separator: ", ")
-                return "\(container.label): \(elementsDescription)"
+                return "\(container.label): \(elementsDescription);"
             case .element(let element):
                 return element.label
             }

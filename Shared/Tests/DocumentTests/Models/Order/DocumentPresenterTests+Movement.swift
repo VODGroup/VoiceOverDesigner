@@ -71,7 +71,7 @@ class DocumentPresenterTests_Movement: XCTestCase {
         
         XCTAssertTrue(result)
         artboard.assert(
-            labels: "Frame: Container: Title, Settings, Coins, Gift" // Gift on Frame's level
+            labels: "Frame: Container: Title, Settings;, Coins, Gift" // Gift on Frame's level
         )
         
         undo()
@@ -81,7 +81,7 @@ class DocumentPresenterTests_Movement: XCTestCase {
         
         redo()
         artboard.assert(
-            labels: "Frame: Container: Title, Settings, Coins, Gift" // Gift on Frame's level
+            labels: "Frame: Container: Title, Settings;, Coins, Gift" // Gift on Frame's level
         )
     }
 
