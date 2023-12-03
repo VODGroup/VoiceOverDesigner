@@ -18,33 +18,37 @@ class ArtboardElementArrayTests_Movement: XCTestCase {
         sut = [el1, el2, el3]
     }
     
+    func assertLabels(_ labels: String..., file: StaticString = #filePath, line: UInt = #line) {
+        XCTAssertEqual(sut.map(\.label), labels, file: file, line: line)
+    }
+    
     // MARK: Move first
     func test_move0_to0_shouldNotMove() {
         let didMove = sut.move(sut[0], to: 0)
         
         XCTAssertFalse(didMove)
-        XCTAssertEqual(sut.map(\.label), ["1", "2", "3"])
+        assertLabels("1", "2", "3")
     }
     
     func test_move0_to1_shouldNotMove() {
         let didMove = sut.move(sut[0], to: 1)
         
         XCTAssertFalse(didMove)
-        XCTAssertEqual(sut.map(\.label), ["1", "2", "3"])
+        assertLabels("1", "2", "3")
     }
     
     func test_move0_to2_shouldMove() {
         let didMove = sut.move(sut[0], to: 2)
 
         XCTAssertTrue(didMove)
-        XCTAssertEqual(sut.map(\.label), ["2", "1", "3"])
+        assertLabels("2", "1", "3")
     }
 
     func test_move0_to3_shouldMoveToLatest() {
         let didMove = sut.move(sut[0], to: 3)
 
         XCTAssertTrue(didMove)
-        XCTAssertEqual(sut.map(\.label), ["2", "3", "1"])
+        assertLabels("2", "3", "1")
     }
 
     // MARK: Move second
@@ -52,28 +56,28 @@ class ArtboardElementArrayTests_Movement: XCTestCase {
         let didMove = sut.move(sut[1], to: 0)
 
         XCTAssertTrue(didMove)
-        XCTAssertEqual(sut.map(\.label), ["2", "1", "3"])
+        assertLabels("2", "1", "3")
     }
 
     func test_move1_to1_shouldNotMove() {
         let didMove = sut.move(sut[1], to: 1)
 
         XCTAssertFalse(didMove)
-        XCTAssertEqual(sut.map(\.label), ["1", "2", "3"])
+        assertLabels("1", "2", "3")
     }
 
     func test_move1_to2_shouldNotMove() {
         let didMove = sut.move(sut[1], to: 2)
 
         XCTAssertFalse(didMove)
-        XCTAssertEqual(sut.map(\.label), ["1", "2", "3"])
+        assertLabels("1", "2", "3")
     }
 
     func test_move1_to3_shouldMove() {
         let didMove = sut.move(sut[1], to: 3)
 
         XCTAssertTrue(didMove)
-        XCTAssertEqual(sut.map(\.label), ["1", "3", "2"])
+        assertLabels("1", "3", "2")
     }
     
     // MARK: Move third
@@ -82,27 +86,27 @@ class ArtboardElementArrayTests_Movement: XCTestCase {
         let didMove = sut.move(sut[2], to: 0)
         
         XCTAssertTrue(didMove)
-        XCTAssertEqual(sut.map(\.label), ["3", "1", "2"])
+        assertLabels("3", "1", "2")
     }
     
     func test_move3_to1_shouldMove() {
         let didMove = sut.move(sut[2], to: 1)
         
         XCTAssertTrue(didMove)
-        XCTAssertEqual(sut.map(\.label), ["1", "3", "2"])
+        assertLabels("1", "3", "2")
     }
     
     func test_move2_to2_shouldNotMove() {
         let didMove = sut.move(sut[2], to: 2)
         
         XCTAssertFalse(didMove)
-        XCTAssertEqual(sut.map(\.label), ["1", "2", "3"])
+        assertLabels("1", "2", "3")
     }
     
     func test_move2_to3_shouldMove() {
         let didMove = sut.move(sut[2], to: 3)
         
         XCTAssertFalse(didMove)
-        XCTAssertEqual(sut.map(\.label), ["1", "2", "3"])
+        assertLabels("1", "2", "3")
     }
 }
