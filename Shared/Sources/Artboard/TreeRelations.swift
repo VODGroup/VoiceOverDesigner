@@ -15,8 +15,7 @@ public protocol Node: BaseContainer, Child, Container {}
 
 /// Base class that manages parent-child relation in Artboard
 open class BaseContainer: Container {
-    // TODO: Make public and remove controls from A11yContainer
-    open var elements: [any ArtboardElement] = []
+    open private(set) var elements: [any ArtboardElement] = []
     
     public var parent: BaseContainer?
 
@@ -30,17 +29,34 @@ open class BaseContainer: Container {
         node.parent = self
     }
     
+    public func move(_ node: any ArtboardElement, to index: Int) {
+        elements.move(node, to: index)
+    }
+    
     public func remove(_ node: any ArtboardElement) -> Int? {
         elements.remove(node)
+    }
+    
+    public func replace(_ elements: [any ArtboardElement]) {
+        self.elements = elements
+        setParentOfAllElementsToCurrent()
     }
     
     public init(elements: [any ArtboardElement], parent: BaseContainer? = nil) {
         self.elements = elements
         self.parent = parent
         
+        setParentOfAllElementsToCurrent()
+    }
+    
+    private func setParentOfAllElementsToCurrent() {
         for element in elements {
             element.parent = self
         }
+    }
+    
+    public func removeEmptyContainers() {
+        elements.removeEmptyContainers()
     }
 }
 
@@ -59,5 +75,54 @@ extension Array where Element == any ArtboardElement {
         
         return nil
     }
-}
 
+    /// - Returns: From and To indexes
+    @discardableResult
+    public mutating func move(_ element: Element, to: Int) -> Bool {
+        guard let from = firstIndex(where: { control in
+            control === element
+        }) else { return false }
+        
+        if to == from + 1 { // Can't move items after themselves
+            return false
+        }
+        
+        if to == from { // Can't move to same position
+            return false
+        }
+        
+        remove(at: from)
+        if to > from {
+            insert(element, at: to - 1)
+        } else {
+            insert(element, at: to)
+        }
+        return true
+    }
+    
+    mutating func removeEmptyContainers() {
+        forEachContainer { containerIndex, container in
+            if container.elements.isEmpty {
+                remove(at: containerIndex)
+            }
+        }
+    }
+    
+    public mutating func unwrapContainer(
+        _ container: BaseContainer
+    ) {
+        guard let containerIndex = remove(container as! any ArtboardElement) else { return }
+        insert(contentsOf: container.elements.reversed(), at: containerIndex)
+    }
+    
+    func forEachContainer(
+        _ iterator: (_ containerIndex: Int, _ container: BaseContainer) -> Void
+    ) {
+        for (containerIndex, view) in enumerated().reversed() {
+            guard let container = view as? BaseContainer
+            else { continue }
+            
+            iterator(containerIndex, container)
+        }
+    }
+}

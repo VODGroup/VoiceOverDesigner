@@ -79,10 +79,10 @@ final class ArtboardTests_Grouping: XCTestCase {
         
         XCTAssertEqual(elements.count, 2)
         let container1 = try XCTUnwrap(elements.first as? A11yContainer)
-        XCTAssertEqual(container1.controls, [item1, item2])
+        XCTAssertEqual(container1.extractElements(), [item1, item2])
         
         let container2 = try XCTUnwrap(elements.last as? A11yContainer)
-        XCTAssertEqual(container2.controls, [item3])
+        XCTAssertEqual(container2.extractElements(), [item3])
     }
     
     func test_whenExtractLastElementFromContainer_shouldRemoveContainer() throws {
@@ -93,7 +93,7 @@ final class ArtboardTests_Grouping: XCTestCase {
         
         XCTAssertEqual(elements.count, 1)
         let container1 = try XCTUnwrap(elements.first as? A11yContainer)
-        XCTAssertEqual(container1.controls, [item1, item2, item3])
+        XCTAssertEqual(container1.extractElements(), [item1, item2, item3])
     }
     
     func test_unwrapContainer_addsElementsCorrectly_andRemovesContainer() throws {

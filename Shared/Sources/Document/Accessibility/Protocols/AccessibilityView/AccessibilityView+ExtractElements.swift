@@ -27,7 +27,7 @@ extension ArtboardElement {
         case .frame(let frame):
             result.append(contentsOf: frame.elements.extractElements())
         case .container(let container):
-            result.append(contentsOf: container.controls)
+            result.append(contentsOf: container.elements.extractElements())
         case .element(let element):
             result.append(element)
         }

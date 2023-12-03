@@ -26,7 +26,6 @@ public class A11yContainer: BaseContainer, Codable, ObservableObject {
         containerType: ContainerType = .semanticGroup,
         navigationStyle: NavigationStyle = .automatic
     ) {
-        self.controls = elements as! [A11yDescription] // TODO: It's fragile
         self.frame = frame
         self.label = label
         
@@ -45,23 +44,12 @@ public class A11yContainer: BaseContainer, Codable, ObservableObject {
 
     public static func ==(lhs: A11yContainer, rhs: A11yContainer) -> Bool {
         lhs.frame == rhs.frame
-        && lhs.controls == rhs.controls
+//        && lhs.elements == rhs.elements
         && lhs.label == rhs.label
     }
 
     @DecodableDefault.RandomUUID
     public var id: UUID
-
-    @available(*, deprecated, renamed: "elements")
-    public var controls: [A11yDescription]
-    public override var elements: [any ArtboardElement] {
-        get {
-            controls
-        }
-        set(newValue) {
-            controls = newValue as! [A11yDescription]
-        }
-    }
     
     public var frame: CGRect
     
@@ -120,7 +108,9 @@ public class A11yContainer: BaseContainer, Codable, ObservableObject {
     
     
     public func contains(_ element: A11yDescription) -> Bool {
-        controls.contains(element)
+        elements.contains { anElement in
+            anElement === element
+        }
     }
     
     enum CodingKeys: CodingKey {
@@ -143,9 +133,9 @@ public class A11yContainer: BaseContainer, Codable, ObservableObject {
         
         self.label = try container.decode(String.self, forKey: .label)
         self.frame = try container.decode(CGRect.self, forKey: .frame)
-        self.controls = try container.decode([A11yDescription].self, forKey: .elements) // TODO: Nested containers are possible
+        let elements = try container.decode([ArtboardElementDecodable].self, forKey: .elements) // TODO: Nested containers are possible
         
-        super.init(elements: controls)
+        super.init(elements: elements.map(\.view))
         
         self.isModal = try container.decode(Bool.self, forKey: .isModal)
         self.isEnumerated = try container.decode(Bool.self, forKey: .isEnumerated)
@@ -161,23 +151,13 @@ public class A11yContainer: BaseContainer, Codable, ObservableObject {
         try container.encode(ArtboardType.container, forKey: .type)
         try container.encode(label, forKey: .label)
         try container.encode(frame, forKey: .frame)
-        try container.encode(controls, forKey: .elements)
+        try container.encode(elements.map(ArtboardElementDecodable.init(view:)), forKey: .elements)
         try container.encode(isModal, forKey: .isModal)
         try container.encode(isEnumerated, forKey: .isEnumerated)
         try container.encode(containerType, forKey: .containerType)
         try container.encode(navigationStyle, forKey: .navigationStyle)
         try container.encode(isTabTrait, forKey: .isTabTrait)
         try container.encode(treatButtonsAsAdjustable, forKey: .treatButtonsAsAdjustable)
-    }
-}
-
-extension A11yContainer {
-    /**
-     Flattens container to array of ``ArtboardElement``
-     - returns: An array of any ArtboardElement
-     */
-    public func flattenWithElements() -> [any ArtboardElement] {
-        [self] + controls
     }
 }
 
@@ -211,6 +191,7 @@ extension A11yContainer {
     }
     
     var buttons: [A11yDescription] {
-        controls.filter { $0.trait == .button }
+        extractElements()
+            .filter { $0.trait == .button }
     }
 }

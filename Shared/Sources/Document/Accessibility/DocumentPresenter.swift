@@ -26,7 +26,7 @@ open class DocumentPresenter {
         set {
             let oldValue = document.artboard.elements
             
-            document.artboard.elements = newValue
+            document.artboard.replace(newValue)
             
             document.undo?.registerUndo(withTarget: self, handler: { presenter in
                 presenter.elements = oldValue

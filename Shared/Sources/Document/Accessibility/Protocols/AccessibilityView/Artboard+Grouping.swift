@@ -136,7 +136,7 @@ extension Artboard {
                     at: insertionContext!.insertionIndex)
         // TODO: Если оба элемента в одном контейнере, то они могут сместиться на -1. Или нет, если первый элемент был после второго
         
-        self.elements.removeEmptyContainers()
+        removeEmptyContainers()
         
         undoManager?.registerUndo(withTarget: self, handler: { artboard in
             _ = container.removeFromParent()
@@ -149,33 +149,6 @@ extension Artboard {
         })
         
         return container
-    }
-}
-
-extension Array where Element == any ArtboardElement {
-
-    fileprivate mutating func removeEmptyContainers() {
-        forEachContainer { containerIndex, container in
-            if container.elements.isEmpty {
-                remove(at: containerIndex)
-            }
-        }
-    }
-    
-    public mutating func unwrapContainer(_ container: A11yContainer) {
-        guard let containerIndex = remove(container) else { return }
-        insert(contentsOf: container.elements.reversed(), at: containerIndex)
-    }
-
-    func forEachContainer(
-        _ iterator: (_ containerIndex: Int, _ container: A11yContainer) -> Void
-    ) {
-        for (containerIndex, view) in enumerated().reversed() {
-            guard let container = view as? A11yContainer
-            else { continue }
-            
-            iterator(containerIndex, container)
-        }
     }
 }
 
@@ -257,7 +230,7 @@ extension Artboard {
     ) -> InsertionContext? {
         if let _ = model.parent {
             return model.removeFromParent()
-        } else if let insertionIndex = elements.remove(model) {
+        } else if let insertionIndex: Int = remove(model) {
                 return InsertionContext(element: model, parent: nil, insertionIndex: insertionIndex)
         } else {
             return nil
