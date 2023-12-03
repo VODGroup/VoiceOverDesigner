@@ -13,6 +13,7 @@ public protocol Container: Child {
 
 public protocol Node: BaseContainer, Child, Container {}
 
+/// Base class that manages parent-child relation in Artboard
 open class BaseContainer: Container {
     // TODO: Make public and remove controls from A11yContainer
     open var elements: [any ArtboardElement] = []
@@ -60,30 +61,3 @@ extension Array where Element == any ArtboardElement {
     }
 }
 
-// MARK: - Types
-
-public enum ArtboardType: String, Codable {
-    case element
-    case container
-    case frame
-    //    case artboard
-}
-
-public protocol ArtboardElement: Child, Equatable {
-    var id: UUID { get }
-    var label: String { get set }
-    var frame: CGRect { get set }
-    
-    var type: ArtboardType { get }
-}
-
-public protocol ArtboardContainer: ArtboardElement, Node {}
-
-/// Allows
-public protocol InstantiatableContainer {
-    init(
-        elements: [any ArtboardElement],
-        frame: CGRect,
-        label: String
-    )
-}
