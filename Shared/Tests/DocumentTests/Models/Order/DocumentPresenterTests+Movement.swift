@@ -54,14 +54,13 @@ class DocumentPresenterTests_Movement: XCTestCase {
         
         try? VODesignDocument.removeTestDocument(name: testDocumentName)
         
-        // Document will be removed at tearDown by Sampler
         super.tearDown()
     }
     
     func testDefaultState() {
-        XCTAssertEqual(frame.elements.count, 4)
-        XCTAssertEqual(artboard.elements.count, 1)
-        XCTAssertEqual(labels[0...2], ["Title", "Settings", "Coins"])
+        artboard.assert(
+            labels: "Frame: Title, Settings, Coins, Gift"
+        )
     }
     
     func test_2elementsInFrame_whenDropOnElement_shouldCreateContainer() throws {
@@ -71,16 +70,19 @@ class DocumentPresenterTests_Movement: XCTestCase {
             insertAtIndex: -1)
         
         XCTAssertTrue(result)
-        
-        XCTAssertEqual(labels[0...1], ["Container", "Coins"])
+        artboard.assert(
+            labels: "Frame: Container: Title, Settings, Coins, Gift" // Gift on Frame's level
+        )
         
         undo()
-        XCTAssertEqual(labels[0...2], ["Title", "Settings", "Coins"])
+        artboard.assert(
+            labels: "Frame: Title, Settings, Coins, Gift"
+        )
         
         redo()
-        let newContainer2 = try XCTUnwrap(frame.elements.first as? A11yContainer, "wrap in container")
-        XCTAssertEqual(newContainer2.elements.count, 2)
-        XCTAssertEqual(labels[0...1], ["Container", "Coins"])
+        artboard.assert(
+            labels: "Frame: Container: Title, Settings, Coins, Gift" // Gift on Frame's level
+        )
     }
 
     func test_2elementsInFrame_whenDropElementAfter2ndElement_shouldRearrange() {
@@ -91,13 +93,15 @@ class DocumentPresenterTests_Movement: XCTestCase {
         
         XCTAssertTrue(result)
         
-        XCTAssertEqual(labels[0...1], ["Settings", "Title"])
+        XCTAssertEqual(labelsInFrame[0...1], ["Settings", "Title"])
         
         undo()
-        XCTAssertEqual(labels[0...1], ["Title", "Settings"])
+        artboard.assert(
+            labels: "Frame: Title, Settings, Coins, Gift"
+        )
         
         redo()
-        XCTAssertEqual(labels[0...1], ["Settings", "Title"])
+        XCTAssertEqual(labelsInFrame[0...1], ["Settings", "Title"])
     }
     
     func test_moveElementAfterFrame_shouldMoveToArtboardLevel() throws {
@@ -107,18 +111,21 @@ class DocumentPresenterTests_Movement: XCTestCase {
             insertAtIndex: 1) // After frame
         
         XCTAssertTrue(result)
-        XCTAssertEqual(artboard.elements.count, 2, "Add element on artboard's level")
-        XCTAssertEqual(artboard.elements.last?.label, "Title")
-        XCTAssertEqual(labels[0...1], ["Settings", "Coins"])
+        artboard.assert(
+            labels: "Frame: Settings, Coins, Gift",
+            "Title"
+        )
         
         undo()
-        XCTAssertEqual(artboard.elements.count, 1, "Only frame")
-        XCTAssertEqual(artboard.elements.last?.label, "Frame")
-        XCTAssertEqual(labels[0...2], ["Title", "Settings", "Coins"])
+        artboard.assert(
+            labels: "Frame: Title, Settings, Coins, Gift"
+        )
         
         redo()
-        XCTAssertEqual(artboard.elements.last?.label, "Title")
-        XCTAssertEqual(labels[0...1], ["Settings", "Coins"])
+        artboard.assert(
+            labels: "Frame: Settings, Coins, Gift",
+            "Title"
+        )
     }
     
     func test_moveElementOutOfFrame_shouldMoveToArtboardLevel() throws {
@@ -128,18 +135,21 @@ class DocumentPresenterTests_Movement: XCTestCase {
             insertAtIndex: -1)
         
         XCTAssertTrue(result)
-        XCTAssertEqual(artboard.elements.count, 2, "Add element on artboard's level")
-        XCTAssertEqual(artboard.elements.last?.label, "Title")
-        XCTAssertEqual(labels[0...1], ["Settings", "Coins"])
+        artboard.assert(
+            labels: "Frame: Settings, Coins, Gift",
+            "Title"
+        )
         
         undo()
-        XCTAssertEqual(artboard.elements.count, 1)
-        XCTAssertEqual(artboard.elements.last?.label, "Frame")
-        XCTAssertEqual(labels[0...2], ["Title", "Settings", "Coins"])
+        artboard.assert(
+            labels: "Frame: Title, Settings, Coins, Gift"
+        )
         
         redo()
-        XCTAssertEqual(artboard.elements.last?.label, "Title")
-        XCTAssertEqual(labels[0...1], ["Settings", "Coins"])
+        artboard.assert(
+            labels: "Frame: Settings, Coins, Gift",
+            "Title"
+        )
     }
     
     
@@ -161,7 +171,7 @@ class DocumentPresenterTests_Movement: XCTestCase {
         undoManager?.redo()
     }
     
-    var labels: [String] {
+    var labelsInFrame: [String] {
         frame.elements.map(\.label)
     }
 }

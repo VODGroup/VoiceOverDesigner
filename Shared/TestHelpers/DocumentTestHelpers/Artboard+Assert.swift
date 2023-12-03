@@ -28,7 +28,14 @@ extension Array where Element == any ArtboardElement {
         map { view in
             switch view.cast {
             case .frame(let frame):
-                return frame.label // TODO: Make full description
+                if frame.elements.isEmpty {
+                    return frame.label
+                }
+                
+                let elementsDescription = (frame.elements as [any ArtboardElement])
+                    .recursiveDescription()
+                    .joined(separator: ", ")
+                return "\(frame.label): \(elementsDescription)"
             case .container(let container):
                 if container.elements.isEmpty {
                     return container.label
