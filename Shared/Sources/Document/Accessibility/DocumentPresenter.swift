@@ -72,7 +72,6 @@ open class DocumentPresenter {
             frame.frame.intersects(control.frame)
         }
         
-        // TODO: Manage parents by artboard
         if let frameThatOverlaps {
             frameThatOverlaps.append(control)
         } else {
