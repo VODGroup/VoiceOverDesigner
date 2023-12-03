@@ -25,13 +25,13 @@ extension Array where Element == A11yDescription {
         }
         return true
     }
-}
 
-extension Array where Element == any ArtboardElement {
     /// - Returns: From and To indexes
     public mutating func move(
-        _ element: A11yDescription, fromContainer: A11yContainer?,
-        toIndex: Int, toContainer: A11yContainer?
+        _ element: A11yDescription, 
+        fromContainer: A11yContainer?,
+        toIndex: Int, 
+        toContainer: A11yContainer?
     ) {
         if fromContainer == toContainer {
             if let fromContainer {

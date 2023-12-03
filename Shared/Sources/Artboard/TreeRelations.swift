@@ -58,6 +58,19 @@ open class BaseContainer: Container {
     public func removeEmptyContainers() {
         elements.removeEmptyContainers()
     }
+    
+    public func unwrapContainer(
+        _ container: BaseContainer
+    ) {
+        guard let containerIndex: Int = elements.remove(container as! (any ArtboardElement)) // TODO: Strange casting, can't remove
+        else { return }
+        
+        container.elements.forEach { element in
+            element.parent = self
+        }
+        elements.insert(contentsOf: container.elements.reversed(),
+                        at: containerIndex)
+    }
 }
 
 extension Array where Element == any ArtboardElement {
@@ -100,19 +113,15 @@ extension Array where Element == any ArtboardElement {
         return true
     }
     
+}
+
+extension Array where Element == any ArtboardElement {
     mutating func removeEmptyContainers() {
         forEachContainer { containerIndex, container in
             if container.elements.isEmpty {
                 remove(at: containerIndex)
             }
         }
-    }
-    
-    public mutating func unwrapContainer(
-        _ container: BaseContainer
-    ) {
-        guard let containerIndex = remove(container as! any ArtboardElement) else { return }
-        insert(contentsOf: container.elements.reversed(), at: containerIndex)
     }
     
     func forEachContainer(

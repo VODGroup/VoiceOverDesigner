@@ -102,7 +102,7 @@ final class ArtboardTests_Grouping: XCTestCase {
         
         elements = [item1, container]
         XCTAssertEqual(elements.count, 2)
-        elements.unwrapContainer(container)
+        artboard.unwrapContainer(container)
         
         XCTAssertEqual(elements.count, 3)
         XCTAssertEqual(elements[1] as? A11yDescription, item3)

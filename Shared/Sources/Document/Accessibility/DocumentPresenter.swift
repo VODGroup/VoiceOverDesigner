@@ -108,7 +108,7 @@ open class DocumentPresenter {
         into parent: BaseContainer,
         at insertionIndex: Int
     ) {
-        parent.insert(model, at: insertionIndex)
+        document.artboard.insert(model, at: insertionIndex)
         
         publishArtboardChanges()
         select(model)
@@ -135,7 +135,7 @@ open class DocumentPresenter {
     }
     
     public func unwrapContainer(_ container: A11yContainer) {
-        elements.unwrapContainer(container)
+        document.artboard.unwrapContainer(container)
     }
     
     public func canDrag(
