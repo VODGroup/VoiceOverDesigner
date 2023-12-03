@@ -4,51 +4,57 @@ import CustomDump
 
 extension Artboard {
     public func assert(
-        labels: String...,
+        _ expected: String,
         file: StaticString = #file, line: UInt = #line
     ) {
+        let actual = elements.recursiveDescription().joined(separator: "\n")
+        
         XCTAssertNoDifference(
-            elements.recursiveDescription(),
-            labels,
+            actual,
+            expected,
             file: file, line: line)
     }
 }
 
 extension Array where Element == any ArtboardElement {
     func assert(
-        labels: String...,
+        _ expected: String...,
         file: StaticString = #file, line: UInt = #line
     ) {
-        XCTAssertNoDifference(recursiveDescription(),
-                              labels,
+        let actual = recursiveDescription()
+        XCTAssertNoDifference(actual,
+                              expected,
                               file: file, line: line)
     }
     
-    func recursiveDescription() -> [String] {
-        map { view in
+    func recursiveDescription(insetLevel: Int = 0) -> [String] {
+        
+        let inset = String(repeating: " ", count: insetLevel)
+        
+        return map { view in
             switch view.cast {
             case .frame(let frame):
                 if frame.elements.isEmpty {
                     return frame.label
                 }
                 
-                let elementsDescription = (frame.elements as [any ArtboardElement])
-                    .recursiveDescription()
-                    .joined(separator: ", ")
-                return "\(frame.label): \(elementsDescription)"
+                return "\(frame.label):\n\(frame.elements.elementsDescription(insetLevel + 1))"
             case .container(let container):
                 if container.elements.isEmpty {
-                    return container.label
+                    return inset + container.label
                 }
                 
-                let elementsDescription = (container.elements as [any ArtboardElement])
-                    .recursiveDescription()
-                    .joined(separator: ", ")
-                return "\(container.label): \(elementsDescription);"
+                let containerDesc = inset + "\(container.label):\n\(container.elements.elementsDescription(insetLevel + 1))"
+                return containerDesc
             case .element(let element):
-                return element.label
+                return inset + element.label
             }
         }
+    }
+    
+    func elementsDescription(_ insetLevel: Int) -> String {
+        return recursiveDescription(insetLevel: insetLevel)
+        .joined(separator: "\n")
     }
 }
 

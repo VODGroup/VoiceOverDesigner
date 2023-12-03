@@ -27,7 +27,11 @@ class ArtboardTests_Movement: XCTestCase {
     func test_simpleMove() {
         drag(el1, over: nil, insertionIndex: 2)
         
-        sut.assert(labels: "2", "1", "3")
+        sut.assert("""
+2
+1
+3
+""")
     }
     
     // MARK: - Inside container
@@ -35,7 +39,12 @@ class ArtboardTests_Movement: XCTestCase {
     func test_correctDescription() {
         sut.wrapInContainer([el1], undoManager: nil)
         
-        sut.assert(labels: "Container: 1", "2", "3")
+        sut.assert("""
+Container:
+ 1
+2
+3
+""")
     }
     
     func test_whenMove2IntoContainer_shouldMoveToContainer() {
@@ -43,7 +52,12 @@ class ArtboardTests_Movement: XCTestCase {
         
         drag(el2, over: container, insertionIndex: 1)
         
-        sut.assert(labels: "Container: 1, 2", "3")
+        sut.assert("""
+Container:
+ 1
+ 2
+3
+""")
     }
     
     // MARK: Outside containers
@@ -53,7 +67,12 @@ class ArtboardTests_Movement: XCTestCase {
         
         drag(el1, over: nil, insertionIndex: 1)
         
-        sut.assert(labels: "Container", "1", "2", "3")
+        sut.assert("""
+Container
+1
+2
+3
+""")
     }
     
     func test_whenMoveInSameContainer() {
@@ -61,16 +80,30 @@ class ArtboardTests_Movement: XCTestCase {
         
         drag(el1, over: container, insertionIndex: 2)
         
-        sut.assert(labels: "Container: 2, 1", "3")
+        sut.assert("""
+Container:
+ 2
+ 1
+3
+""")
     }
     
     func test_whenMoveInSameContainerToBeginning() {
         let container = wrap([el1, el2])
-        sut.assert(labels: "Container: 1, 2", "3")
-        
+        sut.assert("""
+Container:
+ 1
+ 2
+3
+""")
         drag(el2, over: container, insertionIndex: 0)
         
-        sut.assert(labels: "Container: 2, 1", "3")
+        sut.assert("""
+Container:
+ 2
+ 1
+3
+""")
     }
     
     func test_whenMoveFromOneContainerToAnother() {
@@ -79,7 +112,13 @@ class ArtboardTests_Movement: XCTestCase {
         
         drag(el1, over: container2, insertionIndex: 0)
 
-        sut.assert(labels: "Container", "Container: 1, 2", "3")
+        sut.assert("""
+Container
+Container:
+ 1
+ 2
+3
+""")
     }
     
     // MARK: - DSL

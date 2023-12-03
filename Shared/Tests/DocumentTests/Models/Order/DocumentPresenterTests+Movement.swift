@@ -57,10 +57,33 @@ class DocumentPresenterTests_Movement: XCTestCase {
         super.tearDown()
     }
     
-    func testDefaultState() {
+    func assertDefault(file: StaticString = #file, line: UInt = #line) {
         artboard.assert(
-            labels: "Frame: Title, Settings, Coins, Gift"
-        )
+"""
+Frame:
+ Title
+ Settings
+ Coins
+ Gift
+""",
+file: file, line: line)
+    }
+    
+    func assertUndoToDefaultAndRedo(
+        _ expected: String,
+        file: StaticString = #file, line: UInt = #line
+    ) {
+        artboard.assert(expected, file: file, line: line)
+        
+        undo()
+        assertDefault()
+        
+        redo()
+        artboard.assert(expected, file: file, line: line)
+    }
+    
+    func testDefaultState() {
+        assertDefault()
     }
     
     func test_2elementsInFrame_whenDropOnElement_shouldCreateContainer() throws {
@@ -70,19 +93,15 @@ class DocumentPresenterTests_Movement: XCTestCase {
             insertAtIndex: -1)
         
         XCTAssertTrue(result)
-        artboard.assert(
-            labels: "Frame: Container: Title, Settings;, Coins, Gift" // Gift on Frame's level
-        )
-        
-        undo()
-        artboard.assert(
-            labels: "Frame: Title, Settings, Coins, Gift"
-        )
-        
-        redo()
-        artboard.assert(
-            labels: "Frame: Container: Title, Settings;, Coins, Gift" // Gift on Frame's level
-        )
+        assertUndoToDefaultAndRedo(
+"""
+Frame:
+ Container:
+  Title
+  Settings
+ Coins
+ Gift
+""")
     }
 
     func test_2elementsInFrame_whenDropElementAfter2ndElement_shouldRearrange() {
@@ -92,16 +111,14 @@ class DocumentPresenterTests_Movement: XCTestCase {
             insertAtIndex: 2)
         
         XCTAssertTrue(result)
-        
-        XCTAssertEqual(labelsInFrame[0...1], ["Settings", "Title"])
-        
-        undo()
-        artboard.assert(
-            labels: "Frame: Title, Settings, Coins, Gift"
-        )
-        
-        redo()
-        XCTAssertEqual(labelsInFrame[0...1], ["Settings", "Title"])
+        assertUndoToDefaultAndRedo(
+"""
+Frame:
+ Settings
+ Title
+ Coins
+ Gift
+""")
     }
     
     func test_moveElementAfterFrame_shouldMoveToArtboardLevel() throws {
@@ -111,21 +128,14 @@ class DocumentPresenterTests_Movement: XCTestCase {
             insertAtIndex: 1) // After frame
         
         XCTAssertTrue(result)
-        artboard.assert(
-            labels: "Frame: Settings, Coins, Gift",
-            "Title"
-        )
-        
-        undo()
-        artboard.assert(
-            labels: "Frame: Title, Settings, Coins, Gift"
-        )
-        
-        redo()
-        artboard.assert(
-            labels: "Frame: Settings, Coins, Gift",
-            "Title"
-        )
+        assertUndoToDefaultAndRedo(
+"""
+Frame:
+ Settings
+ Coins
+ Gift
+Title
+""")
     }
     
     func test_moveElementOutOfFrame_shouldMoveToArtboardLevel() throws {
@@ -135,23 +145,16 @@ class DocumentPresenterTests_Movement: XCTestCase {
             insertAtIndex: -1)
         
         XCTAssertTrue(result)
-        artboard.assert(
-            labels: "Frame: Settings, Coins, Gift",
-            "Title"
-        )
-        
-        undo()
-        artboard.assert(
-            labels: "Frame: Title, Settings, Coins, Gift"
-        )
-        
-        redo()
-        artboard.assert(
-            labels: "Frame: Settings, Coins, Gift",
-            "Title"
+        assertUndoToDefaultAndRedo(
+"""
+Frame:
+ Settings
+ Coins
+ Gift
+Title
+"""
         )
     }
-    
     
     // TODO: Move container on element
     // TODO: Move container on container
