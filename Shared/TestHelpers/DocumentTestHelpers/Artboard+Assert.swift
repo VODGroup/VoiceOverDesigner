@@ -5,6 +5,7 @@ import CustomDump
 extension Artboard {
     public func assert(
         _ expected: String,
+        _ message: String = "",
         file: StaticString = #file, line: UInt = #line
     ) {
         let actual = elements.recursiveDescription().joined(separator: "\n")
@@ -12,6 +13,7 @@ extension Artboard {
         XCTAssertNoDifference(
             actual,
             expected,
+            message,
             file: file, line: line)
     }
 }

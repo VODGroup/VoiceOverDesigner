@@ -57,7 +57,7 @@ class DocumentPresenterTests_Movement: XCTestCase {
         super.tearDown()
     }
     
-    func assertDefault(file: StaticString = #file, line: UInt = #line) {
+    func assertDefault(_ message: String = "Default structure", file: StaticString = #file, line: UInt = #line) {
         artboard.assert(
 """
 Frame:
@@ -66,6 +66,7 @@ Frame:
  Coins
  Gift
 """,
+message,
 file: file, line: line)
     }
     
@@ -73,13 +74,13 @@ file: file, line: line)
         _ expected: String,
         file: StaticString = #file, line: UInt = #line
     ) {
-        artboard.assert(expected, file: file, line: line)
+        artboard.assert(expected, "Action structure", file: file, line: line)
         
         undo()
-        assertDefault()
+        assertDefault("Undo structure", file: file, line: line)
         
         redo()
-        artboard.assert(expected, file: file, line: line)
+        artboard.assert(expected, "Redo structure", file: file, line: line)
     }
     
     func testDefaultState() {

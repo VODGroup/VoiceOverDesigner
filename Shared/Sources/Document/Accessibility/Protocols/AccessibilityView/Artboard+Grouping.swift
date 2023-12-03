@@ -115,7 +115,9 @@ extension Artboard {
         _ elements: [any ArtboardElement],
         undoManager: UndoManager?
     ) -> A11yContainer {
-        let insertionContext = elements.first?.removeFromParent(undoManager: undoManager)
+        let insertionContext = elements.first?.removeFromParent(
+            undoManager: undoManager,
+            allowRemovingOnRestoration: false) // Disable removing on redo to manually track element's parent for container inserting
         
         for element in elements
             .dropFirst()
@@ -216,25 +218,9 @@ public class InsertionContext {
     func restore(undoManager: UndoManager?) {
         restore()
         
-        // TODO: What to do here?
-//        undoManager?.registerUndo(withTarget: self, handler: { selfRef in
-//            selfRef.element.removeFromParent(undoManager: undoManager)
-//        })
-    }
-}
-
-extension Artboard {
-    
-    public func remove(
-        _ model: any ArtboardElement
-    ) -> InsertionContext? {
-        if let _ = model.parent {
-            return model.removeFromParent()
-        } else if let insertionIndex: Int = remove(model) {
-                return InsertionContext(element: model, parent: nil, insertionIndex: insertionIndex)
-        } else {
-            return nil
-        }
+        undoManager?.registerUndo(withTarget: self, handler: { selfRef in
+            selfRef.element.removeFromParent(undoManager: undoManager)
+        })
     }
 }
 
@@ -250,14 +236,14 @@ extension ArtboardElement {
     }
     
     @discardableResult
-    fileprivate func removeFromParent(undoManager: UndoManager?) -> InsertionContext? {
+    public func removeFromParent(undoManager: UndoManager?, allowRemovingOnRestoration: Bool = true) -> InsertionContext? {
         guard let insertionContext = removeFromParent() else {
             return nil
         }
         
         undoManager?.registerUndo(withTarget: self, handler: { selfRef in
 
-            insertionContext.restore(undoManager: undoManager)
+            insertionContext.restore(undoManager: allowRemovingOnRestoration ? undoManager: nil)
         })
         
         return insertionContext
