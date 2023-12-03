@@ -31,6 +31,9 @@ extension Artboard {
             case (let container as any ArtboardContainer, insertionIndex):
                 return .moveInsideContainer(container: container, insertionIndex: insertionIndex)
                 
+            case (nil, NSOutlineViewDropOnItemIndex):
+                return .moveOnArtboardLevel(insertionIndex: elements.count) // Append
+                
             case (nil, insertionIndex):
                 return .moveOnArtboardLevel(insertionIndex: insertionIndex)
                 
@@ -80,12 +83,6 @@ extension Artboard {
         undoManager: UndoManager?
     ) {
         var insertionContext: InsertionContext?
-        var insertionIndex = insertionIndex
-        let moveToArtboardLevel = insertionIndex == NSOutlineViewDropOnItemIndex // TODO: Make it optional if -1
-        
-        if moveToArtboardLevel {
-            insertionIndex = container.elements.count // Will append
-        }
         
         let inSameContainer = container === element.parent
         if inSameContainer {
