@@ -74,13 +74,13 @@ file: file, line: line)
         _ expected: String,
         file: StaticString = #file, line: UInt = #line
     ) {
-        artboard.assert(expected, "Action structure", file: file, line: line)
+        artboard.assert(expected, "after Action", file: file, line: line)
         
         undo()
-        assertDefault("Undo structure", file: file, line: line)
+        assertDefault("after Undo", file: file, line: line)
         
         redo()
-        artboard.assert(expected, "Redo structure", file: file, line: line)
+        artboard.assert(expected, "after Redo", file: file, line: line)
     }
     
     func testDefaultState() {
@@ -101,6 +101,24 @@ Frame:
   Title
   Settings
  Coins
+ Gift
+""")
+    }
+    
+    func test_2elementsInFrame_whenDropSecondElementOnFirst_shouldCreateContainer() throws {
+        let result = sut.drag(
+            settingsButton,
+            over: title,
+            insertAtIndex: -1)
+        
+        XCTAssertTrue(result)
+        assertUndoToDefaultAndRedo(
+"""
+Frame:
+ Coins
+ Container:
+  Settings
+  Title
  Gift
 """)
     }
