@@ -18,6 +18,12 @@ extension Array where Element == any ArtboardElement {
             view as? Frame
         }
     }
+    
+    public func flattenElements() -> [any ArtboardElement] {
+        reduce(into: [any ArtboardElement]()) { result, next in
+            result.append(contentsOf: next.flattenElements())
+        }
+    }
 }
 
 extension ArtboardElement {
@@ -31,6 +37,18 @@ extension ArtboardElement {
         case .element(let element):
             result.append(element)
         }
+        return result
+    }
+    
+    func flattenElements() -> [any ArtboardElement] {
+        var result = [any ArtboardElement]()
+        
+        if let container = self as? (any ArtboardContainer) {
+            result.append(contentsOf: container.elements.flattenElements())
+        } else {
+            result.append(self)
+        }
+        
         return result
     }
 }

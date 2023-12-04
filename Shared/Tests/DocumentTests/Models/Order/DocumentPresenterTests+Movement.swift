@@ -118,10 +118,10 @@ Frame:
         assertUndoToDefaultAndRedo(
 """
 Frame:
- Coins
  Container:
-  Settings
   Title
+  Settings
+ Coins
  Gift
 """)
     }
@@ -136,11 +136,11 @@ Frame:
         assertUndoToDefaultAndRedo(
 """
 Frame:
+ Container:
+  Title
+  Gift
  Settings
  Coins
- Container:
-  Gift
-  Title
 """
         )
     }
@@ -197,6 +197,8 @@ Title
 """
         )
     }
+    // TODO: Keep artboard's reading order in container
+    // TODO: Place container instead of drop element. For wrapping several elements should be another rule – place on first, selection order has no influence
     
     // TODO: Move container on element
     // TODO: Move container on container

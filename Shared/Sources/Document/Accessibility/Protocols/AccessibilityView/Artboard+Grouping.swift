@@ -115,7 +115,7 @@ extension Artboard {
         _ elements: [any ArtboardElement],
         undoManager: UndoManager?
     ) -> A11yContainer {
-        // TODO: Sort by artboards index
+        let elements = sorted(elements)
         
         let draggingElement = elements.first!
         let parent = draggingElement.parent
@@ -163,6 +163,16 @@ extension Artboard {
         })
         
         return container
+    }
+    
+    func sorted(_ elements: [any ArtboardElement]) -> [any ArtboardElement] {
+        let flattenElement = self.elements.flattenElements()
+        
+        return elements.sorted { lhs, rhs in
+            flattenElement.firstIndex { $0 === lhs }!
+            <
+            flattenElement.firstIndex { $0 === rhs }!
+        }
     }
 }
 
