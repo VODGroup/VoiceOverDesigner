@@ -21,7 +21,6 @@ final class DocumentVersionsTests: XCTestCase {
   - Preview.png
 - controls.json
 - screen.png
-
 """
         }
     }
@@ -36,7 +35,6 @@ final class DocumentVersionsTests: XCTestCase {
 ▿ Images
   - Frame.png
 - document.json
-
 """
         }
     }
@@ -81,7 +79,6 @@ final class DocumentVersionsTests: XCTestCase {
   - info.json
 ▿ QuickView
   - Preview.png
-
 """
         }
     }
@@ -96,7 +93,6 @@ final class DocumentVersionsTests: XCTestCase {
 ▿ Images
   - Frame.png
 - document.json
-
 """
         }
     }
@@ -149,7 +145,6 @@ final class DocumentVersionsTests: XCTestCase {
 ▿ QuickView
   - Preview.heic
 - document.json
-
 """
         }
     }
@@ -165,7 +160,6 @@ final class DocumentVersionsTests: XCTestCase {
   - Frame2.png
   - Frame.png
 - document.json
-
 """
         }
     }
@@ -200,7 +194,6 @@ final class DocumentVersionsTests: XCTestCase {
 ▿ QuickView
   - Preview.heic
 - document.json
-
 """
         }
     }
