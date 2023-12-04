@@ -58,32 +58,51 @@ class DocumentPresenterTests_Movement: XCTestCase {
         super.tearDown()
     }
     
-    func assertDefault(_ message: String = "Default structure", file: StaticString = #file, line: UInt = #line) {
+    func assertDefault(
+        _ message: String = "Default structure",
+        file: StaticString = #filePath,
+        function: StaticString = #function,
+        line: UInt = #line,
+        column: UInt = #column
+    ) {
         artboard.assert(
+            message,
+            matches: {
 """
 Frame:
  Title
  Settings
  Coins
  Gift
-""",
-message,
-file: file, line: line)
+"""
+            },
+            file: file, function: function, line: line, column: column)
     }
     
     // MARK: - Wrapping
     
     func assertUndoToDefaultAndRedo(
-        _ expected: String,
-        file: StaticString = #file, line: UInt = #line
+        _ expected: (() -> String)? = nil,
+        file: StaticString = #filePath,
+        function: StaticString = #function,
+        line: UInt = #line,
+        column: UInt = #column
     ) {
-        artboard.assert(expected, "after Action", file: file, line: line)
+        artboard.assert(
+            "after Action",
+            matches: expected,
+            file: file, function: function, line: line, column: column)
         
         undo()
-        assertDefault("after Undo", file: file, line: line)
+        assertDefault(
+            "after Undo",
+            file: file, function: function, line: line, column: column)
         
         redo()
-        artboard.assert(expected, "after Redo", file: file, line: line)
+        artboard.assert(
+            "after Redo",
+            matches: expected,
+            file: file, function: function, line: line, column: column)
     }
     
     func testDefaultState() {
@@ -97,7 +116,7 @@ file: file, line: line)
             insertAtIndex: -1)
         
         XCTAssertTrue(result)
-        assertUndoToDefaultAndRedo(
+        assertUndoToDefaultAndRedo {
 """
 Frame:
  Coins
@@ -105,7 +124,8 @@ Frame:
   Title
   Settings
  Gift
-""")
+"""
+        }
     }
     
     func test_2elementsInFrame_whenDropSecondElementOnFirst_shouldCreateContainer() throws {
@@ -115,7 +135,7 @@ Frame:
             insertAtIndex: -1)
         
         XCTAssertTrue(result)
-        assertUndoToDefaultAndRedo(
+        assertUndoToDefaultAndRedo {
 """
 Frame:
  Container:
@@ -123,7 +143,7 @@ Frame:
   Settings
  Coins
  Gift
-""")
+"""}
     }
     
     func test_moveLastElementOnFirstElement_shouldCreateContainer() throws {
@@ -133,7 +153,7 @@ Frame:
             insertAtIndex: -1)
         
         XCTAssertTrue(result)
-        assertUndoToDefaultAndRedo(
+        assertUndoToDefaultAndRedo {
 """
 Frame:
  Container:
@@ -142,7 +162,7 @@ Frame:
  Settings
  Coins
 """
-        )
+        }
     }
 
     // MARK: Moving
@@ -153,14 +173,14 @@ Frame:
             insertAtIndex: 2)
         
         XCTAssertTrue(result)
-        assertUndoToDefaultAndRedo(
+        assertUndoToDefaultAndRedo{
 """
 Frame:
  Settings
  Title
  Coins
  Gift
-""")
+"""}
     }
     
     func test_moveElementAfterFrame_shouldMoveToArtboardLevel() throws {
@@ -170,14 +190,14 @@ Frame:
             insertAtIndex: 1) // After frame
         
         XCTAssertTrue(result)
-        assertUndoToDefaultAndRedo(
+        assertUndoToDefaultAndRedo{
 """
 Frame:
  Settings
  Coins
  Gift
 Title
-""")
+"""}
     }
     
     func test_moveElementOutOfFrame_shouldMoveToArtboardLevel() throws {
@@ -187,7 +207,7 @@ Title
             insertAtIndex: -1)
         
         XCTAssertTrue(result)
-        assertUndoToDefaultAndRedo(
+        assertUndoToDefaultAndRedo{
 """
 Frame:
  Settings
@@ -195,7 +215,7 @@ Frame:
  Gift
 Title
 """
-        )
+        }
     }
     // TODO: Keep artboard's reading order in container
     // TODO: Place container instead of drop element. For wrapping several elements should be another rule – place on first, selection order has no influence

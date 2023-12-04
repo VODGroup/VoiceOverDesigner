@@ -60,7 +60,10 @@ let package = Package(
             name: "DocumentTestHelpers",
             dependencies: [
                 "Artboard",
-                "Document"],
+                "Document",
+                .product(name: "InlineSnapshotTesting",
+                         package: "swift-snapshot-testing"),
+            ],
             path: "TestHelpers/DocumentTestHelpers",
             resources: [
                 .process("Samples/screenWith3xScale.png"),

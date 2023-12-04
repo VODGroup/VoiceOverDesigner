@@ -27,11 +27,11 @@ class ArtboardTests_Movement: XCTestCase {
     func test_simpleMove() {
         drag(el1, over: nil, insertionIndex: 2)
         
-        sut.assert("""
+        sut.assert { """
 2
 1
 3
-""")
+"""}
     }
     
     // MARK: - Inside container
@@ -39,12 +39,12 @@ class ArtboardTests_Movement: XCTestCase {
     func test_correctDescription() {
         sut.wrapInContainer([el1], dropElement: el1, undoManager: nil)
         
-        sut.assert("""
+        sut.assert{"""
 Container:
  1
 2
 3
-""")
+"""}
     }
     
     func test_whenMove2IntoContainer_shouldMoveToContainer() {
@@ -52,12 +52,13 @@ Container:
         
         drag(el2, over: container, insertionIndex: 1)
         
-        sut.assert("""
+        sut.assert {"""
 Container:
  1
  2
 3
-""")
+"""}
+            
     }
     
     // MARK: Outside containers
@@ -67,12 +68,12 @@ Container:
         
         drag(el1, over: nil, insertionIndex: 1)
         
-        sut.assert("""
+        sut.assert{"""
 Container
 1
 2
 3
-""")
+"""}
     }
     
     func test_whenMoveInSameContainer() {
@@ -80,30 +81,30 @@ Container
         
         drag(el1, over: container, insertionIndex: 2)
         
-        sut.assert("""
+        sut.assert{"""
 Container:
  2
  1
 3
-""")
+"""}
     }
     
     func test_whenMoveInSameContainerToBeginning() {
         let container = wrap([el1, el2])
-        sut.assert("""
+        sut.assert{"""
 Container:
  1
  2
 3
-""")
+"""}
         drag(el2, over: container, insertionIndex: 0)
         
-        sut.assert("""
+        sut.assert{"""
 Container:
  2
  1
 3
-""")
+"""}
     }
     
     func test_whenMoveFromOneContainerToAnother() {
@@ -112,13 +113,13 @@ Container:
         
         drag(el1, over: container2, insertionIndex: 0)
 
-        sut.assert("""
+        sut.assert{"""
 Container
 Container:
  1
  2
 3
-""")
+"""}
     }
     
     // MARK: - DSL

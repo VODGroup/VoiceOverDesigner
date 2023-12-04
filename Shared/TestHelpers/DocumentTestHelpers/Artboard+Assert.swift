@@ -1,34 +1,29 @@
 import Document
 import XCTest
 import CustomDump
+import InlineSnapshotTesting
 
 extension Artboard {
     public func assert(
-        _ expected: String,
         _ message: String = "",
-        file: StaticString = #file, line: UInt = #line
+        matches expected: (() -> String)? = nil,
+        file: StaticString = #filePath,
+        function: StaticString = #function,
+        line: UInt = #line,
+        column: UInt = #column
     ) {
         let actual = elements.recursiveDescription().joined(separator: "\n")
-        
-        XCTAssertNoDifference(
-            actual,
-            expected,
-            message,
-            file: file, line: line)
+
+        assertInlineSnapshot(
+            of: actual,
+            as: .lines,
+//            message: message,
+            matches: expected,
+            file: file, function: function, line: line, column: column)
     }
 }
 
 extension Array where Element == any ArtboardElement {
-    func assert(
-        _ expected: String...,
-        file: StaticString = #file, line: UInt = #line
-    ) {
-        let actual = recursiveDescription()
-        XCTAssertNoDifference(actual,
-                              expected,
-                              file: file, line: line)
-    }
-    
     func recursiveDescription(insetLevel: Int = 0) -> [String] {
         
         let inset = String(repeating: " ", count: insetLevel)
