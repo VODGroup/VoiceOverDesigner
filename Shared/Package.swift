@@ -77,7 +77,7 @@ let package = Package(
             dependencies: [
                 "Document",
                 "DocumentTestHelpers",
-                .product(name: "SnapshotTesting",
+                .product(name: "InlineSnapshotTesting",
                          package: "swift-snapshot-testing"),
                 "FolderSnapshot",
             ],

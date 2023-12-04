@@ -1,4 +1,0 @@
-▿ QuickView
-  - Preview.png
-- controls.json
-- screen.png
