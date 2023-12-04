@@ -17,7 +17,7 @@ extension Artboard {
         assertInlineSnapshot(
             of: actual,
             as: .lines,
-//            message: message,
+            message: message,
             matches: expected,
             file: file, function: function, line: line, column: column)
     }

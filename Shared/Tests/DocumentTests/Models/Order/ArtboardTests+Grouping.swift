@@ -23,9 +23,9 @@ final class ArtboardTests_Grouping: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        item1 = A11yDescription.testMake()
-        item2 = A11yDescription.testMake()
-        item3 = A11yDescription.testMake()
+        item1 = A11yDescription.testMake(label: "1")
+        item2 = A11yDescription.testMake(label: "2")
+        item3 = A11yDescription.testMake(label: "3")
     }
     
     func wrap(_ elements: [A11yDescription], label: String = "Test") {
@@ -37,38 +37,57 @@ final class ArtboardTests_Grouping: XCTestCase {
         
         wrap([item1])
         
-        XCTAssertEqual(elements.count, 1)
-        let container = try XCTUnwrap(elements.first as? A11yContainer)
-        XCTAssertEqual(container.label, "Container")
-        XCTAssertEqual(container.elements.count, 1)
+        artboard.assert {
+"""
+Container:
+ 1
+"""
+        }
     }
     
     func test_wrapTwoElementsInContainer() {
         elements = [item1, item2]
-
+        
         wrap([item1, item2])
-
-        XCTAssertEqual(elements.count, 1)
-        XCTAssertTrue(elements.first is A11yContainer)
+        
+        artboard.assert {
+"""
+Container:
+ 1
+ 2
+"""
+        }
     }
 
     func test_wrapTwoElementsOfThree_shouldPlaceContainerToFirstPosition() {
         elements = [item1, item2, item3]
-
+        
         wrap([item1, item2])
-
-        XCTAssertEqual(elements.count, 2)
-        XCTAssertTrue(elements.first is A11yContainer)
+        
+        artboard.assert {
+"""
+Container:
+ 1
+ 2
+3
+"""
+        }
     }
+        
     
     func test_wrapTwoLastElementsOfThree_shouldPlaceContainerToSecondPosition() {
         elements = [item1, item2, item3]
         
         wrap([item2, item3])
         
-        XCTAssertEqual(elements.count, 2)
-        XCTAssertFalse(elements.first is A11yContainer)
-        XCTAssertTrue(elements.last is A11yContainer)
+        artboard.assert {
+"""
+1
+Container:
+ 2
+ 3
+"""
+        }
     }
     
     // MARK: - Containers
@@ -77,12 +96,15 @@ final class ArtboardTests_Grouping: XCTestCase {
         
         wrap([item1, item2], label: "Test")
         
-        XCTAssertEqual(elements.count, 2)
-        let container1 = try XCTUnwrap(elements.first as? A11yContainer)
-        XCTAssertEqual(container1.extractElements(), [item1, item2])
-        
-        let container2 = try XCTUnwrap(elements.last as? A11yContainer)
-        XCTAssertEqual(container2.extractElements(), [item3])
+        artboard.assert {
+"""
+Container:
+ 1
+ 2
+Test:
+ 3
+"""
+        }
     }
     
     func test_whenExtractLastElementFromContainer_shouldRemoveContainer() throws {
@@ -91,9 +113,14 @@ final class ArtboardTests_Grouping: XCTestCase {
         wrap([item1, item2, item3],
              label: "Test2")
         
-        XCTAssertEqual(elements.count, 1)
-        let container1 = try XCTUnwrap(elements.first as? A11yContainer)
-        XCTAssertEqual(container1.extractElements(), [item1, item2, item3])
+        artboard.assert {
+"""
+Container:
+ 1
+ 2
+ 3
+"""
+        }
     }
     
     func test_unwrapContainer_addsElementsCorrectly_andRemovesContainer() throws {
@@ -104,13 +131,13 @@ final class ArtboardTests_Grouping: XCTestCase {
         XCTAssertEqual(elements.count, 2)
         artboard.unwrapContainer(container)
         
-        XCTAssertEqual(elements.count, 3)
-        XCTAssertEqual(elements[1] as? A11yDescription, item3)
-        XCTAssertEqual(elements[2] as? A11yDescription, item2)
-        
-        XCTAssertFalse(elements.contains(where: {
-            $0 === container
-        }))
+        artboard.assert {
+"""
+1
+3
+2
+"""
+        }
     }
     
     // MARK: - Frame
@@ -130,7 +157,7 @@ final class ArtboardTests_Grouping: XCTestCase {
     }
 }
 
-class A11YContainerTest: XCTestCase {
+class A11yContainerTest: XCTestCase {
     
     func test_containerWithSingleButton_cantTraitAsAdjustable() {
         let container = A11yContainer.testMake(
