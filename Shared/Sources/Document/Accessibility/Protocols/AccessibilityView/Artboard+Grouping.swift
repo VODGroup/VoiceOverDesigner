@@ -52,9 +52,10 @@ extension Artboard {
         let dragType = dragType(draggingElement, over: dropElement, insertionIndex: insertionIndex)
         switch dragType {
 
-        case .wrapInContainer(let secondElement):
+        case .wrapInContainer(let dropElement):
             wrapInContainer(
-                [draggingElement, secondElement],
+                [draggingElement, dropElement],
+                dropElement: dropElement,
                 undoManager: undoManager)
             
         case .moveInsideContainer(let container, let insertionIndex):
@@ -113,16 +114,17 @@ extension Artboard {
     @discardableResult
     public func wrapInContainer(
         _ elements: [any ArtboardElement],
+        dropElement: (any ArtboardElement)?,
         undoManager: UndoManager?
     ) -> A11yContainer {
         let elements = sorted(elements)
+        let dropElement = dropElement ?? elements.first!
         
-        let draggingElement = elements.first!
-        let parent = draggingElement.parent
+        let parent = dropElement.parent
         
         /// Place container on the place of first element
-        var insertionIndex = draggingElement.parent?.elements.firstIndex(where: { control in
-            control === draggingElement
+        let insertionIndex = dropElement.parent?.elements.firstIndex(where: { control in
+            control === dropElement
         })
         
         var insertionContexts = [InsertionContext]()
@@ -158,7 +160,7 @@ extension Artboard {
             }
             
             undoManager?.registerUndo(withTarget: artboard, handler: { artboard in
-                artboard.wrapInContainer(elements, undoManager: undoManager)
+                artboard.wrapInContainer(elements, dropElement: dropElement, undoManager: undoManager)
             })
         })
         

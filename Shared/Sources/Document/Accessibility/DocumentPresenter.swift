@@ -126,6 +126,7 @@ open class DocumentPresenter {
         
         let container = document.artboard.wrapInContainer(
             elements,
+            dropElement: nil,
             undoManager: document.undo)
         
         publishArtboardChanges()

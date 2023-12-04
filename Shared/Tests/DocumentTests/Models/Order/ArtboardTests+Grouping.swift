@@ -29,7 +29,7 @@ final class ArtboardTests_Grouping: XCTestCase {
     }
     
     func wrap(_ elements: [A11yDescription], label: String = "Test") {
-        artboard.wrapInContainer(elements, undoManager: nil)
+        artboard.wrapInContainer(elements, dropElement: nil, undoManager: nil)
     }
     
     func test_wrapSingleElementInContainer() throws {

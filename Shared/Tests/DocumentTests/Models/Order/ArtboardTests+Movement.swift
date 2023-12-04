@@ -37,7 +37,7 @@ class ArtboardTests_Movement: XCTestCase {
     // MARK: - Inside container
     
     func test_correctDescription() {
-        sut.wrapInContainer([el1], undoManager: nil)
+        sut.wrapInContainer([el1], dropElement: el1, undoManager: nil)
         
         sut.assert("""
 Container:
@@ -124,7 +124,7 @@ Container:
     // MARK: - DSL
     @discardableResult
     func wrap(_ elements: [A11yDescription]) -> A11yContainer? {
-        return sut.wrapInContainer(elements, undoManager: nil)
+        return sut.wrapInContainer(elements, dropElement: nil, undoManager: nil)
     }
     
     func drag(

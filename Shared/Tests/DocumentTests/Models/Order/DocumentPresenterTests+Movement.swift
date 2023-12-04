@@ -100,10 +100,10 @@ file: file, line: line)
         assertUndoToDefaultAndRedo(
 """
 Frame:
+ Coins
  Container:
   Title
   Settings
- Coins
  Gift
 """)
     }
