@@ -1,6 +1,5 @@
 import Document
 import XCTest
-import CustomDump
 import DocumentTestHelpers
 
 class ArtboardTests_Movement: XCTestCase {

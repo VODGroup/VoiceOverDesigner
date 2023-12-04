@@ -54,7 +54,6 @@ let package = Package(
             name: "Document",
             dependencies: [
                 "Artboard",
-                .product(name: "CustomDump", package: "swift-custom-dump"),
             ]),
         .target(
             name: "DocumentTestHelpers",

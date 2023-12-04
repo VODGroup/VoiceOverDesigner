@@ -1,6 +1,5 @@
 import Document
 import XCTest
-import CustomDump
 import InlineSnapshotTesting
 
 extension Artboard {
