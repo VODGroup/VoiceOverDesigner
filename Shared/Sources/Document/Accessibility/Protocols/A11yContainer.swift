@@ -44,7 +44,6 @@ public class A11yContainer: BaseContainer, Codable, ObservableObject {
 
     public static func ==(lhs: A11yContainer, rhs: A11yContainer) -> Bool {
         lhs.frame == rhs.frame
-//        && lhs.elements == rhs.elements
         && lhs.label == rhs.label
     }
 
@@ -192,6 +191,6 @@ extension A11yContainer {
     
     var buttons: [A11yDescription] {
         extractElements()
-            .filter { $0.trait == .button }
+            .filter { $0.trait.contains(.button) }
     }
 }

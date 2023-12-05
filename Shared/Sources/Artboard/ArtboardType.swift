@@ -4,7 +4,6 @@ public enum ArtboardType: String, Codable {
     case element
     case container
     case frame
-    //    case artboard
 }
 
 public protocol ArtboardElement: Child, Equatable {
