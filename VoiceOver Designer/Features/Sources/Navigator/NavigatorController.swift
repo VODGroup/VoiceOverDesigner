@@ -3,19 +3,14 @@ import Combine
 import Document
 import Artboard
 
-public protocol TextBasedPresenter: DocumentPresenter {
-    var selectedPublisher: OptionalDescriptionSubject { get }
-    func wrapInContainer(_ elements: [any ArtboardElement]) -> A11yContainer?
-}
-
 public class NavigatorController: NSViewController {
     
-    var presenter: TextBasedPresenter!
+    var presenter: DocumentPresenter!
     
     @IBOutlet var outlineView: NSOutlineView!
     
     func inject(document: VODesignDocument,
-                presenter: TextBasedPresenter)
+                presenter: DocumentPresenter)
     {
         self.document = document
         self.presenter = presenter
@@ -103,8 +98,8 @@ public class NavigatorController: NSViewController {
     
     private func expandParents(of element: any ArtboardElement) {
         // Iterate parents
-        var elementToExpand = element
-        var elementsToExpand = [any ArtboardElement]()
+        var elementToExpand: Child = element
+        var elementsToExpand = [Any]()
         while let parent = elementToExpand.parent {
             elementsToExpand.append(parent)
             elementToExpand = parent
@@ -123,7 +118,7 @@ public class NavigatorController: NSViewController {
         - returns: A Boolean that indicates is row valid or not
      */
     private func isValid(row: Int) -> Bool {
-        row != -1
+        row != NSOutlineViewDropOnItemIndex
     }
     
     private func updateCell(for model: (any ArtboardElement)?, shouldSelect: Bool) {
@@ -165,7 +160,7 @@ extension NavigatorController: NSOutlineViewDataSource {
         switch item {
         case .none:
             // Top-level frames
-            return document.artboard.frames.count + document.artboard.controlsWithoutFrames.count
+            return document.artboard.elements.count
         case let frame as Frame:
             // Containers
             return frame.elements.count
@@ -184,12 +179,7 @@ extension NavigatorController: NSOutlineViewDataSource {
     ) -> Any {
         switch item {
         case .none:
-            if index < document.artboard.frames.count {
-                return document.artboard.frames[index]
-            } else {
-                let controlIndex = index - document.artboard.frames.count
-                return document.artboard.controlsWithoutFrames[controlIndex]
-            }
+            return document.artboard.elements[index]
         case let frame as Frame:
             return frame.elements[index]
         case let container as A11yContainer:
@@ -256,7 +246,7 @@ extension NavigatorController: NSOutlineViewDelegate {
 extension NavigatorController {
     public static func fromStoryboard(
         document: VODesignDocument,
-        presenter: TextBasedPresenter
+        presenter: DocumentPresenter
     ) -> NavigatorController {
         let controller = NSStoryboard(
             name: "NavigatorController",

@@ -24,19 +24,6 @@ public protocol VODesignDocumentProtocol: AnyObject {
 }
 
 extension VODesignDocumentProtocol {
-    @available(*, deprecated, message: "Use `artboard`")
-    public var controls: [any ArtboardElement] {
-        get {
-            artboard.controlsWithoutFrames
-        }
-        
-        set {
-            artboard.controlsWithoutFrames = newValue
-        }
-    }
-}
-
-extension VODesignDocumentProtocol {
     public func addFrame(
         with newImage: Image,
         origin: CGPoint
@@ -44,7 +31,7 @@ extension VODesignDocumentProtocol {
         let frame = Frame(image: newImage,
                           frame: CGRect(origin: origin,
                                         size: newImage.size))
-        artboard.frames.append(frame)
+        artboard.append(frame)
         
         documentWrapper.invalidateIfPossible(file: FolderName.quickLook)
     }
@@ -62,9 +49,9 @@ extension VODesignDocumentProtocol {
             imagesFolderWrapper.invalidateIfPossible(file: name)
             
             featureName = name // Will use to keep naming
-        case .remote(let url):
+        case .remote(_):
             fatalError("Don't know is some code is needed here")
-        case .cache(_):
+        case .cache(_, _):
             // TODO: convert to file
             fatalError("Remove old file from cache")
 //            imagesFolderWrapper.invalidateIfPossible(file: name)

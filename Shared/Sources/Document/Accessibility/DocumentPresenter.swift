@@ -21,24 +21,22 @@ open class DocumentPresenter {
     // MARK: - Contols update
     public let artboardPublisher: PassthroughSubject<Artboard, Never> = .init()
     
-    /// Conrols should be changed only from this presenter to suppont undoing
-    @available(*, deprecated, message: "Use `artboard`")
-    private(set) var controls: [any ArtboardElement] {
+    /// Controls should be changed only from this presenter to support undoing
+    public private(set) var elements: [any ArtboardElement] {
         set {
-            let oldValue = document.controls
+            let oldValue = document.artboard.elements
             
-            document.controls = newValue
-            Swift.print("Set controls: \(controls.map(\.label))")
+            document.artboard.replace(newValue)
             
             document.undo?.registerUndo(withTarget: self, handler: { presenter in
-                presenter.controls = oldValue
+                presenter.elements = oldValue
             })
             
             publishArtboardChanges()
         }
         
         get {
-            document.controls
+            document.artboard.elements
         }
     }
     
@@ -65,7 +63,7 @@ open class DocumentPresenter {
                                         size: image.size))
         
         add(frame,
-            into: nil,
+            into: document.artboard,
             at: document.artboard.frames.count)
     }
     
@@ -75,10 +73,9 @@ open class DocumentPresenter {
         }
         
         if let frameThatOverlaps {
-            control.parent = frameThatOverlaps
-            frameThatOverlaps.elements.append(control)
+            frameThatOverlaps.append(control)
         } else {
-            document.artboard.controlsWithoutFrames.append(control)
+            document.artboard.append(control)
         }
         
         document.undo?.registerUndo(
@@ -90,35 +87,24 @@ open class DocumentPresenter {
     }
     
     open func remove(_ model: any ArtboardElement) {
-        guard let (parent, insertionIndex) = document.artboard.remove(model)
-        else { return }
-
+        model.removeFromParent(undoManager: document.undo)
+        
         publishArtboardChanges()
         deselect()
         
         document.undo?.registerUndo(
             withTarget: self,
             handler: { presenter in
-                presenter.add(model,
-                              into: parent,
-                              at: insertionIndex)
+                presenter.publishArtboardChanges()
         })
     }
     
     private func add(
         _ model: any ArtboardElement,
-        into parent: (any ArtboardContainer)?,
+        into parent: BaseContainer,
         at insertionIndex: Int
     ) {
-        if let parent {
-            parent.elements.insert(model, at: insertionIndex)
-        } else {
-            if let frame = model as? Frame {
-                document.artboard.frames.insert(frame, at: insertionIndex)
-            } else {
-                document.artboard.controlsWithoutFrames.insert(model, at: insertionIndex)
-            }
-        }
+        document.artboard.insert(model, at: insertionIndex)
         
         publishArtboardChanges()
         select(model)
@@ -134,29 +120,66 @@ open class DocumentPresenter {
     public func wrapInContainer(
         _ elements: [any ArtboardElement]
     ) -> A11yContainer? {
-        controls.wrap(
-            in: A11yContainer.self,
-            elements.extractElements(),
-            label: "Container")
+        document.undo?.registerUndo(withTarget: self, handler: { presenter in
+            presenter.publishArtboardChanges() // Some changes will happen after undo
+        })
+        
+        let container = document.artboard.wrapInContainer(
+            elements,
+            dropElement: nil,
+            undoManager: document.undo)
+        
+        publishArtboardChanges()
+        
+        return container
     }
     
     public func unwrapContainer(_ container: A11yContainer) {
-        controls.unwrapContainer(container)
+        document.artboard.unwrapContainer(container)
+    }
+    
+    public func canDrag(
+        _ draggingElement: any ArtboardElement,
+        over dropElement: (any ArtboardElement)?,
+        insertionIndex: Int
+    ) -> Bool {
+        document.artboard.canDrag(draggingElement,
+                                  over: dropElement,
+                                  insertionIndex: insertionIndex)
+    }
+    
+    public func drag(
+        _ draggingElement: any ArtboardElement,
+        over dropElement: (any ArtboardElement)?,
+        insertAtIndex: Int
+    ) -> Bool {
+        // Update document after undoing on model layer
+        document.undo?.registerUndo(withTarget: self, handler: { presenter in
+            presenter.publishArtboardChanges() // Some changes will happen after undo
+        })
+        
+        let didDrag = document.artboard
+            .drag(draggingElement,
+                  over: dropElement,
+                  insertionIndex: insertAtIndex,
+                  undoManager: document.undo)
+        
+        if didDrag {
+            publishArtboardChanges() // Some changes happened
+        }
+        
+        return didDrag
     }
 }
 
 #if canImport(XCTest)
 extension DocumentPresenter {
-    public func update(elements: [A11yDescription]) {
-        self.controls = elements
+    public func replace(elements: [A11yDescription]) {
+        self.elements = elements
     }
     
     public var firstFrameControls: [any ArtboardElement] {
         document.artboard.frames.first?.elements ?? []
-    }
-    
-    public var controlsWithoutFrame: [any ArtboardElement] {
-        document.artboard.controlsWithoutFrames
     }
 }
 #endif

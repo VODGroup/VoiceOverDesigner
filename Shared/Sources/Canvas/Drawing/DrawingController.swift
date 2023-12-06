@@ -50,7 +50,7 @@ public class DrawingController {
         }
         
         drawControlsAndContainers(
-            controls: artboard.controlsWithoutFrames,
+            controls: artboard.controlsOutsideOfFrames,
             scale: scale)
         
         view.invalidateIntrinsicContentSize()

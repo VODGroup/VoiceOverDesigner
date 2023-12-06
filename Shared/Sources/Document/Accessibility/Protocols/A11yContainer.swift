@@ -2,18 +2,9 @@ import Foundation
 import Artboard
 
 extension A11yContainer: ArtboardContainer, InstantiatableContainer {
-    
-    public var elements: [any ArtboardElement] {
-        get {
-            controls
-        }
-        set(newValue) {
-            controls = newValue as! [A11yDescription]
-        }
-    }
 }
 
-public class A11yContainer: Codable, ObservableObject {
+public class A11yContainer: BaseContainer, Codable, ObservableObject {
 
     required convenience public init(
         elements: [any ArtboardElement],
@@ -35,9 +26,11 @@ public class A11yContainer: Codable, ObservableObject {
         containerType: ContainerType = .semanticGroup,
         navigationStyle: NavigationStyle = .automatic
     ) {
-        self.controls = elements as! [A11yDescription] // TODO: It's fragile
         self.frame = frame
         self.label = label
+        
+        super.init(elements: elements)
+        
         self.containerType = containerType
         self.navigationStyle = navigationStyle
         self.id = id
@@ -47,28 +40,22 @@ public class A11yContainer: Codable, ObservableObject {
         self.treatButtonsAsAdjustable = treatButtonsAsAdjustableValues
         self.isEnumerated = isEnumerated
         
-        for control in controls {
-            control.parent = self
-        }
     }
 
     public static func ==(lhs: A11yContainer, rhs: A11yContainer) -> Bool {
         lhs.frame == rhs.frame
-        && lhs.controls == rhs.controls
         && lhs.label == rhs.label
     }
 
     @DecodableDefault.RandomUUID
     public var id: UUID
-
-    public var controls: [A11yDescription]
+    
     public var frame: CGRect
     
     public var label: String {
         willSet { objectWillChange.send() }
     }
     public var type: ArtboardType = .container
-    public weak var parent: (any ArtboardContainer)? = nil
     
     @DecodableDefault.False
     public var isModal: Bool {
@@ -120,12 +107,9 @@ public class A11yContainer: Codable, ObservableObject {
     
     
     public func contains(_ element: A11yDescription) -> Bool {
-        controls.contains(element)
-    }
-    
-    @discardableResult
-    public func remove(_ element: any ArtboardElement) -> Int? {
-        elements.remove(element)
+        elements.contains { anElement in
+            anElement === element
+        }
     }
     
     enum CodingKeys: CodingKey {
@@ -148,17 +132,16 @@ public class A11yContainer: Codable, ObservableObject {
         
         self.label = try container.decode(String.self, forKey: .label)
         self.frame = try container.decode(CGRect.self, forKey: .frame)
-        self.controls = try container.decode([A11yDescription].self, forKey: .elements)
+        let elements = try container.decode([ArtboardElementDecodable].self, forKey: .elements) // TODO: Nested containers are possible
+        
+        super.init(elements: elements.map(\.view))
+        
         self.isModal = try container.decode(Bool.self, forKey: .isModal)
         self.isEnumerated = try container.decode(Bool.self, forKey: .isEnumerated)
         self.containerType = try container.decode(ContainerType.self, forKey: .containerType)
         self.navigationStyle = try container.decode(NavigationStyle.self, forKey: .navigationStyle)
         self.isTabTrait = try container.decode(Bool.self, forKey: .isTabTrait)
         self.treatButtonsAsAdjustable = (try? container.decode(Bool.self, forKey: .treatButtonsAsAdjustable)) ?? false
-
-        for control in controls {
-            control.parent = self
-        }
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -167,23 +150,13 @@ public class A11yContainer: Codable, ObservableObject {
         try container.encode(ArtboardType.container, forKey: .type)
         try container.encode(label, forKey: .label)
         try container.encode(frame, forKey: .frame)
-        try container.encode(controls, forKey: .elements)
+        try container.encode(elements.map(ArtboardElementDecodable.init(view:)), forKey: .elements)
         try container.encode(isModal, forKey: .isModal)
         try container.encode(isEnumerated, forKey: .isEnumerated)
         try container.encode(containerType, forKey: .containerType)
         try container.encode(navigationStyle, forKey: .navigationStyle)
         try container.encode(isTabTrait, forKey: .isTabTrait)
         try container.encode(treatButtonsAsAdjustable, forKey: .treatButtonsAsAdjustable)
-    }
-}
-
-extension A11yContainer {
-    /**
-     Flattens container to array of ``ArtboardElement``
-     - returns: An array of any ArtboardElement
-     */
-    public func flattenWithElements() -> [any ArtboardElement] {
-        [self] + controls
     }
 }
 
@@ -217,6 +190,7 @@ extension A11yContainer {
     }
     
     var buttons: [A11yDescription] {
-        controls.filter { $0.trait == .button }
+        extractElements()
+            .filter { $0.trait.contains(.button) }
     }
 }

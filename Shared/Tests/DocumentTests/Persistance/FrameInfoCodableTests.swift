@@ -3,7 +3,6 @@ import CoreGraphics
 import Foundation
 
 import XCTest
-import CustomDump
 
 class FrameInfoCodableTests: XCTestCase {
     func test() throws {

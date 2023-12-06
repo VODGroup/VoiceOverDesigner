@@ -2,15 +2,8 @@ import XCTest
 @testable import Document
 import DocumentTestHelpers
 
-import SnapshotTesting
+import InlineSnapshotTesting
 import FolderSnapshot
-
-typealias FileSample = String
-extension FileSample {
-    static var beta = "BetaVersionFormat"
-    static var frame = "FrameVersionFormat"
-    static var artboard = "ArtboardFormat"
-}
 
 final class DocumentVersionsTests: XCTestCase {
 
@@ -22,7 +15,14 @@ final class DocumentVersionsTests: XCTestCase {
         
         // Read on file creation
 
-        assertFolder(document)
+        assertFolder(document) {
+"""
+▿ QuickView
+  - Preview.png
+- controls.json
+- screen.png
+"""
+        }
     }
     
     func test_betaDocument_whenSave_shouldUpdateStructure() throws {
@@ -30,7 +30,13 @@ final class DocumentVersionsTests: XCTestCase {
 
         try document.saveAndRemoveAtTearDown(name: "BetaFormatNewStructure", testCase: self)
         
-        assertFolder(document)
+        assertFolder(document) {
+"""
+▿ Images
+  - Frame.png
+- document.json
+"""
+        }
     }
     
     func test_betaDocument_whenRead_shouldMoveElementsToFirstFrame() throws {
@@ -65,7 +71,16 @@ final class DocumentVersionsTests: XCTestCase {
         
         // Read on file creation
         
-        assertFolder(document)
+        assertFolder(document) {
+"""
+▿ Frame
+  - controls.json
+  - screen.png
+  - info.json
+▿ QuickView
+  - Preview.png
+"""
+        }
     }
     
     func test_frameDocument_whenSave_shouldUpdateStructure() throws {
@@ -73,7 +88,13 @@ final class DocumentVersionsTests: XCTestCase {
 
         try document.saveAndRemoveAtTearDown(name: "FrameFormatNewStructure", testCase: self)
         
-        assertFolder(document)
+        assertFolder(document) {
+"""
+▿ Images
+  - Frame.png
+- document.json
+"""
+        }
     }
     
     func test_frameDocument_whenReadAfterMigration_shouldKeepStructure() throws {
@@ -116,7 +137,16 @@ final class DocumentVersionsTests: XCTestCase {
         
         // Read on file creation
         
-        assertFolder(document)
+        assertFolder(document) {
+"""
+▿ Images
+  - Frame2.png
+  - Frame.png
+▿ QuickView
+  - Preview.heic
+- document.json
+"""
+        }
     }
     
     func test_artboardDocument_whenSave_shouldUpdateStructure() throws {
@@ -124,7 +154,14 @@ final class DocumentVersionsTests: XCTestCase {
 
         try document.saveAndRemoveAtTearDown(name: "ArtboardFormatNewStructure", testCase: self)
         
-        assertFolder(document)
+        assertFolder(document) {
+"""
+▿ Images
+  - Frame2.png
+  - Frame.png
+- document.json
+"""
+        }
     }
     
     func test_artboardDocument_whenRead_shouldReadContent() throws {
@@ -132,7 +169,7 @@ final class DocumentVersionsTests: XCTestCase {
         
         let artboard = document.artboard
         XCTAssertEqual(artboard.frames.count, 2)
-        XCTAssertEqual(artboard.controlsWithoutFrames.count, 0)
+        XCTAssertEqual(artboard.controlsOutsideOfFrames.count, 0)
         
         let frame1 = try XCTUnwrap(artboard.frames.first)
         assert(
@@ -149,7 +186,16 @@ final class DocumentVersionsTests: XCTestCase {
             rect: CGRect(x: 0, y: 0, width: 1170, height: 3372)
         )
 
-        assertFolder(document)
+        assertFolder(document) {
+"""
+▿ Images
+  - Frame2.png
+  - Frame.png
+▿ QuickView
+  - Preview.heic
+- document.json
+"""
+        }
     }
     
     func test_artboardDocument_whenOpen_shouldLoadImage() throws {
@@ -222,12 +268,12 @@ extension AppleDocument {
 
 func assertFolder(
     _ document: VODesignDocument,
-    file: StaticString = #file,
-    testName: String = #function,
-    line: UInt = #line
+    matches expected: (() -> String)? = nil,
+    file: StaticString = #filePath,
+    function: StaticString = #function,
+    line: UInt = #line,
+    column: UInt = #column
 ) {
-    let testBundle = Bundle.module.resourceURL!
-    
     let url: URL
 #if os(macOS)
     url = document.fileURL!
@@ -235,12 +281,13 @@ func assertFolder(
     url = document.fileURL
 #endif
     
-    assertSnapshot(
-        matching: url,
+    assertInlineSnapshot(
+        of: url,
         as: .folderStructure,
-        testBundleResourceURL: testBundle,
+        matches: expected,
         file: file,
-        testName: testName,
-        line: line
+        function: function,
+        line: line,
+        column: column
     )
 }

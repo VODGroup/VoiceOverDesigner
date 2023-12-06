@@ -5,7 +5,6 @@
 //  Created by Alex Agapov on 29.09.2023.
 //
 
-import CustomDump
 import SwiftUI
 import Document
 
@@ -113,7 +112,7 @@ public struct PresentationView: View {
                         controlContainer(container)
                     case .element(let element):
                         controlElement(element)
-                    case .frame(let frame):
+                    case .frame(_):
                         // TODO: Add frame
                         fatalError()
                 }

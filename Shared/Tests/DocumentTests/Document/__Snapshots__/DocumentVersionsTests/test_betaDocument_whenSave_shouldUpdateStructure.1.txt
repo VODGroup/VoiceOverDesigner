@@ -1,3 +1,0 @@
-▿ Images
-  - Frame.png
-- document.json

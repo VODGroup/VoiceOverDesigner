@@ -6,20 +6,15 @@ public enum ArtboardType: String, Codable {
     case frame
 }
 
-public protocol ArtboardElement: AnyObject, Equatable {
+public protocol ArtboardElement: Child, Equatable {
     var id: UUID { get }
     var label: String { get set }
     var frame: CGRect { get set }
     
     var type: ArtboardType { get }
-    
-    /// Must be `weak`
-    var parent: (any ArtboardContainer)? { get set }
 }
 
-public protocol ArtboardContainer: ArtboardElement {
-    var elements: [any ArtboardElement] { get set }
-}
+public protocol ArtboardContainer: ArtboardElement, Node {}
 
 /// Allows
 public protocol InstantiatableContainer {

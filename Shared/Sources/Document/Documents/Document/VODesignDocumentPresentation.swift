@@ -53,7 +53,7 @@ public struct VODesignDocumentPresentation {
                 }
             })
 
-        for control in document.artboard.controlsWithoutFrames {
+        for control in document.artboard.controlsOutsideOfFrames {
             self.controls[control.id] = control
             order.append(control.id)
             for element in control.extractElements() {

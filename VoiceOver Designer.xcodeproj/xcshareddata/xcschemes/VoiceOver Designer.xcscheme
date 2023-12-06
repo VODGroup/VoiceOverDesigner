@@ -118,6 +118,11 @@
                BlueprintName = "SamplesTests"
                ReferencedContainer = "container:Shared">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "SamplesIntegrationTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
          <TestableReference
             skipped = "NO">

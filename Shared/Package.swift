@@ -32,7 +32,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "git@github.com:pointfreeco/swift-snapshot-testing.git",
-            .upToNextMajor(from: "1.10.0")
+            .upToNextMajor(from: "1.15.1")
         ),
         .package(url: "git@github.com:pointfreeco/swift-custom-dump.git",
                  .upToNextMajor(from: "0.6.1")),
@@ -54,13 +54,15 @@ let package = Package(
             name: "Document",
             dependencies: [
                 "Artboard",
-                .product(name: "CustomDump", package: "swift-custom-dump"),
             ]),
         .target(
             name: "DocumentTestHelpers",
             dependencies: [
                 "Artboard",
-                "Document"],
+                "Document",
+                .product(name: "InlineSnapshotTesting",
+                         package: "swift-snapshot-testing"),
+            ],
             path: "TestHelpers/DocumentTestHelpers",
             resources: [
                 .process("Samples/screenWith3xScale.png"),
@@ -75,7 +77,7 @@ let package = Package(
             dependencies: [
                 "Document",
                 "DocumentTestHelpers",
-                .product(name: "SnapshotTesting",
+                .product(name: "InlineSnapshotTesting",
                          package: "swift-snapshot-testing"),
                 "FolderSnapshot",
             ],

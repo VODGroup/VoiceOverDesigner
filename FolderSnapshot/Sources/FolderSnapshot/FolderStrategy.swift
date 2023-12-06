@@ -26,19 +26,21 @@ private func snap(_ value: URL, name: String? = nil, indent: Int = 0, isFolder: 
     }
     
     let lines = folders.map { folder in
-        description(of: folder, indent: indent, isFolder: true) + snap(folder, indent: indent + 2, isFolder: true)
+        description(of: folder, indent: indent, isFolder: true)
+        + "\n"
+        + snap(folder, indent: indent + 2, isFolder: true)
     } + files.map({ file in
         description(of: file, indent: indent, isFolder: false)
     })
     
     // TODO: Add symbolic link
 
-    return lines.joined()
+    return lines.joined(separator: "\n")
 }
 
 func description(of url: URL, indent: Int = 0, isFolder: Bool = false) -> String {
     let indentation = String(repeating: " ", count: indent)
     let bullet = isFolder ? "▿" : "-"
     
-    return "\(indentation)\(bullet) \(url.lastPathComponent)\n"
+    return "\(indentation)\(bullet) \(url.lastPathComponent)"
 }

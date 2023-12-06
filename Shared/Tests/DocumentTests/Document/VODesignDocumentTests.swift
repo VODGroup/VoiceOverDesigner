@@ -13,16 +13,16 @@ import DocumentTestHelpers
 extension VODesignDocument {
     static func with2Controls(name: String, testCase: XCTestCase) -> VODesignDocument {
         let document = VODesignDocument.testDocument(name: name, testCase: testCase)
-        document.artboard.controlsWithoutFrames = [
+        document.artboard.replace([
             A11yDescription.testMake(label: "Label1"),
             A11yDescription.testMake(label: "Label2"),
-        ]
+        ])
         return document
     }
     
     static func with2ControlsInFrame(name: String, testCase: XCTestCase) -> VODesignDocument {
         let document = VODesignDocument.testDocument(name: name, testCase: testCase)
-        document.artboard.frames = [Frame(
+        document.artboard.replace([Frame(
             label: "Frame1",
             imageName: "Frame1.png",
             frame: .zero,
@@ -30,7 +30,7 @@ extension VODesignDocument {
                 A11yDescription.testMake(label: "Label1"),
                 A11yDescription.testMake(label: "Label2"),
             ])
-        ]
+        ])
         return document
     }
 }
@@ -70,7 +70,7 @@ class VODesignDocumentPersistanceTests: XCTestCase {
         try createDocumentAndSave { fileName in
             VODesignDocument.with2Controls(name: fileName, testCase: self)
         } andLoad: { document in
-            XCTAssertEqual(document.artboard.controlsWithoutFrames.count, 2, "Should contain controls")
+            XCTAssertEqual(document.artboard.elements.count, 2, "Should contain controls")
         }
     }
     

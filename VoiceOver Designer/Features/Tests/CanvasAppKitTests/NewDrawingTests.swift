@@ -77,7 +77,7 @@ class NewDrawingTests: CanvasAfterDidLoadTests {
         let frame = try XCTUnwrap(document.artboard.frames.first)
         XCTAssertEqual(frame.elements.count, 1)
         
-        XCTAssertEqual(document.artboard.controlsWithoutFrames.count, 0)
+        XCTAssertEqual(document.artboard.elements.count, 1)
     }
     
     func test_createControlsWhenDocumentImageNil() {

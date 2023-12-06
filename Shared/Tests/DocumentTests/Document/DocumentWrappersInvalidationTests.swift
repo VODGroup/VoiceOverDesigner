@@ -33,7 +33,14 @@ class DocumentWrappersInvalidationTests: XCTestCase {
         try document.saveAndRemoveAtTearDown(name: "ImageInvalidation", testCase: self)
         
         // Assert: shouldInvalidate previous image
-        assertFolder(document)
+        assertFolder(document) {         
+"""
+▿ Images
+  - Frame2.png
+  - Frame.png
+- document.json
+"""
+        }
     }
     
     func test_whenUpdateImage_shouldUpdateFrameSize() throws {
