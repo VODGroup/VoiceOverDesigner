@@ -17,6 +17,7 @@ class DocumentPresenterTests_Movement: XCTestCase {
     var frame: Frame!
     var title: A11yDescription!
     var settingsButton: A11yDescription!
+    var coins: A11yDescription!
     var gift: A11yDescription!
     
     var sut: DocumentPresenter!
@@ -33,7 +34,7 @@ class DocumentPresenterTests_Movement: XCTestCase {
         
         artboard = document.artboard
         
-        undoManager?.disableUndoRegistration()
+        sut.disableUndoRegistration()
         sut.add(image: Sample().image3x(), origin: .zero)
         
         frame = try XCTUnwrap(artboard.frames.first)
@@ -41,12 +42,14 @@ class DocumentPresenterTests_Movement: XCTestCase {
         
         title = A11yDescription.testMake(label: "Title")
         settingsButton = A11yDescription.testMake(label: "Settings")
+        coins = A11yDescription.testMake(label: "Coins")
         gift = A11yDescription.testMake(label: "Gift")
+        
         sut.append(control: title)
         sut.append(control: settingsButton)
-        sut.append(control: A11yDescription.testMake(label: "Coins"))
+        sut.append(control: coins)
         sut.append(control: gift)
-        undoManager?.enableUndoRegistration()
+        sut.enableUndoRegistration()
     }
     
     override func tearDown() {
@@ -126,6 +129,8 @@ Frame:
  Gift
 """
         }
+        
+        // TODO: Coins should be after container
     }
     
     func test_2elementsInFrame_whenDropSecondElementOnFirst_shouldCreateContainer() throws {
@@ -217,14 +222,14 @@ Title
 """
         }
     }
-    // TODO: Keep artboard's reading order in container
-    // TODO: Place container instead of drop element. For wrapping several elements should be another rule – place on first, selection order has no influence
     
-    // TODO: Move container on element
-    // TODO: Move container on container
-    // TODO: Move Container out of frame
-    // TODO: Move container on frame
-    // TODO: Another frame
+    
+    // TODO: Move container on element –> Move container and wrap item in it
+    // TODO: Move container on container -> Place second container in first. Nested container should be supported
+    
+    // TODO: Move container on frame -> Apped
+    // TODO: Move container inside frame -> Ok
+    // TODO: Can't place frame on frame
     // TODO: Test that empty containers are removed but will be restored by undo
     
     
