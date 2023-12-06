@@ -11,6 +11,14 @@ import DocumentTestHelpers
 import Samples
 import AppKit
 
+let defaultFormat = """
+Frame:
+ Title
+ Settings
+ Coins
+ Gift
+"""
+
 class DocumentPresenterTests_Movement: XCTestCase {
     
     var artboard: Artboard!
@@ -84,7 +92,8 @@ Frame:
     
     // MARK: - Wrapping
     
-    func assertUndoToDefaultAndRedo(
+    func assertUndoAndRedo(
+        undoToFormat: String = defaultFormat,
         _ expected: (() -> String)? = nil,
         file: StaticString = #filePath,
         function: StaticString = #function,
@@ -97,8 +106,9 @@ Frame:
             file: file, function: function, line: line, column: column)
         
         undo()
-        assertDefault(
+        artboard.assert(
             "after Undo",
+            matches: { undoToFormat },
             file: file, function: function, line: line, column: column)
         
         redo()
@@ -119,7 +129,7 @@ Frame:
             insertAtIndex: -1)
         
         XCTAssertTrue(result)
-        assertUndoToDefaultAndRedo {
+        assertUndoAndRedo {
 """
 Frame:
  Coins
@@ -140,7 +150,7 @@ Frame:
             insertAtIndex: -1)
         
         XCTAssertTrue(result)
-        assertUndoToDefaultAndRedo {
+        assertUndoAndRedo {
 """
 Frame:
  Container:
@@ -158,7 +168,7 @@ Frame:
             insertAtIndex: -1)
         
         XCTAssertTrue(result)
-        assertUndoToDefaultAndRedo {
+        assertUndoAndRedo {
 """
 Frame:
  Container:
@@ -178,7 +188,7 @@ Frame:
             insertAtIndex: 2)
         
         XCTAssertTrue(result)
-        assertUndoToDefaultAndRedo{
+        assertUndoAndRedo{
 """
 Frame:
  Settings
@@ -195,7 +205,7 @@ Frame:
             insertAtIndex: 1) // After frame
         
         XCTAssertTrue(result)
-        assertUndoToDefaultAndRedo{
+        assertUndoAndRedo{
 """
 Frame:
  Settings
@@ -212,7 +222,7 @@ Title
             insertAtIndex: -1)
         
         XCTAssertTrue(result)
-        assertUndoToDefaultAndRedo{
+        assertUndoAndRedo{
 """
 Frame:
  Settings
@@ -223,11 +233,85 @@ Title
         }
     }
     
+    func test_2elementsInContainer_whenDropThirdElementOnContainer_shouldAppendItemToContainer() throws {
+        sut.disableUndoRegistration()
+        _ = sut.drag(
+            settingsButton,
+            over: title,
+            insertAtIndex: -1)
+        sut.enableUndoRegistration()
+        
+        let containerFormat =
+"""
+Frame:
+ Container:
+  Title
+  Settings
+ Coins
+ Gift
+"""
+        artboard.assert { containerFormat }
+        
+        let container = try XCTUnwrap(frame.elements.first as? A11yContainer)
+        let result = sut.drag(
+            coins,
+            over: container,
+            insertAtIndex: -1)
+        
+        XCTAssertTrue(result)
+        assertUndoAndRedo(undoToFormat: containerFormat) {
+"""
+Frame:
+ Container:
+  Title
+  Settings
+  Coins
+ Gift
+"""
+        }
+    }
+    
+    func test_whenMoveContainerOutOfFrame_shouldMove() throws {
+        sut.disableUndoRegistration()
+        _ = sut.drag(
+            settingsButton,
+            over: title,
+            insertAtIndex: -1)
+        sut.enableUndoRegistration()
+        
+        let containerFormat =
+"""
+Frame:
+ Container:
+  Title
+  Settings
+ Coins
+ Gift
+"""
+        artboard.assert { containerFormat }
+        
+        let container = try XCTUnwrap(frame.elements.first as? A11yContainer)
+        let result = sut.drag(
+            container,
+            over: nil, // Move out of frame,
+            insertAtIndex: -1)
+        
+        XCTAssertTrue(result)
+        assertUndoAndRedo(undoToFormat:containerFormat) {
+"""
+Frame:
+ Coins
+ Gift
+Container:
+ Title
+ Settings
+"""
+        }
+    }
     
     // TODO: Move container on element –> Move container and wrap item in it
     // TODO: Move container on container -> Place second container in first. Nested container should be supported
-    
-    // TODO: Move container on frame -> Apped
+    // TODO: Move container on frame -> Append
     // TODO: Move container inside frame -> Ok
     // TODO: Can't place frame on frame
     // TODO: Test that empty containers are removed but will be restored by undo

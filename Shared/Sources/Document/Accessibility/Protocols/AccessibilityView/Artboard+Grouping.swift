@@ -8,6 +8,7 @@ extension Artboard {
     enum DragType {
         case wrapInContainer(secondElement: A11yDescription)
         case moveInsideContainer(container: any ArtboardContainer, insertionIndex: Int)
+        case appendToContainer(container: any ArtboardContainer)
         case moveOnArtboardLevel(insertionIndex: Int)
     }
     
@@ -27,6 +28,9 @@ extension Artboard {
             // Avoid NSOutlineViewDropOnItemIndex at the beginning
             case (let secondElement as A11yDescription, NSOutlineViewDropOnItemIndex):
                 return .wrapInContainer(secondElement: secondElement)
+                
+            case (let container as any ArtboardContainer, NSOutlineViewDropOnItemIndex):
+                return .appendToContainer(container: container)
                 
             case (let container as any ArtboardContainer, insertionIndex):
                 return .moveInsideContainer(container: container, insertionIndex: insertionIndex)
@@ -50,8 +54,9 @@ extension Artboard {
     ) -> Bool {
         
         let dragType = dragType(draggingElement, over: dropElement, insertionIndex: insertionIndex)
+        
+        print("Perforem drag operation \(dragType)")
         switch dragType {
-
         case .wrapInContainer(let dropElement):
             wrapInContainer(
                 [draggingElement, dropElement],
@@ -64,6 +69,12 @@ extension Artboard {
                  insertionIndex: insertionIndex,
                  undoManager: undoManager)
         
+        case .appendToContainer(let container):
+            move(draggingElement,
+                 inside: container,
+                 insertionIndex: container.elements.count, // Append
+                 undoManager: undoManager)
+            
         case .moveOnArtboardLevel(let insertionIndex):
             move(draggingElement,
                  inside: self,
@@ -101,7 +112,7 @@ extension Artboard {
         }
         
         undoManager?.registerUndo(withTarget: self, handler: { artboard in
-            container.remove(element)
+            _ = element.removeFromParent()
             insertionContext?.restore() // Not pass undoManager because use another restoration type
             
             // Redo

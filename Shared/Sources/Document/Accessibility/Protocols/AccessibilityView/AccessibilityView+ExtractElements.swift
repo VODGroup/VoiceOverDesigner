@@ -43,10 +43,9 @@ extension ArtboardElement {
     func flattenElements() -> [any ArtboardElement] {
         var result = [any ArtboardElement]()
         
+        result.append(self)
         if let container = self as? (any ArtboardContainer) {
             result.append(contentsOf: container.elements.flattenElements())
-        } else {
-            result.append(self)
         }
         
         return result
