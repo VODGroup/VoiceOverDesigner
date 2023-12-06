@@ -134,14 +134,17 @@ extension Artboard {
         let parent = dropElement.parent
         
         /// Place container on the place of first element
-        let insertionIndex = dropElement.parent?.elements.firstIndex(where: { control in
-            control === dropElement
-        })
+        var insertionIndex: Int?
         
         var insertionContexts = [InsertionContext]()
         for element in elements
-            .reversed() 
         {
+            // Item before drop element can be removed, that's why we remember instert position during removing
+            if element === dropElement {
+                insertionIndex = dropElement.parent?.elements.firstIndex(where: { control in
+                    control === dropElement
+                })
+            }
             insertionContexts.append(element.removeFromParent()!)
         }
 

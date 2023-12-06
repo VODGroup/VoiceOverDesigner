@@ -132,15 +132,13 @@ Frame:
         assertUndoAndRedo {
 """
 Frame:
- Coins
  Container:
   Title
   Settings
+ Coins
  Gift
 """
         }
-        
-        // TODO: Coins should be after container
     }
     
     func test_2elementsInFrame_whenDropSecondElementOnFirst_shouldCreateContainer() throws {
