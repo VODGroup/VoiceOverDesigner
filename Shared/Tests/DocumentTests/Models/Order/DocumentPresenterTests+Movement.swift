@@ -11,7 +11,8 @@ import DocumentTestHelpers
 import Samples
 import AppKit
 
-let defaultFormat = """
+let defaultFormat = 
+"""
 Frame:
  Title
  Settings
@@ -409,6 +410,29 @@ Container:
         sut.enableUndoRegistration()
         
         return container
+    }
+    
+    func test_canNotInsertFrameInFrame() throws {
+        sut.add(image: Sample().image3x(), origin: .zero)
+        let frame2 = try XCTUnwrap(artboard.frames.last)
+        frame2.label = "Frame 2"
+        
+        artboard.assert {
+"""
+Frame:
+ Title
+ Settings
+ Coins
+ Gift
+Frame 2
+"""
+        }
+        
+        let result = sut.drag(frame, over: frame2, insertAtIndex: -1)
+        XCTAssertFalse(result)
+        
+        let result2 = sut.drag(frame2, over: frame, insertAtIndex: -1)
+        XCTAssertFalse(result2)
     }
     
     // TODO: Nested containers are deprecated

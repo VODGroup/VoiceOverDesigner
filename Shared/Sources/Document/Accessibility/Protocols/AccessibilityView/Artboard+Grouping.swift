@@ -24,6 +24,11 @@ extension Artboard {
         _ draggingElement: any ArtboardElement,
         over dropElement: (any ArtboardElement)?,
         insertionIndex: Int) -> DragType? {
+            
+            if draggingElement is Frame,
+               dropElement is Frame {
+                return nil // deprecate nested frames
+            }
             switch (dropElement, insertionIndex) {
             // Avoid NSOutlineViewDropOnItemIndex at the beginning
             case (let secondElement as A11yDescription, NSOutlineViewDropOnItemIndex):
