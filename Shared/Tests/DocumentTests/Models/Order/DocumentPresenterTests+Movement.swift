@@ -290,6 +290,32 @@ Container:
         }
     }
     
+    /// Container is not removed because it can contain important properties, User can remove container manually if needed
+    func test_whenMoveAllElementsFromContainer_shouldNotRemoveContainer() throws {
+        _ = try createContainerFromTitleAndSettings()
+        
+        _ = sut.drag(
+            title,
+            over: frame, // Move out of container,
+            insertAtIndex: -1)
+
+        _ = sut.drag(
+            settingsButton,
+            over: frame, // Move out of container,
+            insertAtIndex: -1)
+        
+        assertUndoAndRedo(undoToFormat: containerFormat) {
+"""
+Frame:
+ Container
+ Coins
+ Gift
+ Title
+ Settings
+"""
+        }
+    }
+    
     func test_whenMoveContainerOnFrame_shouldAppendContainerToFrame() throws {
         // Setup: create container and move out of frame
         let container = try createContainerAndMoveOutOfFrame()
@@ -379,21 +405,19 @@ Container:
             over: nil, // Move out of frame,
             insertAtIndex: -1)
         
-
         artboard.assert { self.containerOutOfFrame }
         sut.enableUndoRegistration()
         
         return container
     }
     
+    // TODO: Nested containers are deprecated
     // TODO: Can't place frame on frame
-    // TODO: Test that empty containers are removed but will be restored by undo
+    
     
     // MARK: - Nested containers
     // TODO: Move container on element –> Move container and wrap item in it
     // TODO: Move container on container -> Place second container in first
-    
-    
     
     // MARK: - DSL
     
