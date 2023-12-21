@@ -29,6 +29,13 @@ extension Artboard {
                dropElement is Frame {
                 return nil // deprecate nested frames
             }
+            
+            // TODO: allow nested containers for switch control
+            if draggingElement is A11yContainer,
+               dropElement is A11yContainer {
+                return nil // deprecate nested containers
+            }
+            
             switch (dropElement, insertionIndex) {
             // Avoid NSOutlineViewDropOnItemIndex at the beginning
             case (let secondElement as A11yDescription, NSOutlineViewDropOnItemIndex):

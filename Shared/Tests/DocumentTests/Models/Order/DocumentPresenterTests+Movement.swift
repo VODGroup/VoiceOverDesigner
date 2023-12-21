@@ -435,6 +435,34 @@ Frame 2
         XCTAssertFalse(result2)
     }
     
+    func test_canNotInsertContainerInContainer() throws {
+        let container1 = try createContainerFromTitleAndSettings()
+        
+        _ = sut.drag(
+            coins,
+            over: gift,
+            insertAtIndex: -1)
+        
+        let container2 = try XCTUnwrap(frame.elements.last as? A11yContainer)
+        artboard.assert {
+"""
+Frame:
+ Container:
+  Title
+  Settings
+ Container:
+  Coins
+  Gift
+"""
+        }
+        
+        let result = sut.drag(container1, over: container2, insertAtIndex: -1)
+        XCTAssertFalse(result)
+        
+        let result2 = sut.drag(container2, over: container1, insertAtIndex: -1)
+        XCTAssertFalse(result2)
+    }
+    
     // TODO: Nested containers are deprecated
     // TODO: Can't place frame on frame
     
