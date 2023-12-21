@@ -11,12 +11,22 @@ import DocumentTestHelpers
 import Samples
 import AppKit
 
+let defaultFormat = 
+"""
+Frame:
+ Title
+ Settings
+ Coins
+ Gift
+"""
+
 class DocumentPresenterTests_Movement: XCTestCase {
     
     var artboard: Artboard!
     var frame: Frame!
     var title: A11yDescription!
     var settingsButton: A11yDescription!
+    var coins: A11yDescription!
     var gift: A11yDescription!
     
     var sut: DocumentPresenter!
@@ -33,7 +43,7 @@ class DocumentPresenterTests_Movement: XCTestCase {
         
         artboard = document.artboard
         
-        undoManager?.disableUndoRegistration()
+        sut.disableUndoRegistration()
         sut.add(image: Sample().image3x(), origin: .zero)
         
         frame = try XCTUnwrap(artboard.frames.first)
@@ -41,12 +51,14 @@ class DocumentPresenterTests_Movement: XCTestCase {
         
         title = A11yDescription.testMake(label: "Title")
         settingsButton = A11yDescription.testMake(label: "Settings")
+        coins = A11yDescription.testMake(label: "Coins")
         gift = A11yDescription.testMake(label: "Gift")
+        
         sut.append(control: title)
         sut.append(control: settingsButton)
-        sut.append(control: A11yDescription.testMake(label: "Coins"))
+        sut.append(control: coins)
         sut.append(control: gift)
-        undoManager?.enableUndoRegistration()
+        sut.enableUndoRegistration()
     }
     
     override func tearDown() {
@@ -81,7 +93,8 @@ Frame:
     
     // MARK: - Wrapping
     
-    func assertUndoToDefaultAndRedo(
+    func assertUndoAndRedo(
+        undoToFormat: String = defaultFormat,
         _ expected: (() -> String)? = nil,
         file: StaticString = #filePath,
         function: StaticString = #function,
@@ -94,8 +107,9 @@ Frame:
             file: file, function: function, line: line, column: column)
         
         undo()
-        assertDefault(
+        artboard.assert(
             "after Undo",
+            matches: { undoToFormat },
             file: file, function: function, line: line, column: column)
         
         redo()
@@ -116,13 +130,13 @@ Frame:
             insertAtIndex: -1)
         
         XCTAssertTrue(result)
-        assertUndoToDefaultAndRedo {
+        assertUndoAndRedo {
 """
 Frame:
- Coins
  Container:
   Title
   Settings
+ Coins
  Gift
 """
         }
@@ -135,7 +149,7 @@ Frame:
             insertAtIndex: -1)
         
         XCTAssertTrue(result)
-        assertUndoToDefaultAndRedo {
+        assertUndoAndRedo {
 """
 Frame:
  Container:
@@ -153,7 +167,7 @@ Frame:
             insertAtIndex: -1)
         
         XCTAssertTrue(result)
-        assertUndoToDefaultAndRedo {
+        assertUndoAndRedo {
 """
 Frame:
  Container:
@@ -173,7 +187,7 @@ Frame:
             insertAtIndex: 2)
         
         XCTAssertTrue(result)
-        assertUndoToDefaultAndRedo{
+        assertUndoAndRedo{
 """
 Frame:
  Settings
@@ -190,7 +204,7 @@ Frame:
             insertAtIndex: 1) // After frame
         
         XCTAssertTrue(result)
-        assertUndoToDefaultAndRedo{
+        assertUndoAndRedo{
 """
 Frame:
  Settings
@@ -207,7 +221,7 @@ Title
             insertAtIndex: -1)
         
         XCTAssertTrue(result)
-        assertUndoToDefaultAndRedo{
+        assertUndoAndRedo{
 """
 Frame:
  Settings
@@ -217,16 +231,245 @@ Title
 """
         }
     }
-    // TODO: Keep artboard's reading order in container
-    // TODO: Place container instead of drop element. For wrapping several elements should be another rule – place on first, selection order has no influence
     
-    // TODO: Move container on element
-    // TODO: Move container on container
-    // TODO: Move Container out of frame
-    // TODO: Move container on frame
-    // TODO: Another frame
-    // TODO: Test that empty containers are removed but will be restored by undo
+    func test_2elementsInContainer_whenDropThirdElementOnContainer_shouldAppendItemToContainer() throws {
+        sut.disableUndoRegistration()
+        _ = sut.drag(
+            settingsButton,
+            over: title,
+            insertAtIndex: -1)
+        sut.enableUndoRegistration()
+        
+        let containerFormat =
+"""
+Frame:
+ Container:
+  Title
+  Settings
+ Coins
+ Gift
+"""
+        artboard.assert { containerFormat }
+        
+        let container = try XCTUnwrap(frame.elements.first as? A11yContainer)
+        let result = sut.drag(
+            coins,
+            over: container,
+            insertAtIndex: -1)
+        
+        XCTAssertTrue(result)
+        assertUndoAndRedo(undoToFormat: containerFormat) {
+"""
+Frame:
+ Container:
+  Title
+  Settings
+  Coins
+ Gift
+"""
+        }
+    }
     
+    func test_whenMoveContainerOutOfFrame_shouldMove() throws {
+        let container = try createContainerFromTitleAndSettings()
+        
+        let result = sut.drag(
+            container,
+            over: nil, // Move out of frame,
+            insertAtIndex: -1)
+        
+        XCTAssertTrue(result)
+        assertUndoAndRedo(undoToFormat: containerFormat) {
+"""
+Frame:
+ Coins
+ Gift
+Container:
+ Title
+ Settings
+"""
+        }
+    }
+    
+    /// Container is not removed because it can contain important properties, User can remove container manually if needed
+    func test_whenMoveAllElementsFromContainer_shouldNotRemoveContainer() throws {
+        _ = try createContainerFromTitleAndSettings()
+        
+        _ = sut.drag(
+            title,
+            over: frame, // Move out of container,
+            insertAtIndex: -1)
+
+        _ = sut.drag(
+            settingsButton,
+            over: frame, // Move out of container,
+            insertAtIndex: -1)
+        
+        assertUndoAndRedo(undoToFormat: containerFormat) {
+"""
+Frame:
+ Container
+ Coins
+ Gift
+ Title
+ Settings
+"""
+        }
+    }
+    
+    func test_whenMoveContainerOnFrame_shouldAppendContainerToFrame() throws {
+        // Setup: create container and move out of frame
+        let container = try createContainerAndMoveOutOfFrame()
+        
+        // Act: move container on frame
+        _ = sut.drag(
+            container,
+            over: frame, // Move on frame,
+            insertAtIndex: -1)
+        
+        // Assert: Append container to frame
+        assertUndoAndRedo(undoToFormat: containerOutOfFrame) {
+"""
+Frame:
+ Coins
+ Gift
+ Container:
+  Title
+  Settings
+"""
+        }
+    }
+    
+    func test_whenMoveContainerOnFrameAtIndex1_shouldInsertContainerToFrame() throws {
+        // Setup: create container and move out of frame
+        let container = try createContainerAndMoveOutOfFrame()
+        
+        // Act: move container on frame
+        _ = sut.drag(
+            container,
+            over: frame, // Move on frame,
+            insertAtIndex: 1)
+        
+        // Assert: Append container to frame
+        assertUndoAndRedo(undoToFormat: containerOutOfFrame) {
+"""
+Frame:
+ Coins
+ Container:
+  Title
+  Settings
+ Gift
+"""
+        }
+    }
+    
+    private func createContainerFromTitleAndSettings() throws -> A11yContainer {
+        sut.disableUndoRegistration()
+        _ = sut.drag(
+            settingsButton,
+            over: title,
+            insertAtIndex: -1)
+        sut.enableUndoRegistration()
+
+        artboard.assert { self.containerFormat }
+        
+        let container = try XCTUnwrap(frame.elements.first as? A11yContainer)
+        return container
+    }
+    
+    let containerFormat =
+"""
+Frame:
+ Container:
+  Title
+  Settings
+ Coins
+ Gift
+"""
+    
+    let containerOutOfFrame =
+"""
+Frame:
+ Coins
+ Gift
+Container:
+ Title
+ Settings
+"""
+    
+    private func createContainerAndMoveOutOfFrame() throws -> A11yContainer {
+        sut.disableUndoRegistration()
+        let container = try createContainerFromTitleAndSettings()
+        
+        _ = sut.drag(
+            container,
+            over: nil, // Move out of frame,
+            insertAtIndex: -1)
+        
+        artboard.assert { self.containerOutOfFrame }
+        sut.enableUndoRegistration()
+        
+        return container
+    }
+    
+    func test_canNotInsertFrameInFrame() throws {
+        sut.add(image: Sample().image3x(), origin: .zero)
+        let frame2 = try XCTUnwrap(artboard.frames.last)
+        frame2.label = "Frame 2"
+        
+        artboard.assert {
+"""
+Frame:
+ Title
+ Settings
+ Coins
+ Gift
+Frame 2
+"""
+        }
+        
+        let result = sut.drag(frame, over: frame2, insertAtIndex: -1)
+        XCTAssertFalse(result)
+        
+        let result2 = sut.drag(frame2, over: frame, insertAtIndex: -1)
+        XCTAssertFalse(result2)
+    }
+    
+    func test_canNotInsertContainerInContainer() throws {
+        let container1 = try createContainerFromTitleAndSettings()
+        
+        _ = sut.drag(
+            coins,
+            over: gift,
+            insertAtIndex: -1)
+        
+        let container2 = try XCTUnwrap(frame.elements.last as? A11yContainer)
+        artboard.assert {
+"""
+Frame:
+ Container:
+  Title
+  Settings
+ Container:
+  Coins
+  Gift
+"""
+        }
+        
+        let result = sut.drag(container1, over: container2, insertAtIndex: -1)
+        XCTAssertFalse(result)
+        
+        let result2 = sut.drag(container2, over: container1, insertAtIndex: -1)
+        XCTAssertFalse(result2)
+    }
+    
+    // TODO: Nested containers are deprecated
+    // TODO: Can't place frame on frame
+    
+    
+    // MARK: - Nested containers
+    // TODO: Move container on element –> Move container and wrap item in it
+    // TODO: Move container on container -> Place second container in first
     
     // MARK: - DSL
     

@@ -8,6 +8,7 @@ extension Artboard {
     enum DragType {
         case wrapInContainer(secondElement: A11yDescription)
         case moveInsideContainer(container: any ArtboardContainer, insertionIndex: Int)
+        case appendToContainer(container: any ArtboardContainer)
         case moveOnArtboardLevel(insertionIndex: Int)
     }
     
@@ -23,10 +24,25 @@ extension Artboard {
         _ draggingElement: any ArtboardElement,
         over dropElement: (any ArtboardElement)?,
         insertionIndex: Int) -> DragType? {
+            
+            if draggingElement is Frame,
+               dropElement is Frame {
+                return nil // deprecate nested frames
+            }
+            
+            // TODO: allow nested containers for switch control
+            if draggingElement is A11yContainer,
+               dropElement is A11yContainer {
+                return nil // deprecate nested containers
+            }
+            
             switch (dropElement, insertionIndex) {
             // Avoid NSOutlineViewDropOnItemIndex at the beginning
             case (let secondElement as A11yDescription, NSOutlineViewDropOnItemIndex):
                 return .wrapInContainer(secondElement: secondElement)
+                
+            case (let container as any ArtboardContainer, NSOutlineViewDropOnItemIndex):
+                return .appendToContainer(container: container)
                 
             case (let container as any ArtboardContainer, insertionIndex):
                 return .moveInsideContainer(container: container, insertionIndex: insertionIndex)
@@ -50,8 +66,9 @@ extension Artboard {
     ) -> Bool {
         
         let dragType = dragType(draggingElement, over: dropElement, insertionIndex: insertionIndex)
+        
+        print("Perforem drag operation \(dragType)")
         switch dragType {
-
         case .wrapInContainer(let dropElement):
             wrapInContainer(
                 [draggingElement, dropElement],
@@ -64,6 +81,12 @@ extension Artboard {
                  insertionIndex: insertionIndex,
                  undoManager: undoManager)
         
+        case .appendToContainer(let container):
+            move(draggingElement,
+                 inside: container,
+                 insertionIndex: container.elements.count, // Append
+                 undoManager: undoManager)
+            
         case .moveOnArtboardLevel(let insertionIndex):
             move(draggingElement,
                  inside: self,
@@ -101,7 +124,7 @@ extension Artboard {
         }
         
         undoManager?.registerUndo(withTarget: self, handler: { artboard in
-            container.remove(element)
+            _ = element.removeFromParent()
             insertionContext?.restore() // Not pass undoManager because use another restoration type
             
             // Redo
@@ -123,14 +146,17 @@ extension Artboard {
         let parent = dropElement.parent
         
         /// Place container on the place of first element
-        let insertionIndex = dropElement.parent?.elements.firstIndex(where: { control in
-            control === dropElement
-        })
+        var insertionIndex: Int?
         
         var insertionContexts = [InsertionContext]()
         for element in elements
-            .reversed() 
         {
+            // Item before drop element can be removed, that's why we remember instert position during removing
+            if element === dropElement {
+                insertionIndex = dropElement.parent?.elements.firstIndex(where: { control in
+                    control === dropElement
+                })
+            }
             insertionContexts.append(element.removeFromParent()!)
         }
 
