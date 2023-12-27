@@ -5,10 +5,15 @@ class CanvasScrollView: NSScrollView {
     
     weak var hud: HUDLayer?
     
+    // Touch pad zooming is implemented at CanvasView
+    
     public override func scrollWheel(with event: NSEvent) {
         let isCommandPressed = event.modifierFlags.contains(.command)
         
-        guard isCommandPressed else {
+        let isTrackpad = !event.hasPreciseScrollingDeltas
+        let canScroll = isTrackpad || isCommandPressed // Command changes mouse behaviour from pan to scroll
+        
+        guard canScroll else {
             super.scrollWheel(with: event)
             return
         }

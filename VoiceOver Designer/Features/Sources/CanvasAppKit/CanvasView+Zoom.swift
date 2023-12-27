@@ -1,15 +1,46 @@
 import Canvas
 import AppKit
 
+extension CanvasView {
+    
+    // Scroll wheel function is implemented at CanvasScrollView
+    
+    public override func magnify(with event: NSEvent) {
+        
+        let magnification = scrollView.magnification + event.magnification
+        let cursorLocation = contentView.convert(event.locationInWindow, from: nil)
+        
+        scrollView.setMagnification(magnification, centeredAt: cursorLocation)
+    }
+    
+    public override func smartMagnify(with event: NSEvent) {
+        
+        let artboardCoordinateTouch = event.location(in: contentView)
+        
+        let frame = contentView.frames.first { frameLayer in
+            frameLayer.frame.contains(artboardCoordinateTouch)
+        }
+        
+        guard let frame else { return }
+        
+        fit(to: frame.frame,
+            animated: true)
+    }
+}
+
 extension CanvasView: CanvasScrollViewProtocol {
     func fitToWindow(animated: Bool) {
         let contentBounds = contentView.boundingBox
         
-        let fittingMagnification = fittingMagnification // Calculate once
+        fit(to: contentBounds, animated: animated)
+    }
+    
+    func fit(to bounds: CGRect, animated: Bool) {
+        let fittingMagnification = fittingMagnification(bounds: bounds) // Calculate once
         
-        let originOffsetToCenter = (contentBounds.size - scrollView.frame.size / fittingMagnification) / 2
+        let originOffsetToCenter = (bounds.size - scrollView.frame.size / fittingMagnification) / 2
         
-        let center = contentBounds.origin + originOffsetToCenter.point()
+        let center = bounds.origin + originOffsetToCenter.point()
         
         scrollView.contentView.scroll(to: center)
         
@@ -63,14 +94,17 @@ extension CanvasView: CanvasScrollViewProtocol {
     private var fittingMagnification: CGFloat {
         let contentBounds = contentView.boundingBox
 
+        return fittingMagnification(bounds: contentBounds)
+    }
+    
+    private func fittingMagnification(bounds: CGRect) -> CGFloat {
         let fittingMagnification = (scrollView.frame.size
-                                    / contentBounds.size).min()
+                                    / bounds.size).min()
         
         let limited = (scrollView.minMagnification...scrollView.maxMagnification).trim(fittingMagnification)
         
         return limited
     }
-
 }
 
 extension CGSize {
