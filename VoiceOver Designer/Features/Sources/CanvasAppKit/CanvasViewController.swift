@@ -215,13 +215,13 @@ extension CanvasViewController {
     }
     
     @IBAction func reduceMagnifing(sender: Any) {
-        view().changeMagnifacation { current in
+        view().changeMagnification { current in
             current / zoomStep
         }
     }
     
     @IBAction func increaseMagnifing(sender: Any) {
-        view().changeMagnifacation { current in
+        view().changeMagnification { current in
             current * zoomStep
         }
     }

@@ -58,59 +58,7 @@ class CanvasView: FlippedView {
             }
         }
     }
-    
-    // MARK: - Magnification
-    func fitToWindowIfAlreadyFitted() {
-        if isImageMagnificationFitsToWindow {
-            fitToWindow(animated: false)
-        }
-    }
-    
-    func changeMagnifacation(_ change: (_ current: CGFloat) -> CGFloat) {
-        let current = scrollView.magnification
-        let changed = change(current)
-        setMagnification(to: changed, animated: false)
-    }
-    
-    private func setMagnification(to magnification: CGFloat, animated: Bool) {
-        // Manually trim to keep value in sync with real limitation
-        let newLevel = (scrollView.minMagnification...scrollView.maxMagnification).trim(magnification)
         
-        var scrollView = self.scrollView
-        if animated {
-            scrollView = self.scrollView.animator()
-            
-            self.scrollView.updateHud(to: newLevel) // Animator calls another function
-        }
-        
-        dragnDropView.scale = newLevel
-        
-        let center = contentView.hud.selectedControlFrame?.center ?? contentView.frame.center
-        
-        scrollView?.setMagnification(
-            newLevel,
-            centeredAt: center)
-    }
-    
-    private var isImageMagnificationFitsToWindow: Bool {
-        if let fittingMagnification {
-            return abs(fittingMagnification - scrollView.magnification) < 0.01
-        } else {
-            return false
-        }
-    }
-    
-    private var fittingMagnification: CGFloat? {
-        let contentSize = contentView.intrinsicContentSize
-        
-        let insetScale: CGFloat = 1
-        let sizeWithOffset = CGSize(width: contentSize.width * insetScale,
-                                    height: contentSize.height * insetScale)
-        
-        return min(scrollView.frame.height / sizeWithOffset.height,
-                   scrollView.frame.width / sizeWithOffset.width)
-    }
-    
     // MARK: - Image
     func updateDragnDropVisibility(hasDrawnControls: Bool) {
         if hasDrawnControls {
@@ -134,14 +82,6 @@ class CanvasView: FlippedView {
             .first(where: { control in
                 control.model === model
             })
-    }
-}
-
-extension CanvasView: CanvasScrollViewProtocol {
-    func fitToWindow(animated: Bool) {
-        if let fittingMagnification {
-            setMagnification(to: fittingMagnification, animated: animated)
-        }
     }
 }
 
@@ -178,14 +118,5 @@ extension NSEdgeInsets {
 extension CGRect {
     var center: CGPoint {
         CGPoint(x: midX, y: midY)
-    }
-}
-
-extension ClosedRange where Bound == CGFloat {
-    fileprivate func trim(_ value: Bound) -> Bound {
-        Swift.max(
-            lowerBound,
-            Swift.min(upperBound, value)
-        )
     }
 }
