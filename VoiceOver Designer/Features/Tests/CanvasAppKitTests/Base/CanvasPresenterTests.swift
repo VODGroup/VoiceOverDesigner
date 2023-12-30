@@ -8,19 +8,24 @@ class CanvasPresenterTests: XCTestCase {
     var sut: CanvasPresenter!
     var controller: EmptyViewController!
     var document: VODesignDocumentProtocol!
+    var uiScrollSpy: CanvasScrollViewSpy!
+    
+    let testDocumentName = "Test"
     
     override func setUp() {
         super.setUp()
         
         controller = EmptyViewController()
-        document = DocumentFake()
-        document.image = Image()
+        uiScrollSpy = CanvasScrollViewSpy()
+        
+        document = VODesignDocument(fileName: testDocumentName)
         
         sut = CanvasPresenter(document: document)
     }
     
     override func tearDownWithError() throws {
-        try? VODesignDocument.removeTestDocument(name: "Test")
+        // Usually a test not saves the document and there is nothing to delete
+        try? VODesignDocument.removeTestDocument(name: testDocumentName)
         document = nil
         sut = nil
         controller = nil
@@ -36,22 +41,37 @@ class CanvasPresenterTests: XCTestCase {
 
 extension CanvasPresenterTests {
     func didLoadAndAppear() {
-        sut.didLoad(ui: controller.controlsView,
-                    initialScale: 1,
-                    previewSource: PreviewSourceDummy())
+        didLoad()
+        
+        // Did Appear
         sut.subscribeOnControlChanges()
     }
     
-    var drawnControls: [any AccessibilityView] {
+    var drawnControls: [any ArtboardElement] {
         controller.controlsView.drawnControls.compactMap(\.model)
+    }
+    
+    var drawnFrames: [CALayer] {
+        controller.controlsView.frames
+    }
+    
+    var documentControls: [any ArtboardElement] {
+        sut.document.artboard.elements
     }
     
     var numberOfDrawnViews: Int {
         drawnControls.count
     }
-
-    var documentControls: [any AccessibilityView] {
-        sut.document.controls
+    
+    var numberOfDrawnLayers: Int? {
+        controller.controlsView.layer?.sublayers?.count
+    }
+    
+    func didLoad() {
+        sut.didLoad(uiContent: controller.controlsView,
+                    uiScroll: uiScrollSpy,
+                    initialScale: 1,
+                    previewSource: PreviewSourceDummy())
     }
     
     @discardableResult
@@ -75,6 +95,19 @@ extension CanvasPresenterTests {
         }
     }
     
+    func setupManualCopyCommand() -> ManualCopyCommand {
+        let copyCommand = ManualCopyCommand()
+        controller.controlsView.copyListener = copyCommand
+        return copyCommand
+    }
+    
+    func copy(from: CGPoint, to: CGPoint) {
+        let copyCommand = setupManualCopyCommand()
+        copyCommand.isModifierActive = true
+        sut.mouseDown(on: from)
+        sut.mouseUp(on: to)
+    }
+    
     func drag(_ start: CGFloat, _ otherPoints: CGFloat...) {
         sut.mouseDown(on: .coord(start))
         for point in otherPoints {
@@ -89,13 +122,9 @@ extension CanvasPresenterTests {
     
     func awaitSelected(file: StaticString = #file,
                        line: UInt = #line
-    ) async throws -> (any AccessibilityView)? {
+    ) async throws -> (any ArtboardElement)? {
         return try await awaitPublisher(sut.selectedPublisher,
                                         file: file, line: line)
-    }
-    
-    func removeImage() {
-        document.image = nil
     }
 }
 
@@ -109,5 +138,11 @@ extension CanvasPresenter {
 class PreviewSourceDummy: PreviewSourceProtocol {
     func previewImage() -> Image? {
         nil
+    }
+}
+
+class CanvasScrollViewSpy: CanvasScrollViewProtocol {
+    func fitToWindow(animated: Bool) {
+        
     }
 }

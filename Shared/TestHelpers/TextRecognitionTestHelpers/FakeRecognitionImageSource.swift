@@ -37,7 +37,7 @@ public class FakeRecognitionImageSource {
 }
 
 extension FakeRecognitionImageSource: RecognitionImageSource {
-    public func image(for model: any AccessibilityView) async -> CGImage? {
+    public func image(for model: any ArtboardElement) async -> CGImage? {
         return resultImage
     }
 }

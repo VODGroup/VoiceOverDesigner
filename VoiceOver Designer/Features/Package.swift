@@ -1,4 +1,4 @@
-// swift-tools-version: 5.6
+// swift-tools-version: 5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Features",
     defaultLocalization: "en",
-    platforms: [.macOS(.v12)],
+    platforms: [.macOS(.v13)],
     products: [
         .library(
             name: "CanvasAppKit",
@@ -32,7 +32,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "git@github.com:pointfreeco/swift-snapshot-testing.git",
-            .upToNextMajor(from: "1.14.2")
+            .upToNextMajor(from: "1.15.1")
         ),
         .package(name: "Shared", path: "./../../Shared")
     ],
@@ -107,6 +107,12 @@ let package = Package(
             dependencies: [
                 "Recent",
                 .product(name: "Document", package: "Shared"),
+            ]
+        ),
+        .testTarget(
+            name: "PresentationTests",
+            dependencies: [
+                "Presentation"
             ]
         ),
         .testTarget(

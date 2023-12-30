@@ -42,6 +42,7 @@ public class TextRecognitionService: TextRecognitionServiceProtocol {
         }
     }
     
+#if DEBUG
     static func printSupportedLanguage(at localeIdentifier: String) {
         let outputLocale = NSLocale(localeIdentifier: localeIdentifier)
         
@@ -60,6 +61,7 @@ public class TextRecognitionService: TextRecognitionServiceProtocol {
             .supportedRecognitionLanguages(for: recognitionLevel,
                                            revision: latestRevision)) ?? []
     }
+#endif
     
     static var recognitionLevel: VNRequestTextRecognitionLevel = .accurate
     

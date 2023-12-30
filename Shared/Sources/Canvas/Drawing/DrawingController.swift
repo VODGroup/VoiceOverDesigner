@@ -37,45 +37,84 @@ public class DrawingController {
     /// Draw all elements and containers on screen
     /// - Parameters:
     ///   - scale: Relative scale to fit controls on screen. Is neede for Preview
-    public func drawControls(
-        _ models: [any AccessibilityView],
+    public func draw(
+        artboard: Artboard,
         scale: CGFloat
     ) {
-        // Draw containers under elements
-        models
+        view.removeAll()
+        
+        for frame in artboard.frames {
+            draw(frame: frame,
+                 imageLoader: artboard.imageLoader,
+                 scale: scale)
+        }
+        
+        drawControlsAndContainers(
+            controls: artboard.controlsOutsideOfFrames,
+            scale: scale)
+        
+        view.invalidateIntrinsicContentSize()
+    }
+    
+    func draw(frame: Frame, imageLoader: ImageLoading, scale: CGFloat) {
+        drawImage(for: frame, imageLoader: imageLoader, scale: scale)
+        
+        drawControlsAndContainers(controls: frame.elements,
+                                  scale: scale)
+    }
+    
+    func drawControlsAndContainers(
+        controls: [any ArtboardElement],
+        scale: CGFloat
+    ) {
+        controls
             .extractContainers()
-            .forEach { model in
-                drawContainer(model, scale: scale)
+            .forEach { container in
+                draw(container: container, scale: scale)
             }
        
         // Extract inner elements from containers
-        models
+        controls
             .extractElements()
-            .forEach { model in
-                draw(model, scale: scale)
+            .forEach { element in
+                draw(element: element, scale: scale)
             }
     }
     
     @discardableResult
+    public func drawImage(
+        for frame: Frame,
+        imageLoader: ImageLoading,
+        scale: CGFloat
+    ) -> CALayer {
+        let imageLayer = ImageLayer()
+        imageLayer.frame = frame.frame
+        imageLayer.image = imageLoader.image(for: frame)?.defaultCGImage
+        imageLayer.contentsScale = scale
+        view.add(frame: imageLayer)
+        return imageLayer
+    }
+    
+    @discardableResult
     public func draw(
-        _ model: any AccessibilityView,
+        element: any ArtboardElement,
         scale: CGFloat
     ) -> A11yControlLayer {
         let control = A11yControlLayer()
-        control.model = model
-        control.frame = model.frame.scaled(scale)
-        control.backgroundColor = model.color.cgColor
+        control.model = element
+        control.frame = element.frame.scaled(scale)
+        control.backgroundColor = element.color.cgColor
         
         view.add(control: control)
         return control
     }
     
     @discardableResult
-    public func drawContainer(
-        _ model: any AccessibilityView,
+    public func draw(
+        container: any ArtboardElement,
         scale: CGFloat
     ) -> A11yControlLayer {
-        let container = draw(model, scale: scale)
+        let container = draw(element: container, scale: scale)
 //        container.strokeColor = model.color.cgColor
         container.cornerCurve = .continuous
         container.cornerRadius = 20
@@ -135,7 +174,9 @@ public class DrawingController {
     }
     
     private func startDrawing(coordinate: CGPoint) {
-        let control = draw(A11yDescription.empty(frame: .zero), scale: 1)
+        let control = draw(
+            element: A11yDescription.empty(frame: .zero),
+            scale: 1)
         
         self.action = NewControlAction(view: view, control: control, coordinate: coordinate)
         pointerSubject.send(.crosshair)
@@ -176,3 +217,29 @@ extension CGRect {
                height: height * scale)
     }
 }
+
+public class ImageLayer: CALayer {
+    public var image: CGImage? {
+        set {
+            contents = newValue
+        }
+        
+        get {
+            guard let contents else { return nil }
+            return contents as! CGImage
+        }
+    }
+}
+
+
+extension Image {
+    var defaultCGImage: CGImage? {
+#if os(macOS)
+        return cgImage(forProposedRect: nil, context: nil, hints: nil)
+#elseif os(iOS)
+        return cgImage
+#endif
+    }
+}
+
+

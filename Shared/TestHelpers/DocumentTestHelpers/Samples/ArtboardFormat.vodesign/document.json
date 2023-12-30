@@ -1,0 +1,762 @@
+{
+  "elements" : [
+    {
+      "elements" : [
+        {
+          "isAccessibilityElement" : true,
+          "frame" : [
+            [
+              2365,
+              198
+            ],
+            [
+              933,
+              149
+            ]
+          ],
+          "trait" : 2,
+          "adjustableOptions" : {
+            "options" : [
+
+            ],
+            "isEnumerated" : true
+          },
+          "hint" : "",
+          "label" : "Привет, Михаил",
+          "value" : "",
+          "customActions" : {
+            "names" : [
+
+            ]
+          },
+          "customDescriptions" : {
+            "descriptions" : [
+
+            ]
+          }
+        },
+        {
+          "isAccessibilityElement" : true,
+          "frame" : [
+            [
+              3318,
+              198
+            ],
+            [
+              158,
+              149
+            ]
+          ],
+          "trait" : 1,
+          "adjustableOptions" : {
+            "options" : [
+
+            ],
+            "isEnumerated" : true
+          },
+          "hint" : "",
+          "label" : "Настройки",
+          "value" : "",
+          "customActions" : {
+            "names" : [
+
+            ]
+          },
+          "customDescriptions" : {
+            "descriptions" : [
+
+            ]
+          }
+        },
+        {
+          "isAccessibilityElement" : true,
+          "frame" : [
+            [
+              2385,
+              403
+            ],
+            [
+              516,
+              401
+            ]
+          ],
+          "trait" : 1,
+          "adjustableOptions" : {
+            "options" : [
+
+            ],
+            "isEnumerated" : true
+          },
+          "hint" : "",
+          "label" : "186 додокоинов",
+          "value" : "1 из 3",
+          "customActions" : {
+            "names" : [
+
+            ]
+          },
+          "customDescriptions" : {
+            "descriptions" : [
+
+            ]
+          }
+        },
+        {
+          "isAccessibilityElement" : true,
+          "frame" : [
+            [
+              2933,
+              403
+            ],
+            [
+              379,
+              401
+            ]
+          ],
+          "trait" : 1,
+          "adjustableOptions" : {
+            "options" : [
+
+            ],
+            "isEnumerated" : true
+          },
+          "hint" : "",
+          "label" : "История заказов",
+          "value" : "119 заказов, 2 из 3",
+          "customActions" : {
+            "names" : [
+
+            ]
+          },
+          "customDescriptions" : {
+            "descriptions" : [
+
+            ]
+          }
+        },
+        {
+          "isAccessibilityElement" : true,
+          "frame" : [
+            [
+              3340,
+              403
+            ],
+            [
+              379,
+              401
+            ]
+          ],
+          "trait" : 1,
+          "adjustableOptions" : {
+            "options" : [
+
+            ],
+            "isEnumerated" : true
+          },
+          "hint" : "",
+          "label" : "Адреса доставки",
+          "value" : "1 адрес, 3 из 3",
+          "customActions" : {
+            "names" : [
+
+            ]
+          },
+          "customDescriptions" : {
+            "descriptions" : [
+
+            ]
+          }
+        },
+        {
+          "isAccessibilityElement" : true,
+          "frame" : [
+            [
+              2385,
+              929
+            ],
+            [
+              1091,
+              183
+            ]
+          ],
+          "trait" : 2,
+          "adjustableOptions" : {
+            "options" : [
+
+            ],
+            "isEnumerated" : true
+          },
+          "hint" : "",
+          "label" : "Мои акции",
+          "value" : "Ура! Есть из чего выбрать",
+          "customActions" : {
+            "names" : [
+
+            ]
+          },
+          "customDescriptions" : {
+            "descriptions" : [
+
+            ]
+          }
+        },
+        {
+          "isAccessibilityElement" : true,
+          "frame" : [
+            [
+              2385,
+              1131
+            ],
+            [
+              1091,
+              523
+            ]
+          ],
+          "trait" : 5,
+          "adjustableOptions" : {
+            "options" : [
+              "до 10 февраля, Карбонара 25 см в подарок от 1299 ₽",
+              "до 26 декабря, Вкусные извинения. Сертификат на пиццу 35 сантиметров"
+            ],
+            "currentIndex" : 0,
+            "isEnumerated" : true
+          },
+          "hint" : "",
+          "label" : "Акции",
+          "value" : "до 10 февраля",
+          "customActions" : {
+            "names" : [
+
+            ]
+          },
+          "customDescriptions" : {
+            "descriptions" : [
+
+            ]
+          }
+        },
+        {
+          "isAccessibilityElement" : true,
+          "frame" : [
+            [
+              2385,
+              1687
+            ],
+            [
+              1091,
+              183
+            ]
+          ],
+          "trait" : 2,
+          "adjustableOptions" : {
+            "options" : [
+
+            ],
+            "isEnumerated" : true
+          },
+          "hint" : "",
+          "label" : "Миссии",
+          "value" : "Выполняйте и получайте додокоины",
+          "customActions" : {
+            "names" : [
+
+            ]
+          },
+          "customDescriptions" : {
+            "descriptions" : [
+
+            ]
+          }
+        },
+        {
+          "isAccessibilityElement" : true,
+          "frame" : [
+            [
+              2385,
+              1894
+            ],
+            [
+              1091,
+              1200
+            ]
+          ],
+          "trait" : 1,
+          "adjustableOptions" : {
+            "options" : [
+
+            ],
+            "isEnumerated" : true
+          },
+          "hint" : "",
+          "label" : "Сделайте три заказа с большой пиццей",
+          "value" : "До 1 марта, получите 150 додокинов",
+          "customActions" : {
+            "names" : [
+
+            ]
+          },
+          "customDescriptions" : {
+            "descriptions" : [
+
+            ]
+          }
+        },
+        {
+          "isEnumerated" : false,
+          "elements" : [
+            {
+              "isAccessibilityElement" : true,
+              "frame" : [
+                [
+                  2385.8640420420379,
+                  3157.7908916484075
+                ],
+                [
+                  225,
+                  184
+                ]
+              ],
+              "trait" : 1,
+              "adjustableOptions" : {
+                "options" : [
+
+                ],
+                "isEnumerated" : true
+              },
+              "hint" : "",
+              "label" : "Меню",
+              "value" : "",
+              "customActions" : {
+                "names" : [
+
+                ]
+              },
+              "customDescriptions" : {
+                "descriptions" : [
+
+                ]
+              }
+            },
+            {
+              "isAccessibilityElement" : true,
+              "frame" : [
+                [
+                  2664,
+                  3159
+                ],
+                [
+                  225,
+                  184
+                ]
+              ],
+              "trait" : 257,
+              "adjustableOptions" : {
+                "options" : [
+
+                ],
+                "isEnumerated" : true
+              },
+              "hint" : "",
+              "label" : "Профиль",
+              "value" : "",
+              "customActions" : {
+                "names" : [
+
+                ]
+              },
+              "customDescriptions" : {
+                "descriptions" : [
+
+                ]
+              }
+            },
+            {
+              "isAccessibilityElement" : true,
+              "frame" : [
+                [
+                  2967,
+                  3159
+                ],
+                [
+                  225,
+                  184
+                ]
+              ],
+              "trait" : 1,
+              "adjustableOptions" : {
+                "options" : [
+
+                ],
+                "isEnumerated" : true
+              },
+              "hint" : "",
+              "label" : "Контакты",
+              "value" : "",
+              "customActions" : {
+                "names" : [
+
+                ]
+              },
+              "customDescriptions" : {
+                "descriptions" : [
+
+                ]
+              }
+            },
+            {
+              "isAccessibilityElement" : true,
+              "frame" : [
+                [
+                  3244,
+                  3159
+                ],
+                [
+                  225,
+                  184
+                ]
+              ],
+              "trait" : 1,
+              "adjustableOptions" : {
+                "options" : [
+
+                ],
+                "isEnumerated" : true
+              },
+              "hint" : "",
+              "label" : "Корзина",
+              "value" : "",
+              "customActions" : {
+                "names" : [
+
+                ]
+              },
+              "customDescriptions" : {
+                "descriptions" : [
+
+                ]
+              }
+            }
+          ],
+          "navigationStyle" : "automatic",
+          "frame" : [
+            [
+              2354,
+              3138
+            ],
+            [
+              1143,
+              225
+            ]
+          ],
+          "containerType" : "semanticGroup",
+          "label" : "Панель вкладок",
+          "type" : "container",
+          "isTabTrait" : true,
+          "isModal" : false
+        }
+      ],
+      "label" : "Frame2",
+      "frame" : [
+        [
+          2340,
+          0
+        ],
+        [
+          1170,
+          3407
+        ]
+      ],
+      "type" : "frame",
+      "imageLocation" : {
+        "relativeFile" : {
+          "path" : "Images/Frame2.png"
+        }
+      }
+    },
+    {
+      "elements" : [
+        {
+          "isAccessibilityElement" : true,
+          "frame" : [
+            [
+              1,
+              111
+            ],
+            [
+              248,
+              208
+            ]
+          ],
+          "trait" : 1,
+          "adjustableOptions" : {
+            "options" : [
+
+            ],
+            "isEnumerated" : true
+          },
+          "hint" : "",
+          "label" : "Закрыть",
+          "value" : "",
+          "customActions" : {
+            "names" : [
+
+            ]
+          },
+          "customDescriptions" : {
+            "descriptions" : [
+
+            ]
+          }
+        },
+        {
+          "isAccessibilityElement" : true,
+          "frame" : [
+            [
+              926,
+              111
+            ],
+            [
+              248,
+              208
+            ]
+          ],
+          "trait" : 1,
+          "adjustableOptions" : {
+            "options" : [
+
+            ],
+            "isEnumerated" : true
+          },
+          "hint" : "",
+          "label" : "Перейти в корзину",
+          "value" : "",
+          "customActions" : {
+            "names" : [
+
+            ]
+          },
+          "customDescriptions" : {
+            "descriptions" : [
+
+            ]
+          }
+        },
+        {
+          "isAccessibilityElement" : true,
+          "frame" : [
+            [
+              55,
+              1270
+            ],
+            [
+              936,
+              257
+            ]
+          ],
+          "trait" : 2,
+          "adjustableOptions" : {
+            "options" : [
+
+            ],
+            "isEnumerated" : true
+          },
+          "hint" : "",
+          "label" : "Пицца 25 см и напиток",
+          "value" : "",
+          "customActions" : {
+            "names" : [
+
+            ]
+          },
+          "customDescriptions" : {
+            "descriptions" : [
+
+            ]
+          }
+        },
+        {
+          "isAccessibilityElement" : true,
+          "frame" : [
+            [
+              1002,
+              1270
+            ],
+            [
+              152,
+              155
+            ]
+          ],
+          "trait" : 1,
+          "adjustableOptions" : {
+            "options" : [
+
+            ],
+            "isEnumerated" : true
+          },
+          "hint" : "",
+          "label" : "Пищевая ценность",
+          "value" : "",
+          "customActions" : {
+            "names" : [
+
+            ]
+          },
+          "customDescriptions" : {
+            "descriptions" : [
+
+            ]
+          }
+        },
+        {
+          "isAccessibilityElement" : true,
+          "frame" : [
+            [
+              55,
+              1535
+            ],
+            [
+              1072,
+              212
+            ]
+          ],
+          "trait" : 0,
+          "adjustableOptions" : {
+            "options" : [
+
+            ],
+            "isEnumerated" : true
+          },
+          "hint" : "",
+          "label" : "Самодостаточное комбо из маленькой пиццы",
+          "value" : "",
+          "customActions" : {
+            "names" : [
+
+            ]
+          },
+          "customDescriptions" : {
+            "descriptions" : [
+
+            ]
+          }
+        },
+        {
+          "isAccessibilityElement" : true,
+          "frame" : [
+            [
+              55,
+              1788
+            ],
+            [
+              1080,
+              516
+            ]
+          ],
+          "trait" : 1,
+          "adjustableOptions" : {
+            "options" : [
+
+            ],
+            "isEnumerated" : true
+          },
+          "hint" : "",
+          "label" : "Пепперони фреш",
+          "value" : "Маленькая 25 сантиметров, традиционное тестов, 400 грамм",
+          "customActions" : {
+            "names" : [
+
+            ]
+          },
+          "customDescriptions" : {
+            "descriptions" : [
+
+            ]
+          }
+        },
+        {
+          "isAccessibilityElement" : true,
+          "frame" : [
+            [
+              55,
+              2365
+            ],
+            [
+              1080,
+              516
+            ]
+          ],
+          "trait" : 1,
+          "adjustableOptions" : {
+            "options" : [
+
+            ],
+            "isEnumerated" : true
+          },
+          "hint" : "",
+          "label" : "Кофе Капучино",
+          "value" : "200 миллилитров",
+          "customActions" : {
+            "names" : [
+
+            ]
+          },
+          "customDescriptions" : {
+            "descriptions" : [
+
+            ]
+          }
+        },
+        {
+          "isAccessibilityElement" : true,
+          "frame" : [
+            [
+              47,
+              3091
+            ],
+            [
+              1080,
+              153
+            ]
+          ],
+          "trait" : 1,
+          "adjustableOptions" : {
+            "options" : [
+
+            ],
+            "isEnumerated" : true
+          },
+          "hint" : "",
+          "label" : "В корзину за 339 рублей",
+          "value" : "Скидка 49 рублей",
+          "customActions" : {
+            "names" : [
+
+            ]
+          },
+          "customDescriptions" : {
+            "descriptions" : [
+
+            ]
+          }
+        }
+      ],
+      "label" : "Frame",
+      "frame" : [
+        [
+          0,
+          0
+        ],
+        [
+          1170,
+          3372
+        ]
+      ],
+      "type" : "frame",
+      "imageLocation" : {
+        "relativeFile" : {
+          "path" : "Images/Frame.png"
+        }
+      }
+    }
+  ]
+}

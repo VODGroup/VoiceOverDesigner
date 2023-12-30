@@ -11,12 +11,13 @@ public enum DetailsState: StateProtocol {
     case empty
     case control(A11yDescription)
     case container(A11yContainer)
+    case frame(Frame)
     
     public static var `default`: Self = .empty
 }
 
 public class SettingsStateViewController: StateViewController<DetailsState> {
-    
+    public var document: VODesignDocumentProtocol!
     public weak var settingsDelegate: SettingsDelegate!
     public var textRecognitionCoordinator: TextRecognitionCoordinator!
     
@@ -57,6 +58,9 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
                 self.recognizeText(for: container)
                 
                 return containerViewController
+            case .frame(let frame):
+                let frameSettings = FrameSettingsViewController(document: document, frame: frame, delegate: settingsDelegate)
+                return frameSettings
             }
         }
     }
@@ -88,7 +92,7 @@ extension SettingsStateViewController: PurchaseUnlockerDelegate {
             recognizeText(for: element)
         case .container(let container):
             recognizeText(for: container)
-        case .empty:
+        case .frame, .empty:
             return
         }
     }
@@ -97,7 +101,7 @@ extension SettingsStateViewController: PurchaseUnlockerDelegate {
 import TextRecognition
 extension SettingsStateViewController {
     
-    func recognizeText(for model: any AccessibilityView) {
+    func recognizeText(for model: any ArtboardElement) {
         guard textRecognitionUnlockPresenter.isUnlocked() else { return }
         
         Task {
@@ -148,6 +152,10 @@ extension SettingsStateViewController {
         case .control(let element):
             if let selectedElement = result?.control as? A11yDescription {
                 return element == selectedElement
+            }
+        case .frame(let frame):
+            if let selectedElement = result?.control as? Frame {
+                return frame == selectedElement
             }
         case .empty:
             return false

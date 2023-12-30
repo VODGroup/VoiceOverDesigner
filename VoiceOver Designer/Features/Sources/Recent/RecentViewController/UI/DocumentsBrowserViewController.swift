@@ -7,7 +7,6 @@ public protocol RecentRouter: AnyObject {
     func show(document: VODesignDocument) -> Void
 }
 
-
 public class DocumentsBrowserViewController: NSViewController {
 
     public weak var router: RecentRouter?
@@ -62,13 +61,14 @@ public class DocumentsBrowserViewController: NSViewController {
 }
 
 extension DocumentsBrowserViewController: DragNDropDelegate {
-    public func didDrag(path: URL) {
+    public func didDrag(path: URL) -> Bool {
         let document = VODesignDocument(fileName: path.lastPathComponent,
                                         rootPath: path.deletingLastPathComponent())
         show(document: document)
+        return true
     }
     
-    public func didDrag(image: NSImage) {
+    public func didDrag(image: NSImage, locationInWindow: CGPoint) {
         let document = VODesignDocument(image: image)
         show(document: document)
     }
@@ -162,7 +162,6 @@ extension DocumentsBrowserViewController: NSCollectionViewDelegateFlowLayout {
 }
 
 extension DocumentsBrowserViewController: NSCollectionViewDelegate {
-
     public func collectionView(
         _ collectionView: NSCollectionView,
         didSelectItemsAt indexPaths: Set<IndexPath>
