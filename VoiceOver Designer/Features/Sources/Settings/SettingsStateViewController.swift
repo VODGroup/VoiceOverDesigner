@@ -37,15 +37,12 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
             case .control(let element):
                 
                 
-                let containerView = ElementSettingsEditorView(element: element,
+                let elementView = ElementSettingsEditorView(element: element,
                                                                 delete: { [weak self] in
                     self?.settingsDelegate.delete(model: element)
                 })
-                    .unlockedProductAction { _ in
-                        try? await self.textRecognitionUnlockPresenter.purchase()
-                    }
                 
-                let containerViewController = HostingReceiverController { containerView }
+                let containerViewController = HostingReceiverController(content: { elementView }, unlocker: textRecognitionUnlockPresenter)
                 self.recognizeText(for: element)
                 return containerViewController
             case .container(let container):
@@ -55,7 +52,7 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
                     self?.settingsDelegate.delete(model: container)
                 })
                 
-                let containerViewController = HostingReceiverController { containerView }
+                let containerViewController = HostingReceiverController(content: { containerView}, unlocker: textRecognitionUnlockPresenter)
                 
                 self.recognizeText(for: container)
                 
@@ -101,7 +98,7 @@ import TextRecognition
 extension SettingsStateViewController {
     
     func recognizeText(for model: any AccessibilityView) {
-//        guard textRecognitionUnlockPresenter.isUnlocked() else { return }
+        guard textRecognitionUnlockPresenter.isUnlocked() else { return }
         
         Task {
             guard let result = try? await textRecognitionCoordinator.recongizeText(for: model) 
@@ -166,9 +163,11 @@ final class HostingReceiverController<Content: View>: NSHostingController<AnyVie
     
     private var alternatives: [String] = []
     private var products: Set<ProductId> = []
+    private let unlocker: UnlockPresenter
     
-    init(@ViewBuilder content: () -> Content) {
+    init(@ViewBuilder content: () -> Content, unlocker: UnlockPresenter) {
         self.content = content()
+        self.unlocker = unlocker
         super.init(rootView: AnyView(content()))
     }
     
@@ -179,11 +178,18 @@ final class HostingReceiverController<Content: View>: NSHostingController<AnyVie
     
     func presentTextRecognition(_ alternatives: [String]) {
         self.alternatives = alternatives
-        rootView = AnyView(content.textRecognitionResults(alternatives).unlockedProductIds(products))
+        rootView = AnyView(body)
     }
     
     func didChangeUnlockStatus(productId: Purchases.ProductId) {
         self.products.insert(productId)
-        rootView = AnyView(content.textRecognitionResults(alternatives).unlockedProductIds(products))
+        rootView = AnyView(body)
+    }
+    
+    private var body: some View {
+        content
+            .textRecognitionResults(alternatives)
+            .unlockedProductIds(products)
+            .unlockPresenter(unlocker)
     }
 }

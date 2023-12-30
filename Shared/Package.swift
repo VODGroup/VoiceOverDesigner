@@ -130,7 +130,8 @@ let package = Package(
         .target(
             name: "ElementSettings",
             dependencies: [
-                "Document"
+                "Document",
+                "Purchases"
             ]
         )
     ]

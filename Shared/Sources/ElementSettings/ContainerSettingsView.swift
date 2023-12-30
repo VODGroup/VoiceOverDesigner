@@ -57,7 +57,7 @@ public struct ContainerSettingsEditorView: View {
 #endif
 
 struct ContainerSettingsView: View {
-    
+    @Environment(\.unlockedProductIds) private var unlockedProductIds
     @ObservedObject var container: A11yContainer
 
     
@@ -66,9 +66,18 @@ struct ContainerSettingsView: View {
     }
     
     var body: some View {
-        Form {
+        VStack(alignment: .leading) {
             Text(container.label)
                 .font(.largeTitle)
+        #if os(macOS)
+            if !unlockedProductIds.contains(.textRecognition) {
+                TextRecognitionOfferView()
+            }
+        #endif
+        }
+        
+        Form {
+            
             
             #if os(iOS)
             TextValue(title: "Label", value: $container.label)

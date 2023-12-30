@@ -46,32 +46,22 @@ public extension View {
     }
 }
 
-
-public struct UnlockedProductsAction: EnvironmentKey {
-    
-    public static var defaultValue: UnlockedProductsAction = UnlockedProductsAction(action: { _ in })
-    
-    private let action: (ProductId) async -> Void
-    
-    public init(action: @escaping (ProductId) async -> Void) {
-        self.action = action
-    }
-    
-    func callAsFunction(productId: ProductId) async {
-        await action(productId)
+extension UnlockPresenter {
+    struct Key: EnvironmentKey {
+        static var defaultValue: UnlockPresenter? = nil
     }
 }
 
 public extension EnvironmentValues {
-    var unlockAction: UnlockedProductsAction {
-        get { self[UnlockedProductsAction.self] }
-        set { self[UnlockedProductsAction.self] = newValue }
+    var unlocker: UnlockPresenter? {
+        get { self[UnlockPresenter.Key.self] }
+        set { self[UnlockPresenter.Key.self] = newValue }
     }
 }
 
 public extension View {
     @warn_unqualified_access
-    func unlockedProductAction(_ action: @escaping (ProductId) async -> Void) -> some View {
-        environment(\.unlockAction, UnlockedProductsAction(action: action))
+    func unlockPresenter(_ value: UnlockPresenter) -> some View {
+        environment(\.unlocker, value)
     }
 }
