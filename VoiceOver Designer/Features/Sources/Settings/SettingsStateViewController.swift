@@ -41,6 +41,9 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
                                                                 delete: { [weak self] in
                     self?.settingsDelegate.delete(model: element)
                 })
+                    .unlockedProductAction { _ in
+                        try? await self.textRecognitionUnlockPresenter.purchase()
+                    }
                 
                 let containerViewController = HostingReceiverController { containerView }
                 self.recognizeText(for: element)
@@ -158,9 +161,11 @@ extension SettingsStateViewController {
 }
 
 
-final class HostingReceiverController<Content: View>: NSHostingController<AnyView>, TextRecogitionReceiver {
-    
+final class HostingReceiverController<Content: View>: NSHostingController<AnyView>, TextRecogitionReceiver, PurchaseUnlockerDelegate {
     let content: Content
+    
+    private var alternatives: [String] = []
+    private var products: Set<ProductId> = []
     
     init(@ViewBuilder content: () -> Content) {
         self.content = content()
@@ -173,6 +178,12 @@ final class HostingReceiverController<Content: View>: NSHostingController<AnyVie
     }
     
     func presentTextRecognition(_ alternatives: [String]) {
-        rootView = AnyView(content.textRecognitionResults(alternatives))
+        self.alternatives = alternatives
+        rootView = AnyView(content.textRecognitionResults(alternatives).unlockedProductIds(products))
+    }
+    
+    func didChangeUnlockStatus(productId: Purchases.ProductId) {
+        self.products.insert(productId)
+        rootView = AnyView(content.textRecognitionResults(alternatives).unlockedProductIds(products))
     }
 }

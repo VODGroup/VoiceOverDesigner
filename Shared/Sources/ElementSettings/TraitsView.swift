@@ -11,33 +11,45 @@ struct TraitsView: View {
     
     public var body: some View {
         Section(content: {
-            flowView(elements: Traits.type)
+            contentView(elements: Traits.type)
         }, header: {
             SectionTitle("Type Traits")
         })
         
         Section(content: {
-            flowView(elements: Traits.behaviour)
+            contentView(elements: Traits.behaviour)
         }, header: {
             SectionTitle("Behaviour Traits")
         })
         
         Section(content: {
-            flowView(elements: Traits.text)
+            contentView(elements: Traits.text)
         }, header: {
             SectionTitle("Text Traits")
         })
     }
     
     
+    private func traitsView(_ elements: [Traits]) -> some View {
+        ForEach(elements) { trait in
+            Toggle(trait.name, isOn: $selection.bind(trait.trait))
+        }
+    }
     
-    private func flowView(elements: [Traits]) -> some View {
+    
+    private func contentView(elements: [Traits]) -> some View {
+        
+        #if os(macOS)
+        VStack(alignment: .leading) {
+            traitsView(elements)
+        }
+        .padding(.vertical)
+        .toggleStyle(.checkbox)
+        #else
         Group {
             if #available(iOS 16, macOS 13, *) {
                 FlowLayout(spacing: 10) {
-                    ForEach(elements) { trait in
-                        Toggle(trait.name, isOn: $selection.bind(trait.trait))
-                    }
+                    traitsView(elements)
                 }
             } else {
                 FlowView(elements: elements) { trait in
@@ -49,5 +61,6 @@ struct TraitsView: View {
         .padding(.vertical)
         .toggleStyle(.button)
         .buttonStyle(.bordered)
+        #endif
     }
 }

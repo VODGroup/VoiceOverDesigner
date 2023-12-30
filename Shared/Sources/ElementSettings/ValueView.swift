@@ -39,23 +39,41 @@ struct ValueView: View {
     
     @ViewBuilder
     func adjustableView(options: Binding<AdjustableOptions>) -> some View {
+        #if os(macOS)
+        Picker(selection: options.currentIndex, content: {
+            ForEach(options.wrappedValue.options.indices, id: \.self) { index in
+                HStack {
+                    TextRecognitionComboBoxView(text: options.options[index])
+                    Button(action: {
+                        options.wrappedValue.options.remove(at: index)
+                    }, label: {
+                        Image(systemName: "minus")
+                    })
+                }
+                .tag(index as Int?)
+            }
+        }, label: EmptyView.init)
+        .pickerStyle(.radioGroup)
+        #else
         ForEach(options.wrappedValue.options.indices, id: \.self) { index in
-            
-            #if os(iOS)
+
             TextField("\(index)", text: options.options[index])
-            #endif
-            #if os(macOS)
-            TextRecognitionComboBoxView(text: options.options[index])
-            #endif
         }
         .onDelete(perform: { indexSet in
             options.wrappedValue.options.remove(atOffsets: indexSet)
         })
-        Button(action: {
-            options.wrappedValue.add()
-        }, label: {
-            Label("Add Value", systemImage: "plus")
-        })
-
+        #endif
+        
+        HStack {
+            Button(action: {
+                options.wrappedValue.add()
+            }, label: {
+                Label("Add Value", systemImage: "plus")
+            })
+            Spacer()
+            Toggle(isOn: options.isEnumerated) {
+                Text("Is enumerated")
+            }
+        }
     }
 }
