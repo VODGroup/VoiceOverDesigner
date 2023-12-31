@@ -92,8 +92,6 @@ public class A11yContainer: BaseContainer, Codable, ObservableObject {
 //        case dataTable
         case semanticGroup
         case list
-//        case landmark
-        
         public var id: Self { self }
     }
     
