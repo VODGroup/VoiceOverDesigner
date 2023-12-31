@@ -110,6 +110,7 @@ open class DragNDropImageView: NSView {
         imageSize = sender.image()?.size
         isWaitingForFile = true
         hideText()
+        showBorder()
         return .copy
     }
     
@@ -165,9 +166,13 @@ open class DragNDropImageView: NSView {
         show(text: defaultText)
     }
     
+    private func showBorder() {
+        border.isHidden = false
+    }
+    
     func show(text: String, changeTo nextText: String? = nil) {
         label.isHidden = false
-        border.isHidden = false
+        showBorder()
         self.text = text
         
         if let nextText = nextText {
