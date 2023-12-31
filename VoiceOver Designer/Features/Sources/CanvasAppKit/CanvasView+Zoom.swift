@@ -6,22 +6,27 @@ extension CanvasView {
     // Scroll wheel function is implemented at CanvasScrollView
     
     public override func magnify(with event: NSEvent) {
-        
-        let magnification = scrollView.magnification + event.magnification
-        let cursorLocation = contentView.convert(event.locationInWindow, from: nil)
-        
-        scrollView.setMagnification(magnification, centeredAt: cursorLocation)
+        // TODO: This forwarding is strange.
+        // Looks like scrollView should be firstResponder automatically
+        scrollView.magnify(with: event)
     }
     
     public override func smartMagnify(with event: NSEvent) {
-        
         let artboardCoordinateTouch = event.location(in: contentView)
         
         let frame = contentView.frames.first { frameLayer in
             frameLayer.frame.contains(artboardCoordinateTouch)
         }
         
-        guard let frame else { return }
+        guard let frame else {
+            fitToWindow(animated: true)
+            return
+        }
+        
+        guard !isNear(toFit: frame.frame) else {
+            fitToWindow(animated: true)
+            return
+        }
         
         fit(to: frame.frame,
             animated: true)
@@ -29,24 +34,22 @@ extension CanvasView {
 }
 
 extension CanvasView: CanvasScrollViewProtocol {
+    
     func fitToWindow(animated: Bool) {
         let contentBounds = contentView.boundingBox
         
         fit(to: contentBounds, animated: animated)
     }
     
+    func isNear(toFit bounds: CGRect) -> Bool {
+        let fittingMagnification = fittingMagnification(bounds: bounds)
+        
+        let isNear = abs(scrollView.magnification - fittingMagnification) < 0.1
+        return isNear
+    }
+    
     func fit(to bounds: CGRect, animated: Bool) {
-        let fittingMagnification = fittingMagnification(bounds: bounds) // Calculate once
-        
-        let originOffsetToCenter = (bounds.size - scrollView.frame.size / fittingMagnification) / 2
-        
-        let center = bounds.origin + originOffsetToCenter.point()
-        
-        scrollView.contentView.scroll(to: center)
-        
-        setMagnification(to: fittingMagnification,
-                         center: center,
-                         animated: animated)
+        scrollView.animator().magnify(toFit: bounds)
     }
     
     func fitToWindowIfAlreadyFitted() {
@@ -66,16 +69,11 @@ extension CanvasView: CanvasScrollViewProtocol {
         center: CGPoint? = nil,
         animated: Bool
     ) {
-        // Manually trim to keep value in sync with real limitation
+        // Manually trim to keep value to sync with hud
         let newLevel = (scrollView.minMagnification...scrollView.maxMagnification).trim(magnification)
         
-        var scrollView = self.scrollView
-        if animated {
-            scrollView = self.scrollView.animator()
-            
-            self.scrollView.updateHud(to: newLevel) // Animator calls another function
-        }
-        
+        let scrollView = animated ? scrollView.animator() : scrollView
+
         dragnDropView.scale = newLevel
         
         let center = center
@@ -83,7 +81,7 @@ extension CanvasView: CanvasScrollViewProtocol {
         ?? contentView.frame.center
         
         scrollView?.setMagnification(
-            newLevel,
+            magnification,
             centeredAt: center)
     }
     
