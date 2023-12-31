@@ -64,8 +64,7 @@ public struct TextRecognitionOfferView: View {
             do {
                 try await unlocker?.purchase()
             } catch {
-                let alert = NSAlert(error: error)
-                alert.runModal()
+                present(error)
             }
         }
     }
@@ -77,9 +76,17 @@ public struct TextRecognitionOfferView: View {
             do {
                 try await unlocker?.restore()
             } catch {
-                let alert = NSAlert(error: error)
-                alert.runModal()
+                present(error)
             }
         }
+    }
+    
+    private func present(_ error: Error) {
+#if os(macOS)
+        let alert = NSAlert(error: error)
+        alert.runModal()
+#elseif os(iOS)
+        // TODO: Show error
+#endif
     }
 }

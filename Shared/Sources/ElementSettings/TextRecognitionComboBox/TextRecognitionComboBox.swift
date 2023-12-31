@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+#if os(macOS)
 @available(macOS 12, *)
 @available(iOS, unavailable)
 public struct TextRecognitionComboBoxView: NSViewRepresentable {
@@ -64,3 +65,4 @@ public struct TextRecognitionComboBoxView: NSViewRepresentable {
         }
     }
 }
+#endif
