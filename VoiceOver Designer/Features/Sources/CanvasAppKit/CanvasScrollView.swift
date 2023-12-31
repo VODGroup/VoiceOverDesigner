@@ -1,9 +1,11 @@
 import AppKit
+import CommonUI
 import Canvas
 
 class CanvasScrollView: NSScrollView {
     
     weak var hud: HUDLayer?
+    weak var dragNDropImageView: DragNDropImageView?
     
     // Touch pad zooming is implemented at CanvasView
     
@@ -35,6 +37,6 @@ class CanvasScrollView: NSScrollView {
     
     private func updateHud(to magnification: CGFloat) {
         hud?.scale = 1 / magnification
+        dragNDropImageView?.scale = magnification
     }
-
 }

@@ -33,6 +33,7 @@ class CanvasView: FlippedView {
         scrollView.verticalScrollElasticity = .none
         scrollView.horizontalScrollElasticity = .none
         scrollView.hud = contentView.hud
+        scrollView.dragNDropImageView = dragnDropView
         contentView.wantsLayer = true
         contentView.addHUD()
         
