@@ -6,16 +6,7 @@
 //
 
 import Foundation
-
-#if os(iOS)
-import UIKit
-public typealias Image = UIImage
-
-#elseif os(macOS)
-import AppKit
-public typealias Image = NSImage
-#endif
-
+import Artboard
 
 class ImageSaveService: FileKeeperService {
     func load() throws -> Image? {
@@ -25,6 +16,7 @@ class ImageSaveService: FileKeeperService {
 }
 
 #if os(macOS)
+import AppKit
 
 extension ImageSaveService {
     
@@ -68,6 +60,8 @@ extension Image {
 }
 
 #elseif os(iOS)
+import CoreGraphics
+import UIKit
 
 extension Image {
     func png() -> Data? {

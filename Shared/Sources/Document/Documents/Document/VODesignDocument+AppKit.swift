@@ -1,22 +1,25 @@
 #if os(macOS)
 // MARK: - AppKit
 import AppKit
-public typealias Document = NSDocument
+public typealias AppleDocument = NSDocument
 
 import os
 
 import QuickLookThumbnailing
 
-public class VODesignDocument: Document, VODesignDocumentProtocol {
+/// NSDocument subclass, represents `.vodesign` document's format
+public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
 
     // MARK: - Data
-    public var controls: [any AccessibilityView] = []
-    public var image: Image?
-    public var imageSize: CGSize {
-        guard let image else { return .zero }
-        return image.size
-    }
-    public var frameInfo: FrameInfo = .default
+    @available(*, deprecated, message: "Use `artboard`")
+    public var elements: [any ArtboardElement] = []
+    
+    public lazy var artboard: Artboard = {
+        let artboard = Artboard()
+        artboard.imageLoader = ImageLoader(documentPath: { [weak self] in self?.fileURL
+        })
+        return artboard
+    }()
     
     public var documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
     
@@ -46,22 +49,47 @@ public class VODesignDocument: Document, VODesignDocumentProtocol {
         
         displayName = image.name() ?? Date().description
         
-        updateImage(image)
+        addFrame(with: image, origin: .zero)
     }
+    
+    var version: DocumentVersion!
     
     // MARK: - Override
     
-    public override func fileWrapper(ofType typeName: String) throws -> FileWrapper {
+    /// Writing operation. 
+    ///
+    /// Update's file structure during saving.
+    override public func fileWrapper(ofType typeName: String) throws -> FileWrapper {
         Swift.print("Will save")
+        storeImagesAsFileWrappers()
         return try fileWrapper()
     }
     
+    /// Reads artboard and prepare artboard after migration in memory.
+    ///
+    /// > Important: Keep ``documentWrapper`` as reference to files, update it if you need invalidation
+    ///
+    /// > Note: Does not change document's structure
     override public func read(from packageWrapper: FileWrapper, ofType typeName: String) throws {
         
         undoManager?.disableUndoRegistration()
         defer { undoManager?.enableUndoRegistration() }
         
-        try read(from: packageWrapper)
+        do {
+            let (version, artboard) = try read(from: packageWrapper)
+            
+            self.artboard = artboard
+            self.version = version
+            artboard.imageLoader = ImageLoader(documentPath: { [weak self] in 
+                self?.fileURL
+            })
+            
+            prepareFormatForArtboard(for: version)
+            
+        } catch let error {
+            Swift.print(error)
+            throw error
+        }
     }
     
     // MARK: Static

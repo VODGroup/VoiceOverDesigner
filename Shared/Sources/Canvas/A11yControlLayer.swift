@@ -19,28 +19,7 @@ public class A11yControlLayer: CALayer {
     
     private let config = Config()
     
-    public var model: (any AccessibilityView)?
-    
-    public lazy var label: CATextLayer? = {
-        let label = CATextLayer()
-        label.string = model?.label
-        label.fontSize = config.fontSize
-        label.foregroundColor = Color.white.cgColor
-        label.backgroundColor = Color.systemGray.withAlphaComponent(0.7).cgColor
-        let size = label.preferredFrameSize()
-        label.frame = .init(origin: .zero, size: size).offsetBy(dx: 0, dy: -size.height - 1)
-        label.contentsScale = contentsScale
-        return label
-    }()
-    
-    override public func layoutSublayers() {
-        super.layoutSublayers()
-        
-        if let size = label?.preferredFrameSize() {
-            label?.frame = .init(origin: .zero, size: size)
-                .offsetBy(dx: 0, dy: -size.height - 1)
-        }
-    }
+    public var model: (any ArtboardElement)?
     
     public override var frame: CGRect {
         didSet {
@@ -48,29 +27,19 @@ public class A11yControlLayer: CALayer {
         }
     }
     
-    public var isHiglighted: Bool = false {
+    public var isHighlighted: Bool = false {
         didSet {
-            let alpha = isHiglighted
+            let alpha = isHighlighted
             ? config.highlightedAlpha
             : config.normalAlpha
             
             backgroundColor = backgroundColor?.copy(alpha: alpha)
         }
     }
-    
-    public func addLabel() {
-        if let label = label {
-            addSublayer(label)
-        }
-    }
-    
-    public func removeLabel() {
-        label?.removeFromSuperlayer()
-    }
 }
 
 public extension A11yControlLayer {
-    static func copy(from model: any AccessibilityView) -> A11yControlLayer {
+    static func copy(from model: any ArtboardElement) -> A11yControlLayer {
         let control = A11yControlLayer()
         control.model = model
         control.frame = model.frame

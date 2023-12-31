@@ -11,7 +11,18 @@ struct CustomActionsView: View {
         Section(content: {
             
             ForEach(selection.names.indices, id: \.self) { index in
-                TextField("", text: $selection.names[index])
+                HStack {
+                    TextField("", text: $selection.names[index])
+                    
+                    #if os(macOS)
+                    Button(action: {
+                        selection.names.remove(at: index)
+                    }, label: {
+                        Image(systemName: "minus")
+                    })
+                    #endif
+                    
+                }
             }
             .onDelete(perform: { indexSet in
                 selection.names.remove(atOffsets: indexSet)

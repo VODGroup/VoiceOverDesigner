@@ -23,12 +23,19 @@ class ThumbnailProvider: QLThumbnailProvider {
 //        handler(reply, nil)
 //    }
     
+    enum ThumbnailError: Error {
+        case noImageAtPath
+    }
+    
     override func provideThumbnail(for request: QLFileThumbnailRequest, _ handler: @escaping (QLThumbnailReply?, Error?) -> Void) {
         
         let fileURL = request.fileURL
         let imageURL = VODesignDocument.quickLook(documentURL: fileURL)
         
-        let image = UIImage(contentsOfFile: imageURL.path)!
+        guard let image = UIImage(contentsOfFile: imageURL.path) else {
+            handler(nil, ThumbnailError.noImageAtPath)
+            return
+        }
         
         
         // size calculations

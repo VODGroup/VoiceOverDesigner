@@ -49,7 +49,7 @@ final class ProjectStateController: StateViewController<ProjectWindowState> {
             case .presentation:
                 removeCanvasMenu()
                 let hostingController = NSHostingController(rootView: PresentationView(
-                    document: .init(document)
+                    model: PresentationModel(document: VODesignDocumentPresentation(document))
                 ))
                 hostingController.title = NSLocalizedString("Presentation", comment: "")
                 hostingController.view.layer?.backgroundColor = .clear

@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 @available(macOS 12, *)
+@available(iOS, unavailable)
 public struct TextRecognitionComboBoxView: NSViewRepresentable {
     @Binding var text: String
     
@@ -38,7 +39,8 @@ public struct TextRecognitionComboBoxView: NSViewRepresentable {
         context.coordinator.ignoresSelectionChanges = false
     }
     
-
+    @available(macOS 12, *)
+    @available(iOS, unavailable)
     final public class Coordinator: NSObject, NSComboBoxDelegate {
         var parent: TextRecognitionComboBoxView
         var ignoresSelectionChanges: Bool = false

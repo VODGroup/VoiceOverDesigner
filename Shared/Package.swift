@@ -1,4 +1,4 @@
-// swift-tools-version: 5.5
+// swift-tools-version: 5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Shared",
     defaultLocalization: "en",
-    platforms: [.iOS(.v15), .macOS(.v12)],
+    platforms: [.iOS(.v16), .macOS(.v13)],
     products: [
         .library(
             name: "Document",
@@ -34,25 +34,46 @@ let package = Package(
         )
     ],
     dependencies: [
+        .package(
+            url: "git@github.com:pointfreeco/swift-snapshot-testing.git",
+            .upToNextMajor(from: "1.15.1")
+        ),
         .package(url: "git@github.com:pointfreeco/swift-custom-dump.git",
                  .upToNextMajor(from: "0.6.1")),
         .package(url: "git@github.com:apple/swift-argument-parser.git", from: "1.2.1"),
+        
+            .package(path: "./../FolderSnapshot")
     ],
     targets: [
         .target(
+            name: "Artboard"
+        ),
+        .testTarget(
+            name: "ArtboardTests",
+            dependencies: [
+                "Artboard"
+            ]
+        ),
+        .target(
             name: "Document",
             dependencies: [
-                .productItem(name: "CustomDump", package: "swift-custom-dump"),
+                "Artboard",
             ]),
         .target(
             name: "DocumentTestHelpers",
-            dependencies: ["Document"],
+            dependencies: [
+                "Artboard",
+                "Document",
+                .product(name: "InlineSnapshotTesting",
+                         package: "swift-snapshot-testing"),
+            ],
             path: "TestHelpers/DocumentTestHelpers",
             resources: [
                 .process("Samples/screenWith3xScale.png"),
                 .copy("Samples/BetaVersionFormat.vodesign"),
                 .copy("Samples/FrameVersionFormat.vodesign"),
                 .copy("Samples/FrameVersionFormatWithHeicPreview.vodesign"),
+                .copy("Samples/ArtboardFormat.vodesign"),
             ]
         ),
         .testTarget(
@@ -60,7 +81,14 @@ let package = Package(
             dependencies: [
                 "Document",
                 "DocumentTestHelpers",
-            ]),
+                .product(name: "InlineSnapshotTesting",
+                         package: "swift-snapshot-testing"),
+                "FolderSnapshot",
+            ],
+            resources: [
+                .copy("Document/__Snapshots__")
+            ]
+        ),
         
         .target(
             name: "TextRecognition",
@@ -110,7 +138,7 @@ let package = Package(
             name: "SamplesTests",
             dependencies: [
                 "Samples",
-                .productItem(name: "CustomDump", package: "swift-custom-dump"),
+                .product(name: "CustomDump", package: "swift-custom-dump"),
             ]),
         .executableTarget(name: "SamplesStructure", dependencies: [
             "Samples",
@@ -130,7 +158,8 @@ let package = Package(
         .target(
             name: "ElementSettings",
             dependencies: [
-                "Document"
+                "Document",
+                "Purchases"
             ]
         )
     ]

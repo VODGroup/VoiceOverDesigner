@@ -11,33 +11,13 @@ import CommonUI
 import Document
 import Canvas
 
-class ControlsView: FlippedView, DrawingView {
-    var drawnControls: [A11yControlLayer] = []
-    
-    lazy var alignmentOverlay = AlignmentOverlayFactory().overlay(for: self)
-    
-    var copyListener = CopyModifierFactory().make()
-
-    var hud = HUDLayer()
-    
-    override func layout() {
-        super.layout()
-        
-        hud.frame = bounds
-    }
-}
-
 class CanvasView: FlippedView {
     
     @IBOutlet weak var scrollView: CanvasScrollView!
     
-    @IBOutlet weak var backgroundImageView: NSImageView!
-    
     @IBOutlet weak var clipView: NSClipView!
     
-    @IBOutlet weak var contentView: NSView!
-    @IBOutlet weak var controlsView: ControlsView!
-    @IBOutlet weak var addImageButton: NSButton!
+    @IBOutlet weak var contentView: ContentView!
    
     @IBOutlet weak var dragnDropView: DragNDropImageView!
     
@@ -52,28 +32,37 @@ class CanvasView: FlippedView {
         
         scrollView.verticalScrollElasticity = .none
         scrollView.horizontalScrollElasticity = .none
-        scrollView.hud = controlsView.hud
-        controlsView.wantsLayer = true
-        controlsView.addHUD()
+        scrollView.hud = contentView.hud
+        contentView.wantsLayer = true
+        contentView.addHUD()
         
         zoomOutButton.toolTip = "⌘-"
         zoomToFitButton.toolTip = "0"
         zoomInButton.toolTip = "⌘+"
         footer.wantsLayer = true
         footer.layer?.backgroundColor = NSColor.quaternaryLabelColor.cgColor
-        footer.isHidden = true
+        footer.isHidden = false
+        
+        dragnDropView.hideTextAndBorder()
+        
+        clipView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    var isEmpty: Bool = true {
+        didSet {
+            if isEmpty {
+                dragnDropView.showDefaultText()
+            } else {
+                dragnDropView.hideTextAndBorder()
+            }
+        }
     }
     
     // MARK: - Magnification
     func fitToWindowIfAlreadyFitted() {
         if isImageMagnificationFitsToWindow {
             fitToWindow(animated: false)
-        }
-    }
-    
-    func fitToWindow(animated: Bool) {
-        if let fitingMagnification {
-            setMagnification(to: fitingMagnification, animated: animated)
         }
     }
     
@@ -94,61 +83,53 @@ class CanvasView: FlippedView {
             self.scrollView.updateHud(to: newLevel) // Animator calls another function
         }
         
+        dragnDropView.scale = newLevel
+        
+        let center = contentView.hud.selectedControlFrame?.center ?? contentView.frame.center
+        
         scrollView?.setMagnification(
             newLevel,
-            centeredAt: controlsView.hud.selectedControlFrame?.center ?? contentView.frame.center)
+            centeredAt: center)
     }
     
     private var isImageMagnificationFitsToWindow: Bool {
-        if let fitingMagnification {
-            return abs(fitingMagnification - scrollView.magnification) < 0.01
+        if let fittingMagnification {
+            return abs(fittingMagnification - scrollView.magnification) < 0.01
         } else {
             return false
         }
     }
     
-    private var fitingMagnification: CGFloat? {
-        guard let image = backgroundImageView.image else { return nil }
+    private var fittingMagnification: CGFloat? {
+        let contentSize = contentView.intrinsicContentSize
         
-        let scrollViewVisibleHeight = scrollView.frame.height// - scrollView.contentInsets.verticals
-        return scrollViewVisibleHeight / image.size.height
+        let insetScale: CGFloat = 1
+        let sizeWithOffset = CGSize(width: contentSize.width * insetScale,
+                                    height: contentSize.height * insetScale)
+        
+        return min(scrollView.frame.height / sizeWithOffset.height,
+                   scrollView.frame.width / sizeWithOffset.width)
     }
     
     // MARK: - Image
-    func setImage(_ image: NSImage?) {
-        footer.isHidden = image == nil
-        dragnDropView.isHidden = image != nil
-        addImageButton.isHidden = image != nil
-        
-        guard let image = image else {
-            return
+    func updateDragnDropVisibility(hasDrawnControls: Bool) {
+        if hasDrawnControls {
+            dragnDropView.hideTextAndBorder()
+        } else {
+            dragnDropView.showDefaultText()
         }
 
-        backgroundImageView.image = image
-        backgroundImageView.layer?.zPosition = 0
-
-        clipView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-
-        fitToWindow(animated: false)
+        footer.isHidden = !hasDrawnControls
     }
     
     func image(at frame: CGRect) async -> CGImage? {
-        guard let image = backgroundImageView.image else { return nil }
-        var frame = frame.scaled(image.recommendedLayerContentsScale(1))
-        let cgImage = image
-            .cgImage(forProposedRect: &frame,
-                     context: nil,
-                     hints: nil)?
-            .cropping(to: frame)
-        
-        return cgImage
+        contentView.image(at: frame)
     }
     
     func control(
-        for model: any AccessibilityView
+        for model: any ArtboardElement
     ) -> A11yControlLayer? {
-        controlsView
+        contentView
             .drawnControls
             .first(where: { control in
                 control.model === model
@@ -156,26 +137,34 @@ class CanvasView: FlippedView {
     }
 }
 
+extension CanvasView: CanvasScrollViewProtocol {
+    func fitToWindow(animated: Bool) {
+        if let fittingMagnification {
+            setMagnification(to: fittingMagnification, animated: animated)
+        }
+    }
+}
+
 extension CanvasView: PreviewSourceProtocol {
     func previewImage() -> Image? {
-        contentView.imageRepresentatation()
+        contentView.imageRepresentation()
     }
 }
 
 extension NSView {
     
-    func imageRepresentatation() -> Image? {
+    func imageRepresentation() -> Image? {
         let mySize = bounds.size
         let imgSize = mySize
-        guard let bir = bitmapImageRepForCachingDisplay(in: bounds) else {
+        guard let bitmap = bitmapImageRepForCachingDisplay(in: bounds) else {
             return nil
         }
         
-        bir.size = imgSize
-        cacheDisplay(in: bounds, to: bir)
+        bitmap.size = imgSize
+        cacheDisplay(in: bounds, to: bitmap)
         
         let image = Image(size: imgSize)
-        image.addRepresentation(bir)
+        image.addRepresentation(bitmap)
         return image
     }
 }

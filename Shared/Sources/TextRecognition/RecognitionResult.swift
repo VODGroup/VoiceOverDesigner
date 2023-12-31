@@ -2,7 +2,7 @@ import Document
 import Combine
 
 public struct RecognitionResult {
-    public init(control: any AccessibilityView, text: [String]) {
+    public init(control: any ArtboardElement, text: [String]) {
         self.control = control
         
         var alternatives = text
@@ -14,6 +14,6 @@ public struct RecognitionResult {
         self.text = alternatives
     }
     
-    public let control: any AccessibilityView
+    public let control: any ArtboardElement
     public let text: [String]
 }

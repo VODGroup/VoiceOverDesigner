@@ -61,6 +61,7 @@ public struct ElementSettingsEditorView: View {
 
 
 public struct ElementSettingsView: View {
+    @Environment(\.unlockedProductIds) private var unlockedProductIds
     @ObservedObject var element: A11yDescription
     
     public init(element: A11yDescription) {
@@ -68,9 +69,15 @@ public struct ElementSettingsView: View {
     }
     
     public var body: some View {
-        Form {
+        VStack(alignment: .leading) {
             Text(element.voiceOverTextAttributed(font: .preferredFont(forTextStyle: .largeTitle)))
-            
+        #if os(macOS)
+            if !unlockedProductIds.contains(.textRecognition) {
+                TextRecognitionOfferView()
+            }
+        #endif
+        }
+        Form {
             TextValue(
                 title: "Label",
                 value: $element.label

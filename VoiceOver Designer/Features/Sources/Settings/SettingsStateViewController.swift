@@ -11,12 +11,13 @@ public enum DetailsState: StateProtocol {
     case empty
     case control(A11yDescription)
     case container(A11yContainer)
+    case frame(Frame)
     
     public static var `default`: Self = .empty
 }
 
 public class SettingsStateViewController: StateViewController<DetailsState> {
-    
+    public var document: VODesignDocumentProtocol!
     public weak var settingsDelegate: SettingsDelegate!
     public var textRecognitionCoordinator: TextRecognitionCoordinator!
     
@@ -37,12 +38,12 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
             case .control(let element):
                 
                 
-                let containerView = ElementSettingsEditorView(element: element,
+                let elementView = ElementSettingsEditorView(element: element,
                                                                 delete: { [weak self] in
                     self?.settingsDelegate.delete(model: element)
                 })
                 
-                let containerViewController = HostingReceiverController { containerView }
+                let containerViewController = HostingReceiverController(content: { elementView }, unlocker: textRecognitionUnlockPresenter)
                 self.recognizeText(for: element)
                 return containerViewController
             case .container(let container):
@@ -52,11 +53,14 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
                     self?.settingsDelegate.delete(model: container)
                 })
                 
-                let containerViewController = HostingReceiverController { containerView }
+                let containerViewController = HostingReceiverController(content: { containerView}, unlocker: textRecognitionUnlockPresenter)
                 
                 self.recognizeText(for: container)
                 
                 return containerViewController
+            case .frame(let frame):
+                let frameSettings = FrameSettingsViewController(document: document, frame: frame, delegate: settingsDelegate)
+                return frameSettings
             }
         }
     }
@@ -88,7 +92,7 @@ extension SettingsStateViewController: PurchaseUnlockerDelegate {
             recognizeText(for: element)
         case .container(let container):
             recognizeText(for: container)
-        case .empty:
+        case .frame, .empty:
             return
         }
     }
@@ -97,8 +101,8 @@ extension SettingsStateViewController: PurchaseUnlockerDelegate {
 import TextRecognition
 extension SettingsStateViewController {
     
-    func recognizeText(for model: any AccessibilityView) {
-//        guard textRecognitionUnlockPresenter.isUnlocked() else { return }
+    func recognizeText(for model: any ArtboardElement) {
+        guard textRecognitionUnlockPresenter.isUnlocked() else { return }
         
         Task {
             guard let result = try? await textRecognitionCoordinator.recongizeText(for: model) 
@@ -149,6 +153,10 @@ extension SettingsStateViewController {
             if let selectedElement = result?.control as? A11yDescription {
                 return element == selectedElement
             }
+        case .frame(let frame):
+            if let selectedElement = result?.control as? Frame {
+                return frame == selectedElement
+            }
         case .empty:
             return false
         }
@@ -158,12 +166,16 @@ extension SettingsStateViewController {
 }
 
 
-final class HostingReceiverController<Content: View>: NSHostingController<AnyView>, TextRecogitionReceiver {
-    
+final class HostingReceiverController<Content: View>: NSHostingController<AnyView>, TextRecogitionReceiver, PurchaseUnlockerDelegate {
     let content: Content
     
-    init(@ViewBuilder content: () -> Content) {
+    private var alternatives: [String] = []
+    private var products: Set<ProductId> = []
+    private let unlocker: UnlockPresenter
+    
+    init(@ViewBuilder content: () -> Content, unlocker: UnlockPresenter) {
         self.content = content()
+        self.unlocker = unlocker
         super.init(rootView: AnyView(content()))
     }
     
@@ -173,6 +185,19 @@ final class HostingReceiverController<Content: View>: NSHostingController<AnyVie
     }
     
     func presentTextRecognition(_ alternatives: [String]) {
-        rootView = AnyView(content.textRecognitionResults(alternatives))
+        self.alternatives = alternatives
+        rootView = AnyView(body)
+    }
+    
+    func didChangeUnlockStatus(productId: Purchases.ProductId) {
+        self.products.insert(productId)
+        rootView = AnyView(body)
+    }
+    
+    private var body: some View {
+        content
+            .textRecognitionResults(alternatives)
+            .unlockedProductIds(products)
+            .unlockPresenter(unlocker)
     }
 }
