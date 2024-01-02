@@ -173,8 +173,8 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     // MARK: Image
-    public func add(image: Image) {
-        add(image: image, origin: document.artboard.suggestOrigin())
+    public func add(image: Image, name: String) {
+        add(image: image, name: name, origin: document.artboard.suggestOrigin())
     }
 }
 

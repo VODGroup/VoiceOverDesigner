@@ -8,7 +8,7 @@
 import AppKit
 
 public protocol DragNDropDelegate: AnyObject {
-    func didDrag(image: NSImage, locationInWindow: CGPoint)
+    func didDrag(image: NSImage, locationInWindow: CGPoint, name: String?)
     func didDrag(path: URL) -> Bool
 }
 
@@ -137,7 +137,9 @@ open class DragNDropImageView: NSView {
         let pasteboard = sender.draggingPasteboard
         
         if let image = sender.image() {
-            delegate?.didDrag(image: image, locationInWindow: sender.draggingLocation)
+            delegate?.didDrag(image: image,
+                              locationInWindow: sender.draggingLocation,
+                              name: pasteboard.fileName)
             hideTextAndBorder()
             return true
         }
@@ -243,9 +245,22 @@ extension CGSize {
     }
 }
 
-// TODO: Remove duplication
+// TODO: Remove duplicationString(data: , encoding: .utf8)
 extension NSEvent {
     func location(in view: NSView) -> CGPoint {
         view.convert(locationInWindow, from: nil)
+    }
+}
+
+extension NSPasteboard {
+    var fileName: String? {
+        guard let data = data(forType: .fileURL),
+              let string = String(data: data, encoding: .utf8),
+              let url = URL(string: string) else {
+            return nil
+        }
+        
+        return url.lastPathComponent
+        
     }
 }

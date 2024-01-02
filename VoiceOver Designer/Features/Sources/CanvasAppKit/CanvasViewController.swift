@@ -168,7 +168,7 @@ public class CanvasViewController: NSViewController {
         Task {
             if let path = await requestImage(),
                let image = NSImage(contentsOf: path) {
-                presenter.add(image: image)
+                presenter.add(image: image, name: path.lastPathComponent)
             }
         }
     }
@@ -238,10 +238,12 @@ extension CanvasViewController: NSWindowDelegate {
 }
 
 extension CanvasViewController: DragNDropDelegate {
-    public func didDrag(image: NSImage, locationInWindow: CGPoint) {
+    public func didDrag(image: NSImage, locationInWindow: CGPoint, name: String?) {
         let locationInCanvas = view().contentView.convert(locationInWindow, from: nil)
         let shouldAnimate = presenter.document.artboard.frames.count != 0
-        presenter.add(image: image, origin: locationInCanvas)
+        presenter.add(image: image,
+                      name: name,
+                      origin: locationInCanvas)
         view().fitToWindow(animated: shouldAnimate)
     }
     

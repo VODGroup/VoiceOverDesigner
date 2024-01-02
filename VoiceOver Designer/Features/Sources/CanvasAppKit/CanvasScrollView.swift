@@ -29,6 +29,7 @@ class CanvasScrollView: NSScrollView {
         }
     }
     
+    // Update after any change of position or magnification
     override func reflectScrolledClipView(_ cView: NSClipView) {
         super.reflectScrolledClipView(cView)
         

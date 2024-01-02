@@ -231,7 +231,7 @@ extension VODesignDocumentProtocol {
         ?? CGRect(origin: .zero,
                   size: image?.size ?? defaultFrameSize) // TODO: Add image's scale
         
-        let name = frameWrapper.filename ?? UUID().uuidString
+        let name = frameWrapper.filename ?? UUID().uuidString // TODO: Remove uuidString from here
         
         return Frame(label: name,
                      imageLocation: .relativeFile(path: "Frame/\(FileName.screen)"),

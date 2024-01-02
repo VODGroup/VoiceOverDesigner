@@ -26,9 +26,11 @@ public protocol VODesignDocumentProtocol: AnyObject {
 extension VODesignDocumentProtocol {
     public func addFrame(
         with newImage: Image,
+        name: String?,
         origin: CGPoint
     ) {
         let frame = Frame(image: newImage,
+                          name: name,
                           frame: CGRect(origin: origin,
                                         size: newImage.size))
         artboard.append(frame)
@@ -87,14 +89,16 @@ public protocol PreviewSourceProtocol: AnyObject {
 }
 
 extension Frame {
-    public convenience init(image: Image, frame: CGRect) {
-        let name = UUID().uuidString // TODO: Create fancy name
-
-//        let frame = CGRect(origin: .zero, size: image.size)
+    public convenience init(
+        image: Image,
+        name: String?,
+        frame: CGRect
+    ) { 
+        let name = name ?? UUID().uuidString
         
         self.init(label: name,
                   imageLocation: .cache(image: image,
-                                        name: UUID().uuidString), // TODO: Make fancy name. Call to ChatGPT!!
+                                        name: name),
                   frame: frame,
                   elements: [])
     }
