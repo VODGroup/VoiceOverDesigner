@@ -12,13 +12,6 @@ extension CanvasView {
     }
 }
 
-extension CanvasView: CanvasScrollViewProtocol {
-    
-    func fitToWindow(animated: Bool) {
-        scrollView.fitToWindow(animated: animated)
-    }
-}
-
 extension CGSize {
     static func /(_ lhs: Self, _ divider: CGFloat) -> Self {
         precondition(divider != 0, "Can't divide by zero")

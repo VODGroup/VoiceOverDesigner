@@ -35,7 +35,6 @@ public class CanvasViewController: NSViewController {
         view.window?.delegate = self
         
         presenter.didLoad(uiContent: view().documentView,
-                          uiScroll: view(),
                           initialScale: 1,
                           previewSource: view())
         
@@ -52,7 +51,7 @@ public class CanvasViewController: NSViewController {
         observe()
         
         // Zoom after layout of scrollView
-        view().fitToWindow(animated: false)
+        view().scrollView.fitToWindow(animated: false)
     }
     
     public override func viewWillDisappear() {
@@ -251,7 +250,7 @@ extension CanvasViewController: DragNDropDelegate {
         presenter.add(image: image,
                       name: name,
                       origin: locationInCanvas)
-        view().fitToWindow(animated: shouldAnimate)
+        view().scrollView.fitToWindow(animated: shouldAnimate)
     }
     
     public func didDrag(path: URL) -> Bool {

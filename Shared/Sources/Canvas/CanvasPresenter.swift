@@ -12,30 +12,22 @@ import TextRecognition
 import Foundation
 import QuartzCore
 
-public protocol CanvasScrollViewProtocol: AnyObject {
-    func fitToWindow(animated: Bool)
-}
-
 public class CanvasPresenter: DocumentPresenter {
     
     public weak var uiContent: DrawingView!
-    public weak var uiScroll: CanvasScrollViewProtocol!
     var drawingController: DrawingController!
 
     public func didLoad(
         uiContent: DrawingView,
-        uiScroll: CanvasScrollViewProtocol,
         initialScale: CGFloat,
         previewSource: PreviewSourceProtocol
     ) {
         self.uiContent = uiContent
-        self.uiScroll = uiScroll
         self.scale = initialScale
         self.drawingController = DrawingController(view: uiContent)
         self.document.previewSource = previewSource
         
         redraw(artboard: document.artboard)
-        
     }
     
     private var scale: CGFloat = 1

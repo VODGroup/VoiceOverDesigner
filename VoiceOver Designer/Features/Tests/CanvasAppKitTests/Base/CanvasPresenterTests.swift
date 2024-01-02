@@ -8,7 +8,6 @@ class CanvasPresenterTests: XCTestCase {
     var sut: CanvasPresenter!
     var controller: EmptyViewController!
     var document: VODesignDocumentProtocol!
-    var uiScrollSpy: CanvasScrollViewSpy!
     
     let testDocumentName = "Test"
     
@@ -16,7 +15,6 @@ class CanvasPresenterTests: XCTestCase {
         super.setUp()
         
         controller = EmptyViewController()
-        uiScrollSpy = CanvasScrollViewSpy()
         
         document = VODesignDocument(fileName: testDocumentName)
         
@@ -69,7 +67,6 @@ extension CanvasPresenterTests {
     
     func didLoad() {
         sut.didLoad(uiContent: controller.controlsView,
-                    uiScroll: uiScrollSpy,
                     initialScale: 1,
                     previewSource: PreviewSourceDummy())
     }
@@ -138,12 +135,6 @@ extension CanvasPresenter {
 class PreviewSourceDummy: PreviewSourceProtocol {
     func previewImage() -> Image? {
         nil
-    }
-}
-
-class CanvasScrollViewSpy: CanvasScrollViewProtocol {
-    func fitToWindow(animated: Bool) {
-        
     }
 }
 
