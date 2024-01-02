@@ -17,7 +17,9 @@ class CanvasView: FlippedView {
     
     @IBOutlet weak var clipView: NSClipView!
     
-    @IBOutlet weak var contentView: ContentView!
+    var documentView: ContentView {
+        scrollView.documentView()
+    }
    
     @IBOutlet weak var dragnDropView: DragNDropImageView!
     
@@ -30,12 +32,7 @@ class CanvasView: FlippedView {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        scrollView.verticalScrollElasticity = .none
-        scrollView.horizontalScrollElasticity = .none
         scrollView.delegate = self
-        
-        contentView.wantsLayer = true
-        contentView.addHUD()
         
         zoomOutButton.toolTip = "⌘-"
         zoomToFitButton.toolTip = "0"
@@ -47,7 +44,7 @@ class CanvasView: FlippedView {
         dragnDropView.hideTextAndBorder()
         
         clipView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
+        documentView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     var isEmpty: Bool = true {
@@ -72,13 +69,13 @@ class CanvasView: FlippedView {
     }
     
     func image(at frame: CGRect) async -> CGImage? {
-        contentView.image(at: frame)
+        documentView.image(at: frame)
     }
     
     func control(
         for model: any ArtboardElement
     ) -> A11yControlLayer? {
-        contentView
+        documentView
             .drawnControls
             .first(where: { control in
                 control.model === model
@@ -88,14 +85,14 @@ class CanvasView: FlippedView {
 
 extension CanvasView: ScrollViewScrollingDelegate {
     func didUpdateScale(_ magnification: CGFloat) {
-        contentView.hud.scale = 1 / magnification
+        documentView.hud.scale = 1 / magnification
         dragnDropView.scale = magnification
     }
 }
 
 extension CanvasView: PreviewSourceProtocol {
     func previewImage() -> Image? {
-        contentView.imageRepresentation()
+        documentView.imageRepresentation()
     }
 }
 
