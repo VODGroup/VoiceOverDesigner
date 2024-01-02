@@ -57,7 +57,6 @@ extension VODesignPreviewViewController {
         view().controls = frame?.elements ?? []
         presenter.didLoad(
             uiContent: view().canvas,
-            uiScroll: self,
             initialScale: 1,
             previewSource: view())
     }
@@ -125,11 +124,5 @@ extension VODesignPreviewViewController {
         @unknown default:
             break
         }
-    }
-}
-
-extension VODesignPreviewViewController: CanvasScrollViewProtocol {
-    public func fitToWindow(animated: Bool) {
-        // TODO: Do we need something here?
     }
 }
