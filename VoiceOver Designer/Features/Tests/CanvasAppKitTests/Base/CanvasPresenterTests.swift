@@ -146,3 +146,9 @@ class CanvasScrollViewSpy: CanvasScrollViewProtocol {
         
     }
 }
+
+extension CanvasPresenter {
+    func add(image: NSImage) {
+        add(image: image, name: "Sample")
+    }
+}

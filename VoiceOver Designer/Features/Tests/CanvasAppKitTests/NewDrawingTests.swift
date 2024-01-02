@@ -89,7 +89,7 @@ class NewDrawingTests: CanvasAfterDidLoadTests {
     
     func addFrame() {
         let image = Sample().image3x()
-        sut.add(image: image)
+        sut.add(image: image, name: "Sample")
     }
     
     // MARK: - Frame drawing
