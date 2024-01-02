@@ -2,10 +2,13 @@ import AppKit
 import CommonUI
 import Canvas
 
+protocol ScrollViewScrollingDelegate: AnyObject {
+    func didUpdateScale(_ magnification: CGFloat)
+}
+
 class CanvasScrollView: NSScrollView {
     
-    weak var hud: HUDLayer?
-    weak var dragNDropImageView: DragNDropImageView?
+    weak var delegate: ScrollViewScrollingDelegate?
     
     // Touch pad zooming is implemented at CanvasView
     
@@ -33,11 +36,6 @@ class CanvasScrollView: NSScrollView {
     override func reflectScrolledClipView(_ cView: NSClipView) {
         super.reflectScrolledClipView(cView)
         
-        updateHud(to: magnification)
-    }
-    
-    private func updateHud(to magnification: CGFloat) {
-        hud?.scale = 1 / magnification
-        dragNDropImageView?.scale = magnification
+        delegate?.didUpdateScale(magnification)
     }
 }

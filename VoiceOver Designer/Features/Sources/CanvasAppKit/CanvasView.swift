@@ -32,8 +32,8 @@ class CanvasView: FlippedView {
         
         scrollView.verticalScrollElasticity = .none
         scrollView.horizontalScrollElasticity = .none
-        scrollView.hud = contentView.hud
-        scrollView.dragNDropImageView = dragnDropView
+        scrollView.delegate = self
+        
         contentView.wantsLayer = true
         contentView.addHUD()
         
@@ -83,6 +83,13 @@ class CanvasView: FlippedView {
             .first(where: { control in
                 control.model === model
             })
+    }
+}
+
+extension CanvasView: ScrollViewScrollingDelegate {
+    func didUpdateScale(_ magnification: CGFloat) {
+        contentView.hud.scale = 1 / magnification
+        dragnDropView.scale = magnification
     }
 }
 
