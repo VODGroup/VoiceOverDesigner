@@ -49,9 +49,6 @@ public class CanvasViewController: NSViewController {
         
         presenter.subscribeOnControlChanges()
         observe()
-        
-        // Zoom after layout of scrollView
-        view().scrollView.fitToWindow(animated: false)
     }
     
     public override func viewWillDisappear() {

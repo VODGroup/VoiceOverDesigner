@@ -15,7 +15,7 @@ class CanvasView: FlippedView {
     
     @IBOutlet weak var scrollView: CanvasScrollView!
     
-    @IBOutlet weak var clipView: NSClipView!
+    @IBOutlet weak var clipView: CenteredClipView!
     
     var documentView: ContentView {
         scrollView.documentView()
@@ -87,6 +87,7 @@ extension CanvasView: ScrollViewScrollingDelegate {
     func didUpdateScale(_ magnification: CGFloat) {
         documentView.hud.scale = 1 / magnification
         dragnDropView.scale = magnification
+        clipView.magnification = magnification
     }
 }
 
@@ -117,6 +118,10 @@ extension NSView {
 extension NSEdgeInsets {
     var verticals: CGFloat {
         top + bottom
+    }
+    
+    var horizontals: CGFloat {
+        left + right
     }
 }
 
