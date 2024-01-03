@@ -129,21 +129,30 @@ struct ContainerSettingsView: View {
     }
 }
 
-#if DEBUG
-struct ContainerSettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-#if os(iOS)
-        ContainerSettingsEditorView(container: .init(elements: [], frame: .zero, label: "Containeer"), delete: {})
-        #endif
-        
-        #if os(macOS)
-        NavigationView {
-            Text("Example")
-            ContainerSettingsEditorView(container: .init(elements: [], frame: .zero, label: "Container"), delete: {})
-        }
-
-        #endif
+extension View {
+    func modify<T: View>(@ViewBuilder _ modifier: (Self) -> T) -> some View {
+        return modifier(self)
     }
 }
-#endif
 
+#Preview("Container without buttons") {
+    let container = A11yContainer(elements: [], frame: .zero, label: "Containeer")
+#if os(iOS)
+    return ContainerSettingsEditorView(container: container, delete: {})
+#elseif os(macOS)
+    return ContainerSettingsEditorView(container: container, delete: {})
+        .frame(width: 400, height: 500)
+#endif
+}
+
+#Preview("Container with buttons") {
+    let button = A11yDescription(isAccessibilityElement: true, label: "Button 1", value: "", hint: "", trait: .button, frame: .zero, adjustableOptions: AdjustableOptions(options: []), customActions: A11yCustomActions())
+    let container = A11yContainer(elements: [button, button], frame: .zero, label: "Container")
+    
+#if os(iOS)
+    return ContainerSettingsEditorView(container: container, delete: {})
+#elseif os(macOS)
+    return ContainerSettingsEditorView(container: container, delete: {})
+        .frame(width: 400, height: 500)
+#endif
+}
