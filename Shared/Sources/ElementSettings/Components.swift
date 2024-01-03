@@ -27,23 +27,22 @@ struct TextValue: View {
     let title: LocalizedStringKey
     @Binding var value: String
     
-    
     public var body: some View {
+#if os(iOS)
         Section(content: {
-            #if os(iOS)
             TextField(title, text: $value)
-            #endif
-            
-            #if os(macOS)
-            TextRecognitionComboBoxView(text: $value)
-            #endif
-            
         }, header: {
             SectionTitle(title)
         })
+#elseif os(macOS)
+        LabeledContent(content: {
+            TextRecognitionComboBoxView(text: $value)
+        }, label: {
+            Text(title)
+        })
+#endif
     }
 }
-
 
 struct EditorToolbar: ToolbarContent {
     @State private var isConfirmationDialogPresented = false
@@ -55,11 +54,7 @@ struct EditorToolbar: ToolbarContent {
         doneToolbarItem
         deleteToolbarItem
     }
-    
-    
-    
-    
-    
+
     private var closeToolbarItem: some ToolbarContent {
         ToolbarItem(placement: .cancellationAction, content: {
             Button(action: dismiss.callAsFunction, label: {

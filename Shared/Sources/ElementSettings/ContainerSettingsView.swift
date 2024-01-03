@@ -31,9 +31,7 @@ public struct ContainerSettingsEditorView: View {
         dismiss()
     }
 }
-#endif
-
-#if os(macOS)
+#elseif os(macOS)
 public struct ContainerSettingsEditorView: View {
     @ObservedObject var container: A11yContainer
     var deleteAction: () -> Void
@@ -60,7 +58,6 @@ struct ContainerSettingsView: View {
     @Environment(\.unlockedProductIds) private var unlockedProductIds
     @ObservedObject var container: A11yContainer
 
-    
     init(container: A11yContainer) {
         self.container = container
     }
@@ -74,29 +71,17 @@ struct ContainerSettingsView: View {
                 TextRecognitionOfferView()
             }
         #endif
-        }
+        }.padding(.bottom, 16)
         
         Form {
-            
-            
-            #if os(iOS)
             TextValue(title: "Label", value: $container.label)
-            #endif
-            
-            #if os(macOS)
-            
-            // TODO: Add label to form (probably LabeledContent, but it's only from macOS 13)
-            TextRecognitionComboBoxView(text: $container.label)
-            
-            #endif
-            
-            
             containerTypePicker
             navigationStylePicker
             optionsView
         }
     }
-    
+
+    // TODO: Remove duplication
     private var containerTypePicker: some View {
         Picker("Type", selection: $container.containerType, content: {
             ForEach(A11yContainer.ContainerType.allCases) { type in
@@ -104,8 +89,14 @@ struct ContainerSettingsView: View {
                     .tag(type)
             }
         })
-        
-        
+        .pickerStyle(.segmented)
+        .modify({ picker in
+            if #available(iOS 17.0, macOS 14.0, *) {
+                picker.controlSize(.extraLarge)
+            } else {
+                picker.controlSize(.large)
+            }
+        })
     }
     
     private var navigationStylePicker: some View {
@@ -115,10 +106,20 @@ struct ContainerSettingsView: View {
                     .tag(style)
             }
         })
+        .pickerStyle(.segmented)
+        .modify({ picker in
+            if #available(iOS 17.0, macOS 14.0, *) {
+                picker.controlSize(.extraLarge)
+            } else {
+                picker.controlSize(.large)
+            }
+        })
     }
     
     private var optionsView: some View {
         Section(content: {
+            Toggle("Trait buttons as adjustable", isOn: $container.treatButtonsAsAdjustable)
+                .disabled(!container.canTraitAsAdjustable)
             Toggle("Modal view", isOn: $container.isModal)
             Toggle("Tab Section", isOn: $container.isTabTrait)
             Toggle("Enumerate elements", isOn: $container.isEnumerated)
