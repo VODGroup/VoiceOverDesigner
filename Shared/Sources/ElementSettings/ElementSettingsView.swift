@@ -54,8 +54,6 @@ public struct ElementSettingsEditorView: View {
     private func delete() {
         deleteAction()
     }
-    
-
 }
 #endif
 
@@ -76,12 +74,14 @@ public struct ElementSettingsView: View {
                 TextRecognitionOfferView()
             }
         #endif
-        }
+        }.padding(.bottom, 16)
+        
         Form {
             TextValue(
                 title: "Label",
                 value: $element.label
             )
+            
             ValueView(
                 value: $element.value,
                 adjustableOptions: $element.adjustableOptions,
@@ -90,41 +90,28 @@ public struct ElementSettingsView: View {
             TraitsView(selection: $element.trait)
             
             CustomActionsView(selection: $element.customActions)
+            
             CustomDescriptionView(selection: $element.customDescriptions)
-            Section(content: {
+            
+            Section {
                 TextField("Hint", text: $element.hint)
-            }, header: {
-                SectionTitle("Hint")
-            })
-            Toggle("Is accessible?", isOn: $element.isAccessibilityElement)
+            }.padding(.top, 16)
+            
+            Toggle("Is accessible", isOn: $element.isAccessibilityElement)
             
         }
     }
 }
 
-
-
-
-
-
-
-
-
-#if DEBUG
-struct ElementSettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-#if os(iOS)
-        ElementSettingsEditorView(element: .empty(frame: .zero), delete: {})
-        #endif
-        
-        #if os(macOS)
-        NavigationView {
-            Text("Example")
-            ElementSettingsEditorView(element: .empty(frame: .zero), delete: {})
-        }
-
-        #endif
-    }
+#Preview {
+    ElementSettingsEditorView(element: .empty(frame: .zero), delete: {})
+        .frame(width: 400, height: 1200)
 }
-#endif
 
+#Preview("adjustable") {
+    let element = A11yDescription(isAccessibilityElement: true, label: "Size", value: "", hint: "", trait: .adjustable, frame: .zero, adjustableOptions: AdjustableOptions(options: ["Small", "Medium", "Large"], currentIndex: 1), customActions: A11yCustomActions())
+    
+    return ElementSettingsEditorView(element: element,
+                                     delete: {})
+    .frame(width: 400, height: 1200)
+}

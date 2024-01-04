@@ -136,23 +136,16 @@ extension View {
 }
 
 #Preview("Container without buttons") {
-    let container = A11yContainer(elements: [], frame: .zero, label: "Containeer")
-#if os(iOS)
-    return ContainerSettingsEditorView(container: container, delete: {})
-#elseif os(macOS)
+    let container = A11yContainer(elements: [], frame: .zero, label: "Container")
+    
     return ContainerSettingsEditorView(container: container, delete: {})
         .frame(width: 400, height: 500)
-#endif
 }
 
 #Preview("Container with buttons") {
     let button = A11yDescription(isAccessibilityElement: true, label: "Button 1", value: "", hint: "", trait: .button, frame: .zero, adjustableOptions: AdjustableOptions(options: []), customActions: A11yCustomActions())
     let container = A11yContainer(elements: [button, button], frame: .zero, label: "Container")
     
-#if os(iOS)
-    return ContainerSettingsEditorView(container: container, delete: {})
-#elseif os(macOS)
     return ContainerSettingsEditorView(container: container, delete: {})
         .frame(width: 400, height: 500)
-#endif
 }
