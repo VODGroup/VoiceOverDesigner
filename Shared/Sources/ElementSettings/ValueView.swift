@@ -53,23 +53,27 @@ struct ValueView: View {
             options.wrappedValue.options.remove(atOffsets: indexSet)
         })
 #elseif os(macOS)
-        Picker(selection: options.currentIndex, content: {
-            ForEach(options.wrappedValue.options.indices, id: \.self) { index in
-                HStack {
-                    TextRecognitionComboBoxView(text: options.options[index])
-                    Button(role: .destructive, action: {
-                        options.wrappedValue.options.remove(at: index)
-                    }, label: {
-                        Image(systemName: "trash")
-                    })
+        if options.options.isEmpty {
+            Spacer(minLength: 12) // TODO: Should have at least 1 variant by default
+        } else {
+            Picker(selection: options.currentIndex, content: {
+                ForEach(options.wrappedValue.options.indices, id: \.self) { index in
+                    HStack {
+                        TextRecognitionComboBoxView(text: options.options[index])
+                        Button(role: .destructive, action: {
+                            options.wrappedValue.options.remove(at: index)
+                        }, label: {
+                            Image(systemName: "trash")
+                        })
+                    }
+                    .tag(index as Int?)
+                    .buttonStyle(.borderless) // For trash buttons
                 }
-                .tag(index as Int?)
-                .buttonStyle(.borderless) // For trash buttons
-            }
-        }, label: EmptyView.init)
-        .pickerStyle(.radioGroup)
-        .offset(x: -27) // Align radio circles out of bounds
-        .padding(.trailing, -27) // Add compensation to whole width
+            }, label: EmptyView.init)
+            .pickerStyle(.radioGroup)
+            .offset(x: -27) // Align radio circles out of bounds
+            .padding(.trailing, -27) // Add compensation to whole width
+        }
 #endif
         
         HStack {
@@ -77,7 +81,7 @@ struct ValueView: View {
                 options.wrappedValue.add()
             }, label: {
                 Label("Add Value", systemImage: "plus")
-            })
+            }).controlSize(.large)
 
             Spacer()
             Toggle(isOn: options.isEnumerated) {
@@ -100,4 +104,34 @@ extension Binding where Value == A11yTraits {
             }
         }
     }
+}
+
+#Preview("Static") {
+    let options = AdjustableOptions(options: [])
+    
+    return ValueView(
+        value: .constant("Text"),
+        adjustableOptions: .constant(options),
+        traits: .constant([])
+    )
+}
+
+#Preview("Adjustable empty") {
+    let options = AdjustableOptions(options: [])
+    
+    return ValueView(
+        value: .constant("Text"),
+        adjustableOptions: .constant(options),
+        traits: .constant([.adjustable])
+    )
+}
+
+#Preview("Adjustable sizes") {
+    let options = AdjustableOptions(options: ["Small", "Meduim", "Large"])
+
+    return ValueView(
+        value: .constant("Text"),
+        adjustableOptions: .constant(options),
+        traits: .constant([.adjustable])
+    )
 }

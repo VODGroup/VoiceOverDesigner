@@ -107,7 +107,15 @@ public struct ElementSettingsView: View {
         .frame(width: 400, height: 1200)
 }
 
-#Preview("adjustable") {
+#Preview("Empty adjustable") {
+    let element = A11yDescription(isAccessibilityElement: true, label: "Size", value: "", hint: "", trait: .adjustable, frame: .zero, adjustableOptions: AdjustableOptions(options: []), customActions: A11yCustomActions())
+    
+    return ElementSettingsEditorView(element: element,
+                                     delete: {})
+    .frame(width: 400, height: 1200)
+}
+
+#Preview("Adjustable") {
     let element = A11yDescription(isAccessibilityElement: true, label: "Size", value: "", hint: "", trait: .adjustable, frame: .zero, adjustableOptions: AdjustableOptions(options: ["Small", "Medium", "Large"], currentIndex: 1), customActions: A11yCustomActions())
     
     return ElementSettingsEditorView(element: element,

@@ -44,7 +44,7 @@ struct TextRecognitionComboBoxView: View {
             } label: {
                 Image(systemName: "text.viewfinder")
                     .symbolRenderingMode(.palette)
-                    .foregroundStyle(.white, .purple)
+                    .foregroundStyle(.gray, .purple)
             }
             .buttonStyle(.borderless)
             .disabled(variants.isEmpty)
