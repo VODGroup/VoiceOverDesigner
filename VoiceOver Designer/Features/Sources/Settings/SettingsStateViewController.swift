@@ -39,17 +39,19 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
                 
                 
                 let elementView = ElementSettingsEditorView(element: element,
-                                                                delete: { [weak self] in
+                                                            deleteSelf: { [weak self] in
                     self?.settingsDelegate.delete(model: element)
                 })
                 
-                let containerViewController = HostingReceiverController(content: { elementView }, unlocker: textRecognitionUnlockPresenter)
+                let containerViewController = HostingReceiverController(
+                    content: { elementView },
+                    unlocker: textRecognitionUnlockPresenter)
                 self.recognizeText(for: element)
                 return containerViewController
             case .container(let container):
                 
                 let containerView = ContainerSettingsEditorView(container: container,
-                                                                delete: { [weak self] in
+                                                                deleteSelf: { [weak self] in
                     self?.settingsDelegate.delete(model: container)
                 })
                 
@@ -173,7 +175,10 @@ final class HostingReceiverController<Content: View>: NSHostingController<AnyVie
     private var products: Set<ProductId> = []
     private let unlocker: UnlockPresenter
     
-    init(@ViewBuilder content: () -> Content, unlocker: UnlockPresenter) {
+    init(
+        @ViewBuilder content: () -> Content,
+        unlocker: UnlockPresenter
+    ) {
         self.content = content()
         self.unlocker = unlocker
         super.init(rootView: AnyView(content()))

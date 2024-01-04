@@ -34,22 +34,18 @@ public struct ContainerSettingsEditorView: View {
 #elseif os(macOS)
 public struct ContainerSettingsEditorView: View {
     @ObservedObject var container: A11yContainer
-    var deleteAction: () -> Void
+    var deleteSelf: () -> Void
     
-    public init(container: A11yContainer, delete: @escaping () -> Void) {
+    public init(container: A11yContainer, deleteSelf: @escaping () -> Void) {
         self.container = container
-        self.deleteAction = delete
+        self.deleteSelf = deleteSelf
     }
     
     public var body: some View {
         ScrollView {
-            ContainerSettingsView(container: container)
+            ContainerSettingsView(container: container, deleteSelf: deleteSelf)
                 .padding()
         }
-    }
-    
-    private func delete() {
-        deleteAction()
     }
 }
 #endif
@@ -57,9 +53,11 @@ public struct ContainerSettingsEditorView: View {
 struct ContainerSettingsView: View {
     @Environment(\.unlockedProductIds) private var unlockedProductIds
     @ObservedObject var container: A11yContainer
+    var deleteSelf: () -> Void
 
-    init(container: A11yContainer) {
+    init(container: A11yContainer, deleteSelf: @escaping () -> Void) {
         self.container = container
+        self.deleteSelf = deleteSelf
     }
     
     var body: some View {
@@ -78,6 +76,11 @@ struct ContainerSettingsView: View {
             containerTypePicker
             navigationStylePicker
             optionsView
+            HStack {
+                Spacer()
+                Button("Delete", role: .destructive, action: deleteSelf)
+                // TODO: Add backspace shortcut
+            }
         }
     }
 
@@ -138,7 +141,7 @@ extension View {
 #Preview("Container without buttons") {
     let container = A11yContainer(elements: [], frame: .zero, label: "Container")
     
-    return ContainerSettingsEditorView(container: container, delete: {})
+    return ContainerSettingsEditorView(container: container, deleteSelf: {})
         .frame(width: 400, height: 500)
 }
 
@@ -146,6 +149,6 @@ extension View {
     let button = A11yDescription(isAccessibilityElement: true, label: "Button 1", value: "", hint: "", trait: .button, frame: .zero, adjustableOptions: AdjustableOptions(options: []), customActions: A11yCustomActions())
     let container = A11yContainer(elements: [button, button], frame: .zero, label: "Container")
     
-    return ContainerSettingsEditorView(container: container, delete: {})
+    return ContainerSettingsEditorView(container: container, deleteSelf: {})
         .frame(width: 400, height: 500)
 }

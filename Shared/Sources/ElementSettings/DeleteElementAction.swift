@@ -7,18 +7,19 @@
 
 import Foundation
 import SwiftUI
+import Artboard
 
 public struct DeleteElementAction {
-    var closure: () -> Void
+    var closure: (_ element: any ArtboardElement) -> Void
     
-    func callAsFunction() {
-        closure()
+    func delete(_ element: any ArtboardElement) {
+        closure(element)
     }
 }
 
 private extension DeleteElementAction {
     struct Key: EnvironmentKey {
-        static var defaultValue: DeleteElementAction = .init(closure: {})
+        static var defaultValue: DeleteElementAction = .init(closure: { _ in })
     }
 }
 

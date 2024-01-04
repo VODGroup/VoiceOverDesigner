@@ -37,22 +37,19 @@ public struct ElementSettingsEditorView: View {
 #if os(macOS)
 public struct ElementSettingsEditorView: View {
     @ObservedObject var element: A11yDescription
-    var deleteAction: () -> Void
+    var deleteSelf: () -> Void
     
-    public init(element: A11yDescription, delete: @escaping () -> Void) {
+    public init(element: A11yDescription, deleteSelf: @escaping () -> Void) {
         self.element = element
-        self.deleteAction = delete
+        self.deleteSelf = deleteSelf
     }
     
     public var body: some View {
         ScrollView {
-            ElementSettingsView(element: element)
+            ElementSettingsView(element: element, deleteSelf: deleteSelf)
                 .padding()
+            
         }
-    }
-    
-    private func delete() {
-        deleteAction()
     }
 }
 #endif
@@ -61,9 +58,14 @@ public struct ElementSettingsEditorView: View {
 public struct ElementSettingsView: View {
     @Environment(\.unlockedProductIds) private var unlockedProductIds
     @ObservedObject var element: A11yDescription
+    private var deleteSelf: () -> Void
     
-    public init(element: A11yDescription) {
+    public init(
+        element: A11yDescription,
+        deleteSelf: @escaping () -> Void
+    ) {
         self.element = element
+        self.deleteSelf = deleteSelf
     }
     
     public var body: some View {
@@ -95,15 +97,22 @@ public struct ElementSettingsView: View {
             
             Section {
                 TextField("Hint", text: $element.hint)
-            }.padding(.top, 16)
+            }
+            .padding(.top, 16)
+                .padding(.bottom, 24)
             
-            Toggle("Is accessible", isOn: $element.isAccessibilityElement)
+            HStack {
+                Toggle("Accessible", isOn: $element.isAccessibilityElement)
+                Spacer()
+                Button("Delete", role: .destructive, action: deleteSelf)
+                    // TODO: Add backspace shortcut
+            }
         }
     }
 }
 
 #Preview {
-    ElementSettingsEditorView(element: .empty(frame: .zero), delete: {})
+    ElementSettingsEditorView(element: .empty(frame: .zero), deleteSelf: {})
         .frame(width: 400, height: 1200)
 }
 
@@ -111,7 +120,7 @@ public struct ElementSettingsView: View {
     let element = A11yDescription(isAccessibilityElement: true, label: "Size", value: "", hint: "", trait: .adjustable, frame: .zero, adjustableOptions: AdjustableOptions(options: []), customActions: A11yCustomActions())
     
     return ElementSettingsEditorView(element: element,
-                                     delete: {})
+                                     deleteSelf: {})
     .frame(width: 400, height: 1200)
 }
 
@@ -120,7 +129,7 @@ import TextRecognition
     let element = A11yDescription(isAccessibilityElement: true, label: "Size", value: "", hint: "", trait: .adjustable, frame: .zero, adjustableOptions: AdjustableOptions(options: ["Small", "Medium", "Large"], currentIndex: 1), customActions: A11yCustomActions())
     
     return ElementSettingsEditorView(element: element,
-                                     delete: {})
+                                     deleteSelf: {})
     .frame(width: 400, height: 1200)
     .textRecognitionResults(["Small", "Medium", "Lagre"])
 }
