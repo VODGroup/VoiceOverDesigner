@@ -39,11 +39,7 @@ struct ValueView: View {
     
     @ViewBuilder
     func defaultView(value: Binding<String>) -> some View {
-#if os(iOS)
-        TextField("Value", text: value)
-#elseif os(macOS)
         TextRecognitionComboBoxView(text: value)
-#endif
     }
     
     @ViewBuilder

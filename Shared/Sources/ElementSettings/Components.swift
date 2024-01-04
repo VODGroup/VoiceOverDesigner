@@ -30,9 +30,10 @@ struct TextValue: View {
     @Binding var value: String
     
     public var body: some View {
+        // TODO: What the difference?
 #if os(iOS)
         Section(content: {
-            TextField(title, text: $value)
+            TextRecognitionComboBoxView(text: $value)
         }, header: {
             SectionTitle(title)
         })
