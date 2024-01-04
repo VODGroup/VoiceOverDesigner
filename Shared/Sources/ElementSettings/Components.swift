@@ -19,6 +19,8 @@ struct SectionTitle: View {
     var body: some View {
         Text(title)
             .font(.headline)
+            .padding(.top, 15)
+        
     }
 }
 

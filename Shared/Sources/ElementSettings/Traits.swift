@@ -114,9 +114,11 @@ enum Traits: Identifiable {
     case searchField
     case keyboardKey
     
-    static let type: [Traits] = [.button, .adjustable, .link,  .image,  .switcher,]
+    static let type: [Traits] = [.button, .selected, .notEnabled, .link,  .image,  .switcher,]
     
-    static let text: [Traits] = [.textInput, .header, .isEditing, .staticText, .searchField, .keyboardKey,]
+    static let text: [Traits] = [.textInput, .header, .isEditing,]
     
-    static let behaviour: [Traits] = [.selected, .notEnabled, .summaryElement, .playsSound, .allowsDirectInteraction, .startsMediaSession, .causesPageTurn,]
+    static let text2: [Traits] = [.staticText, .searchField, .keyboardKey,]
+    
+    static let behaviour: [Traits] = [.updatesFrequently, .summaryElement, .playsSound, .allowsDirectInteraction, .startsMediaSession, .causesPageTurn,]
 }

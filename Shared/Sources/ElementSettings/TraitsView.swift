@@ -10,20 +10,23 @@ struct TraitsView: View {
     }
     
     public var body: some View {
+        
         Section(content: {
-            contentView(elements: Traits.type)
+            HStack(alignment: .top, spacing: 24) {
+                contentView(elements: Traits.type)
+                contentView(elements: Traits.behaviour)
+            }
+            .padding(.vertical, -12)
         }, header: {
             SectionTitle("Type Traits")
         })
         
         Section(content: {
-            contentView(elements: Traits.behaviour)
-        }, header: {
-            SectionTitle("Behaviour Traits")
-        })
-        
-        Section(content: {
-            contentView(elements: Traits.text)
+            HStack(alignment: .top, spacing: 52) {
+                contentView(elements: Traits.text)
+                contentView(elements: Traits.text2)
+            }
+            .padding(.vertical, -12)
         }, header: {
             SectionTitle("Text Traits")
         })
