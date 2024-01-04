@@ -10,8 +10,7 @@ import SwiftUI
 
 struct TextRecognitionComboBoxView: View {
     @Binding var text: String
-    
-    var variants = ["Small", "Medium", "Large"]
+    @Environment(\.textRecognitionResults) private var variants
     
     var joinedVariants: String {
         variants.joined(separator: " ")
