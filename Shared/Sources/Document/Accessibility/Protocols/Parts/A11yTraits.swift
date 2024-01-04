@@ -45,6 +45,9 @@ public struct A11yTraits: OptionSet, Codable, Hashable {
     // TODO: Check the link for more traits https://github.com/akaDuality/AccessibilityTraits
     // decimal: 262144 – text field
     // decimal: 2359296 - text field with text editing
+    
+    public static let AdjustableName = "Adjustable"
+    public static let StaticName = "Static"
 }
 
 #if canImport(UIKit)

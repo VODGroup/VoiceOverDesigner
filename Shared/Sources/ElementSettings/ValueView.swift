@@ -9,21 +9,31 @@ struct ValueView: View {
     @Binding var traits: A11yTraits
     
     var body: some View {
-        Section(content: {
-            if traits.contains(.adjustable) {
-                adjustableView(options: $adjustableOptions)
-            } else {
-                defaultView(value: $value)
+        LabeledContent {
+            VStack(alignment: .leading) {
+                Picker("Type", selection: $traits.adjustable(),
+                       content: {
+                    ForEach([
+                        A11yTraits.StaticName,
+                        A11yTraits.AdjustableName
+                    ], id: \.self) { type in
+                        Text(type)
+                            .tag(type)
+                    }
+                })
+                .pickerStyle(.segmented)
+                .labelsHidden()
+                
+                if traits.contains(.adjustable) {
+                    adjustableView(options: $adjustableOptions)
+                } else {
+                    defaultView(value: $value)
+                }
+                
             }
-            
-        }, header: {
-            HStack(alignment: .bottom) {
-                SectionTitle("Value")
-                Spacer()
-                Toggle("Is Adjustable", isOn: $traits.bind(.adjustable))
-                    .fixedSize()
-            }  
-        })
+        } label: {
+            Text("Value") // TODO: Align to right
+        }
     }
     
     
@@ -62,6 +72,8 @@ struct ValueView: View {
             }
         }, label: EmptyView.init)
         .pickerStyle(.radioGroup)
+        .offset(x: -27) // Align radio circles out of bounds
+        .padding(.trailing, -27) // Add compensation to whole width
 #endif
         
         HStack {
@@ -70,10 +82,25 @@ struct ValueView: View {
             }, label: {
                 Label("Add Value", systemImage: "plus")
             })
-            .padding(.leading, 20)
+
             Spacer()
             Toggle(isOn: options.isEnumerated) {
-                Text("Is enumerated")
+                Text("Enumerate")
+            }
+        }
+    }
+}
+
+extension Binding where Value == A11yTraits {
+    
+    func adjustable() -> Binding<String> {
+        return .init { () -> String in
+            self.wrappedValue.contains(.adjustable) ? A11yTraits.AdjustableName : A11yTraits.StaticName
+        } set: { newValue in
+            if newValue == A11yTraits.AdjustableName {
+                self.wrappedValue.insert(.adjustable)
+            } else {
+                self.wrappedValue.remove(.adjustable)
             }
         }
     }

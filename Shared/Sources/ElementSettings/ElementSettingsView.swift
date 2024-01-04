@@ -80,7 +80,7 @@ public struct ElementSettingsView: View {
             TextValue(
                 title: "Label",
                 value: $element.label
-            )
+            ).padding(.bottom, 16)
             
             ValueView(
                 value: $element.value,
@@ -98,7 +98,6 @@ public struct ElementSettingsView: View {
             }.padding(.top, 16)
             
             Toggle("Is accessible", isOn: $element.isAccessibilityElement)
-            
         }
     }
 }
