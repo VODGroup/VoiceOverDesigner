@@ -24,7 +24,7 @@ class CenteredClipView: NSClipView {
             return insets
         }
         
-        set {}
+        set {} // Self-managed insets for correct scrolling
     }
 }
 

@@ -94,7 +94,7 @@ class CanvasScrollView: NSScrollView {
     }
     
     func fitToWindowIfAlreadyFitted() {
-        if isImageMagnificationFitsToWindow {
+        if imageMagnificationFitsToWindow {
             fitToWindow(animated: false)
         }
     }
@@ -110,7 +110,7 @@ class CanvasScrollView: NSScrollView {
         setMagnification(to: changed, animated: false)
     }
     
-    private var isImageMagnificationFitsToWindow: Bool {
+    private var imageMagnificationFitsToWindow: Bool {
         abs(fittingMagnification - magnification) < 0.01
     }
     
