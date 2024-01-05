@@ -54,29 +54,25 @@ struct ValueView: View {
             options.wrappedValue.options.remove(atOffsets: indexSet)
         })
 #elseif os(macOS)
-        if options.options.isEmpty {
-            Spacer(minLength: 12) // TODO: Should have at least 1 variant by default
-        } else {
-            Picker(selection: options.currentIndex, content: {
-                ForEach(options.wrappedValue.options.indices, id: \.self) { index in
-                    HStack {
-                        TextRecognitionComboBoxView(text: options.options[index])
-                            .accessibilityIdentifier("valueTextField-\(index)")
-                        
-                        Button(role: .destructive, action: {
-                            options.wrappedValue.options.remove(at: index)
-                        }, label: {
-                            Image(systemName: "trash")
-                        })
-                    }
-                    .tag(index as Int?)
-                    .buttonStyle(.borderless) // For trash buttons
+        Picker(selection: options.currentIndex, content: {
+            ForEach(options.wrappedValue.options.indices, id: \.self) { index in
+                HStack {
+                    TextRecognitionComboBoxView(text: options.options[index])
+                        .accessibilityIdentifier("valueTextField-\(index)")
+                    
+                    Button(role: .destructive, action: {
+                        options.wrappedValue.options.remove(at: index)
+                    }, label: {
+                        Image(systemName: "trash")
+                    })
                 }
-            }, label: EmptyView.init)
-            .pickerStyle(.radioGroup)
-            .offset(x: -27) // Align radio circles out of bounds
-            .padding(.trailing, -27) // Add compensation to whole width
-        }
+                .tag(index as Int?)
+                .buttonStyle(.borderless) // For trash buttons
+            }
+        }, label: EmptyView.init)
+        .pickerStyle(.radioGroup)
+        .offset(x: -27) // Align radio circles out of bounds
+        .padding(.trailing, -27) // Add compensation to whole width
 #endif
         
         HStack {
