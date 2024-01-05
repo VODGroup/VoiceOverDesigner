@@ -3,16 +3,18 @@ import XCTest
 class Settings: ProjectPanel {
     
     // MARK: - Label
-    var resultLabel: XCUIElement { window.splitGroups.staticTexts.firstMatch }
+    var resultLabel: XCUIElement { window.splitGroups.staticTexts["ResultLabel"] }
     
     var resultLabelText: String? {
         resultLabel.value as? String
     }
     
     var labelTextField: XCUIElement {
-        window
-            .splitGroups
-            .textFields["labelTextField"]
+        window.comboBoxes["LabelTextField"].firstMatch
+    }
+    
+    var deleteButton: XCUIElement {
+        window.buttons["Delete"].firstMatch
     }
     
     @discardableResult
@@ -23,6 +25,12 @@ class Settings: ProjectPanel {
             labelTextField.input(text)
         }
         
+        return self
+    }
+    
+    @discardableResult
+    func delete() -> Self {
+        deleteButton.tap()
         return self
     }
     

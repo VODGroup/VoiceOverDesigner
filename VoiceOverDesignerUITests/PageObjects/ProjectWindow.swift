@@ -12,6 +12,24 @@ class ProjectWindow: Robot {
         return self
     }
     
+    func newDocument() {
+        app.menuBars.firstMatch
+            .menuBarItems["File"].firstMatch
+            .menuItems["New"].firstMatch
+            .tap()
+        
+        
+        sleep(1)
+        // TODO: wait for empty screen
+    }
+    
+    func undo() {
+        app.menuBars.firstMatch
+            .menuBarItems["Edit"].firstMatch
+            .menuItems["Undo"].firstMatch
+            .tap()
+    }
+    
     @discardableResult
     func click(_ coord: CGVector) -> Self {
         projectWindow.coordinate(withNormalizedOffset: coord)
@@ -43,11 +61,23 @@ class ProjectWindow: Robot {
     func verify(controlDescription: String,
                 file: StaticString = #file, line: UInt = #line) {
         XCTContext.runActivity(named: "Name should be set to text and settings header") { _ in
-            XCTAssertEqual(textSummary.firstCellText, controlDescription,
-                           file: file, line: line)
+            verifyNavigator(controlDescription: controlDescription, file: file, line: line)
+            verifySettings(controlDescription: controlDescription, file: file, line: line)
+        }
+    }
+    
+    func verifyNavigator(
+        controlDescription: String,
+        file: StaticString = #file, line: UInt = #line) {
+        XCTAssertEqual(textSummary.firstCellText, controlDescription,
+                       file: file, line: line)
+    }
+
+    func verifySettings(
+        controlDescription: String,
+        file: StaticString = #file, line: UInt = #line) {
             XCTAssertEqual(settingsPanel.resultLabelText, controlDescription,
                            file: file, line: line)
-        }
     }
     
     func goBackToProjects() {

@@ -292,7 +292,6 @@ extension ArtboardElement {
         }
         
         undoManager?.registerUndo(withTarget: self, handler: { selfRef in
-
             insertionContext.restore(undoManager: undoManager)
         })
         

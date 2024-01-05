@@ -71,6 +71,8 @@ public struct ElementSettingsView: View {
     public var body: some View {
         VStack(alignment: .leading) {
             Text(element.voiceOverTextAttributed(font: .preferredFont(forTextStyle: .largeTitle)))
+                .accessibilityIdentifier("ResultLabel")
+            
         #if os(macOS)
             if !unlockedProductIds.contains(.textRecognition) {
                 TextRecognitionOfferView()
@@ -83,6 +85,7 @@ public struct ElementSettingsView: View {
                 title: "Label",
                 value: $element.label
             ).padding(.bottom, 16)
+                .accessibilityIdentifier("LabelTextField")
             
             ValueView(
                 value: $element.value,
