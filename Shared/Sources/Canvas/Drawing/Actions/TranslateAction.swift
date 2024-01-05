@@ -5,9 +5,11 @@ public class TranslateAction: MoveAction, DraggingAction {
     public func end(at coordinate: CGPoint) -> DraggingAction? {
         if offset.isSmallOffset {
             // Reset frame
-            control.frame = control.frame
+            let frame = control.frame
                 .offsetBy(dx: -offset.x,
                           dy: -offset.y)
+            
+            control.updateFrame(frame)
             return ClickAction(control: control)
         }
         
@@ -16,13 +18,13 @@ public class TranslateAction: MoveAction, DraggingAction {
     
     public func cancel() {
         control.updateWithoutAnimation {
-            control.frame = initialFrame
+            undo()
         }
     }
 }
 
 extension TranslateAction: Undoable {
     public func undo() {
-        control.frame = initialFrame
+        control.updateFrame(initialFrame)
     }
 }

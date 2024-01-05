@@ -15,7 +15,9 @@ public class CopyAndTranslateAction: DraggingAction {
     }
     
     public func end(at coordinate: CGPoint) -> DraggingAction? {
-        control.frame = control.frame.rounded()
+        let newFrame = control.frame.rounded()
+        control.updateFrame(newFrame)
+        
         return action.end(at: coordinate)
     }
     

@@ -16,6 +16,7 @@ public enum DetailsState: StateProtocol {
     public static var `default`: Self = .empty
 }
 
+import Combine
 public class SettingsStateViewController: StateViewController<DetailsState> {
     public var document: VODesignDocumentProtocol!
     public weak var settingsDelegate: SettingsDelegate!
@@ -24,6 +25,8 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
     lazy var textRecognitionUnlockPresenter = UnlockPresenter(
         productId: .textRecognition,
         unlockerDelegate: self)
+    
+    private var cancellables: Set<AnyCancellable> = []
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -36,8 +39,6 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
                 return NSHostingController(rootView: EmptySettingsView())
                 
             case .control(let element):
-                
-                
                 let elementView = ElementSettingsEditorView(element: element,
                                                             deleteSelf: { [weak self] in
                     self?.settingsDelegate.delete(model: element)
@@ -47,6 +48,9 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
                     content: { elementView },
                     unlocker: textRecognitionUnlockPresenter)
                 self.recognizeText(for: element)
+                
+                observerElementChangesAndRedrawCanvasWhenChangesHappened(element)
+
                 return containerViewController
             case .container(let container):
                 
@@ -58,13 +62,23 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
                 let containerViewController = HostingReceiverController(content: { containerView}, unlocker: textRecognitionUnlockPresenter)
                 
                 self.recognizeText(for: container)
+                observerElementChangesAndRedrawCanvasWhenChangesHappened(container)
                 
                 return containerViewController
             case .frame(let frame):
                 let frameSettings = FrameSettingsViewController(document: document, frame: frame, delegate: settingsDelegate)
+                observerElementChangesAndRedrawCanvasWhenChangesHappened(frame)
                 return frameSettings
             }
         }
+    }
+    
+    func observerElementChangesAndRedrawCanvasWhenChangesHappened<T: ObservableObject>(
+        _ element: T
+    ) where T.ObjectWillChangePublisher == ObservableObjectPublisher  {
+        element.objectWillChange.sink { _ in
+            self.settingsDelegate.didUpdateElementSettings()
+        }.store(in: &cancellables)
     }
     
     public override func viewDidLoad() {

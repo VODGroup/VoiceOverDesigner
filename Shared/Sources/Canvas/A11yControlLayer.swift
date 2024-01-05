@@ -21,10 +21,9 @@ public class A11yControlLayer: CALayer {
     
     public var model: (any ArtboardElement)?
     
-    public override var frame: CGRect {
-        didSet {
-            model?.frame = frame
-        }
+    public func updateFrame(_ newFrame: CGRect) {
+        frame = newFrame
+        model?.frame = newFrame
     }
     
     public var isHighlighted: Bool = false {

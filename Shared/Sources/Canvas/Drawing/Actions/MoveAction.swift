@@ -27,7 +27,7 @@ public class MoveAction {
         
         control.updateWithoutAnimation {
             let alignedOffset = aligned.origin - control.frame.origin
-            control.frame = aligned
+            control.updateFrame(aligned)
             
             if let container = control.model as? any ArtboardContainer {
                 // Won't work on nested containers or should be recursive

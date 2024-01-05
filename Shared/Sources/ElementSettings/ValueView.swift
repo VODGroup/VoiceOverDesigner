@@ -4,6 +4,8 @@ import SwiftUI
 
 struct ValueView: View {
     var element: A11yDescription
+    
+    // TODO: Use only `element`
     @Binding var value: String
     @Binding var adjustableOptions: AdjustableOptions
     @Binding var traits: A11yTraits

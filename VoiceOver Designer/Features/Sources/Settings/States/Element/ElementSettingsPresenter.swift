@@ -9,7 +9,7 @@ import Foundation
 import Document
 
 public protocol SettingsDelegate: AnyObject {
-    func updateValue()
+    func didUpdateElementSettings()
     func delete(model: any ArtboardElement)
 }
 

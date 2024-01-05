@@ -14,17 +14,13 @@ class AdjustableTest: DocumentTests {
                 .inputValue("Small")
                 .clickAdjustable()
             
-            project.verifySettings(controlDescription: "Pizza ize: Small. Adjustable.")
-            // TODO: Restore full verification
-//            project.verify(controlDescription: "Pizza ize: Small. Adjustable.")
+            project.verify(controlDescription: "Pizza ize: Small. Adjustable.")
             
             settings
                 .addAdjustableVariant("Meium")
                 .selectAdjustable("Meium")
             
-            project.verifySettings(controlDescription: "Pizza ize: Meium, 2 of 2. Adjustable.")
-            // TODO: Restore full verification
-//            project.verify(controlDescription: "Pizza ize: Meium, 2 of 2. Adjustable.")
+            project.verify(controlDescription: "Pizza ize: Meium, 2 of 2. Adjustable.")
         }
         
         XCTContext.runActivity(named: "Disable adjustable") { _ in
