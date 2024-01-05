@@ -2,13 +2,13 @@ import AppKit
 import CommonUI
 import Canvas
 
-protocol ScrollViewScrollingDelegate: AnyObject {
+protocol ScrollViewZoomDelegate: AnyObject {
     func didUpdateScale(_ magnification: CGFloat)
 }
 
 class CanvasScrollView: NSScrollView {
     
-    weak var delegate: ScrollViewScrollingDelegate?
+    weak var delegate: ScrollViewZoomDelegate?
     
     func documentView() -> ContentView {
         documentView! as! ContentView

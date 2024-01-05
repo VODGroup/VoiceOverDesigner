@@ -83,7 +83,7 @@ class CanvasView: FlippedView {
     }
 }
 
-extension CanvasView: ScrollViewScrollingDelegate {
+extension CanvasView: ScrollViewZoomDelegate {
     func didUpdateScale(_ magnification: CGFloat) {
         documentView.hud.scale = 1 / magnification
         dragnDropView.scale = magnification
