@@ -13,6 +13,7 @@ struct CustomActionsView: View {
             ForEach(selection.names.indices, id: \.self) { index in
                 HStack {
                     TextField("", text: $selection.names[index])
+                        .submitLabel(.done)
                     
                     #if os(macOS)
                     Button(action: {
