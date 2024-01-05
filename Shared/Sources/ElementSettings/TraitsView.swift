@@ -9,9 +9,9 @@ struct TraitsView: View {
         self._selection = selection
     }
     
-    public var body: some View {
-        #if os(iOS)
-        Menu("Traits") {
+    @ViewBuilder
+    func traitMenu(_ name: String) -> some View {
+        Menu(name) {
             Section("Type") {
                 traitsView(A11yTraits.type)
             }
@@ -24,6 +24,24 @@ struct TraitsView: View {
                 traitsView(A11yTraits.text1 + A11yTraits.text2)
             }
         }
+        .controlSize(.mini)
+    }
+    
+    public var body: some View {
+        #if os(iOS)
+
+        if selection.selected().isEmpty {
+            traitMenu("Add trait")
+                .buttonStyle(.borderless)
+        } else {
+            FlowLayout(spacing: 10) {
+                ForEach(selection.selected(), id: \.self) { trait in
+                    traitMenu(trait.name)
+                }
+                .buttonStyle(.bordered)
+            }
+        }
+        
         #elseif os(macOS)
         Section(content: {
             HStack(alignment: .top, spacing: 24) {
@@ -111,11 +129,17 @@ extension A11yTraits {
         }
     }
     
+    static let all: [Self] = type + behaviour + text1 + text2
+    
     static let type: [Self] = [.button, .selected, .notEnabled, .link,  .image,  .switcher,]
+    static let behaviour: [Self] = [.updatesFrequently, .summaryElement, .playsSound, .allowsDirectInteraction, .startsMediaSession, .causesPageTurn,]
     
     static let text1: [Self] = [.textInput, .header, .isEditingTextInput]
-    
     static let text2: [Self] = [.staticText, .searchField, .keyboardKey,]
-    
-    static let behaviour: [Self] = [.updatesFrequently, .summaryElement, .playsSound, .allowsDirectInteraction, .startsMediaSession, .causesPageTurn,]
+}
+
+extension OptionSet where Element == A11yTraits {
+    func selected() -> [A11yTraits] {
+        A11yTraits.all.filter(contains)
+    }
 }

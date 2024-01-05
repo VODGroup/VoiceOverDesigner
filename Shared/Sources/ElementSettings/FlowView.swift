@@ -25,68 +25,6 @@ private enum Flow {
     }
 }
 
-
-struct FlowView<Element: Identifiable, Cell: View>: View {
-    
-    var elements: [Element]
-    var cell: (Element) -> Cell
-    var spacing: CGFloat
-    
-    init(elements: [Element], @ViewBuilder cell: @escaping (Element) -> Cell, spacing: CGFloat = 10) {
-        self.elements = elements
-        self.cell = cell
-        self.spacing = spacing
-    }
-    
-    @State private var sizes: [CGSize] = []
-    @State private var containerWidth: CGFloat = 0
-    
-    var body: some View {
-        let layout = Flow.layout(sizes: sizes,
-                            spacing: spacing,
-                            containerWidth: containerWidth).offsets
-        VStack(alignment: .leading, spacing: 0) {
-            GeometryReader { proxy in
-                Color.clear.preference(key: TagSize.self, value: [proxy.size])
-            }
-            .onPreferenceChange(TagSize.self) {
-                containerWidth = $0[0].width
-            }
-            .frame(height: 0)
-            ZStack(alignment: .topLeading) {
-                ForEach(Array(zip(elements, elements.indices)), id: \.0.id) { item, index in
-                    cell(item)
-                        .fixedSize()
-                        .background(GeometryReader { proxy in
-                            Color.clear.preference(key: TagSize.self, value: [proxy.size])
-                        })
-                        .alignmentGuide(.leading, computeValue: { dimension in
-                            guard !layout.isEmpty else { return 0 }
-                            return -layout[index].x
-                        })
-                        .alignmentGuide(.top, computeValue: { dimension in
-                            guard !layout.isEmpty else { return 0 }
-                            return -layout[index].y
-                        })
-                }
-            }
-            .onPreferenceChange(TagSize.self) {
-                sizes = $0
-            }
-            .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-        }
-    }
-}
-
-private struct TagSize: PreferenceKey {
-    static var defaultValue: [CGSize] = []
-    static func reduce(value: inout [CGSize], nextValue: () -> [CGSize]) {
-        value.append(contentsOf: nextValue())
-    }
-}
-
-
-@available(iOS 16, macOS 13, *)
 struct FlowLayout: Layout {
     
     let spacing: CGFloat
