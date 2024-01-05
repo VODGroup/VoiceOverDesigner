@@ -59,46 +59,49 @@ public struct ElementSettingsView: View {
             Text(element.voiceOverTextAttributed(font: .preferredFont(forTextStyle: .largeTitle)))
                 .accessibilityIdentifier("ResultLabel")
             
-        #if os(macOS)
+#if os(macOS)
             if !unlockedProductIds.contains(.textRecognition) {
                 TextRecognitionOfferView()
             }
-        #endif
-        }.padding(.bottom, 16)
-        
-        Form {
-            TextValue(
-                title: "Label",
-                value: $element.label
-            ).padding(.bottom, 16)
+#endif
+            
+            Form {
+                TextValue(
+                    title: "Label",
+                    value: $element.label
+                )
+                .padding(.bottom, 16)
                 .accessibilityIdentifier("LabelTextField")
-            
-            ValueView(
-                element: element,
-                value: $element.value,
-                adjustableOptions: $element.adjustableOptions,
-                traits: $element.trait
-            )
-            
-            TraitsView(selection: $element.trait)
-            
-            CustomActionsView(selection: $element.customActions)
-            
-            CustomDescriptionView(selection: $element.customDescriptions)
-            
-            Section {
-                TextField("Hint", text: $element.hint)
-            }
-            .padding(.top, 16)
+                
+                ValueView(
+                    element: element,
+                    value: $element.value,
+                    adjustableOptions: $element.adjustableOptions,
+                    traits: $element.trait
+                )
+                
+                TraitsView(selection: $element.trait)
+                
+                CustomActionsView(selection: $element.customActions)
+                
+                CustomDescriptionView(selection: $element.customDescriptions)
+                
+                Section {
+                    TextField("Hint", text: $element.hint)
+                }
+                .padding(.top, 16)
                 .padding(.bottom, 24)
-            
-            HStack {
-                Toggle("Accessible", isOn: $element.isAccessibilityElement)
-                Spacer()
-                Button("Delete", role: .destructive, action: deleteSelf)
+                
+                HStack {
+                    Toggle("Accessible", isOn: $element.isAccessibilityElement)
+                    Spacer()
+                    Button("Delete", role: .destructive, action: deleteSelf)
                     // TODO: Add backspace shortcut
+                }
+                
+                Spacer()
             }
-        }
+        }.padding(.bottom, 16)
     }
 }
 
