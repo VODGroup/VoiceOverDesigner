@@ -5,16 +5,16 @@ import Document
 public struct ElementSettingsEditorView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var element: A11yDescription
-    var deleteAction: () -> Void
+    var deleteSelf: () -> Void
     
-    public init(element: A11yDescription, delete: @escaping () -> Void) {
+    public init(element: A11yDescription, deleteSelf: @escaping () -> Void) {
         self.element = element
-        self.deleteAction = delete
+        self.deleteSelf = deleteSelf
     }
     
     public var body: some View {
         NavigationView {
-            ElementSettingsView(element: element)
+            ElementSettingsView(element: element, deleteSelf: deleteSelf)
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationTitle(Text("Element"))
                 
@@ -26,7 +26,7 @@ public struct ElementSettingsEditorView: View {
     }
     
     private func delete() {
-        deleteAction()
+        deleteSelf()
         dismiss()
     }
     

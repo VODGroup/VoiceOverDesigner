@@ -6,16 +6,16 @@ import SwiftUI
 public struct ContainerSettingsEditorView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var container: A11yContainer
-    var deleteAction: () -> Void
+    var deleteSelf: () -> Void
     
-    public init(container: A11yContainer, delete: @escaping () -> Void) {
+    public init(container: A11yContainer, deleteSelf: @escaping () -> Void) {
         self.container = container
-        self.deleteAction = delete
+        self.deleteSelf = deleteSelf
     }
     
     public var body: some View {
         NavigationView {
-            ContainerSettingsView(container: container)
+            ContainerSettingsView(container: container, deleteSelf: deleteSelf)
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationTitle(Text("Container"))
                 .toolbar {
@@ -27,7 +27,7 @@ public struct ContainerSettingsEditorView: View {
     }
     
     private func delete() {
-        deleteAction()
+        deleteSelf()
         dismiss()
     }
 }

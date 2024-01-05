@@ -98,17 +98,17 @@ public class PreviewMainViewController: UIViewController {
             self.presenter.deselect()
         }
 
-        let onDelete = { [weak self] in
+        let deleteSelf = { [weak self] in
             guard let self = self else { return }
             self.presenter.remove(model)
         }
 
         switch model {
         case let description as A11yDescription:
-            ElementSettingsEditorView(element: description, delete: onDelete)
+            ElementSettingsEditorView(element: description, deleteSelf: deleteSelf)
                 .onDisappear(perform: onDismiss)
         case let container as A11yContainer:
-            ContainerSettingsEditorView(container: container, delete: onDelete)
+            ContainerSettingsEditorView(container: container, deleteSelf: deleteSelf)
                 .onDisappear(perform: onDismiss)
         default:
             EmptyView()
