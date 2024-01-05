@@ -57,8 +57,9 @@ public struct ElementSettingsView: View {
     public var body: some View {
         VStack(alignment: .leading, spacing: 24) {
             Text(element.voiceOverTextAttributed(font: .preferredFont(forTextStyle: .largeTitle)))
+                .padding(.horizontal, 16)
                 .accessibilityIdentifier("ResultLabel")
-            
+                
 #if os(macOS)
             if !unlockedProductIds.contains(.textRecognition) {
                 TextRecognitionOfferView()

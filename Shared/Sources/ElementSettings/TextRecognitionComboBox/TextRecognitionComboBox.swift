@@ -48,6 +48,7 @@ struct TextRecognitionComboBoxView: View {
             }
             .buttonStyle(.borderless)
             .disabled(variants.isEmpty)
+            .padding(.trailing, 4)
         }
     }
     
