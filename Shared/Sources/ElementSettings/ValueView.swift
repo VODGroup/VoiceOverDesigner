@@ -116,7 +116,10 @@ extension A11yDescription {
         } set: { newValue in
             if newValue == A11yTraits.AdjustableName {
                 self.trait.insert(.adjustable)
-                self.addAdjustableOption(defaultValue: self.value)
+                
+                if self.adjustableOptions.options.isEmpty {
+                    self.addAdjustableOption(defaultValue: self.value)
+                }
             } else {
                 self.trait.remove(.adjustable)
             }

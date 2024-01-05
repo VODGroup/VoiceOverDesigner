@@ -55,7 +55,7 @@ public struct ElementSettingsView: View {
     }
     
     public var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 24) {
             Text(element.voiceOverTextAttributed(font: .preferredFont(forTextStyle: .largeTitle)))
                 .accessibilityIdentifier("ResultLabel")
             
