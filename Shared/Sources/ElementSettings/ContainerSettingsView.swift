@@ -1,10 +1,8 @@
 import Document
 import SwiftUI
 
-
-#if os(iOS)
 public struct ContainerSettingsEditorView: View {
-    @Environment(\.dismiss) var dismiss
+    
     @ObservedObject var container: A11yContainer
     var deleteSelf: () -> Void
     
@@ -14,6 +12,7 @@ public struct ContainerSettingsEditorView: View {
     }
     
     public var body: some View {
+#if os(iOS)
         NavigationView {
             ContainerSettingsView(container: container, deleteSelf: deleteSelf)
                 .navigationBarTitleDisplayMode(.inline)
@@ -24,31 +23,22 @@ public struct ContainerSettingsEditorView: View {
                 }
         }
         .navigationViewStyle(.stack)
-    }
-    
-    private func delete() {
-        deleteSelf()
-        dismiss()
-    }
-}
 #elseif os(macOS)
-public struct ContainerSettingsEditorView: View {
-    @ObservedObject var container: A11yContainer
-    var deleteSelf: () -> Void
-    
-    public init(container: A11yContainer, deleteSelf: @escaping () -> Void) {
-        self.container = container
-        self.deleteSelf = deleteSelf
-    }
-    
-    public var body: some View {
         ScrollView {
             ContainerSettingsView(container: container, deleteSelf: deleteSelf)
                 .padding()
         }
-    }
-}
 #endif
+    }
+    
+#if os(iOS)
+    @Environment(\.dismiss) var dismiss
+    private func delete() {
+        deleteSelf()
+        dismiss()
+    }
+#endif
+}
 
 struct ContainerSettingsView: View {
     @Environment(\.unlockedProductIds) private var unlockedProductIds
