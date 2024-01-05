@@ -10,11 +10,25 @@ struct TraitsView: View {
     }
     
     public var body: some View {
-        
+        #if os(iOS)
+        Menu("Traits") {
+            Section("Type") {
+                traitsView(A11yTraits.type)
+            }
+            
+            Section("Behaviour") {
+                traitsView(A11yTraits.behaviour)
+            }
+            
+            Section("Text") {
+                traitsView(A11yTraits.text1 + A11yTraits.text2)
+            }
+        }
+        #elseif os(macOS)
         Section(content: {
             HStack(alignment: .top, spacing: 24) {
-                contentView(elements: Traits.type)
-                contentView(elements: Traits.behaviour)
+                contentView(A11yTraits.type)
+                contentView(A11yTraits.behaviour)
             }
             .padding(.vertical, -12)
         }, header: {
@@ -23,47 +37,85 @@ struct TraitsView: View {
         
         Section(content: {
             HStack(alignment: .top, spacing: 52) {
-                contentView(elements: Traits.text)
-                contentView(elements: Traits.text2)
+                contentView(A11yTraits.text1)
+                contentView(A11yTraits.text2)
             }
             .padding(.vertical, -12)
         }, header: {
             SectionTitle("Text Traits")
         })
+        #endif
     }
-    
-    
-    private func traitsView(_ elements: [Traits]) -> some View {
-        ForEach(elements) { trait in
-            Toggle(trait.name, isOn: $selection.bind(trait.trait))
+
+    @available(iOS 14, *)
+    private func traitsView(_ traits: [A11yTraits]) -> some View {
+        ForEach(traits, id: \.self) { trait in
+            Toggle(trait.name, isOn: $selection.bind(trait))
         }
     }
-    
-    
-    private func contentView(elements: [Traits]) -> some View {
-        
-        #if os(macOS)
+#if os(macOS)
+    @available(macOS 12, *)
+    private func contentView(_ traits: [A11yTraits]) -> some View {
         VStack(alignment: .leading) {
-            traitsView(elements)
+            traitsView(traits)
         }
         .padding(.vertical)
         .toggleStyle(.checkbox)
-        #else
-        Group {
-            if #available(iOS 16, macOS 13, *) {
-                FlowLayout(spacing: 10) {
-                    traitsView(elements)
-                }
-            } else {
-                FlowView(elements: elements) { trait in
-                    Toggle(trait.name, isOn: $selection.bind(trait.trait))
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            }
-        }
-        .padding(.vertical)
-        .toggleStyle(.button)
-        .buttonStyle(.bordered)
-        #endif
     }
+#endif
+}
+
+extension A11yTraits {
+    public var name: String {
+        switch self {
+        case .button:
+            return NSLocalizedString("Button", comment: "")
+        case .header:
+            return NSLocalizedString("Header", comment: "")
+        case .adjustable:
+            return NSLocalizedString("Adjustable", comment: "")
+        case .link:
+            return NSLocalizedString("Link", comment: "")
+        case .staticText:
+            return NSLocalizedString("Static Text", comment: "")
+        case .image:
+            return NSLocalizedString("Image", comment: "")
+        case .searchField:
+            return NSLocalizedString("SearchField", comment: "")
+        case .selected:
+            return NSLocalizedString("Selected", comment: "")
+        case .notEnabled:
+            return NSLocalizedString("Not enabled", comment: "")
+        case .summaryElement:
+            return NSLocalizedString("Summary element", comment: "")
+        case .playsSound:
+            return NSLocalizedString("Plays sound", comment: "")
+        case .allowsDirectInteraction:
+            return NSLocalizedString("Allows direct interaction", comment: "")
+        case .startsMediaSession:
+            return NSLocalizedString("Starts media session", comment: "")
+        case .updatesFrequently:
+            return NSLocalizedString("Updates frequently", comment: "")
+        case .causesPageTurn:
+            return NSLocalizedString("Causes Page Turn", comment: "")
+        case .keyboardKey:
+            return NSLocalizedString("Keyboard key", comment: "")
+        case .switcher:
+            return NSLocalizedString("Switch button", comment: "")
+        case .textInput:
+            return NSLocalizedString("Text field", comment: "")
+        case .isEditingTextInput:
+            return NSLocalizedString("Is editing", comment: "")
+        default:
+            return "Unknown"
+        }
+    }
+    
+    static let type: [Self] = [.button, .selected, .notEnabled, .link,  .image,  .switcher,]
+    
+    static let text1: [Self] = [.textInput, .header, .isEditingTextInput]
+    
+    static let text2: [Self] = [.staticText, .searchField, .keyboardKey,]
+    
+    static let behaviour: [Self] = [.updatesFrequently, .summaryElement, .playsSound, .allowsDirectInteraction, .startsMediaSession, .causesPageTurn,]
 }
