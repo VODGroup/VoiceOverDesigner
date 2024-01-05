@@ -3,7 +3,7 @@ import SwiftUI
 
 
 struct ValueView: View {
-    
+    var element: A11yDescription
     @Binding var value: String
     @Binding var adjustableOptions: AdjustableOptions
     @Binding var traits: A11yTraits
@@ -11,7 +11,7 @@ struct ValueView: View {
     var body: some View {
         LabeledContent {
             VStack(alignment: .leading) {
-                Picker("Type", selection: $traits.adjustable(),
+                Picker("Type", selection: element.adjustable(),
                        content: {
                     ForEach([
                         A11yTraits.StaticName,
@@ -23,13 +23,12 @@ struct ValueView: View {
                 })
                 .pickerStyle(.segmented)
                 .labelsHidden()
-                
+
                 if traits.contains(.adjustable) {
                     adjustableView(options: $adjustableOptions)
                 } else {
                     defaultView(value: $value)
                 }
-                
             }
         } label: {
             Text("Value") // TODO: Align to right
@@ -73,6 +72,8 @@ struct ValueView: View {
         .pickerStyle(.radioGroup)
         .offset(x: -27) // Align radio circles out of bounds
         .padding(.trailing, -27) // Add compensation to whole width
+        .accessibilityIdentifier("AdjustableValues")
+        .accessibilityElement(children: .contain)
 #endif
         
         HStack {
@@ -105,10 +106,29 @@ extension Binding where Value == A11yTraits {
     }
 }
 
+extension A11yDescription {
+    
+    func adjustable() -> Binding<String> {
+        return .init { () -> String in
+            self.trait.contains(.adjustable) ? A11yTraits.AdjustableName : A11yTraits.StaticName
+        } set: { newValue in
+            if newValue == A11yTraits.AdjustableName {
+                self.trait.insert(.adjustable)
+                self.addAdjustableOption(defaultValue: self.value)
+            } else {
+                self.trait.remove(.adjustable)
+            }
+        }
+    }
+}
+
 #Preview("Static") {
     let options = AdjustableOptions(options: [])
     
+    let element = A11yDescription(isAccessibilityElement: true, label: "Size", value: "", hint: "", trait: [], frame: .zero, adjustableOptions: options, customActions: A11yCustomActions())
+
     return ValueView(
+        element: element,
         value: .constant("Text"),
         adjustableOptions: .constant(options),
         traits: .constant([])
@@ -118,7 +138,10 @@ extension Binding where Value == A11yTraits {
 #Preview("Adjustable empty") {
     let options = AdjustableOptions(options: [])
     
+    let element = A11yDescription(isAccessibilityElement: true, label: "Size", value: "", hint: "", trait: .adjustable, frame: .zero, adjustableOptions: options, customActions: A11yCustomActions())
+    
     return ValueView(
+        element: element,
         value: .constant("Text"),
         adjustableOptions: .constant(options),
         traits: .constant([.adjustable])
@@ -127,8 +150,10 @@ extension Binding where Value == A11yTraits {
 
 #Preview("Adjustable sizes") {
     let options = AdjustableOptions(options: ["Small", "Meduim", "Large"])
-
+    let element = A11yDescription(isAccessibilityElement: true, label: "Size", value: "", hint: "", trait: .adjustable, frame: .zero, adjustableOptions: options, customActions: A11yCustomActions())
+    
     return ValueView(
+        element: element,
         value: .constant("Text"),
         adjustableOptions: .constant(options),
         traits: .constant([.adjustable])

@@ -15,14 +15,10 @@ public struct AdjustableOptions: Codable {
         currentIndex: Int? = nil,
         isEnumerated: Bool = true
     ) {
-        if options.isEmpty {
-            // Should have at least one option
-            self.options = [""]
-            self.currentIndex = 0
-        } else {
+
             self.options = options
             self.currentIndex = currentIndex
-        }
+        
         self.isEnumerated = isEnumerated
     }
     

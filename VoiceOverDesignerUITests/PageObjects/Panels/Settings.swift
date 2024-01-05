@@ -65,16 +65,20 @@ class Settings: ProjectPanel {
     }
     
     var addValueButton: XCUIElement {
-        window.splitGroups.scrollViews.buttons["+ Add value"].firstMatch
+
+        window.buttons["Add Value"].firstMatch
     }
     
     @discardableResult
     func addAdjustableVariant(_ text: String) -> Self {
         addValueButton.click()
         
-        let newAdjustableOption = app.otherElements["Empty"]
-        newAdjustableOption.click()
-        newAdjustableOption.input(text, pressEnter: false)
+        let lastAdjustableOption = app
+            .radioGroups["AdjustableValues"].firstMatch
+            .radioButtons.allElementsBoundByIndex.last!
+            .descendants(matching: .comboBox).firstMatch
+        lastAdjustableOption.click()
+        lastAdjustableOption.input(text, pressEnter: false)
         
         // Element's identifiers have changed
         let newAdjustableOption1 = app.otherElements[text]

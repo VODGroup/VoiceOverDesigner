@@ -88,6 +88,7 @@ public struct ElementSettingsView: View {
                 .accessibilityIdentifier("LabelTextField")
             
             ValueView(
+                element: element,
                 value: $element.value,
                 adjustableOptions: $element.adjustableOptions,
                 traits: $element.trait
