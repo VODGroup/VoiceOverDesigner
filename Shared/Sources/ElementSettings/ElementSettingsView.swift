@@ -92,6 +92,7 @@ public struct ElementSettingsView: View {
                 adjustableOptions: $element.adjustableOptions,
                 traits: $element.trait
             )
+            
             TraitsView(selection: $element.trait)
             
             CustomActionsView(selection: $element.customActions)

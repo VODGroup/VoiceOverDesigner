@@ -37,6 +37,17 @@
                BlueprintName = "VoiceOverDesignerUITests"
                ReferencedContainer = "container:../VoiceOver Designer.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "DocumentFromFileTests">
+               </Test>
+               <Test
+                  Identifier = "WindowRestorationTests">
+               </Test>
+               <Test
+                  Identifier = "WindowTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

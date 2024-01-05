@@ -3,9 +3,11 @@ import XCTest
 class AdjustableTest: DocumentTests {
     func test_whenCreateAdjustable_andSelectAnotherVariant_shouldUpdateTitle() {
         launchApp()
+        project.newDocument()
         
         canvas.drawRectInCenter()
         
+        // TODO: Pizza ize and Meium not a mistakes! It accidentely calls save dialog
         XCTContext.runActivity(named: "Fill adjustable") { _ in
             settings
                 .inputLabel("Pizza ize")

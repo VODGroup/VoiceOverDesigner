@@ -38,7 +38,7 @@ class Settings: ProjectPanel {
     var valueTextField: XCUIElement {
         window
             .splitGroups
-            .textFields["valueTextField"]
+            .comboBoxes["valueTextField"]
     }
     
     @discardableResult
@@ -51,13 +51,16 @@ class Settings: ProjectPanel {
         return self
     }
     
-    var adjustableCheckbox: XCUIElement {
-        window.splitGroups.scrollViews.checkBoxes["Adjustable"]
+    var adjustableSegment: XCUIElement {
+        window
+            .radioGroups["Type"]
+            .radioButtons["Adjustable"]
+            .firstMatch
     }
     
     @discardableResult
     func clickAdjustable() -> Self {
-        adjustableCheckbox.click()
+        adjustableSegment.click()
         return self
     }
     

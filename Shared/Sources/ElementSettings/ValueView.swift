@@ -40,6 +40,7 @@ struct ValueView: View {
     @ViewBuilder
     func defaultView(value: Binding<String>) -> some View {
         TextRecognitionComboBoxView(text: value)
+            .accessibilityIdentifier("valueTextField")
     }
     
     @ViewBuilder
@@ -60,6 +61,8 @@ struct ValueView: View {
                 ForEach(options.wrappedValue.options.indices, id: \.self) { index in
                     HStack {
                         TextRecognitionComboBoxView(text: options.options[index])
+                            .accessibilityIdentifier("valueTextField-\(index)")
+                        
                         Button(role: .destructive, action: {
                             options.wrappedValue.options.remove(at: index)
                         }, label: {

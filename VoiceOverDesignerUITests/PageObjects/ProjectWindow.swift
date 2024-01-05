@@ -81,7 +81,7 @@ class ProjectWindow: Robot {
     }
     
     func goBackToProjects() {
-        app.toolbars.firstMatch.buttons["Back"].click()
+        app.toolbars.firstMatch.buttons["Recent"].click()
     }
     
     func save(name: String) {
