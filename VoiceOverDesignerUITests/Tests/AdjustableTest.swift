@@ -2,7 +2,7 @@ import XCTest
 
 class AdjustableTest: DocumentTests {
     func test_whenCreateAdjustable_andSelectAnotherVariant_shouldUpdateTitle() {
-        lauchApp()
+        launchApp()
         
         canvas.drawRectInCenter()
         
