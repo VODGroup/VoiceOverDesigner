@@ -38,14 +38,24 @@ class WindowManager: NSObject {
     private var projectController: ProjectController?
 
     func start() {
-        print("Start")
-        
+        // This method is called from applicationDidFinishLaunching
+        // This place is too early to restore any previous opened windows
+        // As a result we had to slightly wait to check what is restored
+        // In there in no other windows – show recent or new
+        //
+        // It can be fixed by finding correct place. Maybe NSApplicationDidFinishRestoringWindowsNotification will help?
+        DispatchQueue.main.async {
+            self.showRecentIfNeeded()
+        }
+    }
+    
+    private func showRecentIfNeeded() {
         if newDocumentIsCreated {
             // Document has been created from [NSDocumentController openUntitledDocumentAndDisplay:error:]
             return
         }
         if documentsPresenter.shouldShowThisController {
-            self.showRecent()
+            showRecent()
         } else {
             // TODO: Do we need it or document will open automatically?
             showNewDocument()
