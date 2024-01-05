@@ -22,8 +22,7 @@ class ContentView: FlippedView, DrawingView {
 
     // MARK: - Images
     override var intrinsicContentSize: NSSize {
-        NSSize(width:  -boundingBox.origin.x + boundingBox.size.width,
-               height: boundingBox.origin.y + boundingBox.size.height)
+        boundingBox.size
     }
     
     private var defaultBoundingBox: CGRect {
@@ -32,7 +31,7 @@ class ContentView: FlippedView, DrawingView {
             size: CGSize(width: 800, height: 400)) // TODO: Understaned default size
     }
     
-    private var boundingBox: CGRect {
+    var boundingBox: CGRect {
         guard let sublayers = layer?
             .sublayers?.filter({ layer in
                 !(layer is HUDLayer) // Skip HudLayer

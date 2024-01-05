@@ -44,7 +44,7 @@ class DocumentPresenterTests_Movement: XCTestCase {
         artboard = document.artboard
         
         sut.disableUndoRegistration()
-        sut.add(image: Sample().image3x(), origin: .zero)
+        sut.add(image: Sample().image3x(), name: "Test Frame", origin: .zero)
         
         frame = try XCTUnwrap(artboard.frames.first)
         frame.label = "Frame"
@@ -413,7 +413,7 @@ Container:
     }
     
     func test_canNotInsertFrameInFrame() throws {
-        sut.add(image: Sample().image3x(), origin: .zero)
+        sut.add(image: Sample().image3x(), name: "Sample", origin: .zero)
         let frame2 = try XCTUnwrap(artboard.frames.last)
         frame2.label = "Frame 2"
         

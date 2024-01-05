@@ -139,7 +139,7 @@ final class DocumentPresenterTests_Inserting: XCTestCase {
     
     private func addFrameWithElement() throws {
         sut.disableUndoRegistration()
-        sut.add(image: Sample().image3x(), origin: .zero)
+        sut.add(image: Sample().image3x(), name: "Sample", origin: .zero)
         sut.append(control: A11yDescription.testMake(frame: CGRect(x: 0, y: 0, width: 20, height: 20)))
         sut.enableUndoRegistration()
     }

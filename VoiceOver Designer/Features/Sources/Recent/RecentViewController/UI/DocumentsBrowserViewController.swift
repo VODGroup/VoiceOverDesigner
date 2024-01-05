@@ -68,7 +68,7 @@ extension DocumentsBrowserViewController: DragNDropDelegate {
         return true
     }
     
-    public func didDrag(image: NSImage, locationInWindow: CGPoint) {
+    public func didDrag(image: NSImage, locationInWindow: CGPoint, name: String?) {
         let document = VODesignDocument(image: image)
         show(document: document)
     }

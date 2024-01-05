@@ -49,7 +49,9 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
         
         displayName = image.name() ?? Date().description
         
-        addFrame(with: image, origin: .zero)
+        addFrame(with: image,
+                 name: image.name(),
+                 origin: .zero)
     }
     
     var version: DocumentVersion!

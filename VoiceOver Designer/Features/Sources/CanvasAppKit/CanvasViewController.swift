@@ -34,8 +34,7 @@ public class CanvasViewController: NSViewController {
         
         view.window?.delegate = self
         
-        presenter.didLoad(uiContent: view().contentView,
-                          uiScroll: view(),
+        presenter.didLoad(uiContent: view().documentView,
                           initialScale: 1,
                           previewSource: view())
         
@@ -50,9 +49,6 @@ public class CanvasViewController: NSViewController {
         
         presenter.subscribeOnControlChanges()
         observe()
-        
-        // Zoom after layout of scrollView
-        view().fitToWindow(animated: false)
     }
     
     public override func viewWillDisappear() {
@@ -110,7 +106,7 @@ public class CanvasViewController: NSViewController {
     var highlightedControl: A11yControlLayer?
     
     private func location(from event: NSEvent) -> CGPoint {
-        event.location(in: view().contentView)
+        event.location(in: view().documentView)
     }
     
     // MARK: - Mouse movement
@@ -168,7 +164,7 @@ public class CanvasViewController: NSViewController {
         Task {
             if let path = await requestImage(),
                let image = NSImage(contentsOf: path) {
-                presenter.add(image: image)
+                presenter.add(image: image, name: path.lastPathComponent)
             }
         }
     }
@@ -215,34 +211,43 @@ extension CanvasViewController {
     }
     
     @IBAction func reduceMagnifing(sender: Any) {
-        view().changeMagnifacation { current in
+        view().scrollView.changeMagnification { current in
             current / zoomStep
         }
     }
     
     @IBAction func increaseMagnifing(sender: Any) {
-        view().changeMagnifacation { current in
+        view().scrollView.changeMagnification { current in
             current * zoomStep
         }
     }
     
     @IBAction func fitMagnifing(sender: Any) {
-        view().fitToWindow(animated: true)
+        view().scrollView.fitToWindow(animated: true)
     }
 }
 
 extension CanvasViewController: NSWindowDelegate {
     public func windowDidResize(_ notification: Notification) {
-        view().fitToWindowIfAlreadyFitted()
+        view().scrollView.fitToWindowIfAlreadyFitted()
     }
 }
 
 extension CanvasViewController: DragNDropDelegate {
-    public func didDrag(image: NSImage, locationInWindow: CGPoint) {
-        let locationInCanvas = view().contentView.convert(locationInWindow, from: nil)
+    public func didDrag(
+        image: NSImage,
+        locationInWindow: CGPoint,
+        name: String?
+    ) {
+        let locationInCanvas = view().documentView
+            .convert(locationInWindow, from: nil)
+        
         let shouldAnimate = presenter.document.artboard.frames.count != 0
-        presenter.add(image: image, origin: locationInCanvas)
-        view().fitToWindow(animated: shouldAnimate)
+        
+        presenter.add(image: image,
+                      name: name,
+                      origin: locationInCanvas)
+        view().scrollView.fitToWindow(animated: shouldAnimate)
     }
     
     public func didDrag(path: URL) -> Bool {

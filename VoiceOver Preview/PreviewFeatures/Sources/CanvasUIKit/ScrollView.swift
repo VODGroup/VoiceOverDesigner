@@ -45,7 +45,6 @@ class ScrollView: UIView {
 
 extension ScrollView: UIScrollViewDelegate {
 
-
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if let elements = container.accessibilityElements {
             layout?.updateContainers(in: elements)

@@ -55,10 +55,15 @@ open class DocumentPresenter {
     }
     
     // MARK:
-    open func add(image: Image, origin: CGPoint) {
+    open func add(
+        image: Image,
+        name: String?,
+        origin: CGPoint
+    ) {
         document.invalidateQuickViewPreview()
         
         let frame = Frame(image: image,
+                          name: name,
                           frame: CGRect(origin: origin,
                                         size: image.size))
         
