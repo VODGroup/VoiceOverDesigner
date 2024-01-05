@@ -44,6 +44,35 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         print("will restore document \(documentURL)")
         presentDocumentModally(url: documentURL)
     }
+    
+    func scene(_ scene: UIScene, restoreInteractionStateWith stateRestorationActivity: NSUserActivity) {
+        print("Will restore user activity")
+        var isStale = false
+        guard let bookmarkData = stateRestorationActivity.userInfo?[UIDocument.userActivityURLKey] as? Data,
+              let documentURL = try? URL(resolvingBookmarkData: bookmarkData, bookmarkDataIsStale: &isStale),
+              !isStale // Bookmark was fresh
+        else {
+            print("Don't want to restore any document, no url")
+            return
+        }
+        
+        print("Will restore document \(documentURL)")
+        presentDocumentModally(url: documentURL)
+    }
+    
+    func stateRestorationActivity(for scene: UIScene) -> NSUserActivity? {
+        guard let currentDocument else {
+            print("No current document")
+            return nil
+        }
+        
+        print("Save user activity")
+        let userActivity = NSUserActivity(activityType: "DocumentRestoration")
+        userActivity.userInfo?[UIDocument.userActivityURLKey] = try! currentDocument.bookmarkData()
+        return userActivity
+    }
+    
+    var currentDocument: URL?
 }
 
 import Document
@@ -59,6 +88,7 @@ extension SceneDelegate: UIDocumentBrowserViewControllerDelegate {
 extension SceneDelegate {
     func presentDocumentModally(url: URL) {
         closePresentedDocument()
+        currentDocument = url // Set after closing previous
         
         let document = VODesignDocument(fileURL: url)
         let controller = PreviewMainViewController(document: document)
@@ -81,10 +111,13 @@ extension SceneDelegate {
     }
     
     @objc private func closePresentedDocument() {
-        window?
+        guard let presentedController = window?
             .rootViewController?
-            .presentedViewController?
-            .dismiss(animated: true)
+            .presentedViewController
+        else { return }
+        
+        presentedController.dismiss(animated: true)
+        currentDocument = nil
     }
     
     private func showDocumentBrowserAsRoot() {
