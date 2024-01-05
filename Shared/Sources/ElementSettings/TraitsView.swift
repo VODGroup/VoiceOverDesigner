@@ -10,39 +10,39 @@ struct TraitsView: View {
     }
     
     @ViewBuilder
-    func traitMenu(_ name: String) -> some View {
-        Menu(name) {
-            Section("Type") {
-                traitsView(A11yTraits.type)
-            }
-            
-            Section("Behaviour") {
-                traitsView(A11yTraits.behaviour)
-            }
-            
-            Section("Text") {
-                traitsView(A11yTraits.text1 + A11yTraits.text2)
-            }
+    func traitMenuItems() -> some View {
+        Section("Type") {
+            traitsView(A11yTraits.type)
         }
-        .controlSize(.mini)
+        
+        Section("Behaviour") {
+            traitsView(A11yTraits.behaviour)
+        }
+        
+        Section("Text") {
+            traitsView(A11yTraits.text1 + A11yTraits.text2)
+        }
     }
     
     public var body: some View {
-        #if os(iOS)
-
+#if os(iOS)
         if selection.selected().isEmpty {
-            traitMenu("Add trait")
-                .buttonStyle(.borderless)
+            Menu {
+                traitMenuItems()
+            } label: {
+                Label("Add trait", systemImage: "plus")
+            }
         } else {
             FlowLayout(spacing: 10) {
                 ForEach(selection.selected(), id: \.self) { trait in
-                    traitMenu(trait.name)
+                    Menu(trait.name) {
+                        traitMenuItems()
+                    }.controlSize(.mini)
                 }
                 .buttonStyle(.bordered)
             }
         }
-        
-        #elseif os(macOS)
+#elseif os(macOS)
         Section(content: {
             HStack(alignment: .top, spacing: 24) {
                 contentView(A11yTraits.type)
@@ -62,7 +62,7 @@ struct TraitsView: View {
         }, header: {
             SectionTitle("Text Traits")
         })
-        #endif
+#endif
     }
 
     @available(iOS 14, *)
