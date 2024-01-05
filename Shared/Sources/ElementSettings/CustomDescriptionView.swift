@@ -5,6 +5,13 @@ struct CustomDescriptionView: View {
     
     @Binding var selection: A11yCustomDescriptions
     
+    enum Field {
+        case label
+        case value
+    }
+    
+    @FocusState private var focusedField: Field?
+    
     public var body: some View {
         
         Section(content: {
@@ -21,8 +28,10 @@ struct CustomDescriptionView: View {
                 selection.descriptions.remove(atOffsets: indexSet)
             })
             .textFieldStyle(.roundedBorder)
+            
             Button(action: {
                 selection.addNewCustomDescription(.empty)
+                focusedField = .label
             }, label: {
                 Label("Add custom description", systemImage: "plus")
             })
@@ -37,7 +46,15 @@ struct CustomDescriptionView: View {
         value: Binding<String>
     ) -> some View {
         TextField("Label:", text: label)
+            .focused($focusedField, equals: .label)
+            .submitLabel(.continue)
+            .onSubmit {
+                focusedField = .value // Move to next field
+            }
+        
         TextField("Value:", text: value)
+            .focused($focusedField, equals: .value)
+            .submitLabel(.done)
     }
     
     private func label(value: A11yCustomDescription) -> some View {
