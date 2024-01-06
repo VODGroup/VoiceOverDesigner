@@ -3,7 +3,7 @@ import SwiftUI
 
 struct CustomActionsView: View {
     
-    @Binding var selection: A11yCustomActions
+    @State var selection: A11yCustomActions
     
     
     public var body: some View {

@@ -83,14 +83,14 @@ public struct ElementSettingsView: View {
                 
                 TraitsView(selection: $element.trait)
                 
-                CustomActionsView(selection: $element.customActions)
+                CustomActionsView(selection: element.customActions)
                 
-                CustomDescriptionView(selection: $element.customDescriptions)
+                CustomDescriptionView(selection: element.customDescriptions)
+                    .padding(.bottom, 16)
                 
                 Section {
                     TextField("Hint", text: $element.hint)
                 }
-                .padding(.top, 16)
                 .padding(.bottom, 24)
                 
                 HStack {

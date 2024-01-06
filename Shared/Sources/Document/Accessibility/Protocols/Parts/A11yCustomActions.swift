@@ -10,16 +10,11 @@ import Foundation
 // Would like to make A11yCustomAction with uuid for swiftUI or make separate model
 public struct A11yCustomActions: Codable {
     
-    
     public init(names: [String] = []) {
         self.names = names
     }
     
-    
     public var names: [String]
-    
-    
-    
     
     public mutating func addNewCustomAction(named action: String) {
         names.append(action)

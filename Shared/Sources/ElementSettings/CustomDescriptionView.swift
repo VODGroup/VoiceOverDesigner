@@ -3,7 +3,7 @@ import SwiftUI
 
 struct CustomDescriptionView: View {
     
-    @Binding var selection: A11yCustomDescriptions
+    @State var selection: A11yCustomDescriptions
     
     enum Field {
         case label
