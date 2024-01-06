@@ -97,6 +97,7 @@ open class DocumentPresenter {
             withTarget: self,
             handler: { presenter in
                 presenter.publishArtboardChanges()
+                presenter.select(model)
             })
 
         model.removeFromParent(undoManager: document.undo)

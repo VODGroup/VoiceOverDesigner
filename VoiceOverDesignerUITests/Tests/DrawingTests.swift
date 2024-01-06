@@ -15,7 +15,7 @@ class DrawingTests: DocumentTests {
         project.verify(controlDescription: "Title. Heading.")
     }
     
-    func test_draw_delete_undo_shouldDrawAgain() {
+    func test_draw_delete_undo_shouldDrawAgain_andSelect() {
         launchApp()
         project.newDocument()
         
@@ -29,5 +29,6 @@ class DrawingTests: DocumentTests {
         project.undo()
         
         project.verifyNavigator(controlDescription: "Title")
+        project.verifySettings(controlDescription: "Title") // Is selected
     }
 }
