@@ -69,7 +69,7 @@ struct ContainerSettingsView: View {
             HStack {
                 Spacer()
                 Button("Delete", role: .destructive, action: deleteSelf)
-                // TODO: Add backspace shortcut
+                    .keyboardShortcut(.delete, modifiers: [])
             }
         }
     }

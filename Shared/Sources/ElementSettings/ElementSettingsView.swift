@@ -97,12 +97,14 @@ public struct ElementSettingsView: View {
                     Toggle("Accessible", isOn: $element.isAccessibilityElement)
                     Spacer()
                     Button("Delete", role: .destructive, action: deleteSelf)
-                    // TODO: Add backspace shortcut
+                        .keyboardShortcut(.delete, modifiers: [])
                 }
                 
                 Spacer()
             }
-        }.padding(.bottom, 16)
+        }
+        .padding(.bottom, 16)
+
     }
 }
 
