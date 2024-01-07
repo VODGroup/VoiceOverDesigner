@@ -97,6 +97,7 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
             self.transitionController?.targetView = documentViewController.view // Children provides better animation than navigation itself, don'n know why
             
             let viewController = self.controllerToPresent(controller: documentViewController)
+            viewController.navigationBar.isTranslucent = false
             viewController.transitioningDelegate = self
             viewController.hidesBarsOnSwipe = true
             viewController.setNavigationBarHidden(true, animated: false)
