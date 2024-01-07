@@ -15,8 +15,10 @@ public struct AdjustableOptions: Codable {
         currentIndex: Int? = nil,
         isEnumerated: Bool = true
     ) {
-        self.options = options
-        self.currentIndex = currentIndex
+
+            self.options = options
+            self.currentIndex = currentIndex
+        
         self.isEnumerated = isEnumerated
     }
     

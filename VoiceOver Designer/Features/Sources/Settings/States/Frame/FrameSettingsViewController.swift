@@ -72,7 +72,7 @@ public struct FrameSettingsView: View {
                 throw failure
             }
             
-            delegate?.updateValue()
+            delegate?.didUpdateElementSettings()
         } catch {
             // TODO: show alert?
         }

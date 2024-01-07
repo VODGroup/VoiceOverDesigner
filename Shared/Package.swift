@@ -28,6 +28,10 @@ let package = Package(
         .library(
             name: "Purchases",
             targets: ["Purchases"]),
+        .library(
+            name: "ElementSettings",
+            targets: ["ElementSettings"]
+        )
     ],
     dependencies: [
         .package(
@@ -151,5 +155,12 @@ let package = Package(
             dependencies: [
                 "Purchases",
             ]),
+        .target(
+            name: "ElementSettings",
+            dependencies: [
+                "Document",
+                "Purchases"
+            ]
+        )
     ]
 )

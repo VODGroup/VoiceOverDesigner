@@ -24,25 +24,28 @@ public class ResizeAction: DraggingAction {
                         drawnControls: view.drawnControls)
 
         control.updateWithoutAnimation {
-            control.frame = initialFrame
+            let frame = initialFrame
                 .move(corner: corner, to: alignedCoordinate)
+            
+            control.updateFrame(frame)
         }
     }
     
     public func end(at coordinate: CGPoint) -> DraggingAction? {
-        control.frame = control.frame.rounded()
+        let frame = control.frame.rounded()
+        control.updateFrame(frame)
         return self
     }
     
     public func cancel() {
         control.updateWithoutAnimation {
-            control.frame = initialFrame
+            undo()
         }
     }
 }
 
 extension ResizeAction: Undoable {
     public func undo() {
-        control.frame = initialFrame
+        control.updateFrame(initialFrame)
     }
 }

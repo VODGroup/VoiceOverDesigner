@@ -123,7 +123,7 @@ extension ProjectController {
 }
 
 extension ProjectController: SettingsDelegate {
-    public func updateValue() {
+    public func didUpdateElementSettings() {
         canvas.publishArtboardChanges()
     }
     

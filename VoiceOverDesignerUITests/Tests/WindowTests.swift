@@ -4,7 +4,7 @@ class WindowTests: DesignerTests {
     func test_whenCreateNewDocument_shouldCloseProjectWindow() {
         XCTExpectFailure("No recent to show")
         
-        lauchApp()
+        launchApp()
         
         XCTContext.runActivity(named: "When create new project") { _ in
             XCTAssertFalse(recent.isVisible, "should close Projects")

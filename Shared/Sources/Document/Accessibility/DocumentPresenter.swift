@@ -18,7 +18,7 @@ open class DocumentPresenter {
     }
     public private(set) var document: VODesignDocumentProtocol
     
-    // MARK: - Contols update
+    // MARK: - Controls update
     public let artboardPublisher: PassthroughSubject<Artboard, Never> = .init()
     
     /// Controls should be changed only from this presenter to support undoing
@@ -92,16 +92,18 @@ open class DocumentPresenter {
     }
     
     open func remove(_ model: any ArtboardElement) {
-        model.removeFromParent(undoManager: document.undo)
-        
-        publishArtboardChanges()
-        deselect()
-        
+        // Undo action is called in reverse order
         document.undo?.registerUndo(
             withTarget: self,
             handler: { presenter in
                 presenter.publishArtboardChanges()
-        })
+                presenter.select(model)
+            })
+
+        model.removeFromParent(undoManager: document.undo)
+        
+        publishArtboardChanges()
+        deselect()
     }
     
     private func add(

@@ -42,9 +42,10 @@ class WindowManager: NSObject {
         // This place is too early to restore any previous opened windows
         // As a result we had to slightly wait to check what is restored
         // In there in no other windows – show recent or new
+        // Even NSApplicationDidFinishRestoringWindowsNotification won't work, isn't called if there is no windows to restore
         //
-        // It can be fixed by finding correct place. Maybe NSApplicationDidFinishRestoringWindowsNotification will help?
-        DispatchQueue.main.async {
+        // It can be fixed by finding correct place 
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(10)) {
             self.showRecentIfNeeded()
         }
     }

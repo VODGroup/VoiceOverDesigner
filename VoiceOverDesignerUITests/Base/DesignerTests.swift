@@ -15,7 +15,7 @@ class DesignerTests: XCTestCase {
         case createNewAndCloseRecent
     }
     
-    func lauchApp(launchType: LaunchType = .justTapIcon) {
+    func launchApp(launchType: LaunchType = .justTapIcon) {
         app.launchEnvironment["DocumentURL"] = ""
         
         switch launchType {

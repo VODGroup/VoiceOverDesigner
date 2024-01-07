@@ -106,8 +106,10 @@ public class A11yDescription: Codable, Equatable, ObservableObject, ArtboardElem
     public weak var parent: BaseContainer?
     
     // MARK: - Adjustable
+    
+    /// Not optional because user can input values, disable adjustable, but reenable after time. The app will keep data :-)
     @Published
-    public var adjustableOptions: AdjustableOptions // Not optional because user can input values, disable adjustable, but reenable after time. The app will keep data :-)
+    public var adjustableOptions: AdjustableOptions
     
     @DecodableDefault.EmptyCustomActions 
     public var customActions: A11yCustomActions {
