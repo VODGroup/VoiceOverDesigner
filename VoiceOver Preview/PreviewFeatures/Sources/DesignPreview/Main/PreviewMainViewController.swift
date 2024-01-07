@@ -151,14 +151,14 @@ public extension UIViewController {
         view.addSubview(viewController.view)
         viewController.didMove(toParent: self)
         
-        if let subiew = viewController.view {
-            subiew.translatesAutoresizingMaskIntoConstraints = false
+        if let subview = viewController.view {
+            subview.translatesAutoresizingMaskIntoConstraints = false
             
             NSLayoutConstraint.activate([
-                subiew.leftAnchor.constraint(equalTo: view.leftAnchor),
-                subiew.rightAnchor.constraint(equalTo: view.rightAnchor),
-                subiew.topAnchor.constraint(equalTo: view.topAnchor),
-                subiew.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+                subview.leftAnchor.constraint(equalTo: view.leftAnchor),
+                subview.rightAnchor.constraint(equalTo: view.rightAnchor),
+                subview.topAnchor.constraint(equalTo: view.topAnchor),
+                subview.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
         }
     }
