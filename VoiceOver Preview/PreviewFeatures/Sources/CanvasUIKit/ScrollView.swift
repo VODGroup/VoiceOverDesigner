@@ -14,9 +14,7 @@ class ScrollView: UIView {
         scrollView.maximumZoomScale = 4
         scrollView.contentInsetAdjustmentBehavior = .never
         
-        voiceOverHint.layer.shadowOpacity = 0.25
-        voiceOverHint.layer.shadowOffset = CGSize(width: 0, height: 5)
-        voiceOverHint.layer.shadowRadius = 10
+        voiceOverHint.layer.masksToBounds = true
     }
     
     override func layoutSubviews() {
@@ -26,8 +24,9 @@ class ScrollView: UIView {
         voiceOverHint.layer.cornerRadius = radius
         voiceOverHint.layer.cornerCurve = .continuous
         
-        voiceOverHint.layer.shadowPath = UIBezierPath(roundedRect: voiceOverHint.bounds,
-                                                      cornerRadius: radius).cgPath
+        voiceOverHint.layer.shadowPath = UIBezierPath(
+            roundedRect: voiceOverHint.bounds,
+            cornerRadius: radius).cgPath
     }
     
     @IBOutlet weak var voiceOverHint: UIView!
