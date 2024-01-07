@@ -46,6 +46,10 @@ public class PreviewMainViewController: UIViewController {
         document.close()
     }
     
+    public override var prefersStatusBarHidden: Bool {
+        true // Often we present another screenshot with status bar in it, remove app's to remove overlap
+    }
+    
     private var cancellables = Set<AnyCancellable>()
     
     private func subscribeToSelection() {
@@ -140,8 +144,6 @@ public extension UIViewController {
     func embedFullFrame(_ viewController: UIViewController) {
         addChild(viewController)
         view.addSubview(viewController.view)
-        viewController.didMove(toParent: self)
-        
         if let subview = viewController.view {
             subview.translatesAutoresizingMaskIntoConstraints = false
             
@@ -152,5 +154,6 @@ public extension UIViewController {
                 subview.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
         }
+        viewController.didMove(toParent: self)
     }
 }

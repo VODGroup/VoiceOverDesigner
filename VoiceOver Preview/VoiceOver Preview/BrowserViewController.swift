@@ -94,11 +94,12 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
         
         document.open { isSuccess in
             self.transitionController?.loadingProgress?.completedUnitCount = 1
+            self.transitionController?.targetView = documentViewController.view // Children provides better animation than navigation itself, don'n know why
             
             let viewController = self.controllerToPresent(controller: documentViewController)
-            self.transitionController?.targetView = viewController.view // Children provides better animation than navigation itself, don'n know why
             viewController.transitioningDelegate = self
-            
+            viewController.hidesBarsOnSwipe = true
+            viewController.setNavigationBarHidden(true, animated: false)
             self.present(viewController, animated: animated)
         }
     }
@@ -112,6 +113,7 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
         let navController = UINavigationController(rootViewController: controller)
         // Document's transition can't be interactive, that why we close screen by separate button
         navController.modalPresentationStyle = .overFullScreen
+        navController.modalPresentationCapturesStatusBarAppearance = true
         return navController
     }
     

@@ -12,6 +12,7 @@ class ScrollView: UIView {
         super.awakeFromNib()
         
         scrollView.maximumZoomScale = 4
+        scrollView.contentInsetAdjustmentBehavior = .never
         
         voiceOverHint.layer.shadowOpacity = 0.25
         voiceOverHint.layer.shadowOffset = CGSize(width: 0, height: 5)
