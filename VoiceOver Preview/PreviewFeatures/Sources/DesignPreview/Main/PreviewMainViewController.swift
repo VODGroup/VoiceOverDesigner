@@ -10,7 +10,7 @@ import ElementSettings
 public class PreviewMainViewController: UIViewController {
     private var presenter: CanvasPresenter!
     
-    private var document: VODesignDocument!
+    public private(set) var document: VODesignDocument!
     public init(document: VODesignDocument) {
         self.document = document
         self.presenter = CanvasPresenter(document: document)
@@ -24,7 +24,8 @@ public class PreviewMainViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadAndDraw()
+        embedCanvas()
+        subscribeToSelection()
     }
     
     public override func viewDidAppear(_ animated: Bool) {
@@ -46,17 +47,6 @@ public class PreviewMainViewController: UIViewController {
     }
     
     private var cancellables = Set<AnyCancellable>()
-    private func loadAndDraw() {
-        // TODO: Show loading?
-        document.open { [weak self] isSuccess in
-            if isSuccess {
-                self?.embedCanvas()
-                self?.subscribeToSelection()
-            } else {
-                fatalError() // TODO: Present something to user
-            }
-        }
-    }
     
     private func subscribeToSelection() {
         presenter.selectedPublisher.sink { description in
@@ -76,12 +66,13 @@ public class PreviewMainViewController: UIViewController {
         self.presentDetails(for: model)
     }
     private func presentDetails(for model: any ArtboardElement) {
-        // TODO: Add support for Container
-
+        if case .frame = model.cast {
+            // No settings for Frame
+            return 
+        }
         
         let details = UIHostingController(rootView: makeView(for: model))
     
-        
         // Side presentation for iPad
         if traitCollection.userInterfaceIdiom == .pad {
             details.modalPresentationStyle = .custom
@@ -140,7 +131,7 @@ extension PreviewMainViewController {
         document.printState()
         
         if document.documentState == .progressAvailable {
-            loadAndDraw()
+            // TODO: Should show loading progress according to .progress property
         }
     }
 }

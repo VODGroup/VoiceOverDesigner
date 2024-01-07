@@ -34,9 +34,13 @@ class QuickPreviewViewController: UIViewController, QLPreviewingController {
     func preparePreviewOfFile(at url: URL, completionHandler handler: @escaping (Error?) -> Void) {
         
         let document = VODesignDocument(fileURL: url)
-        let preview = PreviewMainViewController(document: document)
+        document.open { isSuccess in
+            guard isSuccess else { return }
+            
+            let preview = PreviewMainViewController(document: document)
+            self.embedFullFrame(preview)
+        }
         
-        embedFullFrame(preview)
         
         // Call the completion handler so Quick Look knows that the preview is fully loaded.
         // Quick Look will display a loading spinner while the completion handler is not called.
