@@ -166,12 +166,6 @@ let package = Package(
             ]
         ),
         .target(
-            name: "Presentation",
-            dependencies: [
-                "Document",
-            ]
-        ),
-        .target(
             name: "ElementSettings",
             dependencies: [
                 "Document",
