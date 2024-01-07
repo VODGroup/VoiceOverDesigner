@@ -66,12 +66,46 @@ class NewDrawingTests: CanvasAfterDidLoadTests {
                        rect10to50)
     }
     
-    func test_notCreateControlsWhenDocumentImageNil() {
-        removeImage()
+    // MARK: - Artboard
+    func test_frameOnScreen_whenAddElementInsideFrame_shouldAddElementToFrame() throws {
+        addFrame()
+        XCTAssertNotNil(document.artboard.frames.first)
+        
         sut.mouseDown(on: start10)
         sut.mouseUp(on: end60)
-        XCTAssertNil(drawnControls.first)
+        
+        let frame = try XCTUnwrap(document.artboard.frames.first)
+        XCTAssertEqual(frame.elements.count, 1)
+        
+        XCTAssertEqual(document.artboard.elements.count, 1)
     }
+    
+    func test_createControlsWhenDocumentImageNil() {
+        // TODO: Remove image?
+        sut.mouseDown(on: start10)
+        sut.mouseUp(on: end60)
+        XCTAssertNotNil(drawnControls.first, "Should create control")
+    }
+    
+    func addFrame() {
+        let image = Sample().image3x()
+        sut.add(image: image, name: "Sample")
+    }
+    
+    // MARK: - Frame drawing
+    func test_whenDrawFrame_shouldAddFrameLayer() {
+        addFrame()
+        
+        XCTAssertEqual(numberOfDrawnLayers, 1)
+    }
+    
+    func test_whenDraw2Frames_shouldAddFrameLayer() {
+        addFrame()
+        addFrame()
+        
+        XCTAssertEqual(numberOfDrawnLayers, 2)
+    }
+    
 }
 
 extension CGPoint {

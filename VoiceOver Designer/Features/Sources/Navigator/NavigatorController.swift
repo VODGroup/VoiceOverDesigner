@@ -1,27 +1,23 @@
 import AppKit
 import Combine
 import Document
-
-public protocol TextBasedPresenter: DocumentPresenter {
-    var selectedPublisher: OptionalDescriptionSubject { get }
-    func wrapInContainer(_ elements: [any AccessibilityView]) -> A11yContainer?
-}
+import Artboard
 
 public class NavigatorController: NSViewController {
     
-    var presenter: TextBasedPresenter!
+    var presenter: DocumentPresenter!
     
     @IBOutlet var outlineView: NSOutlineView!
     
     func inject(document: VODesignDocument,
-                presenter: TextBasedPresenter)
+                presenter: DocumentPresenter)
     {
         self.document = document
         self.presenter = presenter
     }
     
     var document: VODesignDocument!
-    var draggedNode: (any AccessibilityView)?
+    var draggedNode: (any ArtboardElement)?
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -49,7 +45,7 @@ public class NavigatorController: NSViewController {
     }
     
     private func observe() {
-        presenter.controlsPublisher.sink { [weak self] _ in
+        presenter.artboardPublisher.sink { [weak self] _ in
             self?.outlineView.reloadData()
             self?.updateToolbarButton()
         }.store(in: &cancellables)
@@ -63,16 +59,16 @@ public class NavigatorController: NSViewController {
     /**
      Deselects current element and passes next upstream
         - parameters:
-            - current: A currently selected ``AccessibilityView`` in the upstream
+            - current: A currently selected ``ArtboardElement`` in the upstream
             - next: A new value to select in the upstream
         - returns: A next value to select
      */
-    private func deselect(current: (any AccessibilityView)?, next: (any AccessibilityView)?) -> (any AccessibilityView)? {
+    private func deselect(current: (any ArtboardElement)?, next: (any ArtboardElement)?) -> (any ArtboardElement)? {
         updateCell(for: current, shouldSelect: false)
         return next
     }
     
-    private func select(model: (any AccessibilityView)?) {
+    private func select(model: (any ArtboardElement)?) {
         guard let model = model else {
             outlineView.deselectAll(self)
             return
@@ -87,25 +83,32 @@ public class NavigatorController: NSViewController {
             return expandAndSelect(model)
         }
         
-        
         outlineView.selectRowIndexes(IndexSet(integer: index),
                                      byExtendingSelection: false)
     }
     
-    private func expandAndSelect(_ element: any AccessibilityView) {
+    private func expandAndSelect(_ element: any ArtboardElement) {
+        expandParents(of: element)
         
-        guard case let .element(description) = element.cast else { return }
-        guard let container = document.container(for: description) else { return }
-        // Expanding Container
-        outlineView.expandItem(container, expandChildren: false)
-        
-        
-        // Selecting element inside of container
-        let rowToSelect = outlineView.row(forItem: description)
+        let rowToSelect = outlineView.row(forItem: element)
         guard isValid(row: rowToSelect) else { return }
         
         outlineView.selectRowIndexes(IndexSet(integer: rowToSelect), byExtendingSelection: false)
+    }
+    
+    private func expandParents(of element: any ArtboardElement) {
+        // Iterate parents
+        var elementToExpand: Child = element
+        var elementsToExpand = [Any]()
+        while let parent = elementToExpand.parent {
+            elementsToExpand.append(parent)
+            elementToExpand = parent
+        }
         
+        // Expand starting from top elements
+        for elementToExpand in elementsToExpand.reversed() {
+            outlineView.expandItem(elementToExpand, expandChildren: false)
+        }
     }
 
     /**
@@ -115,10 +118,10 @@ public class NavigatorController: NSViewController {
         - returns: A Boolean that indicates is row valid or not
      */
     private func isValid(row: Int) -> Bool {
-        row != -1
+        row != NSOutlineViewDropOnItemIndex
     }
     
-    private func updateCell(for model: (any AccessibilityView)?, shouldSelect: Bool) {
+    private func updateCell(for model: (any ArtboardElement)?, shouldSelect: Bool) {
         guard let model else { return }
         
         let row = outlineView.row(forItem: model)
@@ -137,7 +140,7 @@ public class NavigatorController: NSViewController {
         let selectedItems = outlineView.selectedRowIndexes
             .map { row in
                 outlineView.item(atRow: row)
-            } as! [any AccessibilityView]
+            } as! [any ArtboardElement]
         
         let container = presenter.wrapInContainer(selectedItems)
 
@@ -154,30 +157,47 @@ public class NavigatorController: NSViewController {
 
 extension NavigatorController: NSOutlineViewDataSource {
     public func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
-        if let container = item as? A11yContainer {
+        switch item {
+        case .none:
+            // Top-level frames
+            return document.artboard.elements.count
+        case let frame as Frame:
+            // Containers
+            return frame.elements.count
+        case let container as A11yContainer:
+            // Elements
             return container.elements.count
+        default:
+            // Default
+            return 0
         }
-        
-        return document.controls.count
     }
     
     public func outlineView(_ outlineView: NSOutlineView,
                             child index: Int,
                             ofItem item: Any?
     ) -> Any {
-        if let container = item as? A11yContainer {
+        switch item {
+        case .none:
+            return document.artboard.elements[index]
+        case let frame as Frame:
+            return frame.elements[index]
+        case let container as A11yContainer:
             return container.elements[index]
+        default:
+            fatalError()
         }
-        
-        return document.controls[index]
     }
     
     public func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
-        if item is A11yContainer {
+        switch item {
+        case is Frame:
             return true
+        case is A11yContainer:
+            return true
+        default:
+            return false
         }
-        
-        return false
     }
 }
 
@@ -187,7 +207,7 @@ extension NavigatorController: NSOutlineViewDelegate {
         
         let view = outlineView.makeView(withIdentifier: id, owner: self) as! ElementCell
         
-        let model = item as? any AccessibilityView
+        let model = item as? any ArtboardElement
         view.setup(model: model)
         
         return view
@@ -202,10 +222,8 @@ extension NavigatorController: NSOutlineViewDelegate {
             return // Not forward multiple selection to whole app
         }
         
-    
-        
         let selectedItem = outlineView.item(atRow: outlineView.selectedRow)
-        if let element = selectedItem as? any AccessibilityView  {
+        if let element = selectedItem as? any ArtboardElement  {
             presenter.selectedPublisher.send(element)
         }
     }
@@ -228,7 +246,7 @@ extension NavigatorController: NSOutlineViewDelegate {
 extension NavigatorController {
     public static func fromStoryboard(
         document: VODesignDocument,
-        presenter: TextBasedPresenter
+        presenter: DocumentPresenter
     ) -> NavigatorController {
         let controller = NSStoryboard(
             name: "NavigatorController",

@@ -5,13 +5,13 @@ import Canvas
 import Combine
 
 import SwiftUI
-import SettingsSwiftUI
+import ElementSettings
 import Presentation
 
 public class PreviewMainViewController: UIViewController {
     private var presenter: CanvasPresenter!
     
-    private var document: VODesignDocument!
+    public private(set) var document: VODesignDocument!
     public init(document: VODesignDocument) {
         self.document = document
         self.presenter = CanvasPresenter(document: document)
@@ -25,7 +25,8 @@ public class PreviewMainViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadAndDraw()
+        embedCanvas()
+        subscribeToSelection()
     }
     
     public override func viewDidAppear(_ animated: Bool) {
@@ -46,18 +47,11 @@ public class PreviewMainViewController: UIViewController {
         document.close()
     }
     
-    private var cancellables = Set<AnyCancellable>()
-    private func loadAndDraw() {
-        // TODO: Show loading?
-        document.open { [weak self] isSuccess in
-            if isSuccess {
-                self?.embedCanvas()
-                self?.subscribeToSelection()
-            } else {
-                fatalError() // TODO: Present something to user
-            }
-        }
+    public override var prefersStatusBarHidden: Bool {
+        true // Often we present another screenshot with status bar in it, remove app's to remove overlap
     }
+    
+    private var cancellables = Set<AnyCancellable>()
     
     private func subscribeToSelection() {
         presenter.selectedPublisher.sink { description in
@@ -70,19 +64,20 @@ public class PreviewMainViewController: UIViewController {
    
     private var sideTransition = SideTransition()
     
-    private func presentDetails(for model: (any AccessibilityView)?) {
+    private func presentDetails(for model: (any ArtboardElement)?) {
         guard let model = model
         else { return }
         
         self.presentDetails(for: model)
     }
-    private func presentDetails(for model: any AccessibilityView) {
-        // TODO: Add support for Container
-
+    private func presentDetails(for model: any ArtboardElement) {
+        if case .frame = model.cast {
+            // No settings for Frame
+            return 
+        }
         
         let details = UIHostingController(rootView: makeView(for: model))
     
-        
         // Side presentation for iPad
         if traitCollection.userInterfaceIdiom == .pad {
             details.modalPresentationStyle = .custom
@@ -93,23 +88,23 @@ public class PreviewMainViewController: UIViewController {
     }
     
     @ViewBuilder
-    private func makeView(for model: any AccessibilityView) -> some SwiftUI.View {
+    private func makeView(for model: any ArtboardElement) -> some SwiftUI.View {
         let onDismiss = { [weak self] in
             guard let self = self else { return }
             self.presenter.deselect()
         }
-        
-        let onDelete = { [weak self] in
+
+        let deleteSelf = { [weak self] in
             guard let self = self else { return }
             self.presenter.remove(model)
         }
-        
+
         switch model {
         case let description as A11yDescription:
-            ElementSettingsEditorView(element: description, delete: onDelete)
+            ElementSettingsEditorView(element: description, deleteSelf: deleteSelf)
                 .onDisappear(perform: onDismiss)
         case let container as A11yContainer:
-            ContainerSettingsEditorView(container: container, delete: onDelete)
+            ContainerSettingsEditorView(container: container, deleteSelf: deleteSelf)
                 .onDisappear(perform: onDismiss)
         default:
             EmptyView()
@@ -147,7 +142,7 @@ extension PreviewMainViewController {
         document.printState()
         
         if document.documentState == .progressAvailable {
-            loadAndDraw()
+            // TODO: Should show loading progress according to .progress property
         }
     }
 }
@@ -156,17 +151,16 @@ public extension UIViewController {
     func embedFullFrame(_ viewController: UIViewController) {
         addChild(viewController)
         view.addSubview(viewController.view)
-        viewController.didMove(toParent: self)
-        
-        if let subiew = viewController.view {
-            subiew.translatesAutoresizingMaskIntoConstraints = false
+        if let subview = viewController.view {
+            subview.translatesAutoresizingMaskIntoConstraints = false
             
             NSLayoutConstraint.activate([
-                subiew.leftAnchor.constraint(equalTo: view.leftAnchor),
-                subiew.rightAnchor.constraint(equalTo: view.rightAnchor),
-                subiew.topAnchor.constraint(equalTo: view.topAnchor),
-                subiew.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+                subview.leftAnchor.constraint(equalTo: view.leftAnchor),
+                subview.rightAnchor.constraint(equalTo: view.rightAnchor),
+                subview.topAnchor.constraint(equalTo: view.topAnchor),
+                subview.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
         }
+        viewController.didMove(toParent: self)
     }
 }

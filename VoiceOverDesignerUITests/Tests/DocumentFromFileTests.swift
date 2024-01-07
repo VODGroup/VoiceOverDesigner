@@ -7,7 +7,7 @@ class DocumentFromFileTests: DesignerTests {
         XCTExpectFailure("It strange that Untitled document restores from previous session")
         
         XCTContext.runActivity(named: "When open document") { _ in
-            lauchApp(launchType: .openDocument(documentURL: fileURL))
+            launchApp(launchType: .openDocument(documentURL: fileURL))
             XCTAssertFalse(recent.isVisible, "should close Projects")
             XCTAssertEqual(1, app.windows.count, "should open only document")
         }
@@ -18,7 +18,7 @@ class DocumentFromFileTests: DesignerTests {
         }
         
         XCTContext.runActivity(named: "When run the app 2nd time should restore window") { _ in
-            lauchApp(launchType: .justTapIcon)
+            launchApp(launchType: .justTapIcon)
             
             XCTAssertFalse(ProjectWindow(app: app).projectWindow.isHittable, "should not restore document window")
             XCTAssertEqual(1, app.windows.count, "should open only document")

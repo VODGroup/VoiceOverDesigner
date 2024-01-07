@@ -83,6 +83,11 @@
                BlueprintName = "DocumentTests"
                ReferencedContainer = "container:Shared">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "DocumentSaveServiceTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
          <TestableReference
             skipped = "NO">
@@ -111,6 +116,41 @@
                BlueprintIdentifier = "SamplesTests"
                BuildableName = "SamplesTests"
                BlueprintName = "SamplesTests"
+               ReferencedContainer = "container:Shared">
+            </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "SamplesIntegrationTests">
+               </Test>
+            </SkippedTests>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FolderSnapshotTests"
+               BuildableName = "FolderSnapshotTests"
+               BlueprintName = "FolderSnapshotTests"
+               ReferencedContainer = "container:FolderSnapshot">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ArtboardTests"
+               BuildableName = "ArtboardTests"
+               BlueprintName = "ArtboardTests"
+               ReferencedContainer = "container:Shared">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "PurchasesTests"
+               BuildableName = "PurchasesTests"
+               BlueprintName = "PurchasesTests"
                ReferencedContainer = "container:Shared">
             </BuildableReference>
          </TestableReference>

@@ -2,16 +2,29 @@ import Foundation
 import Document
 import XCTest
 
+public typealias FileSample = String
+public extension FileSample {
+    static var beta = "BetaVersionFormat"
+    static var frame = "FrameVersionFormat"
+    static var artboard = "ArtboardFormat"
+}
+
 public class Sample {
     
     public init() {}
     
-    public func image(name: String) -> Image? {
+    public static var image3xScale = "screenWith3xScale.png"
+    
+    public func image(name: String) throws -> Image {
 #if os(macOS)
-        return Bundle.module.image(forResource: name)
+        return try XCTUnwrap(Bundle.module.image(forResource: name))
 #elseif os(iOS)
-        return Image(named: name, in: Bundle.module, with: nil)
+        return try XCTUnwrap(Image(named: name, in: Bundle.module, with: nil))
 #endif
+    }
+    
+    public func image3x() -> Image {
+        try! image(name: Sample.image3xScale)
     }
     
     public func documentPath(name: String) -> URL? {
@@ -24,6 +37,7 @@ public class Sample {
     
     public func document(
         name: String,
+        testCase: XCTestCase,
         file: StaticString = #file,
         line: UInt = #line
     ) throws -> VODesignDocument {
@@ -31,11 +45,27 @@ public class Sample {
             documentPath(name: name),
             file: file, line: line)
         
+        let fileManager = FileManager.default
+        let cacheFolder = fileManager.urls(for: .cachesDirectory,
+                                           in: .userDomainMask).first!
+        let copyPath = cacheFolder.appendingPathComponent(name)
+        
+        testCase.addTeardownBlock {
+            try? FileManager.default.removeItem(at: copyPath)
+        }
+        
+        try fileManager.copyItem(
+            at: path,
+            to: copyPath
+        )
+        
+        
 #if os(macOS)
-        let document = VODesignDocument(file: path)
+        let document = VODesignDocument(file: copyPath)
 #elseif os(iOS)
-        let document = VODesignDocument(fileURL: path)
+        let document = VODesignDocument(fileURL: copyPath)
 #endif
+        
         return document
     }
 }

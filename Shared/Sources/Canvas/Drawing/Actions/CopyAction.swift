@@ -3,7 +3,7 @@ import CoreGraphics
 public class CopyAction: MoveAction, DraggingAction {
     public func cancel() {
         control.updateWithoutAnimation {
-            control.frame = initialFrame
+            control.updateFrame(initialFrame)
         }
     }
     

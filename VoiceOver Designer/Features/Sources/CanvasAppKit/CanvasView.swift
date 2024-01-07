@@ -11,35 +11,15 @@ import CommonUI
 import Document
 import Canvas
 
-class ControlsView: FlippedView, DrawingView {
-    var drawnControls: [A11yControlLayer] = []
-    
-    lazy var alignmentOverlay = AlignmentOverlayFactory().overlay(for: self)
-    
-    var copyListener = CopyModifierFactory().make()
-    
-    var escListener = EscModifierFactory().make()
-    
-    var hud = HUDLayer()
-    
-    override func layout() {
-        super.layout()
-        
-        hud.frame = bounds
-    }
-}
-
 class CanvasView: FlippedView {
     
     @IBOutlet weak var scrollView: CanvasScrollView!
     
-    @IBOutlet weak var backgroundImageView: NSImageView!
+    @IBOutlet weak var clipView: CenteredClipView!
     
-    @IBOutlet weak var clipView: NSClipView!
-    
-    @IBOutlet weak var contentView: NSView!
-    @IBOutlet weak var controlsView: ControlsView!
-    @IBOutlet weak var addImageButton: NSButton!
+    var documentView: ContentView {
+        scrollView.documentView()
+    }
    
     @IBOutlet weak var dragnDropView: DragNDropImageView!
     
@@ -52,105 +32,50 @@ class CanvasView: FlippedView {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        scrollView.verticalScrollElasticity = .none
-        scrollView.horizontalScrollElasticity = .none
-        scrollView.hud = controlsView.hud
-        controlsView.wantsLayer = true
-        controlsView.addHUD()
+        scrollView.delegate = self
         
         zoomOutButton.toolTip = "⌘-"
         zoomToFitButton.toolTip = "0"
         zoomInButton.toolTip = "⌘+"
         footer.wantsLayer = true
         footer.layer?.backgroundColor = NSColor.quaternaryLabelColor.cgColor
-        footer.isHidden = true
-    }
-    
-    // MARK: - Magnification
-    func fitToWindowIfAlreadyFitted() {
-        if isImageMagnificationFitsToWindow {
-            fitToWindow(animated: false)
-        }
-    }
-    
-    func fitToWindow(animated: Bool) {
-        if let fitingMagnification {
-            setMagnification(to: fitingMagnification, animated: animated)
-        }
-    }
-    
-    func changeMagnifacation(_ change: (_ current: CGFloat) -> CGFloat) {
-        let current = scrollView.magnification
-        let changed = change(current)
-        setMagnification(to: changed, animated: false)
-    }
-    
-    private func setMagnification(to magnification: CGFloat, animated: Bool) {
-        // Manually trim to keep value in sync with real limitation
-        let newLevel = (scrollView.minMagnification...scrollView.maxMagnification).trim(magnification)
+        footer.isHidden = false
         
-        var scrollView = self.scrollView
-        if animated {
-            scrollView = self.scrollView.animator()
-            
-            self.scrollView.updateHud(to: newLevel) // Animator calls another function
-        }
+        dragnDropView.hideTextAndBorder()
         
-        scrollView?.setMagnification(
-            newLevel,
-            centeredAt: controlsView.hud.selectedControlFrame?.center ?? contentView.frame.center)
-    }
-    
-    private var isImageMagnificationFitsToWindow: Bool {
-        if let fitingMagnification {
-            return abs(fitingMagnification - scrollView.magnification) < 0.01
-        } else {
-            return false
-        }
-    }
-    
-    private var fitingMagnification: CGFloat? {
-        guard let image = backgroundImageView.image else { return nil }
-        
-        let scrollViewVisibleHeight = scrollView.frame.height// - scrollView.contentInsets.verticals
-        return scrollViewVisibleHeight / image.size.height
-    }
-    
-    // MARK: - Image
-    func setImage(_ image: NSImage?) {
-        footer.isHidden = image == nil
-        dragnDropView.isHidden = image != nil
-        addImageButton.isHidden = image != nil
-        
-        guard let image = image else {
-            return
-        }
-
-        backgroundImageView.image = image
-        backgroundImageView.layer?.zPosition = 0
-
         clipView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
+        documentView.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    var isEmpty: Bool = true {
+        didSet {
+            if isEmpty {
+                dragnDropView.showDefaultText()
+            } else {
+                dragnDropView.hideTextAndBorder()
+            }
+        }
+    }
+        
+    // MARK: - Image
+    func updateDragnDropVisibility(hasDrawnControls: Bool) {
+        if hasDrawnControls {
+            dragnDropView.hideTextAndBorder()
+        } else {
+            dragnDropView.showDefaultText()
+        }
 
-        fitToWindow(animated: false)
+        footer.isHidden = !hasDrawnControls
     }
     
     func image(at frame: CGRect) async -> CGImage? {
-        guard let image = backgroundImageView.image else { return nil }
-        var frame = frame.scaled(image.recommendedLayerContentsScale(1))
-        let cgImage = image
-            .cgImage(forProposedRect: &frame,
-                     context: nil,
-                     hints: nil)?
-            .cropping(to: frame)
-        
-        return cgImage
+        documentView.image(at: frame)
     }
     
     func control(
-        for model: any AccessibilityView
+        for model: any ArtboardElement
     ) -> A11yControlLayer? {
-        controlsView
+        documentView
             .drawnControls
             .first(where: { control in
                 control.model === model
@@ -158,26 +83,34 @@ class CanvasView: FlippedView {
     }
 }
 
+extension CanvasView: ScrollViewZoomDelegate {
+    func didUpdateScale(_ magnification: CGFloat) {
+        documentView.hud.scale = 1 / magnification
+        dragnDropView.scale = magnification
+        clipView.magnification = magnification
+    }
+}
+
 extension CanvasView: PreviewSourceProtocol {
     func previewImage() -> Image? {
-        contentView.imageRepresentatation()
+        documentView.imageRepresentation()
     }
 }
 
 extension NSView {
     
-    func imageRepresentatation() -> Image? {
+    func imageRepresentation() -> Image? {
         let mySize = bounds.size
         let imgSize = mySize
-        guard let bir = bitmapImageRepForCachingDisplay(in: bounds) else {
+        guard let bitmap = bitmapImageRepForCachingDisplay(in: bounds) else {
             return nil
         }
         
-        bir.size = imgSize
-        cacheDisplay(in: bounds, to: bir)
+        bitmap.size = imgSize
+        cacheDisplay(in: bounds, to: bitmap)
         
         let image = Image(size: imgSize)
-        image.addRepresentation(bir)
+        image.addRepresentation(bitmap)
         return image
     }
 }
@@ -186,19 +119,14 @@ extension NSEdgeInsets {
     var verticals: CGFloat {
         top + bottom
     }
+    
+    var horizontals: CGFloat {
+        left + right
+    }
 }
 
 extension CGRect {
     var center: CGPoint {
         CGPoint(x: midX, y: midY)
-    }
-}
-
-extension ClosedRange where Bound == CGFloat {
-    fileprivate func trim(_ value: Bound) -> Bound {
-        Swift.max(
-            lowerBound,
-            Swift.min(upperBound, value)
-        )
     }
 }

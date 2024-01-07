@@ -3,16 +3,18 @@ import XCTest
 class Settings: ProjectPanel {
     
     // MARK: - Label
-    var resultLabel: XCUIElement { window.splitGroups.staticTexts.firstMatch }
+    var resultLabel: XCUIElement { window.splitGroups.staticTexts["ResultLabel"] }
     
     var resultLabelText: String? {
         resultLabel.value as? String
     }
     
     var labelTextField: XCUIElement {
-        window
-            .splitGroups
-            .textFields["labelTextField"]
+        window.comboBoxes["LabelTextField"].firstMatch
+    }
+    
+    var deleteButton: XCUIElement {
+        window.buttons["Delete"].firstMatch
     }
     
     @discardableResult
@@ -26,11 +28,17 @@ class Settings: ProjectPanel {
         return self
     }
     
+    @discardableResult
+    func delete() -> Self {
+        deleteButton.tap()
+        return self
+    }
+    
     // MARK: - Value
     var valueTextField: XCUIElement {
         window
             .splitGroups
-            .textFields["valueTextField"]
+            .comboBoxes["valueTextField"]
     }
     
     @discardableResult
@@ -43,27 +51,34 @@ class Settings: ProjectPanel {
         return self
     }
     
-    var adjustableCheckbox: XCUIElement {
-        window.splitGroups.scrollViews.checkBoxes["Adjustable"]
+    var adjustableSegment: XCUIElement {
+        window
+            .radioGroups["Type"]
+            .radioButtons["Adjustable"]
+            .firstMatch
     }
     
     @discardableResult
     func clickAdjustable() -> Self {
-        adjustableCheckbox.click()
+        adjustableSegment.click()
         return self
     }
     
     var addValueButton: XCUIElement {
-        window.splitGroups.scrollViews.buttons["+ Add value"].firstMatch
+
+        window.buttons["Add Value"].firstMatch
     }
     
     @discardableResult
     func addAdjustableVariant(_ text: String) -> Self {
         addValueButton.click()
         
-        let newAdjustableOption = app.otherElements["Empty"]
-        newAdjustableOption.click()
-        newAdjustableOption.input(text, pressEnter: false)
+        let lastAdjustableOption = app
+            .radioGroups["AdjustableValues"].firstMatch
+            .radioButtons.allElementsBoundByIndex.last!
+            .descendants(matching: .comboBox).firstMatch
+        lastAdjustableOption.click()
+        lastAdjustableOption.input(text, pressEnter: false)
         
         // Element's identifiers have changed
         let newAdjustableOption1 = app.otherElements[text]

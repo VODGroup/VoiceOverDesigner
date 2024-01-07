@@ -11,28 +11,27 @@ import DesignPreview
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    let documentBrowser = DocumentBrowserViewController()
+    
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
+        window.rootViewController = documentBrowser
+        window.makeKeyAndVisible()
         self.window = window
         
-        showDocumentBrowserAsRoot()
-        
-        window.makeKeyAndVisible()
-        
         if let url = connectionOptions.urlContexts.first?.url {
-            presentDocumentModally(url: url)
+            documentBrowser.presentDocumentModally(url: url, animated: true)
         }
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         guard let url = URLContexts.first?.url else { return }
         
-        presentDocumentModally(url: url)
+        documentBrowser.presentDocumentModally(url: url, animated: true)
     }
     
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
@@ -42,58 +41,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         print("will restore document \(documentURL)")
-        presentDocumentModally(url: documentURL)
+        documentBrowser.presentDocumentModally(url: documentURL, animated: false)
     }
-}
-
-import Document
-extension SceneDelegate: UIDocumentBrowserViewControllerDelegate {
-    func documentBrowser(_ controller: UIDocumentBrowserViewController, didPickDocumentsAt documentURLs: [URL]) {
-        guard let url = documentURLs.first else { return }
-        
-        presentDocumentModally(url: url)
-    }
-}
-
-// MARK: Navigation
-extension SceneDelegate {
-    func presentDocumentModally(url: URL) {
-        closePresentedDocument()
-        
-        let document = VODesignDocument(fileURL: url)
-        let controller = PreviewMainViewController(document: document)
-        controller.title = url.lastPathComponent
-
-        let shouldPresent = controller.traitCollection.horizontalSizeClass == .compact
-        if shouldPresent {
-            window?.rootViewController?.present(controller, animated: true)
-        } else {
-            controller.navigationItem.leftBarButtonItem = UIBarButtonItem(
-                title: NSLocalizedString("Close", comment: ""),
-                style: .done,
-                target: self, action: #selector(closePresentedDocument))
-            
-            
-            let navController = UINavigationController(rootViewController: controller)
-            navController.modalPresentationStyle = .overFullScreen
-            
-            window?.rootViewController?.present(navController, animated: true)
+    
+    func scene(_ scene: UIScene, restoreInteractionStateWith stateRestorationActivity: NSUserActivity) {
+        print("Will restore user activity")
+        var isStale = false
+        guard let bookmarkData = stateRestorationActivity.userInfo?[UIDocument.userActivityURLKey] as? Data,
+              let documentURL = try? URL(resolvingBookmarkData: bookmarkData, bookmarkDataIsStale: &isStale),
+              !isStale // Bookmark was fresh
+        else {
+            print("Don't want to restore any document, no url")
+            return
         }
-    }
-    
-    @objc private func closePresentedDocument() {
-        window?
-            .rootViewController?
-            .presentedViewController?
-            .dismiss(animated: true)
-    }
-    
-    private func showDocumentBrowserAsRoot() {
-        let documentBrowser = UIDocumentBrowserViewController()
-        documentBrowser.allowsPickingMultipleItems = false
-        documentBrowser.allowsDocumentCreation = false
-        documentBrowser.delegate = self
         
-        window?.rootViewController = documentBrowser
+        print("Will restore document \(documentURL)")
+        documentBrowser.presentDocumentModally(url: documentURL, animated: false)
+    }
+    
+    func stateRestorationActivity(for scene: UIScene) -> NSUserActivity? {
+        print("Will save document for restoration")
+        return documentBrowser.userActivity
     }
 }

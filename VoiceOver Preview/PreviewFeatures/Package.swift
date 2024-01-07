@@ -12,7 +12,6 @@ let package = Package(
             targets: [
                 "DesignPreview",
                 "VoiceOverLayout",
-                "SettingsSwiftUI",
                 "CanvasUIKit"
             ]),
     ],
@@ -20,7 +19,7 @@ let package = Package(
         .package(name: "Shared", path: "./../../Shared"),
         .package(
             url: "git@github.com:pointfreeco/swift-snapshot-testing.git",
-            .upToNextMajor(from: "1.14.2")
+            .upToNextMajor(from: "1.15.1")
         ),
     ],
     targets: [
@@ -28,7 +27,7 @@ let package = Package(
             name: "DesignPreview",
             dependencies: [
                 .product(name: "Document", package: "Shared"),
-                "SettingsSwiftUI",
+                .product(name: "ElementSettings", package: "Shared"),
                 "CanvasUIKit",
                 .product(name: "Presentation", package: "Shared"),
             ]),
@@ -49,10 +48,5 @@ let package = Package(
                     .product(name: "Canvas", package: "Shared"),
                     "VoiceOverLayout",
                 ]),
-        .target(
-            name: "SettingsSwiftUI",
-            dependencies: [
-                .product(name: "Document", package: "Shared"),
-            ]),
     ]
 )

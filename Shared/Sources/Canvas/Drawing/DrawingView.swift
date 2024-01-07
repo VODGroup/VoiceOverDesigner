@@ -38,17 +38,20 @@ extension CALayer {
 
 public protocol DrawingView: View {
     var drawnControls: [A11yControlLayer] { get set }
+    var frames: [ImageLayer] { get set }
     
     var alignmentOverlay: AlignmentOverlayProtocol { get }
+    var hud: HUDLayer { get }
     
     var copyListener: CopyModifierAction { get set }
-    
-    var escListener: EscModifierAction { get }
-    
-    var hud: HUDLayer { get }
 }
 
 public extension DrawingView {
+    
+    func add(frame: ImageLayer) {
+        addSublayer(frame)
+        frames.append(frame)
+    }
     
     func add(control: A11yControlLayer) {
         control.contentsScale = contentScale
@@ -86,25 +89,19 @@ public extension DrawingView {
         }
     }
     
-    func removeLabels() {
-        for control in drawnControls {
-            control.removeLabel()
-        }
-    }
-    func addLabels() {
-        for control in drawnControls {
-            control.addLabel()
-        }
-    }
-    
     func removeAll() {
+        for frame in frames.reversed() {
+            frame.removeFromSuperlayer()
+            frames.remove(at: frames.count - 1)
+        }
+        
         for control in drawnControls.reversed() {
             control.removeFromSuperlayer()
-            drawnControls.remove(at: drawnControls.count - 1)
+            _ = drawnControls.popLast()
         }
     }
     
-    func remove(_ model: any AccessibilityView) {
+    func remove(_ model: any ArtboardElement) {
         guard let index = drawnControls.firstIndex(where: {
             $0.model === model
         }), let control = drawnControls.first(where: {
@@ -118,5 +115,11 @@ public extension DrawingView {
         hud.removeFromSuperlayer()
         addSublayer(hud)
         hud.zPosition = 10_000
+    }
+    
+    func drawnControls(for container: any ArtboardContainer) -> [A11yControlLayer] {
+        drawnControls.filter { layer in
+            container.elements.contains { $0 === layer.model }
+        }
     }
 }

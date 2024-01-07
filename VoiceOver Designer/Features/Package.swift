@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Features",
     defaultLocalization: "en",
-    platforms: [.macOS(.v12)],
+    platforms: [.macOS(.v13)],
     products: [
         .library(
             name: "CanvasAppKit",
@@ -28,7 +28,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "git@github.com:pointfreeco/swift-snapshot-testing.git",
-            .upToNextMajor(from: "1.14.2")
+            .upToNextMajor(from: "1.15.1")
         ),
         .package(name: "Shared", path: "./../../Shared")
     ],
@@ -67,9 +67,11 @@ let package = Package(
         .target(
             name: "Settings",
             dependencies: [
+                "CommonUI",
                 .product(name: "Document", package: "Shared"),
                 .product(name: "TextRecognition", package: "Shared"),
-                .product(name: "Purchases", package: "Shared")
+                .product(name: "Purchases", package: "Shared"),
+                .product(name: "ElementSettings", package: "Shared")
             ]
         ),
         .target(
@@ -95,6 +97,12 @@ let package = Package(
             dependencies: [
                 "Recent",
                 .product(name: "Document", package: "Shared"),
+            ]
+        ),
+        .testTarget(
+            name: "PresentationTests",
+            dependencies: [
+                "Presentation"
             ]
         ),
         .testTarget(

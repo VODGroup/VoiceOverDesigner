@@ -9,23 +9,25 @@ import Document
 import CoreText
 import Combine
 import TextRecognition
+import Foundation
+import QuartzCore
 
 public class CanvasPresenter: DocumentPresenter {
     
-    public weak var ui: DrawingView!
+    public weak var uiContent: DrawingView!
     var drawingController: DrawingController!
 
     public func didLoad(
-        ui: DrawingView,
+        uiContent: DrawingView,
         initialScale: CGFloat,
         previewSource: PreviewSourceProtocol
     ) {
-        self.ui = ui
+        self.uiContent = uiContent
         self.scale = initialScale
-        self.drawingController = DrawingController(view: ui)
+        self.drawingController = DrawingController(view: uiContent)
         self.document.previewSource = previewSource
         
-        redraw(controls: document.controls)
+        redraw(artboard: document.artboard)
     }
     
     private var scale: CGFloat = 1
@@ -33,8 +35,8 @@ public class CanvasPresenter: DocumentPresenter {
     private var cancellables = Set<AnyCancellable>()
     
     public func subscribeOnControlChanges() {
-        controlsPublisher
-            .sink(receiveValue: redraw(controls:))
+        artboardPublisher
+            .sink(receiveValue: redraw(artboard:))
             .store(in: &cancellables)
         
         selectedPublisher
@@ -48,49 +50,41 @@ public class CanvasPresenter: DocumentPresenter {
         }
     }
     
-    private func redraw(controls: [any AccessibilityView]) {
-        drawingController.view.removeAll()
-        draw(controls: controls)
+    private func redraw(artboard: Artboard) {
+        drawingController.draw(
+            artboard: artboard,
+            scale: scale)
         updateSelectedControl(selectedPublisher.value)
     }
     
-    public func redraw(control: any AccessibilityView) {
+    public func redraw(control: any ArtboardElement) {
         drawingController.view.remove(control)
-        drawingController.draw(control, scale: scale)
-    }
-    
-    public func draw(controls: [any AccessibilityView]) {
-        drawingController.drawControls(controls, scale: scale)
+        drawingController.draw(element: control, scale: scale)
     }
     
     // MARK: Mouse
     public func mouseDown(on location: CGPoint) {
-        guard document.image != nil else { return }
-        
-        ui.hud.hideHUD()
+        uiContent.hud.hideHUD()
+
         drawingController.mouseDown(on: location,
-                                    selectedControl: selectedControl)
+                                    selectedControl: selectedControl as? A11yControlLayer)
     }
     
     public func mouseDragged(on location: CGPoint) {
         drawingController.drag(to: location)
     }
     
-    
     public func mouseMoved(on location: CGPoint) {
-        guard document.image != nil else { return }
-        
         drawingController.mouseMoved(on: location,
-                                     selectedControl: selectedControl)
+                                     selectedControl: selectedControl as? A11yControlLayer)
     }
    
     @discardableResult
     public func mouseUp(on location: CGPoint) -> A11yControlLayer? {
-        ui.hud.showHUD()
+        uiContent.hud.showHUD()
         
         let action = drawingController.end(coordinate: location)
         
-
         let control = finish(action)
         return control
     }
@@ -98,24 +92,24 @@ public class CanvasPresenter: DocumentPresenter {
     private func finish(_ action: DraggingAction?) -> A11yControlLayer? {
         switch action {
         case let click as ClickAction:
-            select(control: click.control)
+            select(click.control.model)
             
         case let new as NewControlAction:
-            add(new.control.model!)
-            select(control: new.control)
+            append(control: new.control.model!)
+            select(new.control.model)
             
         case let copy as CopyAction:
-            add(copy.control.model!)
-            select(control: copy.control)
+            append(control: copy.control.model!)
+            select(copy.control.model)
             
         case let translate as TranslateAction:
             registerUndo(for: translate)
-            publishControlChanges()
-            select(control: translate.control)
+            publishArtboardChanges()
+            select(translate.control.model)
             
         case let resize as ResizeAction:
             registerUndo(for: resize)
-            publishControlChanges()
+            publishArtboardChanges()
             // Should be selected already
             
         case .none:
@@ -129,63 +123,50 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     // MARK: - Selection
-    private func updateSelectedControl(_ selectedDescription: (any AccessibilityView)?) {
-        guard let selected = selectedDescription else {
-            selectedControl = nil
-            return
-        }
-        
-        let selectedControl = ui.drawnControls.first(where: { control in
-            control.model?.frame == selected.frame
-        })
+    private func updateSelectedControl(_ selectedDescription: (any ArtboardElement)?) {
+        switch selectedDescription?.cast {
+        case .frame:
+            let selectedFrame = uiContent.frames.first { frame in
+                frame.frame == selectedDescription!.frame
+            }
+            selectedControl = selectedFrame
             
-        self.selectedControl = selectedControl
-    }
-    
-    public private(set) var selectedControl: A11yControlLayer? {
-        didSet {
-            ui.hud.selectedControlFrame = selectedControl?.frame
-            ui.hud.tintColor = selectedControl?.model?.color.cgColor.copy(alpha: 1)
+        case .element, .container:
+            let selectedControl = uiContent.drawnControls.first(where: { control in
+                control.model?.frame == selectedDescription!.frame
+            })
+            
+            self.selectedControl = selectedControl
+        case .none:
+            selectedControl = nil
         }
     }
     
-    public func select(control: A11yControlLayer) {
-        selectedPublisher.send(control.model)
-    }
-    
-    public func deselect() {
-        selectedPublisher.send(nil)
-    }
-    
-    // MARK: - Labels
-    public func showLabels() {
-        ui.addLabels()
-    }
-    
-    public func hideLabels() {
-        ui.removeLabels()
+    public private(set) var selectedControl: CALayer? {
+        didSet {
+            uiContent.hud.selectedControlFrame = selectedControl?.frame
+            uiContent.hud.tintColor = (selectedControl as? A11yControlLayer)?.model?.color.cgColor.copy(alpha: 1) ?? Color.red.cgColor
+        }
     }
     
     public var pointerPublisher: AnyPublisher<DrawingController.Pointer?, Never> {
         drawingController.pointerPublisher
     }
     
-    // MARK: - Deletion
-    override public func remove(_ model: any AccessibilityView) {
-        guard let control = control(for: model) else {
-            return
-        }
-        
-        // TODO: Register Delete Undo on child
-        ui.delete(control: control)
-        
-        super.remove(model)
-    }
-    
-    private func control(for model: any AccessibilityView) -> A11yControlLayer? {
-        ui.drawnControls.first { control in
+    private func control(for model: any ArtboardElement) -> A11yControlLayer? {
+        uiContent.drawnControls.first { control in
             control.model === model
         }
+    }
+
+    // MARK: - View actions
+    public func cancelOperation() {
+        drawingController.cancelOperation()
+    }
+    
+    // MARK: Image
+    public func add(image: Image, name: String) {
+        add(image: image, name: name, origin: document.artboard.suggestOrigin())
     }
 }
 
@@ -194,7 +175,7 @@ extension CanvasPresenter {
     func registerUndo(for action: Undoable) {
         document.undo?.registerUndo(withTarget: self, handler: { target in
             action.undo()
-            target.publishControlChanges()
+            target.publishArtboardChanges()
         })
     }
 }

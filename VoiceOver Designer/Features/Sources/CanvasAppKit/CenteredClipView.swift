@@ -1,21 +1,30 @@
 import AppKit
 
-class CenteredClipView: NSClipView
-{
-    override func constrainBoundsRect(_ proposedBounds: NSRect) -> NSRect {
-        var rect = super.constrainBoundsRect(proposedBounds)
-        
-        if let containerView = documentView {
+class CenteredClipView: NSClipView {
+    
+    var magnification: CGFloat = 1
+    
+    /// In document's coordinate space
+    override var contentInsets: NSEdgeInsets {
+        get {
+            let contentSize = documentView!.intrinsicContentSize
             
-            if (rect.size.width > containerView.frame.size.width) {
-                rect.origin.x = (containerView.frame.width - rect.width) / 2
-            }
+            guard contentSize.width != .infinity && contentSize.height != .infinity
+            else { return NSEdgeInsetsZero }
             
-            if(rect.size.height > containerView.frame.size.height) {
-                rect.origin.y = (containerView.frame.height - rect.height) / 2
-            }
+            let horizontal = max(0, (frame.width  / magnification - contentSize.width ))
+            let vertical   = max(0, (frame.height / magnification - contentSize.height))
+            
+            let insets = NSEdgeInsets(
+                top: vertical,
+                left: horizontal,
+                bottom: vertical,
+                right: horizontal)
+            
+            return insets
         }
         
-        return rect
+        set {} // Self-managed insets for correct scrolling
     }
 }
+

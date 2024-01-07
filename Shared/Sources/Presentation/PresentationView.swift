@@ -9,36 +9,37 @@ import SwiftUI
 import Document
 
 public struct PresentationView: View {
+
     public enum Constants {
         public static let controlsWidth: CGFloat = 500
         public static let leadingSpacer: CGFloat = 100
         public static let cursorButtonPadding: CGFloat = 24
 
         static let selectedControlPadding: CGFloat = 40
-        static let animation: Animation = .linear(duration: 0.15)
     }
 
-    @State var document: VODesignDocumentPresentation
-
-    @State var selectedControl: AccessibilityViewCast?
-    @State var hoveredControl: (any AccessibilityView)?
+    @StateObject var model: PresentationModel
 
     let scrollViewSize = CGSize(width: 600, height: 900)
 
     var minimalScaleFactor: CGFloat {
         guard 
-            document.imageSize.width != 0,
-            document.imageSize.height != 0
+            model.document.imageSize.width != 0,
+            model.document.imageSize.height != 0
         else {
             return 1
         }
-        let h = scrollViewSize.width / document.imageSize.width
-        let v = scrollViewSize.height / document.imageSize.height
-        
+        let h = scrollViewSize.width / model.document.imageSize.width
+        let v = scrollViewSize.height / model.document.imageSize.height
+
         // TODO: Add minimal limit for long documents
         return min(h, v)
     }
-    
+
+    public init(model: PresentationModel) {
+        self._model = .init(wrappedValue: model)
+    }
+
     public var body: some View {
         ZStack {
             Color.clear
@@ -54,24 +55,10 @@ public struct PresentationView: View {
                 list
             }
             .onKeyboardShortcut(key: .leftArrow, modifiers: []) {
-                if
-                    let selected = selectedControl?.element,
-                    let index = document.flatControls.firstIndex(of: selected)
-                {
-                    if let prev = document.flatControls[safe: index - 1] {
-                        select(prev)
-                    }
-                }
+                model.handle(.prev)
             }
             .onKeyboardShortcut(key: .rightArrow, modifiers: []) {
-                if
-                    let selected = selectedControl?.element,
-                    let index = document.flatControls.firstIndex(of: selected)
-                {
-                    if let next = document.flatControls[safe: index + 1] {
-                        select(next)
-                    }
-                }
+                model.handle(.next)
             }
         }
         .frame(
@@ -80,11 +67,6 @@ public struct PresentationView: View {
                 Constants.controlsWidth,
             minHeight: scrollViewSize.height
         )
-    }
-
-    public init(document: VODesignDocumentPresentation) {
-        _document = .init(initialValue: document)
-        _selectedControl = .init(initialValue: document.flatControls.first?.cast)
     }
 
     @ViewBuilder
@@ -96,8 +78,8 @@ public struct PresentationView: View {
                     controlsOverlay // ... but reveal controls
                 }
                 .frame(
-                    width: document.imageSize.width * minimalScaleFactor,
-                    height: document.imageSize.height * minimalScaleFactor
+                    width: model.document.imageSize.width * minimalScaleFactor,
+                    height: model.document.imageSize.height * minimalScaleFactor
                 )
                 .scaleEffect(CGSize(width: minimalScaleFactor,
                                     height: minimalScaleFactor))
@@ -106,29 +88,33 @@ public struct PresentationView: View {
 
     @ViewBuilder
     private var backgroundImage: some View {
-        if let image = document.imageView {
-            image
+        if let image = model.document.image {
+            Image(nsImage: image)
                 .resizable()
                 .frame(
-                    width: document.imageSize.width,
-                    height: document.imageSize.height
+                    width: model.document.imageSize.width,
+                    height: model.document.imageSize.height
                 )
         } else {
-            Color.clear
-                .frame(width: document.imageSize.width,
-                       height: document.imageSize.height)
+            Color.gray
+                .opacity(0.25)
+                .frame(width: model.document.imageSize.width,
+                       height: model.document.imageSize.height)
         }
     }
 
     private var controlsOverlay: some View {
         ZStack(alignment: .topLeading) {
             // We don't need editing here so id can be generated at start
-            ForEach(document.controls, id: \.id) { control in
+            ForEach(model.document.orderedControls, id: \.id) { control in
                 switch control.cast {
                     case .container(let container):
                         controlContainer(container)
                     case .element(let element):
                         controlElement(element)
+                    case .frame(_):
+                        // TODO: Add frame
+                        fatalError()
                 }
             }
         }
@@ -139,7 +125,8 @@ public struct PresentationView: View {
             controlRectangle(container)
                 .zIndex(-1)
                 .accessibilityLabel(container.label)
-            ForEach(container.elements, id: \.id) {
+            // TODO: extractElements doesn't see anything inside container
+            ForEach(container.elements.extractElements(), id: \.id) {
                 controlElement($0)
             }
         }
@@ -158,14 +145,14 @@ public struct PresentationView: View {
     }
 
     @ViewBuilder
-    private func controlRectangle(_ control: any AccessibilityView) -> some View {
+    private func controlRectangle(_ control: any ArtboardElement) -> some View {
         RoundedRectangle(cornerRadius: 6, style: .continuous)
             .foregroundStyle(
                 { () -> SwiftUI.Color in
                     if isControlHovered(control) {
-                        return Color(control.color)
+                        return Color(nsColor: control.color.withSystemEffect(.deepPressed))
                     } else {
-                        return Color(control.color)
+                        return Color(nsColor: control.color)
                     }
                 }()
             )
@@ -183,13 +170,7 @@ public struct PresentationView: View {
             )
             .frame(width: control.frame.width, height: control.frame.height)
             .onHover { inside in
-                withAnimation(Constants.animation) {
-                    if inside {
-                        hoveredControl = control
-                    } else {
-                        hoveredControl = nil
-                    }
-                }
+                model.handle(.hover(control, inside))
             }
             .onTapGesture {
                 select(control)
@@ -209,17 +190,17 @@ public struct PresentationView: View {
         ScrollView {
             ScrollViewReader { proxy in
                 VStack(alignment: .leading, spacing: 12) {
-                    ForEach(Array(document.controls.enumerated()), id: \.1.id) { index, item in
-                        listItem(item, index: index)
+                    ForEach(Array(model.document.orderedControls), id: \.id) { item in
+                        listItem(item)
                     }
                 }
                 .padding(EdgeInsets(top: 80, leading: Constants.cursorButtonPadding, bottom: 80, trailing: 80))
                 // Frame's width should be fixed. Otherwise hover effect brakes for long text
                 // For long text list's width recalculates and hover lose y coordinate
                 .frame(width: PresentationView.Constants.controlsWidth)
-                .onChange(of: selectedControl, perform: { newValue in
+                .onChange(of: model.selectedControl, perform: { newValue in
                     if let newValue {
-                        withAnimation(Constants.animation) {
+                        withAnimation(PresentationModel.Constants.animation) {
                             proxy.scrollTo(newValue.id, anchor: .center)
                         }
                     }
@@ -229,39 +210,44 @@ public struct PresentationView: View {
         }
     }
 
+    @ViewBuilder
     private func listItem(
-        _ item: any AccessibilityView,
-        index: Int
+        _ item: any ArtboardElement
     ) -> some View {
-        Group {
-            switch item.cast {
-            case .container(let container):
-                VStack(alignment: .leading, spacing: 4) {
-                    controlText(container)
-                    ForEach(container.elements, id: \.label) { element in
-                        controlText(element)
-                            .id(element.id)
-                            .padding(.leading, 16)
-                            .overlay(alignment: .leadingFirstTextBaseline) {
-                                if let index = document.flatControls.firstIndex(of: element) {
-                                    listButton(
-                                        element,
-                                        index: index
-                                    )
-                                }
+        switch item.cast {
+        case .container(let container):
+            VStack(alignment: .leading, spacing: 4) {
+                controlText(container)
+                // TODO: Should not be extractElements. Should be able to render any number of layers inside
+                ForEach(container.elements.extractElements(), id: \.id) { element in
+                    controlText(element)
+                        .id(element.id)
+                        .overlay(alignment: .leading) {
+                            if let index = model.document.flatControls.firstIndex(of: element.id) {
+                                listButton(element, index: index)
                             }
-                    }
-                }
-            case .element(let element):
-                controlText(element)
-                    .id(element.id)
-                    .overlay(alignment: .leading) {
-                        if let index = document.flatControls.firstIndex(of: element) {
-                            listButton(element, index: index)
+                        }.onTapGesture {
+                            select(element)
                         }
-                    }.onTapGesture {
-                        select(element)
+                        .padding(.horizontal, 16)
+                }
+            }
+        case .element(let element):
+            controlText(element)
+                .id(element.id)
+                .overlay(alignment: .leading) {
+                    if let index = model.document.flatControls.firstIndex(of: element.id) {
+                        listButton(element, index: index)
                     }
+                }.onTapGesture {
+                    select(element)
+                }
+
+        case .frame(let frame):
+            VStack(alignment: .leading, spacing: 4) {
+                controlText(frame)
+                Text("Frame todo")
+                // Should be listItem
             }
         }
     }
@@ -277,8 +263,7 @@ public struct PresentationView: View {
             {
                 VStack {
                     Button {
-                        element.adjustableOptions.accessibilityIncrement()
-                        document.update(control: element)
+                        model.handle(.increment(element))
                     } label: {
                         Image(systemName: "arrow.up")
                     }
@@ -286,8 +271,7 @@ public struct PresentationView: View {
                     .buttonStyle(.borderless)
                     .disabled(!element.adjustableOptions.canIncrement)
                     Button {
-                        element.adjustableOptions.accessibilityDecrement()
-                        document.update(control: element)
+                        model.handle(.decrement(element))
                     } label: {
                         Image(systemName: "arrow.down")
                     }
@@ -297,11 +281,13 @@ public struct PresentationView: View {
                 }
             }
             if
-                let previousItem = document.flatControls[safe: index - 1],
+                let previousItemId = model.document.flatControls[safe: index - 1],
+                let previousItem = model.document.controls[previousItemId],
                 isControlSelected(previousItem)
             {
                 Button {
-                    if let nextItem = document.flatControls[safe: index] {
+                    if let nextItemId = model.document.flatControls[safe: index],
+                       let nextItem = model.document.controls[nextItemId] {
                         select(nextItem)
                     }
                 } label: {
@@ -310,11 +296,13 @@ public struct PresentationView: View {
                 .buttonStyle(.borderless)
             }
             if
-                let nextItem = document.flatControls[safe: index + 1],
+                let nextItemId = model.document.flatControls[safe: index + 1],
+                let nextItem = model.document.controls[nextItemId],
                 isControlSelected(nextItem)
             {
                 Button {
-                    if let previousItem = document.flatControls[safe: index] {
+                    if let previousItemId = model.document.flatControls[safe: index],
+                       let previousItem = model.document.controls[previousItemId] {
                         select(previousItem)
                     }
                 } label: {
@@ -327,7 +315,7 @@ public struct PresentationView: View {
     }
 
     @ViewBuilder
-    private func controlText(_ control: any AccessibilityView) -> some View {
+    private func controlText(_ control: any ArtboardElement) -> some View {
         Group {
             switch control.cast {
                 case .container(let container):
@@ -339,10 +327,6 @@ public struct PresentationView: View {
                                 .padding(.leading, -12)
                                 .opacity(0.6)
                         }
-                        .padding(
-                            .vertical,
-                            isControlSelected(control) ? Constants.selectedControlPadding : 0
-                        )
                 case .element(let element):
                     Text(AttributedString(
                         element
@@ -356,11 +340,20 @@ public struct PresentationView: View {
                         .vertical,
                         isControlSelected(control) ? Constants.selectedControlPadding : 0
                     )
+                case .frame(let frame):
+                    Text(frame.label)
+                        .font(font(for: frame))
+                        .multilineTextAlignment(.leading)
+                        .overlay(alignment: .leading) {
+                            Image(systemName: "chevron.forward")
+                                .padding(.leading, -12)
+                                .opacity(0.6)
+                        }
             }
         }
     }
     
-    private func font(for control: any AccessibilityView) -> VOFont {
+    private func font(for control: any ArtboardElement) -> NSFont {
         let isSelected = isControlSelected(control)
         
         return .preferredFont(forTextStyle: isSelected ? .headline : .footnote)
@@ -368,24 +361,23 @@ public struct PresentationView: View {
     }
     
     private func font(for container: A11yContainer) -> SwiftUI.Font {
-        let isSelected = isControlSelected(container)
-        
-        return Font.system(size: isSelected ? 40 : 20)
+        Font.system(size: 20)
     }
 
-    func select(_ control: any AccessibilityView) {
-        guard control is A11yDescription else { return }
-        withAnimation(Constants.animation) {
-            selectedControl = control.cast
-        }
+    private func font(for frame: Frame) -> SwiftUI.Font {
+        Font.system(size: 20)
     }
 
-    func isControlSelected(_ control: any AccessibilityView) -> Bool {
-        control.cast == selectedControl
+    func select(_ control: any ArtboardElement) {
+        model.handle(.select(control))
     }
 
-    func isControlHovered(_ control: any AccessibilityView) -> Bool {
-        control.cast == hoveredControl?.cast
+    func isControlSelected(_ control: any ArtboardElement) -> Bool {
+        control.cast == model.selectedControl?.cast
+    }
+
+    func isControlHovered(_ control: any ArtboardElement) -> Bool {
+        control.cast == model.hoveredControl?.cast
     }
 }
 
@@ -429,14 +421,10 @@ extension Collection {
 
 extension PresentationView {
     init(path: URL) {
-        #if os(macOS)
         let document = VODesignDocument(file: path)
-        #elseif os(iOS)
-        let document = VODesignDocument(fileURL: path)
-        #endif
         let presentation = VODesignDocumentPresentation(document)
         
-        self.init(document: presentation)
+        self.init(model: .init(document: presentation))
     }
     
     static func make(sampleRelativePath: String) -> PresentationView {
@@ -444,14 +432,22 @@ extension PresentationView {
     }
 }
 
+let id = UUID()
+let id2 = UUID()
+let id3 = UUID()
+let id4 = UUID()
+
+let frame1 = CGRect(x: 30, y: 30, width: 20, height: 20)
+let frame2 = CGRect(x: 70, y: 70, width: 20, height: 20)
+let frame3 = CGRect(x: 170, y: 170, width: 40, height: 40)
 
 let samplesURL = URL(fileURLWithPath: "/Users/agpone/Developer/VoiceOverSamples")
 #Preview {
     Group {
-        PresentationView.make(sampleRelativePath: "Ru/OneTwoTrip/Главная страница")
-        PresentationView.make(sampleRelativePath: "Ru/Dodo Pizza/Меню")
-        PresentationView.make(sampleRelativePath: "Ru/OneTwoTrip/Авиа фильтры")
-        PresentationView.make(sampleRelativePath: "Ru/OneTwoTrip/Пассажиры")
+//        PresentationView.make(sampleRelativePath: "Ru/OneTwoTrip/Главная страница")
+//        PresentationView.make(sampleRelativePath: "Ru/Dodo Pizza/Меню")
+//        PresentationView.make(sampleRelativePath: "Ru/OneTwoTrip/Авиа фильтры")
+//        PresentationView.make(sampleRelativePath: "Ru/OneTwoTrip/Пассажиры")
     }
 }
 

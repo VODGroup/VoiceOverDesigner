@@ -22,7 +22,6 @@ public class CanvasViewController: NSViewController {
     private var cancellables: Set<AnyCancellable> = []
     private let pointerService = PointerService()
     
-    var trackingArea: NSTrackingArea!
     var duplicateItem: NSMenuItem?
 
     public lazy var canvasMenu: NSMenuItem = {
@@ -33,20 +32,16 @@ public class CanvasViewController: NSViewController {
         super.viewDidLoad()
         view().dragnDropView.delegate = self
         
-        view().addImageButton.action = #selector(addImageButtonTapped)
-        view().addImageButton.target = self
-        
         view.window?.delegate = self
         
-        presenter.didLoad(
-            ui: self.view().controlsView,
-            initialScale: 1, // Will be scaled by scrollView
-            previewSource: self.view()
-            // TODO: Scale Preview also by UIScrollView?
-        )
+        presenter.didLoad(uiContent: view().documentView,
+                          initialScale: 1,
+                          previewSource: view())
         
-        setImage()
         addMouseTracking()
+        view().isEmpty = presenter.document.artboard.isEmpty
+        
+        view().updateDragnDropVisibility(hasDrawnControls: !presenter.document.artboard.isEmpty)
     }
     
     public override func viewDidAppear() {
@@ -63,6 +58,7 @@ public class CanvasViewController: NSViewController {
         stopPointerObserving()
     }
     
+    var trackingArea: NSTrackingArea!
     private func addMouseTracking() {
         trackingArea = NSTrackingArea(
             rect: view.bounds,
@@ -79,21 +75,26 @@ public class CanvasViewController: NSViewController {
         presenter.selectedPublisher
             .sink { [weak self] view in self?.duplicateItem?.isEnabled = view != nil }
             .store(in: &cancellables)
+        
         presenter
             .pointerPublisher
             .removeDuplicates()
             .sink(receiveValue: pointerService.updateCursor(_:))
             .store(in: &cancellables)
+        
+        presenter
+            .artboardPublisher
+            .map { !$0.isEmpty }
+            .removeDuplicates()
+            .sink(receiveValue: view().updateDragnDropVisibility(hasDrawnControls:))
+            .store(in: &cancellables)
     }
     
+
     private func stopPointerObserving() {
         cancellables.forEach { cancellable in
             cancellable.cancel()
         }
-    }
-    
-    func setImage() {
-        view().setImage(presenter.document.image)
     }
     
     public override var representedObject: Any? {
@@ -104,29 +105,28 @@ public class CanvasViewController: NSViewController {
     
     var highlightedControl: A11yControlLayer?
     
+    private func location(from event: NSEvent) -> CGPoint {
+        event.location(in: view().documentView)
+    }
+    
+    // MARK: - Mouse movement
     public override func mouseMoved(with event: NSEvent) {
-        highlightedControl?.isHiglighted = false
+        highlightedControl?.isHighlighted = false
         highlightedControl = nil
         presenter.mouseMoved(on: location(from: event))
         
         // TODO: Can crash if happend before document loading
-        guard let control = presenter.ui.control(at: location(from: event)) else {
+        guard let control = presenter
+            .uiContent
+            .control(at: location(from: event)) else {
             return
         }
         
         self.highlightedControl = control
         
-        control.isHiglighted = true
+        control.isHighlighted = true
     }
     
-    func location(from event: NSEvent) -> CGPoint {
-        let inWindow = event.locationInWindow
-        let inView = view().backgroundImageView.convert(inWindow, from: nil)
-        return inView.flippendVertical(in: view().backgroundImageView)
-    }
-    
-    
-    // MARK:
     public override func mouseDown(with event: NSEvent) {
         presenter.mouseDown(on: location(from: event))
     }
@@ -149,40 +149,37 @@ public class CanvasViewController: NSViewController {
     }
     
     public func select(_ model: A11yDescription) {
-        guard let control = view().controlsView.drawnControls
-            .first(where: { control in
-                control.model === model
-            })
-        else { return }
-        
-        presenter.select(control: control)
+        presenter.select(model)
     }
     
-    public func publishControlChanges() {
-        presenter.publishControlChanges()
+    public func publishArtboardChanges() {
+        presenter.publishArtboardChanges()
     }
     
-    public func delete(model: any AccessibilityView) {
+    public func delete(model: any ArtboardElement) {
         presenter.remove(model)
     }
     
     @objc func addImageButtonTapped() {
         Task {
-            if let image = await requestImage() {
-                presentImage(image)
+            if let path = await requestImage(),
+               let image = NSImage(contentsOf: path) {
+                presenter.add(image: image, name: path.lastPathComponent)
             }
         }
     }
 
     @objc func duplicateMenuSelected() {
-        if let selectedControl = presenter.selectedControl?.model {
+        if let selectedControl = (presenter.selectedControl as? A11yControlLayer)?.model {
             let newModel = selectedControl.copy()
             newModel.frame = newModel.frame.offsetBy(dx: 40, dy: 40)
-            presenter.add(newModel)
+            presenter.append(control: newModel)
+        } else {
+            // TODO: Duplicate menu should be disabled in this case
         }
     }
 
-    func requestImage() async -> NSImage? {
+    func requestImage() async -> URL? {
         guard let window = view.window else { return nil }
         let imagePanel = NSOpenPanel()
         imagePanel.allowedFileTypes = NSImage.imageTypes
@@ -191,21 +188,13 @@ public class CanvasViewController: NSViewController {
         imagePanel.allowsMultipleSelection = false
         let modalResponse = await imagePanel.beginSheetModal(for: window)
         guard modalResponse == .OK else { return nil }
-        guard let url = imagePanel.url, let image = NSImage(contentsOf: url) else { return nil }
-        return image
-    }
-    
-    func presentImage(_ image: NSImage) {
-        presenter.update(image: image)
-        view().setImage(image)
-        view().backgroundImageView.image = image
-        presenter.publishControlChanges()
+        return imagePanel.url
     }
 }
 
 extension CanvasViewController {
     public func image(
-        for model: any AccessibilityView
+        for model: any ArtboardElement
     ) async -> CGImage? {
         guard let control = view().control(for: model)
         else { return nil }
@@ -222,37 +211,48 @@ extension CanvasViewController {
     }
     
     @IBAction func reduceMagnifing(sender: Any) {
-        view().changeMagnifacation { current in
+        view().scrollView.changeMagnification { current in
             current / zoomStep
         }
     }
     
     @IBAction func increaseMagnifing(sender: Any) {
-        view().changeMagnifacation { current in
+        view().scrollView.changeMagnification { current in
             current * zoomStep
         }
     }
     
     @IBAction func fitMagnifing(sender: Any) {
-        view().fitToWindow(animated: true)
+        view().scrollView.fitToWindow(animated: true)
     }
 }
 
 extension CanvasViewController: NSWindowDelegate {
     public func windowDidResize(_ notification: Notification) {
-        view().fitToWindowIfAlreadyFitted()
+        view().scrollView.fitToWindowIfAlreadyFitted()
     }
 }
 
 extension CanvasViewController: DragNDropDelegate {
-    public func didDrag(image: NSImage) {
-        presenter.update(image: image)
-        view().setImage(image)
-        presenter.publishControlChanges()
+    public func didDrag(
+        image: NSImage,
+        locationInWindow: CGPoint,
+        name: String?
+    ) {
+        let locationInCanvas = view().documentView
+            .convert(locationInWindow, from: nil)
+        
+        let shouldAnimate = presenter.document.artboard.frames.count != 0
+        
+        presenter.add(image: image,
+                      name: name,
+                      origin: locationInCanvas)
+        view().scrollView.fitToWindow(animated: shouldAnimate)
     }
     
-    public func didDrag(path: URL) {
-        // TODO: Add support. Or decline this files
+    public func didDrag(path: URL) -> Bool {
+        // TODO: Add support
+        return false
     }
 }
 
@@ -271,5 +271,31 @@ extension CGPoint {
         CGPoint(x: x,
                 y: view.frame.height - y
         )
+    }
+}
+
+extension NSCursor {
+    static func resizing(for corner: RectCorner) -> NSCursor {
+        // There's no system resizing images so takes from WebKit
+        // see or should take custom image/private cursor: https://stackoverflow.com/questions/49297201/diagonal-resizing-mouse-pointer
+        let image: NSImage = resizingImage(for: corner)
+        
+        return NSCursor(image: image, hotSpot: NSPoint(x: 8, y: 8))
+    }
+                        
+    private static func resizingImage(for corner: RectCorner) -> NSImage {
+        switch corner {
+        case .topLeft, .bottomRight:
+            return NSImage(byReferencingFile: "/System/Library/Frameworks/WebKit.framework/Versions/Current/Frameworks/WebCore.framework/Resources/northWestSouthEastResizeCursor.png")!
+            
+        case .topRight, .bottomLeft:
+            return NSImage(byReferencingFile: "/System/Library/Frameworks/WebKit.framework/Versions/Current/Frameworks/WebCore.framework/Resources/northEastSouthWestResizeCursor.png")!
+        }
+    }
+}
+
+extension NSEvent {
+    func location(in view: NSView) -> CGPoint {
+        view.convert(locationInWindow, from: nil)
     }
 }

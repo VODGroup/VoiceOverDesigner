@@ -6,8 +6,6 @@ import AppKit
 import Document
 import Combine
 import TextRecognition
-
-extension CanvasPresenter: TextBasedPresenter {}
     
 class ProjectController: NSSplitViewController {
     
@@ -28,6 +26,7 @@ class ProjectController: NSSplitViewController {
         canvas.inject(presenter: canvasPresenter)
         
         settings = SettingsStateViewController.fromStoryboard()
+        settings.document = document
         settings.textRecognitionCoordinator = TextRecognitionCoordinator(
             imageSource: canvas)
         
@@ -91,11 +90,15 @@ class ProjectController: NSSplitViewController {
         
         canvas.presenter.stopObserving()
     }
+
+    override func cancelOperation(_ sender: Any?) {
+        canvas.presenter.cancelOperation()
+    }
 }
 
 // MARK: Settings visibility
 extension ProjectController {
-    private func updateSelection(_ selectedModel: (any AccessibilityView)?) {
+    private func updateSelection(_ selectedModel: (any ArtboardElement)?) {
         if let selectedModel = selectedModel {
             showSettings(for: selectedModel)
         } else {
@@ -103,8 +106,10 @@ extension ProjectController {
         }
     }
 
-    func showSettings(for model: any AccessibilityView) {
+    func showSettings(for model: any ArtboardElement) {
         switch model.cast {
+        case .frame(let frame):
+            settings.state = .frame(frame)
         case .container(let container):
             settings.state = .container(container)
         case .element(let element):
@@ -118,11 +123,11 @@ extension ProjectController {
 }
 
 extension ProjectController: SettingsDelegate {
-    public func updateValue() {
-        canvas.publishControlChanges()
+    public func didUpdateElementSettings() {
+        canvas.publishArtboardChanges()
     }
     
-    public func delete(model: any AccessibilityView) {
+    public func delete(model: any ArtboardElement) {
         canvas.delete(model: model)
         settings.state = .empty
     }

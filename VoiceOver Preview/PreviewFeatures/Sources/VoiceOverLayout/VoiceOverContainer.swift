@@ -30,19 +30,12 @@ class VoiceOverContainer: NSObject {
         accessibilityFrame = containerFrame
         
         print("Container \(accessibilityFrame), \(container.label)")
-        accessibilityElements = container.elements.map({ element in
-            
-            let rect = scrollView
-                .frameInScreenCoordinates(element.frame)
-                .relative(to: containerFrame)
-            
-            let a11yElement = VoiceOverElement(
-                control: element,
-                accessibilityContainer: self,
-                frame: .relativeToParent(rect))
-            
-            return a11yElement
-        })
+        
+        if let adjustableProxy = container.adjustableProxy,  UIAccessibility.isVoiceOverRunning {
+            accessibilityElements = accessibilityElements(from: [adjustableProxy], containerFrame: containerFrame)
+        } else {
+            accessibilityElements = accessibilityElements(from: container.elements, containerFrame: containerFrame)
+        }
 
         accessibilityContainerType = container.containerType.uiKit
         accessibilityNavigationStyle = container.navigationStyle.uiKit
@@ -59,14 +52,30 @@ class VoiceOverContainer: NSObject {
         // TODO: Add Enumeration to child
     }
     
-    
+    private func accessibilityElements(from elements: [any ArtboardElement], containerFrame: CGRect) -> [UIAccessibilityElement] {
+        elements.compactMap({ element in
+            guard let element = element as? A11yDescription // TODO: Add support for different type
+            else { return nil }
+            
+            let rect = scrollView
+                .frameInScreenCoordinates(element.frame)
+                .relative(to: containerFrame)
+            
+            let a11yElement = VoiceOverElement(
+                control: element,
+                accessibilityContainer: self,
+                frame: .relativeToParent(rect))
+            
+            return a11yElement
+        })
+    }
 }
 
 import UIKit
 extension A11yContainer.ContainerType {
     var uiKit: UIAccessibilityContainerType {
         switch self {
-        case .landmark: return .landmark
+        case .none: return .none
         case .list: return .list
         case .semanticGroup: return .semanticGroup
         }

@@ -19,7 +19,7 @@ class UserDocumentsPresenter: DocumentBrowserPresenterProtocol {
     }
     
     private var recentItems: [URL] {
-        documentController.recentDocumentURLs ?? []
+        documentController.recentDocumentURLs
     }
     
     private let metadataProvider = MetadataProvider(containerIdentifier: containerId,
@@ -103,7 +103,7 @@ class UserDocumentsPresenter: DocumentBrowserPresenterProtocol {
         }
     }
     
-    #warning("TODO: Find a way to access document url otherwise cannot move file")
+    // TODO: Find a way to access document url otherwise cannot move file
     func moveToCloud(_ documentURL: URL) {
         guard let iCloudDirectory = fileManager.iCloudDirectory else { return }
         let document = VODesignDocument(file: documentURL)
