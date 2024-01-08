@@ -89,12 +89,21 @@ public struct PresentationView: View {
     @ViewBuilder
     private var backgroundImage: some View {
         if let image = model.document.image {
+#if os(iOS)
+            Image(uiImage: image)
+                .resizable()
+                .frame(
+                    width: model.document.imageSize.width,
+                    height: model.document.imageSize.height
+                )
+#elseif os(macOS)
             Image(nsImage: image)
                 .resizable()
                 .frame(
                     width: model.document.imageSize.width,
                     height: model.document.imageSize.height
                 )
+#endif
         } else {
             Color.gray
                 .opacity(0.25)
@@ -149,11 +158,19 @@ public struct PresentationView: View {
         RoundedRectangle(cornerRadius: 6, style: .continuous)
             .foregroundStyle(
                 { () -> SwiftUI.Color in
+#if os(iOS)
+                    if isControlHovered(control) {
+                        return Color(uiColor: control.color.withAlphaComponent(0.5)) // TODO: Is it fine for iOS?
+                    } else {
+                        return Color(uiColor: control.color)
+                    }
+#elseif os(macOS)
                     if isControlHovered(control) {
                         return Color(nsColor: control.color.withSystemEffect(.deepPressed))
                     } else {
                         return Color(nsColor: control.color)
                     }
+#endif
                 }()
             )
             .overlay {
@@ -353,7 +370,7 @@ public struct PresentationView: View {
         }
     }
     
-    private func font(for control: any ArtboardElement) -> NSFont {
+    private func font(for control: any ArtboardElement) -> VOFont {
         let isSelected = isControlSelected(control)
         
         return .preferredFont(forTextStyle: isSelected ? .headline : .footnote)
@@ -421,7 +438,11 @@ extension Collection {
 
 extension PresentationView {
     init(path: URL) {
+#if os(iOS)
+        let document = VODesignDocument(fileURL: path)
+#elseif os(macOS)
         let document = VODesignDocument(file: path)
+#endif
         let presentation = VODesignDocumentPresentation(document)
         
         self.init(model: .init(document: presentation))

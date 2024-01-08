@@ -154,17 +154,25 @@ let package = Package(
             dependencies: [
             ]
         ),
-        .testTarget(
-            name: "PurchasesTests",
-            dependencies: [
-                "Purchases",
-            ]),
         .target(
             name: "Presentation",
             dependencies: [
                 "Document",
             ]
         ),
+        .testTarget(
+            name: "PresentationTests",
+            dependencies: [
+                "Presentation"
+            ]
+        ),
+        .testTarget(
+            name: "PurchasesTests",
+            dependencies: [
+                "Presentation",
+                "Purchases",
+            ]),
+        
         .target(
             name: "ElementSettings",
             dependencies: [

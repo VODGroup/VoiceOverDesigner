@@ -117,7 +117,7 @@ public class PreviewMainViewController: UIViewController {
             ScrollViewController.controller(presenter: presenter)
         } else {
             UIHostingController(rootView: PresentationView(
-                document: .init(document)
+                model: PresentationModel(document: VODesignDocumentPresentation(document))
             ))
         }
         addChild(canvas)

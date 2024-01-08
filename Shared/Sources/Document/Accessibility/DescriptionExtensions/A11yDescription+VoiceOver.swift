@@ -67,7 +67,7 @@ extension A11yDescription {
     
     @available(macOS 12, *)
     @available(iOS 15, *)
-    public func voiceOverTextAttributed(font: Font?, breakParts: Bool = false) -> AttributedString {
+    public func voiceOverTextAttributed(font: VOFont?, breakParts: Bool = false) -> AttributedString {
         AttributedString(voiceOverTextAttributed(font: font, breakParts: breakParts))
     }
     
