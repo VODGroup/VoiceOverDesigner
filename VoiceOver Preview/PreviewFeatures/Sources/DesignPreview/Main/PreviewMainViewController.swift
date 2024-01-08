@@ -7,8 +7,16 @@ import Combine
 import SwiftUI
 import ElementSettings
 import Presentation
+import CommonUI
 
-public class PreviewMainViewController: UIViewController {
+public enum PreviewState: StateProtocol {
+    public static var `default`: PreviewState = .regular
+    
+    case compact
+    case regular
+}
+
+public class PreviewMainViewController: StateViewController<PreviewState> {
     private var presenter: CanvasPresenter!
     
     public private(set) var document: VODesignDocument!
@@ -16,6 +24,19 @@ public class PreviewMainViewController: UIViewController {
         self.document = document
         self.presenter = CanvasPresenter(document: document)
         super.init(nibName: nil, bundle: nil)
+        
+        self.stateFactory = { [weak self] state in
+            guard let self = self else { fatalError() }
+            
+            switch state {
+            case .compact:
+                return ScrollViewController.controller(presenter: self.presenter)
+            case .regular:
+                return UIHostingController(rootView: PresentationView(
+                    model: PresentationModel(document: VODesignDocumentPresentation(document))
+                ))
+            }
+        }
     }
     
     public required init?(coder: NSCoder) {
@@ -24,15 +45,17 @@ public class PreviewMainViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
-        embedCanvas()
-        subscribeToSelection()
+     
+        if #available(iOS 17.0, *) {
+            registerForTraitChanges([UITraitHorizontalSizeClass.self], action: #selector(updateState))
+        }
     }
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         addDocumentStateObserving()
+        subscribeToSelection()
     }
     
     public override func viewDidDisappear(_ animated: Bool) {
@@ -45,6 +68,21 @@ public class PreviewMainViewController: UIViewController {
         presenter.stopObserving()
         
         document.close()
+    }
+    
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        updateState()
+    }
+    
+    @objc private func updateState() {
+        let shouldDisplayPreview = traitCollection.horizontalSizeClass == .compact
+        if shouldDisplayPreview {
+            state = .compact
+        } else {
+            state = .regular
+        }
     }
     
     public override var prefersStatusBarHidden: Bool {
@@ -64,12 +102,6 @@ public class PreviewMainViewController: UIViewController {
    
     private var sideTransition = SideTransition()
     
-    private func presentDetails(for model: (any ArtboardElement)?) {
-        guard let model = model
-        else { return }
-        
-        self.presentDetails(for: model)
-    }
     private func presentDetails(for model: any ArtboardElement) {
         if case .frame = model.cast {
             // No settings for Frame
@@ -109,23 +141,6 @@ public class PreviewMainViewController: UIViewController {
         default:
             EmptyView()
         }
-    }
-    
-    private func embedCanvas() {
-        let shouldDisplayPreview = traitCollection.horizontalSizeClass == .compact
-        let canvas = if shouldDisplayPreview {
-            ScrollViewController.controller(presenter: presenter)
-        } else {
-            UIHostingController(rootView: PresentationView(
-                model: PresentationModel(document: VODesignDocumentPresentation(document))
-            ))
-        }
-        addChild(canvas)
-        view.addSubview(canvas.view)
-        canvas.view.frame = view.frame // TODO: Constraints
-        canvas.didMove(toParent: self)
-        
-        embedFullFrame(canvas)
     }
 }
 
