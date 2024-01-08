@@ -88,22 +88,13 @@ public struct PresentationView: View {
 
     @ViewBuilder
     private var backgroundImage: some View {
-        if let image = model.document.image {
-#if os(iOS)
-            Image(uiImage: image)
+        if let image = model.document.imageView {
+            image
                 .resizable()
                 .frame(
                     width: model.document.imageSize.width,
                     height: model.document.imageSize.height
                 )
-#elseif os(macOS)
-            Image(nsImage: image)
-                .resizable()
-                .frame(
-                    width: model.document.imageSize.width,
-                    height: model.document.imageSize.height
-                )
-#endif
         } else {
             Color.gray
                 .opacity(0.25)
