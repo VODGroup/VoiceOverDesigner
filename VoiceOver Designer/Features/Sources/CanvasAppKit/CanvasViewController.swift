@@ -7,7 +7,7 @@
 
 import Cocoa
 import Document
-import CommonUI
+import CommonUIAppKit
 import Canvas
 import Combine
 import AppKit

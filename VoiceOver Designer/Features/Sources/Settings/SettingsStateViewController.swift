@@ -182,7 +182,7 @@ extension SettingsStateViewController {
 }
 
 
-final class HostingReceiverController<Content: View>: NSHostingController<AnyView>, TextRecogitionReceiver, PurchaseUnlockerDelegate {
+final class HostingReceiverController<Content: SwiftUI.View>: NSHostingController<AnyView>, TextRecogitionReceiver, PurchaseUnlockerDelegate {
     let content: Content
     
     private var alternatives: [String] = []
@@ -213,7 +213,7 @@ final class HostingReceiverController<Content: View>: NSHostingController<AnyVie
         rootView = AnyView(body)
     }
     
-    private var body: some View {
+    private var body: some SwiftUI.View {
         content
             .textRecognitionResults(alternatives)
             .unlockedProductIds(products)

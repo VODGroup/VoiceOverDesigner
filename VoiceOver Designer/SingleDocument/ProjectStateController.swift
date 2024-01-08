@@ -8,7 +8,6 @@
 import AppKit
 import Presentation
 import SwiftUI
-import Settings // TODO: Move StateViewController out of settings
 import Document
 import CommonUI
 

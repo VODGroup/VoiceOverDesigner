@@ -5,9 +5,17 @@
 //  Created by Mikhail Rubanov on 21.08.2021.
 //
 
+#if os(iOS)
+import UIKit
+public typealias ViewController = UIViewController
+public typealias View = UIView
+public typealias EdgeInsets = UIEdgeInsets
+#elseif os(macOS)
 import AppKit
-
 public typealias ViewController = NSViewController
+public typealias View = NSView
+public typealias EdgeInsets = NSEdgeInsets
+#endif
 
 public protocol StateProtocol: Equatable {
     static var `default`: Self { get }
@@ -26,7 +34,7 @@ where State: StateProtocol {
     
     
     open override func loadView() {
-        view = NSView()
+        view = View()
     }
     
     // MARK: State
@@ -64,10 +72,10 @@ where State: StateProtocol {
     }
 }
 
-public extension NSView {
+public extension View {
     func pinToBounds(
-        _ view: NSView,
-        with insets: NSEdgeInsets = .zero
+        _ view: View,
+        with insets: EdgeInsets = .zero
     ) {
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -82,7 +90,7 @@ public extension NSView {
     }
 }
 
-public extension NSEdgeInsets {
+public extension EdgeInsets {
     static var zero: Self {
         return .init()
     }

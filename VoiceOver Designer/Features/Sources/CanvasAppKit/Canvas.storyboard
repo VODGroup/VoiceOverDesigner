@@ -37,7 +37,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <customView horizontalHuggingPriority="1" verticalHuggingPriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="dHk-Q5-FAZ" customClass="DragNDropImageView" customModule="CommonUI">
+                            <customView horizontalHuggingPriority="1" verticalHuggingPriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="dHk-Q5-FAZ" customClass="DragNDropImageView" customModule="CommonUIAppKit">
                                 <rect key="frame" x="0.0" y="0.0" width="800" height="906"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="400" id="LKl-HZ-UDo"/>

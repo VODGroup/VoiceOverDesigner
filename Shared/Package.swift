@@ -34,6 +34,10 @@ let package = Package(
         .library(
             name: "ElementSettings",
             targets: ["ElementSettings"]
+        ),
+        .library(
+            name: "CommonUI",
+            targets: ["CommonUI"]
         )
     ],
     dependencies: [
@@ -179,6 +183,9 @@ let package = Package(
                 "Document",
                 "Purchases"
             ]
+        ),
+        .target(
+            name: "CommonUI"
         )
     ]
 )
