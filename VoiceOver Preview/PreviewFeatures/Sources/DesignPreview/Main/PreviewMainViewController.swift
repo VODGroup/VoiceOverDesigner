@@ -56,7 +56,7 @@ public class PreviewMainViewController: StateViewController<PreviewState> {
     public override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
         
-        updateStateFromTrait() // iOS 16 will set controller during traitCollectionDidChange event
+        updateStateFromTrait()
     }
     
     public override func viewDidAppear(_ animated: Bool) {
@@ -74,14 +74,6 @@ public class PreviewMainViewController: StateViewController<PreviewState> {
         }
         
         presenter.stopObserving()
-        
-        document.close()
-    }
-    
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        
-        updateStateFromTrait()
     }
     
     @objc private func updateStateFromTrait() {
