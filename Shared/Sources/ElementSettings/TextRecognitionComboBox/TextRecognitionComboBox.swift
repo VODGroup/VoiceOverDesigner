@@ -20,7 +20,7 @@ struct TextRecognitionComboBoxView: View {
     var body: some View {
         ZStack(alignment: .trailing) {
             
-            TextField("Value", text: $text)
+            TextFieldOnSubmit("Value", text: $text)
                 .labelsHidden()
                 .textFieldStyle(.roundedBorder)
                 .lineLimit(5)

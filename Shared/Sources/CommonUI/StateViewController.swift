@@ -7,24 +7,24 @@
 
 #if os(iOS)
 import UIKit
-public typealias ViewController = UIViewController
-public typealias View = UIView
-public typealias EdgeInsets = UIEdgeInsets
+public typealias AppViewController = UIViewController
+public typealias AppView = UIView
+public typealias AppEdgeInsets = UIEdgeInsets
 #elseif os(macOS)
 import AppKit
-public typealias ViewController = NSViewController
-public typealias View = NSView
-public typealias EdgeInsets = NSEdgeInsets
+public typealias AppViewController = NSViewController
+public typealias AppView = NSView
+public typealias AppEdgeInsets = NSEdgeInsets
 #endif
 
 public protocol StateProtocol: Equatable {
     static var `default`: Self { get }
 }
 
-open class StateViewController<State>: ViewController
+open class StateViewController<State>: AppViewController
 where State: StateProtocol {
     
-    open var stateFactory: ((State) -> ViewController)!
+    open var stateFactory: ((State) -> AppViewController)!
 
     open var shouldSetDefaultControllerOnViewDidLoad: Bool = true
     
@@ -38,7 +38,7 @@ where State: StateProtocol {
     
     
     open override func loadView() {
-        view = View()
+        view = AppView()
     }
     
     // MARK: State
@@ -57,7 +57,7 @@ where State: StateProtocol {
     
     // MARK: Controller management
     
-    public private(set) weak var currentController: ViewController?
+    public private(set) weak var currentController: AppViewController?
     
     private func addController(for state: State) {
         addNew(stateFactory(state))
@@ -84,7 +84,7 @@ where State: StateProtocol {
         }
     }
 #elseif os(macOS)
-    private func addNew(_ newController: ViewController) {
+    private func addNew(_ newController: AppViewController) {
         addChild(newController)
         view.addSubview(newController.view)
         view.pinToBounds(newController.view)
@@ -101,10 +101,10 @@ where State: StateProtocol {
 #endif
 }
 
-public extension View {
+public extension AppView {
     func pinToBounds(
-        _ view: View,
-        with insets: EdgeInsets = .zero
+        _ view: AppView,
+        with insets: AppEdgeInsets = .zero
     ) {
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -119,7 +119,7 @@ public extension View {
     }
 }
 
-public extension EdgeInsets {
+public extension AppEdgeInsets {
     static var zero: Self {
         return .init()
     }

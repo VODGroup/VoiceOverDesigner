@@ -1,9 +1,10 @@
 import Document
 import SwiftUI
+import CommonUI
 
 struct CustomActionsView: View {
     
-    @State var selection: A11yCustomActions
+    @Binding var selection: A11yCustomActions
     
     
     public var body: some View {
@@ -12,7 +13,7 @@ struct CustomActionsView: View {
             
             ForEach(selection.names.indices, id: \.self) { index in
                 HStack {
-                    TextField("", text: $selection.names[index])
+                    TextFieldOnSubmit("", text: $selection.names[index])
                         .submitLabel(.done)
                     
                     #if os(macOS)

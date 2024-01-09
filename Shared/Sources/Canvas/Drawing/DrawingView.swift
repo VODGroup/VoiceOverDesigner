@@ -2,8 +2,8 @@ import Document
 
 #if canImport(UIKit)
 import UIKit
-public typealias View = UIView
-extension View {
+public typealias AppView = UIView
+extension AppView {
     func addSublayer(_ layer: CALayer) {
         self.layer.addSublayer(layer)
     }
@@ -14,9 +14,9 @@ extension View {
 }
 #else
 import AppKit
-public typealias View = NSView
+public typealias AppView = NSView
 
-extension View {
+extension AppView {
     func addSublayer(_ layer: CALayer) {
         self.layer!.addSublayer(layer)
     }
@@ -36,7 +36,7 @@ extension CALayer {
     }
 }
 
-public protocol DrawingView: View {
+public protocol DrawingView: AppView {
     var drawnControls: [A11yControlLayer] { get set }
     var frames: [ImageLayer] { get set }
     

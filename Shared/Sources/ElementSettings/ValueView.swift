@@ -48,8 +48,7 @@ struct ValueView: View {
     func adjustableView(options: Binding<AdjustableOptions>) -> some View {
 #if os(iOS)
         ForEach(options.wrappedValue.options.indices, id: \.self) { index in
-            
-            TextField("\(index)", text: options.options[index])
+            TextFieldOnSubmit("\(index)", text: options.options[index])
         }
         .onDelete(perform: { indexSet in
             options.wrappedValue.options.remove(atOffsets: indexSet)

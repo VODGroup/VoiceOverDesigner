@@ -1,5 +1,6 @@
 import Document
 import SwiftUI
+import CommonUI
 
 struct CustomDescriptionView: View {
     
@@ -45,14 +46,14 @@ struct CustomDescriptionView: View {
         label: Binding<String>,
         value: Binding<String>
     ) -> some View {
-        TextField("Label:", text: label)
+        TextFieldOnSubmit("Label:", text: label)
             .focused($focusedField, equals: .label)
             .submitLabel(.continue)
             .onSubmit {
                 focusedField = .value // Move to next field
             }
         
-        TextField("Value:", text: value)
+        TextFieldOnSubmit("Value:", text: value)
             .focused($focusedField, equals: .value)
             .submitLabel(.done)
     }

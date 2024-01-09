@@ -9,7 +9,7 @@ public protocol AlignmentOverlayProtocol {
 public class AlignmentOverlayFactory {
     public init() {}
     
-    public func overlay(for view: View) -> AlignmentOverlayProtocol {
+    public func overlay(for view: AppView) -> AlignmentOverlayProtocol {
 #if canImport(UIKit)
         return NoAlignmentOverlay()
 #else

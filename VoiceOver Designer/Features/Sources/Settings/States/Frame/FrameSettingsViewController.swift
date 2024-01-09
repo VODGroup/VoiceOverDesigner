@@ -2,6 +2,7 @@ import Artboard
 import Foundation
 import SwiftUI
 import Document
+import CommonUI
 
 public class FrameSettingsViewController: NSHostingController<FrameSettingsView> {
     let document: VODesignDocumentProtocol
@@ -31,7 +32,7 @@ public struct FrameSettingsView: View {
     public var body: some View {
         ScrollView {
             Form {
-                TextField("Name:", text: $frame.label)
+                TextFieldOnSubmit("Name:", text: $frame.label)
                 HStack {
                     Button("Replace image",
                            systemImage: "arrow.triangle.2.circlepath",

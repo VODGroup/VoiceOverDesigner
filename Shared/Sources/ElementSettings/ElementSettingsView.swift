@@ -1,5 +1,6 @@
 import SwiftUI
 import Document
+import CommonUI
 
 public struct ElementSettingsEditorView: View {
     
@@ -83,13 +84,13 @@ public struct ElementSettingsView: View {
                 
                 TraitsView(selection: $element.trait)
                 
-                CustomActionsView(selection: element.customActions)
+                CustomActionsView(selection: $element.customActions)
                 
                 CustomDescriptionView(selection: element.customDescriptions)
                     .padding(.bottom, 16)
                 
                 Section {
-                    TextField("Hint", text: $element.hint)
+                    TextFieldOnSubmit("Hint", text: $element.hint)
                 }
                 .padding(.bottom, 24)
                 
@@ -104,7 +105,6 @@ public struct ElementSettingsView: View {
             }
         }
         .padding(.bottom, 16)
-
     }
 }
 
