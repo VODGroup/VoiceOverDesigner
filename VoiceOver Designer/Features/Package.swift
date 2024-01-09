@@ -90,8 +90,7 @@ let package = Package(
                 .product(name: "Canvas", package: "Shared"),
                 .product(name: "SnapshotTesting",
                          package: "swift-snapshot-testing"),
-            ],
-            exclude: ["__Snapshots__"]
+            ]
         ),
         .testTarget(
             name: "RecentTests",
