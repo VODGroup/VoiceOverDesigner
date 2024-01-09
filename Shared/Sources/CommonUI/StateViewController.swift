@@ -46,7 +46,9 @@ where State: StateProtocol {
     open var state: State = .default {
         didSet {
             let isChanged = state != oldValue
-            if isChanged {
+            if isChanged 
+                || currentController == nil // if shouldSetDefaultControllerOnViewDidLoad = false
+            {
                 removeCurrentIfExists()
                 addController(for: state)
             }
