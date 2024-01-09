@@ -46,7 +46,7 @@ struct ValueView: View {
     
     @ViewBuilder
     func adjustableView(options: Binding<AdjustableOptions>) -> some View {
-#if os(iOS)
+#if os(iOS) || os(visionOS)
         ForEach(options.wrappedValue.options.indices, id: \.self) { index in
             TextFieldOnSubmit("\(index)", text: options.options[index])
         }

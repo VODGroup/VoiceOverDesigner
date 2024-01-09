@@ -1,4 +1,4 @@
-#if os(iOS)
+#if os(iOS) || os(visionOS)
 import UIKit
 public typealias AppleDocument = UIDocument
 import Combine

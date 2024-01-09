@@ -1,6 +1,6 @@
 import Foundation
 
-#if os(iOS)
+#if os(iOS) || os(visionOS)
 import UIKit
 public typealias Image = UIImage
 public extension Image {

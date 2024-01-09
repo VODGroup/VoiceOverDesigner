@@ -254,7 +254,7 @@ final class DocumentVersionsTests: XCTestCase {
 #endif
 }
 
-#if os(iOS)
+#if os(iOS) || os(visionOS)
 extension AppleDocument {
     func read() async {
         await withCheckedContinuation({ continuation in

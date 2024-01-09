@@ -5,7 +5,7 @@
 //  Created by Mikhail Rubanov on 21.08.2021.
 //
 
-#if os(iOS)
+#if os(iOS) || os(visionOS)
 import UIKit
 public typealias AppViewController = UIViewController
 public typealias AppView = UIView
@@ -62,7 +62,7 @@ where State: StateProtocol {
     private func addController(for state: State) {
         addNew(stateFactory(state))
     }
-#if os(iOS)
+#if os(iOS) || os(visionOS)
     private func addNew(_ newController: ViewController) {
         addChild(newController)
         newController.beginAppearanceTransition(true, animated: false)

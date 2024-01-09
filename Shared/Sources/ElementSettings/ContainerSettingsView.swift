@@ -12,7 +12,7 @@ public struct ContainerSettingsEditorView: View {
     }
     
     public var body: some View {
-#if os(iOS)
+#if os(iOS) || os(visionOS)
         NavigationView {
             ContainerSettingsView(container: container, deleteSelf: deleteSelf)
                 .navigationBarTitleDisplayMode(.inline)
@@ -31,7 +31,7 @@ public struct ContainerSettingsEditorView: View {
 #endif
     }
     
-#if os(iOS)
+#if os(iOS) || os(visionOS)
     @Environment(\.dismiss) var dismiss
     private func delete() {
         deleteSelf()

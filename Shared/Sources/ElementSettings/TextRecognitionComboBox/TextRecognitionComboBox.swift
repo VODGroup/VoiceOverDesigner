@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-#if os(iOS)
+#if os(iOS) || os(visionOS)
 struct TextRecognitionComboBoxView: View {
     @Binding var text: String
     @Environment(\.textRecognitionResults) private var variants

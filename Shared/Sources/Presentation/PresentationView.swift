@@ -149,7 +149,7 @@ public struct PresentationView: View {
         RoundedRectangle(cornerRadius: 6, style: .continuous)
             .foregroundStyle(
                 { () -> SwiftUI.Color in
-#if os(iOS)
+#if os(iOS) || os(visionOS)
                     if isControlHovered(control) {
                         return Color(uiColor: control.color.withAlphaComponent(0.5)) // TODO: Is it fine for iOS?
                     } else {
@@ -429,7 +429,7 @@ extension Collection {
 
 extension PresentationView {
     init(path: URL) {
-#if os(iOS)
+#if os(iOS) || os(visionOS)
         let document = VODesignDocument(fileURL: path)
 #elseif os(macOS)
         let document = VODesignDocument(file: path)
