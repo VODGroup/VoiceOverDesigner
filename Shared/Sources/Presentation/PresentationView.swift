@@ -205,7 +205,7 @@ public struct PresentationView: View {
                 .padding(EdgeInsets(top: 80, leading: Constants.cursorButtonPadding, bottom: 80, trailing: 80))
                 // Frame's width should be fixed. Otherwise hover effect brakes for long text
                 // For long text list's width recalculates and hover lose y coordinate
-                .frame(width: PresentationView.Constants.controlsWidth)
+                .frame(width: PresentationView.Constants.controlsWidth, alignment: .leading)
                 .onChange(of: model.selectedControl, perform: { newValue in
                     if let newValue {
                         withAnimation(PresentationModel.Constants.animation) {
