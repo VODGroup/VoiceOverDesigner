@@ -37,6 +37,8 @@ public class PreviewMainViewController: StateViewController<PreviewState> {
                 ))
             }
         }
+        
+        shouldSetDefaultControllerOnViewDidLoad = false // State depends on trait on viewDidLoad is too early for proper detection
     }
     
     public required init?(coder: NSCoder) {
@@ -47,8 +49,14 @@ public class PreviewMainViewController: StateViewController<PreviewState> {
         super.viewDidLoad()
      
         if #available(iOS 17.0, *) {
-            registerForTraitChanges([UITraitHorizontalSizeClass.self], action: #selector(updateState))
+            registerForTraitChanges([UITraitHorizontalSizeClass.self], action: #selector(updateStateFromTrait))
         }
+    }
+    
+    public override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+        
+        updateStateFromTrait() // iOS 16 will set controller during traitCollectionDidChange event
     }
     
     public override func viewDidAppear(_ animated: Bool) {
@@ -73,16 +81,13 @@ public class PreviewMainViewController: StateViewController<PreviewState> {
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        updateState()
+        updateStateFromTrait()
     }
     
-    @objc private func updateState() {
-        let shouldDisplayPreview = traitCollection.horizontalSizeClass == .compact
-        if shouldDisplayPreview {
-            state = .compact
-        } else {
-            state = .regular
-        }
+    @objc private func updateStateFromTrait() {
+        let isCompact = traitCollection.horizontalSizeClass == .compact
+        
+        state = isCompact ? .compact: .regular
     }
     
     public override var prefersStatusBarHidden: Bool {

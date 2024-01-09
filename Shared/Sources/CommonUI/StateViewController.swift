@@ -26,10 +26,14 @@ where State: StateProtocol {
     
     open var stateFactory: ((State) -> ViewController)!
 
+    open var shouldSetDefaultControllerOnViewDidLoad: Bool = true
+    
     open override func viewDidLoad() {
         super.viewDidLoad()
-        
-        addController(for: state)
+    
+        if shouldSetDefaultControllerOnViewDidLoad {
+            addController(for: state)
+        }
     }
     
     
