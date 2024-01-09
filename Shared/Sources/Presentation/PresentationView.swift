@@ -122,7 +122,7 @@ public struct PresentationView: View {
 
     private func controlContainer(_ container: A11yContainer) -> some View {
         ZStack(alignment: .topLeading) {
-            controlRectangle(container)
+            controlAccessibilityFocusOverlay(container)
                 .zIndex(-1)
                 .accessibilityLabel(container.label)
             // TODO: extractElements doesn't see anything inside container
@@ -134,7 +134,7 @@ public struct PresentationView: View {
     }
 
     private func controlElement(_ element: A11yDescription) -> some View {
-        controlRectangle(element)
+        controlAccessibilityFocusOverlay(element)
             .accessibilityHidden(!element.isAccessibilityElement)
             .accessibilityLabel(element.label)
             .accessibilityHint(element.hint)
@@ -145,7 +145,7 @@ public struct PresentationView: View {
     }
 
     @ViewBuilder
-    private func controlRectangle(_ control: any ArtboardElement) -> some View {
+    private func controlAccessibilityFocusOverlay(_ control: any ArtboardElement) -> some View {
         RoundedRectangle(cornerRadius: 6, style: .continuous)
             .foregroundStyle(
                 { () -> SwiftUI.Color in
