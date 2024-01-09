@@ -49,18 +49,40 @@ where State: StateProtocol {
         }
     }
     
-    // MARK: Controller managment
+    // MARK: Controller management
     
     public private(set) weak var currentController: ViewController?
     
     private func addController(for state: State) {
         addNew(stateFactory(state))
     }
+#if os(iOS)
+    private func addNew(_ newController: ViewController) {
+        addChild(newController)
+        newController.beginAppearanceTransition(true, animated: false)
+        view.addSubview(newController.view)
+        view.pinToBounds(newController.view)
+        didMove(toParent: self)
+        newController.endAppearanceTransition()
+        
+        currentController = newController
+    }
     
+    private func removeCurrentIfExists() {
+        if let currentController = currentController {
+            currentController.willMove(toParent: nil)
+            currentController.beginAppearanceTransition(false, animated: false)
+            currentController.view.removeFromSuperview()
+            currentController.removeFromParent()
+            currentController.endAppearanceTransition()
+        }
+    }
+#elseif os(macOS)
     private func addNew(_ newController: ViewController) {
         addChild(newController)
         view.addSubview(newController.view)
         view.pinToBounds(newController.view)
+        
         currentController = newController
     }
     
@@ -70,6 +92,7 @@ where State: StateProtocol {
             currentController.removeFromParent()
         }
     }
+#endif
 }
 
 public extension View {
