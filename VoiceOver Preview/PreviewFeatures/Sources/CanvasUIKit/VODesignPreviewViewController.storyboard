@@ -46,9 +46,9 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5gq-hX-iYF">
-                                            <rect key="frame" x="0.0" y="0.0" width="237" height="36"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="237" height="36.5"/>
                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="5j1-x9-R3O">
-                                                <rect key="frame" x="0.0" y="0.0" width="237" height="36"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="237" height="37"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Turn on VoiceOver to listen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l2h-bc-5Um">
@@ -88,8 +88,9 @@
                         <constraints>
                             <constraint firstItem="8x6-dL-UR9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="G6F-xD-2Dg"/>
                             <constraint firstItem="vWe-gj-tWp" firstAttribute="centerX" secondItem="lmR-9W-Z6T" secondAttribute="centerX" id="PaD-pd-95f"/>
-                            <constraint firstItem="lmR-9W-Z6T" firstAttribute="bottom" secondItem="vWe-gj-tWp" secondAttribute="bottom" id="Ype-cj-GHU"/>
+                            <constraint firstAttribute="bottom" secondItem="vWe-gj-tWp" secondAttribute="bottom" priority="250" constant="20" id="Ype-cj-GHU"/>
                             <constraint firstAttribute="trailing" secondItem="8x6-dL-UR9" secondAttribute="trailing" id="bln-oM-OBJ"/>
+                            <constraint firstItem="lmR-9W-Z6T" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="vWe-gj-tWp" secondAttribute="bottom" id="cpw-cR-yBa"/>
                             <constraint firstAttribute="bottom" secondItem="8x6-dL-UR9" secondAttribute="bottom" id="e8t-gE-dr9"/>
                             <constraint firstItem="8x6-dL-UR9" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="s0E-pF-LbQ"/>
                         </constraints>
