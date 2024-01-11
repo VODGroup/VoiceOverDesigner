@@ -59,7 +59,7 @@ extension Image {
     }
 }
 
-#elseif os(iOS)
+#elseif os(iOS) || os(visionOS)
 import CoreGraphics
 import UIKit
 
@@ -110,6 +110,12 @@ extension UIImage {
 
 #endif
 
+#if os(visionOS)
+var isHeicSupported: Bool {
+    false
+}
+#else
 var isHeicSupported: Bool {
     (CGImageDestinationCopyTypeIdentifiers() as! [String]).contains("public.heic")
 }
+#endif

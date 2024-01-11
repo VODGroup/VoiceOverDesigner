@@ -33,8 +33,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    #if !os(visionOS)
     func application(_ application: UIApplication, handleOpen url: URL) -> Bool {
         return true
     }
+    #endif
 }
 

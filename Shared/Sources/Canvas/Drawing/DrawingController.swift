@@ -236,7 +236,7 @@ extension Image {
     var defaultCGImage: CGImage? {
 #if os(macOS)
         return cgImage(forProposedRect: nil, context: nil, hints: nil)
-#elseif os(iOS)
+#elseif os(iOS) || os(visionOS)
         return cgImage
 #endif
     }

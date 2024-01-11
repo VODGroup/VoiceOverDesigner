@@ -1,6 +1,6 @@
 import Document
 import SwiftUI
-
+import CommonUI
 
 struct ValueView: View {
     var element: A11yDescription

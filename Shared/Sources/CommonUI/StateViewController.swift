@@ -63,7 +63,7 @@ where State: StateProtocol {
         addNew(stateFactory(state))
     }
 #if os(iOS) || os(visionOS)
-    private func addNew(_ newController: ViewController) {
+    private func addNew(_ newController: AppViewController) {
         addChild(newController)
         newController.beginAppearanceTransition(true, animated: false)
         view.addSubview(newController.view)

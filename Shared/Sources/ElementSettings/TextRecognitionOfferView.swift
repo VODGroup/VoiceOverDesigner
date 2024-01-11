@@ -85,7 +85,7 @@ public struct TextRecognitionOfferView: View {
 #if os(macOS)
         let alert = NSAlert(error: error)
         alert.runModal()
-#elseif os(iOS)
+#elseif os(iOS) || os(visionOS)
         // TODO: Show error
 #endif
     }

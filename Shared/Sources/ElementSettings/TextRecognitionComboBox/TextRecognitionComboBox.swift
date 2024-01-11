@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import CommonUI
 
 #if os(iOS) || os(visionOS)
 struct TextRecognitionComboBoxView: View {

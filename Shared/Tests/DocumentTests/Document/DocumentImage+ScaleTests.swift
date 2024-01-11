@@ -24,7 +24,7 @@ final class DocumentImage_ScaleTests: XCTestCase {
         XCTAssertEqual(imageWith3xScale.size, scaledSize, file: file, line: line)
         XCTAssertEqual(imageWith3xScale.recommendedLayerContentsScale(1), 3, file: file, line: line)
         return imageWith3xScale
-#elseif os(iOS)
+#elseif os(iOS) || os(visionOS)
         XCTAssertEqual(imageWith3xScale.size, rawSize, "imaga size doesn't know about scale", file: file, line: line)
         XCTAssertEqual(imageWith3xScale.scale, 1, file: file, line: line)
         return imageWith3xScale
@@ -67,7 +67,7 @@ final class DocumentImage_ScaleTests: XCTestCase {
     
     // TODO: Second image should add another frame
     
-#elseif os(iOS)
+#elseif os(iOS) || os(visionOS)
 
     func test_UIKitReadImageSizeWithoutScale() throws {
         let document = VODesignDocument(fileName: documentName)

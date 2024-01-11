@@ -5,6 +5,9 @@ import os.log
 import DesignPreview
 import Document
 
+#if os(visionOS)
+import Samples
+#endif
 
 class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocumentBrowserViewControllerDelegate, UIViewControllerTransitioningDelegate {
     

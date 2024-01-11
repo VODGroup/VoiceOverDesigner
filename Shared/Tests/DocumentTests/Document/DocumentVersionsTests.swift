@@ -226,7 +226,7 @@ final class DocumentVersionsTests: XCTestCase {
         XCTAssertEqual(frame.frame, rect, "should scale frame", file: file, line: line)
     }
     
-#elseif os(iOS)
+#elseif os(iOS) || os(visionOS)
     
     func test_canReadDocumentWithoutFrameFolder() async throws {
         let document = try Sample().document(name: .beta, testCase: self)
@@ -277,7 +277,7 @@ func assertFolder(
     let url: URL
 #if os(macOS)
     url = document.fileURL!
-#elseif os(iOS)
+#elseif os(iOS) || os(visionOS)
     url = document.fileURL
 #endif
     
