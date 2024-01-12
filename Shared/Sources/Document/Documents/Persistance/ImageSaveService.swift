@@ -8,7 +8,13 @@
 import Foundation
 import Artboard
 
-class ImageSaveService: FileKeeperService {
+class ImageSaveService {
+    
+    let file: URL
+    init(url: URL, fileName: String) {
+        self.file = url.appendingPathComponent(fileName)
+    }
+    
     func load() throws -> Image? {
         let data = try Data(contentsOf: file)
         return Image(data: data)
