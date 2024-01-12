@@ -34,6 +34,12 @@ public class ScrollViewController: UIViewController {
         subscribeToVoiceOverNotification()
     }
     
+    public override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+        
+        view().updateScrollAdjustmentBehaviour()
+    }
+    
     func view() -> ScrollView {
         view as! ScrollView
     }

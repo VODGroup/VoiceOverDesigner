@@ -30,8 +30,11 @@ public class PreviewMainViewController: StateViewController<PreviewState> {
             
             switch state {
             case .compact:
+                setPlayBarItem()
                 return ScrollViewController.controller(presenter: self.presenter)
             case .regular:
+                
+                setStopBarItem()
                 return UIHostingController(rootView: PresentationView(
                     model: PresentationModel(document: VODesignDocumentPresentation(document))
                 ))
@@ -51,6 +54,24 @@ public class PreviewMainViewController: StateViewController<PreviewState> {
         if #available(iOS 17.0, *) {
             registerForTraitChanges([UITraitHorizontalSizeClass.self], action: #selector(updateStateFromTrait))
         }
+        
+        setPlayBarItem()
+    }
+    
+    private func setPlayBarItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Preview", style: .plain, target: self, action: #selector(playPresentationMode))
+    }
+    
+    private func setStopBarItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(stopPresentationMode))
+    }
+    
+    @objc func playPresentationMode() {
+        state = .regular
+    }
+    
+    @objc func stopPresentationMode() {
+        state = .compact
     }
     
     public override func viewIsAppearing(_ animated: Bool) {
@@ -79,7 +100,7 @@ public class PreviewMainViewController: StateViewController<PreviewState> {
     @objc private func updateStateFromTrait() {
         let isCompact = traitCollection.horizontalSizeClass == .compact
         
-        state = isCompact ? .compact: .regular
+        state = .compact// isCompact ? .compact: .regular
     }
     
     public override var prefersStatusBarHidden: Bool {

@@ -2,6 +2,7 @@ import UIKit
 
 extension UIScrollView {
     
+    // TODO: Cover by tests
     func centerAndScaleToFit(contentSize: CGSize) {
         self.contentSize = contentSize
         
