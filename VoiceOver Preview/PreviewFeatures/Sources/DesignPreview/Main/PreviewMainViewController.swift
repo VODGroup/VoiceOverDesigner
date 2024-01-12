@@ -10,10 +10,10 @@ import Presentation
 import CommonUI
 
 public enum PreviewState: StateProtocol {
-    public static var `default`: PreviewState = .regular
+    public static var `default`: PreviewState = .editor
     
-    case compact
-    case regular
+    case editor
+    case preview
 }
 
 public class PreviewMainViewController: StateViewController<PreviewState> {
@@ -27,21 +27,18 @@ public class PreviewMainViewController: StateViewController<PreviewState> {
         
         self.stateFactory = { [weak self] state in
             guard let self = self else { fatalError() }
+        
+            self.setRightButtonItemForCurrentState()
             
             switch state {
-            case .compact:
-                setPlayBarItem()
+            case .editor:
                 return ScrollViewController.controller(presenter: self.presenter)
-            case .regular:
-                
-                setStopBarItem()
+            case .preview:
                 return UIHostingController(rootView: PresentationView(
                     model: PresentationModel(document: VODesignDocumentPresentation(document))
                 ))
             }
         }
-        
-        shouldSetDefaultControllerOnViewDidLoad = false // State depends on trait on viewDidLoad is too early for proper detection
     }
     
     public required init?(coder: NSCoder) {
@@ -56,28 +53,6 @@ public class PreviewMainViewController: StateViewController<PreviewState> {
         }
         
         setPlayBarItem()
-    }
-    
-    private func setPlayBarItem() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Preview", style: .plain, target: self, action: #selector(playPresentationMode))
-    }
-    
-    private func setStopBarItem() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(stopPresentationMode))
-    }
-    
-    @objc func playPresentationMode() {
-        state = .regular
-    }
-    
-    @objc func stopPresentationMode() {
-        state = .compact
-    }
-    
-    public override func viewIsAppearing(_ animated: Bool) {
-        super.viewIsAppearing(animated)
-        
-        updateStateFromTrait()
     }
     
     public override func viewDidAppear(_ animated: Bool) {
@@ -97,12 +72,6 @@ public class PreviewMainViewController: StateViewController<PreviewState> {
         presenter.stopObserving()
     }
     
-    @objc private func updateStateFromTrait() {
-        let isCompact = traitCollection.horizontalSizeClass == .compact
-        
-        state = .compact// isCompact ? .compact: .regular
-    }
-    
     public override var prefersStatusBarHidden: Bool {
         true // Often we present another screenshot with status bar in it, remove app's to remove overlap
     }
@@ -117,6 +86,51 @@ public class PreviewMainViewController: StateViewController<PreviewState> {
             self.presentDetails(for: description)
         }.store(in: &cancellables)
     }
+    
+    // MARK: - Navigation Bar
+    private func setPlayBarItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Preview", style: .plain, target: self, action: #selector(playPresentationMode))
+    }
+    
+    private func setStopBarItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(stopPresentationMode))
+    }
+    
+    private func removePlayBarItem() {
+        navigationItem.rightBarButtonItem = nil
+    }
+    
+    private func setRightButtonItemForCurrentState() {
+        switch state {
+        case .editor:
+            setPlayBarItem()
+        case .preview:
+            setStopBarItem()
+        }
+    }
+    
+    @objc func playPresentationMode() {
+        state = .preview
+    }
+    
+    @objc func stopPresentationMode() {
+        state = .editor
+    }
+    
+    @objc private func updateStateFromTrait() {
+        let isCompact = traitCollection.horizontalSizeClass == .compact
+        
+        if isCompact {
+            if state == .preview {
+                state = .editor
+                removePlayBarItem()
+            }
+        } else {
+            setRightButtonItemForCurrentState()
+        }
+    }
+    
+    // MARK: - Details
    
     private var sideTransition = SideTransition()
     
