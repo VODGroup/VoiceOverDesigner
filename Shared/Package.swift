@@ -46,10 +46,10 @@ let package = Package(
             .upToNextMajor(from: "1.15.1")
         ),
         .package(url: "git@github.com:pointfreeco/swift-custom-dump.git",
-                 .upToNextMajor(from: "0.6.1")),
+                 .upToNextMajor(from: "1.1.2")),
         .package(url: "git@github.com:apple/swift-argument-parser.git", from: "1.2.1"),
         
-            .package(path: "./../FolderSnapshot")
+        .package(path: "./../FolderSnapshot")
     ],
     targets: [
         .target(
