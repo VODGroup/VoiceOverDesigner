@@ -66,8 +66,11 @@ actor PurchaseRepository {
     
     // MARK: - Purchase
     func purchase(product: Product) async throws {
+        #if os(visionOS)
+        let result = try await product.purchase(confirmIn: UIApplication.shared.connectedScenes.first!)
+        #else
         let result = try await product.purchase()
-        
+        #endif
         switch result {
         case .success(let verificationResult):
             await unlockAndFinish(try verificationResult.payloadValue)
