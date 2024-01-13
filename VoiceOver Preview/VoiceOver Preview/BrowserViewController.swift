@@ -105,10 +105,18 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
             self.transitionController?.targetView = documentViewController.view // Children provides better animation than navigation itself, don'n know why
             
             let viewController = self.controllerToPresent(controller: documentViewController)
-            viewController.navigationBar.isTranslucent = false
             viewController.transitioningDelegate = self
+#if !os(visionOS)
             viewController.hidesBarsOnSwipe = true
             viewController.setNavigationBarHidden(true, animated: false)
+#endif
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                // iPad and iPhone have different settings for best behaviour.
+                // Otherwise it will be completely broken (checked on iOS 17)
+                // The strange thing that sizeClass won't help, it's device difference
+                viewController.navigationBar.isTranslucent = false
+            }
+            
             self.present(viewController, animated: animated)
         }
     }
