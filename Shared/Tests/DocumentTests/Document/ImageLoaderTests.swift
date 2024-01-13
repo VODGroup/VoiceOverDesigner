@@ -50,7 +50,7 @@ class ImageLoadTests: XCTestCase {
 
 extension NSImage {
     func loadImage() {
-        var rect: CGRect = .zero
+        var rect: CGRect = CGRect(origin: .zero, size: CGSize(width: 400, height: 1000))
         cgImage(forProposedRect: &rect, context: nil, hints: nil)
     }
 }
