@@ -139,7 +139,9 @@ public struct PresentationView: View {
             .accessibilityLabel(element.label)
             .accessibilityHint(element.hint)
             .accessibilityValue(element.value)
-//                            .accessibilityAddTraits(element.trait)
+        // TODO: Convert and add traits
+//            .accessibilityAddTraits(element.trait.accessibilityTrait)
+        // TODO: Add other options
 //                            adjustableOptions: AdjustableOptions,
 //                            customActions: A11yCustomActions
     }
