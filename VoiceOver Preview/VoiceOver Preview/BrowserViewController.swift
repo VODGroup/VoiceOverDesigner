@@ -23,14 +23,22 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
     }
     
     // MARK: UIDocumentBrowserViewControllerDelegate
-
+#if os(visionOS)
+    func documentBrowser(_ controller: UIDocumentBrowserViewController, didPickDocumentsAt documentURLs: [URL]) {
+        guard let sourceURL = documentURLs.first else { return }
+        
+        // When the user has chosen an existing document, a new `DocumentViewController` is presented for the first document that was picked.
+        presentDocumentModally(url: sourceURL, animated: true)
+    }
+#else
     func documentBrowser(_ controller: UIDocumentBrowserViewController, didPickDocumentURLs documentURLs: [URL]) {
         guard let sourceURL = documentURLs.first else { return }
         
         // When the user has chosen an existing document, a new `DocumentViewController` is presented for the first document that was picked.
         presentDocumentModally(url: sourceURL, animated: true)
     }
-    
+#endif
+
     func documentBrowser(_ controller: UIDocumentBrowserViewController, didImportDocumentAt sourceURL: URL, toDestinationURL destinationURL: URL) {
         
         // When a new document has been imported by the `UIDocumentBrowserViewController`, a new `DocumentViewController` is presented as well.
