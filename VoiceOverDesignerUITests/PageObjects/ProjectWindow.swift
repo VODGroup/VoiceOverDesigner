@@ -13,18 +13,20 @@ class ProjectWindow: Robot {
     }
     
     func newDocument() {
-        app.menuBars.firstMatch
+        menu
             .menuBarItems["File"].firstMatch
             .menuItems["New"].firstMatch
             .tap()
         
-        
-        sleep(1)
-        // TODO: wait for empty screen
+        _ = addYourScreenshotPlaceholder.waitForExistence(timeout: 1)
     }
     
+    lazy var addYourScreenshotPlaceholder = app.windows.staticTexts["Add your screenshot"].firstMatch
+    
+    lazy var menu = app.menuBars.firstMatch
+    
     func undo() {
-        app.menuBars.firstMatch
+        menu
             .menuBarItems["Edit"].firstMatch
             .menuItems["Undo"].firstMatch
             .tap()

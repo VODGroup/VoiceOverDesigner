@@ -5,7 +5,7 @@ public struct TextFieldOnSubmit: View {
     @Binding var value: String // Available outside
     
     @State var innerValue: String // Used only for drawing inside textField
-    
+    @FocusState private var isFocused: Bool
     public init(_ label: String,
          text: Binding<String>
     ) {
@@ -16,8 +16,18 @@ public struct TextFieldOnSubmit: View {
     
     public var body: some View {
         TextField(label, text: $innerValue) // Update only text in textField
-            .onSubmit {
-                value = innerValue // Send event outside to redraw once
+            .focused($isFocused)
+            .onChange(of: isFocused) { isFocused in
+                publishChanges() // When set focus to another field
             }
+            .onSubmit {
+                publishChanges() // When press Enter
+            }.onDisappear {
+                publishChanges() // When user deselect accessibility element and hide settings screen
+            }
+    }
+    
+    func publishChanges() {
+        value = innerValue // Send event outside to redraw once
     }
 }

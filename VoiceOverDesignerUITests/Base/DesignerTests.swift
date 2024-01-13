@@ -15,7 +15,7 @@ class DesignerTests: XCTestCase {
         case createNewAndCloseRecent
     }
     
-    func launchApp(launchType: LaunchType = .justTapIcon) {
+    func launchApp(_ launchType: LaunchType = .justTapIcon) {
         app.launchEnvironment["DocumentURL"] = ""
         
         switch launchType {
@@ -31,10 +31,11 @@ class DesignerTests: XCTestCase {
         app.launch()
         
         if case .createNewAndCloseRecent = launchType {
-            let recent = RecentWindow(app: app)
-            if recent.recentWindow.isHittable {
-                recent.createNewProject()
-            }
+//            let recent = RecentWindow(app: app)
+//            if recent.recentWindow.isHittable {
+//                recent.createNewProject()
+//            }
+            project.newDocument()
         }
     }
     

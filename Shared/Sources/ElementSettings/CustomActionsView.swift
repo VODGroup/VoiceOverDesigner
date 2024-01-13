@@ -15,6 +15,7 @@ struct CustomActionsView: View {
                 HStack {
                     TextFieldOnSubmit("", text: $selection.names[index])
                         .submitLabel(.done)
+                        .accessibilityIdentifier("Custom action")
                     
                     #if os(macOS)
                     Button(action: {

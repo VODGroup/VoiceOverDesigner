@@ -86,7 +86,7 @@ public struct ElementSettingsView: View {
                 
                 CustomActionsView(selection: $element.customActions)
                 
-                CustomDescriptionView(selection: element.customDescriptions)
+                CustomDescriptionView(selection: $element.customDescriptions)
                     .padding(.bottom, 16)
                 
                 Section {
