@@ -29,7 +29,6 @@ struct TextValue: View {
     let title: LocalizedStringKey
     @Binding var value: String
     
-    @State var innerValue: String = ""
     public var body: some View {
         // TODO: What the difference?
 #if os(iOS) || os(visionOS)
