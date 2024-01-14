@@ -86,7 +86,7 @@ open class DragNDropImageView: NSView {
                     origin: CGPoint(x: bounds.origin.x + inset,
                                     y: bounds.origin.y + inset),
                     size: CGSize(width: bounds.size.width - inset * 2,
-                                 height: bounds.size.height - safeAreaInsets.top - inset * 2))
+                                 height: bounds.size.height - inset * 2))
             
             border.borderFrame = fullFrame
         }
