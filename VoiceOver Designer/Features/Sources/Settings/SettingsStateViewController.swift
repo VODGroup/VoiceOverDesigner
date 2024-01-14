@@ -76,8 +76,10 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
     func observerElementChangesAndRedrawCanvasWhenChangesHappened<T: ObservableObject>(
         _ element: T
     ) where T.ObjectWillChangePublisher == ObservableObjectPublisher  {
-        element.objectWillChange.sink { _ in
-            self.settingsDelegate.didUpdateElementSettings()
+        element.objectWillChange
+            .receive(on: RunLoop.main) // Redraw when value **did** change – on the next cycle. It sooo hacky
+            .sink { element in
+                self.settingsDelegate.didUpdateElementSettings()
         }.store(in: &cancellables)
     }
     
