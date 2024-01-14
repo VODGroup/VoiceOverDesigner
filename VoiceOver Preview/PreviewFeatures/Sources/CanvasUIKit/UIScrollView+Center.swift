@@ -2,12 +2,14 @@ import UIKit
 
 extension UIScrollView {
     
+    // TODO: Cover by tests
     func centerAndScaleToFit(contentSize: CGSize) {
         self.contentSize = contentSize
         
         /// Fit to width for iPhone, keep image width for iPhone's screen on iPad
-        let minimalWidth = min(bounds.width, contentSize.width)
-        let scale = updateZoomScaleToFitContent(width: minimalWidth)
+//        let minimalWidth = min(bounds.width, contentSize.width)
+        
+        let scale = updateZoomScaleToFitContent(contentSize: contentSize)
         
         // We had to calculate manually because first layout do it wrong
         let scaledContentSize = CGSize(width: contentSize.width * scale,
@@ -22,11 +24,14 @@ extension UIScrollView {
         contentInset = UIEdgeInsets(top: offsetY, left: offsetX, bottom: 0, right: 0)
     }
     
-    func updateZoomScaleToFitContent(width: CGFloat) -> CGFloat {
-        let widthScale  = width  / contentSize.width
-        let minScale    = widthScale
+    func updateZoomScaleToFitContent(contentSize: CGSize) -> CGFloat {
+        let widthScale  = bounds.width  / contentSize.width
+        let heightScale = bounds.height / contentSize.height
         
-        minimumZoomScale = widthScale
+        let isCompactSizeClass = traitCollection.horizontalSizeClass == .compact
+        let minScale = isCompactSizeClass ? widthScale : heightScale
+        
+        minimumZoomScale = minScale
         zoomScale = minScale
         return minScale
     }

@@ -1,6 +1,6 @@
 import Document
 import SwiftUI
-
+import CommonUI
 
 struct ValueView: View {
     var element: A11yDescription
@@ -46,10 +46,9 @@ struct ValueView: View {
     
     @ViewBuilder
     func adjustableView(options: Binding<AdjustableOptions>) -> some View {
-#if os(iOS)
+#if os(iOS) || os(visionOS)
         ForEach(options.wrappedValue.options.indices, id: \.self) { index in
-            
-            TextField("\(index)", text: options.options[index])
+            TextFieldOnSubmit("\(index)", text: options.options[index])
         }
         .onDelete(perform: { indexSet in
             options.wrappedValue.options.remove(atOffsets: indexSet)

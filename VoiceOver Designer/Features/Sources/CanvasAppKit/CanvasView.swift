@@ -7,7 +7,7 @@
 
 import AppKit
 
-import CommonUI
+import CommonUIAppKit
 import Document
 import Canvas
 

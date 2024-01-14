@@ -103,6 +103,61 @@ class Settings: ProjectPanel {
         traitHeaderCheckbox.click()
         return self
     }
+    
+    // MARK: - Custom actions
+    
+    @discardableResult
+    func addCustomAction(_ label: String) -> Self {
+        var addCustomActionButton = window.buttons["Add custom action"].firstMatch
+        
+        addCustomActionButton.tap()
+        
+        var textField = window.textFields["Custom action"].firstMatch
+        
+        textField.tap()
+        textField.typeText(label)
+        
+        return self
+    }
+    
+    lazy var customActionLabelField: XCUIElement =
+    window.textFields["Custom action"].firstMatch
+    
+    func customActionLabel() -> String? {
+        customActionLabelField.value as? String
+    }
+    
+    // MARK: - Custom description
+    
+    @discardableResult
+    func addCustomDescription(_ label: String, value: String) -> Self {
+        var addCustomDescriptionButton = window.buttons["Add custom description"].firstMatch
+        
+        addCustomDescriptionButton.tap()
+        
+        customDescriptionLabelField.tap()
+        customDescriptionLabelField.typeText(label)
+        
+        customDescriptionValueField.tap()
+        customDescriptionValueField.typeText(value)
+        
+        return self
+    }
+    
+    lazy var customDescriptionLabelField: XCUIElement =
+        window.textFields["Custom description label"].firstMatch
+    
+    func customDescriptionLabel() -> String? {
+        customDescriptionLabelField.value as? String
+    }
+    
+    lazy var customDescriptionValueField: XCUIElement =
+    window.textFields["Custom description value"].firstMatch
+    
+    
+    func customDescriptionValue() -> String? {
+        return customDescriptionValueField.value as? String
+    }
 }
 
 extension XCUIElement {

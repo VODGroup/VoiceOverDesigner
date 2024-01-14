@@ -3,10 +3,10 @@ import Foundation
 #if canImport(AppKit)
 import AppKit
 
-public typealias Font = NSFont
+public typealias VOFont = NSFont
 #elseif canImport(UIKit)
 import UIKit
-public typealias Font = UIFont
+public typealias VOFont = UIFont
 #endif
 
 let markdownBreak = "\n"
@@ -14,7 +14,7 @@ extension A11yDescription {
     
     @available(macOS 12, *)
     @available(iOS 15, *)
-    public func voiceOverTextAttributed(font: Font?, breakParts: Bool = false) -> NSAttributedString {
+    public func voiceOverTextAttributed(font: VOFont?, breakParts: Bool = false) -> NSAttributedString {
         let result = NSMutableAttributedString()
         
         if trait.contains(.selected) {
@@ -67,7 +67,7 @@ extension A11yDescription {
     
     @available(macOS 12, *)
     @available(iOS 15, *)
-    public func voiceOverTextAttributed(font: Font?, breakParts: Bool = false) -> AttributedString {
+    public func voiceOverTextAttributed(font: VOFont?, breakParts: Bool = false) -> AttributedString {
         AttributedString(voiceOverTextAttributed(font: font, breakParts: breakParts))
     }
     

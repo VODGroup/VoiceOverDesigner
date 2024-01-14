@@ -8,6 +8,11 @@ public class ImageLoader: ImageLoading {
     public init(documentPath: @escaping DocumentPath) {
         self.documentPath = documentPath
     }
+    
+    /// Path to image cache
+    private var imageCache: [URL: Image] = [:]
+    // TODO: Remove from cache when delete frame
+    
     public func image(for frame: Frame) -> Image? {
         switch frame.imageLocation {
         case .relativeFile(let path):
@@ -15,7 +20,13 @@ public class ImageLoader: ImageLoading {
             
             print("Load image relative path: \(filePath)")
             
-            return Image(path: filePath)
+            if let image = imageCache[filePath] {
+                return image
+            }
+            
+            let image = Image(path: filePath)
+            imageCache[filePath] = image
+            return image
             
         case .remote(let url):
             print("Load remote image from \(url.path)")

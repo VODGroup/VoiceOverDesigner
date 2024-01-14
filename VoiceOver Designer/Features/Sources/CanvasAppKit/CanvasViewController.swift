@@ -7,7 +7,7 @@
 
 import Cocoa
 import Document
-import CommonUI
+import CommonUIAppKit
 import Canvas
 import Combine
 import AppKit
@@ -71,6 +71,7 @@ public class CanvasViewController: NSViewController {
         view.addTrackingArea(trackingArea)
     }
     
+    // TODO: Move to presenter or join
     private func observe() {
         presenter.selectedPublisher
             .sink { [weak self] view in self?.duplicateItem?.isEnabled = view != nil }
@@ -115,7 +116,7 @@ public class CanvasViewController: NSViewController {
         highlightedControl = nil
         presenter.mouseMoved(on: location(from: event))
         
-        // TODO: Can crash if happend before document loading
+        // TODO: Can crash if happened before document loading
         guard let control = presenter
             .uiContent
             .control(at: location(from: event)) else {

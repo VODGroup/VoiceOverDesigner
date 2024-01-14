@@ -76,8 +76,12 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
     func observerElementChangesAndRedrawCanvasWhenChangesHappened<T: ObservableObject>(
         _ element: T
     ) where T.ObjectWillChangePublisher == ObservableObjectPublisher  {
-        element.objectWillChange.sink { _ in
-            self.settingsDelegate.didUpdateElementSettings()
+        element.objectWillChange
+            .receive(on: RunLoop.main) // Redraw when value **did** change – on the next cycle. It sooo hacky
+            .sink { [weak self] element in
+                guard let self = self else { return }
+                
+                self.settingsDelegate.didUpdateElementSettings()
         }.store(in: &cancellables)
     }
     
@@ -182,7 +186,7 @@ extension SettingsStateViewController {
 }
 
 
-final class HostingReceiverController<Content: View>: NSHostingController<AnyView>, TextRecogitionReceiver, PurchaseUnlockerDelegate {
+final class HostingReceiverController<Content: SwiftUI.View>: NSHostingController<AnyView>, TextRecogitionReceiver, PurchaseUnlockerDelegate {
     let content: Content
     
     private var alternatives: [String] = []
@@ -213,7 +217,7 @@ final class HostingReceiverController<Content: View>: NSHostingController<AnyVie
         rootView = AnyView(body)
     }
     
-    private var body: some View {
+    private var body: some SwiftUI.View {
         content
             .textRecognitionResults(alternatives)
             .unlockedProductIds(products)

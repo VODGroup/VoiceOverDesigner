@@ -41,6 +41,7 @@ public struct VODesignDocumentPresentation {
     public init(_ document: VODesignDocumentProtocol) {
         var order: [UUID] = []
         var flatOrder: [UUID] = []
+        // TODO: Cover by tests
         self.controls = document.artboard.frames
             .reduce(into: [:], { result, frame in
                 frame.elements.forEach {

@@ -18,7 +18,7 @@ public class Sample {
     public func image(name: String) throws -> Image {
 #if os(macOS)
         return try XCTUnwrap(Bundle.module.image(forResource: name))
-#elseif os(iOS)
+#elseif os(iOS) || os(visionOS)
         return try XCTUnwrap(Image(named: name, in: Bundle.module, with: nil))
 #endif
     }
@@ -62,7 +62,7 @@ public class Sample {
         
 #if os(macOS)
         let document = VODesignDocument(file: copyPath)
-#elseif os(iOS)
+#elseif os(iOS) || os(visionOS)
         let document = VODesignDocument(fileURL: copyPath)
 #endif
         

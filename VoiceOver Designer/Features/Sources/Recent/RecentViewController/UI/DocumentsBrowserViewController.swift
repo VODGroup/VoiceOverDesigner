@@ -1,6 +1,6 @@
 import AppKit
 import Document
-import CommonUI
+import CommonUIAppKit
 import Samples
 
 public protocol RecentRouter: AnyObject {

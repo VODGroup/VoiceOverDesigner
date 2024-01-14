@@ -23,14 +23,22 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
     }
     
     // MARK: UIDocumentBrowserViewControllerDelegate
-
+#if os(visionOS)
+    func documentBrowser(_ controller: UIDocumentBrowserViewController, didPickDocumentsAt documentURLs: [URL]) {
+        guard let sourceURL = documentURLs.first else { return }
+        
+        // When the user has chosen an existing document, a new `DocumentViewController` is presented for the first document that was picked.
+        presentDocumentModally(url: sourceURL, animated: true)
+    }
+#else
     func documentBrowser(_ controller: UIDocumentBrowserViewController, didPickDocumentURLs documentURLs: [URL]) {
         guard let sourceURL = documentURLs.first else { return }
         
         // When the user has chosen an existing document, a new `DocumentViewController` is presented for the first document that was picked.
         presentDocumentModally(url: sourceURL, animated: true)
     }
-    
+#endif
+
     func documentBrowser(_ controller: UIDocumentBrowserViewController, didImportDocumentAt sourceURL: URL, toDestinationURL destinationURL: URL) {
         
         // When a new document has been imported by the `UIDocumentBrowserViewController`, a new `DocumentViewController` is presented as well.
@@ -97,10 +105,18 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
             self.transitionController?.targetView = documentViewController.view // Children provides better animation than navigation itself, don'n know why
             
             let viewController = self.controllerToPresent(controller: documentViewController)
-            viewController.navigationBar.isTranslucent = false
             viewController.transitioningDelegate = self
+#if !os(visionOS)
             viewController.hidesBarsOnSwipe = true
             viewController.setNavigationBarHidden(true, animated: false)
+#endif
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                // iPad and iPhone have different settings for best behaviour.
+                // Otherwise it will be completely broken (checked on iOS 17)
+                // The strange thing that sizeClass won't help, it's device difference
+                viewController.navigationBar.isTranslucent = false
+            }
+            
             self.present(viewController, animated: animated)
         }
     }

@@ -1,9 +1,10 @@
 import Document
 import SwiftUI
+import CommonUI
 
 struct CustomDescriptionView: View {
     
-    @State var selection: A11yCustomDescriptions
+    @Binding var selection: A11yCustomDescriptions
     
     enum Field {
         case label
@@ -45,16 +46,18 @@ struct CustomDescriptionView: View {
         label: Binding<String>,
         value: Binding<String>
     ) -> some View {
-        TextField("Label:", text: label)
+        TextFieldOnSubmit("Label:", text: label)
             .focused($focusedField, equals: .label)
             .submitLabel(.continue)
             .onSubmit {
                 focusedField = .value // Move to next field
             }
+            .accessibilityIdentifier("Custom description label")
         
-        TextField("Value:", text: value)
+        TextFieldOnSubmit("Value:", text: value)
             .focused($focusedField, equals: .value)
             .submitLabel(.done)
+            .accessibilityIdentifier("Custom description value")
     }
     
     private func label(value: A11yCustomDescription) -> some View {

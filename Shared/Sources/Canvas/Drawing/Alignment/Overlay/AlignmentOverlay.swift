@@ -2,11 +2,11 @@
 import AppKit
 
 class AlignmentOverlay: AlignmentOverlayProtocol {
-    init(view: View) {
+    init(view: AppView) {
         self.view = view
     }
     
-    weak var view: View?
+    weak var view: AppView?
     
     private var alignmentLines: [CALayer] = []
     

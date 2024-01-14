@@ -18,16 +18,12 @@ let package = Package(
             name: "Settings",
             targets: ["Settings"]),
         .library(
-            name: "Presentation",
-            targets: ["Presentation"]),
-
-        .library(
             name: "Recent",
             targets: ["Recent"]),
 
         .library(
-            name: "CommonUI",
-            targets: ["CommonUI"]),
+            name: "CommonUIAppKit",
+            targets: ["CommonUIAppKit"]),
     ],
     dependencies: [
         .package(
@@ -41,7 +37,7 @@ let package = Package(
             name: "CanvasAppKit",
             dependencies: [
                 .product(name: "Document", package: "Shared"),
-                "CommonUI",
+                "CommonUIAppKit",
                 .product(name: "Canvas", package: "Shared"),
                 .product(name: "TextRecognition", package: "Shared"),
             ]
@@ -57,13 +53,13 @@ let package = Package(
             name: "Navigator",
             dependencies: [
                 .product(name: "Document", package: "Shared"),
-                "CommonUI",
+                "CommonUIAppKit",
             ]
         ),
         .target(
             name: "Recent",
             dependencies: [
-                "CommonUI",
+                "CommonUIAppKit",
                 .product(name: "Samples", package: "Shared"),
                 .product(name: "Document", package: "Shared"),
             ]
@@ -71,21 +67,16 @@ let package = Package(
         .target(
             name: "Settings",
             dependencies: [
-                "CommonUI",
+                "CommonUIAppKit",
                 .product(name: "Document", package: "Shared"),
                 .product(name: "TextRecognition", package: "Shared"),
                 .product(name: "Purchases", package: "Shared"),
-                .product(name: "ElementSettings", package: "Shared")
+                .product(name: "ElementSettings", package: "Shared"),
+                .product(name: "CommonUI", package: "Shared")
             ]
         ),
         .target(
-            name: "Presentation",
-            dependencies: [
-                .product(name: "Document", package: "Shared"),
-            ]
-        ),
-        .target(
-            name: "CommonUI",
+            name: "CommonUIAppKit",
             dependencies: []
         ),
 
@@ -99,20 +90,13 @@ let package = Package(
                 .product(name: "Canvas", package: "Shared"),
                 .product(name: "SnapshotTesting",
                          package: "swift-snapshot-testing"),
-            ],
-            exclude: ["__Snapshots__"]
+            ]
         ),
         .testTarget(
             name: "RecentTests",
             dependencies: [
                 "Recent",
                 .product(name: "Document", package: "Shared"),
-            ]
-        ),
-        .testTarget(
-            name: "PresentationTests",
-            dependencies: [
-                "Presentation"
             ]
         ),
         .testTarget(

@@ -25,7 +25,7 @@ struct TraitsView: View {
     }
     
     public var body: some View {
-#if os(iOS)
+#if os(iOS) || os(visionOS)
         if selection.selected().isEmpty {
             Menu {
                 traitMenuItems()

@@ -1,4 +1,4 @@
-#if os(iOS)
+#if os(iOS) || os(visionOS)
 import UIKit
 public typealias AppleDocument = UIDocument
 import Combine
@@ -51,21 +51,10 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
     }
     
     // MARK: - Override
-    public override func save(
-        to url: URL,
-        for saveOperation: AppleDocument.SaveOperation
-    ) async -> Bool {
-        
-        let frameURL = url.frameURL(frameName: defaultFrameName)
-        let frameReader = FrameReader(frameURL: frameURL)
-        
-        do {
-            try frameReader.saveService.save(controls: elements)
-            return true
-        } catch let error {
-            print(error)
-            return false
-        }
+    public override func contents(forType typeName: String) throws -> Any {
+        Swift.print("Will save")
+        storeImagesAsFileWrappers()
+        return try fileWrapper()
     }
     
     // TODO: Remove duplication with AppKit
@@ -93,10 +82,6 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
             Swift.print(error)
             throw error
         }
-    }
-    
-    public override func contents(forType typeName: String) throws -> Any {
-        return try fileWrapper()
     }
 }
 

@@ -1,5 +1,5 @@
 import AppKit
-import CommonUI
+import CommonUIAppKit
 import Canvas
 
 protocol ScrollViewZoomDelegate: AnyObject {

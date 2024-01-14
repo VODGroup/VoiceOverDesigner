@@ -29,6 +29,8 @@ let package = Package(
                 .product(name: "Document", package: "Shared"),
                 .product(name: "ElementSettings", package: "Shared"),
                 "CanvasUIKit",
+                .product(name: "Presentation", package: "Shared"),
+                .product(name: "CommonUI", package: "Shared"),
             ]),
         .target(name: "VoiceOverLayout",
                 dependencies: [

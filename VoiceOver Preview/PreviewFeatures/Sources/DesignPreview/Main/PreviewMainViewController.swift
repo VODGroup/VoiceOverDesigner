@@ -6,8 +6,17 @@ import Combine
 
 import SwiftUI
 import ElementSettings
+import Presentation
+import CommonUI
 
-public class PreviewMainViewController: UIViewController {
+public enum PreviewState: StateProtocol {
+    public static var `default`: PreviewState = .editor
+    
+    case editor
+    case preview
+}
+
+public class PreviewMainViewController: StateViewController<PreviewState> {
     private var presenter: CanvasPresenter!
     
     public private(set) var document: VODesignDocument!
@@ -15,6 +24,21 @@ public class PreviewMainViewController: UIViewController {
         self.document = document
         self.presenter = CanvasPresenter(document: document)
         super.init(nibName: nil, bundle: nil)
+        
+        self.stateFactory = { [weak self] state in
+            guard let self = self else { fatalError() }
+        
+            self.setRightButtonItemForCurrentState()
+            
+            switch state {
+            case .editor:
+                return ScrollViewController.controller(presenter: self.presenter)
+            case .preview:
+                return UIHostingController(rootView: PresentationView(
+                    model: PresentationModel(document: VODesignDocumentPresentation(document))
+                ))
+            }
+        }
     }
     
     public required init?(coder: NSCoder) {
@@ -23,15 +47,19 @@ public class PreviewMainViewController: UIViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+     
+        if #available(iOS 17.0, *) {
+            registerForTraitChanges([UITraitHorizontalSizeClass.self], action: #selector(updateStateFromTrait))
+        }
         
-        embedCanvas()
-        subscribeToSelection()
+        setPlayBarItem()
     }
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         addDocumentStateObserving()
+        subscribeToSelection()
     }
     
     public override func viewDidDisappear(_ animated: Bool) {
@@ -42,8 +70,6 @@ public class PreviewMainViewController: UIViewController {
         }
         
         presenter.stopObserving()
-        
-        document.close()
     }
     
     public override var prefersStatusBarHidden: Bool {
@@ -60,15 +86,54 @@ public class PreviewMainViewController: UIViewController {
             self.presentDetails(for: description)
         }.store(in: &cancellables)
     }
+    
+    // MARK: - Navigation Bar
+    private func setPlayBarItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Preview", style: .plain, target: self, action: #selector(playPresentationMode))
+    }
+    
+    private func setStopBarItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(stopPresentationMode))
+    }
+    
+    private func removePlayBarItem() {
+        navigationItem.rightBarButtonItem = nil
+    }
+    
+    private func setRightButtonItemForCurrentState() {
+        switch state {
+        case .editor:
+            setPlayBarItem()
+        case .preview:
+            setStopBarItem()
+        }
+    }
+    
+    @objc func playPresentationMode() {
+        state = .preview
+    }
+    
+    @objc func stopPresentationMode() {
+        state = .editor
+    }
+    
+    @objc private func updateStateFromTrait() {
+        let isCompact = traitCollection.horizontalSizeClass == .compact
+        
+        if isCompact {
+            if state == .preview {
+                state = .editor
+                removePlayBarItem()
+            }
+        } else {
+            setRightButtonItemForCurrentState()
+        }
+    }
+    
+    // MARK: - Details
    
     private var sideTransition = SideTransition()
     
-    private func presentDetails(for model: (any ArtboardElement)?) {
-        guard let model = model
-        else { return }
-        
-        self.presentDetails(for: model)
-    }
     private func presentDetails(for model: any ArtboardElement) {
         if case .frame = model.cast {
             // No settings for Frame
@@ -108,17 +173,6 @@ public class PreviewMainViewController: UIViewController {
         default:
             EmptyView()
         }
-    }
-    
-    private func embedCanvas() {
-        let canvas = ScrollViewController.controller(presenter: presenter)
-        
-        addChild(canvas)
-        view.addSubview(canvas.view)
-        canvas.view.frame = view.frame // TODO: Constraints
-        canvas.didMove(toParent: self)
-        
-        embedFullFrame(canvas)
     }
 }
 

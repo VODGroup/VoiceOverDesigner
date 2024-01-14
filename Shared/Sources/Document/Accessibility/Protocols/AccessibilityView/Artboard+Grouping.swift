@@ -67,7 +67,7 @@ extension Artboard {
         
         let dragType = dragType(draggingElement, over: dropElement, insertionIndex: insertionIndex)
         
-        print("Perforem drag operation \(dragType)")
+        print("Perform drag operation \(dragType)")
         switch dragType {
         case .wrapInContainer(let dropElement):
             wrapInContainer(
@@ -93,7 +93,7 @@ extension Artboard {
                  insertionIndex: insertionIndex,
                  undoManager: undoManager)
             
-        default:
+        case .none:
             return false
         }
         

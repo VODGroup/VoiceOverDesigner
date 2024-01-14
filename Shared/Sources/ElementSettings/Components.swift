@@ -31,7 +31,7 @@ struct TextValue: View {
     
     public var body: some View {
         // TODO: What the difference?
-#if os(iOS)
+#if os(iOS) || os(visionOS)
         Section(content: {
             TextRecognitionComboBoxView(text: $value)
         }, header: {
@@ -78,7 +78,7 @@ struct EditorToolbar: ToolbarContent {
     private var deleteToolbarItem: some ToolbarContent {
         
         let placement: ToolbarItemPlacement = {
-            #if os(iOS)
+            #if os(iOS) || os(visionOS)
             return .bottomBar
             #elseif os(macOS)
             return .primaryAction

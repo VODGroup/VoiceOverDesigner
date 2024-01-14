@@ -9,13 +9,13 @@
 /* Begin PBXBuildFile section */
 		1E3DB0E2289581410035F229 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E3DB0E1289581410035F229 /* QuickLook.framework */; };
 		1E3DB0EA289581410035F229 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E3DB0E8289581410035F229 /* MainInterface.storyboard */; };
-		1E3DB0EE289581410035F229 /* QuickLookPreview.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1E3DB0E0289581410035F229 /* QuickLookPreview.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1E3DB0EE289581410035F229 /* QuickLookPreview.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1E3DB0E0289581410035F229 /* QuickLookPreview.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1E5DAF4F2927E86900AA37D1 /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1E5DAF4E2927E86900AA37D1 /* Document */; };
 		1E7555A6289586B100024714 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB1BD0281E3DA000615EA9 /* SceneDelegate.swift */; };
 		1E7555A92895881B00024714 /* QuickPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3DB0E4289581410035F229 /* QuickPreviewViewController.swift */; };
 		1E7555B0289589F300024714 /* QuickLookThumbnailing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E7555AF289589F300024714 /* QuickLookThumbnailing.framework */; };
 		1E7555B3289589F300024714 /* ThumbnailProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E7555B2289589F300024714 /* ThumbnailProvider.swift */; };
-		1E7555B7289589F300024714 /* Thumbnail.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1E7555AE289589F300024714 /* Thumbnail.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1E7555B7289589F300024714 /* Thumbnail.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1E7555AE289589F300024714 /* Thumbnail.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1EB978F5289F0D2200CE330C /* DesignPreview in Frameworks */ = {isa = PBXBuildFile; productRef = 1EB978F4289F0D2200CE330C /* DesignPreview */; };
 		1EB978F7289F0D3B00CE330C /* DesignPreview in Frameworks */ = {isa = PBXBuildFile; productRef = 1EB978F6289F0D3B00CE330C /* DesignPreview */; };
 		1EB978FB289F0E9700CE330C /* Document in Frameworks */ = {isa = PBXBuildFile; productRef = 1EB978FA289F0E9700CE330C /* Document */; };
@@ -60,16 +60,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		1E3DB0EF289581410035F229 /* Embed App Extensions */ = {
+		1E3DB0EF289581410035F229 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				1E3DB0EE289581410035F229 /* QuickLookPreview.appex in Embed App Extensions */,
-				1E7555B7289589F300024714 /* Thumbnail.appex in Embed App Extensions */,
+				1E3DB0EE289581410035F229 /* QuickLookPreview.appex in Embed Foundation Extensions */,
+				1E7555B7289589F300024714 /* Thumbnail.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -285,7 +285,7 @@
 				1EEB1BC7281E3DA000615EA9 /* Sources */,
 				1EEB1BC8281E3DA000615EA9 /* Frameworks */,
 				1EEB1BC9281E3DA000615EA9 /* Resources */,
-				1E3DB0EF289581410035F229 /* Embed App Extensions */,
+				1E3DB0EF289581410035F229 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
@@ -538,13 +538,15 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.akaDuality.VoiceOver-Designer.QuickLookPreview";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
 			name = Debug;
 		};
@@ -564,13 +566,15 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.akaDuality.VoiceOver-Designer.QuickLookPreview";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
 			name = Release;
 		};
@@ -590,13 +594,15 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.akaDuality.VoiceOver-Designer.Thumbnail";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
 			name = Debug;
 		};
@@ -616,13 +622,15 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.akaDuality.VoiceOver-Designer.Thumbnail";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
 			name = Release;
 		};
@@ -678,6 +686,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -733,6 +742,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -769,9 +779,12 @@
 				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.akaDuality.VoiceOver-Designer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
 			name = Debug;
 		};
@@ -802,9 +815,12 @@
 				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.akaDuality.VoiceOver-Designer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
 			name = Release;
 		};

@@ -7,8 +7,9 @@
 
 import Foundation
 import SwiftUI
+import CommonUI
 
-#if os(iOS)
+#if os(iOS) || os(visionOS)
 struct TextRecognitionComboBoxView: View {
     @Binding var text: String
     @Environment(\.textRecognitionResults) private var variants
@@ -20,7 +21,7 @@ struct TextRecognitionComboBoxView: View {
     var body: some View {
         ZStack(alignment: .trailing) {
             
-            TextField("Value", text: $text)
+            TextFieldOnSubmit("Value", text: $text)
                 .labelsHidden()
                 .textFieldStyle(.roundedBorder)
                 .lineLimit(5)

@@ -88,8 +88,8 @@ public struct PresentationView: View {
 
     @ViewBuilder
     private var backgroundImage: some View {
-        if let image = model.document.image {
-            Image(nsImage: image)
+        if let image = model.document.imageView {
+            image
                 .resizable()
                 .frame(
                     width: model.document.imageSize.width,
@@ -122,7 +122,7 @@ public struct PresentationView: View {
 
     private func controlContainer(_ container: A11yContainer) -> some View {
         ZStack(alignment: .topLeading) {
-            controlRectangle(container)
+            controlAccessibilityFocusOverlay(container)
                 .zIndex(-1)
                 .accessibilityLabel(container.label)
             // TODO: extractElements doesn't see anything inside container
@@ -134,26 +134,36 @@ public struct PresentationView: View {
     }
 
     private func controlElement(_ element: A11yDescription) -> some View {
-        controlRectangle(element)
+        controlAccessibilityFocusOverlay(element)
             .accessibilityHidden(!element.isAccessibilityElement)
             .accessibilityLabel(element.label)
             .accessibilityHint(element.hint)
             .accessibilityValue(element.value)
-//                            .accessibilityAddTraits(element.trait)
+        // TODO: Convert and add traits
+//            .accessibilityAddTraits(element.trait.accessibilityTrait)
+        // TODO: Add other options
 //                            adjustableOptions: AdjustableOptions,
 //                            customActions: A11yCustomActions
     }
 
     @ViewBuilder
-    private func controlRectangle(_ control: any ArtboardElement) -> some View {
+    private func controlAccessibilityFocusOverlay(_ control: any ArtboardElement) -> some View {
         RoundedRectangle(cornerRadius: 6, style: .continuous)
             .foregroundStyle(
                 { () -> SwiftUI.Color in
+#if os(iOS) || os(visionOS)
+                    if isControlHovered(control) {
+                        return Color(uiColor: control.color.withAlphaComponent(0.5)) // TODO: Is it fine for iOS?
+                    } else {
+                        return Color(uiColor: control.color)
+                    }
+#elseif os(macOS)
                     if isControlHovered(control) {
                         return Color(nsColor: control.color.withSystemEffect(.deepPressed))
                     } else {
                         return Color(nsColor: control.color)
                     }
+#endif
                 }()
             )
             .overlay {
@@ -197,7 +207,7 @@ public struct PresentationView: View {
                 .padding(EdgeInsets(top: 80, leading: Constants.cursorButtonPadding, bottom: 80, trailing: 80))
                 // Frame's width should be fixed. Otherwise hover effect brakes for long text
                 // For long text list's width recalculates and hover lose y coordinate
-                .frame(width: PresentationView.Constants.controlsWidth)
+                .frame(width: PresentationView.Constants.controlsWidth, alignment: .leading)
                 .onChange(of: model.selectedControl, perform: { newValue in
                     if let newValue {
                         withAnimation(PresentationModel.Constants.animation) {
@@ -353,7 +363,7 @@ public struct PresentationView: View {
         }
     }
     
-    private func font(for control: any ArtboardElement) -> NSFont {
+    private func font(for control: any ArtboardElement) -> VOFont {
         let isSelected = isControlSelected(control)
         
         return .preferredFont(forTextStyle: isSelected ? .headline : .footnote)
@@ -421,7 +431,11 @@ extension Collection {
 
 extension PresentationView {
     init(path: URL) {
+#if os(iOS) || os(visionOS)
+        let document = VODesignDocument(fileURL: path)
+#elseif os(macOS)
         let document = VODesignDocument(file: path)
+#endif
         let presentation = VODesignDocumentPresentation(document)
         
         self.init(model: .init(document: presentation))

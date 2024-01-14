@@ -7,8 +7,7 @@
 
 import AppKit
 import Document
-import CommonUI
-
+import CommonUIAppKit
 
 class DocumentsBrowserView: NSScrollView {
     

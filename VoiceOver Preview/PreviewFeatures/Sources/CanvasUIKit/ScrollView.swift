@@ -12,9 +12,20 @@ class ScrollView: UIView {
         super.awakeFromNib()
         
         scrollView.maximumZoomScale = 4
-        scrollView.contentInsetAdjustmentBehavior = .never
-        
         voiceOverHint.layer.masksToBounds = true
+        
+        if #available(iOS 17.0, *) {
+            registerForTraitChanges([UITraitHorizontalSizeClass.self], action: #selector(updateScrollAdjustmentBehaviour))
+        }
+    }
+    
+    @objc func updateScrollAdjustmentBehaviour() {
+#if !os(visionOS)
+        let isCompact = traitCollection.horizontalSizeClass == .compact
+        if isCompact {
+            scrollView.contentInsetAdjustmentBehavior = .never
+        }
+#endif
     }
     
     override func layoutSubviews() {

@@ -6,7 +6,6 @@ import XCTest
 
 class FrameInfoCodableTests: XCTestCase {
     func test() throws {
-        throw XCTSkip("Flacky format of output json")
         let sut = FrameInfo(
             id: UUID(uuidString: "9B2125D5-EA06-4E91-AFBF-1D4698158851")!,
             imageScale: 1,
