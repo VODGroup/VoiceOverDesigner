@@ -79,7 +79,9 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
         element.objectWillChange
             .receive(on: RunLoop.main) // Redraw when value **did** change – on the next cycle. It sooo hacky
             .sink { [weak self] element in
-                self?.settingsDelegate.didUpdateElementSettings()
+                guard let self = self else { return }
+                
+                self.settingsDelegate.didUpdateElementSettings()
         }.store(in: &cancellables)
     }
     
