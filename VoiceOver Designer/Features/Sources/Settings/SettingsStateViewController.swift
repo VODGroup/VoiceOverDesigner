@@ -78,8 +78,8 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
     ) where T.ObjectWillChangePublisher == ObservableObjectPublisher  {
         element.objectWillChange
             .receive(on: RunLoop.main) // Redraw when value **did** change – on the next cycle. It sooo hacky
-            .sink { element in
-                self.settingsDelegate.didUpdateElementSettings()
+            .sink { [weak self] element in
+                self?.settingsDelegate.didUpdateElementSettings()
         }.store(in: &cancellables)
     }
     
