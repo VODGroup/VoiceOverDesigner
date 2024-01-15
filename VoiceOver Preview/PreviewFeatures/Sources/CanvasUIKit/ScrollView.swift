@@ -38,6 +38,8 @@ class ScrollView: UIView {
         voiceOverHint.layer.shadowPath = UIBezierPath(
             roundedRect: voiceOverHint.bounds,
             cornerRadius: radius).cgPath
+        
+        canvas?.canvas.hud.frame = bounds
     }
     
     @IBOutlet weak var voiceOverHint: UIView!
@@ -60,6 +62,10 @@ extension ScrollView: UIScrollViewDelegate {
         if let elements = container.accessibilityElements {
             layout?.updateContainers(in: elements)
         }
+    }
+    
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        canvas?.canvas.hud.scale = 1 / scrollView.zoomScale
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
