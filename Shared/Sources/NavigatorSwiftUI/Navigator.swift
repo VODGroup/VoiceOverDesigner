@@ -3,14 +3,15 @@ import Artboard
 
 public struct NavigatorView: View {
     
-    @State var artboard: Artboard
+    @ObservedObject var frame: Frame
     
-    public init(artboard: Artboard) {
-        self.artboard = artboard
+    public init(frame: Frame) {
+        self.frame = frame
     }
     
     public var body: some View {
-        List(artboard.frames, id: \.id) { frame in
+        Text(frame.label)
+        List(frame.elements, id: \.id) { frame in
             Text(frame.label)
             // TODO: Add detalisation for elements inside frame
         }

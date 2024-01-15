@@ -33,7 +33,7 @@ public class PreviewMainViewController: StateViewController<PreviewState> {
             
             switch state {
             case .editor:
-                let navigator = UIHostingController(rootView: NavigatorView(artboard: document.artboard))
+                let navigator = UIHostingController(rootView: NavigatorView(frame: document.artboard.frames.first!))
                 let canvas = ScrollViewController.controller(presenter: self.presenter)
                 let split = UISplitViewController(style: .doubleColumn)
                 split.setViewController(navigator, for: .primary)
