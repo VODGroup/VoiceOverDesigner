@@ -76,6 +76,10 @@ open class DocumentPresenter {
         for frame in artboard.frames {
             add(frame, into: document.artboard, at: document.artboard.frames.count)
         }
+        
+        // TODO: Copy images
+        // TODO: Rename images if needed
+        // TODO: Offset artboard
     }
     
     public func append(control: any ArtboardElement) {
