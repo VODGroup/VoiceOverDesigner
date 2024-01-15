@@ -1,17 +1,18 @@
-//
-//  File.swift
-//  
-//
-//  Created by Mikhail Rubanov on 15.01.2024.
-//
-
 import SwiftUI
+import Artboard
 
 public struct NavigatorView: View {
     
-    public init() {}
+    @State var artboard: Artboard
+    
+    public init(artboard: Artboard) {
+        self.artboard = artboard
+    }
     
     public var body: some View {
-        Text("Navigator will be here")
+        List(artboard.frames, id: \.id) { frame in
+            Text(frame.label)
+            // TODO: Add detalisation for elements inside frame
+        }
     }
 }
