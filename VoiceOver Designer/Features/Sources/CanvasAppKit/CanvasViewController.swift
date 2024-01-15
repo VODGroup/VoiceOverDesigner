@@ -118,7 +118,7 @@ public class CanvasViewController: NSViewController {
         
         // TODO: Can crash if happened before document loading
         guard let control = presenter
-            .uiContent
+            .uiContent?
             .control(at: location(from: event)) else {
             return
         }

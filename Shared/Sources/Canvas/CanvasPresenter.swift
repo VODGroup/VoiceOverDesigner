@@ -14,7 +14,7 @@ import QuartzCore
 
 public class CanvasPresenter: DocumentPresenter {
     
-    public weak var uiContent: DrawingView!
+    public weak var uiContent: DrawingView?
     var drawingController: DrawingController!
 
     public func didLoad(
@@ -64,7 +64,7 @@ public class CanvasPresenter: DocumentPresenter {
     
     // MARK: Mouse
     public func mouseDown(on location: CGPoint) {
-        uiContent.hud.hideHUD()
+        uiContent?.hud.hideHUD()
 
         drawingController.mouseDown(on: location,
                                     selectedControl: selectedControl as? A11yControlLayer)
@@ -81,7 +81,7 @@ public class CanvasPresenter: DocumentPresenter {
    
     @discardableResult
     public func mouseUp(on location: CGPoint) -> A11yControlLayer? {
-        uiContent.hud.showHUD()
+        uiContent?.hud.showHUD()
         
         let action = drawingController.end(coordinate: location)
         
@@ -126,13 +126,13 @@ public class CanvasPresenter: DocumentPresenter {
     private func updateSelectedControl(_ selectedDescription: (any ArtboardElement)?) {
         switch selectedDescription?.cast {
         case .frame:
-            let selectedFrame = uiContent.frames.first { frame in
+            let selectedFrame = uiContent?.frames.first { frame in
                 frame.frame == selectedDescription!.frame
             }
             selectedControl = selectedFrame
             
         case .element, .container:
-            let selectedControl = uiContent.drawnControls.first(where: { control in
+            let selectedControl = uiContent?.drawnControls.first(where: { control in
                 control.model?.frame == selectedDescription!.frame
             })
             
@@ -144,8 +144,8 @@ public class CanvasPresenter: DocumentPresenter {
     
     public private(set) var selectedControl: CALayer? {
         didSet {
-            uiContent.hud.selectedControlFrame = selectedControl?.frame
-            uiContent.hud.tintColor = (selectedControl as? A11yControlLayer)?.model?.color.cgColor.copy(alpha: 1) ?? Color.red.cgColor
+            uiContent?.hud.selectedControlFrame = selectedControl?.frame
+            uiContent?.hud.tintColor = (selectedControl as? A11yControlLayer)?.model?.color.cgColor.copy(alpha: 1) ?? Color.red.cgColor
         }
     }
     
@@ -154,7 +154,7 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     private func control(for model: any ArtboardElement) -> A11yControlLayer? {
-        uiContent.drawnControls.first { control in
+        uiContent?.drawnControls.first { control in
             control.model === model
         }
     }
