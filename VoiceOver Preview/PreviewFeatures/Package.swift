@@ -31,6 +31,7 @@ let package = Package(
                 "CanvasUIKit",
                 .product(name: "Presentation", package: "Shared"),
                 .product(name: "CommonUI", package: "Shared"),
+                .product(name: "NavigatorSwiftUI", package: "Shared"),
             ]),
         .target(name: "VoiceOverLayout",
                 dependencies: [

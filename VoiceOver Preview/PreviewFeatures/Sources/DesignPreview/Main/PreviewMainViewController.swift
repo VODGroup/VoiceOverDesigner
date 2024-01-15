@@ -8,6 +8,7 @@ import SwiftUI
 import ElementSettings
 import Presentation
 import CommonUI
+import NavigatorSwiftUI
 
 public enum PreviewState: StateProtocol {
     public static var `default`: PreviewState = .editor
@@ -32,7 +33,13 @@ public class PreviewMainViewController: StateViewController<PreviewState> {
             
             switch state {
             case .editor:
-                return ScrollViewController.controller(presenter: self.presenter)
+                let navigator = UIHostingController(rootView: NavigatorView())
+                let canvas = ScrollViewController.controller(presenter: self.presenter)
+                let split = UISplitViewController(style: .doubleColumn)
+                split.setViewController(navigator, for: .primary)
+                split.setViewController(canvas, for: .secondary)
+                split.preferredPrimaryColumnWidth = 300
+                return split
             case .preview:
                 return UIHostingController(rootView: PresentationView(
                     model: PresentationModel(document: VODesignDocumentPresentation(document))

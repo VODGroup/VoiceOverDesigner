@@ -38,6 +38,10 @@ let package = Package(
         .library(
             name: "CommonUI",
             targets: ["CommonUI"]
+        ),
+        .library(
+            name: "NavigatorSwiftUI",
+            targets: ["NavigatorSwiftUI"]
         )
     ],
     dependencies: [
@@ -186,6 +190,9 @@ let package = Package(
         ),
         .target(
             name: "CommonUI"
+        ),
+        .target(
+            name: "NavigatorSwiftUI"
         )
     ]
 )
