@@ -89,6 +89,7 @@ public class PreviewMainViewController: StateViewController<PreviewState> {
     }
     
     private var cancellables = Set<AnyCancellable>()
+    private var selectedElementCancellable = Set<AnyCancellable>()
     
     private func subscribeToSelection() {
         presenter.selectedPublisher.sink { description in
@@ -107,7 +108,7 @@ public class PreviewMainViewController: StateViewController<PreviewState> {
             .sink { [weak self] element in
                 guard let self = self else { return }
                 self.presentedCanvas?.redraw()
-            }.store(in: &cancellables)
+            }.store(in: &selectedElementCancellable)
     }
     
     // MARK: - Navigation Bar
@@ -188,11 +189,15 @@ public class PreviewMainViewController: StateViewController<PreviewState> {
         let onDismiss = { [weak self] in
             guard let self = self else { return }
             self.presenter.deselect()
+            
+            selectedElementCancellable.removeAll()
         }
 
         let deleteSelf = { [weak self] in
             guard let self = self else { return }
             self.presenter.remove(model)
+            
+            selectedElementCancellable.removeAll()
         }
 
         switch model {
