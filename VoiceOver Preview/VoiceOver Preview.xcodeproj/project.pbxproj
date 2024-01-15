@@ -26,6 +26,7 @@
 		1EEB1BF2281E3DA200615EA9 /* VoiceOver_PreviewUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB1BF1281E3DA200615EA9 /* VoiceOver_PreviewUITestsLaunchTests.swift */; };
 		1EEB1BFF281E3EF600615EA9 /* VoiceOver_PreviewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB1BFE281E3EF600615EA9 /* VoiceOver_PreviewTests.swift */; };
 		74566D2C2B4A24D00086B130 /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74566D2B2B4A24D00086B130 /* BrowserViewController.swift */; };
+		74E9B9982B4E0EAA00F24C51 /* Samples in Frameworks */ = {isa = PBXBuildFile; productRef = 74E9B9972B4E0EAA00F24C51 /* Samples */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +128,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74E9B9982B4E0EAA00F24C51 /* Samples in Frameworks */,
 				1EB978F5289F0D2200CE330C /* DesignPreview in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -296,6 +298,7 @@
 			name = "VoiceOver Preview";
 			packageProductDependencies = (
 				1EB978F4289F0D2200CE330C /* DesignPreview */,
+				74E9B9972B4E0EAA00F24C51 /* Samples */,
 			);
 			productName = "VoiceOver Preview";
 			productReference = 1EEB1BCB281E3DA000615EA9 /* VoiceOver Preview.app */;
@@ -990,6 +993,10 @@
 		1EB978FA289F0E9700CE330C /* Document */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Document;
+		};
+		74E9B9972B4E0EAA00F24C51 /* Samples */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Samples;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

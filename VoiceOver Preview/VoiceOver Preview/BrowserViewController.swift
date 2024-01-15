@@ -5,6 +5,7 @@ import os.log
 import DesignPreview
 import Document
 
+import SwiftUI
 
 class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocumentBrowserViewControllerDelegate, UIViewControllerTransitioningDelegate {
     
@@ -20,6 +21,14 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
         
         // In this application, selecting multiple items is not supported. Instead, only one document at a time can be opened.
         allowsPickingMultipleItems = false
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+#if targetEnvironment(simulator) && (os(visionOS) || os(iOS)) // Fake document for simulaton, drag'n'drop won't work
+        presentDocumentModally(url: URL(filePath: "/Users/mikhail/Library/Mobile Documents/iCloud~com~akaDuality~VoiceOver-Designer/Documents/Drinkit Product Card.vodesign"), animated: true)
+#endif
     }
     
     // MARK: UIDocumentBrowserViewControllerDelegate
