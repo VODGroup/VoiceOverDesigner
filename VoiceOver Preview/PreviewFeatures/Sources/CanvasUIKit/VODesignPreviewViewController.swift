@@ -34,6 +34,12 @@ public final class VODesignPreviewViewController: UIViewController {
 #endif
     }
     
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        presenter.subscribeOnControlChanges()
+    }
+    
     func view() -> VODesignPreviewView {
         view as! VODesignPreviewView
     }
