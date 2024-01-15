@@ -144,10 +144,7 @@ open class DragNDropImageView: NSView {
             return true
         }
         
-        if let item = pasteboard.pasteboardItems?.first,
-           let data = item.data(forType: .fileURL),
-           let string = String(data: data, encoding: .utf8) {
-            let url = URL(fileURLWithPath: string)
+        if let url = pasteboard.VODesignURLs.first {
             if delegate?.didDrag(path: url) == true {
                 hideTextAndBorder()
                 return true
@@ -156,7 +153,6 @@ open class DragNDropImageView: NSView {
                      changeTo: defaultText)
                 return false
             }
-            
         }
         
         return false
@@ -261,6 +257,14 @@ extension NSPasteboard {
         }
         
         return url.lastPathComponent
-        
+    }
+    
+    var VODesignURLs: [URL] {
+        readObjects(forClasses: [NSURL.self], options: nil)?
+            .compactMap {
+                $0 as? URL
+            }.filter {
+                $0.pathExtension.lowercased() == "vodesign"
+            } ?? []
     }
 }

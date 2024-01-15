@@ -72,6 +72,12 @@ open class DocumentPresenter {
             at: document.artboard.frames.count)
     }
     
+    open func importArtboard(_ artboard: Artboard) {
+        for frame in artboard.frames {
+            add(frame, into: document.artboard, at: document.artboard.frames.count)
+        }
+    }
+    
     public func append(control: any ArtboardElement) {
         let frameThatOverlaps = document.artboard.frames.first { frame in
             frame.frame.intersects(control.frame)
