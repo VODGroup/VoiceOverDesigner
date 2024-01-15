@@ -3,7 +3,7 @@ import Canvas
 import Document
 
 public class ScrollViewController: UIViewController {
-    public static func controller(presenter: CanvasPresenter) -> UIViewController {
+    public static func controller(presenter: CanvasPresenter) -> ScrollViewController {
         let storyboard = UIStoryboard(name: "VODesignPreviewViewController",
                                       bundle: .module)
         let scroll = storyboard
@@ -15,6 +15,10 @@ public class ScrollViewController: UIViewController {
     
     var presenter: CanvasPresenter!
     var contentController: VODesignPreviewViewController!
+    
+    public func redraw() {
+        contentController.draw()
+    }
     
     public override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         self.contentController = segue.destination as? VODesignPreviewViewController

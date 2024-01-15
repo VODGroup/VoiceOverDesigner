@@ -39,6 +39,9 @@ public class PreviewMainViewController: StateViewController<PreviewState> {
                 split.setViewController(navigator, for: .primary)
                 split.setViewController(canvas, for: .secondary)
                 split.preferredPrimaryColumnWidth = 300
+                
+                self.presentedCanvas = canvas
+                
                 return split
             case .preview:
                 return UIHostingController(rootView: PresentationView(
@@ -47,6 +50,8 @@ public class PreviewMainViewController: StateViewController<PreviewState> {
             }
         }
     }
+    
+    weak var presentedCanvas: ScrollViewController?
     
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -92,6 +97,17 @@ public class PreviewMainViewController: StateViewController<PreviewState> {
             
             self.presentDetails(for: description)
         }.store(in: &cancellables)
+    }
+    
+    func observerElementChangesAndRedrawCanvasWhenChangesHappened<T: ObservableObject>(
+        _ element: T
+    ) where T.ObjectWillChangePublisher == ObservableObjectPublisher  {
+        element.objectWillChange
+            .receive(on: RunLoop.main) // Redraw when value **did** change – on the next cycle. It sooo hacky
+            .sink { [weak self] element in
+                guard let self = self else { return }
+                self.presentedCanvas?.redraw()
+            }.store(in: &cancellables)
     }
     
     // MARK: - Navigation Bar
@@ -143,12 +159,21 @@ public class PreviewMainViewController: StateViewController<PreviewState> {
     
     private func presentDetails(for model: any ArtboardElement) {
         if case .frame = model.cast {
-            // No settings for Frame
+            
             return 
         }
         
+        switch model.cast {
+        case .frame:
+            return // TODO: Add settings for Frame
+        case .container(let container):
+            observerElementChangesAndRedrawCanvasWhenChangesHappened(container)
+        case .element(let element):
+            observerElementChangesAndRedrawCanvasWhenChangesHappened(element)
+        }
+        
         let details = UIHostingController(rootView: makeView(for: model))
-    
+        
         // Side presentation for iPad
         if traitCollection.userInterfaceIdiom == .pad {
             details.modalPresentationStyle = .custom

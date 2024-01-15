@@ -42,7 +42,7 @@ public final class VODesignPreviewViewController: UIViewController {
 // MARK: - Loading
 extension VODesignPreviewViewController {
     
-    private func draw() {
+    func draw() {
         let frame = presenter.document.artboard.frames.first!
         draw(frame: frame)
     }
