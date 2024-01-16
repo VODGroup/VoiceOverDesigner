@@ -22,7 +22,8 @@ public struct TextFieldOnSubmit: View {
             }
             .onSubmit {
                 publishChanges() // When press Enter
-            }.onDisappear {
+            }
+            .onDisappear {
                 publishChanges() // When user deselect accessibility element and hide settings screen
             }
     }

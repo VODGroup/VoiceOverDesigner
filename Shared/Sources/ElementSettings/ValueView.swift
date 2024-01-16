@@ -31,7 +31,7 @@ struct ValueView: View {
                 } else {
                     defaultView(value: $value)
                 }
-            }
+            }.padding(.zero)
         } label: {
             Text("Value") // TODO: Align to right
         }
