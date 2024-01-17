@@ -192,7 +192,8 @@ let package = Package(
             name: "CommonUI"
         ),
         .target(
-            name: "NavigatorSwiftUI"
+            name: "NavigatorSwiftUI",
+            dependencies: ["Artboard"]
         )
     ]
 )
