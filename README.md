@@ -30,3 +30,37 @@ The app generates test cases for automatic accessibility testing. In general, we
 # What's next
 - [How to launch](https://github.com/VODGroup/VoiceOverDesigner/wiki)
 - [Join to discussions](https://github.com/VODGroup/VoiceOverDesigner/discussions)
+
+# Architecture
+```mermaid
+flowchart TD
+
+subgraph Model Layer
+	Artboard-->Element
+	Artboard-->Container
+	Artboard-->Frame
+end
+
+subgraph UI Layer
+Navigator
+Canvas
+ElementSettings
+end
+
+subgraph Data Layer
+Document(NS/UIDocument)
+end
+
+subgraph Logic Layer
+Document-->Artboard-->DocumentPresenter
+Document-->UndoManager-->|Manages undo on model layer|DocumentPresenter
+DocumentPresenter-->CanvasPresenter
+DocumentPresenter-->|Publish changes in model|AP(ArtboardPublisher)
+DocumentPresenter-->selectedPublisher
+AP-->Navigator{{Navigator}}
+AP-->CanvasPresenter
+CanvasPresenter-->Canvas{{Canvas}}
+CanvasPresenter-->selectedPublisher
+selectedPublisher-->ElementSettings{{ElementSettings}}
+end
+```
