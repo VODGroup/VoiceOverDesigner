@@ -29,21 +29,39 @@ public class Artboard: BaseContainer, Node {
         super.init(elements: elements)
     }
     
-    public var defaultOffsetBetweenFrame: CGFloat {
+    // MARK: Offset
+    
+    public func offsetCoordinates(toFit sampleArtboard: Artboard) {
+        let maxX = sampleArtboard
+            .frames
+            .map(\.frame.maxX)
+            .max() ?? 0
+        
+        let totalOffset = maxX + sampleArtboard.proposedOffsetBetweenFrames
+        
+        offset(xOffset: totalOffset)
+    }
+    
+    var proposedOffsetBetweenFrames: CGFloat {
         guard frames.count > 1 else {
             let frameWidth = frames.first?.frame.width ?? 0
-            return frameWidth * 1.3 // + 30%
+            return frameWidth * 0.3 // 30%
         }
         
-        let lastFrame = frames[frames.count - 1].frame
-        let previousFrame = frames[frames.count - 2].frame
+        let orderedFrame = frames
+            .map(\.frame)
+            .sorted { lhs, rhs in
+                lhs.maxX < rhs.maxX
+            }
+        let lastFrame = orderedFrame[orderedFrame.count - 1]
+        let previousFrame = orderedFrame[orderedFrame.count - 2]
         
-        return previousFrame.minX - lastFrame.maxX
+        return lastFrame.xOffset(from: previousFrame)
     }
 }
 
 extension BaseContainer {
-    public func offset(xOffset: CGFloat) {
+    func offset(xOffset: CGFloat) {
         for element in elements {
             element.frame = element.frame
                 .offsetBy(dx: xOffset, dy: 0)
@@ -52,5 +70,11 @@ extension BaseContainer {
                 container.offset(xOffset: xOffset)
             }
         }
+    }
+}
+
+public extension CGRect {
+    func xOffset(from rect: CGRect) -> CGFloat {
+        minX - rect.maxX
     }
 }

@@ -72,19 +72,25 @@ open class DocumentPresenter {
             at: document.artboard.frames.count)
     }
     
-    open func importArtboard(_ artboard: Artboard) {
+    open func importArtboard(
+        _ importingDocument: VODesignDocument
+    ) {
+        importingDocument.artboard.offsetCoordinates(toFit: self.document.artboard)
         
-        let offsetFromCurrentArtboard = document.artboard.defaultOffsetBetweenFrame
-        artboard.offset(xOffset: offsetFromCurrentArtboard)
+        // TODO: Force unwrap if OK?
+        let imageLoader = importingDocument.artboard.imageLoader!
         
-        for frame in artboard.frames {
+        let currentDocumentPath = (self.document as! VODesignDocument).fileURL
+        
+        for frame in importingDocument.artboard.frames {
             add(frame,
-                into: document.artboard,
-                at: document.artboard.frames.count)
+                into: importingDocument.artboard,
+                at: importingDocument.artboard.frames.count)
         }
         
         // TODO: Copy images
         // TODO: Rename images if needed
+        // TODO: Undo images copying, frames insertion
     }
     
     public func append(control: any ArtboardElement) {

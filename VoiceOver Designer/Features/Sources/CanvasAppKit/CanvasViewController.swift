@@ -254,7 +254,7 @@ extension CanvasViewController: DragNDropDelegate {
     public func didDrag(path: URL) -> Bool {
         let document = VODesignDocument(file: path)
 
-        presenter.importArtboard(document.artboard)
+        presenter.importArtboard(document)
 
         return true
     }

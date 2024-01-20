@@ -1,12 +1,13 @@
 import XCTest
 import Document
 import DocumentTestHelpers
+@testable import Artboard
 
 final class DocumentPresenterTests_Import: XCTestCase {
     
     var sut: DocumentPresenter!
-    var document: VODesignDocumentProtocol!
-    var document2: VODesignDocumentProtocol!
+    var document: VODesignDocument!
+    var document2: VODesignDocument!
     
     var element1: A11yDescription!
     var element2: A11yDescription!
@@ -25,10 +26,17 @@ final class DocumentPresenterTests_Import: XCTestCase {
         sut = DocumentPresenter(document: document)
     }
     
-    lazy var frameOffset: CGFloat = 1170
+    override func tearDownWithError() throws {
+        try? VODesignDocument.removeTestDocument(name: "Test")
+        document = nil
+        sut = nil
+        super.tearDown()
+    }
+    
+    lazy var frameSpacing: CGFloat = 1170
     lazy var frame1Size = CGSize(width: 1170, height: 3407)
     lazy var frame1 = CGRect(
-        origin: CGPoint(x: frame2Size.width + frameOffset, // 2340
+        origin: CGPoint(x: 2340,
                         y: 0),
         size: frame1Size)
     
@@ -38,37 +46,43 @@ final class DocumentPresenterTests_Import: XCTestCase {
     
     func test_defaultFramesCount() {
         XCTAssertEqual(document.artboard.frames.count, 2)
-        
+        XCTAssertEqual(document.artboard.proposedOffsetBetweenFrames, frameSpacing)
         XCTAssertEqual(frame(at: 0).frame, frame1)
         XCTAssertEqual(frame(at: 1).frame, frame2)
     }
     
     func test_whenImportArtboard_shouldAddFrames() {
-        sut.importArtboard(document2.artboard)
+        sut.importArtboard(document2)
         XCTAssertEqual(document.artboard.frames.count, 4)
     }
     
     func test_whenImportArtboard_shouldOffsetFrames() {
-        sut.importArtboard(document2.artboard)
+        sut.importArtboard(document2)
         
         XCTAssertEqual(frame(at: 0).frame, frame1, "Stay on place")
         XCTAssertEqual(frame(at: 1).frame, frame2, "Stay on place")
         
-        XCTAssertEqual(frame(at: 2).frame, frame1
-            .offsetBy(dx: frameOffset, dy: 0), "Moved")
-        XCTAssertEqual(frame(at: 3).frame, frame2
-            .offsetBy(dx: frameOffset, dy: 0), "Moved")
+        let offsetForFrame1 = frame(at: 2).frame.xOffset(from: frame1)
+        XCTAssertEqual(offsetForFrame1, 1170, "Moved")
+        
+        let offsetForFrame2 = frame(at: 3).frame.xOffset(from: frame2)
+        XCTAssertEqual(offsetForFrame2, 5850.0, "Moved")
     }
     
-    func test_whenImportArtboard_shouldOffsetElements() {
-        sut.importArtboard(document2.artboard)
+    func test_whenImportArtboard_shouldOffsetElements() throws {
+        sut.importArtboard(document2)
         
-        let element1InFrame1 = frame(at: 0).elements.first
-        let element1InFrame3 = frame(at: 2).elements.first
+        let element1InFrame1 = try XCTUnwrap(frame(at: 0).elements.first)
+        let element1InFrame3 = try XCTUnwrap(frame(at: 3).elements.first)
+        
+        XCTAssertEqual(element1InFrame1.label, element1InFrame3.label,
+                       "should check equal elements")
         XCTAssertEqual(
-            element1InFrame1?.frame.offsetBy(dx: frameOffset, dy: 0),
-            element1InFrame3?.frame, "Moved")
+            element1InFrame3.frame.xOffset(from: element1InFrame1.frame),
+            3747, "Moved")
     }
+    
+    // TODO: Artboard contains 2 frames and it makes calculation harder
     
     // MARK: - DSL
     
@@ -76,3 +90,4 @@ final class DocumentPresenterTests_Import: XCTestCase {
         document.artboard.frames[index]
     }
 }
+
