@@ -77,20 +77,30 @@ open class DocumentPresenter {
     ) {
         importingDocument.artboard.offsetCoordinates(toFit: self.document.artboard)
         
-        // TODO: Force unwrap if OK?
-        let imageLoader = importingDocument.artboard.imageLoader!
-        
-        let currentDocumentPath = (self.document as! VODesignDocument).fileURL
+        let imageLoader = importingDocument.artboard.imageLoader
         
         for frame in importingDocument.artboard.frames {
             add(frame,
                 into: importingDocument.artboard,
                 at: importingDocument.artboard.frames.count)
+            
+            copyImage(for: frame,
+                      newDocumentImageLoader: imageLoader)
         }
         
-        // TODO: Copy images
-        // TODO: Rename images if needed
         // TODO: Undo images copying, frames insertion
+    }
+    
+    private func copyImage(
+        for frame: Frame,
+        newDocumentImageLoader: ImageLoading?
+    ) {
+        let newName = UUID().uuidString
+        
+        if let image = newDocumentImageLoader?.image(for: frame) {
+            frame.imageLocation = .cache(image: image, name: newName)
+            // Will be converted to `.relative` type during saving
+        }
     }
     
     public func append(control: any ArtboardElement) {

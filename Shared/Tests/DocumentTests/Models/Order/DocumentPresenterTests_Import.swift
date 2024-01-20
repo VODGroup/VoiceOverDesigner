@@ -84,6 +84,20 @@ final class DocumentPresenterTests_Import: XCTestCase {
     
     // TODO: Artboard contains 2 frames and it makes calculation harder
     
+    func test_whenImportArtboard_shouldCopyImages() throws {
+        sut.importArtboard(document2)
+        
+        let imageLoader = try XCTUnwrap(document.artboard.imageLoader)
+        
+        let imageForFrame3 = imageLoader.image(for: frame(at: 2))
+        XCTAssertNotNil(imageForFrame3)
+        
+        let imageForFrame4 = imageLoader.image(for: frame(at: 3))
+        XCTAssertNotNil(imageForFrame4)
+    }
+    
+    // TODO: Integration test that image will be preserved even between save/open
+    
     // MARK: - DSL
     
     private func frame(at index: Int) -> Frame {
