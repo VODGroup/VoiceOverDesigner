@@ -73,13 +73,18 @@ open class DocumentPresenter {
     }
     
     open func importArtboard(_ artboard: Artboard) {
+        
+        let offsetFromCurrentArtboard = document.artboard.defaultOffsetBetweenFrame
+        artboard.offset(xOffset: offsetFromCurrentArtboard)
+        
         for frame in artboard.frames {
-            add(frame, into: document.artboard, at: document.artboard.frames.count)
+            add(frame,
+                into: document.artboard,
+                at: document.artboard.frames.count)
         }
         
         // TODO: Copy images
         // TODO: Rename images if needed
-        // TODO: Offset artboard
     }
     
     public func append(control: any ArtboardElement) {
