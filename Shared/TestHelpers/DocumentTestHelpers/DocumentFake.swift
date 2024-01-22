@@ -2,9 +2,9 @@ import XCTest
 import Combine
 @testable import Document
 
-public class DocumentFake: VODesignDocumentProtocol {
+public class DocumentFake: AppleDocument, VODesignDocumentProtocol {
     
-    public init() {
+    public override init() {
         artboard.imageLoader = DummyImageLoader()
     }
     
@@ -17,6 +17,7 @@ public class DocumentFake: VODesignDocumentProtocol {
     public var artboard = Artboard()
     
     public var documentWrapper = FileWrapper(directoryWithFileWrappers: [:])
+    public var imagesFolderWrapper: FileWrapper?
     public var previewSource: PreviewSourceProtocol?
     
     // MARK: -

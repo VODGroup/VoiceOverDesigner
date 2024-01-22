@@ -2,7 +2,7 @@ import Foundation
 import Combine
 
 /// Universal abstraction over UIDocument and NSDocument
-public protocol VODesignDocumentProtocol: AnyObject {
+public protocol VODesignDocumentProtocol: AppleDocument {
     
     // MARK: - Data
     var artboard: Artboard { get set }
@@ -46,7 +46,7 @@ extension VODesignDocumentProtocol {
         var featureName: String = UUID().uuidString
         
         switch frame.imageLocation {
-        case .relativeFile(let path):
+        case .fileWrapper(let path):
             let name = URL(filePath: path).lastPathComponent
             imagesFolderWrapper.invalidateIfPossible(file: name)
             

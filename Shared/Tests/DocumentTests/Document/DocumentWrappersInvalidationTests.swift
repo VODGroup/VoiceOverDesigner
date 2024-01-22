@@ -50,7 +50,7 @@ class DocumentWrappersInvalidationTests: XCTestCase {
         XCTAssertEqual(frame1.frame, CGRect(x: 2340, y: 0, width: 1170, height: 3407))
         
         let frame2 = try XCTUnwrap(document.artboard.frames.last)
-        let image = document.artboard.imageLoader.image(for: frame2)!
+        let image = try XCTUnwrap(document.artboard.imageLoader.image(for: frame2))
         document.update(image: image, for: frame1)
 
         XCTAssertEqual(frame1.frame, CGRect(x: 2340, y: 0, width: 1170, height: 3272)) // Height is different

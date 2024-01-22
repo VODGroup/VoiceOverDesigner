@@ -5,7 +5,7 @@ import DocumentTestHelpers
 
 class ImageLoadTests: XCTestCase {
     
-    var sut: ImageLoader!
+    var sut: ImageLoading!
     var frame: Frame!
     
     lazy var singleTimeOptions: XCTMeasureOptions = {
@@ -18,15 +18,11 @@ class ImageLoadTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
         
-        let documentName = FileSample.artboard
-        
-        let documentPath = Sample().documentPath(name: documentName)
-        sut = ImageLoader(documentPath: { documentPath })
-        
-        let document = try Sample().document(name: documentName, testCase: self)
-        
+        let document = try Sample().document(name: FileSample.artboard, testCase: self)
+        sut = document
         frame = try XCTUnwrap(document.artboard.frames.first!)
     }
+    
     func test_noCache() throws {
         measure(metrics: [XCTClockMetric()], options: singleTimeOptions) {
             let image = sut.image(for: frame)

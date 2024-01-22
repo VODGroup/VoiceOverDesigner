@@ -77,29 +77,28 @@ open class DocumentPresenter {
     ) {
         importingDocument.artboard.offsetCoordinates(toFit: self.document.artboard)
         
-        let imageLoader = importingDocument.artboard.imageLoader
-        
         for frame in importingDocument.artboard.frames {
             add(frame,
                 into: importingDocument.artboard,
-                at: importingDocument.artboard.frames.count)
+                at: self.document.artboard.frames.count,
+                publishChanges: false) // Will be called after last frame
             
             copyImage(for: frame,
-                      newDocumentImageLoader: imageLoader)
+                      from: importingDocument as ImageLoading)
         }
         
-        // TODO: Undo images copying, frames insertion
+        publishArtboardChanges()
     }
     
     private func copyImage(
         for frame: Frame,
-        newDocumentImageLoader: ImageLoading?
+        from newDocumentImageLoader: ImageLoading?
     ) {
         let newName = UUID().uuidString
         
         if let image = newDocumentImageLoader?.image(for: frame) {
             frame.imageLocation = .cache(image: image, name: newName)
-            // Will be converted to `.relative` type during saving
+            // Will be converted to `.fileWrapper` type during saving
         }
     }
     
@@ -140,11 +139,15 @@ open class DocumentPresenter {
     private func add(
         _ model: any ArtboardElement,
         into parent: BaseContainer,
-        at insertionIndex: Int
+        at insertionIndex: Int,
+        publishChanges: Bool = true
     ) {
         document.artboard.insert(model, at: insertionIndex)
         
-        publishArtboardChanges()
+        if publishChanges {
+            publishArtboardChanges()
+        }
+        
         select(model)
         
         document.undo?.registerUndo(
