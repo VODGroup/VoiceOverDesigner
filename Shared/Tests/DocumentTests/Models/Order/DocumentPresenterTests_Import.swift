@@ -34,15 +34,17 @@ final class DocumentPresenterTests_Import: XCTestCase {
     }
     
     lazy var frameSpacing: CGFloat = 1170
-    lazy var frame1Size = CGSize(width: 1170, height: 3407)
-    lazy var frame1 = CGRect(
+    lazy var frame2Size = CGSize(width: 1170, height: 3407)
+    lazy var frame1 = 
+    CGRect(origin: .zero,
+           size: frame1Size)
+    
+    
+    lazy var frame1Size = CGSize(width: 1170, height: 3372)
+    lazy var frame2 = CGRect(
         origin: CGPoint(x: 2340,
                         y: 0),
-        size: frame1Size)
-    
-    lazy var frame2Size = CGSize(width: 1170, height: 3372)
-    lazy var frame2 = CGRect(origin: .zero,
-                        size: frame2Size)
+        size: frame2Size)
     
     func test_defaultFramesCount() {
         XCTAssertEqual(document.artboard.frames.count, 2)
@@ -63,23 +65,23 @@ final class DocumentPresenterTests_Import: XCTestCase {
         XCTAssertEqual(frame(at: 1).frame, frame2, "Stay on place")
         
         let offsetForFrame1 = frame(at: 2).frame.xOffset(from: frame1)
-        XCTAssertEqual(offsetForFrame1, 1170, "Moved")
+        XCTAssertEqual(offsetForFrame1, 3510, "Moved")
         
         let offsetForFrame2 = frame(at: 3).frame.xOffset(from: frame2)
-        XCTAssertEqual(offsetForFrame2, 5850.0, "Moved")
+        XCTAssertEqual(offsetForFrame2, 3510, "Moved")
     }
     
     func test_whenImportArtboard_shouldOffsetElements() throws {
         sut.importArtboard(document2)
         
         let element1InFrame1 = try XCTUnwrap(frame(at: 0).elements.first)
-        let element1InFrame3 = try XCTUnwrap(frame(at: 3).elements.first)
-        
+        let element1InFrame3 = try XCTUnwrap(frame(at: 2).elements.first)
+
         XCTAssertEqual(element1InFrame1.label, element1InFrame3.label,
                        "should check equal elements")
         XCTAssertEqual(
             element1InFrame3.frame.xOffset(from: element1InFrame1.frame),
-            3747, "Moved")
+            4432, "Moved")
     }
     
     // TODO: Artboard contains 2 frames and it makes calculation harder
@@ -98,10 +100,15 @@ final class DocumentPresenterTests_Import: XCTestCase {
     
     // TODO: Integration test that image will be preserved even between save/open
     
+    // TODO: Test undo
+    // TODO: Test artboard publishing once
+    
     // MARK: - DSL
     
     private func frame(at index: Int) -> Frame {
-        document.artboard.frames[index]
+        document.artboard.frames.sorted(by: { lhs, rhs in
+            lhs.frame.minX < rhs.frame.minX
+        })[index]
     }
 }
 
