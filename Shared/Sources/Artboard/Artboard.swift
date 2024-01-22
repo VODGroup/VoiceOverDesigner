@@ -56,7 +56,7 @@ public class Artboard: BaseContainer, Node {
         let lastFrame = orderedFrame[orderedFrame.count - 1]
         let previousFrame = orderedFrame[orderedFrame.count - 2]
         
-        return lastFrame.xOffset(from: previousFrame)
+        return lastFrame.xDistance(from: previousFrame)
     }
 }
 
@@ -74,7 +74,7 @@ extension BaseContainer {
 }
 
 public extension CGRect {
-    func xOffset(from rect: CGRect) -> CGFloat {
+    func xDistance(from rect: CGRect) -> CGFloat {
         minX - rect.maxX
     }
 }

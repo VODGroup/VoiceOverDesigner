@@ -34,17 +34,17 @@ final class DocumentPresenterTests_Import: XCTestCase {
     }
     
     lazy var frameSpacing: CGFloat = 1170
-    lazy var frame2Size = CGSize(width: 1170, height: 3407)
-    lazy var frame1 = 
+    lazy var frame1Size = CGSize(width: 1170, height: 3407)
+    lazy var frame1 =
     CGRect(origin: .zero,
-           size: frame1Size)
+           size: frame2Size)
     
     
-    lazy var frame1Size = CGSize(width: 1170, height: 3372)
+    lazy var frame2Size = CGSize(width: 1170, height: 3372)
     lazy var frame2 = CGRect(
-        origin: CGPoint(x: 2340,
+        origin: CGPoint(x: frame1Size.width + frameSpacing,
                         y: 0),
-        size: frame2Size)
+        size: frame1Size)
     
     func test_defaultFramesCount() {
         XCTAssertEqual(document.artboard.frames.count, 2)
@@ -61,14 +61,17 @@ final class DocumentPresenterTests_Import: XCTestCase {
     func test_whenImportArtboard_shouldOffsetFrames() {
         sut.importArtboard(document2)
         
+        /// Every element of new document should be moved on width of current artboard
+        let offset = frame2.maxX
+        
         XCTAssertEqual(frame(at: 0).frame, frame1, "Stay on place")
         XCTAssertEqual(frame(at: 1).frame, frame2, "Stay on place")
         
-        let offsetForFrame1 = frame(at: 2).frame.xOffset(from: frame1)
-        XCTAssertEqual(offsetForFrame1, 3510, "Moved")
+        let offsetForFrame1 = frame(at: 2).frame.xDistance(from: frame1)
+        XCTAssertEqual(offsetForFrame1, offset, "Moved")
         
-        let offsetForFrame2 = frame(at: 3).frame.xOffset(from: frame2)
-        XCTAssertEqual(offsetForFrame2, 3510, "Moved")
+        let offsetForFrame2 = frame(at: 3).frame.xDistance(from: frame2)
+        XCTAssertEqual(offsetForFrame2, offset, "Moved")
     }
     
     func test_whenImportArtboard_shouldOffsetElements() throws {
@@ -80,8 +83,8 @@ final class DocumentPresenterTests_Import: XCTestCase {
         XCTAssertEqual(element1InFrame1.label, element1InFrame3.label,
                        "should check equal elements")
         XCTAssertEqual(
-            element1InFrame3.frame.xOffset(from: element1InFrame1.frame),
-            4432, "Moved")
+            element1InFrame3.frame.minX - element1InFrame1.frame.minX,
+            frame2.maxX + frameSpacing, "Moved for full width ")
     }
     
     // TODO: Artboard contains 2 frames and it makes calculation harder
