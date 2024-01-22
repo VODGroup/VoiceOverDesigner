@@ -61,8 +61,8 @@ open class DocumentPresenter {
         origin: CGPoint
     ) {
         document.invalidateQuickViewPreview()
-        
-        let frame = Frame(image: image,
+        let imageLocation = document.addImageWrapper(image: image, name: name)
+        let frame = Frame(imageLocation: imageLocation,
                           name: name,
                           frame: CGRect(origin: origin,
                                         size: image.size))
@@ -84,7 +84,8 @@ open class DocumentPresenter {
                 publishChanges: false) // Will be called after last frame
             
             copyImage(for: frame,
-                      from: importingDocument as ImageLoading)
+                      from: importingDocument,
+                      to: self.document)
         }
         
         publishArtboardChanges()
@@ -92,13 +93,14 @@ open class DocumentPresenter {
     
     private func copyImage(
         for frame: Frame,
-        from newDocumentImageLoader: ImageLoading?
+        from oldDocument: ImageLoading?,
+        to newDocument: VODesignDocumentProtocol
     ) {
         let newName = UUID().uuidString
         
-        if let image = newDocumentImageLoader?.image(for: frame) {
-            frame.imageLocation = .cache(image: image, name: newName)
-            // Will be converted to `.fileWrapper` type during saving
+        if let image = oldDocument?.image(for: frame) {
+            newDocument.addImageWrapper(image: image, name: newName)
+            frame.imageLocation = .fileWrapper(name: newName)
         }
     }
     

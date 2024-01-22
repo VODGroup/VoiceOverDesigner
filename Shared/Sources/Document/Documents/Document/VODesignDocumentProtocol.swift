@@ -25,14 +25,15 @@ public protocol VODesignDocumentProtocol: AppleDocument {
 
 extension VODesignDocumentProtocol {
     public func addFrame(
-        with newImage: Image,
+        with image: Image,
         name: String?,
         origin: CGPoint
     ) {
-        let frame = Frame(image: newImage,
+        let imageLocation = addImageWrapper(image: image, name: name)
+        let frame = Frame(imageLocation: imageLocation,
                           name: name,
                           frame: CGRect(origin: origin,
-                                        size: newImage.size))
+                                        size: image.size))
         artboard.append(frame)
         
         documentWrapper.invalidateIfPossible(file: FolderName.quickLook)
@@ -53,14 +54,14 @@ extension VODesignDocumentProtocol {
             featureName = name // Will use to keep naming
         case .remote(_):
             fatalError("Don't know is some code is needed here")
-        case .cache(_, _):
-            // TODO: convert to file
-            fatalError("Remove old file from cache")
-//            imagesFolderWrapper.invalidateIfPossible(file: name)
         }
         
+        let imageWrapper = FileWrapper(regularFileWithContents: image.png()!)
+        imageWrapper.preferredFilename = featureName
+        imagesFolderWrapper.addFileWrapper(imageWrapper)
+        
         // TODO: Add to cache folder with given name
-        frame.imageLocation = .cache(image: image, name: featureName)
+        frame.imageLocation = .fileWrapper(name: featureName)
         let image = artboard.imageLoader.image(for: frame)
         
         frame.frame = CGRect(origin: frame.frame.origin,
@@ -90,15 +91,14 @@ public protocol PreviewSourceProtocol: AnyObject {
 
 extension Frame {
     public convenience init(
-        image: Image,
+        imageLocation: ImageLocation,
         name: String?,
         frame: CGRect
     ) { 
         let name = name ?? UUID().uuidString
         
         self.init(label: name,
-                  imageLocation: .cache(image: image,
-                                        name: name),
+                  imageLocation: imageLocation,
                   frame: frame,
                   elements: [])
     }

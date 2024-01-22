@@ -37,7 +37,7 @@ extension VODesignDocumentProtocol {
             }
             
             if let imagePath = fileURL?.appendingPathComponent(path),
-                let imageWrapper = try? FileWrapper(url: imagePath)
+               let imageWrapper = try? FileWrapper(url: imagePath)
             {
                 // TODO: Remove filename duplication across project
                 imageWrapper.preferredFilename = FileName.frameImage
@@ -49,24 +49,23 @@ extension VODesignDocumentProtocol {
         case .remote(_):
             // TODO: Move to local files?
             fatalError()
-            
-        case .cache(let image, let name):
-            // No check for existed wrapper because we will move from .cached to .fileRelative state
-            
-            guard let imageData = image.png()
-            else {
-                Swift.print("No image to store")
-                return
-            }
-            
-            let imageWrapper = FileWrapper(regularFileWithContents: imageData)
-            imageWrapper.preferredFilename = name
-            
-            imagesFolderWrapper.addFileWrapper(imageWrapper)
-            
-            // TODO: Set FileWrapper name
-            frame.imageLocation = .fileWrapper(name: name)
         }
+    }
+    
+    @discardableResult
+    func addImageWrapper(image: Image, name: String?) -> ImageLocation {
+        addImageWrapper(content: (image.heic() ?? image.png())!,
+                        name: name)
+    }
+    @discardableResult
+    func addImageWrapper(content: Data, name: String?) -> ImageLocation {
+        let name = name ?? UUID().uuidString
+        
+        let imageWrapper = FileWrapper(regularFileWithContents: content)
+        imageWrapper.preferredFilename = name
+        
+        imagesFolderWrapper.addFileWrapper(imageWrapper)
+        return .fileWrapper(name: name)
     }
     
     var imagesFolderWrapper: FileWrapper {
@@ -133,10 +132,10 @@ extension VODesignDocumentProtocol {
               let imageData = image.heic(compressionQuality: 0.51)
         else { return nil }
         
-        let imageWrapper = FileWrapper(regularFileWithContents: imageData)
-        imageWrapper.preferredFilename = FileName.quickLookFile
+        let quicklookWrapper = FileWrapper(regularFileWithContents: imageData)
+        quicklookWrapper.preferredFilename = FileName.quickLookFile
         
-        let quicklookFolder = FileWrapper(directoryWithFileWrappers: [FolderName.quickLook: imageWrapper])
+        let quicklookFolder = FileWrapper(directoryWithFileWrappers: [FolderName.quickLook: quicklookWrapper])
         quicklookFolder.preferredFilename = FolderName.quickLook
         return quicklookFolder
     }
@@ -171,10 +170,8 @@ extension VODesignDocumentProtocol {
             let imageName = FileName.frameImage
             let imageData = packageWrapper.fileWrappers![FileName.screen]!.regularFileContents!
             let imageSize = Image(data: imageData)?.size ?? .zero
-            let imageWrapper = FileWrapper(regularFileWithContents: imageData)
-            imageWrapper.preferredFilename = imageName
             
-            imagesFolderWrapper.addFileWrapper(imageWrapper)
+            addImageWrapper(content: imageData, name: imageName)
             
             let artboard = Artboard(elements: [
                 Frame(label: "Frame",
