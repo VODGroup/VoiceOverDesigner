@@ -61,11 +61,10 @@ public class DocumentsBrowserViewController: NSViewController {
 }
 
 extension DocumentsBrowserViewController: DragNDropDelegate {
-    public func didDrag(path: URL) -> Bool {
+    public func didDrag(path: URL) {
         let document = VODesignDocument(fileName: path.lastPathComponent,
                                         rootPath: path.deletingLastPathComponent())
         show(document: document)
-        return true
     }
     
     public func didDrag(image: NSImage, locationInWindow: CGPoint, name: String?) {

@@ -251,13 +251,11 @@ extension CanvasViewController: DragNDropDelegate {
         view().scrollView.fitToWindow(animated: shouldAnimate)
     }
     
-    public func didDrag(path: URL) -> Bool {
+    public func didDrag(path: URL) {
         let document = VODesignDocument(file: path)
-
+        
         presenter.importArtboard(document)
         view().scrollView.fitToWindow(animated: true)
-        
-        return true
     }
 }
 

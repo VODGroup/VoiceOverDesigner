@@ -9,7 +9,7 @@ import AppKit
 
 public protocol DragNDropDelegate: AnyObject {
     func didDrag(image: NSImage, locationInWindow: CGPoint, name: String?)
-    func didDrag(path: URL) -> Bool
+    func didDrag(path: URL)
 }
 
 open class DragNDropImageView: NSView {
@@ -136,26 +136,29 @@ open class DragNDropImageView: NSView {
     public override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
         let pasteboard = sender.draggingPasteboard
         
-        if let image = sender.image() {
+        var foundDocument = false
+        
+        for image in pasteboard.images {
             delegate?.didDrag(image: image,
                               locationInWindow: sender.draggingLocation,
-                              name: pasteboard.fileName)
+                              name: image.name())
+            
+            foundDocument = true
+        }
+        
+        for url in pasteboard.VODesignURLs {
+            delegate?.didDrag(path: url)
+            foundDocument = true
+        }
+        
+        if foundDocument {
             hideTextAndBorder()
-            return true
+        } else {
+            show(text: NSLocalizedString("Don't know what it is :-(", comment: ""),
+                 changeTo: defaultText)
         }
         
-        if let url = pasteboard.VODesignURLs.first {
-            if delegate?.didDrag(path: url) == true {
-                hideTextAndBorder()
-                return true
-            } else {
-                show(text: NSLocalizedString("Don't know what it is :-(", comment: ""),
-                     changeTo: defaultText)
-                return false
-            }
-        }
-        
-        return false
+        return foundDocument
     }
     
     let defaultText = NSLocalizedString("Add your screenshot", comment: "")
@@ -265,6 +268,13 @@ extension NSPasteboard {
                 $0 as? URL
             }.filter {
                 $0.pathExtension.lowercased() == "vodesign"
+            } ?? []
+    }
+    
+    var images: [NSImage] {
+        readObjects(forClasses: [NSImage.self], options: nil)?
+            .compactMap {
+                $0 as? NSImage
             } ?? []
     }
 }
