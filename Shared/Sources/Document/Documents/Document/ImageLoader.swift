@@ -21,8 +21,4 @@ extension VODesignDocument: ImageLoading {
             fatalError()
         }
     }
-    
-    public func fullPath(relativeTo relativePath: String) -> URL? {
-        fileURL?.appendingPathComponent(relativePath)
-    }
 }

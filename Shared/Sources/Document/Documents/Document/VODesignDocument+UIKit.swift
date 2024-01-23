@@ -72,7 +72,6 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
             self.artboard = artboard
             self.version = version
             artboard.imageLoader = self
-            prepareFormatForArtboard(for: version)
             
         } catch let error {
             Swift.print(error)

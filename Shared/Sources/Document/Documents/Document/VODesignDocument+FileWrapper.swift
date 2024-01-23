@@ -36,7 +36,13 @@ extension VODesignDocumentProtocol {
                 return
             }
             
-            if let imagePath = fileURL?.appendingPathComponent(path),
+            #if os(macOS)
+            let imagePath = fileURL?.appendingPathComponent(path)
+            #else
+            let imagePath: URL? = fileURL.appendingPathComponent(path)
+            #endif
+            
+            if let imagePath = imagePath,
                let imageWrapper = try? FileWrapper(url: imagePath)
             {
                 // TODO: Remove filename duplication across project
@@ -194,7 +200,7 @@ extension VODesignDocumentProtocol {
             
         case .artboard:
             if let documentWrapper = documentWrapper.fileWrappers?[FileName.document] {
-                let artboard = try! ArtboardElementCodingService().artboard(from: documentWrapper.regularFileContents!)
+                let artboard = try ArtboardElementCodingService().artboard(from: documentWrapper.regularFileContents!)
                 
                 return (.artboard, artboard)
             }
