@@ -255,7 +255,8 @@ extension CanvasViewController: DragNDropDelegate {
         let document = VODesignDocument(file: path)
 
         presenter.importArtboard(document)
-
+        view().scrollView.fitToWindow(animated: true)
+        
         return true
     }
 }
