@@ -58,6 +58,15 @@ final class DocumentPresenterTests_Import: XCTestCase {
         XCTAssertEqual(document.artboard.frames.count, 4)
     }
     
+    func test_whenImportArtboardAndUndo_shouldRevertToSingleArtboard() {
+        sut.importArtboard(document2)
+        
+        sut.undo()
+        
+        XCTAssertEqual(document.artboard.frames.count, 2)
+        // TODO: Assert images wrappers
+    }
+    
     func test_whenImportArtboard_shouldOffsetFrames() {
         sut.importArtboard(document2)
         
@@ -102,8 +111,6 @@ final class DocumentPresenterTests_Import: XCTestCase {
     }
     
     // TODO: Integration test that image will be preserved even between save/open
-    
-    // TODO: Test undo
     // TODO: Test artboard publishing once
     
     // MARK: - DSL
