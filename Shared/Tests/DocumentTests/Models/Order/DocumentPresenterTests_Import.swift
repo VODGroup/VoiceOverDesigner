@@ -2,6 +2,7 @@ import XCTest
 import Document
 import DocumentTestHelpers
 @testable import Artboard
+import CombineTestHelpers
 
 final class DocumentPresenterTests_Import: XCTestCase {
     
@@ -65,6 +66,19 @@ final class DocumentPresenterTests_Import: XCTestCase {
         
         XCTAssertEqual(document.artboard.frames.count, 2)
         // TODO: Assert images wrappers
+    }
+    
+    func test_whenImportArtboard_shouldPublishChanges() async throws {
+        try await perform({
+            sut.importArtboard(document2)
+        }, thenAwait: sut.artboardPublisher)
+        
+        try await perform(
+            {
+                sut.undo()
+            },
+            thenAwait: sut.artboardPublisher,
+            numberOfCall: 2) // TODO: 2 is unexpected, can be removed
     }
     
     func test_whenImportArtboard_shouldOffsetFrames() {
