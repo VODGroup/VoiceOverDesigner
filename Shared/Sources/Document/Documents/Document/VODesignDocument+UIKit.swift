@@ -4,7 +4,7 @@ public typealias AppleDocument = UIDocument
 import Combine
 import Artboard
 
-public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
+public class VODesignDocument: AppleDocument   , VODesignDocumentProtocol {
     
     // MARK: - Data
     public var elements: [any ArtboardElement] = []
