@@ -27,7 +27,7 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
         super.viewDidAppear(animated)
         
 #if targetEnvironment(simulator) && (os(visionOS) || os(iOS)) // Fake document for simulaton, drag'n'drop won't work
-        presentDocumentModally(url: URL(filePath: "/Users/mikhail/Library/Mobile Documents/iCloud~com~akaDuality~VoiceOver-Designer/Documents/Drinkit Product Card.vodesign"), animated: true)
+        presentDocumentModally(url: URL(filePath: "/Users/mac/Projects/Drinkit Product Card.vodesign"), animated: true)
 #endif
     }
     
