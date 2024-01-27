@@ -17,20 +17,6 @@ open class DragNDropImageView: NSView {
     
     public weak var delegate: DragNDropDelegate?
 
-    lazy var samplesHint: NSTextField = {
-        let label = NSTextField(string: "↑ Samples!")
-        label.font = NSFont.preferredFont(forTextStyle: .largeTitle)
-        label.textColor = .tertiaryLabelColor
-        label.backgroundColor = .clear
-        label.isBordered = false
-        
-        addSubview(label)
-        label.isEditable = false
-        label.isSelectable = false
-        label.alignment = .center
-        return label
-    }()
-    
     lazy var dragndropHere: NSTextField = {
         let label = NSTextField(string: defaultText)
         label.font = NSFont.preferredFont(forTextStyle: .body)
@@ -60,13 +46,6 @@ open class DragNDropImageView: NSView {
     
     open override func layout() {
         super.layout()
-        
-        samplesHint.sizeToFit()
-        let hintSize = samplesHint.frame.size
-        samplesHint.frame = CGRect(
-            origin: CGPoint(x: 75,
-                            y: bounds.height - hintSize.height - 70),
-            size: hintSize)
         
         dragndropHere.sizeToFit()
         let size = dragndropHere.frame.size
