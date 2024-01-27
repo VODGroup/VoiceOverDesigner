@@ -32,8 +32,6 @@ public class DocumentsBrowserViewController: NSViewController {
             withIdentifier: HeaderCell.id
         )
         presenter.load()
-       
-        
     }
     
     /// Sometimel layout is called right after loading from storyboard, presenter is not set and a crash happened.

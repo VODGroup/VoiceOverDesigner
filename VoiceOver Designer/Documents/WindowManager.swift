@@ -10,7 +10,7 @@ class WindowManager: NSObject {
     let documentsPresenter = DocumentPresenterFactory().presenter()
     
     func makeRecentWindow() -> NSWindow {
-        let controller = DocumentsTabViewController(router: rootWindowController)
+        let controller = DocumentsTabViewController(router: rootWindowController, selectedTab: .recent)
         let window = NSWindow(contentViewController: controller)
         
         window.toolbar = controller.toolbar()
@@ -34,28 +34,8 @@ class WindowManager: NSObject {
         return windowController
     }()
     
-    private var newDocumentIsCreated = false
     private var projectController: ProjectController?
 
-    func start() {
-        print("Start")
-        
-        if newDocumentIsCreated {
-            // Document has been created from [NSDocumentController openUntitledDocumentAndDisplay:error:]
-            return
-        }
-        if documentsPresenter.shouldShowThisController {
-            self.showRecent()
-        } else {
-            // TODO: Do we need it or document will open automatically?
-            showNewDocument()
-        }
-    }
-    
-    private func showNewDocument() {
-        createNewDocumentWindow(document: VODesignDocument())
-    }
-    
     func prepare(_ window: NSWindow) {
         window.tabbingMode = .preferred
         window.tabbingIdentifier = "TabbingId"
@@ -70,7 +50,6 @@ extension WindowManager: RecentDelegate {
         document: VODesignDocument
     ) {
         print("will open \(document.fileURL?.absoluteString ?? "Unknown fileURL")")
-        newDocumentIsCreated = true
         
         // TODO: Check that this document is not opened in another tab
         
@@ -99,16 +78,34 @@ extension WindowManager: RecentDelegate {
 }
 
 extension WindowManager: ProjectRouterDelegate {
+    func showSamples(_ sender: NSToolbarItem) {
+        showDocument(sender, type: .samples)
+    }
+    
 
-    func showRecent() {
-        if let recentWindowTab = NSApplication.shared.keyWindow?.tabGroup?.windows.first(where: { window in
-            window.contentViewController is DocumentsTabViewController
-        }) {
-            // Already in tabs
-            recentWindowTab.makeKeyAndOrderFront(self)
+    func showRecent(_ sender: NSToolbarItem) {
+        showDocument(sender, type: .recent)
+    }
+    
+    private func showDocument(_ sender: NSToolbarItem, type: DocumentsTabViewController.SelectedTab) {
+        let controller = DocumentsTabViewController(router: rootWindowController, selectedTab: type)
+        controller.preferredContentSize = CGSize(width: 1000, height: 800)
+        
+        let window = NSApplication.shared.keyWindow!
+        let contentController = window.contentViewController!
+        
+        if #available(macOS 14.0, *) {
+            let popover = NSPopover()
+            popover.contentViewController = controller
+            popover.behavior = .transient
+            popover.show(relativeTo: sender)
         } else {
-            // Add tab
-            addTabOrCreateWindow(with: makeRecentWindow())
+            contentController.present(
+                controller,
+                asPopoverRelativeTo: contentController.view.bounds,
+                of: contentController.view.superview!,
+                preferredEdge: .minX,
+                behavior: .transient)
         }
     }
 }

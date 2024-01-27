@@ -8,14 +8,26 @@
 import AppKit
 
 extension NSToolbarItem {
-    static func makeDocumentsItem() -> NSToolbarItem {
-        let item = NSToolbarItem(itemIdentifier: .documentsButtonLabel)
+    static func makeRecentItem() -> NSToolbarItem {
+        let item = NSToolbarItem(itemIdentifier: .recentButtonLabel)
         item.label = NSLocalizedString("Recent", comment: "")
         
         item.isBordered = true
-        item.image = NSImage(systemSymbolName: "rectangle.grid.3x2",
+        item.image = NSImage(systemSymbolName: "clock",
                              accessibilityDescription: "Show recent documents")!
-        item.toolTip = NSLocalizedString("Go to my documents", comment: "")
+        item.toolTip = NSLocalizedString("Go to My documents", comment: "")
+        item.isNavigational = true
+        return item
+    }
+    
+    static func makeSamplesItem() -> NSToolbarItem {
+        let item = NSToolbarItem(itemIdentifier: .samplesButtonLabel)
+        item.label = NSLocalizedString("Samples", comment: "")
+        
+        item.isBordered = true
+        item.image = NSImage(systemSymbolName: "trophy",
+                             accessibilityDescription: "Show sample documents")!
+        item.toolTip = NSLocalizedString("Go to Samples", comment: "")
         item.isNavigational = true
         return item
     }
@@ -54,7 +66,9 @@ extension NSToolbarItem {
 }
 
 extension NSToolbarItem.Identifier {
-    static let documentsButtonLabel = NSToolbarItem.Identifier(rawValue: "DocumentsButtonLabel")
+    static let recentButtonLabel = NSToolbarItem.Identifier(rawValue: "RecentButtonLabel")
+    static let samplesButtonLabel = NSToolbarItem.Identifier(rawValue: "SamplesButtonLabel")
+    
     static let trailingSidebar = NSToolbarItem.Identifier(rawValue: "TrailingSidebar")
     static let presentation = NSToolbarItem.Identifier(rawValue: "Presentation")
     static let editor = NSToolbarItem.Identifier(rawValue: "Editor")

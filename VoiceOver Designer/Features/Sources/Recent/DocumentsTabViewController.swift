@@ -3,7 +3,12 @@ import Document // For @Storage
 
 public class DocumentsTabViewController: NSTabViewController {
     
-    public init(router: RecentRouter) {
+    public enum SelectedTab: Int {
+        case recent = 0
+        case samples = 1
+    }
+    
+    public init(router: RecentRouter, selectedTab: SelectedTab) {
         super.init(nibName: nil, bundle: nil)
         
         let documentsController = documentsBrowserController(presenter: UserDocumentsPresenter(), router: router)
@@ -24,7 +29,7 @@ public class DocumentsTabViewController: NSTabViewController {
         addTabViewItem(samplesTab)
         
         tabStyle = .unspecified
-        selectedTabViewItemIndex = Self.lastSelectedTabIndex
+        selectedTabViewItemIndex = selectedTab.rawValue// Self.lastSelectedTabIndex
     }
     
     required init?(coder: NSCoder) {

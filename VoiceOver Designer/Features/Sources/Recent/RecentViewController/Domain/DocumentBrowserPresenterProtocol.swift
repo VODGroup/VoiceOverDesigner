@@ -12,9 +12,7 @@ public protocol DocumentBrowserPresenterProtocol {
     func numberOfItemsInSection(_ section: Int) -> Int
     func item(at indexPath: IndexPath) -> DocumentBrowserCollectionItem
     
-    var shouldShowThisController: Bool { get }
     func load()
-    
 }
 
 public protocol LanguageSource {

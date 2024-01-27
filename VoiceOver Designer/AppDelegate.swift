@@ -16,9 +16,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let isDefaultLaunch = aNotification.userInfo?[NSApplication.launchIsDefaultUserInfoKey] as? Bool ?? false
         
         print("Is default launch \(isDefaultLaunch)")
-        
-        windowManager.start()
-        
 #if DEBUG
         openFileForUITestIfNeeded()
         
@@ -58,10 +55,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             document = VODesignDocument(image: image)
         }
         windowManager.createNewDocumentWindow(document: document)
-    }
-    
-    func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {
-        false
     }
 }
 

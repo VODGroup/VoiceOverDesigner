@@ -11,15 +11,8 @@ class UserDocumentsPresenter: DocumentBrowserPresenterProtocol {
     
     public init() {}
     
-    var shouldShowThisController: Bool {
-        let hasRecentDocuments = !recentItems.isEmpty
-        let hasCloudDocuments = !iCloudDocuments.isEmpty
-        
-        return hasRecentDocuments || hasCloudDocuments
-    }
-    
     private var recentItems: [URL] {
-        documentController.recentDocumentURLs ?? []
+        documentController.recentDocumentURLs
     }
     
     private let metadataProvider = MetadataProvider(containerIdentifier: containerId,

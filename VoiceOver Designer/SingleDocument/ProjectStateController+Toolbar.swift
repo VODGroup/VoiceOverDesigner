@@ -2,7 +2,8 @@ import AppKit
 import Document
 
 protocol ProjectRouterDelegate: AnyObject {
-    func showRecent()
+    func showRecent(_ sender: NSToolbarItem)
+    func showSamples(_ sender: NSToolbarItem)
 }
 
 extension ProjectStateController: NSToolbarDelegate {
@@ -12,7 +13,8 @@ extension ProjectStateController: NSToolbarDelegate {
         willBeInsertedIntoToolbar flag: Bool
     ) -> NSToolbarItem? {
         switch itemIdentifier {
-        case .documentsButtonLabel: return documentsItem()
+        case .recentButtonLabel: return recentItem()
+        case .samplesButtonLabel: return samplesItem()
         case .trailingSidebar: return trailingSideBarItem()
         case .shareDocument: return shareDocumentItem()
         case .itemListTrackingSeparator:
@@ -31,7 +33,8 @@ extension ProjectStateController: NSToolbarDelegate {
             .toggleSidebar,
             .sidebarTrackingSeparator,
             
-            .documentsButtonLabel,
+            .recentButtonLabel,
+            .samplesButtonLabel,
             .shareDocument,
             // Title
             .flexibleSpace,
@@ -51,7 +54,8 @@ extension ProjectStateController: NSToolbarDelegate {
     public func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         var result: [NSToolbarItem.Identifier] = [.toggleSidebar,
          .sidebarTrackingSeparator,
-         .documentsButtonLabel,
+         .recentButtonLabel,
+         .samplesButtonLabel,
          .shareDocument,
          .presentation,
          ]
@@ -68,7 +72,8 @@ extension ProjectStateController: NSToolbarDelegate {
 
     var presentationAllowedItems: [NSToolbarItem.Identifier] {
         [
-            .documentsButtonLabel,
+            .recentButtonLabel,
+            .samplesButtonLabel,
             .editor,
             .shareDocument
         ]
@@ -76,10 +81,17 @@ extension ProjectStateController: NSToolbarDelegate {
 }
 
 extension ProjectStateController {
-    private func documentsItem() -> NSToolbarItem {
-        let item = NSToolbarItem.makeDocumentsItem()
+    private func recentItem() -> NSToolbarItem {
+        let item = NSToolbarItem.makeRecentItem()
         item.target = self
         item.action = #selector(showRecentDidPressed(sender:))
+        return item
+    }
+    
+    private func samplesItem() -> NSToolbarItem {
+        let item = NSToolbarItem.makeSamplesItem()
+        item.target = self
+        item.action = #selector(showSamplesDidPressed(sender:))
         return item
     }
     
@@ -107,7 +119,11 @@ extension ProjectStateController {
     }
 
     @objc private func showRecentDidPressed(sender: NSToolbarItem) {
-        router?.showRecent()
+        router?.showRecent(sender)
+    }
+    
+    @objc private func showSamplesDidPressed(sender: NSToolbarItem) {
+        router?.showSamples(sender)
     }
     
     @objc private func leadingSideBarTapped(sender: NSToolbarItem) {

@@ -26,8 +26,6 @@ class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
         sections[section].title
     }
     
-    var shouldShowThisController: Bool = true
-    
     private var sections = [ProjectViewModel]()
     var possibleLanguages = [String]()
     var structure: SamplesStructure?

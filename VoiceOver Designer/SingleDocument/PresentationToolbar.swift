@@ -22,15 +22,26 @@ class PresentationToolbar: NSToolbar {
         NSToolbarItem.editorSideBarItem()
     }()
     
-    lazy var documentsItem: NSToolbarItem = {
-        let item = NSToolbarItem.makeDocumentsItem()
+    lazy var samplesItem: NSToolbarItem = {
+        let item = NSToolbarItem.makeSamplesItem()
+        item.target = self
+        item.action = #selector(showSamplesDidPressed(sender:))
+        return item
+    }()
+    
+    lazy var recentItem: NSToolbarItem = {
+        let item = NSToolbarItem.makeRecentItem()
         item.target = self
         item.action = #selector(showRecentDidPressed(sender:))
         return item
     }()
     
     @objc private func showRecentDidPressed(sender: NSToolbarItem) {
-        actionDelegate?.showRecent()
+        actionDelegate?.showRecent(sender)
+    }
+    
+    @objc private func showSamplesDidPressed(sender: NSToolbarItem) {
+        actionDelegate?.showSamples(sender)
     }
 }
 
@@ -41,7 +52,8 @@ extension PresentationToolbar: NSToolbarDelegate {
         willBeInsertedIntoToolbar flag: Bool
     ) -> NSToolbarItem? {
         switch itemIdentifier {
-        case .documentsButtonLabel: return documentsItem
+        case .recentButtonLabel: return recentItem
+        case .samplesButtonLabel: return samplesItem
         case .editor: return editorSideBarItem
         default: return nil
         }
@@ -49,7 +61,8 @@ extension PresentationToolbar: NSToolbarDelegate {
     
     public func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         return [
-            .documentsButtonLabel,
+            .recentButtonLabel,
+            .samplesButtonLabel,
             .flexibleSpace,
             .editor
         ]
