@@ -82,7 +82,6 @@ extension WindowManager: ProjectRouterDelegate {
         showDocument(sender, type: .samples)
     }
     
-
     func showRecent(_ sender: NSToolbarItem) {
         showDocument(sender, type: .recent)
     }
