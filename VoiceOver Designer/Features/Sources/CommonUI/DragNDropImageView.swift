@@ -17,9 +17,23 @@ open class DragNDropImageView: NSView {
     
     public weak var delegate: DragNDropDelegate?
 
-    lazy var label: NSTextField = {
-        let label = NSTextField(string: defaultText)
+    lazy var samplesHint: NSTextField = {
+        let label = NSTextField(string: "↑ Samples!")
         label.font = NSFont.preferredFont(forTextStyle: .largeTitle)
+        label.textColor = .tertiaryLabelColor
+        label.backgroundColor = .clear
+        label.isBordered = false
+        
+        addSubview(label)
+        label.isEditable = false
+        label.isSelectable = false
+        label.alignment = .center
+        return label
+    }()
+    
+    lazy var dragndropHere: NSTextField = {
+        let label = NSTextField(string: defaultText)
+        label.font = NSFont.preferredFont(forTextStyle: .body)
         label.textColor = .tertiaryLabelColor
         label.backgroundColor = .clear
         label.isBordered = false
@@ -33,7 +47,7 @@ open class DragNDropImageView: NSView {
     
     var text: String = "" {
         didSet {
-            label.stringValue = text
+            dragndropHere.stringValue = text
             needsLayout = true
         }
     }
@@ -47,11 +61,18 @@ open class DragNDropImageView: NSView {
     open override func layout() {
         super.layout()
         
-        label.sizeToFit()
-        let size = label.frame.size
-        label.frame = CGRect(
+        samplesHint.sizeToFit()
+        let hintSize = samplesHint.frame.size
+        samplesHint.frame = CGRect(
+            origin: CGPoint(x: 75,
+                            y: bounds.height - hintSize.height - 70),
+            size: hintSize)
+        
+        dragndropHere.sizeToFit()
+        let size = dragndropHere.frame.size
+        dragndropHere.frame = CGRect(
             origin: CGPoint(x: (bounds.width-size.width)/2,
-                            y: (bounds.height-size.height)/2),
+                            y: (bounds.height-size.height)/2-80),
             size: size)
     }
 
@@ -100,10 +121,10 @@ open class DragNDropImageView: NSView {
         return false
     }
     
-    let defaultText = NSLocalizedString("Drag'n'Drop image here", comment: "")
+    let defaultText = NSLocalizedString("or Drag'n'Drop", comment: "")
     
     func show(text: String, changeTo nextText: String? = nil) {
-        label.isHidden = false
+        dragndropHere.isHidden = false
         self.text = text
         
         if let nextText = nextText {
@@ -114,6 +135,6 @@ open class DragNDropImageView: NSView {
     }
     
     func hideText() {
-        label.isHidden = true
+        dragndropHere.isHidden = true
     }
 }
