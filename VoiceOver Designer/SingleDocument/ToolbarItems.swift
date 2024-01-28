@@ -6,7 +6,7 @@
 //
 
 import AppKit
-
+import Recent
 extension NSToolbarItem {
     static func makeRecentItem() -> NSToolbarItem {
         let item = NSToolbarItem(itemIdentifier: .recentButtonLabel)
@@ -21,14 +21,11 @@ extension NSToolbarItem {
     }
     
     static func makeSamplesItem() -> NSToolbarItem {
-        let item = NSToolbarItem(itemIdentifier: .samplesButtonLabel)
-        item.label = NSLocalizedString("Samples", comment: "")
-        
-        item.isBordered = true
-        item.image = NSImage(systemSymbolName: "trophy",
-                             accessibilityDescription: "Show sample documents")!
-        item.toolTip = NSLocalizedString("Go to Samples", comment: "")
+        let item = LanguageButton(
+            languageSource: SamplesDocumentsPresenter.shared,
+            identifier: .samplesButtonLabel)
         item.isNavigational = true
+        item.label = NSLocalizedString("Samples", comment: "")
         return item
     }
     

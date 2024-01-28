@@ -18,7 +18,7 @@ public class DocumentsTabViewController: NSTabViewController {
         userDocumentsTab.image = NSImage(systemSymbolName: "tray.full", accessibilityDescription: "My documents")
         
         let samplesController = documentsBrowserController(
-            presenter: SamplesDocumentsPresenter(),
+            presenter: SamplesDocumentsPresenter.shared,
             router: router)
         samplesController.title = NSLocalizedString("Samples", comment: "Tab's title")
         let samplesTab = NSTabViewItem(viewController: samplesController)
@@ -102,7 +102,7 @@ extension DocumentsTabViewController {
         case .language:
             guard let languageSource = presenter as? LanguageSource else { return nil }
             
-            let language = LanguageButton(languageSource: languageSource)
+            let language = LanguageButton(languageSource: languageSource, identifier: .language)
             
             return language
         default:
@@ -174,37 +174,50 @@ public class LanguageButton: NSMenuToolbarItem {
     
     private let languageSource: LanguageSource
     
-    init(languageSource: LanguageSource) {
+    public init(languageSource: LanguageSource, 
+                identifier: NSToolbarItem.Identifier) {
         self.languageSource = languageSource
         
-        super.init(itemIdentifier: .language)
+        super.init(itemIdentifier: identifier)
         
-        let title = NSLocalizedString("Language", comment: "Toolbar item's label")
+        let title = NSLocalizedString("Samples", comment: "Toolbar item's label")
         let menu = NSMenu(title: title)
         let locale = Locale.current
         
         for (tag, languageCode) in languageSource.possibleLanguages.enumerated() {
             let language = locale.localizedString(forLanguageCode: languageCode) ?? languageCode
             
-            let menuItem = NSMenuItem(title: language, action: #selector(selectLanguage(sender:)), keyEquivalent: "")
+            let menuItem = NSMenuItem(
+                title: language,
+                action: #selector(selectLanguage(sender:)),
+                keyEquivalent: "")
+            
             menuItem.tag = tag
+            menuItem.isEnabled = true
             
             menu.addItem(menuItem)
         }
         
         self.menu = menu
         isBordered = false
-        if let currentLanguage = languageSource.samplesLanguage,
-           let languageTitle = locale.localizedString(forLanguageCode: currentLanguage) {
-            self.title = languageTitle
-        } else {
-            self.title = NSLocalizedString("Language", comment: "Toolbar item")
-        }
+        image = NSImage(systemSymbolName: "graduationcap",
+                        accessibilityDescription: "Show sample documents")!
+        
+//        if let currentLanguage = languageSource.samplesLanguage,
+//           let languageTitle = locale.localizedString(forLanguageCode: currentLanguage) {
+//            self.title = languageTitle
+//        } else {
+//            self.title = NSLocalizedString("Samples", comment: "Toolbar item")
+//        }
     }
     
     @objc private func selectLanguage(sender: NSMenuItem) {
         let languageCode = languageSource.possibleLanguages[sender.tag]
         
         languageSource.presentProjects(with: languageCode)
+    }
+    
+    deinit {
+        
     }
 }

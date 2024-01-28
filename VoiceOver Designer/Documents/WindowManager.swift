@@ -7,7 +7,7 @@ class WindowManager: NSObject {
     
     static var shared = WindowManager()
     
-    let documentsPresenter = DocumentPresenterFactory().presenter()
+    let documentsPresenter = SamplesDocumentsPresenter.shared
     
     func makeRecentWindow() -> NSWindow {
         let controller = DocumentsTabViewController(router: rootWindowController, selectedTab: .recent)
@@ -109,11 +109,21 @@ extension WindowManager: ProjectRouterDelegate {
     }
 }
 
+import Samples
 private final class WindowWithCancel: NSWindow {
 
     // Should be cancelOperation, but macos has a bug. cancelOperation(sender:) doesn't work, this does.
     // https://stackoverflow.com/a/42440020
     @objc func cancel(_ sender: Any?) {
         contentViewController?.cancelOperation(sender)
+    }
+    
+    /// Handle toolbar action by window
+    @objc private func selectLanguage(sender: NSMenuItem) {
+        let languageSource: LanguageSource = SamplesDocumentsPresenter.shared
+        
+        let languageCode = languageSource.possibleLanguages[sender.tag]
+        
+        languageSource.samplesLanguage = languageCode
     }
 }

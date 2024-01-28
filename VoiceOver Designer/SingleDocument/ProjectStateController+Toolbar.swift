@@ -98,7 +98,7 @@ extension ProjectStateController {
     private func shareDocumentItem() -> NSToolbarItem {
         let item = NSSharingServicePickerToolbarItem(itemIdentifier: .shareDocument)
         item.delegate = document
-        item.isNavigational = true
+//        item.isNavigational = true
         return item
     }
     

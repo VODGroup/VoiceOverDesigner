@@ -2,35 +2,37 @@ import Foundation
 import Samples
 import Document
 
-class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
-
+public class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol, LanguageSource {
     
-    weak var delegate: DocumentsProviderDelegate?
+    public private(set) static var shared = SamplesDocumentsPresenter()
+    
+    private init() {}
+    
+    weak public var delegate: DocumentsProviderDelegate?
     
     private let loader = SamplesLoader()
     
-    func numberOfSections() -> Int {
+    public func numberOfSections() -> Int {
         sections.count
     }
     
-    func numberOfItemsInSection(_ section: Int) -> Int {
+    public func numberOfItemsInSection(_ section: Int) -> Int {
         sections[section].documents.count
     }
     
-    func item(at indexPath: IndexPath) -> DocumentBrowserCollectionItem {
+    public func item(at indexPath: IndexPath) -> DocumentBrowserCollectionItem {
         sections[indexPath.section]
             .documents[indexPath.item]
     }
     
-    func title(for section: Int) -> String? {
+    public func title(for section: Int) -> String? {
         sections[section].title
     }
     
     private var sections = [ProjectViewModel]()
-    var possibleLanguages = [String]()
     var structure: SamplesStructure?
     
-    func load() {
+    public func load() {
         Task {
             do {
                 // Read cache fast
@@ -70,10 +72,6 @@ class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
         }
     }
     
-    @Storage(key: "samplesLanguage", defaultValue: Locale.current.currentUserLanguage)
-    var samplesLanguage: String?
-    
-    
     private func invalidate(sample: DocumentPath) {
         let sampleLoader = SampleLoader(document: sample)
         // MainActor needed to prevent update collection in background which causes crash
@@ -87,7 +85,6 @@ class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
         }
     }
     
-    
     private func removeCache(of sample: DocumentPath) {
         let sampleLoader = SampleLoader(document: sample)
         do {
@@ -97,20 +94,15 @@ class SamplesDocumentsPresenter: DocumentBrowserPresenterProtocol {
             print("Failed to clear cache of sample document: \(sample.relativePath)")
         }
     }
-}
-
-extension Locale {
-    var currentUserLanguage: String? {
-        if #available(macOS 13, *) {
-            return language.languageCode?.identifier
-        } else {
-            return languageCode
-        }
-    }
-}
-
-extension SamplesDocumentsPresenter: LanguageSource {
-    func presentProjects(with language: String) {
+    
+    // MARK: - LanguageSource
+    
+    @Storage(key: "samplesLanguage", defaultValue: Locale.current.currentUserLanguage)
+    public var samplesLanguage: String?
+    
+    public var possibleLanguages = ["English", "Russian"]
+    
+    public func presentProjects(with language: String) {
         samplesLanguage = language
         let projects = structure!.languages[language]!
         
@@ -133,10 +125,19 @@ extension SamplesDocumentsPresenter: LanguageSource {
             }))
         }
         
-        
         delegate?.didUpdateDocuments()
     }
 }
+    
+    extension Locale {
+        var currentUserLanguage: String? {
+            if #available(macOS 13, *) {
+                return language.languageCode?.identifier
+            } else {
+                return languageCode
+            }
+        }
+    }
 
 struct ProjectViewModel {
     let title: String
