@@ -180,8 +180,16 @@ public class LanguageButton: NSMenuToolbarItem {
         
         super.init(itemIdentifier: identifier)
         
+        isBordered = false
+        image = NSImage(systemSymbolName: "graduationcap",
+                        accessibilityDescription: "Show sample documents")!
+        self.menu = makeSubmenu()
+    }
+    
+    private func makeSubmenu() -> NSMenu {
         let title = NSLocalizedString("Samples", comment: "Toolbar item's label")
         let menu = NSMenu(title: title)
+        
         let locale = Locale.current
         
         for (tag, languageCode) in languageSource.possibleLanguages.enumerated() {
@@ -191,33 +199,23 @@ public class LanguageButton: NSMenuToolbarItem {
                 title: language,
                 action: #selector(selectLanguage(sender:)),
                 keyEquivalent: "")
+            menuItem.target = self
             
             menuItem.tag = tag
             menuItem.isEnabled = true
+            menuItem.state = languageSource.samplesLanguage == languageCode ? .on : .off
             
             menu.addItem(menuItem)
         }
         
-        self.menu = menu
-        isBordered = false
-        image = NSImage(systemSymbolName: "graduationcap",
-                        accessibilityDescription: "Show sample documents")!
-        
-//        if let currentLanguage = languageSource.samplesLanguage,
-//           let languageTitle = locale.localizedString(forLanguageCode: currentLanguage) {
-//            self.title = languageTitle
-//        } else {
-//            self.title = NSLocalizedString("Samples", comment: "Toolbar item")
-//        }
+        return menu
     }
     
     @objc private func selectLanguage(sender: NSMenuItem) {
         let languageCode = languageSource.possibleLanguages[sender.tag]
         
-        languageSource.presentProjects(with: languageCode)
-    }
-    
-    deinit {
+        languageSource.samplesLanguage = languageCode
         
+        self.menu = makeSubmenu() // Update selected language
     }
 }

@@ -42,6 +42,8 @@ class WindowManager: NSObject {
         window.setFrameAutosaveName("Projects")
         window.styleMask = [.closable, .miniaturizable, .resizable, .titled, .fullSizeContentView]
     }
+    
+    private weak var presentedPopover: NSPopover?
 }
 
 extension WindowManager: RecentDelegate {
@@ -87,6 +89,12 @@ extension WindowManager: ProjectRouterDelegate {
     }
     
     private func showDocument(_ sender: NSToolbarItem, type: DocumentsTabViewController.SelectedTab) {
+        if let presentedPopover {
+            // Hide presented controller and not present the new one
+            presentedPopover.close()
+            self.presentedPopover = nil // Should be cleared automatically, but release manually for feature possible bugs
+            return
+        }
         let controller = DocumentsTabViewController(router: rootWindowController, selectedTab: type)
         controller.preferredContentSize = CGSize(width: 1000, height: 800)
         
@@ -98,6 +106,8 @@ extension WindowManager: ProjectRouterDelegate {
             popover.contentViewController = controller
             popover.behavior = .transient
             popover.show(relativeTo: sender)
+            
+            self.presentedPopover = popover
         } else {
             contentController.present(
                 controller,
@@ -116,14 +126,5 @@ private final class WindowWithCancel: NSWindow {
     // https://stackoverflow.com/a/42440020
     @objc func cancel(_ sender: Any?) {
         contentViewController?.cancelOperation(sender)
-    }
-    
-    /// Handle toolbar action by window
-    @objc private func selectLanguage(sender: NSMenuItem) {
-        let languageSource: LanguageSource = SamplesDocumentsPresenter.shared
-        
-        let languageCode = languageSource.possibleLanguages[sender.tag]
-        
-        languageSource.samplesLanguage = languageCode
     }
 }
