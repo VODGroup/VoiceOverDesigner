@@ -56,5 +56,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         windowManager.createNewDocumentWindow(document: document)
     }
+    
+    @IBAction @objc func openSample(_ sender: Any) {
+        // TODO: Should be simplified
+        
+        let languageButton = NSApplication.shared.keyWindow?.toolbar?.items.first(where: { item in
+            item.itemIdentifier == NSToolbarItem.Identifier(rawValue: "SamplesButtonLabel")
+        })
+        
+        guard let languageButton else { return }
+        
+        windowManager.showSamples(languageButton)
+    }
 }
 
