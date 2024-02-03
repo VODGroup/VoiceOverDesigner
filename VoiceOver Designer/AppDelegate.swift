@@ -54,7 +54,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let image = NSImage(byReferencing: url)
             document = VODesignDocument(image: image)
         }
-        windowManager.createNewDocumentWindow(document: document)
+        windowManager.show(document: document)
     }
     
     @IBAction @objc func openSample(_ sender: Any) {

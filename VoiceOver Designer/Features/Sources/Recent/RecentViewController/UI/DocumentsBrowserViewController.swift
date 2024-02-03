@@ -7,7 +7,6 @@ public protocol RecentRouter: AnyObject {
     func show(document: VODesignDocument) -> Void
 }
 
-
 public class DocumentsBrowserViewController: NSViewController {
 
     public weak var router: RecentRouter?

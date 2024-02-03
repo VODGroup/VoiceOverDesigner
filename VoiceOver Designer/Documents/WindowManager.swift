@@ -28,7 +28,7 @@ class WindowManager: NSObject {
     
     lazy var rootWindowController: RecentWindowController = {
         let windowController = RecentWindowController()
-        windowController.delegate = self
+        windowController.router = self
         windowController.presenter = documentsPresenter
         
         return windowController
@@ -46,11 +46,8 @@ class WindowManager: NSObject {
     private weak var presentedPopover: NSPopover?
 }
 
-extension WindowManager: RecentDelegate {
-    
-    func createNewDocumentWindow(
-        document: VODesignDocument
-    ) {
+extension WindowManager: RecentRouter {
+    func show(document: VODesignDocument) {
         print("will open \(document.fileURL?.absoluteString ?? "Unknown fileURL")")
         
         // TODO: Check that this document is not opened in another tab
@@ -95,7 +92,7 @@ extension WindowManager: ProjectRouterDelegate {
             self.presentedPopover = nil // Should be cleared automatically, but release manually for feature possible bugs
             return
         }
-        let controller = DocumentsTabViewController(router: rootWindowController, selectedTab: type)
+        let controller = DocumentsTabViewController(router: self, selectedTab: type)
         controller.preferredContentSize = CGSize(width: 1000, height: 800)
         
         let window = NSApplication.shared.keyWindow!
