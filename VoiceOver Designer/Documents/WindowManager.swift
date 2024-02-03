@@ -6,35 +6,6 @@ import SwiftUI
 class WindowManager: NSObject {
     
     static var shared = WindowManager()
-    
-    let documentsPresenter = SamplesDocumentsPresenter.shared
-    
-    func makeRecentWindow() -> NSWindow {
-        let controller = DocumentsTabViewController(router: rootWindowController, selectedTab: .recent)
-        let window = NSWindow(contentViewController: controller)
-        
-        window.toolbar = controller.toolbar()
-        
-        prepare(window)
-        
-        window.minSize = CGSize(width: 800, height: 700) // Two rows, 5 columns
-        window.isRestorable = false
-        window.titlebarAppearsTransparent = false
-        
-        rootWindowController.window = window
-
-        return window
-    }
-    
-    lazy var rootWindowController: RecentWindowController = {
-        let windowController = RecentWindowController()
-        windowController.router = self
-        windowController.presenter = documentsPresenter
-        
-        return windowController
-    }()
-    
-    private var projectController: ProjectController?
 
     func prepare(_ window: NSWindow) {
         window.tabbingMode = .preferred
