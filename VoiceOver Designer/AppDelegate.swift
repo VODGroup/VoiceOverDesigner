@@ -31,7 +31,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        true
+        // Sometimes the app opens from dock without UI
+        // When user creates new document this method has been called before the new window it appeared
+        // As a result the apps is closed because there is the window *haven't been opened yet*
+        // It looks like apple's bug.
+        return false
     }
     
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
