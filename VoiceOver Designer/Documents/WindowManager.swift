@@ -38,9 +38,9 @@ extension WindowManager: RecentRouter {
     
     func addTabOrCreateWindow(with window: NSWindow) {
         let application = NSApplication.shared
-        if let keyWindow = application.keyWindow {
-            keyWindow.tabGroup?.addWindow(window)
-            keyWindow.tabGroup?.selectedWindow = window
+        if let tabGroup = application.keyWindow?.tabGroup {
+            tabGroup.addWindow(window)
+            tabGroup.selectedWindow = window
         } else {
             window.makeKeyAndOrderFront(self)
         }
