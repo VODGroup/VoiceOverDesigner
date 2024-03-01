@@ -104,7 +104,12 @@ public class CanvasViewController: NSViewController {
         }
     }
     
-    var highlightedControl: A11yControlLayer?
+    var highlightedControl: A11yControlLayer? {
+        didSet {
+            oldValue?.isHighlighted = false
+            highlightedControl?.isHighlighted = true
+        }
+    }
     
     private func location(from event: NSEvent) -> CGPoint {
         event.location(in: view().documentView)
@@ -112,7 +117,6 @@ public class CanvasViewController: NSViewController {
     
     // MARK: - Mouse movement
     public override func mouseMoved(with event: NSEvent) {
-        highlightedControl?.isHighlighted = false
         highlightedControl = nil
         presenter.mouseMoved(on: location(from: event))
         
@@ -124,8 +128,6 @@ public class CanvasViewController: NSViewController {
         }
         
         self.highlightedControl = control
-        
-        control.isHighlighted = true
     }
     
     public override func mouseDown(with event: NSEvent) {
