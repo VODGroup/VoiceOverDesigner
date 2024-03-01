@@ -67,18 +67,34 @@ public class DrawingController {
         controls: [any ArtboardElement],
         scale: CGFloat
     ) {
-        controls
-            .extractContainers()
-            .forEach { container in
-                draw(container: container, scale: scale)
+        for control in controls {
+            switch control.cast {
+            case .container(let container):
+                let containerLayer = draw(container: container, scale: scale, in: nil) // TODO: Add Frame?
+                
+                for element in container.elements {
+                    draw(element: element,
+                         scale: scale, in: containerLayer)
+                }
+            case .element(let element):
+                draw(element: element, scale: scale, in: nil) // TODO: Add Frame?
+            case .frame(let frame):
+                continue
             }
-       
-        // Extract inner elements from containers
-        controls
-            .extractElements()
-            .forEach { element in
-                draw(element: element, scale: scale)
-            }
+        }
+        
+//        controls
+//            .extractContainers()
+//            .forEach { container in
+//                draw(container: container, scale: scale)
+//            }
+//       
+//        // Extract inner elements from containers
+//        controls
+//            .extractElements()
+//            .forEach { element in
+//                draw(element: element, scale: scale)
+//            }
     }
     
     @discardableResult
@@ -98,23 +114,27 @@ public class DrawingController {
     @discardableResult
     public func draw(
         element: any ArtboardElement,
-        scale: CGFloat
+        scale: CGFloat,
+        in parent: CALayer? = nil // TODO: Remove default
     ) -> A11yControlLayer {
         let control = A11yControlLayer()
         control.model = element
         control.frame = element.frame.scaled(scale)
         control.backgroundColor = element.color.cgColor
         
-        view.add(control: control)
+        view.add(control: control, to: parent)
         return control
     }
     
     @discardableResult
     public func draw(
         container: any ArtboardElement,
-        scale: CGFloat
+        scale: CGFloat,
+        in parent: CALayer?
     ) -> A11yControlLayer {
-        let container = draw(element: container, scale: scale)
+        let container = draw(element: container,
+                             scale: scale,
+                             in: parent)
 //        container.strokeColor = model.color.cgColor
         container.cornerCurve = .continuous
         container.cornerRadius = 20

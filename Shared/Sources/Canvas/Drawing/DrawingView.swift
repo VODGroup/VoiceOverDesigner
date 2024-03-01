@@ -53,9 +53,18 @@ public extension DrawingView {
         frames.append(frame)
     }
     
-    func add(control: A11yControlLayer) {
+    func add(control: A11yControlLayer,
+             to parent: CALayer? = nil // TODO: Remove default
+    ) {
         control.contentsScale = contentScale
-        addSublayer(control)
+        
+        if let parent {
+            control.frame = layer!.convert(control.frame,
+                                           to: parent)
+            parent.addSublayer(control)
+        } else {
+            addSublayer(control)
+        }
         drawnControls.append(control)
     }
     
