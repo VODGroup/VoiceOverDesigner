@@ -71,7 +71,7 @@ public extension DrawingView {
     // MARK: Existed
     func control(at coordinate: CGPoint) -> A11yControlLayer? {
         let viewsUnderCoordinate = drawnControls.filter({ control in
-            control.frame.contains(coordinate)
+            control.model!.frame.contains(coordinate)
         })
 
         switch viewsUnderCoordinate.count {

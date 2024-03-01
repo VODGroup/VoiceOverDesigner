@@ -21,9 +21,10 @@ public class A11yControlLayer: CALayer {
     
     public var model: (any ArtboardElement)?
     
+    @available(*, deprecated, message: "Set frame to model explicitly, the layer has wrong coordinates")
     public func updateFrame(_ newFrame: CGRect) {
         frame = newFrame
-        model?.frame = newFrame
+//        model?.frame = newFrame 
     }
     
     public var isHighlighted: Bool = false {

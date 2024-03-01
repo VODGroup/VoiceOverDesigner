@@ -144,7 +144,13 @@ public class CanvasPresenter: DocumentPresenter {
     
     public private(set) var selectedControl: CALayer? {
         didSet {
-            uiContent?.hud.selectedControlFrame = selectedControl?.frame
+            var frame = selectedControl?.frame
+        
+            if let selectedControl = selectedControl as? A11yControlLayer {
+                frame = selectedControl.model?.frame
+            }
+            
+            uiContent?.hud.selectedControlFrame = frame
             uiContent?.hud.tintColor = (selectedControl as? A11yControlLayer)?.model?.color.cgColor.copy(alpha: 1) ?? Color.red.cgColor
         }
     }

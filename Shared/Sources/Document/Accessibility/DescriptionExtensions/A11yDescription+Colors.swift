@@ -17,12 +17,14 @@ extension A11yDescription {
 extension ArtboardElement {
     // TODO: Inverse dependency? element should know about it's color
     public var color: Color {
-        if self is A11yContainer {
-            return Color.systemGray.withAlphaComponent(A11yDescription.colorAlpha)
-        } else if let element = self as? A11yDescription {
+        switch cast {
+        case .frame:
+            return Color.blue
+        case .container(let container):
+            return Color.systemGray
+                .withAlphaComponent(A11yDescription.colorAlpha)
+        case .element(let element):
             return element.color
-        } else {
-            return Color.black.withAlphaComponent(A11yDescription.colorAlpha)
         }
     }
 }

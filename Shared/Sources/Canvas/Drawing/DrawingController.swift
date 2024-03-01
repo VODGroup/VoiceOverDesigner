@@ -261,5 +261,3 @@ extension Image {
 #endif
     }
 }
-
-
