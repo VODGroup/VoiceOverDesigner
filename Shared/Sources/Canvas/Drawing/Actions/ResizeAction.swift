@@ -46,6 +46,8 @@ public class ResizeAction: DraggingAction {
 
 extension ResizeAction: Undoable {
     public func undo() {
-        control.update(to: initialFrame, in: view)
+        control.updateWithoutAnimation {
+            control.update(to: initialFrame, in: view)
+        }
     }
 }

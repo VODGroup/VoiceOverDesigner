@@ -25,6 +25,8 @@ public class TranslateAction: MoveAction, DraggingAction {
 
 extension TranslateAction: Undoable {
     public func undo() {
-        control.update(to: initialFrame, in: view)
+        control.updateWithoutAnimation {
+            control.update(to: initialFrame, in: view)
+        }
     }
 }
