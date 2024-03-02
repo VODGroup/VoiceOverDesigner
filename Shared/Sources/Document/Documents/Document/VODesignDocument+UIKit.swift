@@ -12,8 +12,7 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
     public var frameInfo: FrameInfo = .default
     public lazy var artboard: Artboard = {
         let artboard = Artboard()
-        artboard.imageLoader = ImageLoader(documentPath: { [weak self] in self?.fileURL
-        })
+        artboard.imageLoader = self
         return artboard
     }()
     
@@ -72,11 +71,7 @@ public class VODesignDocument: AppleDocument, VODesignDocumentProtocol {
             
             self.artboard = artboard
             self.version = version
-            artboard.imageLoader = ImageLoader(documentPath: { [weak self] in
-                self?.fileURL
-            })
-            
-            prepareFormatForArtboard(for: version)
+            artboard.imageLoader = self
             
         } catch let error {
             Swift.print(error)

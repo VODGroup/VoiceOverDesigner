@@ -2,6 +2,7 @@ import XCTest
 @testable import Canvas
 import Document
 import DocumentTestHelpers
+import CombineTestHelpers
 
 class CanvasPresenterTests: XCTestCase {
     

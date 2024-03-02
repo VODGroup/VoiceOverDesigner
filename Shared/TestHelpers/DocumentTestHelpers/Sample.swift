@@ -36,19 +36,21 @@ public class Sample {
     }
     
     public func document(
-        name: String,
+        name documentName: String,
+        fileName: String? = nil,
         testCase: XCTestCase,
         file: StaticString = #file,
         line: UInt = #line
     ) throws -> VODesignDocument {
         let path = try XCTUnwrap(
-            documentPath(name: name),
+            documentPath(name: documentName),
             file: file, line: line)
         
         let fileManager = FileManager.default
-        let cacheFolder = fileManager.urls(for: .cachesDirectory,
-                                           in: .userDomainMask).first!
-        let copyPath = cacheFolder.appendingPathComponent(name)
+        let cacheFolder = fileManager.urls(
+            for: .cachesDirectory,
+            in: .userDomainMask).first!
+        let copyPath = cacheFolder.appendingPathComponent(fileName ?? documentName)
         
         testCase.addTeardownBlock {
             try? FileManager.default.removeItem(at: copyPath)

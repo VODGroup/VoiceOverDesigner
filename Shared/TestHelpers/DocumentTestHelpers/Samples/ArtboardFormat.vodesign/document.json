@@ -468,8 +468,8 @@
       ],
       "type" : "frame",
       "imageLocation" : {
-        "relativeFile" : {
-          "path" : "Images/Frame2.png"
+        "fileWrapper" : {
+          "name" : "Frame2.png"
         }
       }
     },
@@ -753,8 +753,8 @@
       ],
       "type" : "frame",
       "imageLocation" : {
-        "relativeFile" : {
-          "path" : "Images/Frame.png"
+        "fileWrapper" : {
+          "name" : "Frame.png"
         }
       }
     }

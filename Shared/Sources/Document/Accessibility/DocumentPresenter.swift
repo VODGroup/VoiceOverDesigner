@@ -61,8 +61,8 @@ open class DocumentPresenter {
         origin: CGPoint
     ) {
         document.invalidateQuickViewPreview()
-        
-        let frame = Frame(image: image,
+        let imageLocation = document.addImageWrapper(image: image, name: name)
+        let frame = Frame(imageLocation: imageLocation,
                           name: name,
                           frame: CGRect(origin: origin,
                                         size: image.size))
@@ -70,6 +70,38 @@ open class DocumentPresenter {
         add(frame,
             into: document.artboard,
             at: document.artboard.frames.count)
+    }
+    
+    open func importArtboard(
+        _ importingDocument: VODesignDocument
+    ) {
+        importingDocument.artboard.offsetCoordinates(toFit: self.document.artboard)
+        
+        for frame in importingDocument.artboard.frames {
+            add(frame,
+                into: importingDocument.artboard,
+                at: self.document.artboard.frames.count,
+                publishChanges: false) // Will be called after last frame
+            
+            copyImage(for: frame,
+                      from: importingDocument,
+                      to: self.document)
+        }
+        
+        publishArtboardChanges()
+    }
+    
+    private func copyImage(
+        for frame: Frame,
+        from oldDocument: ImageLoading?,
+        to newDocument: VODesignDocumentProtocol
+    ) {
+        let newName = UUID().uuidString
+        
+        if let image = oldDocument?.image(for: frame) {
+            newDocument.addImageWrapper(image: image, name: newName)
+            frame.imageLocation = .fileWrapper(name: newName)
+        }
     }
     
     public func append(control: any ArtboardElement) {
@@ -109,11 +141,15 @@ open class DocumentPresenter {
     private func add(
         _ model: any ArtboardElement,
         into parent: BaseContainer,
-        at insertionIndex: Int
+        at insertionIndex: Int,
+        publishChanges: Bool = true
     ) {
         document.artboard.insert(model, at: insertionIndex)
         
-        publishArtboardChanges()
+        if publishChanges {
+            publishArtboardChanges()
+        }
+        
         select(model)
         
         document.undo?.registerUndo(

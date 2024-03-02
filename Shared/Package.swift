@@ -38,7 +38,11 @@ let package = Package(
         .library(
             name: "CommonUI",
             targets: ["CommonUI"]
-        )
+        ),
+        .library(
+            name: "CombineTestHelpers",
+            targets: ["CombineTestHelpers"]
+        ),
     ],
     dependencies: [
         .package(
@@ -92,6 +96,7 @@ let package = Package(
                 .product(name: "InlineSnapshotTesting",
                          package: "swift-snapshot-testing"),
                 "FolderSnapshot",
+                "CombineTestHelpers",
             ],
             resources: [
                 .copy("Document/__Snapshots__")
@@ -186,6 +191,10 @@ let package = Package(
         ),
         .target(
             name: "CommonUI"
+        ),
+        .target(
+            name: "CombineTestHelpers",
+            path: "TestHelpers/CombineTestHelpers"
         )
     ]
 )

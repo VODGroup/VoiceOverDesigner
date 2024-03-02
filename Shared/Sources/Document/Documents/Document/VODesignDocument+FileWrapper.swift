@@ -27,7 +27,7 @@ extension VODesignDocumentProtocol {
     func migrateImageIfNeeded(frame: Frame) {
         switch frame.imageLocation {
             
-        case .relativeFile(let path):
+        case .fileWrapper(let path):
             let url = URL(filePath: path)
             let name = url.lastPathComponent
             
@@ -36,44 +36,52 @@ extension VODesignDocumentProtocol {
                 return
             }
             
-            if let imageWrapper = try? FileWrapper(url: artboard.imageLoader.fullPath(relativeTo: path)) {
-                imageWrapper.preferredFilename = "Frame.png"
+            #if os(macOS)
+            let imagePath = fileURL?.appendingPathComponent(path)
+            #else
+            let imagePath: URL? = fileURL.appendingPathComponent(path)
+            #endif
+            
+            if let imagePath = imagePath,
+               let imageWrapper = try? FileWrapper(url: imagePath)
+            {
+                // TODO: Remove filename duplication across project
+                imageWrapper.preferredFilename = FileName.frameImage
                 
                 imagesFolderWrapper.addFileWrapper(imageWrapper)
                 
-                let url = URL(filePath: "Images")
-                    .appendingPathComponent("Frame.png").path()
-                frame.imageLocation = .relativeFile(path: url)
+                frame.imageLocation = .fileWrapper(name: FileName.frameImage)
             }
         case .remote(_):
             // TODO: Move to local files?
             fatalError()
-            
-        case .cache(let image, let name):
-            // No check for existed wrapper because we will move from .cached to .fileRelative state
-            
-            guard let imageData = image.png()
-            else {
-                print("No image to store")
-                return
-            }
-            
-            let imageWrapper = FileWrapper(regularFileWithContents: imageData)
-            imageWrapper.preferredFilename = name
-            
-            imagesFolderWrapper.addFileWrapper(imageWrapper)
-            
-            frame.imageLocation = .relativeFile(path: "Images/\(name)")
         }
     }
     
+    @discardableResult
+    func addImageWrapper(image: Image, name: String?) -> ImageLocation {
+        addImageWrapper(content: (image.heic() ?? image.png())!,
+                        name: name)
+    }
+    @discardableResult
+    func addImageWrapper(content: Data, name: String?) -> ImageLocation {
+        let name = name ?? UUID().uuidString
+        
+        let imageWrapper = FileWrapper(regularFileWithContents: content)
+        imageWrapper.preferredFilename = name
+        
+        imagesFolderWrapper.addFileWrapper(imageWrapper)
+        return .fileWrapper(name: name)
+    }
+    
     var imagesFolderWrapper: FileWrapper {
-        if let existedWrapper = documentWrapper.fileWrappers?["Images"] {
+        if let existedWrapper = documentWrapper.fileWrappers?[FolderName.images] {
             return existedWrapper
         }
         
+        Swift.print("Create image wrapper")
         let imagesFolderWrapper = FileWrapper(directoryWithFileWrappers: [:])
-        imagesFolderWrapper.preferredFilename = "Images"
+        imagesFolderWrapper.preferredFilename = FolderName.images
         documentWrapper.addFileWrapper(imagesFolderWrapper)
         return imagesFolderWrapper
     }
@@ -130,10 +138,10 @@ extension VODesignDocumentProtocol {
               let imageData = image.heic(compressionQuality: 0.51)
         else { return nil }
         
-        let imageWrapper = FileWrapper(regularFileWithContents: imageData)
-        imageWrapper.preferredFilename = FileName.quickLookFile
+        let quicklookWrapper = FileWrapper(regularFileWithContents: imageData)
+        quicklookWrapper.preferredFilename = FileName.quickLookFile
         
-        let quicklookFolder = FileWrapper(directoryWithFileWrappers: [FolderName.quickLook: imageWrapper])
+        let quicklookFolder = FileWrapper(directoryWithFileWrappers: [FolderName.quickLook: quicklookWrapper])
         quicklookFolder.preferredFilename = FolderName.quickLook
         return quicklookFolder
     }
@@ -148,7 +156,7 @@ extension VODesignDocumentProtocol {
         guard packageWrapper.isDirectory else {
             // Some file from tests creates as a directory
             createEmptyDocumentWrapper()
-            print("Nothing to read, probably the document was just created")
+            Swift.print("Nothing to read, probably the document was just created")
             return (.artboard, Artboard())
         }
         
@@ -159,16 +167,21 @@ extension VODesignDocumentProtocol {
         
         switch fileVersion {
         case .beta:
-            let controlsWrapper = documentWrapper.fileWrappers![FileName.controls]!
+            // TODO: Remove force unwraps
+            createEmptyDocumentWrapper() // Recreate structure
+            let controlsWrapper = packageWrapper.fileWrappers![FileName.controls]!
             let codingService = ArtboardElementCodingService()
             let controls = try codingService.controls(from: controlsWrapper.regularFileContents!)
             
-            let imageData = documentWrapper.fileWrappers![FileName.screen]!.regularFileContents!
+            let imageName = FileName.frameImage
+            let imageData = packageWrapper.fileWrappers![FileName.screen]!.regularFileContents!
             let imageSize = Image(data: imageData)?.size ?? .zero
+            
+            addImageWrapper(content: imageData, name: imageName)
             
             let artboard = Artboard(elements: [
                 Frame(label: "Frame",
-                      imageLocation: .relativeFile(path: FileName.screen),
+                      imageLocation: .fileWrapper(name: imageName),
                       frame: CGRect(origin: .zero, size: imageSize),
                       elements: controls)
             ])
@@ -187,7 +200,8 @@ extension VODesignDocumentProtocol {
             
         case .artboard:
             if let documentWrapper = documentWrapper.fileWrappers?[FileName.document] {
-                let artboard = try! ArtboardElementCodingService().artboard(from: documentWrapper.regularFileContents!)
+                let artboard = try ArtboardElementCodingService().artboard(from: documentWrapper.regularFileContents!)
+                
                 return (.artboard, artboard)
             }
         }
@@ -199,7 +213,7 @@ extension VODesignDocumentProtocol {
     private func readFrameWrapper(
         _ frameWrapper: FileWrapper
     ) throws -> Frame {
-        print("Read wrapper \(frameWrapper.filename ?? "null")")
+        Swift.print("Read wrapper \(frameWrapper.filename ?? "null")")
         let frameFolder = frameWrapper.fileWrappers!
 
         var controls: [any ArtboardElement] = []
@@ -215,6 +229,10 @@ extension VODesignDocumentProtocol {
         if let imageWrapper = frameFolder[FileName.screen],
            let imageData = imageWrapper.regularFileContents {
             image = Image(data: imageData)
+
+            let newImageWrapper = FileWrapper(regularFileWithContents: imageData)
+            newImageWrapper.preferredFilename = FileName.frameImage
+            imagesFolderWrapper.addFileWrapper(newImageWrapper)
         }
         
         var frameInfo: FrameInfo?
@@ -234,20 +252,9 @@ extension VODesignDocumentProtocol {
         let name = frameWrapper.filename ?? UUID().uuidString // TODO: Remove uuidString from here
         
         return Frame(label: name,
-                     imageLocation: .relativeFile(path: "Frame/\(FileName.screen)"),
+                     imageLocation: .fileWrapper(name: "Frame/\(FileName.frameImage)"),
                      frame: frame,
                      elements: controls)
-    }
-    
-    func prepareFormatForArtboard(for version: DocumentVersion) {
-        switch version {
-        case .beta:
-            createEmptyDocumentWrapper()
-        case .release:
-            break
-        case .artboard:
-            break
-        }
     }
     
     private func createEmptyDocumentWrapper() {

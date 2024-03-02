@@ -118,7 +118,7 @@ public class CanvasViewController: NSViewController {
         
         // TODO: Can crash if happened before document loading
         guard let control = presenter
-            .uiContent
+            .uiContent?
             .control(at: location(from: event)) else {
             return
         }
@@ -251,9 +251,11 @@ extension CanvasViewController: DragNDropDelegate {
         view().scrollView.fitToWindow(animated: shouldAnimate)
     }
     
-    public func didDrag(path: URL) -> Bool {
-        // TODO: Add support
-        return false
+    public func didDrag(path: URL) {
+        let document = VODesignDocument(file: path)
+        
+        presenter.importArtboard(document)
+        view().scrollView.fitToWindow(animated: true)
     }
 }
 

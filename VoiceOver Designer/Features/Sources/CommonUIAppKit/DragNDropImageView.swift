@@ -9,7 +9,7 @@ import AppKit
 
 public protocol DragNDropDelegate: AnyObject {
     func didDrag(image: NSImage, locationInWindow: CGPoint, name: String?)
-    func didDrag(path: URL) -> Bool
+    func didDrag(path: URL)
 }
 
 open class DragNDropImageView: NSView {
@@ -86,7 +86,7 @@ open class DragNDropImageView: NSView {
                     origin: CGPoint(x: bounds.origin.x + inset,
                                     y: bounds.origin.y + inset),
                     size: CGSize(width: bounds.size.width - inset * 2,
-                                 height: bounds.size.height - safeAreaInsets.top - inset * 2))
+                                 height: bounds.size.height - inset * 2))
             
             border.borderFrame = fullFrame
         }
@@ -136,30 +136,29 @@ open class DragNDropImageView: NSView {
     public override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
         let pasteboard = sender.draggingPasteboard
         
-        if let image = sender.image() {
+        var foundDocument = false
+        
+        for image in pasteboard.images {
             delegate?.didDrag(image: image,
                               locationInWindow: sender.draggingLocation,
-                              name: pasteboard.fileName)
-            hideTextAndBorder()
-            return true
-        }
-        
-        if let item = pasteboard.pasteboardItems?.first,
-           let data = item.data(forType: .fileURL),
-           let string = String(data: data, encoding: .utf8) {
-            let url = URL(fileURLWithPath: string)
-            if delegate?.didDrag(path: url) == true {
-                hideTextAndBorder()
-                return true
-            } else {
-                show(text: NSLocalizedString("Don't know what it is :-(", comment: ""),
-                     changeTo: defaultText)
-                return false
-            }
+                              name: image.name())
             
+            foundDocument = true
         }
         
-        return false
+        for url in pasteboard.VODesignURLs {
+            delegate?.didDrag(path: url)
+            foundDocument = true
+        }
+        
+        if foundDocument {
+            hideTextAndBorder()
+        } else {
+            show(text: NSLocalizedString("Don't know what it is :-(", comment: ""),
+                 changeTo: defaultText)
+        }
+        
+        return foundDocument
     }
     
     let defaultText = NSLocalizedString("Add your screenshot", comment: "")
@@ -261,6 +260,21 @@ extension NSPasteboard {
         }
         
         return url.lastPathComponent
-        
+    }
+    
+    var VODesignURLs: [URL] {
+        readObjects(forClasses: [NSURL.self], options: nil)?
+            .compactMap {
+                $0 as? URL
+            }.filter {
+                $0.pathExtension.lowercased() == "vodesign"
+            } ?? []
+    }
+    
+    var images: [NSImage] {
+        readObjects(forClasses: [NSImage.self], options: nil)?
+            .compactMap {
+                $0 as? NSImage
+            } ?? []
     }
 }

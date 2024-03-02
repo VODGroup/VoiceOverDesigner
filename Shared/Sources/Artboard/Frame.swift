@@ -24,7 +24,7 @@ public class Frame: BaseContainer, ArtboardContainer, ObservableObject {
         self.init(
             id: UUID(),
             label: label,
-            imageLocation: .relativeFile(path: imageName),
+            imageLocation: .fileWrapper(name: imageName),
             frame: frame,
             elements: elements)
     }

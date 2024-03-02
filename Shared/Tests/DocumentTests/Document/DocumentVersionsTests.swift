@@ -222,7 +222,7 @@ final class DocumentVersionsTests: XCTestCase {
         file: StaticString = #filePath, line: UInt = #line
     ) {
         XCTAssertEqual(frame.elements.count, numberOfElements, file: file, line: line)
-        XCTAssertNotNil(document.artboard.imageLoader.image(for: frame), file: file, line: line)
+        XCTAssertNotNil(document.artboard.imageLoader.image(for: frame), "should have image", file: file, line: line)
         XCTAssertEqual(frame.frame, rect, "should scale frame", file: file, line: line)
     }
     

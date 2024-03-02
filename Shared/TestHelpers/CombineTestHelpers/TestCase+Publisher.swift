@@ -1,18 +1,26 @@
-import XCTest
-
 import Combine
+import XCTest
 
 extension XCTestCase {
     
-    func perform<T: Publisher>(_ action: () async -> Void,
-                               thenAwait publisher: T,
-                               file: StaticString = #file,
-                               line: UInt = #line) async throws -> T.Output {
-        return try await awaitPublisher(publisher, after: {
-            _ = await action()
-        })
+    @discardableResult
+    public func perform<T: Publisher>(
+        _ action: () async -> Void,
+        thenAwait publisher: T,
+        numberOfCall: Int = 1,
+        file: StaticString = #file,
+        line: UInt = #line) async throws -> T.Output
+    {
+        return try await awaitPublisher(
+            publisher,
+            numberOfCall: numberOfCall,
+            after: {
+                _ = await action()
+            }, file: file, line: line)
     }
-    func awaitPublisher<T: Publisher>(
+    
+    @discardableResult
+    public func awaitPublisher<T: Publisher>(
         _ publisher: T,
         numberOfCall: Int = 1,
         timeout: TimeInterval = 1,

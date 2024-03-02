@@ -47,6 +47,7 @@ let package = Package(
             dependencies: [
                 "CanvasAppKit",
                 .product(name: "DocumentTestHelpers", package: "Shared"),
+                .product(name: "CombineTestHelpers", package: "Shared"),
             ]),
 
         .target(

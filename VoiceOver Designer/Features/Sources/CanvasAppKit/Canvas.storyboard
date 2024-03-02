@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="LVp-Pr-lAJ">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="LVp-Pr-lAJ">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
         <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -38,7 +38,7 @@
                                 </scroller>
                             </scrollView>
                             <customView horizontalHuggingPriority="1" verticalHuggingPriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="dHk-Q5-FAZ" customClass="DragNDropImageView" customModule="CommonUIAppKit">
-                                <rect key="frame" x="0.0" y="0.0" width="800" height="906"/>
+                                <rect key="frame" x="0.0" y="0.0" width="800" height="854"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="400" id="LKl-HZ-UDo"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="814" id="pTM-t9-HL8"/>
@@ -126,7 +126,7 @@
                             <constraint firstAttribute="trailing" secondItem="dHk-Q5-FAZ" secondAttribute="trailing" id="NaE-nh-KJy"/>
                             <constraint firstItem="xXt-RS-DEx" firstAttribute="centerX" secondItem="QBA-NU-qhe" secondAttribute="centerX" id="OgB-lN-rxP"/>
                             <constraint firstItem="JHg-wh-ieX" firstAttribute="top" secondItem="t1D-JO-b7t" secondAttribute="top" id="Qiz-Tv-2ML"/>
-                            <constraint firstItem="dHk-Q5-FAZ" firstAttribute="top" secondItem="ndy-hA-WOO" secondAttribute="top" id="USZ-Do-ccr"/>
+                            <constraint firstItem="dHk-Q5-FAZ" firstAttribute="top" secondItem="t1D-JO-b7t" secondAttribute="top" id="USZ-Do-ccr"/>
                             <constraint firstItem="dHk-Q5-FAZ" firstAttribute="leading" secondItem="ndy-hA-WOO" secondAttribute="leading" id="VVn-CA-TLV"/>
                             <constraint firstAttribute="trailing" secondItem="JHg-wh-ieX" secondAttribute="trailing" id="as5-CT-2Dr"/>
                             <constraint firstItem="JHg-wh-ieX" firstAttribute="leading" secondItem="ndy-hA-WOO" secondAttribute="leading" id="df2-t2-QcY"/>
