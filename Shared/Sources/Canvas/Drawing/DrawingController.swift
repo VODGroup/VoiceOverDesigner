@@ -41,8 +41,6 @@ public class DrawingController {
         artboard: Artboard,
         scale: CGFloat
     ) {
-        view.removeAll()
-        
         for frame in artboard.frames {
             draw(frame: frame,
                  imageLoader: artboard.imageLoader,
@@ -117,13 +115,20 @@ public class DrawingController {
         scale: CGFloat,
         in parent: CALayer? = nil // TODO: Remove default
     ) -> A11yControlLayer {
-        let control = A11yControlLayer()
-        control.model = element
+        let control = layer(for: element)
         control.frame = element.frame.scaled(scale)
         control.backgroundColor = element.color.cgColor
         
         view.add(control: control, to: parent)
         return control
+    }
+    
+    private func layer(for model: any ArtboardElement) -> A11yControlLayer {
+        let cachedLayer = view.drawnControls.first { layer in
+            layer.model === model
+        }
+        
+        return cachedLayer ?? A11yControlLayer(model: model)
     }
     
     @discardableResult
