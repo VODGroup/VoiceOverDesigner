@@ -2,7 +2,7 @@ import QuartzCore
 import Artboard
 
 public class MoveAction {
-    init(view: DrawingView, control: A11yControlLayer, startLocation: CGPoint, offset: CGPoint, initialFrame: CGRect) {
+    init(view: DrawingView, control: ArtboardElementLayer, startLocation: CGPoint, offset: CGPoint, initialFrame: CGRect) {
         self.view = view
         self.control = control
         self.startLocation = startLocation
@@ -11,7 +11,7 @@ public class MoveAction {
     }
     
     let view: DrawingView
-    public let control: A11yControlLayer
+    public let control: ArtboardElementLayer
     private let startLocation: CGPoint
     private(set) var offset: CGPoint
     let initialFrame: CGRect

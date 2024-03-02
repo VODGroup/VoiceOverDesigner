@@ -280,6 +280,20 @@ public class ArtboardElementLayer: CALayer {
     public override init(layer: Any) {
         super.init(layer: layer)
     }
+    
+    public func update(
+        to relativeFrame: CGRect,
+        in view: DrawingView
+    ) {
+        frame = relativeFrame
+        
+        let absoluteFrame = view.absoluteFrame(
+            of: frame,
+            for: self)
+        //        print("Set frame to model \(absoluteFrame)")
+        
+        model?.frame = absoluteFrame
+    }
 }
 
 public class ImageLayer: ArtboardElementLayer {

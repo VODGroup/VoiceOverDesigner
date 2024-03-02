@@ -26,7 +26,7 @@ class AlignmentOverlay: AlignmentOverlayProtocol {
         alignmentLines = []
     }
     
-    private var alignedControl: A11yControlLayer? {
+    private var alignedControl: ArtboardElementLayer? {
         didSet {
             if alignedControl != oldValue {
                 vibrate()
@@ -37,9 +37,9 @@ class AlignmentOverlay: AlignmentOverlayProtocol {
     private var alignedEdges: [AlignmentPoint] = []
     
     func alignToAny(
-        _ sourceControl: A11yControlLayer,
+        _ sourceControl: ArtboardElementLayer,
         point: CGPoint,
-        drawnControls: [A11yControlLayer]
+        drawnControls: [ArtboardElementLayer]
     ) -> CGPoint {
         
         removeAlignments()
@@ -69,9 +69,9 @@ class AlignmentOverlay: AlignmentOverlayProtocol {
     }
     
     func alignToAny(
-        _ sourceControl: A11yControlLayer,
+        _ sourceControl: ArtboardElementLayer,
         frame: CGRect,
-        drawnControls: [A11yControlLayer]
+        drawnControls: [ArtboardElementLayer]
     ) -> CGRect {
         
         removeAlignments()

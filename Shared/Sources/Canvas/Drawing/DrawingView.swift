@@ -37,13 +37,50 @@ extension CALayer {
 }
 
 public protocol DrawingView: AppView {
-    var drawnControls: [A11yControlLayer] { get }
-    var frames: [ImageLayer] { get }
+//    var drawnControls: [A11yControlLayer] { get }
+//    var frames: [ImageLayer] { get }
     
     var alignmentOverlay: AlignmentOverlayProtocol { get }
     var hud: HUDLayer { get }
     
     var copyListener: CopyModifierAction { get set }
+}
+
+extension DrawingView {
+    
+    public var frames: [Canvas.ImageLayer] {
+        guard let sublayers = layer?.sublayers else {
+            return []
+        }
+        
+        return sublayers.compactMap({ layer in
+            layer as? ImageLayer
+        })
+    }
+    
+    public var drawnControls: [A11yControlLayer] {
+        guard let sublayers = layer?.sublayers else {
+            return []
+        }
+        
+        let containers = sublayers.flatMap({ layer in
+            layer.controlsLayerRecursive()
+        })
+        
+        return containers
+    }
+}
+
+extension CALayer {
+    func controlsLayerRecursive() -> [A11yControlLayer] {
+        if let control = self as? A11yControlLayer, sublayers?.isEmpty ?? true {
+            return [control]
+        } else {
+            return sublayers?.compactMap({ layer in
+                layer as? A11yControlLayer
+            }) ?? []
+        }
+    }
 }
 
 extension DrawingView {
@@ -100,7 +137,7 @@ public extension DrawingView {
         }
     }
     
-    func delete(control: A11yControlLayer) {
+    func delete(control: ArtboardElementLayer) {
         control.removeFromSuperlayer()
     }
 

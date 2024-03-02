@@ -19,20 +19,6 @@ public class A11yControlLayer: ArtboardElementLayer {
     
     private let config = Config()
     
-    public func update(
-        to relativeFrame: CGRect,
-        in view: DrawingView
-    ) {
-        frame = relativeFrame
-        
-        let absoluteFrame = view.absoluteFrame(
-            of: frame,
-            for: self)
-//        print("Set frame to model \(absoluteFrame)")
-        
-        model?.frame = absoluteFrame
-    }
-    
     public var isHighlighted: Bool = false {
         didSet {
             let alpha = isHighlighted

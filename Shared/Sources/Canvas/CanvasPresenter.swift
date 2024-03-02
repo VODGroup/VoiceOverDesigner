@@ -75,7 +75,7 @@ public class CanvasPresenter: DocumentPresenter {
     }
    
     @discardableResult
-    public func mouseUp(on location: CGPoint) -> A11yControlLayer? {
+    public func mouseUp(on location: CGPoint) -> ArtboardElementLayer? {
         uiContent?.hud.showHUD()
         
         let action = drawingController.end(coordinate: location)
@@ -84,7 +84,7 @@ public class CanvasPresenter: DocumentPresenter {
         return control
     }
     
-    private func finish(_ action: DraggingAction?) -> A11yControlLayer? {
+    private func finish(_ action: DraggingAction?) -> ArtboardElementLayer? {
         switch action {
         case let click as ClickAction:
             select(click.control.model)

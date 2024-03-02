@@ -1,7 +1,7 @@
 import CoreGraphics
 
 public class ResizeAction: DraggingAction {
-    init(view: DrawingView, control: A11yControlLayer, startLocation: CGPoint, offset: CGPoint, initialFrame: CGRect, corner: RectCorner) {
+    init(view: DrawingView, control: ArtboardElementLayer, startLocation: CGPoint, offset: CGPoint, initialFrame: CGRect, corner: RectCorner) {
         self.view = view
         self.control = control
         self.startLocation = startLocation
@@ -11,7 +11,7 @@ public class ResizeAction: DraggingAction {
     }
     
     private let view: DrawingView
-    public let control: A11yControlLayer
+    public let control: ArtboardElementLayer
     private let startLocation: CGPoint
     private(set) var offset: CGPoint
     public let initialFrame: CGRect

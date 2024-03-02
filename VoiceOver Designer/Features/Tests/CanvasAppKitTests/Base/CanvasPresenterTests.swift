@@ -73,13 +73,13 @@ extension CanvasPresenterTests {
     }
     
     @discardableResult
-    func move(from: CGPoint, to: CGPoint) -> A11yControlLayer? {
+    func move(from: CGPoint, to: CGPoint) -> ArtboardElementLayer? {
         sut.mouseDown(on: from)
         return sut.mouseUp(on: to)
     }
    
     @discardableResult
-    func drawRect(from: CGPoint, to: CGPoint) -> A11yControlLayer? {
+    func drawRect(from: CGPoint, to: CGPoint) -> ArtboardElementLayer? {
         sut.mouseDown(on: from)
         return sut.mouseUp(on: to)
     }
