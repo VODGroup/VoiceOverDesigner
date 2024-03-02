@@ -18,8 +18,9 @@ class ContainerSelectionTests: CanvasAfterDidLoadTests {
         let element1 = try drawElement(from: start10, to: end60)
         let element2 = try drawElement(from: .coord(150), to: .coord(200))
         
-        wrapInContainer([element1, element2])
+        let container = wrapInContainer([element1, element2])
         
-        _ = try await selectContainer(at: .coord(100))
+        let selectedContainer = try await selectContainer(at: .coord(100))
+        XCTAssertEqual(container, selectedContainer)
     }
 }

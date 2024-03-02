@@ -26,6 +26,7 @@ class CanvasAfterDidLoadTests: CanvasPresenterTests {
         )
     }
     
+    @MainActor
     func selectElement(
         at coordinate: CGPoint,
         file: StaticString = #filePath, line: UInt = #line
@@ -36,6 +37,7 @@ class CanvasAfterDidLoadTests: CanvasPresenterTests {
         return element
     }
     
+    @MainActor
     func selectContainer(
         at coordinate: CGPoint,
         file: StaticString = #filePath, line: UInt = #line
