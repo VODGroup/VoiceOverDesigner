@@ -2,6 +2,7 @@ import XCTest
 @testable import Canvas
 import Document
 
+@MainActor
 class TranslatingTests: CanvasAfterDidLoadTests {
     
     // MARK: Editing
