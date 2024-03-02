@@ -57,11 +57,6 @@ public class CanvasPresenter: DocumentPresenter {
         updateSelectedControl(selectedPublisher.value)
     }
     
-    public func redraw(control: any ArtboardElement) {
-        drawingController.view.remove(control)
-        drawingController.draw(element: control, scale: scale)
-    }
-    
     // MARK: Mouse
     public func mouseDown(on location: CGPoint) {
         uiContent?.hud.hideHUD()

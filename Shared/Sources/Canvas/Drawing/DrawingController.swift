@@ -41,62 +41,53 @@ public class DrawingController {
         artboard: Artboard,
         scale: CGFloat
     ) {
-        for frame in artboard.frames {
-            draw(frame: frame,
-                 imageLoader: artboard.imageLoader,
-                 scale: scale)
-        }
-        
-        drawControlsAndContainers(
-            controls: artboard.controlsOutsideOfFrames,
-            scale: scale)
+        drawElements(
+            controls: artboard.elements,
+            scale: scale,
+            containerLayer: nil, // DrawingView in itself
+            imageLoader: artboard.imageLoader)
         
         view.invalidateIntrinsicContentSize()
     }
     
-    func draw(frame: Frame, imageLoader: ImageLoading, scale: CGFloat) {
-        drawImage(for: frame, imageLoader: imageLoader, scale: scale)
-        
-        drawControlsAndContainers(controls: frame.elements,
-                                  scale: scale)
-    }
-    
-    func drawControlsAndContainers(
+    func drawElements(
         controls: [any ArtboardElement],
-        scale: CGFloat
+        scale: CGFloat,
+        containerLayer: CALayer?,
+        imageLoader: ImageLoading
     ) {
         for control in controls {
             switch control.cast {
+            case .frame(let frame):
+                draw(frame: frame,
+                     imageLoader: imageLoader,
+                     scale: scale)
+                
             case .container(let container):
-                let containerLayer = draw(container: container, scale: scale, in: nil) // TODO: Add Frame?
+                let containerLayer = draw(container: container, scale: scale, in: containerLayer)
                 
                 for element in container.elements {
                     draw(element: element,
                          scale: scale, in: containerLayer)
                 }
+                
             case .element(let element):
-                draw(element: element, scale: scale, in: nil) // TODO: Add Frame?
-            case .frame(let frame):
-                continue
+                draw(element: element, scale: scale, in: containerLayer)
             }
         }
+    }
+    
+    private func draw(frame: Frame, imageLoader: ImageLoading, scale: CGFloat) {
+        let frameLayer = drawImage(for: frame, imageLoader: imageLoader, scale: scale)
         
-//        controls
-//            .extractContainers()
-//            .forEach { container in
-//                draw(container: container, scale: scale)
-//            }
-//       
-//        // Extract inner elements from containers
-//        controls
-//            .extractElements()
-//            .forEach { element in
-//                draw(element: element, scale: scale)
-//            }
+        drawElements(controls: frame.elements,
+                                  scale: scale,
+                                  containerLayer: frameLayer,
+                                  imageLoader: imageLoader)
     }
     
     @discardableResult
-    public func drawImage(
+    private func drawImage(
         for frame: Frame,
         imageLoader: ImageLoading,
         scale: CGFloat
@@ -109,7 +100,7 @@ public class DrawingController {
     }
     
     @discardableResult
-    public func draw(
+    private func draw(
         element: any ArtboardElement,
         scale: CGFloat,
         in parent: CALayer? = nil // TODO: Remove default

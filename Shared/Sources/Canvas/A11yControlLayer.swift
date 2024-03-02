@@ -15,7 +15,7 @@ struct Config {
     let alignmentThreshold: CGFloat = 5
 }
 
-public class A11yControlLayer: CALayer {
+public class A11yControlLayer: ArtboardElementLayer {
     
     private let config = Config()
     
@@ -40,8 +40,7 @@ public class A11yControlLayer: CALayer {
 
 public extension A11yControlLayer {
     static func copy(from model: any ArtboardElement) -> A11yControlLayer {
-        let control = A11yControlLayer()
-        control.model = model
+        let control = A11yControlLayer(model: model)
         control.frame = model.frame
         control.backgroundColor = model.color.cgColor
         return control
