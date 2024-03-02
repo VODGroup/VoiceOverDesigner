@@ -101,9 +101,8 @@ public class DrawingController {
         imageLoader: ImageLoading,
         scale: CGFloat
     ) -> CALayer {
-        let imageLayer = ImageLayer()
+        let imageLayer = frameLayer(for: frame, imageLoader: imageLoader)
         imageLayer.frame = frame.frame
-        imageLayer.image = imageLoader.image(for: frame)?.defaultCGImage
         imageLayer.contentsScale = scale
         view.add(frame: imageLayer)
         return imageLayer
@@ -121,6 +120,22 @@ public class DrawingController {
         
         view.add(control: control, to: parent)
         return control
+    }
+    
+    private func frameLayer(
+        for frame: Frame,
+        imageLoader: ImageLoading
+    ) -> ImageLayer {
+        if let cachedLayer = view.frames.first(where:  { layer in
+            layer.model === frame
+        })  {
+            return cachedLayer
+        }
+        
+        // Create new
+        let layer = ImageLayer(model: frame)
+        layer.image = imageLoader.image(for: frame)?.defaultCGImage
+        return layer
     }
     
     private func layer(for model: any ArtboardElement) -> A11yControlLayer {
@@ -243,7 +258,25 @@ extension CGRect {
     }
 }
 
-public class ImageLayer: CALayer {
+public class ArtboardElementLayer: CALayer {
+    public var model: (any ArtboardElement)?
+    
+    init(model: any ArtboardElement) {
+        self.model = model
+        super.init()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override init(layer: Any) {
+        super.init(layer: layer)
+    }
+}
+
+public class ImageLayer: ArtboardElementLayer {
+    
     public var image: CGImage? {
         set {
             contents = newValue
