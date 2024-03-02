@@ -54,7 +54,7 @@ extension DrawingView {
     
     func absoluteFrame(of rect: CGRect, for element: CALayer) -> CGRect {
         layer!.convert(rect,
-                       to: element.superlayer!)
+                       to: element.superlayer)
     }
 }
 

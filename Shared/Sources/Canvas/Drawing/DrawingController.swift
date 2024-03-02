@@ -116,9 +116,7 @@ public class DrawingController {
         for frame: Frame,
         imageLoader: ImageLoading
     ) -> ImageLayer {
-        if let cachedLayer = view.frames.first(where:  { layer in
-            layer.model === frame
-        })  {
+        if let cachedLayer = cachedFrameLayer(for: frame)  {
             return cachedLayer
         }
         
@@ -134,15 +132,25 @@ public class DrawingController {
         for model: any ArtboardElement,
         in parent: CALayer?
     ) -> A11yControlLayer {
-        if let cachedLayer = view.drawnControls.first(where: { layer in
-            layer.model === model
-        }) {
+        if let cachedLayer = cachedLayer(for: model) {
             return cachedLayer
         } else {
             let layer = A11yControlLayer(model: model)
             view.add(control: layer, to: parent)
             return layer
         }
+    }
+    
+    func cachedLayer(for model: any ArtboardElement) -> A11yControlLayer? {
+        view.drawnControls.first(where: { layer in
+            layer.model === model
+        })
+    }
+    
+    func cachedFrameLayer(for frame: Frame) -> ImageLayer? {
+        view.frames.first(where:  { layer in
+            layer.model === frame
+        })
     }
     
     @discardableResult

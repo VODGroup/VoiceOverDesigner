@@ -169,6 +169,21 @@ public class CanvasPresenter: DocumentPresenter {
     public func add(image: Image, name: String) {
         add(image: image, name: name, origin: document.artboard.suggestOrigin())
     }
+    
+    public override func remove(_ model: any ArtboardElement) {
+        // Remove from layers
+        // TODO: Unify layer creation
+        if let frame = model as? Frame {
+            let frameLayer = drawingController.cachedFrameLayer(for: frame)
+            frameLayer?.removeFromSuperlayer()
+        } else {
+            let layer = drawingController.cachedLayer(for: model)
+            layer?.removeFromSuperlayer()
+        }
+        
+        // Remove from model
+        super.remove(model)
+    }
 }
 
 // MARK: - Undo
