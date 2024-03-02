@@ -25,7 +25,7 @@ public class ResizeAction: DraggingAction {
 
         control.updateWithoutAnimation {
             let frame = initialFrame
-                .move(corner: corner, to: coordinate)
+                .move(corner: corner, to: alignedCoordinate)
             
             control.update(to: frame, in: view)
         }

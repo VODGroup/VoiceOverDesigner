@@ -14,7 +14,16 @@ class ContentView: FlippedView, DrawingView {
             layer as? ImageLayer
         })
     }
-    var drawnControls: [A11yControlLayer] = []
+    
+    var drawnControls: [A11yControlLayer] {
+        guard let sublayers = layer?.sublayers else {
+            return []
+        }
+        
+        return sublayers.compactMap({ layer in
+            layer as? A11yControlLayer
+        })
+    }
     
     lazy var alignmentOverlay = AlignmentOverlayFactory().overlay(for: self)
     

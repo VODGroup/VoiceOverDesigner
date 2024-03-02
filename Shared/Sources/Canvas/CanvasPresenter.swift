@@ -177,6 +177,7 @@ public class CanvasPresenter: DocumentPresenter {
             let frameLayer = drawingController.cachedFrameLayer(for: frame)
             frameLayer?.removeFromSuperlayer()
         } else {
+            // Element or container
             let layer = drawingController.cachedLayer(for: model)
             layer?.removeFromSuperlayer()
         }

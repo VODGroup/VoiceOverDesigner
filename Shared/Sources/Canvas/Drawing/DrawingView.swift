@@ -37,7 +37,7 @@ extension CALayer {
 }
 
 public protocol DrawingView: AppView {
-    var drawnControls: [A11yControlLayer] { get set }
+    var drawnControls: [A11yControlLayer] { get }
     var frames: [ImageLayer] { get }
     
     var alignmentOverlay: AlignmentOverlayProtocol { get }
@@ -76,7 +76,6 @@ public extension DrawingView {
         } else {
             addSublayer(control)
         }
-        drawnControls.append(control)
     }
     
     // MARK: Existed
@@ -103,20 +102,15 @@ public extension DrawingView {
     
     func delete(control: A11yControlLayer) {
         control.removeFromSuperlayer()
-        
-        if let index = drawnControls.firstIndex(of: control) {
-            drawnControls.remove(at: index)
-        }
     }
-    
-    func remove(_ model: any ArtboardElement) {
-        guard let index = drawnControls.firstIndex(where: {
-            $0.model === model
-        }), let control = drawnControls.first(where: {
-            $0.model === model
-        }) else { return }
-        control.removeFromSuperlayer()
-        drawnControls.remove(at: index)
+
+    func layer(
+        for model: any ArtboardElement
+    ) -> A11yControlLayer? {
+        drawnControls
+        .first(where: { control in
+            control.model === model
+        })
     }
     
     func addHUD() {
