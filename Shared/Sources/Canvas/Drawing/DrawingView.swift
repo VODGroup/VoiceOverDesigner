@@ -38,7 +38,7 @@ extension CALayer {
 
 public protocol DrawingView: AppView {
     var drawnControls: [A11yControlLayer] { get set }
-    var frames: [ImageLayer] { get set }
+    var frames: [ImageLayer] { get }
     
     var alignmentOverlay: AlignmentOverlayProtocol { get }
     var hud: HUDLayer { get }
@@ -62,7 +62,6 @@ public extension DrawingView {
     
     func add(frame: ImageLayer) {
         addSublayer(frame)
-        frames.append(frame)
     }
     
     func add(control: A11yControlLayer,
@@ -107,18 +106,6 @@ public extension DrawingView {
         
         if let index = drawnControls.firstIndex(of: control) {
             drawnControls.remove(at: index)
-        }
-    }
-    
-    func removeAll() {
-        for frame in frames.reversed() {
-            frame.removeFromSuperlayer()
-            frames.remove(at: frames.count - 1)
-        }
-        
-        for control in drawnControls.reversed() {
-            control.removeFromSuperlayer()
-            _ = drawnControls.popLast()
         }
     }
     

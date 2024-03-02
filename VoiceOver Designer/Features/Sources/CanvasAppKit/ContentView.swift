@@ -5,7 +5,15 @@ import Document
 import Canvas
 
 class ContentView: FlippedView, DrawingView {
-    var frames: [Canvas.ImageLayer] = []
+    var frames: [Canvas.ImageLayer] {
+        guard let sublayers = layer?.sublayers else {
+            return []
+        }
+        
+        return sublayers.compactMap({ layer in
+            layer as? ImageLayer
+        })
+    }
     var drawnControls: [A11yControlLayer] = []
     
     lazy var alignmentOverlay = AlignmentOverlayFactory().overlay(for: self)
