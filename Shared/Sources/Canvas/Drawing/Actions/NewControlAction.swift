@@ -19,12 +19,13 @@ public class NewControlAction: DraggingAction {
     public func drag(to coordinate: CGPoint) {
         let alignedCoordinate = view.alignmentOverlay.alignToAny(control, point: coordinate, drawnControls: view.drawnControls)
         control.updateWithoutAnimation {
-            let frame = CGRect(x: origin.x,
-                                   y: origin.y,
-                                   width: alignedCoordinate.x - origin.x,
-                                   height: alignedCoordinate.y - origin.y)
+            let frame = CGRect(
+                x: origin.x,
+                y: origin.y,
+                width: alignedCoordinate.x - origin.x,
+                height: alignedCoordinate.y - origin.y)
             
-            control.updateFrame(frame)
+            control.update(to: frame, in: view)
         }
     }
     
@@ -37,7 +38,7 @@ public class NewControlAction: DraggingAction {
         let minimalTapSize: CGFloat = 44
         let frame = control.frame.increase(to: CGSize(width: minimalTapSize, height: minimalTapSize)).rounded()
         
-        control.updateFrame(frame)
+        control.update(to: frame, in: view)
         return self
     }
 }

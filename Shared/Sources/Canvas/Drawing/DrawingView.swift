@@ -46,6 +46,18 @@ public protocol DrawingView: AppView {
     var copyListener: CopyModifierAction { get set }
 }
 
+extension DrawingView {
+    func absoluteFrame(for element: CALayer) -> CGRect {
+        absoluteFrame(of: element.frame,
+                      for: element)
+    }
+    
+    func absoluteFrame(of rect: CGRect, for element: CALayer) -> CGRect {
+        layer!.convert(rect,
+                       to: element.superlayer!)
+    }
+}
+
 public extension DrawingView {
     
     func add(frame: ImageLayer) {

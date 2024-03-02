@@ -9,7 +9,7 @@ public class TranslateAction: MoveAction, DraggingAction {
                 .offsetBy(dx: -offset.x,
                           dy: -offset.y)
             
-            control.updateFrame(frame)
+            control.update(to: frame, in: view)
             return ClickAction(control: control)
         }
         
@@ -25,6 +25,6 @@ public class TranslateAction: MoveAction, DraggingAction {
 
 extension TranslateAction: Undoable {
     public func undo() {
-        control.updateFrame(initialFrame)
+        control.update(to: initialFrame, in: view)
     }
 }

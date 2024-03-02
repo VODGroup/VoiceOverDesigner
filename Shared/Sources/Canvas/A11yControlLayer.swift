@@ -19,12 +19,18 @@ public class A11yControlLayer: ArtboardElementLayer {
     
     private let config = Config()
     
-    public var model: (any ArtboardElement)?
-    
-    @available(*, deprecated, message: "Set frame to model explicitly, the layer has wrong coordinates")
-    public func updateFrame(_ newFrame: CGRect) {
-        frame = newFrame
-//        model?.frame = newFrame 
+    public func update(
+        to relativeFrame: CGRect,
+        in view: DrawingView
+    ) {
+        frame = relativeFrame
+        
+        let absoluteFrame = view.absoluteFrame(
+            of: frame,
+            for: self)
+//        print("Set frame to model \(absoluteFrame)")
+        
+        model?.frame = absoluteFrame
     }
     
     public var isHighlighted: Bool = false {

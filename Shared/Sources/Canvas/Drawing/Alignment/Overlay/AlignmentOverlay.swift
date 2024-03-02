@@ -89,9 +89,12 @@ class AlignmentOverlay: AlignmentOverlayProtocol {
         
         let (alignedFrame, stickedAlignments) = alignments.getFrame(original: frame)
         
-        self.alignedControl = drawnControls.first(where: { control in
-            stickedAlignments.map { $0.frame }.contains(control.frame)
-        })
+        self.alignedControl = drawnControls
+            .first(where: { control in
+                stickedAlignments
+                    .map { $0.frame }
+                    .contains(control.frame)
+            })
         self.alignedEdges = stickedAlignments
         
         drawAligningLine(from: sourceControl.frame,

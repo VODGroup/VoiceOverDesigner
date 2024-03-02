@@ -10,7 +10,7 @@ public class MoveAction {
         self.initialFrame = initialFrame
     }
     
-    private let view: DrawingView
+    let view: DrawingView
     public let control: A11yControlLayer
     private let startLocation: CGPoint
     private(set) var offset: CGPoint
@@ -27,15 +27,15 @@ public class MoveAction {
         
         control.updateWithoutAnimation {
             let alignedOffset = aligned.origin - control.frame.origin
-            control.updateFrame(aligned)
+            control.update(to: aligned, in: view)
             
             if let container = control.model as? any ArtboardContainer {
                 // Won't work on nested containers or should be recursive
                 for layer in view.drawnControls(for: container) {
-                    let frame = layer.frame
+                    let elementFrame = layer.frame
                         .offsetBy(dx: alignedOffset.x, dy: alignedOffset.y)
                     
-                    layer.updateFrame(frame)
+                    control.update(to: elementFrame, in: view)
                 }
             }
         }

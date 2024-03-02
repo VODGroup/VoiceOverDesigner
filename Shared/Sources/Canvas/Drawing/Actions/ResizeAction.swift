@@ -25,15 +25,15 @@ public class ResizeAction: DraggingAction {
 
         control.updateWithoutAnimation {
             let frame = initialFrame
-                .move(corner: corner, to: alignedCoordinate)
+                .move(corner: corner, to: coordinate)
             
-            control.updateFrame(frame)
+            control.update(to: frame, in: view)
         }
     }
     
     public func end(at coordinate: CGPoint) -> DraggingAction? {
         let frame = control.frame.rounded()
-        control.updateFrame(frame)
+        control.update(to: frame, in: view)
         return self
     }
     
@@ -46,6 +46,6 @@ public class ResizeAction: DraggingAction {
 
 extension ResizeAction: Undoable {
     public func undo() {
-        control.updateFrame(initialFrame)
+        control.update(to: initialFrame, in: view)
     }
 }
