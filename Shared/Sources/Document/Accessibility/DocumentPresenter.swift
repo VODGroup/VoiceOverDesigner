@@ -119,7 +119,7 @@ open class DocumentPresenter {
             withTarget: self,
             handler: { presenter in
                 presenter.remove(control)
-        })
+            })
         publishArtboardChanges()
     }
     
@@ -131,7 +131,7 @@ open class DocumentPresenter {
                 presenter.publishArtboardChanges()
                 presenter.select(model)
             })
-
+        
         model.removeFromParent(undoManager: document.undo)
         
         publishArtboardChanges()
@@ -213,16 +213,14 @@ open class DocumentPresenter {
         
         return didDrag
     }
-}
-
+    
 #if canImport(XCTest)
-extension DocumentPresenter {
-    public func replace(elements: [A11yDescription]) {
+    open func replace(elements: [A11yDescription]) {
         self.elements = elements
     }
     
     public var firstFrameControls: [any ArtboardElement] {
         document.artboard.frames.first?.elements ?? []
     }
-}
 #endif
+}

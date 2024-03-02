@@ -185,6 +185,16 @@ public class CanvasPresenter: DocumentPresenter {
         // Remove from model
         super.remove(model)
     }
+    
+#if canImport(XCTest)
+    public override func replace(elements: [A11yDescription]) {
+        for sublayer in drawingController.view.layer?.sublayers ?? [] {
+            sublayer.removeFromSuperlayer()
+        }
+        
+        super.replace(elements: elements)
+    }
+#endif
 }
 
 // MARK: - Undo

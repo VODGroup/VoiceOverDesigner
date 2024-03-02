@@ -35,6 +35,8 @@ class CanvasUpdatingTests: CanvasPresenterTests {
     }
     
     func setControls(count: Int) {
+        didLoadAndAppear()
+        
         var controls = [A11yDescription]()
         for _ in 0..<count {
             controls.append(.empty(frame: .zero))

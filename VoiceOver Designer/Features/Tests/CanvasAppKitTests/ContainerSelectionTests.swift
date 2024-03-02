@@ -1,6 +1,7 @@
 import XCTest
 @testable import Canvas
 
+@MainActor
 class ContainerSelectionTests: CanvasAfterDidLoadTests {
     
     func test_2elementsAreWrappedInContainer_whenClickOnElement_shouldSelectElement() async throws {
