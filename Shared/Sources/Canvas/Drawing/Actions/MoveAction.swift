@@ -23,7 +23,10 @@ public class MoveAction {
             .offsetBy(dx: offset.x,
                       dy: offset.y)
         
-        let aligned = view.alignmentOverlay.alignToAny(control, frame: frame, drawnControls: view.drawnControls)
+        let aligned = view.alignmentOverlay.alignToAny(
+            control,
+            frame: frame,
+            drawnControls: view.drawnControls)
         
         control.updateWithoutAnimation {
             let alignedOffset = aligned.origin - control.frame.origin
@@ -31,11 +34,11 @@ public class MoveAction {
             
             if let container = control.model as? any ArtboardContainer {
                 // Won't work on nested containers or should be recursive
-                for layer in view.drawnControls(for: container) {
-                    let elementFrame = layer.frame
+                for nestedLayer in view.drawnControls(for: container) {
+                    let elementFrame = nestedLayer.frame
                         .offsetBy(dx: alignedOffset.x, dy: alignedOffset.y)
                     
-                    control.update(to: elementFrame, in: view)
+                    nestedLayer.update(to: elementFrame, in: view)
                 }
             }
         }

@@ -100,7 +100,9 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         
         move(from: .coord(0), to: .coord(10)) // Move by 10
         
-        XCTAssertEqual(container?.frame, containerFrame.offsetBy(dx: 10, dy: 10), "Move container")
+        XCTAssertEqual(container?.frame,
+                       containerFrame.offsetBy(dx: 10, dy: 10),
+                       "Move container")
     }
     
     func test_whenMoveContainer_shouldMoveAllElementsInsideIt() throws {
@@ -110,7 +112,9 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         
         move(from: .coord(0), to: .coord(10)) // Move by 10
         
-        XCTAssertEqual(element.frame, elementFrame.offsetBy(dx: 10, dy: 10), "Move element inside container")
+        XCTAssertEqual(element.frame, 
+                       elementFrame.offsetBy(dx: 10, dy: 10),
+                       "Move element inside container")
     }
     
     // MARK: - Resizing
