@@ -117,8 +117,6 @@ public extension DrawingView {
         // TODO: Refactor
         let viewsUnderCoordinate = drawnControls.filter({ control in
             control.model!.frame.contains(coordinate)
-        }) + frames.filter({ control in
-            control.model!.frame.contains(coordinate)
         })
 
         switch viewsUnderCoordinate.count {

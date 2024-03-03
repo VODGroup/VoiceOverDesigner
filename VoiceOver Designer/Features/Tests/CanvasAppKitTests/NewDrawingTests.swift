@@ -69,6 +69,7 @@ class NewDrawingTests: CanvasAfterDidLoadTests {
     // MARK: - Artboard
     func test_frameOnScreen_whenAddElementInsideFrame_shouldAddElementToFrame() throws {
         addFrame()
+        sut.deselect()
         XCTAssertNotNil(document.artboard.frames.first)
         
         sut.mouseDown(on: start10)

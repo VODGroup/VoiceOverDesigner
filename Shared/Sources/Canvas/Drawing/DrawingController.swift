@@ -179,6 +179,9 @@ public class DrawingController {
             if let corner = view.hud.corner(for: location) {
                 startResizing(control: selectedControl, startLocation: location, corner: corner)
                 return
+            } else if let frame = selectedControl as? ImageLayer {
+                startDragging(control: frame, startLocation: location)
+                return
             }
         }
         
@@ -198,7 +201,9 @@ public class DrawingController {
             return
         }
         
-        if view.control(at: location) != nil {
+        let hasElementUnderCursor = view.control(at: location) != nil
+        let isFrameSelected = selectedControl is ImageLayer
+        if hasElementUnderCursor || isFrameSelected {
             pointerSubject.send(view.copyListener.isModifierActive ? .copy : .hover)
         } else {
             pointerSubject.send(nil)
