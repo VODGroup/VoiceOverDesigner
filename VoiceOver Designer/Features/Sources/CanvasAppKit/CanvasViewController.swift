@@ -127,7 +127,7 @@ public class CanvasViewController: NSViewController {
             return
         }
         
-        self.highlightedControl = control
+        self.highlightedControl = control as? A11yControlLayer
     }
     
     public override func mouseDown(with event: NSEvent) {

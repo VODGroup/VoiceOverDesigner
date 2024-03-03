@@ -37,9 +37,6 @@ extension CALayer {
 }
 
 public protocol DrawingView: AppView {
-//    var drawnControls: [A11yControlLayer] { get }
-//    var frames: [ImageLayer] { get }
-    
     var alignmentOverlay: AlignmentOverlayProtocol { get }
     var hud: HUDLayer { get }
     
@@ -116,8 +113,11 @@ public extension DrawingView {
     }
     
     // MARK: Existed
-    func control(at coordinate: CGPoint) -> A11yControlLayer? {
+    func control(at coordinate: CGPoint) -> ArtboardElementLayer? {
+        // TODO: Refactor
         let viewsUnderCoordinate = drawnControls.filter({ control in
+            control.model!.frame.contains(coordinate)
+        }) + frames.filter({ control in
             control.model!.frame.contains(coordinate)
         })
 

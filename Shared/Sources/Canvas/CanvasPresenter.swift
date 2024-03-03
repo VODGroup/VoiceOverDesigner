@@ -62,7 +62,7 @@ public class CanvasPresenter: DocumentPresenter {
         uiContent?.hud.hideHUD()
 
         drawingController.mouseDown(on: location,
-                                    selectedControl: selectedControl as? A11yControlLayer)
+                                    selectedControl: selectedControl)
     }
     
     public func mouseDragged(on location: CGPoint) {
@@ -71,7 +71,7 @@ public class CanvasPresenter: DocumentPresenter {
     
     public func mouseMoved(on location: CGPoint) {
         drawingController.mouseMoved(on: location,
-                                     selectedControl: selectedControl as? A11yControlLayer)
+                                     selectedControl: selectedControl)
     }
    
     @discardableResult
@@ -137,11 +137,11 @@ public class CanvasPresenter: DocumentPresenter {
         }
     }
     
-    public private(set) var selectedControl: CALayer? {
+    public private(set) var selectedControl: ArtboardElementLayer? {
         didSet {
             var frame = selectedControl?.frame
         
-            if let selectedControl = selectedControl as? A11yControlLayer {
+            if let selectedControl = selectedControl as? ArtboardElementLayer {
                 frame = selectedControl.model?.frame
             }
             

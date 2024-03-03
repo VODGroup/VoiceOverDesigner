@@ -173,7 +173,7 @@ public class DrawingController {
     // MARK: New drawing
     public func mouseDown(
         on location: CGPoint,
-        selectedControl: A11yControlLayer?
+        selectedControl: ArtboardElementLayer?
     ) {
         if let selectedControl {
             if let corner = view.hud.corner(for: location) {
@@ -191,7 +191,7 @@ public class DrawingController {
     
     public func mouseMoved(
         on location: CGPoint,
-        selectedControl: A11yControlLayer?
+        selectedControl: ArtboardElementLayer?
     ) {
         if let corner = view.hud.corner(for: location) {
             pointerSubject.send(.resize(corner))
@@ -206,14 +206,14 @@ public class DrawingController {
     }
     
     private func startDragging(
-        control: A11yControlLayer,
+        control: ArtboardElementLayer,
         startLocation: CGPoint
     ) {
         action = CopyAndTranslateAction(view: view, sourceControl: control, startLocation: startLocation, offset: .zero, initialFrame: control.frame)
     }
     
     private func startResizing(
-        control: A11yControlLayer,
+        control: ArtboardElementLayer,
         startLocation: CGPoint,
         corner: RectCorner
     ) {
