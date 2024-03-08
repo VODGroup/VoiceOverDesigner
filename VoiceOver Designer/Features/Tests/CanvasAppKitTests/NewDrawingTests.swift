@@ -67,18 +67,34 @@ class NewDrawingTests: CanvasAfterDidLoadTests {
     }
     
     // MARK: - Artboard
+    func test_whenAddImage_shouldAddFrame() {
+        addFrame()
+        XCTAssertNotNil(document.artboard.frames.first)
+    }
+    
     func test_frameOnScreen_whenAddElementInsideFrame_shouldAddElementToFrame() throws {
         addFrame()
         sut.deselect()
-        XCTAssertNotNil(document.artboard.frames.first)
         
-        sut.mouseDown(on: start10)
-        sut.mouseUp(on: end60)
+        drawRect(from: start10, to: end60)
         
         let frame = try XCTUnwrap(document.artboard.frames.first)
         XCTAssertEqual(frame.elements.count, 1)
+        XCTAssertEqual(document.artboard.elements.count, 1,
+                       "Only frame should be on top level")
+    }
+    
+    func test_frameOnScreen_whenDrawAnElementOverScreen_shouldAddLayerToFrameLayer() {
+        addFrame()
+        sut.deselect()
         
-        XCTAssertEqual(document.artboard.elements.count, 1)
+        move(from: .coord(10), to: .coord(20)) // Move by 10
+        
+        XCTAssertEqual(sut.uiContent?.layer?.sublayers?.count, 1,
+                       "Should draw an element inside frame")
+        XCTAssertEqual(
+            sut.uiContent?.layer?.sublayers?.first?.sublayers?.count, 1,
+            "Should draw an element inside frame")
     }
     
     func test_createControlsWhenDocumentImageNil() {

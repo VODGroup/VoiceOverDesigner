@@ -111,6 +111,7 @@ extension CanvasPresenterTests {
         for point in otherPoints {
             sut.mouseDragged(on: .coord(point))
         }
+        sut.mouseUp(on: .coord(otherPoints.last!))
     }
     
     func click(_ coordinate: CGPoint) {
@@ -140,7 +141,7 @@ class PreviewSourceDummy: PreviewSourceProtocol {
 }
 
 extension CanvasPresenter {
-    func add(image: NSImage) {
+    func add(image: NSImage) -> Frame {
         add(image: image, name: "Sample")
     }
 }

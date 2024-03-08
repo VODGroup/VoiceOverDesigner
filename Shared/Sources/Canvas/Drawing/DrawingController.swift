@@ -81,9 +81,9 @@ public class DrawingController {
         let frameLayer = drawImage(for: frame, imageLoader: imageLoader, scale: scale)
         
         drawElements(controls: frame.elements,
-                                  scale: scale,
-                                  containerLayer: frameLayer,
-                                  imageLoader: imageLoader)
+                     scale: scale,
+                     containerLayer: frameLayer,
+                     imageLoader: imageLoader)
     }
     
     @discardableResult
@@ -103,10 +103,18 @@ public class DrawingController {
     private func draw(
         element: any ArtboardElement,
         scale: CGFloat,
-        in parent: CALayer? = nil // TODO: Remove default
+        in parent: CALayer?
     ) -> A11yControlLayer {
         let control = layer(for: element, in: parent)
-        control.frame = element.frame.scaled(scale)
+        
+        if let parent {
+            control.frame = view.relativeFrame(
+                of: element.frame.scaled(scale),
+                in: parent)
+        } else {
+            control.frame = element.frame.scaled(scale)
+        }
+        
         control.backgroundColor = element.color.cgColor
         
         return control
@@ -205,7 +213,10 @@ public class DrawingController {
         case drawing
     }
     
-    private func action(for location: CGPoint, selectedControl: ArtboardElementLayer?) -> MouseAction {
+    private func action(
+        for location: CGPoint,
+        selectedControl: ArtboardElementLayer?
+    ) -> MouseAction {
         if let selectedControl {
             if let corner = view.hud.corner(for: location) {
                 return .resizing(selectedControl, corner: corner)
@@ -239,9 +250,14 @@ public class DrawingController {
     }
     
     private func startDrawing(coordinate: CGPoint) {
+        let parentFrame = view.frames.first { frame in
+            frame.frame.contains(coordinate)
+        }
+        
         let control = draw(
             element: A11yDescription.empty(frame: .zero),
-            scale: 1)
+            scale: 1,
+            in: parentFrame)
         
         self.action = NewControlAction(view: view, control: control, coordinate: coordinate)
         pointerSubject.send(.crosshair)
@@ -301,14 +317,24 @@ public class ArtboardElementLayer: CALayer {
     
     public func update(
         to relativeFrame: CGRect,
-        in view: DrawingView
+        in view: DrawingView,
+        offset: CGPoint = .zero
     ) {
         frame = relativeFrame
         
+        recalculateAbsoluteFrameInModel(to: relativeFrame,
+                                        in: view,
+                                        offset: offset)
+    }
+    
+    public func recalculateAbsoluteFrameInModel(
+        to relativeFrame: CGRect,
+        in view: DrawingView,
+        offset: CGPoint = .zero
+    ) {
         let absoluteFrame = view.absoluteFrame(
-            of: frame,
+            of: relativeFrame,
             for: self)
-        //        print("Set frame to model \(absoluteFrame)")
         
         model?.frame = absoluteFrame
     }

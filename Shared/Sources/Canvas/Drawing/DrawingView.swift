@@ -87,8 +87,11 @@ extension DrawingView {
     }
     
     func absoluteFrame(of rect: CGRect, for element: CALayer) -> CGRect {
-        layer!.convert(rect,
-                       to: element.superlayer)
+        layer!.convert(rect, from: element.superlayer)
+    }
+    
+    func relativeFrame(of rect: CGRect, in parent: CALayer?) -> CGRect {
+        layer!.convert(rect, to: parent)
     }
 }
 

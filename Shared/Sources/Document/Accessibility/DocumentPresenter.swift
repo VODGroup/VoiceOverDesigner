@@ -55,11 +55,12 @@ open class DocumentPresenter {
     }
     
     // MARK:
+    @discardableResult
     open func add(
         image: Image,
         name: String?,
         origin: CGPoint
-    ) {
+    ) -> Frame {
         document.invalidateQuickViewPreview()
         let imageLocation = document.addImageWrapper(image: image, name: name)
         let frame = Frame(imageLocation: imageLocation,
@@ -70,6 +71,8 @@ open class DocumentPresenter {
         add(frame,
             into: document.artboard,
             at: document.artboard.frames.count)
+        
+        return frame
     }
     
     open func importArtboard(

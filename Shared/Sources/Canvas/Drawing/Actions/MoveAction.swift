@@ -1,7 +1,8 @@
 import QuartzCore
 import Artboard
 
-public class MoveAction {
+public class MoveAction: DraggingAction {
+
     init(view: DrawingView, control: ArtboardElementLayer, startLocation: CGPoint, offset: CGPoint, initialFrame: CGRect) {
         self.view = view
         self.control = control
@@ -29,20 +30,28 @@ public class MoveAction {
             drawnControls: view.drawnControls)
         
         control.updateWithoutAnimation {
-            let alignedOffset = aligned.origin - control.frame.origin
             control.update(to: aligned, in: view)
-            
-            if let container = control.model as? any ArtboardContainer {
-                // Won't work on nested containers or should be recursive
-                for nestedLayer in view.drawnControls(for: container) {
-                    let elementFrame = nestedLayer.frame
-                        .offsetBy(dx: alignedOffset.x, dy: alignedOffset.y)
-                    
-                    nestedLayer.update(to: elementFrame, in: view)
-                }
-            }
         }
         
         self.offset = offset
+    }
+    
+    public func end(at coordinate: CGPoint) -> DraggingAction? {
+        if let container = control.model as? any ArtboardContainer {
+            // Won't work on nested containers or should be recursive
+            for nestedLayer in view.drawnControls(for: container) {
+                let elementFrame = nestedLayer.model!.frame
+                
+                nestedLayer.recalculateAbsoluteFrameInModel(to: elementFrame, in: view)
+            }
+        }
+        
+        return self
+    }
+    
+    public func cancel() {
+        control.updateWithoutAnimation {
+            control.update(to: initialFrame, in: view)
+        }
     }
 }

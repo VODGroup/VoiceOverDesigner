@@ -1,32 +1,24 @@
 import QuartzCore
 
-public class TranslateAction: MoveAction, DraggingAction {
+public class TranslateAction: MoveAction {
 
-    public func end(at coordinate: CGPoint) -> DraggingAction? {
+    public override func end(at coordinate: CGPoint) -> DraggingAction? {
         if offset.isSmallOffset {
             // Reset frame
             let frame = control.frame
                 .offsetBy(dx: -offset.x,
                           dy: -offset.y)
             
-            control.update(to: frame, in: view)
+            control.update(to: frame, in: view, offset: offset)
             return ClickAction(control: control)
         }
         
-        return self
-    }
-    
-    public func cancel() {
-        control.updateWithoutAnimation {
-            undo()
-        }
+        return super.end(at: coordinate)
     }
 }
 
 extension TranslateAction: Undoable {
     public func undo() {
-        control.updateWithoutAnimation {
-            control.update(to: initialFrame, in: view)
-        }
+        cancel()
     }
 }

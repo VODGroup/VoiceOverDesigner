@@ -1,6 +1,7 @@
 import XCTest
 @testable import Canvas
 import Document
+import DocumentTestHelpers
 
 @MainActor
 class TranslatingTests: CanvasAfterDidLoadTests {
@@ -14,18 +15,31 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         XCTAssertEqual(drawnControls.count, 1)
         XCTAssertEqual(drawnControls.first?.frame,
                        rect10to50.offsetBy(dx: 5, dy: 5))
+    }
+    
+    func test_movementFor5px_shouldSelect() async throws {
+        drawRect_10_60()
+        
+        drag(15, 17, 18, 20) // 5px from start
         
         let selected = try await awaitSelected()
-        XCTAssertNil(selected, "should not select after translation")
+        XCTAssertNotNil(selected, "should keep selection after translation")
     }
     
     func test_translateToNegativeCoordinates_shouldTranslate() async throws {
         drawRect_10_60()
+        
         move(from: .coord(15), to: .coord(5))
         
         XCTAssertEqual(drawnControls.first?.frame,
                        rect10to50.offsetBy(dx: -10, dy: -10))
+    }
+    
+    func test_translateToNegativeCoordinates_shouldSelect() async throws {
+        drawRect_10_60()
         
+        move(from: .coord(15), to: .coord(5))
+
         let selected = try await awaitSelected()
         XCTAssertNotNil(selected, "should select after translation")
     }
@@ -113,8 +127,60 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         move(from: .coord(0), to: .coord(10)) // Move by 10
         
         XCTAssertEqual(element.frame, 
+                       elementFrame,
+                       "Keep element's coordinates inside container")
+    }
+    
+    // MARK: Frames
+    private func createFrame() -> Frame {
+        sut.disableUndoRegistration()
+        let frame = sut.add(image: Sample().image3x())
+        sut.enableUndoRegistration()
+        
+        return frame
+    }
+    private func createFrameWithElement10_60() throws -> (A11yDescription, Frame) {
+        sut.disableUndoRegistration()
+        let frame = createFrame()
+        sut.deselect() // Frame
+        let element = try drawElement(from: start10, to: end60)
+        sut.enableUndoRegistration()
+        
+        return (element, frame)
+    }
+    
+    func test_whenMoveFrame_shouldMoveFrame() throws {
+        let frame = createFrame()
+        let frameFrame = CGRect(x: 0, y: 0, width: 390, height: 180)
+        
+        move(from: .coord(10), to: .coord(20))
+        
+        XCTAssertEqual(frame.frame,
+                       frameFrame.offsetBy(dx: 10, dy: 10),
+                       "Frame is moved")
+        let frameLayer = try XCTUnwrap(sut.uiContent?.frames.first)
+        XCTAssertEqual(frameLayer.frame,
+                       frameFrame.offsetBy(dx: 10, dy: 10),
+                       "Frame's layer is moved")
+    }
+    
+    func test_whenMoveFrame_shouldMoveElementsInsideFrame() throws {
+        let (element, frame) = try createFrameWithElement10_60()
+        let elementFrame = CGRect(x: 10, y: 10, width: 50, height: 50)
+        XCTAssertEqual(element.frame, elementFrame)
+        sut.select(frame) // Select frame to pass movement to frame
+        
+//        drag(10, 12, 15, 18, 20)
+        move(from: .coord(10), to: .coord(20))
+        
+        XCTAssertEqual(element.frame,
                        elementFrame.offsetBy(dx: 10, dy: 10),
                        "Move element inside container")
+        
+        let elementLayer = try XCTUnwrap(sut.uiContent?.drawnControls.first)
+        XCTAssertEqual(elementLayer.frame,
+                       elementFrame,
+                       "Element position is stable inside frame")
     }
     
     // MARK: - Resizing
