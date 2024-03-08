@@ -175,22 +175,13 @@ public class DrawingController {
         on location: CGPoint,
         selectedControl: ArtboardElementLayer?
     ) {
-        if let selectedControl {
-            if let corner = view.hud.corner(for: location) {
-                startResizing(control: selectedControl, startLocation: location, corner: corner)
-                return
-            } else if let frame = selectedControl as? ImageLayer,
-                      frame.frame.contains(location)
-            {
-                startDragging(control: frame, startLocation: location)
-                return
-            }
-        }
-        
-        if let existedControl = view.control(at: location) {
-            startDragging(control: existedControl, startLocation: location)
-        } else {
+        switch action(for: location, selectedControl: selectedControl) {
+        case .dragging(let control):
+            startDragging(control: control, startLocation: location)
+        case .drawing:
             startDrawing(coordinate: location)
+        case .resizing(let control, let corner):
+            startResizing(control: control, startLocation: location, corner: corner)
         }
     }
     
@@ -198,19 +189,37 @@ public class DrawingController {
         on location: CGPoint,
         selectedControl: ArtboardElementLayer?
     ) {
-        if let corner = view.hud.corner(for: location) {
+        switch action(for: location, selectedControl: selectedControl) {
+        case .dragging:
+            pointerSubject.send(view.copyListener.isModifierActive ? .copy : .hover)
+        case .drawing:
+            pointerSubject.send(nil)
+        case .resizing(_ /*control*/, let corner):
             pointerSubject.send(.resize(corner))
-            return
+        }
+    }
+    
+    private enum MouseAction {
+        case resizing(_ control: ArtboardElementLayer, corner: RectCorner)
+        case dragging(_ control: ArtboardElementLayer)
+        case drawing
+    }
+    
+    private func action(for location: CGPoint, selectedControl: ArtboardElementLayer?) -> MouseAction {
+        if let selectedControl {
+            if let corner = view.hud.corner(for: location) {
+                return .resizing(selectedControl, corner: corner)
+            } else if let frame = selectedControl as? ImageLayer,
+                      frame.frame.contains(location)
+            {
+                return .dragging(frame)
+            }
         }
         
-        let hasElementUnderCursor = view.control(at: location) != nil
-        
-        let isFrameSelected = selectedControl is ImageLayer
-        let isOverFrame = selectedControl?.frame.contains(location) ?? false
-        if hasElementUnderCursor || isFrameSelected && isOverFrame  {
-            pointerSubject.send(view.copyListener.isModifierActive ? .copy : .hover)
+        if let existedControl = view.control(at: location) {
+            return .dragging(existedControl)
         } else {
-            pointerSubject.send(nil)
+            return .drawing
         }
     }
     
