@@ -204,8 +204,10 @@ public class DrawingController {
         }
         
         let hasElementUnderCursor = view.control(at: location) != nil
+        
         let isFrameSelected = selectedControl is ImageLayer
-        if hasElementUnderCursor || isFrameSelected {
+        let isOverFrame = selectedControl?.frame.contains(location) ?? false
+        if hasElementUnderCursor || isFrameSelected && isOverFrame  {
             pointerSubject.send(view.copyListener.isModifierActive ? .copy : .hover)
         } else {
             pointerSubject.send(nil)
