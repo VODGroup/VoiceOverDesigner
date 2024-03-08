@@ -46,8 +46,12 @@ public class NavigatorController: NSViewController {
     
     private func observe() {
         presenter.artboardPublisher.sink { [weak self] _ in
-            self?.outlineView.reloadData()
-            self?.updateToolbarButton()
+            guard let self = self else { return }
+            
+            outlineView.reloadData()
+            select(model: presenter.selectedPublisher.value)
+            updateToolbarButton()
+            
         }.store(in: &cancellables)
         
         presenter.selectedPublisher
