@@ -139,14 +139,11 @@ public class CanvasPresenter: DocumentPresenter {
     
     public private(set) var selectedControl: ArtboardElementLayer? {
         didSet {
-            var frame = selectedControl?.frame
-        
-            if let selectedControl = selectedControl as? ArtboardElementLayer {
-                frame = selectedControl.model?.frame
-            }
+            let model = selectedControl?.model
             
-            uiContent?.hud.selectedControlFrame = frame
-            uiContent?.hud.tintColor = (selectedControl as? A11yControlLayer)?.model?.color.cgColor.copy(alpha: 1) ?? Color.red.cgColor
+            uiContent?.hud.selectedControlFrame = model?.frame
+            uiContent?.hud.tintColor = model?.color
+                .cgColor.copy(alpha: 1) ?? Color.red.cgColor
         }
     }
     

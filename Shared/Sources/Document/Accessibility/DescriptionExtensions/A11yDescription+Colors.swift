@@ -19,8 +19,8 @@ extension ArtboardElement {
     public var color: Color {
         switch cast {
         case .frame:
-            return Color.blue
-        case .container(let container):
+            return Color.systemBlue
+        case .container:
             return Color.systemGray
                 .withAlphaComponent(A11yDescription.colorAlpha)
         case .element(let element):
