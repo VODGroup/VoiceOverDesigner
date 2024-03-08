@@ -55,21 +55,8 @@ public class NavigatorController: NSViewController {
         }.store(in: &cancellables)
         
         presenter.selectedPublisher
-            .scan(nil, deselect(current:next:))
             .sink(receiveValue: select(model:))
             .store(in: &cancellables)
-    }
-    
-    /**
-     Deselects current element and passes next upstream
-        - parameters:
-            - current: A currently selected ``ArtboardElement`` in the upstream
-            - next: A new value to select in the upstream
-        - returns: A next value to select
-     */
-    private func deselect(current: (any ArtboardElement)?, next: (any ArtboardElement)?) -> (any ArtboardElement)? {
-        updateCell(for: current, shouldSelect: false)
-        return next
     }
     
     private func select(model: (any ArtboardElement)?) {
