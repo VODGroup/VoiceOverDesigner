@@ -179,7 +179,9 @@ public class DrawingController {
             if let corner = view.hud.corner(for: location) {
                 startResizing(control: selectedControl, startLocation: location, corner: corner)
                 return
-            } else if let frame = selectedControl as? ImageLayer {
+            } else if let frame = selectedControl as? ImageLayer,
+                      frame.frame.contains(location)
+            {
                 startDragging(control: frame, startLocation: location)
                 return
             }
