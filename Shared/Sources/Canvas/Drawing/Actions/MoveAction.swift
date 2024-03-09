@@ -37,6 +37,18 @@ public class MoveAction: DraggingAction {
     }
     
     public func end(at coordinate: CGPoint) -> DraggingAction? {
+        updateNestedLayersIfNeeded()
+        return self
+    }
+    
+    public func cancel() {
+        control.updateWithoutAnimation {
+            control.update(to: initialFrame, in: view)
+            updateNestedLayersIfNeeded()
+        }
+    }
+    
+    private func updateNestedLayersIfNeeded() {
         if let container = control.model as? any ArtboardContainer {
             // Won't work on nested containers or should be recursive
             for nestedLayer in view.drawnControls(for: container) {
@@ -46,12 +58,5 @@ public class MoveAction: DraggingAction {
             }
         }
         
-        return self
-    }
-    
-    public func cancel() {
-        control.updateWithoutAnimation {
-            control.update(to: initialFrame, in: view)
-        }
     }
 }

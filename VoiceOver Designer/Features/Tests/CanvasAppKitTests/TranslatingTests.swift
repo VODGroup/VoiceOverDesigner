@@ -152,7 +152,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
             .sublayers!.first! // Skip NSViewBackingLayer
     }
     
-    func test_whenMoveFrame_shouldMoveFrame_layer() throws {
+    func test_emptyFrame_whenMove_shouldMoveFrame_layer() throws {
         createFrameAtZeroOrigin()
         
         drag(10, 20)
@@ -164,7 +164,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         }
     }
     
-    func test_whenMoveFrame_shouldMoveFrame_model() throws {
+    func test_emptyFrame_whenMove_shouldMoveFrame_model() throws {
         createFrameAtZeroOrigin()
 
         drag(10, 20)
@@ -176,7 +176,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         }
     }
     
-    func test_whenMoveFrame_shouldMoveElementsInsideFrame_layer() throws {
+    func test_frameWithElements_whenMoveFrame_shouldMoveElementsInsideFrame_layer() throws {
         let (_, frame) = try createFrameWithElement10_60()
         sut.select(frame) // Select frame to pass movement to frame
         
@@ -190,7 +190,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         }
     }
     
-    func test_whenMoveFrame_shouldMoveElementsInsideFrame_model() throws {
+    func test_frameWithElements_whenMove_shouldMoveElementsInsideFrame_model() throws {
         let (_, frame) = try createFrameWithElement10_60()
         sut.select(frame) // Select frame to pass movement to frame
         
@@ -202,6 +202,21 @@ class TranslatingTests: CanvasAfterDidLoadTests {
              Element: (20.0, 20.0, 50.0, 50.0)
             """
             }
+    }
+    
+    func test_frameWithElements_whenMove_andUndo_shouldRestore() throws {
+        let (_, frame) = try createFrameWithElement10_60()
+        sut.select(frame) // Select frame to pass movement to frame
+        
+        drag(10, 12, 15, 18, 20) // 10 offset
+        sut.undo()
+        
+        artboard.assertAbsoluteFrames {
+            """
+            Frame: (0.0, 0.0, 390.0, 180.0):
+             Element: (10.0, 10.0, 50.0, 50.0)
+            """
+        }
     }
     
     func test_whenMoveFrameTwoTimes_shouldMoveFrame_layer() throws {
