@@ -88,7 +88,7 @@ class NewDrawingTests: CanvasAfterDidLoadTests {
         addFrame()
         sut.deselect()
         
-        move(from: .coord(10), to: .coord(20)) // Move by 10
+        drag(10, 20) // Move by 10
         
         XCTAssertEqual(sut.uiContent?.layer?.sublayers?.count, 1,
                        "Should draw an element inside frame")

@@ -29,7 +29,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
     func test_translateToNegativeCoordinates_shouldTranslate() async throws {
         drawRect_10_60()
         
-        move(from: .coord(15), to: .coord(5))
+        drag(15, 5)
         
         XCTAssertEqual(drawnControls.first?.frame,
                        rect10to50.offsetBy(dx: -10, dy: -10))
@@ -38,7 +38,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
     func test_translateToNegativeCoordinates_shouldSelect() async throws {
         drawRect_10_60()
         
-        move(from: .coord(15), to: .coord(5))
+        drag(15, 5)
 
         let selected = try await awaitSelected()
         XCTAssertNotNil(selected, "should select after translation")
@@ -112,11 +112,15 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         let containerFrame = CGRect(x: -10, y: -10, width: 90, height: 90)
         XCTAssertEqual(container?.frame, containerFrame)
         
-        move(from: .coord(0), to: .coord(10)) // Move by 10
+        drag(0, 10) // Move by 10
         
-        XCTAssertEqual(container?.frame,
-                       containerFrame.offsetBy(dx: 10, dy: 10),
-                       "Move container")
+        artboard.assertModelFrames(
+            "Move container") {
+"""
+Container: (0.0, 0.0, 90.0, 90.0):
+ Element: (10.0, 10.0, 50.0, 50.0)
+"""
+        }
     }
     
     func test_whenMoveContainer_shouldMoveAllElementsInsideIt() throws {
@@ -124,17 +128,23 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         let elementFrame = CGRect(x: 10, y: 10, width: 50, height: 50)
         XCTAssertEqual(element.frame, elementFrame)
         
-        move(from: .coord(0), to: .coord(10)) // Move by 10
+        drag(0, 10) // Move by 10
         
-        XCTAssertEqual(element.frame, 
-                       elementFrame,
-                       "Keep element's coordinates inside container")
+        artboard.assertModelFrames(
+            "Keep element's coordinates inside container") {
+"""
+Container: (0.0, 0.0, 90.0, 90.0):
+ Element: (10.0, 10.0, 50.0, 50.0)
+"""
+        }
     }
     
     // MARK: Frames
+    @discardableResult
     private func createFrame() -> Frame {
         sut.disableUndoRegistration()
         let frame = sut.add(image: Sample().image3x())
+        frame.label = "Frame"
         sut.enableUndoRegistration()
         
         return frame
@@ -150,14 +160,18 @@ class TranslatingTests: CanvasAfterDidLoadTests {
     }
     
     func test_whenMoveFrame_shouldMoveFrame() throws {
-        let frame = createFrame()
+        createFrame()
         let frameFrame = CGRect(x: 0, y: 0, width: 390, height: 180)
         
-        move(from: .coord(10), to: .coord(20))
+        drag(10, 20)
         
-        XCTAssertEqual(frame.frame,
-                       frameFrame.offsetBy(dx: 10, dy: 10),
-                       "Frame is moved")
+        artboard.assertModelFrames(
+            "Frame is moved") {
+"""
+Frame: (10.0, 10.0, 390.0, 180.0)
+"""
+        }
+        
         let frameLayer = try XCTUnwrap(sut.uiContent?.frames.first)
         XCTAssertEqual(frameLayer.frame,
                        frameFrame.offsetBy(dx: 10, dy: 10),
@@ -170,13 +184,15 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         XCTAssertEqual(element.frame, elementFrame)
         sut.select(frame) // Select frame to pass movement to frame
         
-//        drag(10, 12, 15, 18, 20)
-        move(from: .coord(10), to: .coord(20))
+        drag(10, 12, 15, 18, 20)
         
-        XCTAssertEqual(element.frame,
-                       elementFrame.offsetBy(dx: 10, dy: 10),
-                       "Move element inside container")
-        
+        artboard.assertModelFrames(
+            "Move element inside container") {
+"""
+Frame: (10.0, 10.0, 390.0, 180.0):
+ Element: (20.0, 20.0, 50.0, 50.0)
+"""
+        }
         let elementLayer = try XCTUnwrap(sut.uiContent?.drawnControls.first)
         XCTAssertEqual(elementLayer.frame,
                        elementFrame,

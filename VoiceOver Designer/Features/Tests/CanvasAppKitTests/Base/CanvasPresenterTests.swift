@@ -46,6 +46,10 @@ extension CanvasPresenterTests {
         sut.subscribeOnControlChanges()
     }
     
+    var artboard: Artboard {
+        sut.document.artboard
+    }
+    
     var drawnControls: [any ArtboardElement] {
         controller.controlsView.drawnControls.compactMap(\.model)
     }
@@ -71,17 +75,13 @@ extension CanvasPresenterTests {
                     initialScale: 1,
                     previewSource: PreviewSourceDummy())
     }
-    
-    @discardableResult
-    func move(from: CGPoint, to: CGPoint) -> ArtboardElementLayer? {
-        sut.mouseDown(on: from)
-        return sut.mouseUp(on: to)
-    }
    
     @discardableResult
     func drawRect(from: CGPoint, to: CGPoint) -> ArtboardElementLayer? {
         sut.mouseDown(on: from)
-        return sut.mouseUp(on: to)
+        let layer = sut.mouseUp(on: to)
+        layer?.model?.label = "Element"
+        return layer
     }
     
     func drawRect_10_60(deselect: Bool = true) {
