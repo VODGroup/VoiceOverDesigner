@@ -98,6 +98,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
     }
     
     // MARK: Containers
+    @discardableResult
     private func createContainerWithElement10_60() throws -> (A11yDescription, A11yContainer?) {
         sut.disableUndoRegistration()
         let element = try drawElement(from: start10, to: end60)
@@ -107,32 +108,21 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         return (element, container)
     }
     
-    func test_whenMoveContainer_shouldMoveContainer() throws {
-        let (_, container) = try createContainerWithElement10_60()
-        let containerFrame = CGRect(x: -10, y: -10, width: 90, height: 90)
-        XCTAssertEqual(container?.frame, containerFrame)
-        
-        drag(0, 10) // Move by 10
-        
-        artboard.assertModelFrames("Move container") {
+    func test_whenMoveContainer_shouldMoveContainerAndElements() throws {
+        try createContainerWithElement10_60()
+        artboard.assertModelFrames("Initial frames") {
             """
-            Container: (0.0, 0.0, 90.0, 90.0):
+            Container: (-10.0, -10.0, 90.0, 90.0):
              Element: (10.0, 10.0, 50.0, 50.0)
             """
         }
-    }
-    
-    func test_whenMoveContainer_shouldMoveAllElementsInsideIt() throws {
-        let (element, _) = try createContainerWithElement10_60()
-        let elementFrame = CGRect(x: 10, y: 10, width: 50, height: 50)
-        XCTAssertEqual(element.frame, elementFrame)
         
         drag(0, 10) // Move by 10
         
-        artboard.assertModelFrames("Keep element's coordinates inside container") {
+        artboard.assertModelFrames("Move absolute frames") {
             """
             Container: (0.0, 0.0, 90.0, 90.0):
-             Element: (10.0, 10.0, 50.0, 50.0)
+             Element: (20.0, 20.0, 50.0, 50.0)
             """
         }
     }
@@ -212,6 +202,36 @@ class TranslatingTests: CanvasAfterDidLoadTests {
              Element: (20.0, 20.0, 50.0, 50.0)
             """
             }
+    }
+    
+    func test_whenMoveFrameTwoTimes_shouldMoveFrame_layer() throws {
+        let (_, frame) = try createFrameWithElement10_60()
+        sut.select(frame) // Select frame to pass movement to frame
+        
+        drag(10, 20)
+        drag(20, 30) // 20 offset in total
+        
+        drawingLayer.assertFrames("Stable in layer") {
+            """
+            ImageLayer: (20.0, 20.0, 390.0, 180.0)
+             A11yControlLayer: (10.0, 10.0, 50.0, 50.0)
+            """
+        }
+    }
+    
+    func test_whenMoveFrameTwoTimes_shouldMoveFrame_model() throws {
+        let (_, frame) = try createFrameWithElement10_60()
+        sut.select(frame) // Select frame to pass movement to frame
+        
+        drag(10, 20)
+        drag(20, 30) // 20 offset in total
+        
+        artboard.assertModelFrames("Move absolute frame") {
+            """
+            Frame: (20.0, 20.0, 390.0, 180.0):
+             Element: (30.0, 30.0, 50.0, 50.0)
+            """
+        }
     }
     
     // MARK: - Resizing
