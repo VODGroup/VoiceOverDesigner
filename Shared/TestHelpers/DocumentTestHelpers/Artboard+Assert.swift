@@ -23,7 +23,7 @@ extension Artboard {
             file: file, function: function, line: line, column: column)
     }
     
-    public func assertModelFrames(
+    public func assertAbsoluteFrames(
         _ message: String = "",
         matches expected: (() -> String)? = nil,
         file: StaticString = #filePath,

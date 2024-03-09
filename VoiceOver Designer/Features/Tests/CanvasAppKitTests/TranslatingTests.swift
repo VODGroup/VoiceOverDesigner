@@ -110,7 +110,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
     
     func test_whenMoveContainer_shouldMoveContainerAndElements() throws {
         try createContainerWithElement10_60()
-        artboard.assertModelFrames("Initial frames") {
+        artboard.assertAbsoluteFrames {
             """
             Container: (-10.0, -10.0, 90.0, 90.0):
              Element: (10.0, 10.0, 50.0, 50.0)
@@ -119,7 +119,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         
         drag(0, 10) // Move by 10
         
-        artboard.assertModelFrames("Move absolute frames") {
+        artboard.assertAbsoluteFrames {
             """
             Container: (0.0, 0.0, 90.0, 90.0):
              Element: (20.0, 20.0, 50.0, 50.0)
@@ -157,7 +157,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         
         drag(10, 20)
         
-        drawingLayer.assertFrames("Frame's layer is moved") {
+        drawingLayer.assertRelativeFrames {
             """
             ImageLayer: (10.0, 10.0, 390.0, 180.0)
             """
@@ -169,7 +169,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
 
         drag(10, 20)
         
-        artboard.assertModelFrames("Frame is moved") {
+        artboard.assertAbsoluteFrames {
             """
             Frame: (10.0, 10.0, 390.0, 180.0)
             """
@@ -182,7 +182,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         
         drag(10, 12, 15, 18, 20) // 10 offset
 
-        drawingLayer.assertFrames("Stable in layer") {
+        drawingLayer.assertRelativeFrames {
             """
             ImageLayer: (10.0, 10.0, 390.0, 180.0)
              A11yControlLayer: (10.0, 10.0, 50.0, 50.0)
@@ -196,7 +196,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         
         drag(10, 12, 15, 18, 20) // 10 offset
         
-        artboard.assertModelFrames("Move absolute frame") {
+        artboard.assertAbsoluteFrames {
             """
             Frame: (10.0, 10.0, 390.0, 180.0):
              Element: (20.0, 20.0, 50.0, 50.0)
@@ -211,7 +211,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         drag(10, 20)
         drag(20, 30) // 20 offset in total
         
-        drawingLayer.assertFrames("Stable in layer") {
+        drawingLayer.assertRelativeFrames {
             """
             ImageLayer: (20.0, 20.0, 390.0, 180.0)
              A11yControlLayer: (10.0, 10.0, 50.0, 50.0)
@@ -226,7 +226,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         drag(10, 20)
         drag(20, 30) // 20 offset in total
         
-        artboard.assertModelFrames("Move absolute frame") {
+        artboard.assertAbsoluteFrames {
             """
             Frame: (20.0, 20.0, 390.0, 180.0):
              Element: (30.0, 30.0, 50.0, 50.0)
@@ -265,7 +265,7 @@ extension DocumentPresenter {
 // MARK: CALayer snapshotting
 import InlineSnapshotTesting
 extension CALayer {
-    public func assertFrames(
+    public func assertRelativeFrames(
         _ message: String = "",
         matches expected: (() -> String)? = nil,
         file: StaticString = #filePath,
