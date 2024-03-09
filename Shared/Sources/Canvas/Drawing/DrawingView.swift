@@ -11,6 +11,18 @@ extension AppView {
     var contentScale: CGFloat {
         layer.contentsScale
     }
+    
+    var sublayers: [CALayer] {
+        layer.sublayers ?? []
+    }
+    
+    func absoluteFrame(of rect: CGRect, for element: CALayer) -> CGRect {
+        layer.convert(rect, from: element.superlayer)
+    }
+    
+    func relativeFrame(of rect: CGRect, in parent: CALayer?) -> CGRect {
+        layer.convert(rect, to: parent)
+    }
 }
 #else
 import AppKit
@@ -23,6 +35,18 @@ extension AppView {
     
     var contentScale: CGFloat {
         layer!.contentsScale
+    }
+    
+    var sublayers: [CALayer] {
+        layer?.sublayers ?? []
+    }
+    
+    func absoluteFrame(of rect: CGRect, for element: CALayer) -> CGRect {
+        layer!.convert(rect, from: element.superlayer)
+    }
+    
+    func relativeFrame(of rect: CGRect, in parent: CALayer?) -> CGRect {
+        layer!.convert(rect, to: parent)
     }
 }
 #endif
@@ -46,20 +70,12 @@ public protocol DrawingView: AppView {
 extension DrawingView {
     
     public var frames: [Canvas.ImageLayer] {
-        guard let sublayers = layer?.sublayers else {
-            return []
-        }
-        
         return sublayers.compactMap({ layer in
             layer as? ImageLayer
         })
     }
     
     public var drawnControls: [A11yControlLayer] {
-        guard let sublayers = layer?.sublayers else {
-            return []
-        }
-        
         let containers = sublayers.flatMap({ layer in
             layer.controlsLayerRecursive()
         })
@@ -80,21 +96,6 @@ extension CALayer {
     }
 }
 
-extension DrawingView {
-    func absoluteFrame(for element: CALayer) -> CGRect {
-        absoluteFrame(of: element.frame,
-                      for: element)
-    }
-    
-    func absoluteFrame(of rect: CGRect, for element: CALayer) -> CGRect {
-        layer!.convert(rect, from: element.superlayer)
-    }
-    
-    func relativeFrame(of rect: CGRect, in parent: CALayer?) -> CGRect {
-        layer!.convert(rect, to: parent)
-    }
-}
-
 public extension DrawingView {
     
     func add(frame: ImageLayer) {
@@ -107,8 +108,6 @@ public extension DrawingView {
         control.contentsScale = contentScale
         
         if let parent {
-            control.frame = layer!.convert(control.frame,
-                                           to: parent)
             parent.addSublayer(control)
         } else {
             addSublayer(control)

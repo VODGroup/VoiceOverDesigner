@@ -185,7 +185,7 @@ public class CanvasPresenter: DocumentPresenter {
     
 #if canImport(XCTest)
     public override func replace(elements: [A11yDescription]) {
-        for sublayer in drawingController.view.layer?.sublayers ?? [] {
+        for sublayer in drawingController.view.sublayers {
             sublayer.removeFromSuperlayer()
         }
         
