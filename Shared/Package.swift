@@ -97,9 +97,6 @@ let package = Package(
                          package: "swift-snapshot-testing"),
                 "FolderSnapshot",
                 "CombineTestHelpers",
-            ],
-            resources: [
-                .copy("Document/__Snapshots__")
             ]
         ),
         
