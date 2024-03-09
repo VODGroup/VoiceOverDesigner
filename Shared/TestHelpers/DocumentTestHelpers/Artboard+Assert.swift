@@ -11,7 +11,9 @@ extension Artboard {
         line: UInt = #line,
         column: UInt = #column
     ) {
-        let actual = elements.recursiveDescription(keyPath: \.label).joined(separator: "\n")
+        let actual = elements
+            .recursiveDescription(keyPath: \.label)
+            .joined(separator: "\n")
 
         assertInlineSnapshot(
             of: actual,
@@ -29,7 +31,9 @@ extension Artboard {
         line: UInt = #line,
         column: UInt = #column
     ) {
-        let actual = elements.recursiveDescription(keyPath: \.frameDescription).joined(separator: "\n")
+        let actual = elements
+            .recursiveDescription(keyPath: \.frameDescription)
+            .joined(separator: "\n")
         
         assertInlineSnapshot(
             of: actual,
@@ -55,14 +59,21 @@ extension Array where Element == any ArtboardElement {
                     return frame[keyPath: keyPath]
                 }
                 
-                return "\(frame[keyPath: keyPath]):\n\(frame.elements.elementsDescription(insetLevel + 1, keyPath: keyPath))"
+                let subelements = frame.elements.elementsDescription(
+                    insetLevel + 1,
+                    keyPath: keyPath)
+                
+                return "\(frame[keyPath: keyPath]):\n\(subelements)"
             case .container(let container):
                 if container.elements.isEmpty {
                     return inset + container.label
                 }
                 
-                let containerDesc = inset + "\(container[keyPath: keyPath]):\n\(container.elements.elementsDescription(insetLevel + 1, keyPath: keyPath))"
-                return containerDesc
+                let subelements = container.elements.elementsDescription(
+                    insetLevel + 1,
+                    keyPath: keyPath)
+                
+                return inset + "\(container[keyPath: keyPath]):\n\(subelements)"
             case .element(let element):
                 return inset + element[keyPath: keyPath]
             }

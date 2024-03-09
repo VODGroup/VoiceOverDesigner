@@ -141,7 +141,7 @@ Container: (0.0, 0.0, 90.0, 90.0):
     
     // MARK: Frames
     @discardableResult
-    private func createFrame() -> Frame {
+    private func createFrameAtZeroOrigin() -> Frame {
         sut.disableUndoRegistration()
         let frame = sut.add(image: Sample().image3x())
         frame.label = "Frame"
@@ -151,7 +151,7 @@ Container: (0.0, 0.0, 90.0, 90.0):
     }
     private func createFrameWithElement10_60() throws -> (A11yDescription, Frame) {
         sut.disableUndoRegistration()
-        let frame = createFrame()
+        let frame = createFrameAtZeroOrigin()
         sut.deselect() // Frame
         let element = try drawElement(from: start10, to: end60)
         sut.enableUndoRegistration()
@@ -159,29 +159,51 @@ Container: (0.0, 0.0, 90.0, 90.0):
         return (element, frame)
     }
     
-    func test_whenMoveFrame_shouldMoveFrame() throws {
-        createFrame()
-        let frameFrame = CGRect(x: 0, y: 0, width: 390, height: 180)
+    var drawingLayer: CALayer {
+        sut.uiContent!.layer!
+            .sublayers!.first! // Skip NSViewBackingLayer
+    }
+    
+    func test_whenMoveFrame_shouldMoveFrameLayer() throws {
+        createFrameAtZeroOrigin()
         
         drag(10, 20)
         
-        artboard.assertModelFrames(
-            "Frame is moved") {
+        drawingLayer.assertFrames("Frame's layer is moved") {
+"""
+ImageLayer: (10.0, 10.0, 390.0, 180.0)
+"""
+        }
+    }
+    
+    func test_whenMoveFrame_shouldMoveFrameModel() throws {
+        createFrameAtZeroOrigin()
+
+        drag(10, 20)
+        
+        artboard.assertModelFrames("Frame is moved") {
 """
 Frame: (10.0, 10.0, 390.0, 180.0)
 """
         }
-        
-        let frameLayer = try XCTUnwrap(sut.uiContent?.frames.first)
-        XCTAssertEqual(frameLayer.frame,
-                       frameFrame.offsetBy(dx: 10, dy: 10),
-                       "Frame's layer is moved")
     }
     
-    func test_whenMoveFrame_shouldMoveElementsInsideFrame() throws {
-        let (element, frame) = try createFrameWithElement10_60()
-        let elementFrame = CGRect(x: 10, y: 10, width: 50, height: 50)
-        XCTAssertEqual(element.frame, elementFrame)
+    func test_whenMoveFrame_shouldMoveElementsInsideFrameLayer() throws {
+        let (_, frame) = try createFrameWithElement10_60()
+        sut.select(frame) // Select frame to pass movement to frame
+        
+        drag(10, 12, 15, 18, 20)
+
+        drawingLayer.assertFrames("Element position is stable inside frame") {
+"""
+ImageLayer: (10.0, 10.0, 390.0, 180.0)
+ A11yControlLayer: (10.0, 10.0, 50.0, 50.0)
+"""
+        }
+    }
+    
+    func test_whenMoveFrame_shouldMoveElementsInsideFrameModel() throws {
+        let (_, frame) = try createFrameWithElement10_60()
         sut.select(frame) // Select frame to pass movement to frame
         
         drag(10, 12, 15, 18, 20)
@@ -192,11 +214,7 @@ Frame: (10.0, 10.0, 390.0, 180.0)
 Frame: (10.0, 10.0, 390.0, 180.0):
  Element: (20.0, 20.0, 50.0, 50.0)
 """
-        }
-        let elementLayer = try XCTUnwrap(sut.uiContent?.drawnControls.first)
-        XCTAssertEqual(elementLayer.frame,
-                       elementFrame,
-                       "Element position is stable inside frame")
+            }
     }
     
     // MARK: - Resizing
@@ -224,5 +242,51 @@ extension DocumentPresenter {
     }
     func undo() {
         document.undo?.undo()
+    }
+}
+
+// MARK: CALayer snapshotting
+import InlineSnapshotTesting
+extension CALayer {
+    public func assertFrames(
+        _ message: String = "",
+        matches expected: (() -> String)? = nil,
+        file: StaticString = #filePath,
+        function: StaticString = #function,
+        line: UInt = #line,
+        column: UInt = #column
+    ) {
+        let actual = recursiveDescription(keyPath: \.frameDescription)
+            
+        assertInlineSnapshot(
+            of: actual,
+            as: .lines,
+            message: message,
+            matches: expected,
+            file: file, function: function, line: line, column: column)
+    }
+    
+    var frameDescription: String {
+        "\(Self.self): \(frame.debugDescription)"
+    }
+}
+
+extension CALayer {
+    public func recursiveDescription(
+        insetLevel: Int = 0,
+        keyPath: KeyPath<CALayer, String>
+    ) -> String {
+        let inset = String(repeating: " ", count: insetLevel)
+        
+        guard let sublayers, !sublayers.isEmpty else {
+            return inset + self[keyPath: keyPath]
+        }
+        
+        let sublayersDescription = sublayers
+            .map { sublayer in
+                sublayer.recursiveDescription(insetLevel: insetLevel + 1, keyPath: keyPath)
+            }.joined(separator: "\n")
+        
+        return self[keyPath: keyPath] + "\n" + sublayersDescription
     }
 }
