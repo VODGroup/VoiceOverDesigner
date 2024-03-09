@@ -47,7 +47,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "git@github.com:pointfreeco/swift-snapshot-testing.git",
-            .upToNextMajor(from: "1.15.1")
+            .upToNextMajor(from: "1.15.4")
         ),
         .package(url: "git@github.com:pointfreeco/swift-custom-dump.git",
                  .upToNextMajor(from: "1.1.2")),

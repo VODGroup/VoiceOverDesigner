@@ -114,12 +114,11 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         
         drag(0, 10) // Move by 10
         
-        artboard.assertModelFrames(
-            "Move container") {
-"""
-Container: (0.0, 0.0, 90.0, 90.0):
- Element: (10.0, 10.0, 50.0, 50.0)
-"""
+        artboard.assertModelFrames("Move container") {
+            """
+            Container: (0.0, 0.0, 90.0, 90.0):
+             Element: (10.0, 10.0, 50.0, 50.0)
+            """
         }
     }
     
@@ -130,12 +129,11 @@ Container: (0.0, 0.0, 90.0, 90.0):
         
         drag(0, 10) // Move by 10
         
-        artboard.assertModelFrames(
-            "Keep element's coordinates inside container") {
-"""
-Container: (0.0, 0.0, 90.0, 90.0):
- Element: (10.0, 10.0, 50.0, 50.0)
-"""
+        artboard.assertModelFrames("Keep element's coordinates inside container") {
+            """
+            Container: (0.0, 0.0, 90.0, 90.0):
+             Element: (10.0, 10.0, 50.0, 50.0)
+            """
         }
     }
     
@@ -164,56 +162,55 @@ Container: (0.0, 0.0, 90.0, 90.0):
             .sublayers!.first! // Skip NSViewBackingLayer
     }
     
-    func test_whenMoveFrame_shouldMoveFrameLayer() throws {
+    func test_whenMoveFrame_shouldMoveFrame_layer() throws {
         createFrameAtZeroOrigin()
         
         drag(10, 20)
         
         drawingLayer.assertFrames("Frame's layer is moved") {
-"""
-ImageLayer: (10.0, 10.0, 390.0, 180.0)
-"""
+            """
+            ImageLayer: (10.0, 10.0, 390.0, 180.0)
+            """
         }
     }
     
-    func test_whenMoveFrame_shouldMoveFrameModel() throws {
+    func test_whenMoveFrame_shouldMoveFrame_model() throws {
         createFrameAtZeroOrigin()
 
         drag(10, 20)
         
         artboard.assertModelFrames("Frame is moved") {
-"""
-Frame: (10.0, 10.0, 390.0, 180.0)
-"""
+            """
+            Frame: (10.0, 10.0, 390.0, 180.0)
+            """
         }
     }
     
-    func test_whenMoveFrame_shouldMoveElementsInsideFrameLayer() throws {
+    func test_whenMoveFrame_shouldMoveElementsInsideFrame_layer() throws {
         let (_, frame) = try createFrameWithElement10_60()
         sut.select(frame) // Select frame to pass movement to frame
         
-        drag(10, 12, 15, 18, 20)
+        drag(10, 12, 15, 18, 20) // 10 offset
 
-        drawingLayer.assertFrames("Element position is stable inside frame") {
-"""
-ImageLayer: (10.0, 10.0, 390.0, 180.0)
- A11yControlLayer: (10.0, 10.0, 50.0, 50.0)
-"""
+        drawingLayer.assertFrames("Stable in layer") {
+            """
+            ImageLayer: (10.0, 10.0, 390.0, 180.0)
+             A11yControlLayer: (10.0, 10.0, 50.0, 50.0)
+            """
         }
     }
     
-    func test_whenMoveFrame_shouldMoveElementsInsideFrameModel() throws {
+    func test_whenMoveFrame_shouldMoveElementsInsideFrame_model() throws {
         let (_, frame) = try createFrameWithElement10_60()
         sut.select(frame) // Select frame to pass movement to frame
         
-        drag(10, 12, 15, 18, 20)
+        drag(10, 12, 15, 18, 20) // 10 offset
         
-        artboard.assertModelFrames(
-            "Move element inside container") {
-"""
-Frame: (10.0, 10.0, 390.0, 180.0):
- Element: (20.0, 20.0, 50.0, 50.0)
-"""
+        artboard.assertModelFrames("Move absolute frame") {
+            """
+            Frame: (10.0, 10.0, 390.0, 180.0):
+             Element: (20.0, 20.0, 50.0, 50.0)
+            """
             }
     }
     
