@@ -4,24 +4,8 @@ import Document
 import UIKit
 public typealias AppView = UIView
 extension AppView {
-    func addSublayer(_ layer: CALayer) {
-        self.layer.addSublayer(layer)
-    }
-    
-    var contentScale: CGFloat {
-        layer.contentsScale
-    }
-    
-    var sublayers: [CALayer] {
-        layer.sublayers ?? []
-    }
-    
-    func absoluteFrame(of rect: CGRect, for element: CALayer) -> CGRect {
-        layer.convert(rect, from: element.superlayer)
-    }
-    
-    func relativeFrame(of rect: CGRect, in parent: CALayer?) -> CGRect {
-        layer.convert(rect, to: parent)
+    var unwrappedLayer: CALayer {
+        layer
     }
 }
 #else
@@ -29,27 +13,33 @@ import AppKit
 public typealias AppView = NSView
 
 extension AppView {
-    func addSublayer(_ layer: CALayer) {
-        self.layer!.addSublayer(layer)
-    }
-    
-    var contentScale: CGFloat {
-        layer!.contentsScale
-    }
-    
-    var sublayers: [CALayer] {
-        layer?.sublayers ?? []
-    }
-    
-    func absoluteFrame(of rect: CGRect, for element: CALayer) -> CGRect {
-        layer!.convert(rect, from: element.superlayer)
-    }
-    
-    func relativeFrame(of rect: CGRect, in parent: CALayer?) -> CGRect {
-        layer!.convert(rect, to: parent)
+    var unwrappedLayer: CALayer {
+        layer!
     }
 }
 #endif
+
+extension AppView {
+    func addSublayer(_ layer: CALayer) {
+        unwrappedLayer.addSublayer(layer)
+    }
+    
+    var contentScale: CGFloat {
+        unwrappedLayer.contentsScale
+    }
+    
+    var sublayers: [CALayer] {
+        unwrappedLayer.sublayers ?? []
+    }
+    
+    func absoluteFrame(of rect: CGRect, for element: CALayer) -> CGRect {
+        unwrappedLayer.convert(rect, from: element.superlayer)
+    }
+    
+    func relativeFrame(of rect: CGRect, in parent: CALayer?) -> CGRect {
+        unwrappedLayer.convert(rect, to: parent)
+    }
+}
 
 extension CALayer {
     public func updateWithoutAnimation(_ block: () -> Void) {
@@ -75,24 +65,33 @@ extension DrawingView {
         })
     }
     
+    /// Contains flatten version of every A11yControlLayer
     public var drawnControls: [A11yControlLayer] {
-        let containers = sublayers.flatMap({ layer in
-            layer.controlsLayerRecursive()
-        })
-        
-        return containers
+        sublayers
+            .flatMap({ layer in
+                layer.nestedControlsLayers()
+            })
     }
 }
 
 extension CALayer {
-    func controlsLayerRecursive() -> [A11yControlLayer] {
-        if let control = self as? A11yControlLayer, sublayers?.isEmpty ?? true {
-            return [control]
-        } else {
-            return sublayers?.compactMap({ layer in
-                layer as? A11yControlLayer
-            }) ?? []
+    /// Return element and all sublayers
+    func nestedControlsLayers<T>() -> [T] {
+        var result = [T]()
+        
+        if let control = self as? T {
+            result.append(control)
         }
+        
+        let conformingSublayers = sublayers?
+            .compactMap({ layer in
+                layer as? T
+            }) ?? []
+        
+    
+        result.append(contentsOf: conformingSublayers)
+    
+        return result
     }
 }
 
@@ -159,6 +158,18 @@ public extension DrawingView {
     func drawnControls(for container: any ArtboardContainer) -> [A11yControlLayer] {
         drawnControls.filter { layer in
             container.elements.contains { $0 === layer.model }
+        }
+    }
+    
+    func recalculateAbsoluteFrameForNestedElements(
+        in container: any ArtboardContainer
+    ) {
+        for nestedLayer in drawnControls(for: container) {
+            let relativeFrame = nestedLayer.frame
+            
+            nestedLayer.recalculateAbsoluteFrameInModel(to: relativeFrame, in: self)
+            
+            // TODO: Won't work on nested containers or should be recursive
         }
     }
 }

@@ -50,13 +50,7 @@ public class MoveAction: DraggingAction {
     
     private func updateNestedLayersIfNeeded() {
         if let container = control.model as? any ArtboardContainer {
-            // Won't work on nested containers or should be recursive
-            for nestedLayer in view.drawnControls(for: container) {
-                let relativeFrame = nestedLayer.frame
-                
-                nestedLayer.recalculateAbsoluteFrameInModel(to: relativeFrame, in: view)
-            }
+            view.recalculateAbsoluteFrameForNestedElements(in: container)
         }
-        
     }
 }

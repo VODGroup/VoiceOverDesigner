@@ -41,11 +41,14 @@ public class DrawingController {
         artboard: Artboard,
         scale: CGFloat
     ) {
-        drawElements(
-            controls: artboard.elements,
-            scale: scale,
-            containerLayer: nil, // DrawingView in itself
-            imageLoader: artboard.imageLoader)
+        // Remove animation when wrap elements in container
+        view.unwrappedLayer.updateWithoutAnimation {
+            drawElements(
+                controls: artboard.elements,
+                scale: scale,
+                containerLayer: nil, // DrawingView in itself
+                imageLoader: artboard.imageLoader)
+        }
         
         view.invalidateIntrinsicContentSize()
     }
@@ -105,19 +108,19 @@ public class DrawingController {
         scale: CGFloat,
         in parent: CALayer?
     ) -> A11yControlLayer {
-        let control = layer(for: element, in: parent)
+        let layer = layer(for: element, in: parent)
         
         if let parent {
-            control.frame = view.relativeFrame(
+            layer.frame = view.relativeFrame(
                 of: element.frame.scaled(scale),
                 in: parent)
         } else {
-            control.frame = element.frame.scaled(scale)
+            layer.frame = element.frame.scaled(scale)
         }
         
-        control.backgroundColor = element.color.cgColor
+        layer.backgroundColor = element.color.cgColor
         
-        return control
+        return layer
     }
     
     private func frameLayer(
@@ -183,7 +186,8 @@ public class DrawingController {
         on location: CGPoint,
         selectedControl: ArtboardElementLayer?
     ) {
-        switch action(for: location, selectedControl: selectedControl) {
+        let action = action(for: location, selectedControl: selectedControl)
+        switch action {
         case .dragging(let control):
             startDragging(control: control, startLocation: location)
         case .drawing:

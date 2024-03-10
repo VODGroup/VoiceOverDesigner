@@ -163,7 +163,7 @@ open class DocumentPresenter {
     }
     
     @discardableResult
-    public func wrapInContainer(
+    open func wrapInContainer(
         _ elements: [any ArtboardElement]
     ) -> A11yContainer? {
         document.undo?.registerUndo(withTarget: self, handler: { presenter in

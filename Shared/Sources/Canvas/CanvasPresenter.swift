@@ -183,11 +183,27 @@ public class CanvasPresenter: DocumentPresenter {
         super.remove(model)
     }
     
-#if canImport(XCTest)
-    public override func replace(elements: [A11yDescription]) {
-        for sublayer in drawingController.view.sublayers {
+    open override func wrapInContainer(
+        _ elements: [any ArtboardElement]
+    ) -> A11yContainer? {
+        ///  Remove cached layers to allow reposition hierachy
+        let elementsLayers = elements
+            .compactMap(drawingController.cachedLayer(for:))
+        remove(layers: elementsLayers)
+        
+        return super.wrapInContainer(elements)
+    }
+    
+    private func remove(layers: [CALayer]) {
+        for sublayer in layers
+        {
             sublayer.removeFromSuperlayer()
         }
+    }
+    
+#if canImport(XCTest)
+    public override func replace(elements: [A11yDescription]) {
+        remove(layers: drawingController.view.sublayers)
         
         super.replace(elements: elements)
     }
