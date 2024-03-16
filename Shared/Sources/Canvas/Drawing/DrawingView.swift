@@ -59,9 +59,9 @@ public protocol DrawingView: AppView {
 
 extension DrawingView {
     
-    public var frames: [Canvas.ImageLayer] {
+    public var frames: [Canvas.FrameLayer] {
         return sublayers.compactMap({ layer in
-            layer as? ImageLayer
+            layer as? FrameLayer
         })
     }
     
@@ -97,7 +97,7 @@ extension CALayer {
 
 public extension DrawingView {
     
-    func add(frame: ImageLayer) {
+    func add(frame: FrameLayer) {
         addSublayer(frame)
     }
     

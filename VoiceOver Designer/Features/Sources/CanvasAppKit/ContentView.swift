@@ -43,15 +43,15 @@ class ContentView: FlippedView, DrawingView {
         return box
     }
     
-    private var imageLayers: [ImageLayer] {
+    private var frameLayers: [FrameLayer] {
         (layer?.sublayers ?? [])
             .compactMap { layer in
-                layer as? ImageLayer
+                layer as? FrameLayer
             }
     }
     
     private func frameImage(at frame: CGRect) -> (CGImage, CGRect)? {
-        guard let imageView = imageLayers
+        guard let imageView = frameLayers
             .first(where: { imageView in
                 imageView.frame.intersects(frame)
             }), let image = imageView.image

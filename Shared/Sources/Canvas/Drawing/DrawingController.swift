@@ -97,11 +97,11 @@ public class DrawingController {
         imageLoader: ImageLoading,
         scale: CGFloat
     ) -> CALayer {
-        let imageLayer = frameLayer(for: frame, imageLoader: imageLoader)
-        imageLayer.frame = frame.frame
-        imageLayer.contentsScale = scale
+        let frameLayer = frameLayer(for: frame, imageLoader: imageLoader)
+        frameLayer.frame = frame.frame
+        frameLayer.contentsScale = scale
         
-        return imageLayer
+        return frameLayer
     }
     
     @discardableResult
@@ -128,13 +128,13 @@ public class DrawingController {
     private func frameLayer(
         for frame: Frame,
         imageLoader: ImageLoading
-    ) -> ImageLayer {
+    ) -> FrameLayer {
         if let cachedLayer = cachedFrameLayer(for: frame)  {
             return cachedLayer
         }
         
         // Create new
-        let layer = ImageLayer(model: frame)
+        let layer = FrameLayer(model: frame)
         layer.image = imageLoader.image(for: frame)?.defaultCGImage
         view.add(frame: layer)
         
@@ -160,7 +160,7 @@ public class DrawingController {
         })
     }
     
-    func cachedFrameLayer(for frame: Frame) -> ImageLayer? {
+    func cachedFrameLayer(for frame: Frame) -> FrameLayer? {
         view.frames.first(where:  { layer in
             layer.model === frame
         })
@@ -226,7 +226,7 @@ public class DrawingController {
         if let selectedControl {
             if let corner = view.hud.corner(for: location) {
                 return .resizing(selectedControl, corner: corner)
-            } else if let frame = selectedControl as? ImageLayer,
+            } else if let frame = selectedControl as? FrameLayer,
                       frame.frame.contains(location)
             {
                 return .dragging(frame)
@@ -346,7 +346,7 @@ public class ArtboardElementLayer: CALayer {
     }
 }
 
-public class ImageLayer: ArtboardElementLayer {
+public class FrameLayer: ArtboardElementLayer {
     
     public var image: CGImage? {
         set {

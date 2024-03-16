@@ -154,7 +154,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         
         drawingLayer.assertRelativeFrames {
             """
-            ImageLayer: (10.0, 10.0, 390.0, 180.0)
+            FrameLayer: (10.0, 10.0, 390.0, 180.0)
             """
         }
     }
@@ -179,7 +179,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
 
         drawingLayer.assertRelativeFrames {
             """
-            ImageLayer: (10.0, 10.0, 390.0, 180.0)
+            FrameLayer: (10.0, 10.0, 390.0, 180.0)
              A11yControlLayer: (10.0, 10.0, 50.0, 50.0)
             """
         }
@@ -223,7 +223,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         
         drawingLayer.assertRelativeFrames {
             """
-            ImageLayer: (20.0, 20.0, 390.0, 180.0)
+            FrameLayer: (20.0, 20.0, 390.0, 180.0)
              A11yControlLayer: (10.0, 10.0, 50.0, 50.0)
             """
         }
