@@ -44,9 +44,9 @@ public class DrawingController {
         // Remove animation when wrap elements in container
         view.unwrappedLayer.updateWithoutAnimation {
             drawElements(
-                controls: artboard.elements,
+                artboard.elements,
+                in: nil, // DrawingView in itself
                 scale: scale,
-                containerLayer: nil, // DrawingView in itself
                 imageLoader: artboard.imageLoader)
         }
         
@@ -54,9 +54,9 @@ public class DrawingController {
     }
     
     func drawElements(
-        controls: [any ArtboardElement],
+        _ controls: [any ArtboardElement],
+        in parentLayer: CALayer?,
         scale: CGFloat,
-        containerLayer: CALayer?,
         imageLoader: ImageLoading
     ) {
         for control in controls {
@@ -67,7 +67,9 @@ public class DrawingController {
                      scale: scale)
                 
             case .container(let container):
-                let containerLayer = draw(container: container, scale: scale, in: containerLayer)
+                let containerLayer = draw(container: container,
+                                          in: parentLayer,
+                                          scale: scale)
                 
                 for element in container.elements {
                     draw(element: element,
@@ -75,7 +77,7 @@ public class DrawingController {
                 }
                 
             case .element(let element):
-                draw(element: element, scale: scale, in: containerLayer)
+                draw(element: element, scale: scale, in: parentLayer)
             }
         }
     }
@@ -83,9 +85,9 @@ public class DrawingController {
     private func draw(frame: Frame, imageLoader: ImageLoading, scale: CGFloat) {
         let frameLayer = drawImage(for: frame, imageLoader: imageLoader, scale: scale)
         
-        drawElements(controls: frame.elements,
+        drawElements(frame.elements,
+                     in: frameLayer,
                      scale: scale,
-                     containerLayer: frameLayer,
                      imageLoader: imageLoader)
     }
     
@@ -167,8 +169,8 @@ public class DrawingController {
     @discardableResult
     public func draw(
         container: any ArtboardElement,
-        scale: CGFloat,
-        in parent: CALayer?
+        in parent: CALayer?,
+        scale: CGFloat
     ) -> A11yControlLayer {
         let container = draw(element: container,
                              scale: scale,

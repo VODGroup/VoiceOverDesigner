@@ -70,6 +70,10 @@ extension CanvasPresenterTests {
         controller.controlsView.layer?.sublayers?.count
     }
     
+    var drawingLayer: CALayer {
+        sut.uiContent!.layer! // NSViewBackingLayer
+    }
+    
     func didLoad() {
         sut.didLoad(uiContent: controller.controlsView,
                     initialScale: 1,

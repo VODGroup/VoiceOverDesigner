@@ -146,12 +146,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         
         return (element, frame)
     }
-    
-    var drawingLayer: CALayer {
-        sut.uiContent!.layer!
-            .sublayers!.first! // Skip NSViewBackingLayer
-    }
-    
+
     func test_emptyFrame_whenMove_shouldMoveFrame_layer() throws {
         createFrameAtZeroOrigin()
         
@@ -288,7 +283,7 @@ extension CALayer {
         line: UInt = #line,
         column: UInt = #column
     ) {
-        let actual = recursiveDescription(keyPath: \.frameDescription)
+        let actual = sublayersDescription(keyPath: \.frameDescription) ?? "No layers"
             
         assertInlineSnapshot(
             of: actual,
@@ -310,15 +305,22 @@ extension CALayer {
     ) -> String {
         let inset = String(repeating: " ", count: insetLevel)
         
-        guard let sublayers, !sublayers.isEmpty else {
+        if let sublayersDescription = sublayersDescription(insetLevel: insetLevel + 1, keyPath: keyPath) {
+            return self[keyPath: keyPath] + "\n" + sublayersDescription
+        } else {
             return inset + self[keyPath: keyPath]
         }
-        
-        let sublayersDescription = sublayers
-            .map { sublayer in
-                sublayer.recursiveDescription(insetLevel: insetLevel + 1, keyPath: keyPath)
+    }
+    
+    private func sublayersDescription(
+        insetLevel: Int = 0,
+        keyPath: KeyPath<CALayer, String>
+    ) -> String? {
+        sublayers?
+            .compactMap { sublayer in
+                sublayer.recursiveDescription(
+                    insetLevel: insetLevel,
+                    keyPath: keyPath)
             }.joined(separator: "\n")
-        
-        return self[keyPath: keyPath] + "\n" + sublayersDescription
     }
 }

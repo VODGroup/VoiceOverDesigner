@@ -85,6 +85,12 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     private func finish(_ action: DraggingAction?) -> ArtboardElementLayer? {
+        if let action {
+            print("Finish action \(action)")
+        } else {
+            print("Cancel action")
+        }
+        
         switch action {
         case let click as ClickAction:
             select(click.control.model)
@@ -191,7 +197,17 @@ public class CanvasPresenter: DocumentPresenter {
             .compactMap(drawingController.cachedLayer(for:))
         remove(layers: elementsLayers)
         
-        return super.wrapInContainer(elements)
+        let container = super.wrapInContainer(elements)
+        
+        if let container {
+            document.undoManager?.registerUndo(withTarget: self, handler: { presenter in
+                if let layer = presenter.uiContent?.layer(for: container) {
+                    presenter.uiContent?.delete(control: layer)
+                }
+            })
+        }
+        
+        return container
     }
     
     private func remove(layers: [CALayer]) {

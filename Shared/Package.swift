@@ -183,7 +183,8 @@ let package = Package(
             name: "ElementSettings",
             dependencies: [
                 "Document",
-                "Purchases"
+                "Purchases",
+                "CommonUI",
             ]
         ),
         .target(
