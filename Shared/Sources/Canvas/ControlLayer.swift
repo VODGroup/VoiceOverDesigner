@@ -15,16 +15,9 @@ struct Config {
     let alignmentThreshold: CGFloat = 5
 }
 
-public class A11yControlLayer: CALayer {
+public class ControlLayer: ArtboardElementLayer {
     
     private let config = Config()
-    
-    public var model: (any ArtboardElement)?
-    
-    public func updateFrame(_ newFrame: CGRect) {
-        frame = newFrame
-        model?.frame = newFrame
-    }
     
     public var isHighlighted: Bool = false {
         didSet {
@@ -37,10 +30,9 @@ public class A11yControlLayer: CALayer {
     }
 }
 
-public extension A11yControlLayer {
-    static func copy(from model: any ArtboardElement) -> A11yControlLayer {
-        let control = A11yControlLayer()
-        control.model = model
+public extension ControlLayer {
+    static func copy(from model: any ArtboardElement) -> ControlLayer {
+        let control = ControlLayer(model: model)
         control.frame = model.frame
         control.backgroundColor = model.color.cgColor
         return control

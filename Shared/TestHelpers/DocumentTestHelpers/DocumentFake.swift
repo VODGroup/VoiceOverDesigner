@@ -4,9 +4,16 @@ import Combine
 
 public class DocumentFake: AppleDocument, VODesignDocumentProtocol {
     
+    #if os(macOS)
     public override init() {
         artboard.imageLoader = DummyImageLoader()
     }
+    #elseif os(iOS)
+    public init() {
+        artboard.imageLoader = DummyImageLoader()
+        super.init(fileURL: URL(filePath: ""))
+    }
+    #endif
     
     // MARK: - Data
     public var controls: [any ArtboardElement] = []

@@ -25,7 +25,7 @@ import Artboard
 
 public class A11yDescription: Codable, Equatable, ObservableObject, ArtboardElement {
     public static func == (lhs: A11yDescription, rhs: A11yDescription) -> Bool {
-        lhs.frame == rhs.frame // It looks that we can't have two instances with same frame it it's uniquely enough
+        lhs.id == rhs.id
     }
     
     public init(

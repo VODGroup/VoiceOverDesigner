@@ -1,6 +1,7 @@
 import XCTest
 @testable import Canvas
 
+@MainActor
 class RoutingTests: CanvasAfterDidLoadTests {
     
     func test_openSettings() async throws {

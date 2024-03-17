@@ -11,7 +11,11 @@ public class A11yContainer: BaseContainer, Codable, ObservableObject {
         frame: CGRect,
         label: String
     ) {
-        self.init(elements: elements as! [A11yDescription], frame: frame, label: label, isModal: false)
+        self.init(
+            elements: elements.compactMap { $0 as? A11yDescription }, // TODO: Allow nested containers https://github.com/VODGroup/VoiceOverDesigner/issues/317
+            frame: frame,
+            label: label,
+            isModal: false)
     }
     
     public init(

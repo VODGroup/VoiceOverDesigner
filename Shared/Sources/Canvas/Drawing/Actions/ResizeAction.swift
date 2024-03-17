@@ -1,7 +1,7 @@
 import CoreGraphics
 
 public class ResizeAction: DraggingAction {
-    init(view: DrawingView, control: A11yControlLayer, startLocation: CGPoint, offset: CGPoint, initialFrame: CGRect, corner: RectCorner) {
+    init(view: DrawingView, control: ArtboardElementLayer, startLocation: CGPoint, offset: CGPoint, initialFrame: CGRect, corner: RectCorner) {
         self.view = view
         self.control = control
         self.startLocation = startLocation
@@ -11,7 +11,7 @@ public class ResizeAction: DraggingAction {
     }
     
     private let view: DrawingView
-    public let control: A11yControlLayer
+    public let control: ArtboardElementLayer
     private let startLocation: CGPoint
     private(set) var offset: CGPoint
     public let initialFrame: CGRect
@@ -27,13 +27,13 @@ public class ResizeAction: DraggingAction {
             let frame = initialFrame
                 .move(corner: corner, to: alignedCoordinate)
             
-            control.updateFrame(frame)
+            control.update(to: frame, in: view)
         }
     }
     
     public func end(at coordinate: CGPoint) -> DraggingAction? {
         let frame = control.frame.rounded()
-        control.updateFrame(frame)
+        control.update(to: frame, in: view)
         return self
     }
     
@@ -46,6 +46,8 @@ public class ResizeAction: DraggingAction {
 
 extension ResizeAction: Undoable {
     public func undo() {
-        control.updateFrame(initialFrame)
+        control.updateWithoutAnimation {
+            control.update(to: initialFrame, in: view)
+        }
     }
 }

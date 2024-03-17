@@ -74,12 +74,8 @@ class CanvasView: FlippedView {
     
     func control(
         for model: any ArtboardElement
-    ) -> A11yControlLayer? {
-        documentView
-            .drawnControls
-            .first(where: { control in
-                control.model === model
-            })
+    ) -> ControlLayer? {
+        documentView.layer(for: model)
     }
 }
 

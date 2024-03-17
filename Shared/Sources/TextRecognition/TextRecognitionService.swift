@@ -70,12 +70,13 @@ public class TextRecognitionService: TextRecognitionServiceProtocol {
     }
     
     static func isAutofillEnabledDefault() -> Bool {
-        Locale
-            .current
-            .languageCode // Like "en-US"
-            .map(TextRecognitionService
-                .supportedLanguages
-                .contains) ?? false
+//        Locale
+//            .current
+//            .languageCode // Like "en-US"
+//            .map(TextRecognitionService
+//                .supportedLanguages
+//                .contains) ?? false
+        false
     }
 }
 

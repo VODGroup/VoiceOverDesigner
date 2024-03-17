@@ -46,6 +46,10 @@ extension CanvasPresenterTests {
         sut.subscribeOnControlChanges()
     }
     
+    var artboard: Artboard {
+        sut.document.artboard
+    }
+    
     var drawnControls: [any ArtboardElement] {
         controller.controlsView.drawnControls.compactMap(\.model)
     }
@@ -66,22 +70,22 @@ extension CanvasPresenterTests {
         controller.controlsView.layer?.sublayers?.count
     }
     
+    var drawingLayer: CALayer {
+        sut.uiContent!.layer! // NSViewBackingLayer
+    }
+    
     func didLoad() {
         sut.didLoad(uiContent: controller.controlsView,
                     initialScale: 1,
                     previewSource: PreviewSourceDummy())
     }
-    
-    @discardableResult
-    func move(from: CGPoint, to: CGPoint) -> A11yControlLayer? {
-        sut.mouseDown(on: from)
-        return sut.mouseUp(on: to)
-    }
    
     @discardableResult
-    func drawRect(from: CGPoint, to: CGPoint) -> A11yControlLayer? {
+    func drawRect(from: CGPoint, to: CGPoint) -> ArtboardElementLayer? {
         sut.mouseDown(on: from)
-        return sut.mouseUp(on: to)
+        let layer = sut.mouseUp(on: to)
+        layer?.model?.label = "Element"
+        return layer
     }
     
     func drawRect_10_60(deselect: Bool = true) {
@@ -111,6 +115,7 @@ extension CanvasPresenterTests {
         for point in otherPoints {
             sut.mouseDragged(on: .coord(point))
         }
+        sut.mouseUp(on: .coord(otherPoints.last!))
     }
     
     func click(_ coordinate: CGPoint) {
@@ -140,7 +145,7 @@ class PreviewSourceDummy: PreviewSourceProtocol {
 }
 
 extension CanvasPresenter {
-    func add(image: NSImage) {
+    func add(image: NSImage) -> Frame {
         add(image: image, name: "Sample")
     }
 }

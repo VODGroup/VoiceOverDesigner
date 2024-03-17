@@ -48,7 +48,7 @@ extension VODesignPreviewViewController {
     }
     
     private func draw(frame: Frame?) {
-        self.view().canvas.removeAll() // TODO: Move clearing inside? drawingController?
+//        self.view().canvas.removeAll() // TODO: Move clearing inside? drawingController?
         
         let image = frame.flatMap(presenter.document.artboard.imageLoader.image(for:))
         

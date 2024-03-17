@@ -5,5 +5,5 @@ public protocol DraggingAction {
     func end(at coordinate: CGPoint) -> DraggingAction?
     func cancel()
     
-    var control: A11yControlLayer { get }
+    var control: ArtboardElementLayer { get }
 }

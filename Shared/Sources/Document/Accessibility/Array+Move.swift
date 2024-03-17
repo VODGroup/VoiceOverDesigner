@@ -50,7 +50,7 @@ extension Array where Element == A11yDescription {
         }
         
         if let fromContainer {
-            fromContainer.remove(element)
+            _ = fromContainer.remove(element)
         } else {
             remove(element)
         }

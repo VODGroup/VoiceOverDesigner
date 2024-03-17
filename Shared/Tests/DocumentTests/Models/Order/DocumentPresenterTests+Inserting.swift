@@ -44,11 +44,15 @@ final class DocumentPresenterTests_Inserting: XCTestCase {
         sut.append(control: element1)
         sut.append(control: element2)
         
-        let container = sut.wrapInContainer([element1, element2])
-        
-        XCTAssertEqual(sut.elements.count, 1)
-        XCTAssertTrue(sut.elements.first is A11yContainer)
-        XCTAssertEqual(container?.elements.count, 2)
+        sut.wrapInContainer([element1, element2])
+
+        sut.document.artboard.assert {
+            """
+            Container:
+             1
+             2
+            """
+        }
     }
     
     // MARK: - Delete

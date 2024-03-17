@@ -3,11 +3,11 @@ import CoreGraphics
 public class NoAlignmentOverlay: AlignmentOverlayProtocol {
     public init() {}
     
-    public func alignToAny(_ sourceControl: A11yControlLayer, point: CGPoint, drawnControls: [A11yControlLayer]) -> CGPoint {
+    public func alignToAny(_ sourceControl: ArtboardElementLayer, point: CGPoint, drawnControls: [ArtboardElementLayer]) -> CGPoint {
         return point
     }
     
-    public func alignToAny(_ sourceControl: A11yControlLayer, frame: CGRect, drawnControls: [A11yControlLayer]) -> CGRect {
+    public func alignToAny(_ sourceControl: ArtboardElementLayer, frame: CGRect, drawnControls: [ArtboardElementLayer]) -> CGRect {
         return frame
     }
     
