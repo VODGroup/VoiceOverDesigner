@@ -66,7 +66,7 @@ extension DrawingView {
     }
     
     /// Contains flatten version of every A11yControlLayer
-    public var drawnControls: [A11yControlLayer] {
+    public var drawnControls: [ControlLayer] {
         sublayers
             .flatMap({ layer in
                 layer.nestedControlsLayers()
@@ -101,7 +101,7 @@ public extension DrawingView {
         addSublayer(frame)
     }
     
-    func add(control: A11yControlLayer,
+    func add(control: ControlLayer,
              to parent: CALayer? = nil // TODO: Remove default
     ) {
         control.contentsScale = contentScale
@@ -142,7 +142,7 @@ public extension DrawingView {
 
     func layer(
         for model: any ArtboardElement
-    ) -> A11yControlLayer? {
+    ) -> ControlLayer? {
         drawnControls
         .first(where: { control in
             control.model === model
@@ -155,7 +155,7 @@ public extension DrawingView {
         hud.zPosition = 10_000
     }
     
-    func drawnControls(for container: any ArtboardContainer) -> [A11yControlLayer] {
+    func drawnControls(for container: any ArtboardContainer) -> [ControlLayer] {
         drawnControls.filter { layer in
             container.elements.contains { $0 === layer.model }
         }

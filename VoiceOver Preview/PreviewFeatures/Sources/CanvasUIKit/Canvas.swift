@@ -5,7 +5,7 @@ import VoiceOverLayout
 
 class Canvas: UIView, DrawingView {
     
-    var drawnControls: [A11yControlLayer] = []
+    var drawnControls: [ControlLayer] = []
     var frames: [FrameLayer] = []
     
     var hud = HUDLayer()

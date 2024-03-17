@@ -32,8 +32,8 @@ class ContainerSelectionTests: CanvasAfterDidLoadTests {
         
         drawingLayer.assertRelativeFrames {
             """
-            A11yControlLayer: (10.0, 10.0, 50.0, 50.0)
-            A11yControlLayer: (150.0, 150.0, 50.0, 50.0)
+            ControlLayer: (10.0, 10.0, 50.0, 50.0)
+            ControlLayer: (150.0, 150.0, 50.0, 50.0)
             """
         }
         
@@ -41,9 +41,9 @@ class ContainerSelectionTests: CanvasAfterDidLoadTests {
         
         drawingLayer.assertRelativeFrames {
             """
-            A11yControlLayer: (-10.0, -10.0, 230.0, 230.0)
-             A11yControlLayer: (20.0, 20.0, 50.0, 50.0)
-             A11yControlLayer: (160.0, 160.0, 50.0, 50.0)
+            ControlLayer: (-10.0, -10.0, 230.0, 230.0)
+             ControlLayer: (20.0, 20.0, 50.0, 50.0)
+             ControlLayer: (160.0, 160.0, 50.0, 50.0)
             """
         }
         
@@ -51,8 +51,8 @@ class ContainerSelectionTests: CanvasAfterDidLoadTests {
         
         drawingLayer.assertRelativeFrames {
             """
-            A11yControlLayer: (10.0, 10.0, 50.0, 50.0)
-            A11yControlLayer: (150.0, 150.0, 50.0, 50.0)
+            ControlLayer: (10.0, 10.0, 50.0, 50.0)
+            ControlLayer: (150.0, 150.0, 50.0, 50.0)
             """
         }
     }

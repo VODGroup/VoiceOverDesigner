@@ -157,7 +157,7 @@ public class CanvasPresenter: DocumentPresenter {
         drawingController.pointerPublisher
     }
     
-    private func control(for model: any ArtboardElement) -> A11yControlLayer? {
+    private func control(for model: any ArtboardElement) -> ControlLayer? {
         uiContent?.drawnControls.first { control in
             control.model === model
         }

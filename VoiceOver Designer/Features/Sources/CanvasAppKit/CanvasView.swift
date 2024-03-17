@@ -74,7 +74,7 @@ class CanvasView: FlippedView {
     
     func control(
         for model: any ArtboardElement
-    ) -> A11yControlLayer? {
+    ) -> ControlLayer? {
         documentView.layer(for: model)
     }
 }

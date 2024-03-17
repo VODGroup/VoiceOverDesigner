@@ -40,7 +40,7 @@ public class CopyAndTranslateAction: DraggingAction {
         let modelToCopy = sourceControl.model!
         
         let modelCopy = modelToCopy.copyWithoutLabel()
-        let newControl = A11yControlLayer.copy(from: modelCopy)
+        let newControl = ControlLayer.copy(from: modelCopy)
         view.add(control: newControl, to: nil)
         
         let action = CopyAction(view: view,

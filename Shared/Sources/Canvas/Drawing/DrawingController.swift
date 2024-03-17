@@ -109,7 +109,7 @@ public class DrawingController {
         element: any ArtboardElement,
         scale: CGFloat,
         in parent: CALayer?
-    ) -> A11yControlLayer {
+    ) -> ControlLayer {
         let layer = layer(for: element, in: parent)
         
         if let parent {
@@ -144,17 +144,17 @@ public class DrawingController {
     private func layer(
         for model: any ArtboardElement,
         in parent: CALayer?
-    ) -> A11yControlLayer {
+    ) -> ControlLayer {
         if let cachedLayer = cachedLayer(for: model) {
             return cachedLayer
         } else {
-            let layer = A11yControlLayer(model: model)
+            let layer = ControlLayer(model: model)
             view.add(control: layer, to: parent)
             return layer
         }
     }
     
-    func cachedLayer(for model: any ArtboardElement) -> A11yControlLayer? {
+    func cachedLayer(for model: any ArtboardElement) -> ControlLayer? {
         view.drawnControls.first(where: { layer in
             layer.model === model
         })
@@ -171,7 +171,7 @@ public class DrawingController {
         container: any ArtboardElement,
         in parent: CALayer?,
         scale: CGFloat
-    ) -> A11yControlLayer {
+    ) -> ControlLayer {
         let container = draw(element: container,
                              scale: scale,
                              in: parent)

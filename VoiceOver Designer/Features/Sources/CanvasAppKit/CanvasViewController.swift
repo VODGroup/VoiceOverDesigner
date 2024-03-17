@@ -104,7 +104,7 @@ public class CanvasViewController: NSViewController {
         }
     }
     
-    var highlightedControl: A11yControlLayer? {
+    var highlightedControl: ControlLayer? {
         didSet {
             oldValue?.isHighlighted = false
             highlightedControl?.isHighlighted = true
@@ -127,7 +127,7 @@ public class CanvasViewController: NSViewController {
             return
         }
         
-        self.highlightedControl = control as? A11yControlLayer
+        self.highlightedControl = control as? ControlLayer
     }
     
     public override func mouseDown(with event: NSEvent) {
@@ -173,7 +173,7 @@ public class CanvasViewController: NSViewController {
     }
 
     @objc func duplicateMenuSelected() {
-        if let selectedControl = (presenter.selectedControl as? A11yControlLayer)?.model {
+        if let selectedControl = (presenter.selectedControl as? ControlLayer)?.model {
             let newModel = selectedControl.copy()
             newModel.frame = newModel.frame.offsetBy(dx: 40, dy: 40)
             presenter.append(control: newModel)
