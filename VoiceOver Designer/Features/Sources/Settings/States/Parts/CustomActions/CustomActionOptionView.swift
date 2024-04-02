@@ -67,11 +67,14 @@ class CustomActionOptionView: NSView {
         delegate?.delete(action: self)
     }
 
+    override func removeFromSuperview() {
+        textfield.action = nil // It's strange, but TextField triggers action during removeFromSubview. As a result here is a crash inside update
+        super.removeFromSuperview()
+    }
     
     @objc func updateText() {
         delegate?.update(action: self)
     }
-    
     
     override var intrinsicContentSize: NSSize {
         get {
