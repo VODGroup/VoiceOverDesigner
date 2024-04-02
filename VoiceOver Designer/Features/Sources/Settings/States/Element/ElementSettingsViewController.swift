@@ -24,6 +24,8 @@ public class ElementSettingsViewController: NSViewController {
         
         presenter.viewDidLoad(ui: self)
         view().setup(from: descr)
+
+        print("Did load for \(Date().timeIntervalSince(Self.startDate!))")
     }
     
     public override func viewWillAppear() {
@@ -86,7 +88,9 @@ public class ElementSettingsViewController: NSViewController {
         presenter.setIsAccessibleElement(sender.state == .on)
     }
     
+    static var startDate: Date?
     public static func fromStoryboard() -> ElementSettingsViewController {
+        Self.startDate = Date()
         let storyboard = NSStoryboard(name: "ElementSettingsViewController", bundle: .module)
         return storyboard.instantiateInitialController() as! ElementSettingsViewController
     }
