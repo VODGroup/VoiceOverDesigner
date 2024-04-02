@@ -109,23 +109,30 @@ public struct ElementSettingsView: View {
 }
 
 #Preview {
-    ElementSettingsEditorView(element: .empty(frame: .zero), deleteSelf: {})
-        .frame(width: 400, height: 1200)
+    Measure {
+        ElementSettingsEditorView(element: .empty(frame: .zero), deleteSelf: {})
+            .frame(width: 400, height: 1200)
+    }
 }
 
 #Preview("Empty adjustable") {
     let element = A11yDescription(isAccessibilityElement: true, label: "Size", value: "", hint: "", trait: .adjustable, frame: .zero, adjustableOptions: AdjustableOptions(options: []), customActions: A11yCustomActions())
     
-    return ElementSettingsEditorView(element: element,
-                                     deleteSelf: {})
-    .frame(width: 400, height: 1200)
+    return Measure {
+        ElementSettingsEditorView(element: element,
+                                  deleteSelf: {})
+        .frame(width: 400, height: 1200)
+    }
 }
 
 #Preview("Adjustable") {
     let element = A11yDescription(isAccessibilityElement: true, label: "Size", value: "", hint: "", trait: .adjustable, frame: .zero, adjustableOptions: AdjustableOptions(options: ["Small", "Medium", "Large"], currentIndex: 1), customActions: A11yCustomActions())
     
-    return ElementSettingsEditorView(element: element,
-                                     deleteSelf: {})
-    .frame(width: 400, height: 1200)
-    .textRecognitionResults(["Small", "Medium", "Lagre"])
+    
+    return Measure {
+        ElementSettingsEditorView(element: element,
+                                         deleteSelf: {})
+        .frame(width: 400, height: 1200)
+        .textRecognitionResults(["Small", "Medium", "Lagre"])
+    }
 }
