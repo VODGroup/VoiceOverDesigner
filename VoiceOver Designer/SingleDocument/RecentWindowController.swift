@@ -9,15 +9,9 @@ import AppKit
 import Document
 import Recent
 
-public protocol RecentDelegate: AnyObject {
-    func createNewDocumentWindow(
-        document: VODesignDocument
-    )
-}
-
 public class RecentWindowController: NSWindowController {
     
-    weak var delegate: RecentDelegate?
+    weak var router: RecentRouter?
     var presenter: DocumentBrowserPresenterProtocol!
     
     public override func windowDidLoad() {
@@ -29,12 +23,5 @@ public class RecentWindowController: NSWindowController {
         window?.titlebarAppearsTransparent = false
         
         shouldCascadeWindows = true
-    }
-}
-
-extension RecentWindowController: RecentRouter {
-    
-    public func show(document: VODesignDocument) {
-        delegate?.createNewDocumentWindow(document: document)
     }
 }

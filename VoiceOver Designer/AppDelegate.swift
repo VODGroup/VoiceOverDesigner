@@ -16,9 +16,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let isDefaultLaunch = aNotification.userInfo?[NSApplication.launchIsDefaultUserInfoKey] as? Bool ?? false
         
         print("Is default launch \(isDefaultLaunch)")
-        
-        windowManager.start()
-        
 #if DEBUG
         openFileForUITestIfNeeded()
         
@@ -34,7 +31,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        true
+        // Sometimes the app opens from dock without UI
+        // When user creates new document this method has been called before the new window it appeared
+        // As a result the apps is closed because there is the window *haven't been opened yet*
+        // It looks like apple's bug.
+        return false
     }
     
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
@@ -57,11 +58,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let image = NSImage(byReferencing: url)
             document = VODesignDocument(image: image)
         }
-        windowManager.createNewDocumentWindow(document: document)
+        windowManager.show(document: document)
     }
     
-    func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {
-        false
+    @IBAction @objc func openSample(_ sender: Any) {
+        // TODO: Should be simplified
+        
+        let languageButton = NSApplication.shared.keyWindow?.toolbar?.items.first(where: { item in
+            item.itemIdentifier == NSToolbarItem.Identifier(rawValue: "SamplesButtonLabel")
+        })
+        
+        guard let languageButton else { return }
+        
+        windowManager.showSamples(languageButton)
     }
 }
 

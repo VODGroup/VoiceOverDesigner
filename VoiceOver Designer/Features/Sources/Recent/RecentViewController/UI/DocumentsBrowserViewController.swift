@@ -31,8 +31,6 @@ public class DocumentsBrowserViewController: NSViewController {
             withIdentifier: HeaderCell.id
         )
         presenter.load()
-       
-        
     }
     
     /// Sometimel layout is called right after loading from storyboard, presenter is not set and a crash happened.
@@ -84,9 +82,11 @@ extension DocumentsBrowserViewController : NSCollectionViewDataSource {
         viewForSupplementaryElementOfKind kind: NSCollectionView.SupplementaryElementKind,
         at indexPath: IndexPath
     ) -> NSView {
-        let view = collectionView.makeSupplementaryView(ofKind: kind,
-                                                        withIdentifier: HeaderCell.id,
-                                                        for: indexPath) as! HeaderCell
+        let view = collectionView.makeSupplementaryView(
+            ofKind: kind,
+            withIdentifier: HeaderCell.id,
+            for: indexPath) as! HeaderCell
+        
         view.label.stringValue = presenter.title(for: indexPath.section) ?? ""
         return view
     }

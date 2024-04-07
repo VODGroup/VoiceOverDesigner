@@ -12,13 +12,11 @@ public protocol DocumentBrowserPresenterProtocol {
     func numberOfItemsInSection(_ section: Int) -> Int
     func item(at indexPath: IndexPath) -> DocumentBrowserCollectionItem
     
-    var shouldShowThisController: Bool { get }
     func load()
-    
 }
 
-public protocol LanguageSource {
-    var samplesLanguage: String? { get }
+public protocol LanguageSource: AnyObject {
+    var samplesLanguage: String? { get set }
     var possibleLanguages: [String] { get }
     
     func presentProjects(with language: String)
@@ -41,15 +39,6 @@ extension DocumentBrowserPresenterProtocol {
             
             return await VODesignDocument(file: url)
         }
-    }
-}
-
-public class DocumentPresenterFactory {
-    public init() {}
-    
-    public func presenter() -> DocumentBrowserPresenterProtocol {
-//        UserDocumentsPresenter()
-        SamplesDocumentsPresenter()
     }
 }
 

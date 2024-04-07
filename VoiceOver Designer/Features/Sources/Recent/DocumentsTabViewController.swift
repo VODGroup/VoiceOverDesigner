@@ -3,7 +3,12 @@ import Document // For @Storage
 
 public class DocumentsTabViewController: NSTabViewController {
     
-    public init(router: RecentRouter) {
+    public enum SelectedTab: Int {
+        case recent = 0
+        case samples = 1
+    }
+    
+    public init(router: RecentRouter, selectedTab: SelectedTab) {
         super.init(nibName: nil, bundle: nil)
         
         let documentsController = documentsBrowserController(presenter: UserDocumentsPresenter(), router: router)
@@ -13,7 +18,7 @@ public class DocumentsTabViewController: NSTabViewController {
         userDocumentsTab.image = NSImage(systemSymbolName: "tray.full", accessibilityDescription: "My documents")
         
         let samplesController = documentsBrowserController(
-            presenter: SamplesDocumentsPresenter(),
+            presenter: SamplesDocumentsPresenter.shared,
             router: router)
         samplesController.title = NSLocalizedString("Samples", comment: "Tab's title")
         let samplesTab = NSTabViewItem(viewController: samplesController)
@@ -24,7 +29,7 @@ public class DocumentsTabViewController: NSTabViewController {
         addTabViewItem(samplesTab)
         
         tabStyle = .unspecified
-        selectedTabViewItemIndex = Self.lastSelectedTabIndex
+        selectedTabViewItemIndex = selectedTab.rawValue// Self.lastSelectedTabIndex
     }
     
     required init?(coder: NSCoder) {
@@ -97,28 +102,7 @@ extension DocumentsTabViewController {
         case .language:
             guard let languageSource = presenter as? LanguageSource else { return nil }
             
-            let title = NSLocalizedString("Language", comment: "Toolbar item's label")
-            let menu = NSMenu(title: title)
-            let locale = Locale.current
-            
-            for (tag, languageCode) in languageSource.possibleLanguages.enumerated() {
-                let language = locale.localizedString(forLanguageCode: languageCode) ?? languageCode
-                
-                let menuItem = NSMenuItem(title: language, action: #selector(selectLanguage(sender:)), keyEquivalent: "")
-                menuItem.tag = tag
-                
-                menu.addItem(menuItem)
-            }
-            
-            let language = NSMenuToolbarItem(itemIdentifier: .language)
-            language.menu = menu
-            language.isBordered = false
-            if let currentLanguage = languageSource.samplesLanguage,
-               let languageTitle = locale.localizedString(forLanguageCode: currentLanguage) {
-                language.title = languageTitle
-            } else {
-                language.title = NSLocalizedString("Language", comment: "Toolbar item")
-            }
+            let language = LanguageButton(languageSource: languageSource, identifier: .language)
             
             return language
         default:
@@ -141,14 +125,6 @@ extension DocumentsTabViewController {
         }
         
         // TODO: Remember selected tab
-    }
-    
-    @objc func selectLanguage(sender: NSMenuItem) {
-        guard let languageSource = presenter as? LanguageSource else { return }
-        
-        let languageCode = languageSource.possibleLanguages[sender.tag]
-                
-        languageSource.presentProjects(with: languageCode)
     }
 }
 
@@ -180,16 +156,66 @@ extension NSToolbar {
         buttonIndex(identifier: identifier) != nil
     }
     
-    fileprivate func appendItem(with identifer: NSToolbarItem.Identifier) {
-        guard !hasButton(with: identifer) else {
+    fileprivate func appendItem(with identifier: NSToolbarItem.Identifier) {
+        guard !hasButton(with: identifier) else {
             return
         }
         
-        insertItem(withItemIdentifier: identifer, at: items.count)
+        insertItem(withItemIdentifier: identifier, at: items.count)
     }
     
     func resetLanguageButton() {
         removeItem(identifier: .language)
         appendItem(with: .language)
+    }
+}
+
+public class LanguageButton: NSMenuToolbarItem {
+    
+    private let languageSource: LanguageSource
+    
+    public init(languageSource: LanguageSource, 
+                identifier: NSToolbarItem.Identifier) {
+        self.languageSource = languageSource
+        
+        super.init(itemIdentifier: identifier)
+        
+        isBordered = false
+        image = NSImage(systemSymbolName: "graduationcap",
+                        accessibilityDescription: "Show sample documents")!
+        self.menu = makeSubmenu()
+    }
+    
+    private func makeSubmenu() -> NSMenu {
+        let title = NSLocalizedString("Samples", comment: "Toolbar item's label")
+        let menu = NSMenu(title: title)
+        
+        let locale = Locale.current
+        
+        for (tag, languageCode) in languageSource.possibleLanguages.enumerated() {
+            let language = locale.localizedString(forLanguageCode: languageCode) ?? languageCode
+            
+            let menuItem = NSMenuItem(
+                title: language,
+                action: #selector(selectLanguage(sender:)),
+                keyEquivalent: "")
+            menuItem.target = self
+            
+            menuItem.tag = tag
+            menuItem.isEnabled = true
+            menuItem.state = languageSource.samplesLanguage == languageCode ? .on : .off
+            
+            menu.addItem(menuItem)
+        }
+        
+        return menu
+    }
+    
+    @objc private func selectLanguage(sender: NSMenuItem) {
+        let languageCode = languageSource.possibleLanguages[sender.tag]
+        
+        languageSource.samplesLanguage = languageCode
+        
+        self.menu = makeSubmenu() // Update selected language
     }
 }
