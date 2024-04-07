@@ -51,7 +51,7 @@ class LabelViewController: NSViewController {
         view().label.addItems(withObjectValues: alternatives)
         
         if view().labelText.isEmpty,
-           let first = alternatives.first
+           let first = alternatives.last // full text
         {
             view().labelText = first
             delegate?.updateLabel(to: first)
