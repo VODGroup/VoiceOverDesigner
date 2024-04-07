@@ -5,9 +5,6 @@ import Document
 import Canvas
 
 class ContentView: FlippedView, DrawingView {
-    var frames: [Canvas.ImageLayer] = []
-    var drawnControls: [A11yControlLayer] = []
-    
     lazy var alignmentOverlay = AlignmentOverlayFactory().overlay(for: self)
     
     var copyListener = CopyModifierFactory().make()
@@ -46,15 +43,15 @@ class ContentView: FlippedView, DrawingView {
         return box
     }
     
-    private var imageLayers: [ImageLayer] {
+    private var frameLayers: [FrameLayer] {
         (layer?.sublayers ?? [])
             .compactMap { layer in
-                layer as? ImageLayer
+                layer as? FrameLayer
             }
     }
     
     private func frameImage(at frame: CGRect) -> (CGImage, CGRect)? {
-        guard let imageView = imageLayers
+        guard let imageView = frameLayers
             .first(where: { imageView in
                 imageView.frame.intersects(frame)
             }), let image = imageView.image

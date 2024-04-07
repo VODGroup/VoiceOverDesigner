@@ -1,7 +1,7 @@
 import QuartzCore
 
 public struct ClickAction: DraggingAction {
-    public let control: A11yControlLayer
+    public let control: ArtboardElementLayer
     
     public func drag(to coordinate: CGPoint) {
         

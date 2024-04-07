@@ -4,12 +4,8 @@ import Document
 import UIKit
 public typealias AppView = UIView
 extension AppView {
-    func addSublayer(_ layer: CALayer) {
-        self.layer.addSublayer(layer)
-    }
-    
-    var contentScale: CGFloat {
-        layer.contentsScale
+    var unwrappedLayer: CALayer {
+        layer
     }
 }
 #else
@@ -17,15 +13,33 @@ import AppKit
 public typealias AppView = NSView
 
 extension AppView {
-    func addSublayer(_ layer: CALayer) {
-        self.layer!.addSublayer(layer)
-    }
-    
-    var contentScale: CGFloat {
-        layer!.contentsScale
+    var unwrappedLayer: CALayer {
+        layer!
     }
 }
 #endif
+
+extension AppView {
+    func addSublayer(_ layer: CALayer) {
+        unwrappedLayer.addSublayer(layer)
+    }
+    
+    var contentScale: CGFloat {
+        unwrappedLayer.contentsScale
+    }
+    
+    var sublayers: [CALayer] {
+        unwrappedLayer.sublayers ?? []
+    }
+    
+    func absoluteFrame(of rect: CGRect, for element: CALayer) -> CGRect {
+        unwrappedLayer.convert(rect, from: element.superlayer)
+    }
+    
+    func relativeFrame(of rect: CGRect, in parent: CALayer?) -> CGRect {
+        unwrappedLayer.convert(rect, to: parent)
+    }
+}
 
 extension CALayer {
     public func updateWithoutAnimation(_ block: () -> Void) {
@@ -37,32 +51,73 @@ extension CALayer {
 }
 
 public protocol DrawingView: AppView {
-    var drawnControls: [A11yControlLayer] { get set }
-    var frames: [ImageLayer] { get set }
-    
     var alignmentOverlay: AlignmentOverlayProtocol { get }
     var hud: HUDLayer { get }
     
     var copyListener: CopyModifierAction { get set }
 }
 
-public extension DrawingView {
+extension DrawingView {
     
-    func add(frame: ImageLayer) {
-        addSublayer(frame)
-        frames.append(frame)
+    public var frames: [Canvas.FrameLayer] {
+        return sublayers.compactMap({ layer in
+            layer as? FrameLayer
+        })
     }
     
-    func add(control: A11yControlLayer) {
+    /// Contains flatten version of every A11yControlLayer
+    public var drawnControls: [ControlLayer] {
+        sublayers
+            .flatMap({ layer in
+                layer.nestedControlsLayers()
+            })
+    }
+}
+
+extension CALayer {
+    /// Return element and all sublayers
+    func nestedControlsLayers<T>() -> [T] {
+        var result = [T]()
+        
+        if let control = self as? T {
+            result.append(control)
+        }
+        
+        let conformingSublayers = sublayers?
+            .compactMap({ layer in
+                layer as? T
+            }) ?? []
+        
+    
+        result.append(contentsOf: conformingSublayers)
+    
+        return result
+    }
+}
+
+public extension DrawingView {
+    
+    func add(frame: FrameLayer) {
+        addSublayer(frame)
+    }
+    
+    func add(control: ControlLayer,
+             to parent: CALayer? = nil // TODO: Remove default
+    ) {
         control.contentsScale = contentScale
-        addSublayer(control)
-        drawnControls.append(control)
+        
+        if let parent {
+            parent.addSublayer(control)
+        } else {
+            addSublayer(control)
+        }
     }
     
     // MARK: Existed
-    func control(at coordinate: CGPoint) -> A11yControlLayer? {
+    func control(at coordinate: CGPoint) -> ArtboardElementLayer? {
+        // TODO: Refactor
         let viewsUnderCoordinate = drawnControls.filter({ control in
-            control.frame.contains(coordinate)
+            control.model!.frame.contains(coordinate)
         })
 
         switch viewsUnderCoordinate.count {
@@ -81,34 +136,17 @@ public extension DrawingView {
         }
     }
     
-    func delete(control: A11yControlLayer) {
+    func delete(control: ArtboardElementLayer) {
         control.removeFromSuperlayer()
-        
-        if let index = drawnControls.firstIndex(of: control) {
-            drawnControls.remove(at: index)
-        }
     }
-    
-    func removeAll() {
-        for frame in frames.reversed() {
-            frame.removeFromSuperlayer()
-            frames.remove(at: frames.count - 1)
-        }
-        
-        for control in drawnControls.reversed() {
-            control.removeFromSuperlayer()
-            _ = drawnControls.popLast()
-        }
-    }
-    
-    func remove(_ model: any ArtboardElement) {
-        guard let index = drawnControls.firstIndex(where: {
-            $0.model === model
-        }), let control = drawnControls.first(where: {
-            $0.model === model
-        }) else { return }
-        control.removeFromSuperlayer()
-        drawnControls.remove(at: index)
+
+    func layer(
+        for model: any ArtboardElement
+    ) -> ControlLayer? {
+        drawnControls
+        .first(where: { control in
+            control.model === model
+        })
     }
     
     func addHUD() {
@@ -117,9 +155,21 @@ public extension DrawingView {
         hud.zPosition = 10_000
     }
     
-    func drawnControls(for container: any ArtboardContainer) -> [A11yControlLayer] {
+    func drawnControls(for container: any ArtboardContainer) -> [ControlLayer] {
         drawnControls.filter { layer in
             container.elements.contains { $0 === layer.model }
+        }
+    }
+    
+    func recalculateAbsoluteFrameForNestedElements(
+        in container: any ArtboardContainer
+    ) {
+        for nestedLayer in drawnControls(for: container) {
+            let relativeFrame = nestedLayer.frame
+            
+            nestedLayer.recalculateAbsoluteFrameInModel(to: relativeFrame, in: self)
+            
+            // TODO: Won't work on nested containers or should be recursive
         }
     }
 }

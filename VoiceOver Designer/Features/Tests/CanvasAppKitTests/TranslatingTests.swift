@@ -1,7 +1,9 @@
 import XCTest
 @testable import Canvas
 import Document
+import DocumentTestHelpers
 
+@MainActor
 class TranslatingTests: CanvasAfterDidLoadTests {
     
     // MARK: Editing
@@ -13,18 +15,31 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         XCTAssertEqual(drawnControls.count, 1)
         XCTAssertEqual(drawnControls.first?.frame,
                        rect10to50.offsetBy(dx: 5, dy: 5))
+    }
+    
+    func test_movementFor5px_shouldSelect() async throws {
+        drawRect_10_60()
+        
+        drag(15, 17, 18, 20) // 5px from start
         
         let selected = try await awaitSelected()
-        XCTAssertNil(selected, "should not select after translation")
+        XCTAssertNotNil(selected, "should keep selection after translation")
     }
     
     func test_translateToNegativeCoordinates_shouldTranslate() async throws {
         drawRect_10_60()
-        move(from: .coord(15), to: .coord(5))
+        
+        drag(15, 5)
         
         XCTAssertEqual(drawnControls.first?.frame,
                        rect10to50.offsetBy(dx: -10, dy: -10))
+    }
+    
+    func test_translateToNegativeCoordinates_shouldSelect() async throws {
+        drawRect_10_60()
         
+        drag(15, 5)
+
         let selected = try await awaitSelected()
         XCTAssertNotNil(selected, "should select after translation")
     }
@@ -83,6 +98,7 @@ class TranslatingTests: CanvasAfterDidLoadTests {
     }
     
     // MARK: Containers
+    @discardableResult
     private func createContainerWithElement10_60() throws -> (A11yDescription, A11yContainer?) {
         sut.disableUndoRegistration()
         let element = try drawElement(from: start10, to: end60)
@@ -92,24 +108,140 @@ class TranslatingTests: CanvasAfterDidLoadTests {
         return (element, container)
     }
     
-    func test_whenMoveContainer_shouldMoveContainer() throws {
-        let (_, container) = try createContainerWithElement10_60()
-        let containerFrame = CGRect(x: -10, y: -10, width: 90, height: 90)
-        XCTAssertEqual(container?.frame, containerFrame)
+    func test_whenMoveContainer_shouldMoveContainerAndElements() throws {
+        try createContainerWithElement10_60()
+        artboard.assertAbsoluteFrames {
+            """
+            Container: (-10.0, -10.0, 90.0, 90.0):
+             Element: (10.0, 10.0, 50.0, 50.0)
+            """
+        }
         
-        move(from: .coord(0), to: .coord(10)) // Move by 10
+        drag(0, 10) // Move by 10
         
-        XCTAssertEqual(container?.frame, containerFrame.offsetBy(dx: 10, dy: 10), "Move container")
+        artboard.assertAbsoluteFrames {
+            """
+            Container: (0.0, 0.0, 90.0, 90.0):
+             Element: (20.0, 20.0, 50.0, 50.0)
+            """
+        }
     }
     
-    func test_whenMoveContainer_shouldMoveAllElementsInsideIt() throws {
-        let (element, _) = try createContainerWithElement10_60()
-        let elementFrame = CGRect(x: 10, y: 10, width: 50, height: 50)
-        XCTAssertEqual(element.frame, elementFrame)
+    // MARK: Frames
+    @discardableResult
+    private func createFrameAtZeroOrigin() -> Frame {
+        sut.disableUndoRegistration()
+        let frame = sut.add(image: Sample().image3x())
+        frame.label = "Frame"
+        sut.enableUndoRegistration()
         
-        move(from: .coord(0), to: .coord(10)) // Move by 10
+        return frame
+    }
+    private func createFrameWithElement10_60() throws -> (A11yDescription, Frame) {
+        sut.disableUndoRegistration()
+        let frame = createFrameAtZeroOrigin()
+        sut.deselect() // Frame
+        let element = try drawElement(from: start10, to: end60)
+        sut.enableUndoRegistration()
         
-        XCTAssertEqual(element.frame, elementFrame.offsetBy(dx: 10, dy: 10), "Move element inside container")
+        return (element, frame)
+    }
+
+    func test_emptyFrame_whenMove_shouldMoveFrame_layer() throws {
+        createFrameAtZeroOrigin()
+        
+        drag(10, 20)
+        
+        drawingLayer.assertRelativeFrames {
+            """
+            FrameLayer: (10.0, 10.0, 390.0, 180.0)
+            """
+        }
+    }
+    
+    func test_emptyFrame_whenMove_shouldMoveFrame_model() throws {
+        createFrameAtZeroOrigin()
+
+        drag(10, 20)
+        
+        artboard.assertAbsoluteFrames {
+            """
+            Frame: (10.0, 10.0, 390.0, 180.0)
+            """
+        }
+    }
+    
+    func test_frameWithElements_whenMoveFrame_shouldMoveElementsInsideFrame_layer() throws {
+        let (_, frame) = try createFrameWithElement10_60()
+        sut.select(frame) // Select frame to pass movement to frame
+        
+        drag(10, 12, 15, 18, 20) // 10 offset
+
+        drawingLayer.assertRelativeFrames {
+            """
+            FrameLayer: (10.0, 10.0, 390.0, 180.0)
+             ControlLayer: (10.0, 10.0, 50.0, 50.0)
+            """
+        }
+    }
+    
+    func test_frameWithElements_whenMove_shouldMoveElementsInsideFrame_model() throws {
+        let (_, frame) = try createFrameWithElement10_60()
+        sut.select(frame) // Select frame to pass movement to frame
+        
+        drag(10, 12, 15, 18, 20) // 10 offset
+        
+        artboard.assertAbsoluteFrames {
+            """
+            Frame: (10.0, 10.0, 390.0, 180.0):
+             Element: (20.0, 20.0, 50.0, 50.0)
+            """
+            }
+    }
+    
+    func test_frameWithElements_whenMove_andUndo_shouldRestore() throws {
+        let (_, frame) = try createFrameWithElement10_60()
+        sut.select(frame) // Select frame to pass movement to frame
+        
+        drag(10, 12, 15, 18, 20) // 10 offset
+        sut.undo()
+        
+        artboard.assertAbsoluteFrames {
+            """
+            Frame: (0.0, 0.0, 390.0, 180.0):
+             Element: (10.0, 10.0, 50.0, 50.0)
+            """
+        }
+    }
+    
+    func test_whenMoveFrameTwoTimes_shouldMoveFrame_layer() throws {
+        let (_, frame) = try createFrameWithElement10_60()
+        sut.select(frame) // Select frame to pass movement to frame
+        
+        drag(10, 20)
+        drag(20, 30) // 20 offset in total
+        
+        drawingLayer.assertRelativeFrames {
+            """
+            FrameLayer: (20.0, 20.0, 390.0, 180.0)
+             ControlLayer: (10.0, 10.0, 50.0, 50.0)
+            """
+        }
+    }
+    
+    func test_whenMoveFrameTwoTimes_shouldMoveFrame_model() throws {
+        let (_, frame) = try createFrameWithElement10_60()
+        sut.select(frame) // Select frame to pass movement to frame
+        
+        drag(10, 20)
+        drag(20, 30) // 20 offset in total
+        
+        artboard.assertAbsoluteFrames {
+            """
+            Frame: (20.0, 20.0, 390.0, 180.0):
+             Element: (30.0, 30.0, 50.0, 50.0)
+            """
+        }
     }
     
     // MARK: - Resizing
@@ -137,5 +269,58 @@ extension DocumentPresenter {
     }
     func undo() {
         document.undo?.undo()
+    }
+}
+
+// MARK: CALayer snapshotting
+import InlineSnapshotTesting
+extension CALayer {
+    public func assertRelativeFrames(
+        _ message: String = "",
+        matches expected: (() -> String)? = nil,
+        file: StaticString = #filePath,
+        function: StaticString = #function,
+        line: UInt = #line,
+        column: UInt = #column
+    ) {
+        let actual = sublayersDescription(keyPath: \.frameDescription) ?? "No layers"
+            
+        assertInlineSnapshot(
+            of: actual,
+            as: .lines,
+            message: message,
+            matches: expected,
+            file: file, function: function, line: line, column: column)
+    }
+    
+    var frameDescription: String {
+        "\(Self.self): \(frame.debugDescription)"
+    }
+}
+
+extension CALayer {
+    public func recursiveDescription(
+        insetLevel: Int = 0,
+        keyPath: KeyPath<CALayer, String>
+    ) -> String {
+        let inset = String(repeating: " ", count: insetLevel)
+        
+        if let sublayersDescription = sublayersDescription(insetLevel: insetLevel + 1, keyPath: keyPath) {
+            return self[keyPath: keyPath] + "\n" + sublayersDescription
+        } else {
+            return inset + self[keyPath: keyPath]
+        }
+    }
+    
+    private func sublayersDescription(
+        insetLevel: Int = 0,
+        keyPath: KeyPath<CALayer, String>
+    ) -> String? {
+        sublayers?
+            .compactMap { sublayer in
+                sublayer.recursiveDescription(
+                    insetLevel: insetLevel,
+                    keyPath: keyPath)
+            }.joined(separator: "\n")
     }
 }

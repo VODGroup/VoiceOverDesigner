@@ -104,7 +104,12 @@ public class CanvasViewController: NSViewController {
         }
     }
     
-    var highlightedControl: A11yControlLayer?
+    var highlightedControl: ControlLayer? {
+        didSet {
+            oldValue?.isHighlighted = false
+            highlightedControl?.isHighlighted = true
+        }
+    }
     
     private func location(from event: NSEvent) -> CGPoint {
         event.location(in: view().documentView)
@@ -112,7 +117,6 @@ public class CanvasViewController: NSViewController {
     
     // MARK: - Mouse movement
     public override func mouseMoved(with event: NSEvent) {
-        highlightedControl?.isHighlighted = false
         highlightedControl = nil
         presenter.mouseMoved(on: location(from: event))
         
@@ -123,9 +127,7 @@ public class CanvasViewController: NSViewController {
             return
         }
         
-        self.highlightedControl = control
-        
-        control.isHighlighted = true
+        self.highlightedControl = control as? ControlLayer
     }
     
     public override func mouseDown(with event: NSEvent) {
@@ -171,7 +173,7 @@ public class CanvasViewController: NSViewController {
     }
 
     @objc func duplicateMenuSelected() {
-        if let selectedControl = (presenter.selectedControl as? A11yControlLayer)?.model {
+        if let selectedControl = (presenter.selectedControl as? ControlLayer)?.model {
             let newModel = selectedControl.copy()
             newModel.frame = newModel.frame.offsetBy(dx: 40, dy: 40)
             presenter.append(control: newModel)

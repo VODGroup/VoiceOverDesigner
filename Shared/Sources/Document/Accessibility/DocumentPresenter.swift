@@ -55,11 +55,12 @@ open class DocumentPresenter {
     }
     
     // MARK:
+    @discardableResult
     open func add(
         image: Image,
         name: String?,
         origin: CGPoint
-    ) {
+    ) -> Frame {
         document.invalidateQuickViewPreview()
         let imageLocation = document.addImageWrapper(image: image, name: name)
         let frame = Frame(imageLocation: imageLocation,
@@ -70,6 +71,8 @@ open class DocumentPresenter {
         add(frame,
             into: document.artboard,
             at: document.artboard.frames.count)
+        
+        return frame
     }
     
     open func importArtboard(
@@ -119,7 +122,7 @@ open class DocumentPresenter {
             withTarget: self,
             handler: { presenter in
                 presenter.remove(control)
-        })
+            })
         publishArtboardChanges()
     }
     
@@ -131,7 +134,7 @@ open class DocumentPresenter {
                 presenter.publishArtboardChanges()
                 presenter.select(model)
             })
-
+        
         model.removeFromParent(undoManager: document.undo)
         
         publishArtboardChanges()
@@ -160,7 +163,7 @@ open class DocumentPresenter {
     }
     
     @discardableResult
-    public func wrapInContainer(
+    open func wrapInContainer(
         _ elements: [any ArtboardElement]
     ) -> A11yContainer? {
         document.undo?.registerUndo(withTarget: self, handler: { presenter in
@@ -213,16 +216,14 @@ open class DocumentPresenter {
         
         return didDrag
     }
-}
-
+    
 #if canImport(XCTest)
-extension DocumentPresenter {
-    public func replace(elements: [A11yDescription]) {
+    open func replace(elements: [A11yDescription]) {
         self.elements = elements
     }
     
     public var firstFrameControls: [any ArtboardElement] {
         document.artboard.frames.first?.elements ?? []
     }
-}
 #endif
+}

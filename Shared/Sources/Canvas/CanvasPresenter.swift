@@ -57,17 +57,12 @@ public class CanvasPresenter: DocumentPresenter {
         updateSelectedControl(selectedPublisher.value)
     }
     
-    public func redraw(control: any ArtboardElement) {
-        drawingController.view.remove(control)
-        drawingController.draw(element: control, scale: scale)
-    }
-    
     // MARK: Mouse
     public func mouseDown(on location: CGPoint) {
         uiContent?.hud.hideHUD()
 
         drawingController.mouseDown(on: location,
-                                    selectedControl: selectedControl as? A11yControlLayer)
+                                    selectedControl: selectedControl)
     }
     
     public func mouseDragged(on location: CGPoint) {
@@ -76,11 +71,11 @@ public class CanvasPresenter: DocumentPresenter {
     
     public func mouseMoved(on location: CGPoint) {
         drawingController.mouseMoved(on: location,
-                                     selectedControl: selectedControl as? A11yControlLayer)
+                                     selectedControl: selectedControl)
     }
    
     @discardableResult
-    public func mouseUp(on location: CGPoint) -> A11yControlLayer? {
+    public func mouseUp(on location: CGPoint) -> ArtboardElementLayer? {
         uiContent?.hud.showHUD()
         
         let action = drawingController.end(coordinate: location)
@@ -89,7 +84,13 @@ public class CanvasPresenter: DocumentPresenter {
         return control
     }
     
-    private func finish(_ action: DraggingAction?) -> A11yControlLayer? {
+    private func finish(_ action: DraggingAction?) -> ArtboardElementLayer? {
+        if let action {
+            print("Finish action \(action)")
+        } else {
+            print("Cancel action")
+        }
+        
         switch action {
         case let click as ClickAction:
             select(click.control.model)
@@ -142,10 +143,13 @@ public class CanvasPresenter: DocumentPresenter {
         }
     }
     
-    public private(set) var selectedControl: CALayer? {
+    public private(set) var selectedControl: ArtboardElementLayer? {
         didSet {
-            uiContent?.hud.selectedControlFrame = selectedControl?.frame
-            uiContent?.hud.tintColor = (selectedControl as? A11yControlLayer)?.model?.color.cgColor.copy(alpha: 1) ?? Color.red.cgColor
+            let model = selectedControl?.model
+            
+            uiContent?.hud.selectedControlFrame = model?.frame
+            uiContent?.hud.tintColor = model?.color
+                .cgColor.copy(alpha: 1) ?? Color.red.cgColor
         }
     }
     
@@ -153,7 +157,7 @@ public class CanvasPresenter: DocumentPresenter {
         drawingController.pointerPublisher
     }
     
-    private func control(for model: any ArtboardElement) -> A11yControlLayer? {
+    private func control(for model: any ArtboardElement) -> ControlLayer? {
         uiContent?.drawnControls.first { control in
             control.model === model
         }
@@ -165,9 +169,61 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     // MARK: Image
-    public func add(image: Image, name: String) {
+    public func add(image: Image, name: String) -> Frame {
         add(image: image, name: name, origin: document.artboard.suggestOrigin())
     }
+    
+    public override func remove(_ model: any ArtboardElement) {
+        // Remove from layers
+        // TODO: Unify layer creation
+        if let frame = model as? Frame {
+            let frameLayer = drawingController.cachedFrameLayer(for: frame)
+            frameLayer?.removeFromSuperlayer()
+        } else {
+            // Element or container
+            let layer = drawingController.cachedLayer(for: model)
+            layer?.removeFromSuperlayer()
+        }
+        
+        // Remove from model
+        super.remove(model)
+    }
+    
+    open override func wrapInContainer(
+        _ elements: [any ArtboardElement]
+    ) -> A11yContainer? {
+        ///  Remove cached layers to allow reposition hierachy
+        let elementsLayers = elements
+            .compactMap(drawingController.cachedLayer(for:))
+        remove(layers: elementsLayers)
+        
+        let container = super.wrapInContainer(elements)
+        
+        if let container {
+            document.undoManager?.registerUndo(withTarget: self, handler: { presenter in
+                if let layer = presenter.uiContent?.layer(for: container) {
+                    presenter.uiContent?.delete(control: layer)
+                }
+            })
+        }
+        
+        return container
+    }
+    
+    private func remove(layers: [CALayer]) {
+        for sublayer in layers
+        {
+            sublayer.removeFromSuperlayer()
+        }
+    }
+    
+#if canImport(XCTest)
+    public override func replace(elements: [A11yDescription]) {
+        remove(layers: drawingController.view.sublayers)
+        
+        super.replace(elements: elements)
+    }
+#endif
 }
 
 // MARK: - Undo
