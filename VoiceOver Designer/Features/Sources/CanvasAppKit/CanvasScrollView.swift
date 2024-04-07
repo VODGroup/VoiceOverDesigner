@@ -22,8 +22,9 @@ class CanvasScrollView: NSScrollView {
         }
     }
     
-    override func setMagnification(_ magnification: CGFloat, centeredAt point: NSPoint) {
-        super.setMagnification(magnification, centeredAt: point)
+    // Update after any change of position or magnification
+    override func reflectScrolledClipView(_ cView: NSClipView) {
+        super.reflectScrolledClipView(cView)
         
         updateHud(to: magnification)
     }
