@@ -12,6 +12,12 @@ class ElementSettingsView: NSView {
     @IBOutlet weak var hint: NSTextField!
     @IBOutlet weak var isAccessibilityElementButton: NSButton!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        resultLabel.setAccessibilityIdentifier("ResultLabel")
+    }
+    
     var descr: A11yDescription?
     func setup(from descr: A11yDescription) {
         self.descr = descr

@@ -24,6 +24,11 @@ class CustomActionsView: NSView {
         set {}
     }
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        addNewCustomActionButton.setAccessibilityIdentifier("addCustomActionButton")
+    }
     
     func render(descr: A11yDescription, delegate: CustomActionOptionViewDelegate) {
     

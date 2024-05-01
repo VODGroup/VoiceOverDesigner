@@ -76,6 +76,12 @@ class LabelView: NSView {
     
     @IBOutlet weak var mainStack: NSStackView!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        label.setAccessibilityIdentifier("LabelTextField")
+    }
+    
     func insertPurchaseControllerView(_ view: NSView) {
         mainStack.insertView(view,
                              at: 0, 
