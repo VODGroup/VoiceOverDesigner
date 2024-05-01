@@ -41,6 +41,7 @@ class A11yValueView: NSView {
         alternatives: [String]
     ) {
         valueTextField.stringValue = descr.value
+        valueTextField.setAccessibilityIdentifier("valueTextField")
         
         isAdjustable = descr.isAdjustable
         

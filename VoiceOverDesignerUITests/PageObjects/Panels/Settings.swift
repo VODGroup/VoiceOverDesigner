@@ -52,9 +52,14 @@ class Settings: ProjectPanel {
     }
     
     var adjustableSegment: XCUIElement {
+        // SwiftUI
+//        window
+//            .radioGroups["Type"]
+//            .radioButtons["Adjustable"]
+//            .firstMatch
+        
         window
-            .radioGroups["Type"]
-            .radioButtons["Adjustable"]
+            .checkBoxes["Adjustable"]
             .firstMatch
     }
     
