@@ -21,7 +21,7 @@ public class ContainerSettingsPresenter {
 extension ContainerSettingsPresenter: LabelDelegate {
     func updateLabel(to text: String) {
         container.label = text
-        delegate?.updateValue()
+        delegate?.didUpdateElementSettings()
 //        ui?.updateTitle()
     }
 }
