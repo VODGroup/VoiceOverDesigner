@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="bke-Yi-iei">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Custom Actions View Controller-->
+        <scene sceneID="zl1-vK-EMr">
+            <objects>
+                <viewController id="bke-Yi-iei" customClass="CustomActionsViewController" customModule="Settings" sceneMemberID="viewController">
+                    <view key="view" translatesAutoresizingMaskIntoConstraints="NO" id="xu6-7R-iuZ" customClass="CustomActionsView" customModule="Settings">
+                        <rect key="frame" x="0.0" y="0.0" width="326" height="50"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zYa-Ij-04p">
+                                <rect key="frame" x="-2" y="34" width="107" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Custom Actions" id="cKh-WF-yih">
+                                    <font key="font" textStyle="headline" name=".SFNS-Bold"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PEF-jK-zWB">
+                                <rect key="frame" x="0.0" y="8" width="327" height="20"/>
+                                <subviews>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3UO-jd-CQ1">
+                                        <rect key="frame" x="-7" y="-7" width="160" height="32"/>
+                                        <buttonCell key="cell" type="push" title="+ Add custom action" bezelStyle="rounded" alignment="left" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Rt5-Wl-ucY">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="addCustomAction:" target="bke-Yi-iei" id="5In-T5-nZx"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="PEF-jK-zWB" secondAttribute="bottom" constant="8" id="1Xw-Zg-uys"/>
+                            <constraint firstItem="zYa-Ij-04p" firstAttribute="top" secondItem="xu6-7R-iuZ" secondAttribute="top" id="6wG-Se-dpP"/>
+                            <constraint firstItem="PEF-jK-zWB" firstAttribute="width" secondItem="xu6-7R-iuZ" secondAttribute="width" constant="1" id="E1t-uW-xF3"/>
+                            <constraint firstItem="zYa-Ij-04p" firstAttribute="leading" secondItem="PEF-jK-zWB" secondAttribute="leading" id="Gu6-Zb-Qlx"/>
+                            <constraint firstItem="PEF-jK-zWB" firstAttribute="top" secondItem="zYa-Ij-04p" secondAttribute="bottom" constant="6" id="MCj-bI-Tzq"/>
+                            <constraint firstItem="zYa-Ij-04p" firstAttribute="leading" secondItem="xu6-7R-iuZ" secondAttribute="leading" id="nHz-3V-UQT"/>
+                        </constraints>
+                        <connections>
+                            <outlet property="actionsStack" destination="PEF-jK-zWB" id="u7u-Ls-kdq"/>
+                            <outlet property="addNewCustomActionButton" destination="3UO-jd-CQ1" id="cIX-Qz-qUk"/>
+                            <outlet property="sectionLabel" destination="zYa-Ij-04p" id="4gw-3n-MbA"/>
+                        </connections>
+                    </view>
+                </viewController>
+                <customObject id="FpU-Fm-gVJ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="673" y="970"/>
+        </scene>
+    </scenes>
+</document>
