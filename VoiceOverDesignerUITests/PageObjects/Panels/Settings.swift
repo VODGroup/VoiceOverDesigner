@@ -108,11 +108,11 @@ class Settings: ProjectPanel {
     
     @discardableResult
     func addCustomAction(_ label: String) -> Self {
-        var addCustomActionButton = window.buttons["Add custom action"].firstMatch
+        let addCustomActionButton = window.buttons["addCustomActionButton"].firstMatch
         
         addCustomActionButton.tap()
         
-        var textField = window.textFields["Custom action"].firstMatch
+        let textField = customActionLabelField
         
         textField.tap()
         textField.typeText(label)
@@ -121,7 +121,7 @@ class Settings: ProjectPanel {
     }
     
     lazy var customActionLabelField: XCUIElement =
-    window.textFields["Custom action"].firstMatch
+    window.textFields["customActionTextField"].firstMatch
     
     func customActionLabel() -> String? {
         customActionLabelField.value as? String
@@ -131,7 +131,7 @@ class Settings: ProjectPanel {
     
     @discardableResult
     func addCustomDescription(_ label: String, value: String) -> Self {
-        var addCustomDescriptionButton = window.buttons["Add custom description"].firstMatch
+        let addCustomDescriptionButton = window.buttons["AddCustomDescription"].firstMatch
         
         addCustomDescriptionButton.tap()
         
@@ -139,20 +139,22 @@ class Settings: ProjectPanel {
         customDescriptionLabelField.typeText(label)
         
         customDescriptionValueField.tap()
+        customDescriptionValueField.tap() // TODO: It's a bug
+        
         customDescriptionValueField.typeText(value)
         
         return self
     }
     
     lazy var customDescriptionLabelField: XCUIElement =
-        window.textFields["Custom description label"].firstMatch
+        window.textFields["CustomDescriptionLabel"].firstMatch
     
     func customDescriptionLabel() -> String? {
         customDescriptionLabelField.value as? String
     }
     
     lazy var customDescriptionValueField: XCUIElement =
-    window.textFields["Custom description value"].firstMatch
+    window.textFields["CustomDescriptionValue"].firstMatch
     
     
     func customDescriptionValue() -> String? {

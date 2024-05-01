@@ -22,6 +22,12 @@ class CustomDescriptionSectionView: NSView {
         set {}
     }
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        addNewCustomDescriptionButton.setAccessibilityIdentifier("AddCustomDescription")
+    }
+    
     func render(descr: A11yDescription, delegate: CustomDescriptionViewDelegate) {
         
         // TODO: It looks unoptimal to remove all and draw again. Some cache can help

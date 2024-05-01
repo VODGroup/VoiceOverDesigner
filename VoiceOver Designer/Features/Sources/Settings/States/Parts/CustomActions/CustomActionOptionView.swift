@@ -26,7 +26,6 @@ class CustomActionOptionView: NSView {
         }
     }
     
-    
     weak var delegate: CustomActionOptionViewDelegate?
     
     init() {
@@ -34,6 +33,7 @@ class CustomActionOptionView: NSView {
         textfield.bezelStyle = .roundedBezel
         textfield.isEditable = true
         textfield.cell?.sendsActionOnEndEditing = true
+        textfield.setAccessibilityIdentifier("customActionTextField")
         
         removeButton = NSButton(title: "-", target: nil, action: nil)
         removeButton.bezelStyle = .inline

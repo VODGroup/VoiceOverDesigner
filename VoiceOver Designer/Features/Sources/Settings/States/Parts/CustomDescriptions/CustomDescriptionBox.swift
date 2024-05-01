@@ -62,6 +62,8 @@ class CustomDescriptionBox: NSBox {
         valueTextField.cell?.sendsActionOnEndEditing = true
         labelTextField.isEditable = true
         valueTextField.isEditable = true
+        labelTextField.setAccessibilityIdentifier("CustomDescriptionLabel")
+        valueTextField.setAccessibilityIdentifier("CustomDescriptionValue")
         
         super.init(frame: .zero)
         
