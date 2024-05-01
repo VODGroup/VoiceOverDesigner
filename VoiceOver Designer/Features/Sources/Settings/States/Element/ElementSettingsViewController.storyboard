@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="6l9-zf-wkv">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="6l9-zf-wkv">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22155"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
         <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -12,7 +12,7 @@
         <scene sceneID="XOO-ii-QJZ">
             <objects>
                 <viewController storyboardIdentifier="ScrollView" id="U2f-R7-Q2a" customClass="ScrollViewController" customModule="Settings" sceneMemberID="viewController">
-                    <view key="view" id="cLK-md-r8c" customClass="ScrollView" customModule="Settings">
+                    <view key="view" id="cLK-md-r8c" customClass="ScrollViewContainer" customModule="Settings">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="1025"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
