@@ -21,12 +21,13 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
     public var document: VODesignDocumentProtocol!
     public weak var settingsDelegate: SettingsDelegate!
     public var textRecognitionCoordinator: TextRecognitionCoordinator!
-    
     lazy var textRecognitionUnlockPresenter = UnlockPresenter(
         productId: .textRecognition,
         unlockerDelegate: self)
     
     private var cancellables: Set<AnyCancellable> = []
+    
+    private let swiftUISettings = false
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -36,36 +37,63 @@ public class SettingsStateViewController: StateViewController<DetailsState> {
             
             switch state {
             case .empty:
-                return NSHostingController(rootView: EmptySettingsView())
+                return EmptyViewController.fromStoryboard()
                 
             case .control(let element):
-                let elementView = ElementSettingsEditorView(element: element,
-                                                            deleteSelf: { [weak self] in
-                    self?.settingsDelegate.delete(model: element)
-                })
-                
-                let containerViewController = HostingReceiverController(
-                    content: { elementView },
-                    unlocker: textRecognitionUnlockPresenter)
-                self.recognizeText(for: element)
-                
-                observerElementChangesAndRedrawCanvasWhenChangesHappened(element)
-
-                return containerViewController
-            case .container(let container):
-                
-                let containerView = ContainerSettingsEditorView(container: container,
+                if swiftUISettings {
+                    let elementView = ElementSettingsEditorView(element: element,
                                                                 deleteSelf: { [weak self] in
-                    self?.settingsDelegate.delete(model: container)
-                })
+                        self?.settingsDelegate.delete(model: element)
+                    })
+                    
+                    let containerViewController = HostingReceiverController(
+                        content: { elementView },
+                        unlocker: textRecognitionUnlockPresenter)
+                    self.recognizeText(for: element)
+                    
+                    observerElementChangesAndRedrawCanvasWhenChangesHappened(element)
+                    
+                    return containerViewController
+                } else {
+                    let elementSettings = ElementSettingsViewController.fromStoryboard()
+                    elementSettings.presenter = ElementSettingsPresenter(
+                        element: element,
+                        delegate: self.settingsDelegate)
+                    elementSettings.textRecognitionUnlockPresenter = self.textRecognitionUnlockPresenter
+                    
+                    self.recognizeText(for: element)
+                    
+                    let scrollViewController = ScrollViewController.fromStoryboard()
+                    scrollViewController.embed(elementSettings)
+                    self.recognizeText(for: element)
+                    
+                    return scrollViewController
+                }
+            case .container(let container):
+                if swiftUISettings {
+                    let containerView = ContainerSettingsEditorView(container: container,
+                                                                    deleteSelf: { [weak self] in
+                        self?.settingsDelegate.delete(model: container)
+                    })
+                    
+                    let containerViewController = HostingReceiverController(content: { containerView}, unlocker: textRecognitionUnlockPresenter)
+                    
+                    self.recognizeText(for: container)
+                    observerElementChangesAndRedrawCanvasWhenChangesHappened(container)
+                    return containerViewController
+                } else {
+                    let containerViewController = ContainerSettingsViewController.fromStoryboard()
+                    containerViewController.presenter = ContainerSettingsPresenter(
+                        container: container,
+                        delegate: self.settingsDelegate)
+                    containerViewController.textRecognitionUnlockPresenter = self.textRecognitionUnlockPresenter
+                    self.recognizeText(for: container)
+                    return containerViewController
+                }
                 
-                let containerViewController = HostingReceiverController(content: { containerView}, unlocker: textRecognitionUnlockPresenter)
-                
-                self.recognizeText(for: container)
-                observerElementChangesAndRedrawCanvasWhenChangesHappened(container)
-                
-                return containerViewController
             case .frame(let frame):
+                // Frame settings too simple to create freeze
+                
                 let frameSettings = FrameSettingsViewController(document: document, frame: frame, delegate: settingsDelegate)
                 observerElementChangesAndRedrawCanvasWhenChangesHappened(frame)
                 return frameSettings
@@ -160,6 +188,12 @@ extension SettingsStateViewController {
         if let receiver = currentController as? SearchType {
             return receiver
         }
+        
+        if let scrollViewController = currentController as? ScrollViewController,
+           let contentReceiver = scrollViewController.child as? SearchType {
+            return contentReceiver
+        }
+        
         return nil
     }
     
@@ -184,7 +218,6 @@ extension SettingsStateViewController {
         return false
     }
 }
-
 
 final class HostingReceiverController<Content: SwiftUI.View>: NSHostingController<AnyView>, TextRecogitionReceiver, PurchaseUnlockerDelegate {
     let content: Content
