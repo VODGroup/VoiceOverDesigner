@@ -36,7 +36,7 @@ public class ElementSettingsPresenter {
     
     func setIsAccessibleElement(_ value: Bool) {
         element.isAccessibilityElement = value
-        delegate?.updateValue()
+        delegate?.didUpdateElementSettings()
     }
     
     func delete() {
@@ -49,7 +49,7 @@ public class ElementSettingsPresenter {
     }
     
     func notifyDelegates() {
-        delegate?.updateValue()
+        delegate?.didUpdateElementSettings()
         ui?.updateTitle()
     }
 }
