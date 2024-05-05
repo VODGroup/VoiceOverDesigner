@@ -146,17 +146,6 @@ open class DragNDropImageView: NSView {
             foundDocument = true
         }
         
-        for url in pasteboard.imageURLs {
-            if let image = NSImage(contentsOf: url) {
-                delegate?.didDrag(image: image,
-                                  locationInWindow: sender.draggingLocation,
-                                  name: image.name()
-                )
-                
-                foundDocument = true
-            }
-        }
-        
         for url in pasteboard.VODesignURLs {
             delegate?.didDrag(path: url)
             foundDocument = true
@@ -290,9 +279,13 @@ extension NSPasteboard {
     }
     
     var images: [NSImage] {
-        readObjects(forClasses: [NSImage.self], options: nil)?
+        let images = readObjects(forClasses: [NSImage.self], options: nil)?
             .compactMap {
                 $0 as? NSImage
             } ?? []
+        
+        let imageFromURLs = self.imageURLs.compactMap { NSImage(contentsOf: $0) } 
+        
+        return images + imageFromURLs
     }
 }
