@@ -136,7 +136,11 @@ class CanvasScrollView: NSScrollView {
     }
     
     private func fit(to bounds: CGRect, animated: Bool) {
-        animator().magnify(toFit: bounds)
+        if animated {
+            animator().magnify(toFit: bounds)
+        } else {
+            magnify(toFit: bounds)
+        }
     }
 }
 

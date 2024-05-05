@@ -49,6 +49,8 @@ public class CanvasViewController: NSViewController {
         
         presenter.subscribeOnControlChanges()
         observe()
+        
+        view().scrollView.fitToWindow(animated: false)
     }
     
     public override func viewWillDisappear() {
