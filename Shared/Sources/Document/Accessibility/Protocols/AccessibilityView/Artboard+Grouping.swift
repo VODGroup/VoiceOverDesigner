@@ -67,7 +67,8 @@ extension Artboard {
         
         let dragType = dragType(draggingElement, over: dropElement, insertionIndex: insertionIndex)
         
-        print("Perform drag operation \(dragType)")
+        print("Perform drag operation \(String(describing: dragType))")
+        
         switch dragType {
         case .wrapInContainer(let dropElement):
             wrapInContainer(
