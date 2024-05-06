@@ -259,9 +259,12 @@ public class DrawingController {
         let parentFrame = view.frames.first { frame in
             frame.frame.contains(coordinate)
         }
+       
+        let element = A11yDescription.empty(frame: .zero)
+        element.parent = parentFrame?.model as? BaseContainer // Set parent here. Probably, is should be done when an action is finished
         
         let control = draw(
-            element: A11yDescription.empty(frame: .zero),
+            element: element,
             scale: 1,
             in: parentFrame)
         
@@ -326,7 +329,12 @@ public class ArtboardElementLayer: CALayer {
         in view: DrawingView,
         offset: CGPoint = .zero
     ) {
-        frame = relativeFrame
+        var newFrame = relativeFrame
+        if let _ = model?.parent {
+            newFrame = view.relativeFrame(of: relativeFrame, in: superlayer)
+        }
+        
+        frame = newFrame
         
         recalculateAbsoluteFrameInModel(to: relativeFrame,
                                         in: view,
