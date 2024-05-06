@@ -21,34 +21,65 @@ class NewDrawingTests: CanvasAfterDidLoadTests {
             XCTAssertEqual(drawnControls.first?.frame,
                            rect10to50)
         }
+        
+        drawingLayer.assertRelativeFrames {
+            """
+            ControlLayer: (10.0, 10.0, 50.0, 50.0)
+            """
+        }
+        artboard.assertAbsoluteFrames {
+            """
+            : (10.0, 10.0, 50.0, 50.0)
+            """
+        }
     }
     
     func test_drawRectangle_onMouseUp() {
         sut.mouseDown(on: start10)
         sut.mouseUp(on: end60)
         
-        XCTAssertEqual(drawnControls.first?.frame,
-                       rect10to50)
+        drawingLayer.assertRelativeFrames {
+            """
+            ControlLayer: (10.0, 10.0, 50.0, 50.0)
+            """
+        }
+        artboard.assertAbsoluteFrames {
+            """
+            : (10.0, 10.0, 50.0, 50.0)
+            """
+        }
     }
     
     func test_drawSmallerThanMinimalWidth_shouldIncreaseSizeToMinimal_andKeepCenter() {
         sut.mouseDown(on: start10)
         sut.mouseUp(on: start10.offset(x: 10, y: 50))
         
-        XCTAssertEqual(drawnControls.first?.frame,
-                       CGRect(origin: CGPoint(x: 10 + 5 - 44/2,
-                                              y: 10),
-                              size: CGSize(width: 44, height: 50)))
+        drawingLayer.assertRelativeFrames("Increase minimal frame") {
+            """
+            ControlLayer: (-7.0, 10.0, 44.0, 50.0)
+            """
+        }
+        artboard.assertAbsoluteFrames("Increase minimal frame") {
+            """
+            : (-7.0, 10.0, 44.0, 50.0)
+            """
+        }
     }
     
     func test_drawSmallerThanMinimalHeight_shouldIncreaseSizeToMinimal_andKeepCenter() {
         sut.mouseDown(on: start10)
         sut.mouseUp(on: start10.offset(x: 50, y: 10))
-        
-        XCTAssertEqual(drawnControls.first?.frame,
-                       CGRect(origin: CGPoint(x: 10,
-                                              y: 10 +  5 - 44/2),
-                              size: CGSize(width: 50, height: 44)))
+    
+        drawingLayer.assertRelativeFrames("Increase minimal frame") {
+            """
+            ControlLayer: (10.0, -7.0, 50.0, 44.0)
+            """
+        }
+        artboard.assertAbsoluteFrames("Increase minimal frame") {
+            """
+            : (10.0, -7.0, 50.0, 44.0)
+            """
+        }
     }
     
     func test_notDrawIfSizeIsSmallerThan5px() {
@@ -78,23 +109,94 @@ class NewDrawingTests: CanvasAfterDidLoadTests {
         
         drawRect(from: start10, to: end60)
         
-        let frame = try XCTUnwrap(document.artboard.frames.first)
-        XCTAssertEqual(frame.elements.count, 1)
-        XCTAssertEqual(document.artboard.elements.count, 1,
-                       "Only frame should be on top level")
+        drawingLayer.assertRelativeFrames {
+            """
+            FrameLayer: (0.0, 0.0, 390.0, 180.0)
+             ControlLayer: (10.0, 10.0, 50.0, 50.0)
+            """
+        }
+        
+        artboard.assertAbsoluteFrames {
+            """
+            Sample: (0.0, 0.0, 390.0, 180.0):
+             Element: (10.0, 10.0, 50.0, 50.0)
+            """
+        }
     }
     
-    func test_frameOnScreen_whenDrawAnElementOverScreen_shouldAddLayerToFrameLayer() {
-        addFrame()
+    func test_noFrame_whenDrawAnElementAtNegativeCoordinates_shouldAddLayerToRoot() {
+        drag(-20, -10) // Move by 10
+        
+        drawingLayer.assertRelativeFrames {
+            """
+            ControlLayer: (-37.0, -37.0, 44.0, 44.0)
+            """
+        }
+        
+        artboard.assertAbsoluteFrames {
+            """
+            : (-37.0, -37.0, 44.0, 44.0)
+            """
+        }
+    }
+    
+    func test_noFrame_whenDrawAnElementAtPositiveCoordinates_shouldAddLayerToRoot() {
+        drag(10, 60)
+        
+        drawingLayer.assertRelativeFrames {
+            """
+            ControlLayer: (10.0, 10.0, 50.0, 50.0)
+            """
+        }
+        
+        artboard.assertAbsoluteFrames {
+            """
+            : (10.0, 10.0, 50.0, 50.0)
+            """
+        }
+    }
+    
+    func test_offsetedFrame_whenDrawAnElementNotOverFrameWithNegativeCoordinates_shouldAddLayerToRoot() {
+        addFrameWithOffset()
         sut.deselect()
         
-        drag(10, 20) // Move by 10
+        // Draw an element
         
-        XCTAssertEqual(sut.uiContent?.layer?.sublayers?.count, 1,
-                       "Should draw an element inside frame")
-        XCTAssertEqual(
-            sut.uiContent?.layer?.sublayers?.first?.sublayers?.count, 1,
-            "Should draw an element inside frame")
+        drag(-60, -10)
+        
+        drawingLayer.assertRelativeFrames {
+            """
+            FrameLayer: (50.0, 50.0, 390.0, 180.0)
+            ControlLayer: (-60.0, -60.0, 50.0, 50.0)
+            """
+        }
+        
+        artboard.assertAbsoluteFrames {
+            """
+            Sample: (50.0, 50.0, 390.0, 180.0)
+            : (-60.0, -60.0, 50.0, 50.0)
+            """
+        }
+    }
+    
+    func test_whenDrawnElementIntersectsFrame_shouldDefineHierarchyByOrigin() {
+        addFrameWithOffset()
+        sut.deselect()
+        
+        drag(30, 80)
+        
+        drawingLayer.assertRelativeFrames {
+            """
+            FrameLayer: (50.0, 50.0, 390.0, 180.0)
+            ControlLayer: (30.0, 30.0, 50.0, 50.0)
+            """
+        }
+        artboard.assertAbsoluteFrames {
+            """
+            Sample: (50.0, 50.0, 390.0, 180.0)
+            : (30.0, 30.0, 50.0, 50.0)
+            """
+        }
     }
     
     func test_createControlsWhenDocumentImageNil() {
@@ -107,6 +209,16 @@ class NewDrawingTests: CanvasAfterDidLoadTests {
     func addFrame() {
         let image = Sample().image3x()
         sut.add(image: image, name: "Sample")
+    }
+    
+    func addFrameWithOffset() {
+        addFrame()
+        drag(10, 60) // Translate frame by 50
+        drawingLayer.assertRelativeFrames {
+            """
+            FrameLayer: (50.0, 50.0, 390.0, 180.0)
+            """
+        }
     }
     
     // MARK: - Frame drawing

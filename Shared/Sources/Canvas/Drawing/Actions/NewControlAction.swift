@@ -35,7 +35,9 @@ public class NewControlAction: DraggingAction {
         }
         
         let minimalTapSize: CGFloat = 44
-        let frame = control.frame.increase(to: CGSize(width: minimalTapSize, height: minimalTapSize)).rounded()
+        let minimalSize: CGSize = CGSize(width: minimalTapSize, height: minimalTapSize)
+        
+        let frame = control.frame.increase(to: minimalSize).rounded()
         
         control.update(to: frame, in: view)
         return self

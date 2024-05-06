@@ -109,11 +109,12 @@ open class DocumentPresenter {
     
     public func append(control: any ArtboardElement) {
         let frameThatOverlaps = document.artboard.frames.first { frame in
-            frame.frame.intersects(control.frame)
+            frame.frame.contains(control.frame.origin) // TODO: Check by center of an element
         }
         
         if let frameThatOverlaps {
             frameThatOverlaps.append(control)
+            // TODO: Recalculate frame when change hierarchy. Make in sync with method `startDrawing(coordinate:)`, where parent is defined by starting coordinate
         } else {
             document.artboard.append(control)
         }
