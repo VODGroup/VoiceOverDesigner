@@ -145,6 +145,7 @@ class PreviewSourceDummy: PreviewSourceProtocol {
 }
 
 extension CanvasPresenter {
+    @discardableResult
     func add(image: NSImage) -> Frame {
         add(image: image, name: "Sample")
     }

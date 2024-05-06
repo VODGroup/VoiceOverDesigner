@@ -169,6 +169,7 @@ public class CanvasPresenter: DocumentPresenter {
     }
     
     // MARK: Image
+    @discardableResult
     public func add(image: Image, name: String) -> Frame {
         add(image: image, name: name, origin: document.artboard.suggestOrigin())
     }
