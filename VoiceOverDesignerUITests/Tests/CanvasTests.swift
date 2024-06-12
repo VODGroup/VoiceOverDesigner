@@ -52,13 +52,19 @@ final class CanvasTests: DesignerTests {
     func testDragUndoRedo() {
         canvas
             .drag(from: 0.45, to: 0.5)
+            .deselect(dx: 0.4, dy: 0.4)
         
         statusBar
             .clickEdit()
             .clickUndoMenu()
+        canvas
+            .select(dx: 0.41, dy: 0.41)
+        
+        statusBar
             .clickEdit()
             .clickRedoMenu()
-    
+        canvas
+            .select(dx: 0.55, dy: 0.55)
         
     }
     
