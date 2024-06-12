@@ -77,25 +77,19 @@ final class CanvasTests: DesignerTests {
         }
     
     func testCreateTwoElementContainer() {
+        canvas
+            .draw(from: CGVector(dx: 0.4, dy: 0.6),
+                  to: CGVector(dx: 0.5, dy: 0.7))
         
-        let from = CGVector(dx: 0.4, dy: 0.6)
-        let to = CGVector(dx: 0.5, dy: 0.7)
+        statusBar
+            .clickEdit()
+            .clickSelectAll()
         
-        let window = app.windows.firstMatch
-        let start   = window.coordinate(withNormalizedOffset: from)
-        let finish  = window.coordinate(withNormalizedOffset: to)
+        statusBar.openInFullScreen() // TODO: Reduce window's size
         
-        start.press(forDuration: 0.01, thenDragTo: finish)
-        
-        let menuBarsQuery = app.menuBars
-        let editMenuBarItem = menuBarsQuery.menuBarItems["Edit"]
-        editMenuBarItem.click()
-        menuBarsQuery.menuItems["Select All"].click()
-        //Разворачиваем приложение на весь экран
-        XCUIApplication().buttons[XCUIIdentifierFullScreenWindow].click()
-        XCUIApplication().buttons["Group in Container"].click()
-        
-        //assertLabel(text: "Container")
+        navigator
+            .groupInContainer()
+            .assertFirstCell(text: "Container")
     }
     
     func testChangeSize() {
@@ -108,7 +102,7 @@ final class CanvasTests: DesignerTests {
             .deselect(dx: 0.61, dy: 0.61)
         
         canvas
-            .select(dx: 0.55, dy: 0.55) // same as range
+            .select(dx: 0.55, dy: 0.55) // same as arrange
     }
     
     override func tearDown() {

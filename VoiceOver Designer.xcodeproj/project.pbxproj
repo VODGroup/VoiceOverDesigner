@@ -47,6 +47,8 @@
 		7439CD4429C664A800A557FC /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7439CD4329C664A800A557FC /* StoreKit.framework */; };
 		74866ADE2AE6DFBA00D42AFA /* PresentationToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74866ADD2AE6DFBA00D42AFA /* PresentationToolbar.swift */; };
 		74866AE12AE6E1CF00D42AFA /* ToolbarItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74866AE02AE6E1CF00D42AFA /* ToolbarItems.swift */; };
+		74E0D62F2C19BD9A008E1E77 /* StatusBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E0D62E2C19BD9A008E1E77 /* StatusBar.swift */; };
+		74E0D6312C19C32A008E1E77 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E0D6302C19C32A008E1E77 /* Navigator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +127,8 @@
 		7439CD4329C664A800A557FC /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		74866ADD2AE6DFBA00D42AFA /* PresentationToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationToolbar.swift; sourceTree = "<group>"; };
 		74866AE02AE6E1CF00D42AFA /* ToolbarItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarItems.swift; sourceTree = "<group>"; };
+		74E0D62E2C19BD9A008E1E77 /* StatusBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBar.swift; sourceTree = "<group>"; };
+		74E0D6302C19C32A008E1E77 /* Navigator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,7 +232,9 @@
 			isa = PBXGroup;
 			children = (
 				1E7B569E28B37BE0008D1871 /* Settings.swift */,
+				74E0D62E2C19BD9A008E1E77 /* StatusBar.swift */,
 				1E7B56A928B38042008D1871 /* Canvas.swift */,
+				74E0D6302C19C32A008E1E77 /* Navigator.swift */,
 				1E7B56A028B37BEF008D1871 /* TextSummary.swift */,
 			);
 			path = Panels;
@@ -477,8 +483,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1EB554B228B274B6000DC4FB /* Robot.swift in Sources */,
+				74E0D6312C19C32A008E1E77 /* Navigator.swift in Sources */,
 				1E7B56A728B37C51008D1871 /* RecentWindow.swift in Sources */,
 				1E183AE628B50600008B0F07 /* DocumentFromFileTests.swift in Sources */,
+				74E0D62F2C19BD9A008E1E77 /* StatusBar.swift in Sources */,
 				1E7B569C28B37B7C008D1871 /* DesignerTests.swift in Sources */,
 				1ECE12DF2969B91700A3E917 /* WindowRestorationTests.swift in Sources */,
 				1E7B569F28B37BE0008D1871 /* Settings.swift in Sources */,

@@ -61,6 +61,16 @@ class DesignerTests: XCTestCase {
         project.settingsPanel
     }
     
+    var statusBar: StatusBar {
+        StatusBar(window: project.projectWindow,
+                  app: app)
+    }
+    
+    var navigator: Navigator {
+        Navigator(window: project.projectWindow,
+                  app: app)
+    }
+    
     func closeWindow() {
         app.windows.firstMatch.buttons[XCUIIdentifierCloseWindow].click()
     }
