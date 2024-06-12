@@ -180,4 +180,13 @@ extension XCUIElement {
     func inputEnter() {
         typeText("\r")
     }
+    
+    func inputText(text: String) {
+        let window = XCUIApplication().windows.firstMatch
+        
+        let labelComboBox = window.comboBoxes["LabelTextField"]
+        labelComboBox.click()
+        labelComboBox.typeText(text)
+        labelComboBox.typeKey(XCUIKeyboardKey.enter, modifierFlags: [])
+    }
 }

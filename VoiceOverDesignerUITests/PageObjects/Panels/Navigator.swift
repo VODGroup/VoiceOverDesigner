@@ -22,4 +22,16 @@ class Navigator: ProjectPanel {
         XCTAssertEqual(actualText, text, file: file, line: line)
         return self
     }
+    
+    @discardableResult
+    func assertElementsCount(
+        count: Int,
+        file: StaticString = #file,
+        line: UInt = #line
+    ) -> Self  {
+        let cellsCount = navigator.cells.count
+        
+        XCTAssertEqual(cellsCount, count, file: file, line: line)
+        return self
+    }
 }

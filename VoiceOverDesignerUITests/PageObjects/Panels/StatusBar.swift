@@ -71,4 +71,11 @@ class StatusBar: ProjectPanel {
         
         return self
     }
+    
+    @discardableResult
+    func closeWindow() -> Self {
+        app.buttons[XCUIIdentifierCloseWindow].click()
+        
+        return self
+    }
 }

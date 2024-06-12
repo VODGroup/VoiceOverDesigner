@@ -78,4 +78,19 @@ class Canvas: ProjectPanel {
         
         return self
     }
+        
+        @discardableResult
+        func assertNoElements() -> Self {
+            let assertNoElementsCanvas: () = XCTAssertTrue(app.staticTexts["Add your screenshot"].exists)
+            
+            return self
+        }
+    
+    @discardableResult
+    func assertHaveElements() -> Self {
+        let assertHaveElementsCanvas: () = XCTAssertFalse(app.staticTexts["Add your screenshot"].exists)
+        
+        return self
+    }
+        
 }

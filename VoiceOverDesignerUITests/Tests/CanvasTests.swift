@@ -19,33 +19,43 @@ final class CanvasTests: DesignerTests {
     }
 
     func testExample() {
-        input(text: "City")
+        settings
+            .app.inputText(text: "City")
         clickButtonTrait()
         
-        assertNavigatorFirstCell(text: "City. Button.")
+        navigator
+            .assertFirstCell(text: "City. Button.")
     }
     
     func testExample2() {
-        input(text: "Country")
+        settings
+            .app.inputText(text: "Country")
         clickButtonTrait()
         
-        assertNavigatorFirstCell(text: "Country. Button.")
+        navigator
+            .assertFirstCell(text: "Country. Button.")
     }
     
     func testDeleteUndoRedo() {
         XCUIApplication().typeKey(XCUIKeyboardKey.delete, modifierFlags: [])
-        XCTAssertTrue(app.staticTexts["Add your screenshot"].exists)
-        assertNavigatorElements(count: 0)
+        canvas
+            .assertNoElements()
+        navigator
+            .assertElementsCount(count: 0)
         
         statusBar
             .clickEdit()
             .clickUndoMenu()
-        XCTAssertFalse(app.staticTexts["Add your screenshot"].exists)
-        assertNavigatorElements(count: 1)
+        canvas
+            .assertHaveElements()
+        navigator
+            .assertElementsCount(count: 1)
         /*statusBar
             .clickEdit()
             .clickRedoMenu()
-        XCTAssertTrue(app.staticTexts["Add your screenshot"].exists)*/
+         canvas
+            .assertNoElements()*/
+       
         
     }
     
@@ -70,10 +80,11 @@ final class CanvasTests: DesignerTests {
     
     func testCreateOneElementContainer() {
         //Разворачиваем приложение на весь экран
-        statusBar.openInFullScreen()
-        XCUIApplication().buttons["Group in Container"].click()
-        
-        //assertLabel(text: "Container")
+        statusBar
+            .openInFullScreen()
+        navigator
+            .groupInContainer()
+            .assertFirstCell(text: "Container")
         }
     
     func testCreateTwoElementContainer() {
@@ -85,7 +96,8 @@ final class CanvasTests: DesignerTests {
             .clickEdit()
             .clickSelectAll()
         
-        statusBar.openInFullScreen() // TODO: Reduce window's size
+        statusBar
+            .openInFullScreen() // TODO: Reduce window's size
         
         navigator
             .groupInContainer()
@@ -119,16 +131,8 @@ final class CanvasTests: DesignerTests {
     }
     
     func drawRectangle() {
-        canvas.drag(from: 0.4, to: 0.5)
-    }
-    
-    func input(text: String) {
-        let window = XCUIApplication().windows.firstMatch
-        
-        let labelComboBox = window.comboBoxes["LabelTextField"]
-        labelComboBox.click()
-        labelComboBox.typeText(text)
-        labelComboBox.typeKey(XCUIKeyboardKey.enter, modifierFlags: [])
+        canvas
+            .drag(from: 0.4, to: 0.5)
     }
     
     func clickButtonTrait() {
@@ -136,29 +140,10 @@ final class CanvasTests: DesignerTests {
         window.checkBoxes["Button"].click()
     }
     
-    func assertNavigatorFirstCell(text: String, file: StaticString = #file, line: UInt = #line) {
-        let window = XCUIApplication().windows.firstMatch
-        
-        let navigator = window.outlines.firstMatch
-        let actualText = navigator.cells.staticTexts.firstMatch.value as? String
-
-        XCTAssertEqual(actualText, text, file: file, line: line)
-    }
-    
-    func assertNavigatorElements(count: Int, file: StaticString = #file, line: UInt = #line) {
-        let window = XCUIApplication().windows.firstMatch
-        
-        let navigator = window.outlines.firstMatch
-        let cellsCount = navigator.cells.count
-        
-        XCTAssertEqual(cellsCount, count, file: file, line: line)
-    }
-    
     func closeWindowAndDelete() {
-        let window = XCUIApplication().windows.firstMatch
-        
-        window.buttons[XCUIIdentifierCloseWindow].click()
-        window.sheets.buttons["Delete"].click()
+        statusBar
+            .closeWindow()
+        settings
+            .delete()
     }
-
 }
