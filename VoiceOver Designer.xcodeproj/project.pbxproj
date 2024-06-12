@@ -41,6 +41,7 @@
 		1ECE12DF2969B91700A3E917 /* WindowRestorationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ECE12DE2969B91700A3E917 /* WindowRestorationTests.swift */; };
 		1EEE25C32944ADC900B84F01 /* Navigator in Frameworks */ = {isa = PBXBuildFile; productRef = 1EEE25C22944ADC900B84F01 /* Navigator */; };
 		236A3C182AC756B200156F00 /* Presentation in Frameworks */ = {isa = PBXBuildFile; productRef = 236A3C172AC756B200156F00 /* Presentation */; };
+		589562AC2C19AA770086BC3F /* SettingsTestsAuto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589562AB2C19AA770086BC3F /* SettingsTestsAuto.swift */; };
 		742D242A2ADD939200EC224A /* RecentWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742D24292ADD939200EC224A /* RecentWindowController.swift */; };
 		742D242C2AE0BF9800EC224A /* ProjectStateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742D242B2AE0BF9800EC224A /* ProjectStateController.swift */; };
 		7439CD4429C664A800A557FC /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7439CD4329C664A800A557FC /* StoreKit.framework */; };
@@ -116,6 +117,7 @@
 		1EC992DA28B119730020041B /* ProjectStateController+Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProjectStateController+Toolbar.swift"; sourceTree = "<group>"; };
 		1ECE12DE2969B91700A3E917 /* WindowRestorationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRestorationTests.swift; sourceTree = "<group>"; };
 		1EF217D4281EBBE00036B09B /* VoiceOver-Designer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "VoiceOver-Designer-Info.plist"; sourceTree = SOURCE_ROOT; };
+		589562AB2C19AA770086BC3F /* SettingsTestsAuto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTestsAuto.swift; sourceTree = "<group>"; };
 		6B4705F729048D9800AC4C23 /* VoiceOver DesignerRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "VoiceOver DesignerRelease.entitlements"; sourceTree = "<group>"; };
 		6B628795288D3A8D006F622A /* Features */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Features; path = "VoiceOver Designer/Features"; sourceTree = "<group>"; };
 		742D24292ADD939200EC224A /* RecentWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentWindowController.swift; sourceTree = "<group>"; };
@@ -301,6 +303,7 @@
 				1ECE12DE2969B91700A3E917 /* WindowRestorationTests.swift */,
 				1E183AE528B50600008B0F07 /* DocumentFromFileTests.swift */,
 				1E7B56AE28B38F5D008D1871 /* AdjustableTest.swift */,
+				589562AB2C19AA770086BC3F /* SettingsTestsAuto.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -485,6 +488,7 @@
 				1E7B56AA28B38042008D1871 /* Canvas.swift in Sources */,
 				1E7B56A128B37BEF008D1871 /* TextSummary.swift in Sources */,
 				1E7B56A328B37C07008D1871 /* ProjectPanel.swift in Sources */,
+				589562AC2C19AA770086BC3F /* SettingsTestsAuto.swift in Sources */,
 				1EA7411928B2683000D6CAA4 /* SettingsTests.swift in Sources */,
 				1E80528728B4DF6300743023 /* WindowTests.swift in Sources */,
 			);
@@ -630,7 +634,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 28;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "VoiceOver-Designer-Info.plist";
@@ -661,7 +665,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 28;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "VoiceOver-Designer-Info.plist";
@@ -687,7 +691,7 @@
 				CODE_SIGN_ENTITLEMENTS = MacOSPreview/MacOSPreview.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MacOSPreview/Info.plist;
@@ -714,7 +718,7 @@
 				CODE_SIGN_ENTITLEMENTS = MacOSPreview/MacOSPreview.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MacOSPreview/Info.plist;
@@ -804,7 +808,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 28;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "VoiceOver-Designer-Info.plist";
@@ -830,7 +834,7 @@
 				CODE_SIGN_ENTITLEMENTS = MacOSPreview/MacOSPreview.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = P67Q4Q7HA9;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MacOSPreview/Info.plist;
