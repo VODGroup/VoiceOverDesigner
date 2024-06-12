@@ -7,13 +7,11 @@
 
 import XCTest
 
-final class DrawnElementTests: XCTestCase {
+final class CanvasTests: DesignerTests {
 
-    var app: XCUIApplication!
-    
-    override func setUp() {
-        super.setUp()
-        app = XCUIApplication()
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+        
         app.launch()
         
         createNewFile()
@@ -101,13 +99,16 @@ final class DrawnElementTests: XCTestCase {
     }
     
     func testChangeSize() {
-        deselect(dx: 0.55, dy: 0.55) // same as assert
+        canvas
+            .deselect(dx: 0.55, dy: 0.55) // same as assert
         
-        select(dx: 0.45, dy: 0.45)
-        drag(from: 0.5, to: 0.6)
-        deselect(dx: 0.61, dy: 0.61)
+        canvas
+            .select(dx: 0.45, dy: 0.45)
+            .drag(from: 0.5, to: 0.6)
+            .deselect(dx: 0.61, dy: 0.61)
         
-        select(dx: 0.55, dy: 0.55) // same as range
+        canvas
+            .select(dx: 0.55, dy: 0.55) // same as range
     }
     
     override func tearDown() {
@@ -128,7 +129,7 @@ final class DrawnElementTests: XCTestCase {
     }
     
     func drawRectangle() {
-        drag(from: 0.4, to: 0.5)
+        canvas.drag(from: 0.4, to: 0.5)
     }
     
     func input(text: String) {
@@ -155,13 +156,13 @@ final class DrawnElementTests: XCTestCase {
     }
     
     func assertNavigatorElements(count: Int, file: StaticString = #file, line: UInt = #line) {
-            let window = XCUIApplication().windows.firstMatch
-            
-            let navigator = window.outlines.firstMatch
-            let cellsCount = navigator.cells.count
-
-            XCTAssertEqual(cellsCount, count, file: file, line: line)
-        }
+        let window = XCUIApplication().windows.firstMatch
+        
+        let navigator = window.outlines.firstMatch
+        let cellsCount = navigator.cells.count
+        
+        XCTAssertEqual(cellsCount, count, file: file, line: line)
+    }
     
     func closeWindowAndDelete() {
         let window = XCUIApplication().windows.firstMatch
@@ -169,32 +170,5 @@ final class DrawnElementTests: XCTestCase {
         window.buttons[XCUIIdentifierCloseWindow].click()
         window.sheets.buttons["Delete"].click()
     }
-    
-    func click(dx: Double, dy: Double) {
-        let window = app.windows.firstMatch
-        let assertClick = CGVector(dx: dx, dy: dy)
-        let tapTest = window.coordinate(withNormalizedOffset: assertClick)
-        tapTest.press(forDuration: 0.01)
-    }
-    
-    func deselect (dx: Double, dy: Double) {
-        click(dx: dx, dy: dy)
-        XCTAssertTrue(app.staticTexts["Select or draw a control\nto adjust settings"].exists)
-    }
-    
-    func select (dx: Double, dy: Double) {
-        click(dx: dx, dy: dy)
-        XCTAssertFalse(app.staticTexts["Select or draw a control\nto adjust settings"].exists)
-    }
-    
-    func drag(from: Double, to: Double) {
-        let from = CGVector(dx: from, dy: from)
-        let to = CGVector(dx: to, dy: to)
-        
-        let window = app.windows.firstMatch
-        let start   = window.coordinate(withNormalizedOffset: from)
-        let finish  = window.coordinate(withNormalizedOffset: to)
-        
-        start.press(forDuration: 0.01, thenDragTo: finish)
-    }
+
 }
