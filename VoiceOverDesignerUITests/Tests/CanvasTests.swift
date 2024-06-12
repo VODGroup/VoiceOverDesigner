@@ -37,40 +37,34 @@ final class CanvasTests: DesignerTests {
         XCTAssertTrue(app.staticTexts["Add your screenshot"].exists)
         assertNavigatorElements(count: 0)
         
-        let menuBarsQuery = app.menuBars
-        let editMenuBarItem = menuBarsQuery.menuBarItems["Edit"]
-        editMenuBarItem.click()
-        menuBarsQuery.menuItems["Undo"].click()
+        statusBar
+            .clickEdit()
+            .clickUndoMenu()
         XCTAssertFalse(app.staticTexts["Add your screenshot"].exists)
         assertNavigatorElements(count: 1)
-        //editMenuBarItem.click()
-        //menuBarsQuery.menuItems["Redo"].click()
-        //XCTAssertTrue(app.staticTexts["Add your screenshot"].exists)
+        /*statusBar
+            .clickEdit()
+            .clickRedoMenu()
+        XCTAssertTrue(app.staticTexts["Add your screenshot"].exists)*/
         
     }
     
     func testDragUndoRedo() {
-        let from = CGVector(dx: 0.45, dy: 0.45)
-        let to = CGVector(dx: 0.5, dy: 0.5)
+        canvas
+            .drag(from: 0.45, to: 0.5)
         
-        let window = app.windows.firstMatch
-        let start   = window.coordinate(withNormalizedOffset: from)
-        let finish  = window.coordinate(withNormalizedOffset: to)
-        
-        start.press(forDuration: 0.01, thenDragTo: finish)
-        
-        let menuBarsQuery = app.menuBars
-        let editMenuBarItem = menuBarsQuery.menuBarItems["Edit"]
-        editMenuBarItem.click()
-        menuBarsQuery.menuItems["Undo"].click()
-        editMenuBarItem.click()
-        menuBarsQuery.menuItems["Redo"].click()
+        statusBar
+            .clickEdit()
+            .clickUndoMenu()
+            .clickEdit()
+            .clickRedoMenu()
+    
         
     }
     
     func testCreateOneElementContainer() {
         //Разворачиваем приложение на весь экран
-        XCUIApplication().buttons[XCUIIdentifierFullScreenWindow].click()
+        statusBar.openInFullScreen()
         XCUIApplication().buttons["Group in Container"].click()
         
         //assertLabel(text: "Container")
@@ -113,13 +107,9 @@ final class CanvasTests: DesignerTests {
     
     private func createNewFile() {
         // Создаем новый документ
-        let menuBarsQuery = app.menuBars
-        
-        let fileMenu = menuBarsQuery.menuBarItems["File"]
-        fileMenu.click()
-        
-        let fileNewMenu = menuBarsQuery.menuItems["New"]
-        fileNewMenu.click()
+        statusBar
+            .clickFile()
+            .clickFileNew()
     }
     
     func drawRectangle() {
