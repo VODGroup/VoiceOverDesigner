@@ -4,6 +4,7 @@ class DesignerTests: XCTestCase {
     
     var app: XCUIApplication!
     override func setUpWithError() throws {
+        try super.setUpWithError()
         continueAfterFailure = false
         
         app = XCUIApplication()
@@ -58,6 +59,16 @@ class DesignerTests: XCTestCase {
     
     var settings: Settings {
         project.settingsPanel
+    }
+    
+    var statusBar: StatusBar {
+        StatusBar(window: project.projectWindow,
+                  app: app)
+    }
+    
+    var navigator: Navigator {
+        Navigator(window: project.projectWindow,
+                  app: app)
     }
     
     func closeWindow() {

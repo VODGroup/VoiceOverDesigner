@@ -38,4 +38,59 @@ class Canvas: ProjectPanel {
         tap(location)
         return self
     }
+    
+    @discardableResult
+    func click(dx: Double, dy: Double) -> Self {
+        let window = app.windows.firstMatch
+        let assertClick = CGVector(dx: dx, dy: dy)
+        let tapTest = window.coordinate(withNormalizedOffset: assertClick)
+        tapTest.press(forDuration: 0.01)
+        
+        return self
+    }
+    
+    @discardableResult
+    func deselect(dx: Double, dy: Double) -> Self {
+        click(dx: dx, dy: dy)
+        XCTAssertTrue(app.staticTexts["Select or draw a control\nto adjust settings"].exists)
+        
+        return self
+    }
+    
+    @discardableResult
+    func select(dx: Double, dy: Double) -> Self {
+        click(dx: dx, dy: dy)
+        XCTAssertFalse(app.staticTexts["Select or draw a control\nto adjust settings"].exists)
+        
+        return self
+    }
+    
+    @discardableResult
+    func drag(from: Double, to: Double) -> Self {
+        let from = CGVector(dx: from, dy: from)
+        let to = CGVector(dx: to, dy: to)
+        
+        let window = app.windows.firstMatch
+        let start   = window.coordinate(withNormalizedOffset: from)
+        let finish  = window.coordinate(withNormalizedOffset: to)
+        
+        start.press(forDuration: 0.01, thenDragTo: finish)
+        
+        return self
+    }
+        
+        @discardableResult
+        func assertNoElements() -> Self {
+            let assertNoElementsCanvas: () = XCTAssertTrue(app.staticTexts["Add your screenshot"].exists)
+            
+            return self
+        }
+    
+    @discardableResult
+    func assertHaveElements() -> Self {
+        let assertHaveElementsCanvas: () = XCTAssertFalse(app.staticTexts["Add your screenshot"].exists)
+        
+        return self
+    }
+        
 }

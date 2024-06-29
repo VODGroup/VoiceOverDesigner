@@ -165,6 +165,11 @@ class Settings: ProjectPanel {
     func customDescriptionValue() -> String? {
         return customDescriptionValueField.value as? String
     }
+    
+    func clickButtonTrait() {
+        window.checkBoxes["Button"].click()
+    }
+    
 }
 
 extension XCUIElement {
@@ -178,6 +183,9 @@ extension XCUIElement {
     }
     
     func inputEnter() {
-        typeText("\r")
+        typeKey(XCUIKeyboardKey.enter, modifierFlags: [])
+    }
+    func inputDelete() {
+        typeKey(XCUIKeyboardKey.delete, modifierFlags: [])
     }
 }
