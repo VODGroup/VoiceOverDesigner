@@ -20,9 +20,7 @@ final class CanvasTests: DesignerTests {
 
     func testExample() {
         settings
-            .app.inputText(text: "City")
-        
-        settings
+            .inputLabel("City")
             .clickButtonTrait()
         
         navigator
@@ -31,9 +29,7 @@ final class CanvasTests: DesignerTests {
     
     func testExample2() {
         settings
-            .app.inputText(text: "Country")
-        
-        settings
+            .inputLabel("Country")
             .clickButtonTrait()
         
         navigator

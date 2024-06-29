@@ -170,6 +170,7 @@ class Settings: ProjectPanel {
         let window = XCUIApplication().windows.firstMatch
         window.checkBoxes["Button"].click()
     }
+    
 }
 
 extension XCUIElement {
@@ -183,15 +184,7 @@ extension XCUIElement {
     }
     
     func inputEnter() {
-        typeText("\r")
+        typeKey(XCUIKeyboardKey.enter, modifierFlags: [])
     }
     
-    func inputText(text: String) {
-        let window = XCUIApplication().windows.firstMatch
-        
-        let labelComboBox = window.comboBoxes["LabelTextField"]
-        labelComboBox.click()
-        labelComboBox.typeText(text)
-        labelComboBox.typeKey(XCUIKeyboardKey.enter, modifierFlags: [])
-    }
 }
