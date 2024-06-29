@@ -165,6 +165,11 @@ class Settings: ProjectPanel {
     func customDescriptionValue() -> String? {
         return customDescriptionValueField.value as? String
     }
+    
+    func clickButtonTrait() {
+        let window = XCUIApplication().windows.firstMatch
+        window.checkBoxes["Button"].click()
+    }
 }
 
 extension XCUIElement {

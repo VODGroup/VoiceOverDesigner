@@ -21,7 +21,9 @@ final class CanvasTests: DesignerTests {
     func testExample() {
         settings
             .app.inputText(text: "City")
-        clickButtonTrait()
+        
+        settings
+            .clickButtonTrait()
         
         navigator
             .assertFirstCell(text: "City. Button.")
@@ -30,7 +32,9 @@ final class CanvasTests: DesignerTests {
     func testExample2() {
         settings
             .app.inputText(text: "Country")
-        clickButtonTrait()
+        
+        settings
+            .clickButtonTrait()
         
         navigator
             .assertFirstCell(text: "Country. Button.")
@@ -133,11 +137,6 @@ final class CanvasTests: DesignerTests {
     func drawRectangle() {
         canvas
             .drag(from: 0.4, to: 0.5)
-    }
-    
-    func clickButtonTrait() {
-        let window = XCUIApplication().windows.firstMatch
-        window.checkBoxes["Button"].click()
     }
     
     func closeWindowAndDelete() {
