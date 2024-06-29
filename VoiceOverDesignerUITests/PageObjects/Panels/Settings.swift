@@ -167,7 +167,6 @@ class Settings: ProjectPanel {
     }
     
     func clickButtonTrait() {
-        let window = XCUIApplication().windows.firstMatch
         window.checkBoxes["Button"].click()
     }
     
@@ -186,5 +185,7 @@ extension XCUIElement {
     func inputEnter() {
         typeKey(XCUIKeyboardKey.enter, modifierFlags: [])
     }
-    
+    func inputDelete() {
+        typeKey(XCUIKeyboardKey.delete, modifierFlags: [])
+    }
 }

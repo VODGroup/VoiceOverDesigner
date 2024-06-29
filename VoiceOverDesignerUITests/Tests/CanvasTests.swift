@@ -37,7 +37,7 @@ final class CanvasTests: DesignerTests {
     }
     
     func testDeleteUndoRedo() {
-        XCUIApplication().typeKey(XCUIKeyboardKey.delete, modifierFlags: [])
+        app.inputDelete()
         canvas
             .assertNoElements()
         navigator
